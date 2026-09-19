@@ -4,6 +4,8 @@
 
 - URL: https://pulkit.blog/design-engineering/
 
+## 2026
+
 - [Invisible Scissors](https://pulkit.blog/design-engineering/clip-path-reveals.md): March 25, 2026
 - [Choreographing Multi-Step Motion](https://pulkit.blog/design-engineering/keyframe-animations.md): March 15, 2026
 - [Smooth Operators](https://pulkit.blog/design-engineering/css-transitions.md): February 27, 2026
