@@ -151,6 +151,7 @@
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <link rel="stylesheet" href="/assets/demos/document.css" />
     <script type="module" src="/assets/demos/index.js"></script>
@@ -161,7 +162,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -224,43 +225,53 @@
             <p class="mt-0 mb-6">Both grids animate a pulsing effect. The left grid animates <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">width</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">height</code>. The right grid animates only <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">transform: scale()</code>. Same visual result, completely different performance.</p>
             <p class="mt-0 mb-6">When you block the main thread, the left grid freezes completely. The right grid keeps pulsing smoothly. That&#39;s GPU acceleration in action, the transform animation runs on a separate thread and doesn&#39;t care what JavaScript is doing.</p>
             <p class="mt-0 mb-6">Let&#39;s look at the broken code:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> janky-pulse <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  0%,</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  100% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">100%</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">100%</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  50% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">40%</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">40%</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.janky-box</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> janky-pulse <span class="text-syn-n">800ms</span> <span class="text-syn-k">ease-in-out</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> janky-pulse <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  0%,</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  100% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">100%</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">100%</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  50% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">40%</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">40%</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.janky-box</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> janky-pulse <span class="text-syn-n">800ms</span> <span class="text-syn-k">ease-in-out</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">And the fixed version:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> smooth-pulse <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  0%,</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  100% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  50% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">0.4</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.smooth-box</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> smooth-pulse <span class="text-syn-n">800ms</span> <span class="text-syn-k">ease-in-out</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> smooth-pulse <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  0%,</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  100% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  50% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">0.4</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.smooth-box</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> smooth-pulse <span class="text-syn-n">800ms</span> <span class="text-syn-k">ease-in-out</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The difference? The first version changes <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">width</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">height</code>, which trigger layout calculations on the main thread. When the main thread is blocked, the animation freezes. The second version uses <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">transform: scale()</code>, which the GPU handles on a separate compositor thread, completely independent of JavaScript.</p>
             <h2 id="the-rendering-pipeline" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Rendering Pipeline</h2>
             <p class="mt-0 mb-6">Understanding why some animations are smooth and others aren&#39;t requires understanding how browsers render pages. Every frame goes through up to four steps.</p>
@@ -284,13 +295,18 @@
               </li>
             </ul>
             <p class="mt-0 mb-6">The key insight is that these steps cascade. If you trigger Layout, you also trigger Paint and Composite. If you trigger Paint, you also trigger Composite. But if you only trigger Composite, you skip Layout and Paint entirely.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">width change:      Style → Layout → Paint → Composite  (slowest)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">background change: Style → Paint → Composite           (slow)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">transform change:  Style → Composite                   (fastest)</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">width change:      Style → Layout → Paint → Composite  (slowest)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">background change: Style → Paint → Composite           (slow)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">transform change:  Style → Composite                   (fastest)</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h2 id="gpu-acceleration" class="mt-12 text-xl font-semibold leading-tight tracking-tight">GPU Acceleration</h2>
             <p class="mt-0 mb-6">Modern browsers have a superpower. They can offload certain animations to the GPU, freeing up the main thread to do other work.</p>
             <p class="mt-0 mb-6">Two properties get this special treatment: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">transform</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">opacity</code>.</p>
@@ -298,41 +314,56 @@
             <demo-showcase data-component="gpu-acceleration" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="mt-0 mb-6">Add some load to the page using the button above. Notice how the transform animation keeps running smoothly while the width animation stutters. That&#39;s GPU acceleration in action.</p>
             <p class="mt-0 mb-6">This is why you hear &quot;only animate transform and opacity&quot; repeated everywhere. It&#39;s not a style preference. It&#39;s a performance reality.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateX</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    opacity <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.element:hover</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateX</span><span class="text-syn-u">(</span><span class="text-syn-n">20px</span><span class="text-syn-u">)</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1.05</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">0.9</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateX</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    opacity <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.element:hover</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateX</span><span class="text-syn-u">(</span><span class="text-syn-n">20px</span><span class="text-syn-u">)</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1.05</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">0.9</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="what-about-will-change" class="mt-8 text-lg leading-tight tracking-tight">What About will-change?</h3>
             <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">will-change</code> property tells the browser to prepare a layer in advance.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">will-change</span><span class="text-syn-u">:</span> transform<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">will-change</span><span class="text-syn-u">:</span> transform<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This can help with complex animations, but use it sparingly. Every <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">will-change</code> element consumes GPU memory. Applying it everywhere defeats the purpose.</p>
             <p class="mt-0 mb-6">The rule I follow: don&#39;t add <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">will-change</code> until you&#39;ve measured a problem. If an animation stutters and DevTools shows paint or layout issues, then consider <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">will-change</code>. Otherwise, leave it out.</p>
             <h2 id="the-60fps-goal" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The 60fps Goal</h2>
             <p class="mt-0 mb-6">Your monitor refreshes 60 times per second (or more, but let&#39;s use 60 as the baseline). To achieve smooth animation, your browser needs to produce a new frame every 16.67 milliseconds.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">1 second = 1000ms</span>
-                <span class="block leading-(--pre-line) whitespace-pre">60 frames per second = 1000ms / 60 = 16.67ms per frame</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">1 second = 1000ms</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">60 frames per second = 1000ms / 60 = 16.67ms per frame</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Miss that budget and you drop a frame. Drop enough frames and users notice. Drop a lot and they feel it as jank.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/offloading-motion-to-the-gpu/frame-budget.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
@@ -353,62 +384,77 @@
             <p class="mt-0 mb-6">CSS animations win in specific scenarios.</p>
             <h3 id="hover-effects" class="mt-8 text-lg leading-tight tracking-tight">Hover Effects</h3>
             <p class="mt-0 mb-6">A button that scales on hover doesn&#39;t need JavaScript.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.button</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">150ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.button:hover</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1.05</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.button:active</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">0.98</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.button</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">150ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.button:hover</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1.05</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.button:active</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">0.98</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <demo-showcase data-component="hover-button" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="mt-0 mb-6">This runs at 60fps regardless of what else is happening on your page. No React re-renders. No state management. Just CSS doing what CSS does well.</p>
             <h3 id="enter-animations" class="mt-8 text-lg leading-tight tracking-tight">Enter Animations</h3>
             <p class="mt-0 mb-6">When an element appears, CSS can handle the entrance.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> fadeSlideIn <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  from <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateY</span><span class="text-syn-u">(</span><span class="text-syn-n">10px</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  to <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateY</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.card</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> fadeSlideIn <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> fadeSlideIn <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  from <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateY</span><span class="text-syn-u">(</span><span class="text-syn-n">10px</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  to <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateY</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.card</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> fadeSlideIn <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">For simple fades and slides, this is all you need. No JavaScript, no animation library, no bundle size.</p>
             <h3 id="infinite-animations" class="mt-8 text-lg leading-tight tracking-tight">Infinite Animations</h3>
             <p class="mt-0 mb-6">Loading spinners, pulsing indicators, scrolling marquees. These should always be CSS.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> spin <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  from <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">0deg</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  to <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">360deg</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.spinner</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> spin <span class="text-syn-n">1s</span> <span class="text-syn-k">linear</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> spin <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  from <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">0deg</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  to <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">360deg</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.spinner</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> spin <span class="text-syn-n">1s</span> <span class="text-syn-k">linear</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <demo-showcase data-component="infinite-animation" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="mt-0 mb-6">A JavaScript spinner would need to run code 60 times per second forever. A CSS spinner tells the GPU &quot;rotate this layer continuously&quot; and never touches the main thread again.</p>
             <h3 id="bundle-sensitive-projects" class="mt-8 text-lg leading-tight tracking-tight">Bundle-Sensitive Projects</h3>
@@ -421,33 +467,43 @@
             <p class="mt-0 mb-6">Click the targets rapidly. The CSS version jumps. The JavaScript version (using spring physics) flows. For interactive UI where users move faster than animations complete, JavaScript handles it better.</p>
             <h3 id="spring-physics" class="mt-8 text-lg leading-tight tracking-tight">Spring Physics</h3>
             <p class="mt-0 mb-6">CSS can approximate springs with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">linear()</code> or cubic-bezier overshoot, but it can&#39;t do true physics simulation. The duration is fixed. Real springs settle based on their physical properties.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">motion.div</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animate</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span> <span class="text-syn-p">x:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transition</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">type:</span> <span class="text-syn-s">&quot;spring&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">stiffness:</span> <span class="text-syn-n">300</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">damping:</span> <span class="text-syn-n">20</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">/&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">motion.div</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animate</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span> <span class="text-syn-p">x:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">transition</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">type:</span> <span class="text-syn-s">&quot;spring&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">stiffness:</span> <span class="text-syn-n">300</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">damping:</span> <span class="text-syn-n">20</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">/&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The motion feels different. Springs respond to velocity. They overshoot and settle naturally. CSS can fake this for simple cases, but complex interactions need the real thing.</p>
             <h3 id="complex-sequences" class="mt-8 text-lg leading-tight tracking-tight">Complex Sequences</h3>
             <p class="mt-0 mb-6">Coordinating multiple elements with precise timing, orchestrating staggered reveals, chaining animations based on state. CSS can do some of this with delays, but JavaScript gives you programmatic control.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> variants <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">hidden:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">opacity:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-p">y:</span> <span class="text-syn-n">20</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">visible:</span> <span class="text-syn-u">(</span>i<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">opacity:</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">y:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transition:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">delay:</span> i <span class="text-syn-o">*</span> <span class="text-syn-n">0.1</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> variants <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">hidden:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">opacity:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-p">y:</span> <span class="text-syn-n">20</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">visible:</span> <span class="text-syn-u">(</span>i<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">opacity:</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">y:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transition:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">delay:</span> i <span class="text-syn-o">*</span> <span class="text-syn-n">0.1</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="state-driven-animation" class="mt-8 text-lg leading-tight tracking-tight">State-Driven Animation</h3>
             <p class="mt-0 mb-6">When animation needs to respond to React state, data, or user input beyond simple hover/focus, JavaScript integrates more naturally with your application architecture.</p>
             <h2 id="performance-under-pressure" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Performance Under Pressure</h2>
@@ -461,59 +517,74 @@
             <p class="mt-0 mb-6">Let&#39;s put this into practice. We&#39;ll build a pulsing notification dot that runs forever without draining batteries.</p>
             <demo-showcase data-component="notification-dot" data-props="{}" data-frame="{&quot;focusCode&quot;:true,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="mt-0 mb-6">The bad version:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> pulse-bad <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  0% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.7</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  70% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">12px</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">12px</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">10px</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  100% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> pulse-bad <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  0% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.7</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  70% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">12px</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">12px</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">10px</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  100% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Animating <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">width</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">height</code> triggers layout on every frame. The browser recalculates the position of everything around the dot 60 times per second. Forever.</p>
             <p class="mt-0 mb-6">The good version:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> pulse-good <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  0% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.7</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  70% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1.5</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">10px</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  100% <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@keyframes</span> pulse-good <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  0% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.7</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  70% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1.5</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">10px</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  100% <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">box-shadow</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-n">0</span> <span class="text-syn-f">rgba</span><span class="text-syn-u">(</span><span class="text-syn-n">239</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">68</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Same visual effect. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">transform: scale()</code> instead of <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">width</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">height</code>. The GPU handles it. Battery life preserved.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.notification-dot</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">background-color</span><span class="text-syn-u">:</span> <span class="text-syn-u">#</span>ef4444<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">border-radius</span><span class="text-syn-u">:</span> <span class="text-syn-n">50%</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> pulse-good <span class="text-syn-n">2s</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.4</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.6</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">)</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">.notification-dot</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">height</span><span class="text-syn-u">:</span> <span class="text-syn-n">8px</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">background-color</span><span class="text-syn-u">:</span> <span class="text-syn-u">#</span>ef4444<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">border-radius</span><span class="text-syn-u">:</span> <span class="text-syn-n">50%</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> pulse-good <span class="text-syn-n">2s</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.4</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.6</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">)</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Run this in Chrome DevTools Performance panel. The good version shows almost no main thread activity. The bad version shows layout calculations on every frame.</p>
             <h2 id="what-to-animate-in-css" class="mt-12 text-xl font-semibold leading-tight tracking-tight">What to Animate in CSS</h2>
             <p class="mt-0 mb-6">A quick reference for choosing the right property.</p>
@@ -556,27 +627,37 @@
             <p class="mt-0 mb-6">The pattern is clear. For spatial changes, always reach for <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">transform</code>. For visibility, always reach for <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">opacity</code>.</p>
             <h2 id="respecting-user-preferences" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Respecting User Preferences</h2>
             <p class="mt-0 mb-6">Not everyone wants animations. Some users experience motion sickness. Others simply prefer reduced motion for focus.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@media</span> <span class="text-syn-u">(</span>prefers-reduced-motion<span class="text-syn-u">:</span> reduce<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">.notification-dot</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> <span class="text-syn-k">none</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@media</span> <span class="text-syn-u">(</span>prefers-reduced-motion<span class="text-syn-u">:</span> reduce<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">.notification-dot</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> <span class="text-syn-k">none</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">For our notification dot, removing the pulse entirely is appropriate. The dot still shows there&#39;s a notification. The animation is decorative, not functional.</p>
             <p class="mt-0 mb-6">For animations that communicate state changes, replace movement with instant transitions:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@media</span> <span class="text-syn-u">(</span>prefers-reduced-motion<span class="text-syn-u">:</span> reduce<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">.modal</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> <span class="text-syn-k">none</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">@media</span> <span class="text-syn-u">(</span>prefers-reduced-motion<span class="text-syn-u">:</span> reduce<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">.modal</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> <span class="text-syn-k">none</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h2 id="making-the-choice" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Making the Choice</h2>
             <p class="mt-0 mb-6">After everything we&#39;ve covered, here&#39;s how I think about it.</p>
             <p class="mt-0 mb-6"><strong>Reach for CSS when:</strong></p>

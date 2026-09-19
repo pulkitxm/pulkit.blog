@@ -151,6 +151,7 @@
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
@@ -159,7 +160,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -209,23 +210,28 @@
             <p class="mt-0 mb-6">Many “database scaling problems” are actually “one bad query under real load” problems.</p>
             <h3 id="connection-pooling-often-the-biggest-early-win" class="mt-8 text-lg leading-tight tracking-tight">Connection Pooling (Often the Biggest Early Win)</h3>
             <p class="mt-0 mb-6">Without pooling, each request can create its own DB connection. Under load, the database spends time and memory on connection management instead of queries.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Pool <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;pg&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> pool <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;db.example.com&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">max:</span> <span class="text-syn-n">20</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">idleTimeoutMillis:</span> <span class="text-syn-n">30_000</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">connectionTimeoutMillis:</span> <span class="text-syn-n">2_000</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> pool<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>id<span class="text-syn-u">]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> result<span class="text-syn-u">.</span><span class="text-syn-p">rows</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Pool <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;pg&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> pool <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;db.example.com&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">max:</span> <span class="text-syn-n">20</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">idleTimeoutMillis:</span> <span class="text-syn-n">30_000</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">connectionTimeoutMillis:</span> <span class="text-syn-n">2_000</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> pool<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>id<span class="text-syn-u">]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> result<span class="text-syn-u">.</span><span class="text-syn-p">rows</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h2 id="vertical-scaling" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Vertical Scaling</h2>
             <p class="mt-0 mb-6">The simplest approach to scaling is vertical scaling, making your existing database server more powerful.</p>
             <p class="mt-0 mb-6">
@@ -303,38 +309,48 @@
               <li>You can add multiple replicas to handle more read load</li>
               <li>Your API servers need to know which database to connect to for reads vs writes</li>
             </ul>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Pool <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;pg&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> masterDb <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;master.db.example.com&quot;</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> replicaDb <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;replica.db.example.com&quot;</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> replicaDb<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>id<span class="text-syn-u">]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> result<span class="text-syn-u">.</span><span class="text-syn-p">rows</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">updateUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> data<span class="text-syn-o">:</span> <span class="text-syn-t">UserData</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> masterDb<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;UPDATE users SET name = $1 WHERE id = $2&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>data<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">,</span> id<span class="text-syn-u">]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Pool <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;pg&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> masterDb <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;master.db.example.com&quot;</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> replicaDb <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;replica.db.example.com&quot;</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> replicaDb<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>id<span class="text-syn-u">]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> result<span class="text-syn-u">.</span><span class="text-syn-p">rows</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">updateUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> data<span class="text-syn-o">:</span> <span class="text-syn-t">UserData</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> masterDb<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;UPDATE users SET name = $1 WHERE id = $2&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>data<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">,</span> id<span class="text-syn-u">]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h4 id="replication-modes" class="leading-tight tracking-tight">Replication Modes</h4>
             <p class="mt-0 mb-6">When you have replicas, changes on the master need to be sent to replicas to maintain consistency. There are two modes of replication:</p>
             <h5 id="section-1-synchronous-replication">1. Synchronous Replication</h5>
             <p class="mt-0 mb-6">The master waits for the replica to confirm it received the data before acknowledging the write to the client.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Client → API → Master → Replica</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                  ↓         ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">              (write)   (write)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                  ↓         ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">              (wait) ← (confirm)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">              (ack to client)</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Client → API → Master → Replica</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                  ↓         ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              (write)   (write)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                  ↓         ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              (wait) ← (confirm)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              (ack to client)</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Characteristics:</strong></p>
             <ul class="mt-0 mb-6">
               <li><strong>Strong consistency</strong>: Read from any replica, get the latest data</li>
@@ -344,15 +360,20 @@
             <p class="mt-0 mb-6">Use synchronous replication when data consistency is critical (financial transactions, inventory systems).</p>
             <h5 id="section-2-asynchronous-replication">2. Asynchronous Replication</h5>
             <p class="mt-0 mb-6">The master acknowledges the write immediately and sends data to replicas in the background.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Client → API → Master → (async) → Replica</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">              (write)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">              (ack to client immediately)</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Client → API → Master → (async) → Replica</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              (write)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              (ack to client immediately)</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Characteristics:</strong></p>
             <ul class="mt-0 mb-6">
               <li><strong>Eventual consistency</strong>: Replicas might be slightly behind</li>
@@ -369,17 +390,22 @@
             <p class="mt-0 mb-6">This keeps the system fast while preserving the “I just updated it, why don’t I see it?” user experience.</p>
             <h4 id="cap-trade-offs-why-sync-vs-async-feels-different" class="leading-tight tracking-tight">CAP Trade-offs (Why Sync vs Async Feels Different)</h4>
             <p class="mt-0 mb-6">Once you replicate data across nodes, you&#39;re implicitly making trade-offs described by the <strong>CAP theorem</strong>. It states that a distributed system can only guarantee <strong>two out of three</strong> properties:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">        Consistency</span>
-                <span class="block leading-(--pre-line) whitespace-pre">            /\</span>
-                <span class="block leading-(--pre-line) whitespace-pre">           /  \</span>
-                <span class="block leading-(--pre-line) whitespace-pre">          /    \</span>
-                <span class="block leading-(--pre-line) whitespace-pre">         /  ??  \</span>
-                <span class="block leading-(--pre-line) whitespace-pre">        /________\</span>
-                <span class="block leading-(--pre-line) whitespace-pre"> Availability    Partition Tolerance</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">        Consistency</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            /\</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">           /  \</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          /    \</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">         /  ??  \</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        /________\</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"> Availability    Partition Tolerance</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li><strong>Consistency (C)</strong>: Every read returns the most recent write. All nodes see the same data at the same time.</li>
               <li><strong>Availability (A)</strong>: Every request gets a response, even if it might not be the latest data.</li>
@@ -434,19 +460,24 @@
               <li>Shards are independent, no replication between them</li>
               <li>Your application (or a proxy) routes requests to the correct shard</li>
             </ul>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">                    ┌─────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                    │   API   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                    └────┬────┘</span>
-                <span class="block leading-(--pre-line) whitespace-pre">           ┌─────────────┼─────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">           ↓             ↓             ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      ┌─────────┐   ┌─────────┐   ┌─────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      │ Shard 1 │   │ Shard 2 │   │ Shard 3 │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      │ (A-I)   │   │ (J-R)   │   │ (S-Z)   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      └─────────┘   └─────────┘   └─────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">                    ┌─────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                    │   API   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                    └────┬────┘</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">           ┌─────────────┼─────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">           ↓             ↓             ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      ┌─────────┐   ┌─────────┐   ┌─────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      │ Shard 1 │   │ Shard 2 │   │ Shard 3 │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      │ (A-I)   │   │ (J-R)   │   │ (S-Z)   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      └─────────┘   └─────────┘   └─────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Key considerations:</strong></p>
             <ul class="mt-0 mb-6">
               <li><strong>Shard key selection</strong>: Choose wisely. A bad shard key leads to hot spots</li>
@@ -454,22 +485,27 @@
               <li><strong>Cross-shard queries</strong>: Queries spanning multiple shards are expensive</li>
               <li><strong>Resharding</strong>: Adding/removing shards is complex</li>
             </ul>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getShardForUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Database</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> firstChar <span class="text-syn-o">=</span> userId<span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-f">toLowerCase</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&gt;=</span> <span class="text-syn-s">&quot;a&quot;</span> <span class="text-syn-o">&amp;&amp;</span> firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;m&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> shardA<span class="text-syn-u">;</span> <span class="text-syn-c italic">// handles a-m</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> shardB<span class="text-syn-u">;</span> <span class="text-syn-c italic">// handles n-z</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> shard <span class="text-syn-o">=</span> <span class="text-syn-f">getShardForUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> shard<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>userId<span class="text-syn-u">]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getShardForUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Database</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> firstChar <span class="text-syn-o">=</span> userId<span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-f">toLowerCase</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&gt;=</span> <span class="text-syn-s">&quot;a&quot;</span> <span class="text-syn-o">&amp;&amp;</span> firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;m&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> shardA<span class="text-syn-u">;</span> <span class="text-syn-c italic">// handles a-m</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> shardB<span class="text-syn-u">;</span> <span class="text-syn-c italic">// handles n-z</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> shard <span class="text-syn-o">=</span> <span class="text-syn-f">getShardForUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> shard<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>userId<span class="text-syn-u">]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Note:</strong> Some databases have built-in proxies or native support for sharding and replication. Examples include Citus for PostgreSQL, PostgreSQL&#39;s built-in streaming replication, Redis Cluster and Sentinel, and ClickHouse with Zookeeper for coordination. Each shard can also have its own replicas for read scaling.</p>
             <h2 id="sharding-vs-partitioning" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Sharding vs Partitioning</h2>
             <p class="mt-0 mb-6">
@@ -529,22 +565,32 @@
             <p class="mt-0 mb-6">Now you need to resort to <strong>horizontal scaling</strong> because you&#39;re getting 1500 WPS but your single server maxes out at 1000 WPS.</p>
             <p class="mt-0 mb-6">Here&#39;s the math:</p>
             <p class="mt-0 mb-6"><strong>Before (Single Server):</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">API Server → Database (1000 WPS max)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Current load: 1500 WPS needed</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">API Server → Database (1000 WPS max)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Current load: 1500 WPS needed</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>After (Two Shards with 50-50 split):</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">            ┌─ Shard 1 (50% data) → 750 WPS</span>
-                <span class="block leading-(--pre-line) whitespace-pre">API Server ─┤</span>
-                <span class="block leading-(--pre-line) whitespace-pre">            └─ Shard 2 (50% data) → 750 WPS</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Total capacity: 1500 WPS</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">            ┌─ Shard 1 (50% data) → 750 WPS</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">API Server ─┤</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            └─ Shard 2 (50% data) → 750 WPS</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Total capacity: 1500 WPS</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Key insight</strong>: By adding one more database server and splitting the data 50-50:</p>
             <ul class="mt-0 mb-6">
               <li>Each database now handles 750 WPS (instead of 1500 WPS)</li>
@@ -573,53 +619,73 @@
             <p class="mt-0 mb-6">This is the most common approach. You split data by <strong>rows</strong> based on some criteria.</p>
             <p class="mt-0 mb-6"><strong>Example</strong>: Partition by alphabets, useful for name-based lookups or dictionary-like data.</p>
             <p class="mt-0 mb-6">Original table (100GB):</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">products table: product_id, name, category, price, stock, ...</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">products table: product_id, name, category, price, stock, ...</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Partition by first letter of product name:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Partition A: Names starting with A-D  → 30GB</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Partition B: Names starting with E-H  → 10GB</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Partition C: Names starting with I-M  → 30GB</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Partition D: Names starting with N-R  → 20GB</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Partition E: Names starting with S-Z  → 10GB</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition A: Names starting with A-D  → 30GB</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition B: Names starting with E-H  → 10GB</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition C: Names starting with I-M  → 30GB</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition D: Names starting with N-R  → 20GB</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition E: Names starting with S-Z  → 10GB</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Each partition has <strong>all columns</strong> but only a <strong>subset of rows</strong>.</p>
             <p class="mt-0 mb-6"><strong>Query example:</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query hits only Partition A (products starting with &#39;A&#39; or &#39;B&#39;)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-k">LIKE</span> <span class="text-syn-s">&#39;Apple%&#39;</span>;</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query hits only Partition E</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&#39;Samsung Galaxy S23&#39;</span>;</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Range query might hit multiple partitions</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-k">BETWEEN</span> <span class="text-syn-s">&#39;Dell&#39;</span> <span class="text-syn-k">AND</span> <span class="text-syn-s">&#39;Samsung&#39;</span>;</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query hits only Partition A (products starting with &#39;A&#39; or &#39;B&#39;)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-k">LIKE</span> <span class="text-syn-s">&#39;Apple%&#39;</span>;</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query hits only Partition E</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&#39;Samsung Galaxy S23&#39;</span>;</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Range query might hit multiple partitions</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-k">BETWEEN</span> <span class="text-syn-s">&#39;Dell&#39;</span> <span class="text-syn-k">AND</span> <span class="text-syn-s">&#39;Samsung&#39;</span>;</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Implementation in code:</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getPartitionForProduct</span><span class="text-syn-u">(</span>productName<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> firstChar <span class="text-syn-o">=</span> productName<span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-f">toUpperCase</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;D&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_a&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;H&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_b&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;M&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_c&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;R&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_d&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_e&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getProduct</span><span class="text-syn-u">(</span>name<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> partition <span class="text-syn-o">=</span> <span class="text-syn-f">getPartitionForProduct</span><span class="text-syn-u">(</span>name<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> db<span class="text-syn-u">[</span>partition<span class="text-syn-u">].</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM products WHERE name = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>name<span class="text-syn-u">]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getPartitionForProduct</span><span class="text-syn-u">(</span>productName<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> firstChar <span class="text-syn-o">=</span> productName<span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-f">toUpperCase</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;D&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_a&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;H&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_b&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;M&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_c&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;R&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_d&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_e&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getProduct</span><span class="text-syn-u">(</span>name<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> partition <span class="text-syn-o">=</span> <span class="text-syn-f">getPartitionForProduct</span><span class="text-syn-u">(</span>name<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> db<span class="text-syn-u">[</span>partition<span class="text-syn-u">].</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM products WHERE name = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>name<span class="text-syn-u">]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Use cases for horizontal partitioning:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Alphabet-based: Product catalogs, directories, dictionaries</li>
@@ -637,32 +703,47 @@
             <p class="mt-0 mb-6">Split data by <strong>columns</strong>, keeping frequently accessed columns together and separating rarely used ones.</p>
             <p class="mt-0 mb-6"><strong>Example: E-commerce Users Table</strong></p>
             <p class="mt-0 mb-6">Original table (100GB):</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">users: user_id, name, email, country, address, preferences, bio, avatar_url, ...</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">users: user_id, name, email, country, address, preferences, bio, avatar_url, ...</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Vertical partitioning:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Partition 1 (Hot data - frequently accessed):</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  user_id, name, email, country → 20GB</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Partition 2 (Cold data - rarely accessed):</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  user_id, address, preferences, bio, avatar_url → 80GB</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition 1 (Hot data - frequently accessed):</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  user_id, name, email, country → 20GB</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition 2 (Cold data - rarely accessed):</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  user_id, address, preferences, bio, avatar_url → 80GB</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Each partition has <strong>all rows</strong> but only a <strong>subset of columns</strong>.</p>
             <p class="mt-0 mb-6"><strong>Query example:</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Fast: hits only Partition 1</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-k">name</span>, email <span class="text-syn-k">FROM</span> users <span class="text-syn-k">WHERE</span> user_id <span class="text-syn-o">=</span> <span class="text-syn-n">500</span>;</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Slow: requires JOIN across partitions</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-k">name</span>, email, <span class="text-syn-k">address</span>, bio <span class="text-syn-k">FROM</span> users <span class="text-syn-k">WHERE</span> user_id <span class="text-syn-o">=</span> <span class="text-syn-n">500</span>;</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Fast: hits only Partition 1</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-k">name</span>, email <span class="text-syn-k">FROM</span> users <span class="text-syn-k">WHERE</span> user_id <span class="text-syn-o">=</span> <span class="text-syn-n">500</span>;</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Slow: requires JOIN across partitions</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-k">name</span>, email, <span class="text-syn-k">address</span>, bio <span class="text-syn-k">FROM</span> users <span class="text-syn-k">WHERE</span> user_id <span class="text-syn-o">=</span> <span class="text-syn-n">500</span>;</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Use cases:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Large tables with some rarely accessed columns</li>
@@ -672,52 +753,72 @@
             </ul>
             <h3 id="practical-partitioning-example" class="mt-8 text-lg leading-tight tracking-tight">Practical Partitioning Example</h3>
             <p class="mt-0 mb-6">Let&#39;s say you have 100GB of total data. You horizontally partition it into 5 mutually exclusive partitions:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">            100GB Total Data</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    ┌──────┬──────┬──────┬──────┬──────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    │ 30GB │ 10GB │ 30GB │ 20GB │ 10GB │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    │  A   │  B   │  C   │  D   │  E   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    └──────┴──────┴──────┴──────┴──────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">            100GB Total Data</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    ┌──────┬──────┬──────┬──────┬──────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    │ 30GB │ 10GB │ 30GB │ 20GB │ 10GB │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    │  A   │  B   │  C   │  D   │  E   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    └──────┴──────┴──────┴──────┴──────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Now you need to decide how to distribute these 5 partitions across your database servers (shards).</p>
             <p class="mt-0 mb-6"><strong>Option 1: One partition per server (5 shards)</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition B [10GB]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 3: Partition C [30GB]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 4: Partition D [20GB]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 5: Partition E [10GB]</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition B [10GB]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 3: Partition C [30GB]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 4: Partition D [20GB]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 5: Partition E [10GB]</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li>Maximum parallelism</li>
               <li>Highest cost (5 servers)</li>
               <li>Each shard handles less load</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Option 2: Multiple partitions per server (2 shards)</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB] + Partition C [30GB] → 60GB total</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition B [10GB] + Partition D [20GB] + Partition E [10GB] → 40GB total</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB] + Partition C [30GB] → 60GB total</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition B [10GB] + Partition D [20GB] + Partition E [10GB] → 40GB total</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li>Cost-effective (2 servers)</li>
               <li>Each shard handles more load</li>
               <li>Need to balance distribution carefully</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Option 3: Mixed approach (3 shards)</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB] + Partition B [10GB] → 40GB</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition C [30GB]                      → 30GB</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 3: Partition D [20GB] + Partition E [10GB] → 30GB</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB] + Partition B [10GB] → 40GB</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition C [30GB]                      → 30GB</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 3: Partition D [20GB] + Partition E [10GB] → 30GB</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li>Balanced approach</li>
               <li>Can optimize based on access patterns</li>
@@ -735,13 +836,18 @@
               <li>Find the sweet spot between performance and cost</li>
             </ul>
             <p class="mt-0 mb-6"><strong>3. Access Patterns</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Partition A: 1000 queries/sec  → Needs dedicated shard</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Partition B: 100 queries/sec   → Can share with others</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Partition E: 50 queries/sec    → Can share with others</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition A: 1000 queries/sec  → Needs dedicated shard</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition B: 100 queries/sec   → Can share with others</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Partition E: 50 queries/sec    → Can share with others</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>4. Growth Expectations</strong></p>
             <ul class="mt-0 mb-6">
               <li>If Partition C is expected to grow rapidly, give it room to breathe</li>
@@ -757,65 +863,90 @@
             <h3 id="common-sharding-strategies" class="mt-8 text-lg leading-tight tracking-tight">Common Sharding Strategies</h3>
             <p class="mt-0 mb-6">When you shard your database, you need a strategy to decide which data goes where:</p>
             <p class="mt-0 mb-6"><strong>1. Range-based Sharding</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">User IDs 1-1,000,000     → Shard 1</span>
-                <span class="block leading-(--pre-line) whitespace-pre">User IDs 1,000,001-2M    → Shard 2</span>
-                <span class="block leading-(--pre-line) whitespace-pre">User IDs 2M-3M           → Shard 3</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">User IDs 1-1,000,000     → Shard 1</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">User IDs 1,000,001-2M    → Shard 2</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">User IDs 2M-3M           → Shard 3</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li><strong>Pros</strong>: Simple to implement, easy to add new shards</li>
               <li><strong>Cons</strong>: Risk of uneven distribution (hot spots) if IDs aren&#39;t uniformly distributed</li>
             </ul>
             <p class="mt-0 mb-6"><strong>2. Hash-based Sharding</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getShard</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashFunction</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> hash <span class="text-syn-o">%</span> numberOfShards<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Example: hash(&quot;user_123&quot;) % 4 = 2 → Goes to Shard 2</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getShard</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashFunction</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> hash <span class="text-syn-o">%</span> numberOfShards<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Example: hash(&quot;user_123&quot;) % 4 = 2 → Goes to Shard 2</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li><strong>Pros</strong>: Even distribution of data</li>
               <li><strong>Cons</strong>: Range queries become expensive, resharding is difficult</li>
             </ul>
             <p class="mt-0 mb-6"><strong>3. Geographic Sharding</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">US users       → US datacenter shard</span>
-                <span class="block leading-(--pre-line) whitespace-pre">EU users       → EU datacenter shard</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Asia users     → Asia datacenter shard</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">US users       → US datacenter shard</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">EU users       → EU datacenter shard</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Asia users     → Asia datacenter shard</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li><strong>Pros</strong>: Lower latency, data residency compliance (GDPR)</li>
               <li><strong>Cons</strong>: Uneven distribution if user base isn&#39;t geographically balanced</li>
             </ul>
             <p class="mt-0 mb-6"><strong>4. Entity-based (Tenant) Sharding</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Company A&#39;s data → Shard 1</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Company B&#39;s data → Shard 2</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Company C&#39;s data → Shard 3</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Company A&#39;s data → Shard 1</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Company B&#39;s data → Shard 2</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Company C&#39;s data → Shard 3</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li><strong>Pros</strong>: Easy data isolation, good for multi-tenant SaaS</li>
               <li><strong>Cons</strong>: Large tenants can create hot spots</li>
             </ul>
             <h3 id="challenges-with-sharding" class="mt-8 text-lg leading-tight tracking-tight">Challenges with Sharding</h3>
             <p class="mt-0 mb-6"><strong>1. Cross-shard Queries</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- This is expensive if users are on different shards</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> orders</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">WHERE</span> user_id <span class="text-syn-k">IN</span> (<span class="text-syn-n">123</span>, <span class="text-syn-n">456</span>, <span class="text-syn-n">789</span>);</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- This is expensive if users are on different shards</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> orders</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">WHERE</span> user_id <span class="text-syn-k">IN</span> (<span class="text-syn-n">123</span>, <span class="text-syn-n">456</span>, <span class="text-syn-n">789</span>);</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You have to query multiple shards and aggregate results in your application.</p>
             <p class="mt-0 mb-6"><strong>2. Resharding</strong></p>
             <p class="mt-0 mb-6">When you need to add more shards:</p>
@@ -826,13 +957,18 @@
             </ul>
             <p class="mt-0 mb-6"><strong>3. Referential Integrity</strong></p>
             <p class="mt-0 mb-6">Foreign keys don&#39;t work across shards:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- This won&#39;t work if users and orders are on different shards</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">ALTER</span> <span class="text-syn-k">TABLE</span> orders</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">ADD</span> <span class="text-syn-k">FOREIGN KEY</span> (user_id) <span class="text-syn-k">REFERENCES</span> users(id);</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- This won&#39;t work if users and orders are on different shards</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">ALTER</span> <span class="text-syn-k">TABLE</span> orders</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">ADD</span> <span class="text-syn-k">FOREIGN KEY</span> (user_id) <span class="text-syn-k">REFERENCES</span> users(id);</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You have to handle this at the application level.</p>
             <p class="mt-0 mb-6"><strong>4. Distributed Transactions</strong></p>
             <p class="mt-0 mb-6">ACID transactions across shards are complex and slow. You often need to:</p>
@@ -858,26 +994,36 @@
               <li>Example: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">country</code> (USA might have 80% of users)</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Design for Single-Shard Queries</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Good: Query stays within one shard</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>users<span class="text-syn-u">.</span><span class="text-syn-f">findOne</span><span class="text-syn-u">({</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> posts <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>posts<span class="text-syn-u">.</span><span class="text-syn-f">find</span><span class="text-syn-u">({</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Bad: Query needs to scan all shards</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> posts <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>posts<span class="text-syn-u">.</span><span class="text-syn-f">find</span><span class="text-syn-u">({</span> <span class="text-syn-p">likes:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">$gt:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">}</span> <span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Good: Query stays within one shard</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>users<span class="text-syn-u">.</span><span class="text-syn-f">findOne</span><span class="text-syn-u">({</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> posts <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>posts<span class="text-syn-u">.</span><span class="text-syn-f">find</span><span class="text-syn-u">({</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Bad: Query needs to scan all shards</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> posts <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>posts<span class="text-syn-u">.</span><span class="text-syn-f">find</span><span class="text-syn-u">({</span> <span class="text-syn-p">likes:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">$gt:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">}</span> <span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Structure your data so most queries can be answered from a single shard.</p>
             <p class="mt-0 mb-6"><strong>Plan for Growth</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Start: 2 shards (can handle current load)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Year 1: 4 shards</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Year 2: 8 shards</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Year 3: 16 shards</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Start: 2 shards (can handle current load)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Year 1: 4 shards</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Year 2: 8 shards</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Year 3: 16 shards</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Use a sharding strategy that makes adding shards easier:</p>
             <ul class="mt-0 mb-6">
               <li>Consistent hashing (minimal data movement)</li>
@@ -885,13 +1031,18 @@
             </ul>
             <p class="mt-0 mb-6"><strong>Monitor Shard Health</strong></p>
             <p class="mt-0 mb-6">Keep track of:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 1: 45% storage, 600 WPS, 50ms avg latency</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 2: 78% storage, 1200 WPS, 120ms avg latency (warning: hot spot)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Shard 3: 32% storage, 450 WPS, 45ms avg latency</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 1: 45% storage, 600 WPS, 50ms avg latency</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 2: 78% storage, 1200 WPS, 120ms avg latency (warning: hot spot)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Shard 3: 32% storage, 450 WPS, 45ms avg latency</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Shard 2 is becoming a hot spot and needs attention (maybe split it further or redistribute data).</p>
             <h3 id="sharding-vs-partitioning-the-four-scenarios" class="mt-8 text-lg leading-tight tracking-tight">Sharding vs Partitioning: The Four Scenarios</h3>
             <p class="mt-0 mb-6">Here&#39;s how partitioning and sharding can be combined (or not):</p>
@@ -917,14 +1068,19 @@
               </tbody>
             </table>
             <h4 id="scenario-1-no-sharding-no-partitioning" class="leading-tight tracking-tight">Scenario 1: No Sharding, No Partitioning</h4>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│   Database      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  [All Data]     │  ← Everything in one place</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│   Database      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  [All Data]     │  ← Everything in one place</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li>Simplest setup</li>
               <li>All data in one table</li>
@@ -932,16 +1088,21 @@
               <li>Limited by single server capacity</li>
             </ul>
             <h4 id="scenario-2-no-sharding-with-partitioning" class="leading-tight tracking-tight">Scenario 2: No Sharding, With Partitioning</h4>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│      Database           │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  [2024 Data]            │  ← Partitioned by year</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  [2023 Data]            │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  [2022 Data]            │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│      Database           │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  [2024 Data]            │  ← Partitioned by year</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  [2023 Data]            │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  [2022 Data]            │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li>Better query performance (queries scan less data)</li>
               <li>Easier to archive old data</li>
@@ -949,14 +1110,19 @@
               <li>Good for time-series data</li>
             </ul>
             <h4 id="scenario-3-with-sharding-no-partitioning" class="leading-tight tracking-tight">Scenario 3: With Sharding, No Partitioning</h4>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐  ┌─────────────┐  ┌─────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  Shard 1    │  │  Shard 2    │  │  Shard 3    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  [A-I data] │  │  [J-R data] │  │  [S-Z data] │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘  └─────────────┘  └─────────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐  ┌─────────────┐  ┌─────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  Shard 1    │  │  Shard 2    │  │  Shard 3    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  [A-I data] │  │  [J-R data] │  │  [S-Z data] │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘  └─────────────┘  └─────────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li>Scales horizontally</li>
               <li>Each shard is a simple database</li>
@@ -964,18 +1130,23 @@
               <li>Can add more shards as needed</li>
             </ul>
             <h4 id="scenario-4-with-sharding-partitioning-read-replicas" class="leading-tight tracking-tight">Scenario 4: With Sharding + Partitioning + Read Replicas</h4>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────┐     ┌─────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  Shard 1 (Master)   │     │  Shard 2 (Master)   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│   [2024 A-M Data]   │     │   [2024 N-Z Data]   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│   [2023 A-M Data]   │     │   [2023 N-Z Data]   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└──────┬──────────────┘     └──────┬──────────────┘</span>
-                <span class="block leading-(--pre-line) whitespace-pre">       │                           │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">       ├─ Replica 1                ├─ Replica 1</span>
-                <span class="block leading-(--pre-line) whitespace-pre">       └─ Replica 2                └─ Replica 2</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────┐     ┌─────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  Shard 1 (Master)   │     │  Shard 2 (Master)   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│   [2024 A-M Data]   │     │   [2024 N-Z Data]   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│   [2023 A-M Data]   │     │   [2023 N-Z Data]   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└──────┬──────────────┘     └──────┬──────────────┘</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">       │                           │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">       ├─ Replica 1                ├─ Replica 1</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">       └─ Replica 2                └─ Replica 2</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li>Maximum scalability and performance</li>
               <li>Each shard partitions data internally</li>
@@ -1042,40 +1213,50 @@
             </table>
             <h3 id="real-world-examples" class="mt-8 text-lg leading-tight tracking-tight">Real-World Examples</h3>
             <p class="mt-0 mb-6"><strong>PostgreSQL Table Partitioning</strong> (Partitioning, not Sharding)</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Create parent table</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements</span> (</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    id <span class="text-syn-k">SERIAL</span>,</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    logdate <span class="text-syn-k">DATE</span> <span class="text-syn-k">NOT NULL</span>,</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    temperature <span class="text-syn-k">INT</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">) <span class="text-syn-k">PARTITION</span> <span class="text-syn-k">BY</span> <span class="text-syn-k">RANGE</span> (logdate);</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Create partitions for different months</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements_2024_01</span> <span class="text-syn-k">PARTITION</span> OF measurements</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">FOR</span> <span class="text-syn-k">VALUES</span> <span class="text-syn-k">FROM</span> (<span class="text-syn-s">&#39;2024-01-01&#39;</span>) <span class="text-syn-k">TO</span> (<span class="text-syn-s">&#39;2024-02-01&#39;</span>);</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements_2024_02</span> <span class="text-syn-k">PARTITION</span> OF measurements</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">FOR</span> <span class="text-syn-k">VALUES</span> <span class="text-syn-k">FROM</span> (<span class="text-syn-s">&#39;2024-02-01&#39;</span>) <span class="text-syn-k">TO</span> (<span class="text-syn-s">&#39;2024-03-01&#39;</span>);</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query automatically uses the right partition</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> measurements <span class="text-syn-k">WHERE</span> logdate <span class="text-syn-o">=</span> <span class="text-syn-s">&#39;2024-01-15&#39;</span>;</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Create parent table</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements</span> (</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    id <span class="text-syn-k">SERIAL</span>,</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    logdate <span class="text-syn-k">DATE</span> <span class="text-syn-k">NOT NULL</span>,</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    temperature <span class="text-syn-k">INT</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">) <span class="text-syn-k">PARTITION</span> <span class="text-syn-k">BY</span> <span class="text-syn-k">RANGE</span> (logdate);</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Create partitions for different months</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements_2024_01</span> <span class="text-syn-k">PARTITION</span> OF measurements</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">FOR</span> <span class="text-syn-k">VALUES</span> <span class="text-syn-k">FROM</span> (<span class="text-syn-s">&#39;2024-01-01&#39;</span>) <span class="text-syn-k">TO</span> (<span class="text-syn-s">&#39;2024-02-01&#39;</span>);</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements_2024_02</span> <span class="text-syn-k">PARTITION</span> OF measurements</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">FOR</span> <span class="text-syn-k">VALUES</span> <span class="text-syn-k">FROM</span> (<span class="text-syn-s">&#39;2024-02-01&#39;</span>) <span class="text-syn-k">TO</span> (<span class="text-syn-s">&#39;2024-03-01&#39;</span>);</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query automatically uses the right partition</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> measurements <span class="text-syn-k">WHERE</span> logdate <span class="text-syn-o">=</span> <span class="text-syn-s">&#39;2024-01-15&#39;</span>;</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">All partitions are on the same PostgreSQL instance.</p>
             <p class="mt-0 mb-6"><strong>MongoDB Sharded Cluster</strong> (True Sharding)</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-javascript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Enable sharding for a database</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">sh<span class="text-syn-u">.</span><span class="text-syn-f">enableSharding</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;myapp&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Shard a collection by user_id</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">sh<span class="text-syn-u">.</span><span class="text-syn-f">shardCollection</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;myapp.users&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;hashed&quot;</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// MongoDB automatically distributes data across shards</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// mongos router handles query routing transparently</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-javascript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Enable sharding for a database</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">sh<span class="text-syn-u">.</span><span class="text-syn-f">enableSharding</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;myapp&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Shard a collection by user_id</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">sh<span class="text-syn-u">.</span><span class="text-syn-f">shardCollection</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;myapp.users&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;hashed&quot;</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// MongoDB automatically distributes data across shards</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// mongos router handles query routing transparently</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Data is distributed across multiple MongoDB instances (shards).</p>
             <p class="mt-0 mb-6"><strong>Why This Matters</strong></p>
             <p class="mt-0 mb-6">When your architect says &quot;let&#39;s shard the database,&quot; clarify:</p>

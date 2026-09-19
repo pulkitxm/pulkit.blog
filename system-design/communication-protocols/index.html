@@ -153,6 +153,7 @@
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
@@ -161,7 +162,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -203,16 +204,21 @@
             </ul>
             <h2 id="the-client-server-model" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Client-Server Model</h2>
             <p class="mt-0 mb-6">The client-server model is straightforward. One machine (client) sends requests. Another machine (server) processes them and sends responses.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Client                          Server</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  │                                │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  │──── &quot;Give me profile #123&quot; ───→│</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  │                                │ (looks up profile)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  │←─── &quot;Here&#39;s profile #123&quot; ─────│</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  │                                │</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Client                          Server</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  │                                │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  │──── &quot;Give me profile #123&quot; ───→│</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  │                                │ (looks up profile)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  │←─── &quot;Here&#39;s profile #123&quot; ─────│</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  │                                │</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The client could be anything: a mobile app, a web browser, a CLI tool, another server. The server could be your API, a database, a file storage service. The model is universal.</p>
             <p class="mt-0 mb-6">But here&#39;s the key question: how do these bytes actually travel from one machine to another?</p>
             <h2 id="tcp" class="mt-12 text-xl font-semibold leading-tight tracking-tight">TCP</h2>
@@ -258,43 +264,58 @@
             </p>
             <p class="mt-0 mb-6">A protocol is an agreed-upon format. Like human languages: if I speak Hindi and you speak Japanese, we can&#39;t communicate. We need a common language.</p>
             <p class="mt-0 mb-6">HTTP (Hypertext Transfer Protocol) is that common language for web communication. Your client sends an HTTP request. Your server parses it, understands what to do, and sends back an HTTP response.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Client sends:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  GET /profile/123 HTTP/1.1</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Host: api.example.com</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Accept: application/json</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Server responds:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  HTTP/1.1 200 OK</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Content-Type: application/json</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  {&quot;id&quot;: 123, &quot;name&quot;: &quot;Alice&quot;}</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Client sends:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  GET /profile/123 HTTP/1.1</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Host: api.example.com</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Accept: application/json</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Server responds:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  HTTP/1.1 200 OK</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Content-Type: application/json</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  {&quot;id&quot;: 123, &quot;name&quot;: &quot;Alice&quot;}</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Both parties understand this format. That&#39;s it. HTTP is just text structured in a specific way.</p>
             <h3 id="custom-protocols-are-valid" class="mt-8 text-lg leading-tight tracking-tight">Custom Protocols Are Valid</h3>
             <p class="mt-0 mb-6">HTTP is common, but it&#39;s not mandatory. TCP doesn&#39;t care what data you send. You can define your own protocol.</p>
             <p class="mt-0 mb-6">Let&#39;s say you&#39;re building a key-value store. You could define a custom format:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Format: COMMAND KEY\n</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Examples:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  GET mykey\n        → retrieve value for &quot;mykey&quot;</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  SET mykey value\n  → store &quot;value&quot; under &quot;mykey&quot;</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  DEL mykey\n        → delete &quot;mykey&quot;</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Format: COMMAND KEY\n</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Examples:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  GET mykey\n        → retrieve value for &quot;mykey&quot;</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  SET mykey value\n  → store &quot;value&quot; under &quot;mykey&quot;</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  DEL mykey\n        → delete &quot;mykey&quot;</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">As long as your server understands this format, it works. Redis does exactly this. It doesn&#39;t use HTTP. It has a custom protocol (<a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://redis.io/docs/latest/develop/reference/protocol-spec">RESP</a>) optimized for its use case.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Redis protocol (RESP):</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  *3\r\n$3\r\nSET\r\n$5\r\nmykey\r\n$7\r\nmyvalue\r\n</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Translates to: SET mykey myvalue</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Redis protocol (RESP):</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  *3\r\n$3\r\nSET\r\n$5\r\nmykey\r\n$7\r\nmyvalue\r\n</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Translates to: SET mykey myvalue</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The tradeoff: custom protocols are more efficient but require custom clients. HTTP works everywhere because browsers and libraries already support it.</p>
             <p class="mt-0 mb-6">Want to build your own? I&#39;ve created a <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/systems/tree/main/networking/custom-protocol">hands-on demo</a> showing how to implement a custom key-value store protocol over TCP with TypeScript. You&#39;ll see exactly how to define command formats, parse requests, and compare the efficiency against HTTP.</p>
             <h2 id="http-1-1" class="mt-12 text-xl font-semibold leading-tight tracking-tight">HTTP 1.1</h2>
@@ -329,29 +350,39 @@
               </a>
             </p>
             <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Connection: keep-alive</code> header tells the server: &quot;Don&#39;t close this connection. I&#39;ll reuse it.&quot;</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">GET /resource HTTP/1.1</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Host: example.com</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Connection: keep-alive</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">GET /resource HTTP/1.1</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Host: example.com</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Connection: keep-alive</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">If the server supports this (most modern servers do), the connection stays open. Subsequent requests reuse the same TCP connection.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Without keep-alive:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Request 1: [handshake] [request] [response] [teardown]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Request 2: [handshake] [request] [response] [teardown]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Request 3: [handshake] [request] [response] [teardown]</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">With keep-alive:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  [handshake]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Request 1: [request] [response]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Request 2: [request] [response]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Request 3: [request] [response]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  [teardown]</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Without keep-alive:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Request 1: [handshake] [request] [response] [teardown]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Request 2: [handshake] [request] [response] [teardown]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Request 3: [handshake] [request] [response] [teardown]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">With keep-alive:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  [handshake]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Request 1: [request] [response]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Request 2: [request] [response]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Request 3: [request] [response]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  [teardown]</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Massive reduction in overhead. This is why connection pooling exists in HTTP clients.</p>
             <h3 id="http-1-1-limitations" class="mt-8 text-lg leading-tight tracking-tight">HTTP 1.1 Limitations</h3>
             <p class="mt-0 mb-6">Even with keep-alive, HTTP 1.1 has fundamental limitations:</p>
@@ -371,25 +402,30 @@
             <p class="mt-0 mb-6">WebSockets solve this. They enable <strong>bidirectional communication</strong>: the server can push data to the client anytime, without the client requesting it.</p>
             <h3 id="how-websockets-work" class="mt-8 text-lg leading-tight tracking-tight">How WebSockets Work</h3>
             <p class="mt-0 mb-6">WebSockets start as an HTTP request (the upgrade handshake) and then switch to a persistent TCP connection.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">1. Client sends HTTP upgrade request:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   GET /chat HTTP/1.1</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   Host: server.example.com</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   Upgrade: websocket</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   Connection: Upgrade</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">2. Server accepts:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   HTTP/1.1 101 Switching Protocols</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   Upgrade: websocket</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   Connection: Upgrade</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">3. Connection is now a WebSocket:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   - Bidirectional</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   - Persistent</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   - Low overhead</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">1. Client sends HTTP upgrade request:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   GET /chat HTTP/1.1</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   Host: server.example.com</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   Upgrade: websocket</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   Connection: Upgrade</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">2. Server accepts:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   HTTP/1.1 101 Switching Protocols</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   Upgrade: websocket</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   Connection: Upgrade</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">3. Connection is now a WebSocket:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   - Bidirectional</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   - Persistent</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   - Low overhead</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">After the upgrade, both parties can send messages at any time. No request-response. No handshakes. Just data.</p>
             <h3 id="why-websockets-are-fast" class="mt-8 text-lg leading-tight tracking-tight">Why WebSockets Are Fast</h3>
             <p class="mt-0 mb-6">
@@ -454,25 +490,35 @@
             <h3 id="the-polling-alternative" class="mt-8 text-lg leading-tight tracking-tight">The Polling Alternative</h3>
             <p class="mt-0 mb-6">Before WebSockets, real-time was achieved through polling:</p>
             <p class="mt-0 mb-6"><strong>Short polling</strong>: Client asks repeatedly at fixed intervals.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">setInterval</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> messages <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/messages&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateUI</span><span class="text-syn-u">(</span>messages<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-n">5000</span><span class="text-syn-u">);</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">setInterval</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> messages <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/messages&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateUI</span><span class="text-syn-u">(</span>messages<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-n">5000</span><span class="text-syn-u">);</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Simple but wasteful. You&#39;re making requests even when there&#39;s nothing new.</p>
             <p class="mt-0 mb-6"><strong>Long polling</strong>: Client asks, server holds the connection until there&#39;s data.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">longPoll</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/messages?wait=true&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateUI</span><span class="text-syn-u">(</span>response<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">longPoll</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">longPoll</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/messages?wait=true&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateUI</span><span class="text-syn-u">(</span>response<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">longPoll</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Better, but still has connection overhead on each response.</p>
             <p class="mt-0 mb-6">WebSockets eliminate this overhead entirely. One connection, continuous data flow.</p>
             <h2 id="server-sent-events-sse" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Server-Sent Events (SSE)</h2>
@@ -488,17 +534,22 @@
             <p class="mt-0 mb-6">The connection stays open. Server sends data whenever it wants. Client receives it instantly.</p>
             <h3 id="sse-event-format" class="mt-8 text-lg leading-tight tracking-tight">SSE Event Format</h3>
             <p class="mt-0 mb-6">SSE has a simple text-based format:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">event: stock-update</span>
-                <span class="block leading-(--pre-line) whitespace-pre">data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 150.25}</span>
-                <span class="block leading-(--pre-line) whitespace-pre">id: 1001</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">event: stock-update</span>
-                <span class="block leading-(--pre-line) whitespace-pre">data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 150.30}</span>
-                <span class="block leading-(--pre-line) whitespace-pre">id: 1002</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">event: stock-update</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 150.25}</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">id: 1001</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">event: stock-update</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 150.30}</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">id: 1002</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Each event can have:</p>
             <ul class="mt-0 mb-6">
               <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">event</code>: Event type (optional, defaults to &quot;message&quot;)</li>
@@ -508,48 +559,58 @@
             </ul>
             <h3 id="client-side-implementation" class="mt-8 text-lg leading-tight tracking-tight">Client-Side Implementation</h3>
             <p class="mt-0 mb-6">The browser provides a native <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">EventSource</code> API:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> eventSource <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">EventSource</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/stock-updates&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">onmessage</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>event<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>event<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateStockPrice</span><span class="text-syn-u">(</span>data<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">onerror</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>error<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SSE connection failed:&quot;</span><span class="text-syn-u">,</span> error<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">addEventListener</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;stock-update&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>event<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>event<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">handleStockUpdate</span><span class="text-syn-u">(</span>data<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> eventSource <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">EventSource</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/stock-updates&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">onmessage</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>event<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>event<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateStockPrice</span><span class="text-syn-u">(</span>data<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">onerror</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>error<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SSE connection failed:&quot;</span><span class="text-syn-u">,</span> error<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">addEventListener</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;stock-update&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>event<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>event<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">handleStockUpdate</span><span class="text-syn-u">(</span>data<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="server-side-implementation" class="mt-8 text-lg leading-tight tracking-tight">Server-Side Implementation</h3>
             <p class="mt-0 mb-6">Here&#39;s a simple SSE endpoint in Node.js:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">app<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/events&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>req<span class="text-syn-u">,</span> res<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Content-Type&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;text/event-stream&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Cache-Control&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;no-cache&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Connection&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;keep-alive&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-f">sendEvent</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>data<span class="text-syn-o">:</span> <span class="text-syn-t">object</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    res<span class="text-syn-u">.</span><span class="text-syn-f">write</span><span class="text-syn-u">(</span><span class="text-syn-s">`data: ${JSON.stringify(data)}\n\n`</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> interval <span class="text-syn-o">=</span> <span class="text-syn-f">setInterval</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">sendEvent</span><span class="text-syn-u">({</span> <span class="text-syn-p">timestamp:</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">(),</span> <span class="text-syn-p">value:</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">random</span><span class="text-syn-u">()</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  req<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;close&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">clearInterval</span><span class="text-syn-u">(</span>interval<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">app<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/events&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>req<span class="text-syn-u">,</span> res<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Content-Type&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;text/event-stream&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Cache-Control&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;no-cache&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Connection&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;keep-alive&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-f">sendEvent</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>data<span class="text-syn-o">:</span> <span class="text-syn-t">object</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    res<span class="text-syn-u">.</span><span class="text-syn-f">write</span><span class="text-syn-u">(</span><span class="text-syn-s">`data: ${JSON.stringify(data)}\n\n`</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> interval <span class="text-syn-o">=</span> <span class="text-syn-f">setInterval</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">sendEvent</span><span class="text-syn-u">({</span> <span class="text-syn-p">timestamp:</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">(),</span> <span class="text-syn-p">value:</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">random</span><span class="text-syn-u">()</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  req<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;close&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">clearInterval</span><span class="text-syn-u">(</span>interval<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="sse-vs-websockets" class="mt-8 text-lg leading-tight tracking-tight">SSE vs WebSockets</h3>
             <table tabindex="0" class="mt-0 mb-6 block overflow-x-auto border-collapse text-md wrap-normal">
               <thead>
@@ -624,30 +685,40 @@
             <p class="mt-0 mb-6">This is where API paradigms come in. They&#39;re patterns for organizing your endpoints, defining data shapes, and handling client-server contracts.</p>
             <h3 id="rest" class="mt-8 text-lg leading-tight tracking-tight">REST</h3>
             <p class="mt-0 mb-6">REST (Representational State Transfer) is the most widely used API paradigm. It maps HTTP methods to CRUD operations on resources.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">GET    /users          → List all users</span>
-                <span class="block leading-(--pre-line) whitespace-pre">GET    /users/123      → Get user 123</span>
-                <span class="block leading-(--pre-line) whitespace-pre">POST   /users          → Create a user</span>
-                <span class="block leading-(--pre-line) whitespace-pre">PUT    /users/123      → Update user 123</span>
-                <span class="block leading-(--pre-line) whitespace-pre">DELETE /users/123      → Delete user 123</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">GET    /users          → List all users</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">GET    /users/123      → Get user 123</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">POST   /users          → Create a user</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">PUT    /users/123      → Update user 123</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">DELETE /users/123      → Delete user 123</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Resources are nouns. HTTP methods are verbs. URLs are hierarchical.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Fetching a user&#39;s orders</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/users/123/orders&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> orders <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> response<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Creating an order</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> newOrder <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/users/123/orders&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">method:</span> <span class="text-syn-s">&quot;POST&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">body:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span> <span class="text-syn-p">product_id:</span> <span class="text-syn-n">456</span><span class="text-syn-u">,</span> <span class="text-syn-p">quantity:</span> <span class="text-syn-n">2</span> <span class="text-syn-u">}),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Fetching a user&#39;s orders</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/users/123/orders&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> orders <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> response<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Creating an order</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> newOrder <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/users/123/orders&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">method:</span> <span class="text-syn-s">&quot;POST&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">body:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span> <span class="text-syn-p">product_id:</span> <span class="text-syn-n">456</span><span class="text-syn-u">,</span> <span class="text-syn-p">quantity:</span> <span class="text-syn-n">2</span> <span class="text-syn-u">}),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Strengths:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Universal understanding. Every developer knows REST</li>
@@ -663,50 +734,60 @@
             </ul>
             <h3 id="graphql" class="mt-8 text-lg leading-tight tracking-tight">GraphQL</h3>
             <p class="mt-0 mb-6">GraphQL flips the model. Instead of multiple endpoints, you have one. The client specifies exactly what data it wants.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-graphql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Single request for user, their orders, and reviews</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">query</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  user<span class="text-syn-u">(</span>id<span class="text-syn-u">:</span> <span class="text-syn-n">123</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    name</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    email</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    orders<span class="text-syn-u">(</span>last<span class="text-syn-u">:</span> <span class="text-syn-n">5</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      id</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      total</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      items <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        productName</span>
-                <span class="block leading-(--pre-line) whitespace-pre">        quantity</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    reviews <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      rating</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      comment</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-graphql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Single request for user, their orders, and reviews</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">query</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  user<span class="text-syn-u">(</span>id<span class="text-syn-u">:</span> <span class="text-syn-n">123</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    name</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    email</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    orders<span class="text-syn-u">(</span>last<span class="text-syn-u">:</span> <span class="text-syn-n">5</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      id</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      total</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      items <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        productName</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        quantity</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    reviews <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      rating</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      comment</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">One request. Exactly the data you need. No more, no less.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/graphql&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">method:</span> <span class="text-syn-s">&quot;POST&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">body:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">query:</span> <span class="text-syn-s">`</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">      query GetUser($id: ID!) {</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">        user(id: $id) {</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          name</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          email</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          orders { id total }</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">        }</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">      }</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">    `</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">variables:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/graphql&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">method:</span> <span class="text-syn-s">&quot;POST&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">body:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">query:</span> <span class="text-syn-s">`</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">      query GetUser($id: ID!) {</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">        user(id: $id) {</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          name</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          email</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          orders { id total }</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">        }</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">      }</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">    `</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">variables:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Strengths:</strong></p>
             <ul class="mt-0 mb-6">
               <li>No over-fetching or under-fetching</li>
@@ -725,44 +806,54 @@
             <h3 id="grpc" class="mt-8 text-lg leading-tight tracking-tight">gRPC</h3>
             <p class="mt-0 mb-6">gRPC uses Protocol Buffers (protobuf) for serialization. It&#39;s binary, strongly typed, and designed for service-to-service communication.</p>
             <p class="mt-0 mb-6">First, you define your service in a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.proto</code> file:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-protobuf block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">syntax</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;proto3&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">service</span> <span class="text-syn-t">UserService</span> {</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">GetUser</span>(<span class="text-syn-t">GetUserRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">ListUsers</span>(<span class="text-syn-t">ListUsersRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-k">stream</span> <span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">CreateUser</span>(<span class="text-syn-t">CreateUserRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">}</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">message</span> <span class="text-syn-t">GetUserRequest</span> {</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> id <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">}</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">message</span> <span class="text-syn-t">User</span> {</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> id <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> name <span class="text-syn-o">=</span> <span class="text-syn-n">2</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> email <span class="text-syn-o">=</span> <span class="text-syn-n">3</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">int32</span> age <span class="text-syn-o">=</span> <span class="text-syn-n">4</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">}</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-protobuf block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">syntax</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;proto3&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">service</span> <span class="text-syn-t">UserService</span> {</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">GetUser</span>(<span class="text-syn-t">GetUserRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">ListUsers</span>(<span class="text-syn-t">ListUsersRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-k">stream</span> <span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">CreateUser</span>(<span class="text-syn-t">CreateUserRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">}</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">message</span> <span class="text-syn-t">GetUserRequest</span> {</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> id <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">}</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">message</span> <span class="text-syn-t">User</span> {</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> id <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> name <span class="text-syn-o">=</span> <span class="text-syn-n">2</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> email <span class="text-syn-o">=</span> <span class="text-syn-n">3</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">int32</span> age <span class="text-syn-o">=</span> <span class="text-syn-n">4</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">}</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The protobuf compiler generates client and server code in your language:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Generated client usage</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> client <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">UserServiceClient</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;localhost:50051&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">getUser</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Streaming: server sends multiple users</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> stream <span class="text-syn-o">=</span> client<span class="text-syn-u">.</span><span class="text-syn-f">listUsers</span><span class="text-syn-u">({</span> <span class="text-syn-p">limit:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">for</span> <span class="text-syn-k">await</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> user <span class="text-syn-o">of</span> stream<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Generated client usage</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> client <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">UserServiceClient</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;localhost:50051&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">getUser</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Streaming: server sends multiple users</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> stream <span class="text-syn-o">=</span> client<span class="text-syn-u">.</span><span class="text-syn-f">listUsers</span><span class="text-syn-u">({</span> <span class="text-syn-p">limit:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">for</span> <span class="text-syn-k">await</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> user <span class="text-syn-o">of</span> stream<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Strengths:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Performance: Binary serialization is 5-10x faster than JSON</li>
@@ -782,41 +873,51 @@
             <h3 id="trpc" class="mt-8 text-lg leading-tight tracking-tight">tRPC</h3>
             <p class="mt-0 mb-6">tRPC is TypeScript-specific. It shares types between your server and client with zero code generation.</p>
             <p class="mt-0 mb-6">Define your API on the server:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// server/routers/user.ts</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> router<span class="text-syn-u">,</span> publicProcedure <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;../trpc&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> userRouter <span class="text-syn-o">=</span> <span class="text-syn-f">router</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">getUser:</span> publicProcedure<span class="text-syn-u">.</span><span class="text-syn-f">input</span><span class="text-syn-u">(</span>z<span class="text-syn-u">.</span><span class="text-syn-f">object</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">()</span> <span class="text-syn-u">})).</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">({</span> input <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">findUnique</span><span class="text-syn-u">({</span> <span class="text-syn-p">where:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">id:</span> input<span class="text-syn-u">.</span><span class="text-syn-p">id</span> <span class="text-syn-u">}</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> user<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">createUser:</span> publicProcedure</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">input</span><span class="text-syn-u">(</span>z<span class="text-syn-u">.</span><span class="text-syn-f">object</span><span class="text-syn-u">({</span> <span class="text-syn-p">name:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">(),</span> <span class="text-syn-p">email:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">email</span><span class="text-syn-u">()</span> <span class="text-syn-u">}))</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">mutation</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">({</span> input <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">return</span> db<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span> <span class="text-syn-p">data:</span> input <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// server/routers/user.ts</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> router<span class="text-syn-u">,</span> publicProcedure <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;../trpc&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> userRouter <span class="text-syn-o">=</span> <span class="text-syn-f">router</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">getUser:</span> publicProcedure<span class="text-syn-u">.</span><span class="text-syn-f">input</span><span class="text-syn-u">(</span>z<span class="text-syn-u">.</span><span class="text-syn-f">object</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">()</span> <span class="text-syn-u">})).</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">({</span> input <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">findUnique</span><span class="text-syn-u">({</span> <span class="text-syn-p">where:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">id:</span> input<span class="text-syn-u">.</span><span class="text-syn-p">id</span> <span class="text-syn-u">}</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> user<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">createUser:</span> publicProcedure</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">input</span><span class="text-syn-u">(</span>z<span class="text-syn-u">.</span><span class="text-syn-f">object</span><span class="text-syn-u">({</span> <span class="text-syn-p">name:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">(),</span> <span class="text-syn-p">email:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">email</span><span class="text-syn-u">()</span> <span class="text-syn-u">}))</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">mutation</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">({</span> input <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">return</span> db<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span> <span class="text-syn-p">data:</span> input <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Use it on the client with full type inference:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// client/pages/user.tsx</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> trpc <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;../utils/trpc&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">UserProfile</span><span class="text-syn-u">({</span> userId <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> data<span class="text-syn-u">:</span> user <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> trpc<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span>getUser<span class="text-syn-u">.</span><span class="text-syn-f">useQuery</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> userId <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // TypeScript knows user.name, user.email exist</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Autocomplete works. Typos are caught at compile time.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;{</span>user?.name<span class="text-syn-u">}</span><span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// client/pages/user.tsx</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> trpc <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;../utils/trpc&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">UserProfile</span><span class="text-syn-u">({</span> userId <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> data<span class="text-syn-u">:</span> user <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> trpc<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span>getUser<span class="text-syn-u">.</span><span class="text-syn-f">useQuery</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> userId <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // TypeScript knows user.name, user.email exist</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Autocomplete works. Typos are caught at compile time.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;{</span>user?.name<span class="text-syn-u">}</span><span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Change the server response? TypeScript immediately shows errors in all clients.</p>
             <p class="mt-0 mb-6"><strong>Strengths:</strong></p>
             <ul class="mt-0 mb-6">

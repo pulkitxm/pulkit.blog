@@ -146,6 +146,7 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
     <script src="/theme.fa2a27cfd83d.js"></script>
@@ -153,7 +154,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -184,34 +185,39 @@
             <p class="mt-0 mb-6">Here&#39;s the pattern I use to fix it.</p>
             <h2 id="the-problem" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Problem</h2>
             <p class="mt-0 mb-6">localStorage is client-only. The server has no access to it. So when you use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">atomWithStorage</code> (Jotai), <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">persist</code> middleware (Zustand), or any localStorage-based persistence, you&#39;re creating a gap:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                         SERVER (Node.js)                        │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────┤</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  • No access to localStorage                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  • State initializes with defaults:                             │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│      theme = &quot;light&quot;                                            │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│      sidebarWidth = 224                                         │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│      panelCollapsed = false                                     │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  • Renders HTML with default state                              │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────┘</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                              ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                         HTML sent to browser</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                              ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                         CLIENT (Browser)                        │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────┤</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  • State library reads localStorage immediately                 │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  • Finds persisted values:                                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│      theme = &quot;dark&quot;                                             │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│      sidebarWidth = 300                                         │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│      panelCollapsed = true                                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  • First render uses these values → MISMATCH                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  • React patches DOM → visible &quot;flash&quot;                          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                         SERVER (Node.js)                        │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  • No access to localStorage                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  • State initializes with defaults:                             │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│      theme = &quot;light&quot;                                            │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│      sidebarWidth = 224                                         │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│      panelCollapsed = false                                     │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  • Renders HTML with default state                              │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────┘</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                              ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                         HTML sent to browser</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                              ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                         CLIENT (Browser)                        │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  • State library reads localStorage immediately                 │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  • Finds persisted values:                                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│      theme = &quot;dark&quot;                                             │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│      sidebarWidth = 300                                         │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│      panelCollapsed = true                                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  • First render uses these values → MISMATCH                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  • React patches DOM → visible &quot;flash&quot;                          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Two things happen:</p>
             <ol class="mt-0 mb-6">
               <li><strong>Hydration mismatch warning</strong>: React complains that server HTML doesn&#39;t match client markup</li>
@@ -224,214 +230,249 @@
             <p class="mt-0 mb-6">The simplest approach is to do nothing. Zero complexity. But the UX is jarring and React throws hydration warnings into your console. For a portfolio site, maybe acceptable. For a product, not great.</p>
             <h3 id="option-2-css-transition-gate" class="mt-8 text-lg leading-tight tracking-tight">Option 2: CSS Transition Gate</h3>
             <p class="mt-0 mb-6">Hide or fade the affected component until the client has resolved the correct state:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">[</span>mounted<span class="text-syn-u">,</span> setMounted<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">setMounted</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-u">[]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">opacity:</span> mounted <span class="text-syn-o">?</span> <span class="text-syn-n">1</span> <span class="text-syn-o">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">transition:</span> <span class="text-syn-s">&quot;opacity 200ms ease&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">{</span><span class="text-syn-c italic">/* content that depends on localStorage state */</span><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">[</span>mounted<span class="text-syn-u">,</span> setMounted<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">setMounted</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-u">[]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">opacity:</span> mounted <span class="text-syn-o">?</span> <span class="text-syn-n">1</span> <span class="text-syn-o">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">transition:</span> <span class="text-syn-s">&quot;opacity 200ms ease&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">{</span><span class="text-syn-c italic">/* content that depends on localStorage state */</span><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This masks the problem with a fade. It works, but you&#39;re still rendering the wrong state briefly; you&#39;re just hiding it. And if the fade is too slow, users notice. If it&#39;s too fast, you might still catch the shift.</p>
             <h3 id="option-3-loading-skeleton-state" class="mt-8 text-lg leading-tight tracking-tight">Option 3: Loading/Skeleton State</h3>
             <p class="mt-0 mb-6">Render a placeholder until the client has the real values:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">[</span>ready<span class="text-syn-u">,</span> setReady<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">setReady</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-u">[]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>ready<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">Skeleton</span> <span class="text-syn-u">/&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">ActualComponent</span> <span class="text-syn-u">/&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">[</span>ready<span class="text-syn-u">,</span> setReady<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">setReady</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-u">[]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>ready<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">Skeleton</span> <span class="text-syn-u">/&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">ActualComponent</span> <span class="text-syn-u">/&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This is explicit about the loading state, which can be good UX for data-fetching scenarios. But for simple preferences like &quot;is this panel collapsed?&quot; or &quot;what theme did they pick?&quot;, adding a skeleton feels heavy-handed. You&#39;re not fetching anything, you just need to read a value that already exists locally.</p>
             <h3 id="option-4-cookie-sync-the-clean-one" class="mt-8 text-lg leading-tight tracking-tight">Option 4: Cookie Sync (The Clean One)</h3>
             <p class="mt-0 mb-6">The idea: sync localStorage to a cookie so the server can read it. On subsequent requests, the server knows the user&#39;s preferences and renders the correct state from the start. No mismatch, no flash.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌──────────────────────────────────────────────────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                            REQUEST LIFECYCLE                              │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├──────────────────────────────────────────────────────────────────────────┤</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  1. BOOTSTRAP SCRIPT (runs before React hydrates)                        │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│     └─ Reads localStorage → writes preferences to cookie                 │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  2. SSR (server receives next request with cookie)                       │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│     └─ Reads cookie → renders HTML with correct state                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  3. HYDRATION (client takes over)                                        │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│     └─ State library initializes with cookie values                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│     └─ Matches server HTML → no mismatch, no flash                       │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  4. USER INTERACTION                                                     │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│     └─ Changes update state + localStorage + cookie                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└──────────────────────────────────────────────────────────────────────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌──────────────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                            REQUEST LIFECYCLE                              │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├──────────────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  1. BOOTSTRAP SCRIPT (runs before React hydrates)                        │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ Reads localStorage → writes preferences to cookie                 │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  2. SSR (server receives next request with cookie)                       │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ Reads cookie → renders HTML with correct state                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  3. HYDRATION (client takes over)                                        │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ State library initializes with cookie values                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ Matches server HTML → no mismatch, no flash                       │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  4. USER INTERACTION                                                     │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ Changes update state + localStorage + cookie                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└──────────────────────────────────────────────────────────────────────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The first visit still uses defaults (no cookie exists yet). But every visit after that renders correctly from the server. Let me show you the implementation.</p>
             <h2 id="the-implementation" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Implementation</h2>
             <p class="mt-0 mb-6">I&#39;ll use a resizable sidebar as the example, but this pattern works for any localStorage state: themes, collapsed panels, sort preferences, table column widths, whatever.</p>
             <h3 id="step-1-define-your-preferences" class="mt-8 text-lg leading-tight tracking-tight">Step 1: Define Your Preferences</h3>
             <p class="mt-0 mb-6">First, define what you&#39;re persisting and create utilities to parse and persist the cookie:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> PREFS_COOKIE <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;ui_prefs&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">interface</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  sidebarCollapsed<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  sidebarWidth<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> DEFAULT_PREFS<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">sidebarCollapsed:</span> <span class="text-syn-k">false</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">sidebarWidth:</span> <span class="text-syn-n">224</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">parsePrefs</span><span class="text-syn-u">(</span>cookieValue<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-o">|</span> <span class="text-syn-t">undefined</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>cookieValue<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> DEFAULT_PREFS<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> decoded <span class="text-syn-o">=</span> <span class="text-syn-f">decodeURIComponent</span><span class="text-syn-u">(</span>cookieValue<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> parsed <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>decoded<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sidebarCollapsed:</span> parsed<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span> <span class="text-syn-o">===</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sidebarWidth:</span> <span class="text-syn-f">clamp</span><span class="text-syn-u">(</span><span class="text-syn-f">Number</span><span class="text-syn-u">(</span>parsed<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">),</span> <span class="text-syn-n">192</span><span class="text-syn-u">,</span> <span class="text-syn-n">384</span><span class="text-syn-u">),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> DEFAULT_PREFS<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">persistPrefs</span><span class="text-syn-u">(</span>prefs<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">void</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> value <span class="text-syn-o">=</span> <span class="text-syn-f">encodeURIComponent</span><span class="text-syn-u">(</span>JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">(</span>prefs<span class="text-syn-u">));</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  document<span class="text-syn-u">.</span><span class="text-syn-p">cookie</span> <span class="text-syn-o">=</span> <span class="text-syn-s">`${PREFS_COOKIE}=${value}; Path=/; Max-Age=31536000; SameSite=Lax`</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">clamp</span><span class="text-syn-u">(</span>n<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">,</span> min<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">,</span> max<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>Number<span class="text-syn-u">.</span><span class="text-syn-f">isFinite</span><span class="text-syn-u">(</span>n<span class="text-syn-u">))</span> <span class="text-syn-k">return</span> min<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">min</span><span class="text-syn-u">(</span>max<span class="text-syn-u">,</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">max</span><span class="text-syn-u">(</span>min<span class="text-syn-u">,</span> n<span class="text-syn-u">));</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> PREFS_COOKIE <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;ui_prefs&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">interface</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  sidebarCollapsed<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  sidebarWidth<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> DEFAULT_PREFS<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">sidebarCollapsed:</span> <span class="text-syn-k">false</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">sidebarWidth:</span> <span class="text-syn-n">224</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">parsePrefs</span><span class="text-syn-u">(</span>cookieValue<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-o">|</span> <span class="text-syn-t">undefined</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>cookieValue<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> DEFAULT_PREFS<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> decoded <span class="text-syn-o">=</span> <span class="text-syn-f">decodeURIComponent</span><span class="text-syn-u">(</span>cookieValue<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> parsed <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>decoded<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sidebarCollapsed:</span> parsed<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span> <span class="text-syn-o">===</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sidebarWidth:</span> <span class="text-syn-f">clamp</span><span class="text-syn-u">(</span><span class="text-syn-f">Number</span><span class="text-syn-u">(</span>parsed<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">),</span> <span class="text-syn-n">192</span><span class="text-syn-u">,</span> <span class="text-syn-n">384</span><span class="text-syn-u">),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> DEFAULT_PREFS<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">persistPrefs</span><span class="text-syn-u">(</span>prefs<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">void</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> value <span class="text-syn-o">=</span> <span class="text-syn-f">encodeURIComponent</span><span class="text-syn-u">(</span>JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">(</span>prefs<span class="text-syn-u">));</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  document<span class="text-syn-u">.</span><span class="text-syn-p">cookie</span> <span class="text-syn-o">=</span> <span class="text-syn-s">`${PREFS_COOKIE}=${value}; Path=/; Max-Age=31536000; SameSite=Lax`</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">clamp</span><span class="text-syn-u">(</span>n<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">,</span> min<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">,</span> max<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>Number<span class="text-syn-u">.</span><span class="text-syn-f">isFinite</span><span class="text-syn-u">(</span>n<span class="text-syn-u">))</span> <span class="text-syn-k">return</span> min<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">min</span><span class="text-syn-u">(</span>max<span class="text-syn-u">,</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">max</span><span class="text-syn-u">(</span>min<span class="text-syn-u">,</span> n<span class="text-syn-u">));</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="step-2-the-bootstrap-script" class="mt-8 text-lg leading-tight tracking-tight">Step 2: The Bootstrap Script</h3>
             <p class="mt-0 mb-6">This is the key piece. An inline script that runs <strong>before React hydrates</strong>, reading localStorage and writing to a cookie:</p>
             <p class="mt-0 mb-6">Use <strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">JSON.parse</code> for both keys.</strong> Your React code should persist the <strong>same shapes</strong> jotai-style (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">JSON.stringify</code> per value), otherwise the bootstrap and your client get out of sync.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> SIDEBAR_LS_COLLAPSED <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;sidebar-collapsed&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> SIDEBAR_LS_WIDTH <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;sidebar-width&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> BOOTSTRAP_SCRIPT <span class="text-syn-o">=</span> <span class="text-syn-s">`(function(){try{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var c = JSON.parse(localStorage.getItem(${JSON.stringify(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">    SIDEBAR_LS_COLLAPSED,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  )}) || &quot;false&quot;) === true;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var wRaw = JSON.parse(localStorage.getItem(${JSON.stringify(SIDEBAR_LS_WIDTH)}) || &quot;224&quot;);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var w = Math.min(384, Math.max(192, Number(wRaw) || 224));</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var prefs = JSON.stringify({ sidebarCollapsed: c, sidebarWidth: w });</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  document.cookie = &quot;ui_prefs=&quot; + encodeURIComponent(prefs) + &quot;; Path=/; Max-Age=31536000; SameSite=Lax&quot;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">}catch(e){}})();`</span><span class="text-syn-u">;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> SIDEBAR_LS_COLLAPSED <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;sidebar-collapsed&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> SIDEBAR_LS_WIDTH <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;sidebar-width&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> BOOTSTRAP_SCRIPT <span class="text-syn-o">=</span> <span class="text-syn-s">`(function(){try{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var c = JSON.parse(localStorage.getItem(${JSON.stringify(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">    SIDEBAR_LS_COLLAPSED,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  )}) || &quot;false&quot;) === true;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var wRaw = JSON.parse(localStorage.getItem(${JSON.stringify(SIDEBAR_LS_WIDTH)}) || &quot;224&quot;);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var w = Math.min(384, Math.max(192, Number(wRaw) || 224));</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var prefs = JSON.stringify({ sidebarCollapsed: c, sidebarWidth: w });</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  document.cookie = &quot;ui_prefs=&quot; + encodeURIComponent(prefs) + &quot;; Path=/; Max-Age=31536000; SameSite=Lax&quot;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">}catch(e){}})();`</span><span class="text-syn-u">;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This runs synchronously before React. On the user&#39;s <strong>next navigation or refresh</strong>, the server receives this cookie and renders HTML that matches what localStorage will provide.</p>
             <h3 id="step-3-server-layout" class="mt-8 text-lg leading-tight tracking-tight">Step 3: Server Layout</h3>
             <p class="mt-0 mb-6">Read the cookie and pass the preferences down:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> cookies <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;next/headers&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> Script <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;next/script&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">RootLayout</span><span class="text-syn-u">({</span> children <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> children<span class="text-syn-o">:</span> <span class="text-syn-t">React</span><span class="text-syn-u">.</span><span class="text-syn-t">ReactNode</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> cookieStore <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">cookies</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefsCookie <span class="text-syn-o">=</span> cookieStore<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>PREFS_COOKIE<span class="text-syn-u">)?.</span><span class="text-syn-p">value</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefsTrusted <span class="text-syn-o">=</span> <span class="text-syn-o">typeof</span> prefsCookie <span class="text-syn-o">===</span> <span class="text-syn-s">&quot;string&quot;</span> <span class="text-syn-o">&amp;&amp;</span> prefsCookie<span class="text-syn-u">.</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefs <span class="text-syn-o">=</span> <span class="text-syn-f">parsePrefs</span><span class="text-syn-u">(</span>prefsCookie<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">html</span> <span class="text-syn-p">suppressHydrationWarning</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">body</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Script</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;prefs-bootstrap&quot;</span> <span class="text-syn-p">strategy</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;beforeInteractive&quot;</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">{</span>BOOTSTRAP_SCRIPT<span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Script</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">AppShell</span> <span class="text-syn-p">prefsTrusted</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>prefsTrusted<span class="text-syn-u">}</span> <span class="text-syn-p">prefs</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>prefs<span class="text-syn-u">}&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">{</span>children<span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">AppShell</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">body</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">html</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> cookies <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;next/headers&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> Script <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;next/script&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">RootLayout</span><span class="text-syn-u">({</span> children <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> children<span class="text-syn-o">:</span> <span class="text-syn-t">React</span><span class="text-syn-u">.</span><span class="text-syn-t">ReactNode</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> cookieStore <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">cookies</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefsCookie <span class="text-syn-o">=</span> cookieStore<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>PREFS_COOKIE<span class="text-syn-u">)?.</span><span class="text-syn-p">value</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefsTrusted <span class="text-syn-o">=</span> <span class="text-syn-o">typeof</span> prefsCookie <span class="text-syn-o">===</span> <span class="text-syn-s">&quot;string&quot;</span> <span class="text-syn-o">&amp;&amp;</span> prefsCookie<span class="text-syn-u">.</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefs <span class="text-syn-o">=</span> <span class="text-syn-f">parsePrefs</span><span class="text-syn-u">(</span>prefsCookie<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">html</span> <span class="text-syn-p">suppressHydrationWarning</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">body</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Script</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;prefs-bootstrap&quot;</span> <span class="text-syn-p">strategy</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;beforeInteractive&quot;</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">{</span>BOOTSTRAP_SCRIPT<span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Script</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">AppShell</span> <span class="text-syn-p">prefsTrusted</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>prefsTrusted<span class="text-syn-u">}</span> <span class="text-syn-p">prefs</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>prefs<span class="text-syn-u">}&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">{</span>children<span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">AppShell</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">body</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">html</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">prefsTrusted</code> flag tells components whether the server had real preferences or used defaults. This matters for handling first visits correctly.</p>
             <h3 id="step-4-client-component" class="mt-8 text-lg leading-tight tracking-tight">Step 4: Client Component</h3>
             <p class="mt-0 mb-6">The component that uses these preferences needs to handle three cases: trusted cookie values, first visit, and subsequent user changes.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">&quot;use client&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useAtom <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;jotai&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useHydrateAtoms <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;jotai/utils&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useSyncExternalStore<span class="text-syn-u">,</span> useEffect <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">SidebarProps</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  prefsTrusted<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  prefs<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">Sidebar</span><span class="text-syn-u">({</span> prefsTrusted<span class="text-syn-u">,</span> prefs <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-t">SidebarProps</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> atomsToHydrate <span class="text-syn-o">=</span> prefsTrusted</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">?</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Map</span><span class="text-syn-u">([</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">[</span>sidebarCollapsedAtom<span class="text-syn-u">,</span> prefs<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span><span class="text-syn-u">],</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">[</span>sidebarWidthAtom<span class="text-syn-u">,</span> prefs<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">],</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">])</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">:</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Map</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">useHydrateAtoms</span><span class="text-syn-u">(</span>atomsToHydrate<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>collapsed<span class="text-syn-u">,</span> setCollapsed<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useAtom</span><span class="text-syn-u">(</span>sidebarCollapsedAtom<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>width<span class="text-syn-u">,</span> setWidth<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useAtom</span><span class="text-syn-u">(</span>sidebarWidthAtom<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> clientReady <span class="text-syn-o">=</span> <span class="text-syn-f">useSyncExternalStore</span><span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-k">false</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> layoutKnown <span class="text-syn-o">=</span> prefsTrusted <span class="text-syn-o">||</span> clientReady<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> displayCollapsed <span class="text-syn-o">=</span> layoutKnown <span class="text-syn-o">?</span> collapsed <span class="text-syn-o">:</span> DEFAULT_PREFS<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> displayWidth <span class="text-syn-o">=</span> layoutKnown <span class="text-syn-o">?</span> width <span class="text-syn-o">:</span> DEFAULT_PREFS<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">persistPrefs</span><span class="text-syn-u">({</span> <span class="text-syn-p">sidebarCollapsed:</span> collapsed<span class="text-syn-u">,</span> <span class="text-syn-p">sidebarWidth:</span> width <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span> <span class="text-syn-u">[</span>collapsed<span class="text-syn-u">,</span> width<span class="text-syn-u">]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">aside</span> <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span> <span class="text-syn-p">width:</span> displayCollapsed <span class="text-syn-o">?</span> <span class="text-syn-n">68</span> <span class="text-syn-o">:</span> displayWidth <span class="text-syn-u">}}&gt;{</span><span class="text-syn-c italic">/* sidebar content */</span><span class="text-syn-u">}&lt;/</span><span class="text-syn-g">aside</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">&quot;use client&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useAtom <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;jotai&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useHydrateAtoms <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;jotai/utils&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useSyncExternalStore<span class="text-syn-u">,</span> useEffect <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">SidebarProps</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  prefsTrusted<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  prefs<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">Sidebar</span><span class="text-syn-u">({</span> prefsTrusted<span class="text-syn-u">,</span> prefs <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-t">SidebarProps</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> atomsToHydrate <span class="text-syn-o">=</span> prefsTrusted</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">?</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Map</span><span class="text-syn-u">([</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">[</span>sidebarCollapsedAtom<span class="text-syn-u">,</span> prefs<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span><span class="text-syn-u">],</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">[</span>sidebarWidthAtom<span class="text-syn-u">,</span> prefs<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">],</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">])</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">:</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Map</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">useHydrateAtoms</span><span class="text-syn-u">(</span>atomsToHydrate<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>collapsed<span class="text-syn-u">,</span> setCollapsed<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useAtom</span><span class="text-syn-u">(</span>sidebarCollapsedAtom<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>width<span class="text-syn-u">,</span> setWidth<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useAtom</span><span class="text-syn-u">(</span>sidebarWidthAtom<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> clientReady <span class="text-syn-o">=</span> <span class="text-syn-f">useSyncExternalStore</span><span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-k">false</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> layoutKnown <span class="text-syn-o">=</span> prefsTrusted <span class="text-syn-o">||</span> clientReady<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> displayCollapsed <span class="text-syn-o">=</span> layoutKnown <span class="text-syn-o">?</span> collapsed <span class="text-syn-o">:</span> DEFAULT_PREFS<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> displayWidth <span class="text-syn-o">=</span> layoutKnown <span class="text-syn-o">?</span> width <span class="text-syn-o">:</span> DEFAULT_PREFS<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">persistPrefs</span><span class="text-syn-u">({</span> <span class="text-syn-p">sidebarCollapsed:</span> collapsed<span class="text-syn-u">,</span> <span class="text-syn-p">sidebarWidth:</span> width <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span> <span class="text-syn-u">[</span>collapsed<span class="text-syn-u">,</span> width<span class="text-syn-u">]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">aside</span> <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span> <span class="text-syn-p">width:</span> displayCollapsed <span class="text-syn-o">?</span> <span class="text-syn-n">68</span> <span class="text-syn-o">:</span> displayWidth <span class="text-syn-u">}}&gt;{</span><span class="text-syn-c italic">/* sidebar content */</span><span class="text-syn-u">}&lt;/</span><span class="text-syn-g">aside</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Let me break down what&#39;s happening:</p>
             <p class="mt-0 mb-6"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">useHydrateAtoms</code></strong>: Only hydrate when we have trusted cookie values. This primes Jotai with the server-side values so there&#39;s no mismatch.</p>
             <p class="mt-0 mb-6"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">useSyncExternalStore</code></strong>: A safe pattern for detecting client-side rendering. Server returns <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">false</code>, client returns <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">true</code>. No hydration mismatch because both snapshots are used correctly. After hydrate, it switches to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">true</code>.</p>
@@ -450,52 +491,62 @@
             <p class="mt-0 mb-6">You&#39;re not replacing your state library. You&#39;re adding a sync layer that bridges client-only storage to server-readable storage.</p>
             <h2 id="first-visit-vs-subsequent-visits" class="mt-12 text-xl font-semibold leading-tight tracking-tight">First Visit vs. Subsequent Visits</h2>
             <p class="mt-0 mb-6">On the first visit, there&#39;s no cookie yet:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│   Request   │ ──► │   Server    │ ──► │ No cookie → use defaults    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  (no cookie)│     │             │     │                             │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘     └─────────────┘     └─────────────────────────────┘</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                            CLIENT                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────────┤</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  1. Bootstrap script runs → writes cookie from localStorage         │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  2. React hydrates → prefsTrusted = false                           │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  3. useSyncExternalStore → clientReady = false (SSR snapshot)       │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  4. Component uses defaults → matches server HTML                   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  5. After hydrate: clientReady = true → shows real values           │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  6. Smooth transition if state differs from defaults                │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│   Request   │ ──► │   Server    │ ──► │ No cookie → use defaults    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  (no cookie)│     │             │     │                             │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘     └─────────────┘     └─────────────────────────────┘</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                            CLIENT                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  1. Bootstrap script runs → writes cookie from localStorage         │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  2. React hydrates → prefsTrusted = false                           │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  3. useSyncExternalStore → clientReady = false (SSR snapshot)       │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  4. Component uses defaults → matches server HTML                   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  5. After hydrate: clientReady = true → shows real values           │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  6. Smooth transition if state differs from defaults                │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">On subsequent visits, the cookie exists:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│   Request   │ ──► │   Server    │ ──► │ Cookie found → parse prefs  │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│ (with cookie)│    │             │     │ Use actual user values      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘     └─────────────┘     └─────────────────────────────┘</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                        ┌─────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                        │ Render HTML with correct    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                        │ state from the start        │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                        └─────────────────────────────┘</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                            CLIENT                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────────┤</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  1. Bootstrap script runs → refreshes cookie (in case LS changed)   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  2. React hydrates → prefsTrusted = true                            │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  3. State initialized with cookie values                            │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  4. localStorage has same values → NO MISMATCH                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  5. No flash, no React warning                                      │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│   Request   │ ──► │   Server    │ ──► │ Cookie found → parse prefs  │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│ (with cookie)│    │             │     │ Use actual user values      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘     └─────────────┘     └─────────────────────────────┘</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                        ┌─────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                        │ Render HTML with correct    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                        │ state from the start        │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                        └─────────────────────────────┘</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                            CLIENT                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  1. Bootstrap script runs → refreshes cookie (in case LS changed)   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  2. React hydrates → prefsTrusted = true                            │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  3. State initialized with cookie values                            │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  4. localStorage has same values → NO MISMATCH                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  5. No flash, no React warning                                      │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The first visit still has the potential for a flash if the user has existing localStorage values from before you implemented this. But subsequent visits are perfect.</p>
             <h2 id="trade-offs" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Trade-offs</h2>
             <table tabindex="0" class="mt-0 mb-6 block overflow-x-auto border-collapse text-md wrap-normal">

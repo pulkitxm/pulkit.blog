@@ -145,6 +145,7 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
     <script src="/theme.fa2a27cfd83d.js"></script>
@@ -152,7 +153,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -204,46 +205,51 @@
               <li>Tagged with metadata for better organization</li>
             </ul>
             <p class="mt-0 mb-6">Here&#39;s a simplified example:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">ContentChunk</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  title<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  text<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  sourceId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  metadata<span class="text-syn-o">?:</span> <span class="text-syn-t">Record</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-t">string</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">chunkContent</span><span class="text-syn-u">(</span>documents<span class="text-syn-o">:</span> <span class="text-syn-t">Document</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[]</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> doc <span class="text-syn-o">of</span> documents<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">    // Split document into smaller sections</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">    // This could split by paragraphs, headings, or fixed character limits</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> sections <span class="text-syn-o">=</span> <span class="text-syn-f">splitIntoSections</span><span class="text-syn-u">(</span>doc<span class="text-syn-u">.</span><span class="text-syn-p">content</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> section <span class="text-syn-o">of</span> sections<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      chunks<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">id:</span> <span class="text-syn-f">generateId</span><span class="text-syn-u">(),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">title:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">title</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">text:</span> section<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">sourceId:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">metadata:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">url:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">url</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> chunks<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Example implementation: split by double newlines (paragraphs)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">splitIntoSections</span><span class="text-syn-u">(</span>content<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">[]</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Split by double newlines to get paragraphs</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // You could also split by headings, fixed sizes, or semantic boundaries</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> content<span class="text-syn-u">.</span><span class="text-syn-f">split</span><span class="text-syn-u">(</span><span class="text-syn-s">/\n\n+/</span><span class="text-syn-u">).</span><span class="text-syn-f">filter</span><span class="text-syn-u">((</span>section<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> section<span class="text-syn-u">.</span><span class="text-syn-f">trim</span><span class="text-syn-u">().</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">ContentChunk</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  title<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  text<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  sourceId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  metadata<span class="text-syn-o">?:</span> <span class="text-syn-t">Record</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-t">string</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">chunkContent</span><span class="text-syn-u">(</span>documents<span class="text-syn-o">:</span> <span class="text-syn-t">Document</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[]</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> doc <span class="text-syn-o">of</span> documents<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">    // Split document into smaller sections</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">    // This could split by paragraphs, headings, or fixed character limits</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> sections <span class="text-syn-o">=</span> <span class="text-syn-f">splitIntoSections</span><span class="text-syn-u">(</span>doc<span class="text-syn-u">.</span><span class="text-syn-p">content</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> section <span class="text-syn-o">of</span> sections<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      chunks<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">id:</span> <span class="text-syn-f">generateId</span><span class="text-syn-u">(),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">title:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">title</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">text:</span> section<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">sourceId:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">metadata:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">url:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">url</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> chunks<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Example implementation: split by double newlines (paragraphs)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">splitIntoSections</span><span class="text-syn-u">(</span>content<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">[]</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Split by double newlines to get paragraphs</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // You could also split by headings, fixed sizes, or semantic boundaries</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> content<span class="text-syn-u">.</span><span class="text-syn-f">split</span><span class="text-syn-u">(</span><span class="text-syn-s">/\n\n+/</span><span class="text-syn-u">).</span><span class="text-syn-f">filter</span><span class="text-syn-u">((</span>section<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> section<span class="text-syn-u">.</span><span class="text-syn-f">trim</span><span class="text-syn-u">().</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The exact chunking logic depends on your content structure. You might split by:</p>
             <ul class="mt-0 mb-6">
               <li>Paragraphs (double newlines)</li>
@@ -258,127 +264,157 @@
               <summary class="cursor-pointer font-bold">Sample embedding</summary>
               <br />
               <p class="mt-0 mb-6"><strong>JSON input</strong></p>
-              <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    text<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;Hi there&quot;</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span>;</span>
-                </code>
-              </pre>
+              <div class="relative mt-0 mb-6" data-code-block>
+                <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                  <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre">    text<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;Hi there&quot;</span><span class="text-syn-u">,</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span>;</span>
+                  </code>
+                </pre>
+                <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                  <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                </div>
+              </div>
               <p class="mt-0 mb-6"><strong>Output shape</strong></p>
-              <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;dimensions&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">3072</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;embedding&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">[</span><span class="text-syn-n">-0.0006984524079598486</span><span class="text-syn-u">,</span><span class="text-syn-n">-0.019356805831193924</span><span class="text-syn-u">,</span><span class="text-syn-n">-0.03219897672533989</span><span class="text-syn-u">,</span><span class="text-syn-n">0.012672074139118195</span><span class="text-syn-u">,</span>............<span class="text-syn-u">]</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                </code>
-              </pre>
+              <div class="relative mt-0 mb-6" data-code-block>
+                <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                  <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;dimensions&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">3072</span><span class="text-syn-u">,</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;embedding&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">[</span><span class="text-syn-n">-0.0006984524079598486</span><span class="text-syn-u">,</span><span class="text-syn-n">-0.019356805831193924</span><span class="text-syn-u">,</span><span class="text-syn-n">-0.03219897672533989</span><span class="text-syn-u">,</span><span class="text-syn-n">0.012672074139118195</span><span class="text-syn-u">,</span>............<span class="text-syn-u">]</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  </code>
+                </pre>
+                <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                  <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                </div>
+              </div>
               <p class="mt-0 mb-6">In practice, you would repeat this for every chunk and store the resulting vectors in your vector database.</p>
             </details>
             <br />
             <p class="mt-0 mb-6">For PukBot, I use OpenAI&#39;s text-embedding-3-large model, which produces 3072-dimensional vectors. The embedding API is straightforward:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>text<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> openai<span class="text-syn-u">.</span>embeddings<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">model:</span> <span class="text-syn-s">&quot;text-embedding-3-large&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">input:</span> text<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> response<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-p">embedding</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>text<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> openai<span class="text-syn-u">.</span>embeddings<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">model:</span> <span class="text-syn-s">&quot;text-embedding-3-large&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">input:</span> text<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> response<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-p">embedding</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">When processing many chunks, you&#39;ll want to batch requests and handle rate limits. You also want to avoid regenerating embeddings for unchanged content. A common approach is to hash each chunk&#39;s text and cache the embeddings:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">ChunkWithVector</span> <span class="text-syn-k">extends</span> ContentChunk <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  vector<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">[];</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  hash<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">processChunks</span><span class="text-syn-u">(</span>chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> processed<span class="text-syn-o">:</span> <span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> cache <span class="text-syn-o">=</span> <span class="text-syn-f">loadEmbeddingCache</span><span class="text-syn-u">();</span> <span class="text-syn-c italic">// Load from disk or database</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> chunk <span class="text-syn-o">of</span> chunks<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashText</span><span class="text-syn-u">(</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> cached <span class="text-syn-o">=</span> cache<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>hash<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>cached<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      processed<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span> <span class="text-syn-o">...</span>chunk<span class="text-syn-u">,</span> <span class="text-syn-p">vector:</span> cached<span class="text-syn-u">.</span><span class="text-syn-p">vector</span><span class="text-syn-u">,</span> hash <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span> <span class="text-syn-k">else</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">const</span> vector <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      processed<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span> <span class="text-syn-o">...</span>chunk<span class="text-syn-u">,</span> vector<span class="text-syn-u">,</span> hash <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      cache<span class="text-syn-u">.</span><span class="text-syn-f">set</span><span class="text-syn-u">(</span>hash<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> vector<span class="text-syn-u">,</span> <span class="text-syn-p">timestamp:</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">()</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">saveEmbeddingCache</span><span class="text-syn-u">(</span>cache<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> processed<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">ChunkWithVector</span> <span class="text-syn-k">extends</span> ContentChunk <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  vector<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">[];</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  hash<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">processChunks</span><span class="text-syn-u">(</span>chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> processed<span class="text-syn-o">:</span> <span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> cache <span class="text-syn-o">=</span> <span class="text-syn-f">loadEmbeddingCache</span><span class="text-syn-u">();</span> <span class="text-syn-c italic">// Load from disk or database</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> chunk <span class="text-syn-o">of</span> chunks<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashText</span><span class="text-syn-u">(</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> cached <span class="text-syn-o">=</span> cache<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>hash<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>cached<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      processed<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span> <span class="text-syn-o">...</span>chunk<span class="text-syn-u">,</span> <span class="text-syn-p">vector:</span> cached<span class="text-syn-u">.</span><span class="text-syn-p">vector</span><span class="text-syn-u">,</span> hash <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span> <span class="text-syn-k">else</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">const</span> vector <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      processed<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span> <span class="text-syn-o">...</span>chunk<span class="text-syn-u">,</span> vector<span class="text-syn-u">,</span> hash <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      cache<span class="text-syn-u">.</span><span class="text-syn-f">set</span><span class="text-syn-u">(</span>hash<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> vector<span class="text-syn-u">,</span> <span class="text-syn-p">timestamp:</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">()</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">saveEmbeddingCache</span><span class="text-syn-u">(</span>cache<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> processed<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This way, you only pay for embeddings when content actually changes. The hash-based approach is simple and effective for most use cases.</p>
             <h3 id="storing-vectors-in-qdrant" class="mt-8 text-lg leading-tight tracking-tight">Storing Vectors in Qdrant</h3>
             <p class="mt-0 mb-6">Qdrant is a vector database designed for similarity search. It stores your embeddings along with metadata (payloads) and lets you search for similar vectors efficiently.</p>
             <p class="mt-0 mb-6">Setting up a collection is straightforward:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> QdrantClient <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@qdrant/js-client-rest&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> client <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">QdrantClient</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">url:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>QDRANT_URL<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">apiKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>QDRANT_API_KEY<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">initializeCollection</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> collectionName <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;content_vectors&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> vectorSize <span class="text-syn-o">=</span> <span class="text-syn-n">3072</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// Must match your embedding model</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">getCollection</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Collection already exists&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">createCollection</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">vectors:</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">size:</span> vectorSize<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">distance:</span> <span class="text-syn-s">&quot;Cosine&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Cosine similarity for semantic search</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Collection created&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> QdrantClient <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@qdrant/js-client-rest&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> client <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">QdrantClient</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">url:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>QDRANT_URL<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">apiKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>QDRANT_API_KEY<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">initializeCollection</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> collectionName <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;content_vectors&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> vectorSize <span class="text-syn-o">=</span> <span class="text-syn-n">3072</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// Must match your embedding model</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">getCollection</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Collection already exists&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">createCollection</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">vectors:</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">size:</span> vectorSize<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">distance:</span> <span class="text-syn-s">&quot;Cosine&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Cosine similarity for semantic search</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Collection created&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Once the collection exists, you can upload your chunks. Qdrant stores each chunk as a &quot;point&quot; with an ID, a vector, and a payload (your metadata):</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">uploadChunks</span><span class="text-syn-u">(</span>chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[])</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> points <span class="text-syn-o">=</span> chunks<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>chunk<span class="text-syn-u">,</span> index<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">id:</span> index<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">vector:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">vector</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">payload:</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">text:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">title:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">title</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sourceId:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">sourceId</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">hash:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">hash</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">...</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">metadata</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}));</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> batchSize <span class="text-syn-o">=</span> <span class="text-syn-n">100</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">let</span> i <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span> i <span class="text-syn-o">&lt;</span> points<span class="text-syn-u">.</span>length<span class="text-syn-u">;</span> i <span class="text-syn-o">+=</span> batchSize<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> batch <span class="text-syn-o">=</span> points<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span>i<span class="text-syn-u">,</span> i <span class="text-syn-o">+</span> batchSize<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">upsert</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">points:</span> batch<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">wait:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">uploadChunks</span><span class="text-syn-u">(</span>chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[])</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> points <span class="text-syn-o">=</span> chunks<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>chunk<span class="text-syn-u">,</span> index<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">id:</span> index<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">vector:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">vector</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">payload:</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">text:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">title:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">title</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sourceId:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">sourceId</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">hash:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">hash</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">...</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">metadata</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}));</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> batchSize <span class="text-syn-o">=</span> <span class="text-syn-n">100</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">let</span> i <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span> i <span class="text-syn-o">&lt;</span> points<span class="text-syn-u">.</span>length<span class="text-syn-u">;</span> i <span class="text-syn-o">+=</span> batchSize<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> batch <span class="text-syn-o">=</span> points<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span>i<span class="text-syn-u">,</span> i <span class="text-syn-o">+</span> batchSize<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">upsert</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">points:</span> batch<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">wait:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The payload is crucial, it stores the actual text and metadata you&#39;ll retrieve later. The vector is what enables fast similarity search.</p>
             <h2 id="building-the-query-pipeline" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Building the Query Pipeline</h2>
             <p class="mt-0 mb-6">When a user asks a question, the system needs to retrieve relevant context and generate a response. Here&#39;s how the real-time query process works.</p>
@@ -390,41 +426,46 @@
               <li>Extract the top-k results (usually 3-5 chunks)</li>
             </ol>
             <p class="mt-0 mb-6">Here&#39;s how that looks:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getRelevantContext</span><span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  question<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  limit<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> <span class="text-syn-n">5</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  filters<span class="text-syn-o">?:</span> <span class="text-syn-t">Record</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-t">any</span><span class="text-syn-u">&gt;,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ContextChunk</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Generate embedding for the question</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> queryEmbedding <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>question<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Search Qdrant</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> results <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">search</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">vector:</span> queryEmbedding<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    limit<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">with_payload:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Include the text and metadata</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">filter:</span> filters</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">?</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">must:</span> Object<span class="text-syn-u">.</span><span class="text-syn-f">entries</span><span class="text-syn-u">(</span>filters<span class="text-syn-u">).</span><span class="text-syn-f">map</span><span class="text-syn-u">(([</span>key<span class="text-syn-u">,</span> value<span class="text-syn-u">])</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">key:</span> key<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">match:</span> <span class="text-syn-u">{</span> value <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">})),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">:</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Map results to a simpler format</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> results<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>result<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">text:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">text</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">title:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">title</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">sourceId:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">sourceId</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">score:</span> result<span class="text-syn-u">.</span><span class="text-syn-p">score</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Similarity score (0-1)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}));</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getRelevantContext</span><span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  question<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  limit<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> <span class="text-syn-n">5</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  filters<span class="text-syn-o">?:</span> <span class="text-syn-t">Record</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-t">any</span><span class="text-syn-u">&gt;,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ContextChunk</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Generate embedding for the question</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> queryEmbedding <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>question<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Search Qdrant</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> results <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">search</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">vector:</span> queryEmbedding<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    limit<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">with_payload:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Include the text and metadata</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">filter:</span> filters</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">?</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">must:</span> Object<span class="text-syn-u">.</span><span class="text-syn-f">entries</span><span class="text-syn-u">(</span>filters<span class="text-syn-u">).</span><span class="text-syn-f">map</span><span class="text-syn-u">(([</span>key<span class="text-syn-u">,</span> value<span class="text-syn-u">])</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">key:</span> key<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">match:</span> <span class="text-syn-u">{</span> value <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">})),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">:</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Map results to a simpler format</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> results<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>result<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">text:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">text</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">title:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">title</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">sourceId:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">sourceId</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">score:</span> result<span class="text-syn-u">.</span><span class="text-syn-p">score</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Similarity score (0-1)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}));</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">score</code> tells you how similar the chunk is to the query. Higher scores mean better matches. You can use this to filter out low-confidence results or adjust how many chunks you include.</p>
             <p class="mt-0 mb-6">Optional filters let you narrow results by metadata. For example, if the user is on a specific page, you might filter by <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">sourceId</code> to prioritize content from that source.</p>
             <h3 id="building-the-system-prompt" class="mt-8 text-lg leading-tight tracking-tight">Building the System Prompt</h3>
@@ -435,26 +476,31 @@
               <li>Set response guidelines</li>
             </ul>
             <p class="mt-0 mb-6">Here&#39;s a simplified version:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">buildSystemPrompt</span><span class="text-syn-u">(</span>contextChunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContextChunk</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> contextText <span class="text-syn-o">=</span> contextChunks</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>chunk<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-s">`${chunk.</span><span class="text-syn-p">title</span><span class="text-syn-s">}:\n${chunk.</span><span class="text-syn-p">text</span><span class="text-syn-s">}`</span><span class="text-syn-u">)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">join</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;\n\n---\n\n&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-s">`You are an AI assistant helping answer questions based on the provided context.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">Here is relevant context:</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">${contextText}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">Guidelines:</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Answer based only on the provided context</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Be concise and direct</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- If you don&#39;t know something, say so</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Use natural language, avoid phrases like &quot;according to the context&quot;`</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">buildSystemPrompt</span><span class="text-syn-u">(</span>contextChunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContextChunk</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> contextText <span class="text-syn-o">=</span> contextChunks</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>chunk<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-s">`${chunk.</span><span class="text-syn-p">title</span><span class="text-syn-s">}:\n${chunk.</span><span class="text-syn-p">text</span><span class="text-syn-s">}`</span><span class="text-syn-u">)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">join</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;\n\n---\n\n&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-s">`You are an AI assistant helping answer questions based on the provided context.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">Here is relevant context:</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">${contextText}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">Guidelines:</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Answer based only on the provided context</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Be concise and direct</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- If you don&#39;t know something, say so</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Use natural language, avoid phrases like &quot;according to the context&quot;`</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The key is making the context easy for the model to parse and reference. Clear formatting and explicit instructions help the model stay grounded in your content.</p>
             <h3 id="wiring-it-into-next-js" class="mt-8 text-lg leading-tight tracking-tight">Wiring It Into Next.js</h3>
             <p class="mt-0 mb-6">The chat API route ties everything together. It&#39;s a standard Next.js API route (or <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://hono.dev/docs/getting-started/nextjs">Hono handler</a>) that:</p>
@@ -465,47 +511,52 @@
               <li>Calls the LLM with streaming</li>
               <li>Returns the response</li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">POST</span><span class="text-syn-u">(</span>req<span class="text-syn-o">:</span> <span class="text-syn-t">Request</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> messages <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> req<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> lastMessage <span class="text-syn-o">=</span> messages<span class="text-syn-u">[</span>messages<span class="text-syn-u">.</span>length <span class="text-syn-o">-</span> <span class="text-syn-n">1</span><span class="text-syn-u">];</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Get relevant context from Qdrant</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> context <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getRelevantContext</span><span class="text-syn-u">(</span>lastMessage<span class="text-syn-u">.</span><span class="text-syn-p">content</span><span class="text-syn-u">,</span> <span class="text-syn-n">5</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Build system prompt with context</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> systemPrompt <span class="text-syn-o">=</span> <span class="text-syn-f">buildSystemPrompt</span><span class="text-syn-u">(</span>context<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Call LLM with streaming</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> openai <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">OpenAI</span><span class="text-syn-u">({</span> <span class="text-syn-p">apiKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>OPENAI_API_KEY <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> openai<span class="text-syn-u">.</span>chat<span class="text-syn-u">.</span>completions<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">model:</span> <span class="text-syn-s">&quot;gpt-4&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">messages:</span> <span class="text-syn-u">[{</span> <span class="text-syn-p">role:</span> <span class="text-syn-s">&quot;system&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">content:</span> systemPrompt <span class="text-syn-u">},</span> <span class="text-syn-o">...</span>messages<span class="text-syn-u">],</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">stream:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">temperature:</span> <span class="text-syn-n">0.7</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Stream response back to client</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> stream <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">ReadableStream</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">async</span> <span class="text-syn-f">start</span><span class="text-syn-u">(</span>controller<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">for</span> <span class="text-syn-k">await</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> chunk <span class="text-syn-o">of</span> response<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-k">const</span> content <span class="text-syn-o">=</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">choices</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]?.</span>delta<span class="text-syn-u">?.</span><span class="text-syn-p">content</span> <span class="text-syn-o">||</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>content<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          controller<span class="text-syn-u">.</span><span class="text-syn-f">enqueue</span><span class="text-syn-u">(</span><span class="text-syn-o">new</span> <span class="text-syn-f">TextEncoder</span><span class="text-syn-u">().</span><span class="text-syn-f">encode</span><span class="text-syn-u">(</span>content<span class="text-syn-u">));</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      controller<span class="text-syn-u">.</span><span class="text-syn-f">close</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Response</span><span class="text-syn-u">(</span>stream<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;text/plain; charset=utf-8&quot;</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">POST</span><span class="text-syn-u">(</span>req<span class="text-syn-o">:</span> <span class="text-syn-t">Request</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> messages <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> req<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> lastMessage <span class="text-syn-o">=</span> messages<span class="text-syn-u">[</span>messages<span class="text-syn-u">.</span>length <span class="text-syn-o">-</span> <span class="text-syn-n">1</span><span class="text-syn-u">];</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Get relevant context from Qdrant</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> context <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getRelevantContext</span><span class="text-syn-u">(</span>lastMessage<span class="text-syn-u">.</span><span class="text-syn-p">content</span><span class="text-syn-u">,</span> <span class="text-syn-n">5</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Build system prompt with context</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> systemPrompt <span class="text-syn-o">=</span> <span class="text-syn-f">buildSystemPrompt</span><span class="text-syn-u">(</span>context<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Call LLM with streaming</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> openai <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">OpenAI</span><span class="text-syn-u">({</span> <span class="text-syn-p">apiKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>OPENAI_API_KEY <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> openai<span class="text-syn-u">.</span>chat<span class="text-syn-u">.</span>completions<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">model:</span> <span class="text-syn-s">&quot;gpt-4&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">messages:</span> <span class="text-syn-u">[{</span> <span class="text-syn-p">role:</span> <span class="text-syn-s">&quot;system&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">content:</span> systemPrompt <span class="text-syn-u">},</span> <span class="text-syn-o">...</span>messages<span class="text-syn-u">],</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">stream:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">temperature:</span> <span class="text-syn-n">0.7</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Stream response back to client</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> stream <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">ReadableStream</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">async</span> <span class="text-syn-f">start</span><span class="text-syn-u">(</span>controller<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">for</span> <span class="text-syn-k">await</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> chunk <span class="text-syn-o">of</span> response<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-k">const</span> content <span class="text-syn-o">=</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">choices</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]?.</span>delta<span class="text-syn-u">?.</span><span class="text-syn-p">content</span> <span class="text-syn-o">||</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>content<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          controller<span class="text-syn-u">.</span><span class="text-syn-f">enqueue</span><span class="text-syn-u">(</span><span class="text-syn-o">new</span> <span class="text-syn-f">TextEncoder</span><span class="text-syn-u">().</span><span class="text-syn-f">encode</span><span class="text-syn-u">(</span>content<span class="text-syn-u">));</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      controller<span class="text-syn-u">.</span><span class="text-syn-f">close</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Response</span><span class="text-syn-u">(</span>stream<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;text/plain; charset=utf-8&quot;</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The frontend sends messages to this endpoint, and streaming gives users immediate feedback instead of waiting for the full response.</p>
             <h2 id="frontend-experience" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Frontend Experience</h2>
             <p class="mt-0 mb-6">The frontend is a standard chat UI with a few enhancements:</p>

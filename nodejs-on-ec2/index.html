@@ -147,6 +147,7 @@
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
@@ -155,7 +156,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -183,45 +184,65 @@
             <p class="mt-0 mb-6">Deploying Node.js applications can be a daunting task, especially when aiming for a robust and scalable production environment. However, with the right tools and a clear process, it becomes much more manageable. In this guide, I will walk you through the easy deployment of Node.js applications on Amazon EC2 using PM2 and NGINX. By the end of this article, you&#39;ll have a solid understanding of how to set up your server, manage your application processes, and configure a reverse proxy to handle incoming traffic efficiently. Let&#39;s dive in!</p>
             <h2 id="initializing-the-node-project" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Initializing the Node project</h2>
             <p class="mt-0 mb-6"><strong>For this walkthrough, I will be deploying a simple Express hello-world application on EC2. Let&#39;s start by initialize a simple express app</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">init</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">init</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/90d8aa96-dad8-4b4e-abaf-14e859a8b118.webp" class="block" data-media-zoom data-width="986" data-height="717">
                 <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/90d8aa96-dad8-4b4e-abaf-14e859a8b118.webp" alt="Terminal showing npm init command output" loading="lazy" />
               </a>
             </p>
             <h3 id="add-express-as-a-dependency" class="mt-8 text-lg leading-tight tracking-tight">Add express as a dependency</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">express</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">express</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="adding-a-simple-endpoint-that-returns-a-hello-world-object" class="mt-8 text-lg leading-tight tracking-tight">Adding a simple / endpoint that returns a hello world object</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-javascript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> express <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;express&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> app <span class="text-syn-o">=</span> <span class="text-syn-f">express</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">app<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>req<span class="text-syn-u">,</span> res<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">({</span> <span class="text-syn-p">message:</span> <span class="text-syn-s">&quot;Hello world&quot;</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> PORT <span class="text-syn-o">=</span> <span class="text-syn-n">3000</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">app<span class="text-syn-u">.</span><span class="text-syn-f">listen</span><span class="text-syn-u">(</span>PORT<span class="text-syn-u">,</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;app is listening on port &quot;</span> <span class="text-syn-o">+</span> PORT<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-javascript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> express <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;express&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> app <span class="text-syn-o">=</span> <span class="text-syn-f">express</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">app<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>req<span class="text-syn-u">,</span> res<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">({</span> <span class="text-syn-p">message:</span> <span class="text-syn-s">&quot;Hello world&quot;</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> PORT <span class="text-syn-o">=</span> <span class="text-syn-n">3000</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">app<span class="text-syn-u">.</span><span class="text-syn-f">listen</span><span class="text-syn-u">(</span>PORT<span class="text-syn-u">,</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;app is listening on port &quot;</span> <span class="text-syn-o">+</span> PORT<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="start-your-express-application" class="mt-8 text-lg leading-tight tracking-tight">Start your express application</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">node</span> <span class="text-syn-s">index.js</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">node</span> <span class="text-syn-s">index.js</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">and you see a / endpoint like this</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e4c258cd-a01a-4dc5-8339-c79f74ac4a04.webp" class="block" data-media-zoom data-width="1920" data-height="1048">
@@ -274,36 +295,61 @@
             </p>
             <h3 id="setting-up-the-environment-in-the-instance" class="mt-8 text-lg leading-tight tracking-tight">Setting up the Environment in the instance</h3>
             <p class="mt-0 mb-6">Update the package lists by running:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">apt-get</span> <span class="text-syn-s">update</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">sudo</span> <span class="text-syn-s">apt-get</span> <span class="text-syn-s">upgrade</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">apt-get</span> <span class="text-syn-s">update</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">sudo</span> <span class="text-syn-s">apt-get</span> <span class="text-syn-s">upgrade</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Installing node using the NVM(Node Version Manager)</strong></p>
             <p class="mt-0 mb-6">Reference: <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04#option-3-installing-node-using-the-node-version-manager">How To Install Node.js on Ubuntu 20.04</a></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">curl</span> <span class="text-syn-s">-o-</span> <span class="text-syn-s">https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh</span> <span class="text-syn-o">|</span> <span class="text-syn-f">bash</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">curl</span> <span class="text-syn-s">-o-</span> <span class="text-syn-s">https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh</span> <span class="text-syn-o">|</span> <span class="text-syn-f">bash</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This will install the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">nvm</code> script to your user account. To use it, you must first source your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.bashrc</code> file:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">source</span> <span class="text-syn-s">~/.bashrc</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">source</span> <span class="text-syn-s">~/.bashrc</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Now let&#39;s install node using the nvm</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">nvm</span> <span class="text-syn-s">install</span> <span class="text-syn-s">node</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">nvm</span> <span class="text-syn-s">install</span> <span class="text-syn-s">node</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">To check if it is installed correctly:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">node</span> <span class="text-syn-s">--version</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">node</span> <span class="text-syn-s">--version</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e2fbe875-ea75-4c8e-863f-0bd37b5509b9.webp" class="block" data-media-zoom data-width="1168" data-height="395">
                 <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e2fbe875-ea75-4c8e-863f-0bd37b5509b9.webp" alt="Terminal showing Node.js version check" loading="lazy" />
@@ -320,17 +366,27 @@
             <h3 id="starting-the-server-with-pm2" class="mt-8 text-lg leading-tight tracking-tight">Starting the server with pm2</h3>
             <p class="mt-0 mb-6">Now we can do a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node index.js</code> and we&#39;re good to go, but this approach has its limitations. Running your application this way means it won&#39;t automatically restart if it crashes, and it won&#39;t start again if the server reboots. This is where PM2 comes in. PM2 is a production process manager for Node.js applications that ensures your application stays online, even in the face of unexpected issues. It provides features like process monitoring, automatic restarts, and load balancing, making it an essential tool for managing Node.js applications in a production environment. Let&#39;s explore how to set up and use PM2 to manage our Node.js application on EC2.</p>
             <p class="mt-0 mb-6"><strong>So let&#39;s install pm2</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">-g</span> <span class="text-syn-s">pm2</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">-g</span> <span class="text-syn-s">pm2</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Now we&#39;ll start the express app using pm2</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pm2</span> <span class="text-syn-s">start</span> <span class="text-syn-s">index.js</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pm2</span> <span class="text-syn-s">start</span> <span class="text-syn-s">index.js</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Now we have deployed the app, but it won&#39;t be accessible on the internet yet. To make it accessible, let&#39;s configure the necessary security groups and open the required ports. This will allow external traffic to reach our application.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/5e20e499-617c-40b1-833b-cf2fea46af60.webp" class="block" data-media-zoom data-width="1574" data-height="856">
@@ -372,49 +428,69 @@
               <li class="[&amp;>p]:mb-2">
                 <p class="mt-0 mb-6"><strong>Install NGINX</strong></p>
                 <p class="mt-0 mb-6">First, install NGINX on your EC2 instance by running the following commands:</p>
-                <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                  <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">apt</span> <span class="text-syn-s">update</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">apt</span> <span class="text-syn-s">install</span> <span class="text-syn-s">nginx</span></span>
-                  </code>
-                </pre>
+                <div class="relative mt-0 mb-6" data-code-block>
+                  <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                    <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                      <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">apt</span> <span class="text-syn-s">update</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">apt</span> <span class="text-syn-s">install</span> <span class="text-syn-s">nginx</span></span>
+                    </code>
+                  </pre>
+                  <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                    <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                  </div>
+                </div>
               </li>
               <li class="[&amp;>p]:mb-2">
                 <p class="mt-0 mb-6"><strong>Start and Enable NGINX</strong></p>
                 <p class="mt-0 mb-6">Ensure that NGINX is running and set to start on boot:</p>
-                <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                  <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">systemctl</span> <span class="text-syn-s">start</span> <span class="text-syn-s">nginx</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">systemctl</span> <span class="text-syn-s">enable</span> <span class="text-syn-s">nginx</span></span>
-                  </code>
-                </pre>
+                <div class="relative mt-0 mb-6" data-code-block>
+                  <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                    <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                      <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">systemctl</span> <span class="text-syn-s">start</span> <span class="text-syn-s">nginx</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">systemctl</span> <span class="text-syn-s">enable</span> <span class="text-syn-s">nginx</span></span>
+                    </code>
+                  </pre>
+                  <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                    <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                  </div>
+                </div>
               </li>
               <li class="[&amp;>p]:mb-2">
                 <p class="mt-0 mb-6"><strong>Configure NGINX as a Reverse Proxy</strong></p>
                 <p class="mt-0 mb-6">Open the NGINX configuration file for editing:</p>
-                <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                  <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">vi</span> <span class="text-syn-s">/etc/nginx/sites-available/default</span></span>
-                  </code>
-                </pre>
+                <div class="relative mt-0 mb-6" data-code-block>
+                  <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                    <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                      <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">vi</span> <span class="text-syn-s">/etc/nginx/sites-available/default</span></span>
+                    </code>
+                  </pre>
+                  <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                    <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                  </div>
+                </div>
                 <p class="mt-0 mb-6">Replace the contents of the file with the following configuration:</p>
-                <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                  <code class="language-nginx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">server</span> {</span>
-                    <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-k"> listen </span><span class="text-syn-n">80</span><span class="text-syn-u">;</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-k"> server_name </span>ec2-54-242-52-243.compute-1.amazonaws.com<span class="text-syn-u">;</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                    <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">location</span> / {</span>
-                    <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_pass </span>http://localhost:3000<span class="text-syn-u">;</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_http_version </span><span class="text-syn-n">1.1</span><span class="text-syn-u">;</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_set_header </span>Upgrade <span class="text-syn-u">$</span>http_upgrade<span class="text-syn-u">;</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_set_header </span>Connection <span class="text-syn-s">&#39;upgrade&#39;</span><span class="text-syn-u">;</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_set_header </span>Host <span class="text-syn-u">$</span>host<span class="text-syn-u">;</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_cache_bypass </span><span class="text-syn-u">$</span>http_upgrade<span class="text-syn-u">;</span></span>
-                    <span class="block leading-(--pre-line) whitespace-pre">    }</span>
-                    <span class="block leading-(--pre-line) whitespace-pre">}</span>
-                  </code>
-                </pre>
+                <div class="relative mt-0 mb-6" data-code-block>
+                  <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                    <code class="language-nginx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                      <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">server</span> {</span>
+                      <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-k"> listen </span><span class="text-syn-n">80</span><span class="text-syn-u">;</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-k"> server_name </span>ec2-54-242-52-243.compute-1.amazonaws.com<span class="text-syn-u">;</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                      <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">location</span> / {</span>
+                      <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_pass </span>http://localhost:3000<span class="text-syn-u">;</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_http_version </span><span class="text-syn-n">1.1</span><span class="text-syn-u">;</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_set_header </span>Upgrade <span class="text-syn-u">$</span>http_upgrade<span class="text-syn-u">;</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_set_header </span>Connection <span class="text-syn-s">&#39;upgrade&#39;</span><span class="text-syn-u">;</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_set_header </span>Host <span class="text-syn-u">$</span>host<span class="text-syn-u">;</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_cache_bypass </span><span class="text-syn-u">$</span>http_upgrade<span class="text-syn-u">;</span></span>
+                      <span class="block leading-(--pre-line) whitespace-pre">    }</span>
+                      <span class="block leading-(--pre-line) whitespace-pre">}</span>
+                    </code>
+                  </pre>
+                  <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                    <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                  </div>
+                </div>
                 <ol class="mt-0 mb-6" start="4">
                   <li class="[&amp;>p]:mb-2">
                     <p class="mt-0 mb-6">Make sure to replace <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ec2-54-242-52-243.compute-1.amazonaws.com</code> with your actual domain name or public IP address.</p>
@@ -422,11 +498,16 @@
                   <li class="[&amp;>p]:mb-2">
                     <p class="mt-0 mb-6"><strong>Test the NGINX Configuration</strong></p>
                     <p class="mt-0 mb-6">Test the NGINX configuration to ensure there are no syntax errors:</p>
-                    <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                      <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                        <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">nginx</span> <span class="text-syn-s">-t</span></span>
-                      </code>
-                    </pre>
+                    <div class="relative mt-0 mb-6" data-code-block>
+                      <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                        <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                          <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">nginx</span> <span class="text-syn-s">-t</span></span>
+                        </code>
+                      </pre>
+                      <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                        <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                      </div>
+                    </div>
                     <p class="mt-0 mb-6">If the test is successful, you should see a message indicating that the configuration file is okay.</p>
                     <p class="mt-0 mb-6">
                       <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8f6847e8-3efe-454e-969a-fa65b23e37b0.webp" class="block" data-media-zoom data-width="1201" data-height="360">
@@ -437,11 +518,16 @@
                   <li class="[&amp;>p]:mb-2">
                     <p class="mt-0 mb-6"><strong>Restart NGINX</strong></p>
                     <p class="mt-0 mb-6">Restart NGINX to apply the new configuration:</p>
-                    <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                      <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                        <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">systemctl</span> <span class="text-syn-s">restart</span> <span class="text-syn-s">nginx</span></span>
-                      </code>
-                    </pre>
+                    <div class="relative mt-0 mb-6" data-code-block>
+                      <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                        <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                          <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">systemctl</span> <span class="text-syn-s">restart</span> <span class="text-syn-s">nginx</span></span>
+                        </code>
+                      </pre>
+                      <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                        <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                      </div>
+                    </div>
                   </li>
                   <li class="[&amp;>p]:mb-2">
                     <p class="mt-0 mb-6"><strong>Update Security Group to Allow HTTP Traffic</strong></p>
@@ -450,11 +536,16 @@
                   <li class="[&amp;>p]:mb-2">
                     <p class="mt-0 mb-6"><strong>Access Your Application</strong></p>
                     <p class="mt-0 mb-6">Now, you should be able to access your Node.js application using your domain name or public IP address without appending the port number. For example:</p>
-                    <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                      <code class="language-http block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                        <span class="block leading-(--pre-line) whitespace-pre">http://your_domain_or_IP</span>
-                      </code>
-                    </pre>
+                    <div class="relative mt-0 mb-6" data-code-block>
+                      <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                        <code class="language-http block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                          <span class="block leading-(--pre-line) whitespace-pre">http://your_domain_or_IP</span>
+                        </code>
+                      </pre>
+                      <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                        <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                      </div>
+                    </div>
                     <p class="mt-0 mb-6">Your application should be accessible, and NGINX will forward the traffic to your Node.js application running on port 3000.</p>
                   </li>
                 </ol>
