@@ -147,6 +147,7 @@
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
@@ -155,7 +156,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -220,97 +221,107 @@
             <p class="mt-0 mb-6">Let&#39;s build a practical example using the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://jsonplaceholder.typicode.com">JSONPlaceholder API</a>. We&#39;ll create a page that displays a todo item, first with SSR, then convert it to SSG.</p>
             <p class="mt-0 mb-6">The API endpoint we&#39;ll use is: <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://jsonplaceholder.typicode.com/todos/1"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">https://jsonplaceholder.typicode.com/todos/1</code></a></p>
             <p class="mt-0 mb-6">Which returns:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;userId&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;id&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;title&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;delectus aut autem&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;completed&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-k">false</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;userId&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;id&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;title&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;delectus aut autem&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;completed&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-k">false</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="with-server-side-rendering-ssr" class="mt-8 text-lg leading-tight tracking-tight">With Server-Side Rendering (SSR)</h3>
             <p class="mt-0 mb-6">Let&#39;s start by creating a dynamic route that uses SSR. Create a new file at <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">app/todos/[id]/page.tsx</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Todo</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  userId<span class="text-syn-o">:</span> <span class="text-syn-t">number</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  id<span class="text-syn-o">:</span> <span class="text-syn-t">number</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  title<span class="text-syn-o">:</span> <span class="text-syn-t">string</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  completed<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getTodo</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Todo</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">`[SSR] Fetching todo with ID: ${id} at ${new Date().toISOString()}`</span><span class="text-syn-u">)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> res <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">`https://jsonplaceholder.typicode.com/todos/${id}`</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">cache:</span> <span class="text-syn-s">&#39;no-store&#39;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">})</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>res<span class="text-syn-u">.</span><span class="text-syn-p">ok</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&#39;Failed to fetch todo&#39;</span><span class="text-syn-u">)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> res<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">()</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">`[SSR] Successfully fetched todo: ${data.</span><span class="text-syn-p">title</span><span class="text-syn-s">}`</span><span class="text-syn-u">)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> data</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">TodoPage</span><span class="text-syn-u">({</span> params <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> params<span class="text-syn-o">:</span> <span class="text-syn-u">{</span> id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">}</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> todo <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getTodo</span><span class="text-syn-u">(</span>params<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;min-h-screen flex items-center justify-center bg-gray-50 p-4&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;max-w-md w-full bg-white rounded-lg shadow-lg p-8&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;mb-6&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;</span>span className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;inline-block px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            SSR Mode</span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>span<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;</span>h1 className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-3xl font-bold text-gray-900 mb-4&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          Todo #<span class="text-syn-u">{</span>todo.id<span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;/</span>h1<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;space-y-4&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-sm text-gray-500 mb-1&quot;</span><span class="text-syn-o">&gt;</span>Title<span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-lg text-gray-800&quot;</span><span class="text-syn-o">&gt;</span><span class="text-syn-u">{</span>todo.title<span class="text-syn-u">}</span><span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-sm text-gray-500 mb-1&quot;</span><span class="text-syn-o">&gt;</span>User ID<span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-lg text-gray-800&quot;</span><span class="text-syn-o">&gt;</span><span class="text-syn-u">{</span>todo.userId<span class="text-syn-u">}</span><span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-sm text-gray-500 mb-1&quot;</span><span class="text-syn-o">&gt;</span>Status<span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;flex items-center gap-2&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">              <span class="text-syn-o">&lt;</span>div</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                className<span class="text-syn-o">=</span><span class="text-syn-u">{</span><span class="text-syn-p">`w-3 h-3 rounded-full ${</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">                  todo.completed ? &#39;bg-green-500&#39; : &#39;bg-yellow-500&#39;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">                }`</span><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">              <span class="text-syn-o">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">              <span class="text-syn-o">&lt;</span>span className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-lg text-gray-800&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">                <span class="text-syn-u">{</span>todo.completed ? <span class="text-syn-s">&#39;Completed&#39;</span> <span class="text-syn-u">:</span> <span class="text-syn-s">&#39;In Progress&#39;</span><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">              <span class="text-syn-o">&lt;/</span>span<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;mt-6 pt-6 border-t border-gray-200&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-xs text-gray-400&quot;</span><span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            This page is rendered on the server for every request</span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Todo</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  userId<span class="text-syn-o">:</span> <span class="text-syn-t">number</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  id<span class="text-syn-o">:</span> <span class="text-syn-t">number</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  title<span class="text-syn-o">:</span> <span class="text-syn-t">string</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  completed<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getTodo</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Todo</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">`[SSR] Fetching todo with ID: ${id} at ${new Date().toISOString()}`</span><span class="text-syn-u">)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> res <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">`https://jsonplaceholder.typicode.com/todos/${id}`</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">cache:</span> <span class="text-syn-s">&#39;no-store&#39;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">})</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>res<span class="text-syn-u">.</span><span class="text-syn-p">ok</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&#39;Failed to fetch todo&#39;</span><span class="text-syn-u">)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> res<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">()</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">`[SSR] Successfully fetched todo: ${data.</span><span class="text-syn-p">title</span><span class="text-syn-s">}`</span><span class="text-syn-u">)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> data</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">TodoPage</span><span class="text-syn-u">({</span> params <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> params<span class="text-syn-o">:</span> <span class="text-syn-u">{</span> id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">}</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> todo <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getTodo</span><span class="text-syn-u">(</span>params<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;min-h-screen flex items-center justify-center bg-gray-50 p-4&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;max-w-md w-full bg-white rounded-lg shadow-lg p-8&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;mb-6&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;</span>span className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;inline-block px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            SSR Mode</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>span<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;</span>h1 className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-3xl font-bold text-gray-900 mb-4&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          Todo #<span class="text-syn-u">{</span>todo.id<span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;/</span>h1<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;space-y-4&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-sm text-gray-500 mb-1&quot;</span><span class="text-syn-o">&gt;</span>Title<span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-lg text-gray-800&quot;</span><span class="text-syn-o">&gt;</span><span class="text-syn-u">{</span>todo.title<span class="text-syn-u">}</span><span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-sm text-gray-500 mb-1&quot;</span><span class="text-syn-o">&gt;</span>User ID<span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-lg text-gray-800&quot;</span><span class="text-syn-o">&gt;</span><span class="text-syn-u">{</span>todo.userId<span class="text-syn-u">}</span><span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-sm text-gray-500 mb-1&quot;</span><span class="text-syn-o">&gt;</span>Status<span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;flex items-center gap-2&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              <span class="text-syn-o">&lt;</span>div</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                className<span class="text-syn-o">=</span><span class="text-syn-u">{</span><span class="text-syn-p">`w-3 h-3 rounded-full ${</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">                  todo.completed ? &#39;bg-green-500&#39; : &#39;bg-yellow-500&#39;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-p">                }`</span><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              <span class="text-syn-o">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              <span class="text-syn-o">&lt;</span>span className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-lg text-gray-800&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                <span class="text-syn-u">{</span>todo.completed ? <span class="text-syn-s">&#39;Completed&#39;</span> <span class="text-syn-u">:</span> <span class="text-syn-s">&#39;In Progress&#39;</span><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              <span class="text-syn-o">&lt;/</span>span<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;</span>div className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;mt-6 pt-6 border-t border-gray-200&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;</span>p className<span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-xs text-gray-400&quot;</span><span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            This page is rendered on the server for every request</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-o">&lt;/</span>p<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/ssg-in-nextjs/todo-1-ssr.webp" class="block" data-media-zoom data-width="1920" data-height="1165">
                 <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/ssg-in-nextjs/todo-1-ssr.webp" alt="Todo page rendered with Server-Side Rendering showing todo details" loading="lazy" />
@@ -324,16 +335,21 @@
             </ol>
             <h4 id="ssr-server-logs" class="leading-tight tracking-tight">SSR Server Logs</h4>
             <p class="mt-0 mb-6">When you run your Next.js development server and navigate to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">http://localhost:3000/todos/1</code>, you&#39;ll see logs like this in your terminal:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2025-12-13T17:17:15.184Z</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
-                <span class="block leading-(--pre-line) whitespace-pre"> <span class="text-syn-f">GET</span> <span class="text-syn-s">/todos/1</span> <span class="text-syn-s">200</span> <span class="text-syn-s">in</span> <span class="text-syn-s">66ms</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 2 at 2025-12-13T17:17:18.359Z</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: quis ut nam facilis et officia qui</span>
-                <span class="block leading-(--pre-line) whitespace-pre"> <span class="text-syn-f">GET</span> <span class="text-syn-s">/todos/2</span> <span class="text-syn-s">200</span> <span class="text-syn-s">in</span> <span class="text-syn-s">88ms</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2025-12-13T17:17:15.184Z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"> <span class="text-syn-f">GET</span> <span class="text-syn-s">/todos/1</span> <span class="text-syn-s">200</span> <span class="text-syn-s">in</span> <span class="text-syn-s">66ms</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 2 at 2025-12-13T17:17:18.359Z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: quis ut nam facilis et officia qui</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"> <span class="text-syn-f">GET</span> <span class="text-syn-s">/todos/2</span> <span class="text-syn-s">200</span> <span class="text-syn-s">in</span> <span class="text-syn-s">88ms</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Every time you refresh the page</strong>, you&#39;ll see new logs with updated timestamps. This proves that the server is fetching data and rendering the page on each request.</p>
             <p class="mt-0 mb-6">Try it yourself:</p>
             <ol class="mt-0 mb-6">
@@ -346,19 +362,24 @@
             <h3 id="with-static-site-generation-ssg" class="mt-8 text-lg leading-tight tracking-tight">With Static Site Generation (SSG)</h3>
             <p class="mt-0 mb-6">Now let&#39;s convert our page to use SSG. We&#39;ll use the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://nextjs.org/docs/app/api-reference/functions/generate-static-params"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">generateStaticParams</code></a> function to tell Next.js which pages to pre-render at build time.</p>
             <p class="mt-0 mb-6">Update <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">app/todos/[id]/page.tsx</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// same code as above</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">generateStaticParams</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> ids <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;https://jsonplaceholder.typicode.com/todos&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> ids<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> data<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>todo<span class="text-syn-o">:</span> <span class="text-syn-t">Todo</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">id:</span> todo<span class="text-syn-u">.</span>id<span class="text-syn-u">.</span><span class="text-syn-f">toString</span><span class="text-syn-u">(),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}));</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// same code as above</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">generateStaticParams</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> ids <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;https://jsonplaceholder.typicode.com/todos&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> ids<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> data<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>todo<span class="text-syn-o">:</span> <span class="text-syn-t">Todo</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">id:</span> todo<span class="text-syn-u">.</span>id<span class="text-syn-u">.</span><span class="text-syn-f">toString</span><span class="text-syn-u">(),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}));</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h4 id="key-changes-for-ssg" class="leading-tight tracking-tight">Key Changes for SSG:</h4>
             <ol class="mt-0 mb-6">
               <li><strong>Added <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">generateStaticParams</code></strong>: This function tells Next.js which pages to pre-render</li>
@@ -366,24 +387,34 @@
             </ol>
             <h4 id="ssg-build-logs" class="leading-tight tracking-tight">SSG Build Logs</h4>
             <p class="mt-0 mb-6">Now when you build your application with:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">build</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">build</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You&#39;ll see logs like this during the build process:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">Route</span> (app)                              Size     First Load JS</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">┌</span> <span class="text-syn-s">○</span> <span class="text-syn-s">/</span>                                    <span class="text-syn-s">5.42</span> <span class="text-syn-s">kB</span>        <span class="text-syn-s">92.4</span> <span class="text-syn-s">kB</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">├</span> <span class="text-syn-s">○</span> <span class="text-syn-s">/_not-found</span>                          <span class="text-syn-s">871</span> <span class="text-syn-s">B</span>          <span class="text-syn-s">87.9</span> <span class="text-syn-s">kB</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">└</span> <span class="text-syn-s">●</span> <span class="text-syn-s">/todos/[id]</span>                          <span class="text-syn-s">338</span> <span class="text-syn-s">B</span>          <span class="text-syn-s">87.4</span> <span class="text-syn-s">kB</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-f">├</span> <span class="text-syn-s">/todos/1</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-f">├</span> <span class="text-syn-s">/todos/2</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-f">├</span> <span class="text-syn-s">/todos/3</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-f">└</span> [+97 <span class="text-syn-s">more</span> <span class="text-syn-s">paths]</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">Route</span> (app)                              Size     First Load JS</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">┌</span> <span class="text-syn-s">○</span> <span class="text-syn-s">/</span>                                    <span class="text-syn-s">5.42</span> <span class="text-syn-s">kB</span>        <span class="text-syn-s">92.4</span> <span class="text-syn-s">kB</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">├</span> <span class="text-syn-s">○</span> <span class="text-syn-s">/_not-found</span>                          <span class="text-syn-s">871</span> <span class="text-syn-s">B</span>          <span class="text-syn-s">87.9</span> <span class="text-syn-s">kB</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">└</span> <span class="text-syn-s">●</span> <span class="text-syn-s">/todos/[id]</span>                          <span class="text-syn-s">338</span> <span class="text-syn-s">B</span>          <span class="text-syn-s">87.4</span> <span class="text-syn-s">kB</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-f">├</span> <span class="text-syn-s">/todos/1</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-f">├</span> <span class="text-syn-s">/todos/2</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-f">├</span> <span class="text-syn-s">/todos/3</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-f">└</span> [+97 <span class="text-syn-s">more</span> <span class="text-syn-s">paths]</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="reading-the-next-build-output-symbols" class="mt-8 text-lg leading-tight tracking-tight">Reading the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">next build</code> output (● ○ ƒ symbols)</h3>
             <p class="mt-0 mb-6">The symbol in front of each route tells you exactly how Next.js renders it:</p>
             <ul class="mt-0 mb-6">
@@ -399,11 +430,16 @@
               <li><strong>Timestamps are close together</strong>, they&#39;re all built in sequence</li>
             </ol>
             <p class="mt-0 mb-6">After the build completes, when you run:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">start</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">start</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">And navigate to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/todos/1</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/todos/2</code>, or <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/todos/3</code>, <strong>you won&#39;t see any new logs in your terminal</strong>. The pages are served as static HTML files, no server processing needed!</p>
             <p class="mt-0 mb-6">Try this:</p>
             <ol class="mt-0 mb-6">
@@ -417,39 +453,49 @@
             <h2 id="comparing-the-logs-ssr-vs-ssg" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Comparing the Logs: SSR vs SSG</h2>
             <p class="mt-0 mb-6">Let&#39;s put the log outputs side by side to see the difference:</p>
             <p class="mt-0 mb-6"><strong>SSR (Development):</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">dev</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Visit /todos/1</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2024-12-13T10:23:45.123Z</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Refresh the page</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2024-12-13T10:24:02.456Z</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Refresh again</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2024-12-13T10:24:15.789Z</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">dev</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Visit /todos/1</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2024-12-13T10:23:45.123Z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Refresh the page</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2024-12-13T10:24:02.456Z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Refresh again</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2024-12-13T10:24:15.789Z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSR<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>SSG (Build + Production):</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">build</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Generating static params at build <span class="text-syn-k">time</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2024-12-13T10:30:15.456Z</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Fetching todo with ID: 2 at 2024-12-13T10:30:15.789Z</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Successfully fetched todo: quis ut nam facilis et officia qui</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Fetching todo with ID: 3 at 2024-12-13T10:30:16.012Z</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Successfully fetched todo: fugiat veniam minus</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">start</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Visit /todos/1, /todos/2, /todos/3, refresh as many times as you want</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># No logs appear! Pages are served as static files</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">build</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Generating static params at build <span class="text-syn-k">time</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Fetching todo with ID: 1 at 2024-12-13T10:30:15.456Z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Successfully fetched todo: delectus aut autem</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Fetching todo with ID: 2 at 2024-12-13T10:30:15.789Z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Successfully fetched todo: quis ut nam facilis et officia qui</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Fetching todo with ID: 3 at 2024-12-13T10:30:16.012Z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">[</span>SSG<span class="text-syn-u">]</span> Successfully fetched todo: fugiat veniam minus</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">start</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Visit /todos/1, /todos/2, /todos/3, refresh as many times as you want</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># No logs appear! Pages are served as static files</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The difference is clear:</p>
             <ul class="mt-0 mb-6">
               <li><strong>SSR</strong>: Logs on every request</li>
@@ -461,12 +507,17 @@
             <p class="mt-0 mb-6">SSG is <strong>5-10x faster</strong> than SSR because there&#39;s no server processing, just serving static HTML files.</p>
             <h2 id="what-about-isr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">What About ISR?</h2>
             <p class="mt-0 mb-6">Next.js also supports <strong>Incremental Static Regeneration (ISR)</strong>, which lets you update static pages after the site is built, without rebuilding the whole app. You simply export a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">revalidate</code> value in your page file, like this:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Enable ISR - revalidate every hour to check for newly published blogs</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> revalidate <span class="text-syn-o">=</span> <span class="text-syn-n">3600</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// 1 hour in seconds</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Enable ISR - revalidate every hour to check for newly published blogs</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> revalidate <span class="text-syn-o">=</span> <span class="text-syn-n">3600</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// 1 hour in seconds</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">I use ISR for future blog posts on this site, so new content gets picked up automatically after publishing, no full rebuild needed!</p>
             <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Conclusion</h2>
             <p class="mt-0 mb-6">Understanding SSR and SSG is fundamental to building performant Next.js applications:</p>

@@ -145,6 +145,7 @@
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
@@ -153,7 +154,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -181,103 +182,148 @@
             <p class="mt-0 mb-6">Creating a custom context menu in React can significantly enhance the user experience by providing quick access to relevant actions. With the help of the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.npmjs.com/package/react-contexify">react-contexify</a> library, you can easily implement a sleek and functional context menu tailored to your application&#39;s needs. In this guide, we&#39;ll walk you through the steps to create a custom context menu in React, ensuring your users have a seamless and intuitive interaction with your app. Let&#39;s dive in and unlock the potential of context menus in your React projects!</p>
             <p class="mt-0 mb-6">I have bootstrapped a new React TypeScript project for this walkthrough.</p>
             <h3 id="adding-react-contexify-as-a-dependency" class="mt-8 text-lg leading-tight tracking-tight">Adding react-contexify as a Dependency</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">react-contexify</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">react-contexify</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Add the default css in the main.jsx</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-jsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-s">&quot;react-contexify/ReactContexify.css&quot;</span><span class="text-syn-u">;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-jsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-s">&quot;react-contexify/ReactContexify.css&quot;</span><span class="text-syn-u">;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Add basic styles in the index.css</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-g">body</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">margin</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">padding</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-g">body</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">margin</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">padding</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="business-logic" class="mt-8 text-lg leading-tight tracking-tight">Business Logic</h3>
             <p class="mt-0 mb-6">I am creating a div that spans the full height and width of the screen.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Next, I will add the context menu to this div. This means that whenever a right-click event is triggered, a custom menu will appear.</p>
             <p class="mt-0 mb-6">Start of by adding a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/src/components/ContextMenu.tsx</code></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Menu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContextMenu</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Menu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContextMenu</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">We can incorporate multiple <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;Items /&gt;</code> into the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Menu</code> component.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>Item1<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>Item2<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>Item1<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>Item2<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">However, merely adding an item will not be sufficient. Each item should perform a specific action when clicked. We could do that:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">alert</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Hello</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">alert</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Hello</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Additionally, to separate two sections, we can add a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;Separator /&gt;</code>.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    Hello</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>World<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    Hello</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>World<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Additionally, we can incorporate submenus.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  //above code</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Submenu</span> <span class="text-syn-p">label</span><span class="text-syn-o">=</span><span class="text-syn-u">{&lt;&gt;</span>Hover me<span class="text-syn-u">&lt;/&gt;}&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>Another<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>One<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Submenu</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  //above code</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Submenu</span> <span class="text-syn-p">label</span><span class="text-syn-o">=</span><span class="text-syn-u">{&lt;&gt;</span>Hover me<span class="text-syn-u">&lt;/&gt;}&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>Another<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>One<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Submenu</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Now that we have created our Menu, you can experiment with it and add as many Items as necessary. Let&#39;s integrate it and observe it in action.</p>
             <p class="mt-0 mb-6">Additionally, you may notice this error</p>
             <p class="mt-0 mb-6">
@@ -286,54 +332,74 @@
               </a>
             </p>
             <p class="mt-0 mb-6">Let&#39;s fix both! Add an ID to the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;ContextMenu/&gt;</code></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;context-menu&quot;</span><span class="text-syn-u">&gt;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;context-menu&quot;</span><span class="text-syn-u">&gt;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Add the ContextMenu in the App Component</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Fragment <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> ContextMenu <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./ContextMenu&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">ContextMenu</span> <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Fragment <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> ContextMenu <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./ContextMenu&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">ContextMenu</span> <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="final-integrations" class="mt-8 text-lg leading-tight tracking-tight">Final Integrations</h3>
             <p class="mt-0 mb-6">Now, to enable the menu to trigger on a right-click event</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useContextMenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">{</span> show <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useContextMenu</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;context-menu&quot;</span> <span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useContextMenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">{</span> show <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useContextMenu</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;context-menu&quot;</span> <span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Note: The ID mentioned here and the one in the</strong> <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;ContextMenu /&gt;</code> <strong>should be the same.</strong></p>
             <p class="mt-0 mb-6">Now the last step add the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">onContextMenu</code> event in the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;div/&gt;</code></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">onContextMenu</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">show</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">event:</span> e<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">/&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">onContextMenu</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">show</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">event:</span> e<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">/&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Voilà! You can now see the menu in action.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp" class="block" data-media-zoom data-width="1901" data-height="975">
@@ -341,62 +407,72 @@
               </a>
             </p>
             <p class="mt-0 mb-6">Final Code:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// App.tsx</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Fragment <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-s">&quot;./index.css&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> ContextMenu <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./ContextMenu&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useContextMenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> show <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useContextMenu</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;context-menu&quot;</span> <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">onContextMenu</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-f">show</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">event:</span> e<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">ContextMenu</span> <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// ContextMenu.tsx</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Item<span class="text-syn-u">,</span> Menu<span class="text-syn-u">,</span> Separator<span class="text-syn-u">,</span> Submenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContextMenu</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;context-menu&quot;</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        Hello</span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>World<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Submenu</span> <span class="text-syn-p">label</span><span class="text-syn-o">=</span><span class="text-syn-u">{&lt;&gt;</span>Hover me<span class="text-syn-u">&lt;/&gt;}&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>Another<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>One<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Submenu</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// App.tsx</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Fragment <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-s">&quot;./index.css&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> ContextMenu <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./ContextMenu&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useContextMenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> show <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useContextMenu</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;context-menu&quot;</span> <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">onContextMenu</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-f">show</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">event:</span> e<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">ContextMenu</span> <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// ContextMenu.tsx</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Item<span class="text-syn-u">,</span> Menu<span class="text-syn-u">,</span> Separator<span class="text-syn-u">,</span> Submenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContextMenu</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;context-menu&quot;</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        Hello</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>World<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Submenu</span> <span class="text-syn-p">label</span><span class="text-syn-o">=</span><span class="text-syn-u">{&lt;&gt;</span>Hover me<span class="text-syn-u">&lt;/&gt;}&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>Another<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>One<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Submenu</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">In conclusion, creating a custom context menu in React using the react-contexify library can greatly enhance the user experience by providing quick and easy access to relevant actions. By following the steps outlined in this guide, you can implement a sleek and functional context menu tailored to your application&#39;s needs. Experiment with different items and configurations to best suit your users&#39; needs. Happy coding!</p>
           </div>
         </article>

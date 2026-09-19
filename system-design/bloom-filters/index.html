@@ -151,6 +151,7 @@
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/katex/katex.min.css" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
     <script src="/theme.fa2a27cfd83d.js"></script>
@@ -158,7 +159,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -203,20 +204,25 @@
             <h2 id="the-problem" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Problem</h2>
             <p class="mt-0 mb-6">Let&#39;s say you&#39;re building Instagram&#39;s recommendation engine. You need to track everything a user has watched so you don&#39;t recommend it again.</p>
             <p class="mt-0 mb-6">The naive approach? Store everything in a set:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> watchedPosts <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Set</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">&gt;();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_1&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_9&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_7&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_1024&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">has</span><span class="text-syn-u">(</span>postId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> watchedPosts <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Set</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">&gt;();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_1&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_9&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_7&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_1024&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">has</span><span class="text-syn-u">(</span>postId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This works. But think about the scale. People watch hundreds of reels every single day. Over months, the set of all posts watched by a user becomes massive.</p>
             <p class="mt-0 mb-6">To check if a key exists in a set implemented as a hash table or binary search tree, you have to load the entire set into memory. When millions of users watch thousands of reels daily, the memory and compute required becomes prohibitively expensive.</p>
             <p class="mt-0 mb-6">Can we do better?</p>
@@ -232,12 +238,17 @@
             <p class="mt-0 mb-6">The name comes from Burton Howard Bloom, who invented it in 1970.</p>
             <h3 id="how-it-works" class="mt-8 text-lg leading-tight tracking-tight">How It Works</h3>
             <p class="mt-0 mb-6">Let&#39;s walk through a simple example. Say we have an 8-bit Bloom filter:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [0] [0] [0] [0] [0] [0]</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [0] [0] [0] [0] [0] [0]</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">We want to store the existence of words: &quot;apple&quot;, &quot;ball&quot;, and &quot;cat&quot;.</p>
             <p class="mt-0 mb-6"><strong>Adding &quot;apple&quot;:</strong></p>
             <ol class="mt-0 mb-6">
@@ -246,42 +257,57 @@
               <li>Let&#39;s say we get 2</li>
               <li>Set bit at index 2 to 1</li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [0] [0]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                ↑</span>
-                <span class="block leading-(--pre-line) whitespace-pre">              apple</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [0] [0]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                ↑</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              apple</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Adding &quot;ball&quot;:</strong></p>
             <ol class="mt-0 mb-6">
               <li>Hash &quot;ball&quot;, mod 8</li>
               <li>Let&#39;s say we get 6</li>
               <li>Set bit at index 6 to 1</li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [1] [0]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                ↑               ↑</span>
-                <span class="block leading-(--pre-line) whitespace-pre">              apple            ball</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [1] [0]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                ↑               ↑</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">              apple            ball</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Adding &quot;cat&quot;:</strong></p>
             <ol class="mt-0 mb-6">
               <li>Hash &quot;cat&quot;, mod 8</li>
               <li>Let&#39;s say we get 2 (same as apple!)</li>
               <li>Set bit at index 2 to 1 (already 1, no change)</li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [1] [0]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                ↑               ↑</span>
-                <span class="block leading-(--pre-line) whitespace-pre">             apple/cat         ball</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [1] [0]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                ↑               ↑</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">             apple/cat         ball</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Notice that &quot;apple&quot; and &quot;cat&quot; hash to the same index. This is called a <strong>collision</strong>, and it&#39;s expected. We&#39;re compressing arbitrary data into a tiny bit array.</p>
             <h3 id="checking-for-existence" class="mt-8 text-lg leading-tight tracking-tight">Checking for Existence</h3>
             <p class="mt-0 mb-6">Now let&#39;s check if some words exist:</p>
@@ -292,14 +318,19 @@
               <li>Check bit at index 5 → it&#39;s 0</li>
               <li><strong>Definitely NOT present</strong></li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [1] [0]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                            ↑</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                    dog → 0 = NOT PRESENT ✓</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [1] [0]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                            ↑</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                    dog → 0 = NOT PRESENT ✓</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The Bloom filter says no. We can be 100% certain that &quot;dog&quot; was never added.</p>
             <p class="mt-0 mb-6"><strong>Does &quot;elephant&quot; exist?</strong></p>
             <ol class="mt-0 mb-6">
@@ -308,14 +339,19 @@
               <li>Check bit at index 6 → it&#39;s 1</li>
               <li><strong>Might be present</strong> (false positive!)</li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [1] [0]</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                ↑</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                  elephant → 1 = MAYBE PRESENT?</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Index:  0   1   2   3   4   5   6   7</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Bits:  [0] [0] [1] [0] [0] [0] [1] [0]</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                ↑</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                  elephant → 1 = MAYBE PRESENT?</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">We never added &quot;elephant&quot;. But it hashes to the same index as &quot;ball&quot;. The Bloom filter incorrectly says it might be present. This is a <strong>false positive</strong>.</p>
             <h2 id="the-golden-rule" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Golden Rule</h2>
             <p class="mt-0 mb-6"><strong>When Bloom filter says NO → Element is definitely NOT present (100% certain)</strong></p>
@@ -339,13 +375,18 @@
             <p class="mt-0 mb-6">This is because <strong>Bloom filters don&#39;t store the actual keys</strong>. They only store existence information compressed into a bit array. You can&#39;t retrieve the original keys from a Bloom filter. You can only ask &quot;is this key present?&quot;</p>
             <h2 id="false-positive-rate" class="mt-12 text-xl font-semibold leading-tight tracking-tight">False Positive Rate</h2>
             <p class="mt-0 mb-6">As you add more keys to a Bloom filter, more bits get set to 1. Eventually, most bits are 1. At that point, almost any query returns &quot;might be present.&quot;</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Empty:     [0][0][0][0][0][0][0][0]  → Low false positive rate</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Some keys: [0][1][1][0][1][0][1][0]  → Medium false positive rate</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Many keys: [1][1][1][1][1][1][1][1]  → Everything says &quot;present&quot;!</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Empty:     [0][0][0][0][0][0][0][0]  → Low false positive rate</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Some keys: [0][1][1][0][1][0][1][0]  → Medium false positive rate</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Many keys: [1][1][1][1][1][1][1][1]  → Everything says &quot;present&quot;!</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The false positive rate increases as:</p>
             <ul class="mt-0 mb-6">
               <li>More keys are added</li>
@@ -369,27 +410,32 @@
             <p class="mt-0 mb-6">About 1 MB to track a million items with 1% false positives. Not bad.</p>
             <h2 id="multiple-hash-functions" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Multiple Hash Functions</h2>
             <p class="mt-0 mb-6">Real Bloom filters use multiple hash functions, not just one. Each key is hashed by k different functions, and k bits are set.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">addToBloomFilter</span><span class="text-syn-u">(</span>key<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">void</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash1 <span class="text-syn-o">=</span> <span class="text-syn-f">murmurhash</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash2 <span class="text-syn-o">=</span> <span class="text-syn-f">sha256</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash3 <span class="text-syn-o">=</span> <span class="text-syn-f">fnv1a</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  bitArray<span class="text-syn-u">[</span>hash1<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  bitArray<span class="text-syn-u">[</span>hash2<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  bitArray<span class="text-syn-u">[</span>hash3<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">mightExist</span><span class="text-syn-u">(</span>key<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash1 <span class="text-syn-o">=</span> <span class="text-syn-f">murmurhash</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash2 <span class="text-syn-o">=</span> <span class="text-syn-f">sha256</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash3 <span class="text-syn-o">=</span> <span class="text-syn-f">fnv1a</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> bitArray<span class="text-syn-u">[</span>hash1<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span> <span class="text-syn-o">&amp;&amp;</span> bitArray<span class="text-syn-u">[</span>hash2<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span> <span class="text-syn-o">&amp;&amp;</span> bitArray<span class="text-syn-u">[</span>hash3<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">addToBloomFilter</span><span class="text-syn-u">(</span>key<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">void</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash1 <span class="text-syn-o">=</span> <span class="text-syn-f">murmurhash</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash2 <span class="text-syn-o">=</span> <span class="text-syn-f">sha256</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash3 <span class="text-syn-o">=</span> <span class="text-syn-f">fnv1a</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  bitArray<span class="text-syn-u">[</span>hash1<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  bitArray<span class="text-syn-u">[</span>hash2<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  bitArray<span class="text-syn-u">[</span>hash3<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">mightExist</span><span class="text-syn-u">(</span>key<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash1 <span class="text-syn-o">=</span> <span class="text-syn-f">murmurhash</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash2 <span class="text-syn-o">=</span> <span class="text-syn-f">sha256</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash3 <span class="text-syn-o">=</span> <span class="text-syn-f">fnv1a</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> bitArray<span class="text-syn-u">[</span>hash1<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span> <span class="text-syn-o">&amp;&amp;</span> bitArray<span class="text-syn-u">[</span>hash2<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span> <span class="text-syn-o">&amp;&amp;</span> bitArray<span class="text-syn-u">[</span>hash3<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">With multiple hash functions, all k bits must be set for a &quot;might exist&quot; response. This reduces false positives because it&#39;s less likely that all k bits were coincidentally set by other keys.</p>
             <p class="mt-0 mb-6">The optimal number of hash functions is:</p>
             <div tabindex="0" class="my-4 overflow-x-auto text-center"><!-- [html-validate-disable-block no-inline-style] --><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.7936em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mop">ln</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span></span></span></span></span></div>
@@ -402,14 +448,19 @@
             <h2 id="the-deletion-problem" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Deletion Problem</h2>
             <p class="mt-0 mb-6">You cannot delete from a standard Bloom filter.</p>
             <p class="mt-0 mb-6">Why? Because bits are shared. If &quot;apple&quot; and &quot;cat&quot; both hash to index 2, you can&#39;t unset that bit when removing &quot;apple&quot; it would incorrectly indicate &quot;cat&quot; isn&#39;t present.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Before: [0][0][1][0][0][0][1][0]  → apple and cat both at index 2</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">If we &quot;remove&quot; apple by unsetting bit 2:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">After:  [0][0][0][0][0][0][1][0]  → Now &quot;cat&quot; appears not present!</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Before: [0][0][1][0][0][0][1][0]  → apple and cat both at index 2</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">If we &quot;remove&quot; apple by unsetting bit 2:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">After:  [0][0][0][0][0][0][1][0]  → Now &quot;cat&quot; appears not present!</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This is why Bloom filters work best for append-only use cases:</p>
             <ul class="mt-0 mb-6">
               <li>Tracking watched content</li>
@@ -430,51 +481,61 @@
                 <p class="mt-0 mb-6"><strong>Start big</strong>: Estimate the maximum keys you&#39;ll need and provision a large enough filter from the start. This is the recommended approach.</p>
               </li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">BloomFilterConfig</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  expectedElements<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  falsePositiveRate<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">calculateOptimalSize</span><span class="text-syn-u">(</span>config<span class="text-syn-o">:</span> <span class="text-syn-t">BloomFilterConfig</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> expectedElements<span class="text-syn-u">,</span> falsePositiveRate <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> config<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> bits <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">ceil</span><span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">(</span><span class="text-syn-o">-</span>expectedElements <span class="text-syn-o">*</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>falsePositiveRate<span class="text-syn-u">))</span> <span class="text-syn-o">/</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">pow</span><span class="text-syn-u">(</span>Math<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-n">2</span><span class="text-syn-u">),</span> <span class="text-syn-n">2</span><span class="text-syn-u">),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> bits<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> config<span class="text-syn-o">:</span> <span class="text-syn-t">BloomFilterConfig</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">expectedElements:</span> <span class="text-syn-n">10_000_000</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">falsePositiveRate:</span> <span class="text-syn-n">0.01</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> filterSize <span class="text-syn-o">=</span> <span class="text-syn-f">calculateOptimalSize</span><span class="text-syn-u">(</span>config<span class="text-syn-u">);</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">BloomFilterConfig</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  expectedElements<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  falsePositiveRate<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">calculateOptimalSize</span><span class="text-syn-u">(</span>config<span class="text-syn-o">:</span> <span class="text-syn-t">BloomFilterConfig</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> expectedElements<span class="text-syn-u">,</span> falsePositiveRate <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> config<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> bits <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">ceil</span><span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">(</span><span class="text-syn-o">-</span>expectedElements <span class="text-syn-o">*</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>falsePositiveRate<span class="text-syn-u">))</span> <span class="text-syn-o">/</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">pow</span><span class="text-syn-u">(</span>Math<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-n">2</span><span class="text-syn-u">),</span> <span class="text-syn-n">2</span><span class="text-syn-u">),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> bits<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> config<span class="text-syn-o">:</span> <span class="text-syn-t">BloomFilterConfig</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">expectedElements:</span> <span class="text-syn-n">10_000_000</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">falsePositiveRate:</span> <span class="text-syn-n">0.01</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> filterSize <span class="text-syn-o">=</span> <span class="text-syn-f">calculateOptimalSize</span><span class="text-syn-u">(</span>config<span class="text-syn-u">);</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h2 id="bloom-filters-with-redis" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Bloom Filters with Redis</h2>
             <p class="mt-0 mb-6">You don&#39;t need to implement Bloom filters from scratch. Redis offers them as a native data structure through the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter">RedisBloom</a> module.</p>
             <p class="mt-0 mb-6">Here&#39;s how you use it via Redis CLI:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Create a Bloom filter named &quot;watched_posts&quot;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># 0.01 = 1% false positive rate</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># 1000000 = expected capacity of 1 million items</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.RESERVE</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">0.01</span> <span class="text-syn-s">1000000</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Add items to the filter</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.ADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_123</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.ADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_456</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Check if an item exists</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.EXISTS</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_123</span>  <span class="text-syn-c italic"># Returns 1 (might exist)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.EXISTS</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_789</span>  <span class="text-syn-c italic"># Returns 0 (definitely not)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Add multiple items at once</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.MADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_1</span> <span class="text-syn-s">post_2</span> <span class="text-syn-s">post_3</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Create a Bloom filter named &quot;watched_posts&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># 0.01 = 1% false positive rate</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># 1000000 = expected capacity of 1 million items</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.RESERVE</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">0.01</span> <span class="text-syn-s">1000000</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Add items to the filter</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.ADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_123</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.ADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_456</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Check if an item exists</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.EXISTS</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_123</span>  <span class="text-syn-c italic"># Returns 1 (might exist)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.EXISTS</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_789</span>  <span class="text-syn-c italic"># Returns 0 (definitely not)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Add multiple items at once</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">BF.MADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_1</span> <span class="text-syn-s">post_2</span> <span class="text-syn-s">post_3</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <table tabindex="0" class="mt-0 mb-6 block overflow-x-auto border-collapse text-md wrap-normal">
               <thead>
                 <tr>
@@ -502,32 +563,37 @@
               </tbody>
             </table>
             <p class="mt-0 mb-6">In TypeScript with ioredis:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> Redis <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;ioredis&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> redis <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Redis</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">markAsWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`watched:${userId}`</span><span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">boolean</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`watched:${userId}`</span><span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> result <span class="text-syn-o">===</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">recommendPost</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">boolean</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> mightHaveWatched <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>mightHaveWatched<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-k">true</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-k">false</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> Redis <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;ioredis&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> redis <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Redis</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">markAsWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`watched:${userId}`</span><span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">boolean</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`watched:${userId}`</span><span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> result <span class="text-syn-o">===</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">recommendPost</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">boolean</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> mightHaveWatched <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>mightHaveWatched<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-k">true</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-k">false</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">When creating a Bloom filter in Redis, you specify:</p>
             <ul class="mt-0 mb-6">
               <li><strong>Error rate</strong>: The desired false positive rate (e.g., 0.01 for 1%)</li>
@@ -537,86 +603,106 @@
             <h2 id="real-world-use-cases" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Real-World Use Cases</h2>
             <h3 id="recommendation-engines" class="mt-8 text-lg leading-tight tracking-tight">Recommendation Engines</h3>
             <p class="mt-0 mb-6">Track what users have seen. Only recommend content they definitely haven&#39;t consumed.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">User requests feed</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Generate candidate posts</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">For each candidate:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    Check Bloom filter → &quot;Definitely not seen?&quot;</span>
-                <span class="block leading-(--pre-line) whitespace-pre">        Yes → Include in feed</span>
-                <span class="block leading-(--pre-line) whitespace-pre">        No  → Skip (might have seen)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Return filtered feed</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">User requests feed</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Generate candidate posts</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">For each candidate:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    Check Bloom filter → &quot;Definitely not seen?&quot;</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        Yes → Include in feed</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        No  → Skip (might have seen)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Return filtered feed</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Medium uses Bloom filters for article recommendations. For every article you read, it&#39;s added to your Bloom filter. The recommendation engine only suggests articles that pass the &quot;definitely not read&quot; check.</p>
             <h3 id="web-crawlers" class="mt-8 text-lg leading-tight tracking-tight">Web Crawlers</h3>
             <p class="mt-0 mb-6">Track which URLs have already been crawled. Don&#39;t waste resources re-crawling.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">crawl</span><span class="text-syn-u">(</span>startUrl<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> queue <span class="text-syn-o">=</span> <span class="text-syn-u">[</span>startUrl<span class="text-syn-u">];</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">while</span> <span class="text-syn-u">(</span>queue<span class="text-syn-u">.</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> url <span class="text-syn-o">=</span> queue<span class="text-syn-u">.</span><span class="text-syn-f">shift</span><span class="text-syn-u">()</span><span class="text-syn-o">!</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> alreadyCrawled <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;crawled_urls&quot;</span><span class="text-syn-u">,</span> url<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>alreadyCrawled<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">continue</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> html <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span>url<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> <span class="text-syn-f">processPage</span><span class="text-syn-u">(</span>html<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;crawled_urls&quot;</span><span class="text-syn-u">,</span> url<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> links <span class="text-syn-o">=</span> <span class="text-syn-f">extractLinks</span><span class="text-syn-u">(</span>html<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    queue<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">(</span><span class="text-syn-o">...</span>links<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">crawl</span><span class="text-syn-u">(</span>startUrl<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> queue <span class="text-syn-o">=</span> <span class="text-syn-u">[</span>startUrl<span class="text-syn-u">];</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">while</span> <span class="text-syn-u">(</span>queue<span class="text-syn-u">.</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> url <span class="text-syn-o">=</span> queue<span class="text-syn-u">.</span><span class="text-syn-f">shift</span><span class="text-syn-u">()</span><span class="text-syn-o">!</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> alreadyCrawled <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;crawled_urls&quot;</span><span class="text-syn-u">,</span> url<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>alreadyCrawled<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">continue</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> html <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span>url<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> <span class="text-syn-f">processPage</span><span class="text-syn-u">(</span>html<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;crawled_urls&quot;</span><span class="text-syn-u">,</span> url<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> links <span class="text-syn-o">=</span> <span class="text-syn-f">extractLinks</span><span class="text-syn-u">(</span>html<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    queue<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">(</span><span class="text-syn-o">...</span>links<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="database-query-optimization" class="mt-8 text-lg leading-tight tracking-tight">Database Query Optimization</h3>
             <p class="mt-0 mb-6">Check if a key might exist before hitting the database. If the Bloom filter says no, skip the database query entirely.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">User</span> <span class="text-syn-o">|</span> <span class="text-syn-t">null</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> mightExist <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;user_ids&quot;</span><span class="text-syn-u">,</span> userId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>mightExist<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>userId<span class="text-syn-u">]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">User</span> <span class="text-syn-o">|</span> <span class="text-syn-t">null</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> mightExist <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;user_ids&quot;</span><span class="text-syn-u">,</span> userId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>mightExist<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>userId<span class="text-syn-u">]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This is particularly useful for negative lookups. If most queries are for non-existent keys, Bloom filters save massive database load.</p>
             <h3 id="tinder-feed" class="mt-8 text-lg leading-tight tracking-tight">Tinder Feed</h3>
             <p class="mt-0 mb-6">Don&#39;t show profiles you&#39;ve already swiped on. Whether you swiped left or right, that profile shouldn&#39;t appear again.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getNextProfiles</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Profile</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> candidates <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getCandidateProfiles</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> unseen <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> profile <span class="text-syn-o">of</span> candidates<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> seen <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`swiped:${userId}`</span><span class="text-syn-u">,</span> profile<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>seen<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      unseen<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">(</span>profile<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> unseen<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">10</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">recordSwipe</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> profileId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`swiped:${userId}`</span><span class="text-syn-u">,</span> profileId<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getNextProfiles</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Profile</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> candidates <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getCandidateProfiles</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> unseen <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> profile <span class="text-syn-o">of</span> candidates<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> seen <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`swiped:${userId}`</span><span class="text-syn-u">,</span> profile<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>seen<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      unseen<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">(</span>profile<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> unseen<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">10</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">recordSwipe</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> profileId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`swiped:${userId}`</span><span class="text-syn-u">,</span> profileId<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="spell-checkers" class="mt-8 text-lg leading-tight tracking-tight">Spell Checkers</h3>
             <p class="mt-0 mb-6">Dictionary lookups. If a word is definitely not in the dictionary, it&#39;s misspelled.</p>
             <h3 id="cache-lookups" class="mt-8 text-lg leading-tight tracking-tight">Cache Lookups</h3>

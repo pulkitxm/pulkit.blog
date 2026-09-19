@@ -145,6 +145,7 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/youtube-embed.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
@@ -153,7 +154,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -191,26 +192,36 @@
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h2 id="the-core-problem-all-strings-look-the-same" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Core Problem: All Strings Look the Same</h2>
             <p class="mt-0 mb-6">In most TypeScript codebases, IDs and primitive values are just strings or numbers:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SaleId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SaleId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This works until your app grows. Then you see code like:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">example</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">latestSaleId</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">example</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">latestSaleId</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">If <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">latestSaleId</code> is a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">getInvoice</code> expects a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code>, <strong>TypeScript is perfectly happy</strong>. But conceptually, this is wrong:</p>
             <ul class="mt-0 mb-6">
               <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">latestSaleId</code> is a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">SaleId</code></li>
@@ -222,13 +233,18 @@
             <h2 id="your-first-branded-type" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Your First Branded Type</h2>
             <p class="mt-0 mb-6">A <strong>branded type</strong> lets you create a distinct type from a primitive, without changing its runtime representation.</p>
             <p class="mt-0 mb-6">Let’s start with a single branded <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> __brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-u">[</span>__brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-s">&quot;invoiceId&quot;</span> <span class="text-syn-u">};</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> __brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-u">[</span>__brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-s">&quot;invoiceId&quot;</span> <span class="text-syn-u">};</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Here:</p>
             <ul class="mt-0 mb-6">
               <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code> is still a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> at runtime.</li>
@@ -236,72 +252,92 @@
               <li>Because <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">__brand</code> is a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">unique symbol</code>, TypeScript treats <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code> as different from plain <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code>.</li>
             </ul>
             <p class="mt-0 mb-6">You can now write:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> rawString<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>rawString<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ❌ Type error</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> rawString<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>rawString<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ❌ Type error</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You still pass strings at runtime, but the compiler prevents you from accidentally passing any old <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> that isn’t an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h3 id="creating-an-invoiceid-value" class="mt-8 text-lg leading-tight tracking-tight">Creating an InvoiceId Value</h3>
             <p class="mt-0 mb-6">Most of the time you will start from a plain string (for example from your database or an external API) and want to treat it as an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> rawId <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;inv_123&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> rawId <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> rawId <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;inv_123&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> rawId <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This does not change anything at runtime; it only tells TypeScript that this particular value should be considered an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>. Later in the post we will see safer ways to do this branding (with Zod and assertion functions), but this is the minimal starting point.</p>
             <h3 id="drizzle-getting-branded-ids-from-the-database" class="mt-8 text-lg leading-tight tracking-tight">Drizzle: Getting Branded IDs from the Database</h3>
             <p class="mt-0 mb-6">You can also push the brand into your database schema so that Drizzle returns an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code> automatically:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> pgTable<span class="text-syn-u">,</span> varchar <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;drizzle-orm/pg-core&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> __brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-u">[</span>__brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-s">&quot;invoiceId&quot;</span> <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> invoices <span class="text-syn-o">=</span> <span class="text-syn-f">pgTable</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;invoices&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">id:</span> <span class="text-syn-f">varchar</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;id&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">$type</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">InvoiceId</span><span class="text-syn-u">&gt;().</span><span class="text-syn-f">primaryKey</span><span class="text-syn-u">(),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">loadInvoice</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> invoice <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>query<span class="text-syn-u">.</span>invoices<span class="text-syn-u">.</span><span class="text-syn-f">findFirst</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>invoice<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  invoice<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoice<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> pgTable<span class="text-syn-u">,</span> varchar <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;drizzle-orm/pg-core&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> __brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-u">[</span>__brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-s">&quot;invoiceId&quot;</span> <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> invoices <span class="text-syn-o">=</span> <span class="text-syn-f">pgTable</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;invoices&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">id:</span> <span class="text-syn-f">varchar</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;id&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">$type</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">InvoiceId</span><span class="text-syn-u">&gt;().</span><span class="text-syn-f">primaryKey</span><span class="text-syn-u">(),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">loadInvoice</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> invoice <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>query<span class="text-syn-u">.</span>invoices<span class="text-syn-u">.</span><span class="text-syn-f">findFirst</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>invoice<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  invoice<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoice<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Now the schema is the single source of truth for the brand: everywhere else in your app, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">invoice.id</code> is already typed as <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>, and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">getInvoice</code> can rely on that.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h2 id="branded-types-in-one-reusable-helper" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Branded Types in One Reusable Helper</h2>
             <p class="mt-0 mb-6">Copy‑pasting the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">__brand</code> pattern for every type gets noisy quickly, so we can generalize it into a reusable helper:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">,</span> <span class="text-syn-t">B</span> <span class="text-syn-k">extends</span> <span class="text-syn-t">string</span><span class="text-syn-u">&gt;</span> <span class="text-syn-o">=</span> <span class="text-syn-t">T</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-k">readonly</span> <span class="text-syn-u">[</span>brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-t">B</span> <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SaleId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;SaleId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">,</span> <span class="text-syn-t">B</span> <span class="text-syn-k">extends</span> <span class="text-syn-t">string</span><span class="text-syn-u">&gt;</span> <span class="text-syn-o">=</span> <span class="text-syn-t">T</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-k">readonly</span> <span class="text-syn-u">[</span>brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-t">B</span> <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SaleId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;SaleId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">We’ll use this <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand&lt;T, B&gt;</code> helper throughout the rest of the post:</p>
             <ul class="mt-0 mb-6">
               <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand&lt;T, B&gt;</code> takes a base type <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">T</code> (like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> or <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">number</code>) and intersects it with a phantom property keyed by a unique <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">symbol</code>.</li>
@@ -312,82 +348,97 @@
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h2 id="using-branded-types-in-your-apis" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Using Branded Types in Your APIs</h2>
             <p class="mt-0 mb-6">Once you have branded types, you can make your APIs much clearer:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getUserInvoices</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">[];</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> userId<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// getInvoice(userId)      // ❌ Type error</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getUserInvoices</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// getUserInvoices(invoiceId) // ❌ Type error</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getUserInvoices</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">[];</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> userId<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// getInvoice(userId)      // ❌ Type error</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getUserInvoices</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// getUserInvoices(invoiceId) // ❌ Type error</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The more your domain grows, the more these branded types protect you from wiring things up incorrectly.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h2 id="validating-and-branding-input-type-guards-assertions" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Validating and Branding Input (Type Guards &amp; Assertions)</h2>
             <p class="mt-0 mb-6">The tricky part is turning <strong>untyped input</strong> (e.g. from <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">req.params</code> or query strings) into branded values.</p>
             <h3 id="type-guards" class="mt-8 text-lg leading-tight tracking-tight">Type guards</h3>
             <p class="mt-0 mb-6">Use a type guard to check a value and narrow it to a brand:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">isInvoiceId</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value<span class="text-syn-u">.</span><span class="text-syn-f">startsWith</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;inv_&quot;</span><span class="text-syn-u">);</span> <span class="text-syn-c italic">// basically validating if the string is like inv_123</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">handleRequest</span><span class="text-syn-u">(</span>idParam<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span><span class="text-syn-f">isInvoiceId</span><span class="text-syn-u">(</span>idParam<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Invalid invoice ID&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> invoiceId <span class="text-syn-o">=</span> idParam<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// invoiceId: InvoiceId</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">isInvoiceId</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value<span class="text-syn-u">.</span><span class="text-syn-f">startsWith</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;inv_&quot;</span><span class="text-syn-u">);</span> <span class="text-syn-c italic">// basically validating if the string is like inv_123</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">handleRequest</span><span class="text-syn-u">(</span>idParam<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span><span class="text-syn-f">isInvoiceId</span><span class="text-syn-u">(</span>idParam<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Invalid invoice ID&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> invoiceId <span class="text-syn-o">=</span> idParam<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// invoiceId: InvoiceId</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Inside the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">if</code>, TypeScript knows <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">invoiceId</code> is an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>.</p>
             <h3 id="assertion-functions" class="mt-8 text-lg leading-tight tracking-tight">Assertion functions</h3>
             <p class="mt-0 mb-6">For cleaner call sites, you can wrap that check in an assertion:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;PositiveSeconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-o">asserts</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span><span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Expected a positive number of seconds&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">waitForSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">PositiveSeconds</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> seconds <span class="text-syn-o">*</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">scheduleReminder</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-f">waitForSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;PositiveSeconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-o">asserts</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span><span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Expected a positive number of seconds&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">waitForSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">PositiveSeconds</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> seconds <span class="text-syn-o">*</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">scheduleReminder</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-f">waitForSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">At the boundary (e.g. controller, API handler), you validate once. After <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">assertPositiveSeconds</code>, the compiler treats <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">seconds</code> as a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">PositiveSeconds</code> everywhere downstream.</p>
             <details class="mt-0 mb-6 rounded-lg border border-line p-4 [&amp;>*:last-child]:mb-0">
               <summary class="cursor-pointer font-bold"><strong>Wait, what do <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">asserts</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">is</code> mean here?</strong></summary>
@@ -405,77 +456,102 @@
                 </li>
               </ul>
               <p class="mt-0 mb-6">So:</p>
-              <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // inside this block, seconds is PositiveSeconds</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// after this line, seconds is PositiveSeconds everywhere below</span></span>
-                </code>
-              </pre>
+              <div class="relative mt-0 mb-6" data-code-block>
+                <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                  <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // inside this block, seconds is PositiveSeconds</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
+                    <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// after this line, seconds is PositiveSeconds everywhere below</span></span>
+                  </code>
+                </pre>
+                <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                  <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                </div>
+              </div>
               <p class="mt-0 mb-6">Type predicates (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">value is T</code>) narrow types inside conditionals, while assertion functions (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">asserts value is T</code>) narrow types for all subsequent code if they return.</p>
             </details>
             <h3 id="branding-trusted-values" class="mt-8 text-lg leading-tight tracking-tight">Branding trusted values</h3>
             <p class="mt-0 mb-6">Sometimes you generate values yourself and already know they’re valid. In those cases, a tiny helper is enough:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">asInvoiceId</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> id <span class="text-syn-o">=</span> <span class="text-syn-f">asInvoiceId</span><span class="text-syn-u">(</span><span class="text-syn-s">`inv_${crypto.randomUUID()}`</span><span class="text-syn-u">);</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">asInvoiceId</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> id <span class="text-syn-o">=</span> <span class="text-syn-f">asInvoiceId</span><span class="text-syn-u">(</span><span class="text-syn-s">`inv_${crypto.randomUUID()}`</span><span class="text-syn-u">);</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This does not validate; it just tells TypeScript, “this value is already safe”.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h2 id="using-branded-types-with-zod" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Using Branded Types with Zod</h2>
             <p class="mt-0 mb-6">Zod is your first line of defense for untrusted input (HTTP requests, forms, webhooks). You want it to emit values that are already branded.</p>
             <h3 id="why-not-use-z-string-brand-directly" class="mt-8 text-lg leading-tight tracking-tight">Why not use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">z.string().brand()</code> directly?</h3>
             <p class="mt-0 mb-6">Zod has a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.brand()</code> helper:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> InvoiceIdSchema <span class="text-syn-o">=</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">uuid</span><span class="text-syn-u">().</span><span class="text-syn-f">brand</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ZodInvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">z</span><span class="text-syn-u">.</span><span class="text-syn-t">infer</span><span class="text-syn-u">&lt;</span><span class="text-syn-o">typeof</span> InvoiceIdSchema<span class="text-syn-u">&gt;;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> InvoiceIdSchema <span class="text-syn-o">=</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">uuid</span><span class="text-syn-u">().</span><span class="text-syn-f">brand</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ZodInvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">z</span><span class="text-syn-u">.</span><span class="text-syn-t">infer</span><span class="text-syn-u">&lt;</span><span class="text-syn-o">typeof</span> InvoiceIdSchema<span class="text-syn-u">&gt;;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This works, but <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ZodInvoiceId</code> is a <strong>Zod-specific brand</strong>, not your shared <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code> type. You’d end up with multiple “brands” for the same concept across your app.</p>
             <h3 id="use-transform-to-apply-your-own-brand" class="mt-8 text-lg leading-tight tracking-tight">Use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.transform()</code> to apply your own brand</h3>
             <p class="mt-0 mb-6">A better approach is to validate with Zod, then apply your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> InvoiceIdSchema <span class="text-syn-o">=</span> z</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">()</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">uuid</span><span class="text-syn-u">()</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">transform</span><span class="text-syn-u">((</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> value <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceIdFromZod</span> <span class="text-syn-o">=</span> <span class="text-syn-t">z</span><span class="text-syn-u">.</span><span class="text-syn-t">infer</span><span class="text-syn-u">&lt;</span><span class="text-syn-o">typeof</span> InvoiceIdSchema<span class="text-syn-u">&gt;;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> InvoiceIdSchema <span class="text-syn-o">=</span> z</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">()</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">uuid</span><span class="text-syn-u">()</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">transform</span><span class="text-syn-u">((</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> value <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceIdFromZod</span> <span class="text-syn-o">=</span> <span class="text-syn-t">z</span><span class="text-syn-u">.</span><span class="text-syn-t">infer</span><span class="text-syn-u">&lt;</span><span class="text-syn-o">typeof</span> InvoiceIdSchema<span class="text-syn-u">&gt;;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Usage:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> InvoiceIdSchema<span class="text-syn-u">.</span><span class="text-syn-f">safeParse</span><span class="text-syn-u">(</span>input<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>result<span class="text-syn-u">.</span><span class="text-syn-p">success</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Invalid invoice ID&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoiceId <span class="text-syn-o">=</span> result<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> InvoiceIdSchema<span class="text-syn-u">.</span><span class="text-syn-f">safeParse</span><span class="text-syn-u">(</span>input<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>result<span class="text-syn-u">.</span><span class="text-syn-p">success</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Invalid invoice ID&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoiceId <span class="text-syn-o">=</span> result<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Now:</p>
             <ul class="mt-0 mb-6">
               <li>Zod emits <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code></li>
@@ -487,111 +563,141 @@
             <h2 id="branding-more-than-just-ids-units-currency-content" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Branding More Than Just IDs (Units, Currency, Content)</h2>
             <p class="mt-0 mb-6">Branded types are not just for IDs. They work with any primitive or structural type.</p>
             <h3 id="units-and-time" class="mt-8 text-lg leading-tight tracking-tight">Units and time</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Milliseconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Milliseconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Seconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Seconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">sleep</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">Seconds</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> seconds <span class="text-syn-o">*</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> delayMs<span class="text-syn-o">:</span> <span class="text-syn-t">Milliseconds</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> delaySec<span class="text-syn-o">:</span> <span class="text-syn-t">Seconds</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sleep</span><span class="text-syn-u">(</span>delaySec<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// sleep(delayMs) // ❌ Type error</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Milliseconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Milliseconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Seconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Seconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">sleep</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">Seconds</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> seconds <span class="text-syn-o">*</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> delayMs<span class="text-syn-o">:</span> <span class="text-syn-t">Milliseconds</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> delaySec<span class="text-syn-o">:</span> <span class="text-syn-t">Seconds</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sleep</span><span class="text-syn-u">(</span>delaySec<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// sleep(delayMs) // ❌ Type error</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">No more accidentally mixing <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ms</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">s</code>.</p>
             <h3 id="currency-and-other-numeric-domains" class="mt-8 text-lg leading-tight tracking-tight">Currency and other numeric domains</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InrRupee</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InrRupee&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UsdCents</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UsdCents&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Invoice</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  total<span class="text-syn-o">:</span> <span class="text-syn-t">InrRupee</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> inr<span class="text-syn-o">:</span> <span class="text-syn-t">InrRupee</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> usd<span class="text-syn-o">:</span> <span class="text-syn-t">UsdCents</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoice<span class="text-syn-o">:</span> <span class="text-syn-t">Invoice</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span> <span class="text-syn-p">total:</span> inr <span class="text-syn-u">};</span> <span class="text-syn-c italic">// ✅</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// const bad: Invoice = { total: usd }  // ❌ Type error</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InrRupee</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InrRupee&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UsdCents</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UsdCents&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Invoice</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  total<span class="text-syn-o">:</span> <span class="text-syn-t">InrRupee</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> inr<span class="text-syn-o">:</span> <span class="text-syn-t">InrRupee</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> usd<span class="text-syn-o">:</span> <span class="text-syn-t">UsdCents</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoice<span class="text-syn-o">:</span> <span class="text-syn-t">Invoice</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span> <span class="text-syn-p">total:</span> inr <span class="text-syn-u">};</span> <span class="text-syn-c italic">// ✅</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// const bad: Invoice = { total: usd }  // ❌ Type error</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You can add more domain rules (e.g. non‑negative) with the assertion patterns shown earlier.</p>
             <h3 id="safe-vs-unsafe-content" class="mt-8 text-lg leading-tight tracking-tight">Safe vs unsafe content</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SafeHtml</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;SafeHtml&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">function</span> <span class="text-syn-f">sanitize</span><span class="text-syn-u">(</span>input<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">SafeHtml</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">render</span><span class="text-syn-u">(</span>html<span class="text-syn-o">:</span> <span class="text-syn-t">SafeHtml</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  document<span class="text-syn-u">.</span>body<span class="text-syn-u">.</span><span class="text-syn-p">innerHTML</span> <span class="text-syn-o">=</span> html<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> userInput <span class="text-syn-o">=</span> <span class="text-syn-s">`&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;`</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">render</span><span class="text-syn-u">(</span><span class="text-syn-f">sanitize</span><span class="text-syn-u">(</span>userInput<span class="text-syn-u">));</span> <span class="text-syn-c italic">// ✅</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// render(userInput)        // ❌ Type error</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SafeHtml</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;SafeHtml&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">function</span> <span class="text-syn-f">sanitize</span><span class="text-syn-u">(</span>input<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">SafeHtml</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">render</span><span class="text-syn-u">(</span>html<span class="text-syn-o">:</span> <span class="text-syn-t">SafeHtml</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  document<span class="text-syn-u">.</span>body<span class="text-syn-u">.</span><span class="text-syn-p">innerHTML</span> <span class="text-syn-o">=</span> html<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> userInput <span class="text-syn-o">=</span> <span class="text-syn-s">`&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;`</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">render</span><span class="text-syn-u">(</span><span class="text-syn-f">sanitize</span><span class="text-syn-u">(</span>userInput<span class="text-syn-u">));</span> <span class="text-syn-c italic">// ✅</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// render(userInput)        // ❌ Type error</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The brand forces all HTML to go through your sanitizer before it ever touches <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">innerHTML</code>.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h2 id="when-branded-types-are-not-the-best-tool" class="mt-12 text-xl font-semibold leading-tight tracking-tight">When Branded Types Are Not the Best Tool</h2>
             <p class="mt-0 mb-6">Branded types are great, but they are not always the simplest or clearest choice.</p>
             <h3 id="use-unions-for-small-closed-sets" class="mt-8 text-lg leading-tight tracking-tight">Use unions for small closed sets</h3>
             <p class="mt-0 mb-6">If a value can only be one of a few literals, a union is usually clearer:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">TaskStatus</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;pending&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;rejected&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;resolved&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Task</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  status<span class="text-syn-o">:</span> <span class="text-syn-t">TaskStatus</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">TaskStatus</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;pending&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;rejected&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;resolved&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Task</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  status<span class="text-syn-o">:</span> <span class="text-syn-t">TaskStatus</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You get exhaustiveness checking in <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">switch</code> statements with no branding overhead.</p>
             <h3 id="use-template-literal-types-for-patterns" class="mt-8 text-lg leading-tight tracking-tight">Use template literal types for patterns</h3>
             <p class="mt-0 mb-6">When valid strings follow a pattern, template literal types can encode that pattern directly:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ThemeBase</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;dark&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;light&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;system&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ThemeContrast</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;high&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;low&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;standard&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Theme</span> <span class="text-syn-o">=</span> <span class="text-syn-s">`${ThemeBase}-${ThemeContrast}`</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">setTheme</span><span class="text-syn-u">(</span>theme<span class="text-syn-o">:</span> <span class="text-syn-t">Theme</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> theme<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">setTheme</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;dark-high&quot;</span><span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// setTheme(&quot;dark-regular&quot;) // ❌ Type error</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ThemeBase</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;dark&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;light&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;system&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ThemeContrast</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;high&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;low&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;standard&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Theme</span> <span class="text-syn-o">=</span> <span class="text-syn-s">`${ThemeBase}-${ThemeContrast}`</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">setTheme</span><span class="text-syn-u">(</span>theme<span class="text-syn-o">:</span> <span class="text-syn-t">Theme</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> theme<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">setTheme</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;dark-high&quot;</span><span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// setTheme(&quot;dark-regular&quot;) // ❌ Type error</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">No brands needed, the pattern is in the type itself.</p>
             <h3 id="use-wrappers-for-strongest-runtime-guarantees" class="mt-8 text-lg leading-tight tracking-tight">Use wrappers for strongest runtime guarantees</h3>
             <p class="mt-0 mb-6">If you need heavyweight safety (e.g. security‑critical code), a wrapper type can enforce invariants at creation:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Positive</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">createPositive</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Positive</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>value <span class="text-syn-o">&lt;=</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Expected a positive number&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> value <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Positive</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">createPositive</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Positive</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>value <span class="text-syn-o">&lt;=</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Expected a positive number&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> value <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This adds runtime cost and a new object, but the guarantee is very strong.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h2 id="community-helpers-ts-brand-and-effect" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Community Helpers: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ts-brand</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">effect</code></h2>
@@ -601,30 +707,40 @@
               <li><strong><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://effect.website"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">effect</code></a></strong>: a full framework that includes a powerful <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand</code> module with helpers like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand.refined</code>.</li>
             </ul>
             <p class="mt-0 mb-6">Example with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ts-brand</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Brand <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;ts-brand&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> id<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Brand <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;ts-brand&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> id<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Example with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">effect</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Brand <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;effect&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Positive</span> <span class="text-syn-o">=</span> <span class="text-syn-t">number</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">.</span><span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-s">&quot;Positive&quot;</span><span class="text-syn-u">&gt;;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> asPositive <span class="text-syn-o">=</span> Brand<span class="text-syn-u">.</span><span class="text-syn-f">refined</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Positive</span><span class="text-syn-u">&gt;(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">(</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> value <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">(</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> Brand<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">`Non-positive value: ${value}`</span><span class="text-syn-u">),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Brand <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;effect&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Positive</span> <span class="text-syn-o">=</span> <span class="text-syn-t">number</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">.</span><span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-s">&quot;Positive&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> asPositive <span class="text-syn-o">=</span> Brand<span class="text-syn-u">.</span><span class="text-syn-f">refined</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Positive</span><span class="text-syn-u">&gt;(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">(</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> value <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">(</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> Brand<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">`Non-positive value: ${value}`</span><span class="text-syn-u">),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Both use the same phantom‑property trick you saw earlier, just packaged and maintained for you.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
             <h2 id="when-branded-types-shine" class="mt-12 text-xl font-semibold leading-tight tracking-tight">When Branded Types Shine</h2>

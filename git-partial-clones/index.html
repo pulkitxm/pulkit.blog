@@ -147,6 +147,7 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
     <script src="/theme.fa2a27cfd83d.js"></script>
@@ -154,7 +155,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -186,14 +187,19 @@
             <p class="mt-0 mb-6">So this is that rabbit hole, written up properly. We&#39;re going deep: what git actually downloads when you clone, the three independent knobs that control it (<strong>shallow clone</strong>, <strong>partial clone</strong>, <strong>sparse checkout</strong>), why the order you apply them matters, and how a repository that&#39;s missing 99% of its own data can still commit and push like nothing&#39;s wrong.</p>
             <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">TL;DR</h2>
             <p class="mt-0 mb-6">The whole trick is these four commands:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-s">--no-checkout</span> <span class="text-syn-s">--branch</span> <span class="text-syn-s">main</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span> <span class="text-syn-s">repo</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">cd</span> <span class="text-syn-s">repo</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">checkout</span> <span class="text-syn-s">main</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-s">--no-checkout</span> <span class="text-syn-s">--branch</span> <span class="text-syn-s">main</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span> <span class="text-syn-s">repo</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">cd</span> <span class="text-syn-s">repo</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">checkout</span> <span class="text-syn-s">main</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <ul class="mt-0 mb-6">
               <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter=blob:none</code></strong> (partial clone) downloads commits and trees but <strong>zero file contents</strong>. Missing blobs get fetched from the server later, on demand, the moment something needs them.</li>
               <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code></strong> (shallow clone) downloads only the <strong>tip commit</strong>, no history.</li>
@@ -210,111 +216,166 @@
               <li><strong>Trees</strong>: directory listings. A tree maps names to blobs (files) and other trees (subdirectories).</li>
               <li><strong>Commits</strong>: a pointer to one root tree, plus parent commit(s), author, and message.</li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">   commit ──► root tree ──► blob        README.md</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                 │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                 ├────────► tree        src/</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                 │            ├───────► blob   index.ts</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                 │            └───────► blob   utils.ts</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                 │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                 └────────► tree        assets/</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                              ├───────► blob   demo.mp4   (30 MB)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                              └───────► blob   hero.png   (2 MB)</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">   commit ──► root tree ──► blob        README.md</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                 │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                 ├────────► tree        src/</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                 │            ├───────► blob   index.ts</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                 │            └───────► blob   utils.ts</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                 │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                 └────────► tree        assets/</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                              ├───────► blob   demo.mp4   (30 MB)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                              └───────► blob   hero.png   (2 MB)</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Every commit in history points at a full snapshot like this. A normal <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code> downloads <strong>all of it</strong>: every commit ever made, every version of every tree, and every version of every blob. Then it checks out the tip into your working directory.</p>
             <p class="mt-0 mb-6">Here&#39;s the part that matters: <strong>the weight is almost entirely in the blobs.</strong> Commits and trees are tiny text-like records that compress brilliantly. Blobs are your actual files, and in any repo with media, build fixtures, or just a lot of code and years of churn, historical blob versions are where the gigabytes live. You are downloading every version of every video that was ever committed, including the ones deleted years ago.</p>
             <p class="mt-0 mb-6">So the game is: how much of this can we <em>not</em> download? Git gives you three independent knobs, and each one cuts along a different axis.</p>
             <h2 id="knob-1-shallow-clone-cutting-history" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Knob 1: shallow clone, cutting history</h2>
             <p class="mt-0 mb-6">The oldest and best-known knob:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code> says: give me the <strong>tip commit only</strong>, none of its ancestors. Git records the cut point in <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git/shallow</code>, and the bottom commit becomes a &quot;grafted&quot; commit that pretends to have no parents. (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth</code> also implies <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--single-branch</code>, so you&#39;re only getting one branch&#39;s tip unless you say otherwise.)</p>
             <p class="mt-0 mb-6">You still get the <em>full snapshot</em> at the tip: all trees and all blobs for the current state of the project. What you lose is the past: no old versions, no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git log</code> beyond the tip, no blame history.</p>
             <p class="mt-0 mb-6">You can change your mind later:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--deepen=50</span>      <span class="text-syn-c italic"># pull in 50 more commits of history</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--unshallow</span>      <span class="text-syn-c italic"># give up, download everything</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--deepen=50</span>      <span class="text-syn-c italic"># pull in 50 more commits of history</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--unshallow</span>      <span class="text-syn-c italic"># give up, download everything</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Shallow clones are why CI checkouts are fast, and for a one-shot &quot;build this and throw it away&quot; they&#39;re perfect. But for a repo whose weight is media at the tip, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code> barely helps: the current snapshot is still huge. That&#39;s the axis it can&#39;t touch, which brings us to the interesting knob.</p>
             <h2 id="knob-2-partial-clone-cutting-content" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Knob 2: partial clone, cutting content</h2>
             <p class="mt-0 mb-6">This is the modern one, and the one that changes everything:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter</code> tells the server: send me the commits and the trees, but <strong>no blobs at all</strong>. The full shape of history arrives; none of the file contents do.</p>
             <p class="mt-0 mb-6">Which immediately raises the question: how can a repository even function with no file contents? The answer is the clever part. A partial clone registers its origin as a <strong>promisor remote</strong>: git records that this remote has <em>promised</em> it can supply any missing object later. From then on, any time a git command actually needs a blob that isn&#39;t there, git pauses, fetches exactly that object from the server, and carries on. Lazily, on demand, invisible when it works well.</p>
             <p class="mt-0 mb-6">You can watch it happen. In a fresh blobless clone:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">log</span> <span class="text-syn-s">--oneline</span> <span class="text-syn-s">-20</span>        <span class="text-syn-c italic"># instant, commits are local</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">ls-tree</span> <span class="text-syn-s">HEAD</span>             <span class="text-syn-c italic"># instant, trees are local</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">show</span> <span class="text-syn-s">HEAD:package.json</span>   <span class="text-syn-c italic"># pauses briefly... fetches ONE blob, prints it</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">log</span> <span class="text-syn-s">--oneline</span> <span class="text-syn-s">-20</span>        <span class="text-syn-c italic"># instant, commits are local</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">ls-tree</span> <span class="text-syn-s">HEAD</span>             <span class="text-syn-c italic"># instant, trees are local</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">show</span> <span class="text-syn-s">HEAD:package.json</span>   <span class="text-syn-c italic"># pauses briefly... fetches ONE blob, prints it</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">That last command is the whole feature in miniature: the repository is a skeleton, and flesh gets attached one bone at a time, only where you actually touch it.</p>
             <p class="mt-0 mb-6">There are other filters worth knowing:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">blob:none</span>        <span class="text-syn-c italic"># no blobs (the one you want 95% of the time)</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">blob:</span>limit<span class="text-syn-o">=</span><span class="text-syn-s">1m</span>    <span class="text-syn-c italic"># blobs over 1 MB stay behind, small ones come along</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">tree:0</span>           <span class="text-syn-c italic"># not even trees, just commits (extreme, see gotchas)</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">blob:none</span>        <span class="text-syn-c italic"># no blobs (the one you want 95% of the time)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">blob:</span>limit<span class="text-syn-o">=</span><span class="text-syn-s">1m</span>    <span class="text-syn-c italic"># blobs over 1 MB stay behind, small ones come along</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">tree:0</span>           <span class="text-syn-c italic"># not even trees, just commits (extreme, see gotchas)</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Two caveats before you fall in love. First, the server has to support filtering (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">uploadpack.allowFilter</code>); GitHub, GitLab, and the other big hosts all do, but a random bare server might not, in which case git quietly warns and sends everything. Second, that on-demand fetching has sharp edges we&#39;ll get to in the gotchas, because a repo that needs the network to read old files is a different animal.</p>
             <h2 id="knob-3-sparse-checkout-cutting-the-working-tree" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Knob 3: sparse checkout, cutting the working tree</h2>
             <p class="mt-0 mb-6">The first two knobs control what&#39;s in your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> object database. The third controls something else entirely: <strong>which files git materializes into your working directory.</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">apps/web</span> <span class="text-syn-s">shared/ui</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">apps/web</span> <span class="text-syn-s">shared/ui</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">After this, your working directory contains only those directories (plus files at the repo root). Everything else is still <em>in the repository</em>, committed and safe, just not written to disk. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git status</code> is clean; git knows the missing files are intentionally absent, not deleted.</p>
             <p class="mt-0 mb-6">By default <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">sparse-checkout set</code> works in <strong>cone mode</strong>: you give it directories, and it includes everything under them. Cone mode is fast because git can match paths with simple prefix checks. But cone mode <em>only</em> does directories. If you want to pin the working tree down to individual files, you need patterns:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--no-cone</code> mode takes <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.gitignore</code>-style patterns, so <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/README.md</code> means &quot;exactly this one file at the root&quot;. It&#39;s slower at scale and the docs nudge you toward cone mode, but for surgical work on a handful of files it&#39;s exactly the right tool.</p>
             <p class="mt-0 mb-6">The rest of the surface is small:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">list</span>           <span class="text-syn-c italic"># show current patterns</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">add</span> <span class="text-syn-s">docs/</span>      <span class="text-syn-c italic"># widen the checkout</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">disable</span>        <span class="text-syn-c italic"># materialize everything again</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">list</span>           <span class="text-syn-c italic"># show current patterns</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">add</span> <span class="text-syn-s">docs/</span>      <span class="text-syn-c italic"># widen the checkout</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">disable</span>        <span class="text-syn-c italic"># materialize everything again</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">On its own, sparse checkout saves disk and makes tools faster (your editor, file watcher, and grep stop seeing a million files). But notice what it does <strong>in combination with a partial clone</strong>: if checkout is what triggers blob fetches, and sparse checkout shrinks what gets checked out... you control exactly which blobs ever get downloaded. That&#39;s the combination lock, and it&#39;s why the recipe works.</p>
             <h2 id="the-recipe-line-by-line" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The recipe, line by line</h2>
             <p class="mt-0 mb-6">Here it is again, the whole thing:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-s">--no-checkout</span> <span class="text-syn-s">--branch</span> <span class="text-syn-s">main</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span> <span class="text-syn-s">repo</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">cd</span> <span class="text-syn-s">repo</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">checkout</span> <span class="text-syn-s">main</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-s">--no-checkout</span> <span class="text-syn-s">--branch</span> <span class="text-syn-s">main</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span> <span class="text-syn-s">repo</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">cd</span> <span class="text-syn-s">repo</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">checkout</span> <span class="text-syn-s">main</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Line 1</strong> creates the skeleton. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter=blob:none</code> keeps every blob on the server. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code> keeps every historical commit and tree on the server too, so even the metadata download is tiny. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--branch main</code> picks the branch. And <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--no-checkout</code> is the quiet hero: it tells git to stop after writing <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> and <strong>not</strong> populate the working directory.</p>
             <p class="mt-0 mb-6">Why does that matter so much? Because of <em>when</em> blobs get fetched. Checkout is the step that writes files to disk, and writing files needs their contents. If you let the clone check out normally, git would immediately demand every blob in the tip snapshot, and your &quot;partial&quot; clone would re-download the entire current state of the repo file by file. The classic partial-clone footgun: you filtered the blobs out, then instantly invited them all back in.</p>
             <p class="mt-0 mb-6"><strong>Line 3</strong> sets the trap before springing it: with the working tree still empty, we pin the sparse patterns down to one file.</p>
             <p class="mt-0 mb-6"><strong>Line 4</strong> springs it. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git checkout main</code> materializes the working tree, which by now means: exactly the paths matching the sparse patterns. Git walks the tip tree, finds one matching path, notices its blob is missing, fetches that single object from the promisor remote, and writes the file. (When multiple blobs are missing, git batches them into one request rather than making a round trip per file.)</p>
             <p class="mt-0 mb-6">Total transfer: one commit object, the trees for one snapshot, and one blob. On the repo that started this post, the multi-gigabyte clone became a download small enough that the sparse-checkout step was the part I noticed.</p>
             <p class="mt-0 mb-6">Need more of the repo later? Widen it, and git fetches just the difference:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">add</span> <span class="text-syn-s">scripts/</span>     <span class="text-syn-c italic"># fetches only the blobs under scripts/</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">add</span> <span class="text-syn-s">scripts/</span>     <span class="text-syn-c italic"># fetches only the blobs under scripts/</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h2 id="the-part-that-feels-illegal-committing-from-a-skeleton" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The part that feels illegal: committing from a skeleton</h2>
             <p class="mt-0 mb-6">So you have a repository that&#39;s missing nearly all of its history&#39;s content. Surely git objects to you <em>writing</em> to it?</p>
             <p class="mt-0 mb-6">It doesn&#39;t, and understanding why is the best part of the whole exercise.</p>
@@ -326,24 +387,34 @@
             </ol>
             <p class="mt-0 mb-6">None of that requires reading the objects you don&#39;t have. Committing is pure addition to a content-addressed store.</p>
             <p class="mt-0 mb-6">Then push:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">push</span> <span class="text-syn-s">origin</span> <span class="text-syn-s">main</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">push</span> <span class="text-syn-s">origin</span> <span class="text-syn-s">main</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Push is a negotiation, and it&#39;s beautifully minimal. Your git and the server compare refs: &quot;you&#39;re at <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">f5a0be6</code>, I have <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">4c9f1b9</code> which descends from it.&quot; Then your side computes which objects the server could possibly be missing: just the new blob, the few new trees, and the commit. That handful of objects goes over the wire, a few kilobytes, and the server updates the ref. The thousands of blobs you never downloaded are never mentioned by either side. The server doesn&#39;t care what your local copy is missing; it only cares that the objects <em>you&#39;re sending</em> connect to history <em>it already has</em>.</p>
             <p class="mt-0 mb-6">Shallow doesn&#39;t break this either: your new commit&#39;s parent is the remote&#39;s own tip, so the connection check trivially passes. Clone in seconds, edit, commit, push, and the remote ends up byte-identical to what a full clone would have produced.</p>
             <h2 id="the-gotchas-that-will-bite-you" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The gotchas that will bite you</h2>
             <p class="mt-0 mb-6">Every one of these is a lesson I&#39;d rather you learn here than in production.</p>
             <h3 id="history-walking-commands-phone-home" class="mt-8 text-lg leading-tight tracking-tight">History-walking commands phone home</h3>
             <p class="mt-0 mb-6">This is the big one for partial clones. Commands that only read <em>metadata</em> stay fast forever: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git log --oneline</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git ls-tree</code>, branch and merge operations. But commands that read historical <em>contents</em> need historical blobs, and those live on the server:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">log</span> <span class="text-syn-s">-p</span>            <span class="text-syn-c italic"># fetches blobs for EVERY commit it displays, one batch at a time</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">blame</span> <span class="text-syn-s">src/app.ts</span>  <span class="text-syn-c italic"># fetches every historical version of that file</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">bisect</span>            <span class="text-syn-c italic"># fetches each checkout as you go</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">log</span> <span class="text-syn-s">-p</span>            <span class="text-syn-c italic"># fetches blobs for EVERY commit it displays, one batch at a time</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">blame</span> <span class="text-syn-s">src/app.ts</span>  <span class="text-syn-c italic"># fetches every historical version of that file</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">bisect</span>            <span class="text-syn-c italic"># fetches each checkout as you go</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">On a blobless clone these work, but they crawl, and they need the network. A partial clone is a repo with a dependency on its server baked in. On a plane, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git show HEAD~40:src/app.ts</code> doesn&#39;t say &quot;slow&quot;, it says no. If your daily work is archaeology (blame, bisect, spelunking), take the full clone; that&#39;s what it&#39;s for.</p>
             <h3 id="the-checkout-stampede" class="mt-8 text-lg leading-tight tracking-tight">The checkout stampede</h3>
             <p class="mt-0 mb-6">Covered above but worth repeating, because it&#39;s <em>the</em> classic mistake: doing <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone --filter=blob:none</code> <strong>without</strong> <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--no-checkout</code> + sparse checkout means the clone ends by fetching the entire tip snapshot anyway. Blobless clones only skip what you never touch, and a full checkout touches everything. Decide what you&#39;ll touch <em>before</em> the first checkout.</p>
@@ -356,11 +427,16 @@
             <p class="mt-0 mb-6">The files excluded by sparse checkout genuinely aren&#39;t on disk. Global search finds nothing in them; a codemod won&#39;t touch them; a build that imports from an excluded directory just fails. Git itself is never confused (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git sparse-checkout list</code> always tells the truth), but your <em>tools</em> trust the filesystem. When something behaves impossibly, check whether you&#39;re standing in a sparse checkout; my earlier confused self can confirm that &quot;the file is tracked but doesn&#39;t exist&quot; is a very disorienting first symptom.</p>
             <h3 id="one-command-to-rule-them-all-scalar" class="mt-8 text-lg leading-tight tracking-tight">One command to rule them all: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">scalar</code></h3>
             <p class="mt-0 mb-6">If this whole post sounds like configuration you&#39;d rather not remember, git ships a tool that bundles the recommended setup:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">scalar</span> <span class="text-syn-s">clone</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">scalar</span> <span class="text-syn-s">clone</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">scalar</code> (included with git since 2.38) does a blobless partial clone, enables cone-mode sparse checkout starting from the root directory only, and turns on background maintenance. It&#39;s the &quot;monorepo defaults&quot; button, and for daily work on a huge repo it&#39;s honestly the right starting point; the manual flags are for when you want surgical control (or you want to understand what scalar is doing for you, which, after this post, you do).</p>
             <h2 id="the-comparison-in-one-table" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The comparison, in one table</h2>
             <table tabindex="0" class="mt-0 mb-6 block overflow-x-auto border-collapse text-md wrap-normal">
@@ -412,18 +488,23 @@
               </tbody>
             </table>
             <p class="mt-0 mb-6">And the axes, because this is the picture to keep:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">                 history (commits)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                       ▲</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                       │   ← --depth cuts here</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                       │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   working tree ◄──────┼──────► content (blobs)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   (files on disk)     │        ← --filter cuts here</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   ← sparse-checkout   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     cuts here         ▼</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">                 history (commits)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                       ▲</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                       │   ← --depth cuts here</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                       │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   working tree ◄──────┼──────► content (blobs)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   (files on disk)     │        ← --filter cuts here</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   ← sparse-checkout   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     cuts here         ▼</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Three axes, three independent knobs. Any combination is valid, and each one only pays for what it uses.</p>
             <h2 id="when-i-actually-reach-for-each" class="mt-12 text-xl font-semibold leading-tight tracking-tight">When I actually reach for each</h2>
             <ul class="mt-0 mb-6">

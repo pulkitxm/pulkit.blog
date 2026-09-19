@@ -150,6 +150,7 @@
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
@@ -158,7 +159,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -211,30 +212,40 @@
             </ul>
             <h2 id="why-databases-are-different" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Why Databases Are Different</h2>
             <p class="mt-0 mb-6">API servers sit behind a load balancer. Request comes in, any server can handle it. If server 3 goes down, servers 1, 2, and 4 pick up the slack. The only impact? Requests mid-flight on server 3 fail. Users retry, life goes on.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Load Balancer</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ├── API Server 1 ✓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ├── API Server 2 ✓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ├── API Server 3 ✗ (crashed)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     └── API Server 4 ✓</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Traffic automatically routes to healthy servers.</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Load Balancer</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ├── API Server 1 ✓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ├── API Server 2 ✓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ├── API Server 3 ✗ (crashed)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     └── API Server 4 ✓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Traffic automatically routes to healthy servers.</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This works because API servers don&#39;t remember anything. They&#39;re stateless. Every request carries all the information needed. Server 1 handles your login, server 4 handles your next page load. Neither server cares.</p>
             <p class="mt-0 mb-6">Databases are the opposite. They hold your state. Your users. Your orders. Your payment history. Your entire business.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Single Database</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     └── 💾 All your data</span>
-                <span class="block leading-(--pre-line) whitespace-pre">         (users, orders, payments, everything)</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">If this fails catastrophically, you&#39;re done.</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Single Database</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     └── 💾 All your data</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">         (users, orders, payments, everything)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">If this fails catastrophically, you&#39;re done.</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">When your database disk fails, you can&#39;t just &quot;spin up another one.&quot; There&#39;s no other copy. The data doesn&#39;t exist anywhere else. You&#39;re not debugging a bug. You&#39;re explaining to customers why their accounts vanished.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/stateless-vs-stateful.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
@@ -252,29 +263,44 @@
             <p class="mt-0 mb-6">When you think about making data redundant, the first question is: at what level?</p>
             <h3 id="row-or-document-level" class="mt-8 text-lg leading-tight tracking-tight">Row or Document Level</h3>
             <p class="mt-0 mb-6">Replicate individual records across databases. Useful for specific high-value data.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">createCriticalRecord</span><span class="text-syn-u">(</span>data<span class="text-syn-o">:</span> <span class="text-syn-t">CriticalData</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> primaryDb<span class="text-syn-u">.</span><span class="text-syn-f">insert</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;critical_records&quot;</span><span class="text-syn-u">,</span> data<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> secondaryDb<span class="text-syn-u">.</span><span class="text-syn-f">insert</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;critical_records&quot;</span><span class="text-syn-u">,</span> data<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">createCriticalRecord</span><span class="text-syn-u">(</span>data<span class="text-syn-o">:</span> <span class="text-syn-t">CriticalData</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> primaryDb<span class="text-syn-u">.</span><span class="text-syn-f">insert</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;critical_records&quot;</span><span class="text-syn-u">,</span> data<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> secondaryDb<span class="text-syn-u">.</span><span class="text-syn-f">insert</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;critical_records&quot;</span><span class="text-syn-u">,</span> data<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Financial transactions, user authentication data, audit logs. Things where losing a single record is unacceptable.</p>
             <h3 id="table-level" class="mt-8 text-lg leading-tight tracking-tight">Table Level</h3>
             <p class="mt-0 mb-6">Dump entire tables and restore them elsewhere. Useful for periodic snapshots of important data.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_dump</span> <span class="text-syn-s">-t</span> <span class="text-syn-s">users</span> <span class="text-syn-s">-t</span> <span class="text-syn-s">orders</span> <span class="text-syn-s">mydb</span> <span class="text-syn-o">&gt;</span> <span class="text-syn-s">critical_tables.sql</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_dump</span> <span class="text-syn-s">-t</span> <span class="text-syn-s">users</span> <span class="text-syn-s">-t</span> <span class="text-syn-s">orders</span> <span class="text-syn-s">mydb</span> <span class="text-syn-o">&gt;</span> <span class="text-syn-s">critical_tables.sql</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="database-level" class="mt-8 text-lg leading-tight tracking-tight">Database Level</h3>
             <p class="mt-0 mb-6">Full database backup or real-time replication. The most common approach for complete protection.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_basebackup</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">/backup/postgres</span> <span class="text-syn-s">-Fp</span> <span class="text-syn-s">-Xs</span> <span class="text-syn-s">-P</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_basebackup</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">/backup/postgres</span> <span class="text-syn-s">-Fp</span> <span class="text-syn-s">-Xs</span> <span class="text-syn-s">-P</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The right level depends on what you&#39;re protecting and how much you can afford to lose.</p>
             <table tabindex="0" class="mt-0 mb-6 block overflow-x-auto border-collapse text-md wrap-normal">
               <thead>
@@ -316,26 +342,41 @@
             <p class="mt-0 mb-6">The simplest form of redundancy. Take copies of your data regularly. Store them somewhere safe. If disaster strikes, restore from the most recent backup.</p>
             <h3 id="the-basic-strategy" class="mt-8 text-lg leading-tight tracking-tight">The Basic Strategy</h3>
             <p class="mt-0 mb-6"><strong>Daily incremental backups</strong>: Capture what changed since the last backup. Small, fast, low overhead.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_dump</span> <span class="text-syn-s">--data-only</span> <span class="text-syn-s">--inserts</span> <span class="text-syn-s">mydb</span> <span class="text-syn-o">&gt;</span> <span class="text-syn-s">incremental_</span><span class="text-syn-u">$(</span><span class="text-syn-f">date</span> <span class="text-syn-s">+%Y%m%d</span><span class="text-syn-u">)</span><span class="text-syn-s">.sql</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_dump</span> <span class="text-syn-s">--data-only</span> <span class="text-syn-s">--inserts</span> <span class="text-syn-s">mydb</span> <span class="text-syn-o">&gt;</span> <span class="text-syn-s">incremental_</span><span class="text-syn-u">$(</span><span class="text-syn-f">date</span> <span class="text-syn-s">+%Y%m%d</span><span class="text-syn-u">)</span><span class="text-syn-s">.sql</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Weekly full backups</strong>: Complete snapshot of everything. Larger, slower, but comprehensive.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_basebackup</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">/backup/full_</span><span class="text-syn-u">$(</span><span class="text-syn-f">date</span> <span class="text-syn-s">+%Y%m%d</span><span class="text-syn-u">)</span> <span class="text-syn-s">-Fp</span> <span class="text-syn-s">-Xs</span> <span class="text-syn-s">-P</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_basebackup</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">/backup/full_</span><span class="text-syn-u">$(</span><span class="text-syn-f">date</span> <span class="text-syn-s">+%Y%m%d</span><span class="text-syn-u">)</span> <span class="text-syn-s">-Fp</span> <span class="text-syn-s">-Xs</span> <span class="text-syn-s">-P</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Cross-region copy</strong>: At least one copy in a different data center. Fire floods the building? Your data survives in another continent.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Primary DC (Mumbai)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├── Daily incremental (local)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├── Weekly full (local)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└── Weekly full (replicated to Singapore)</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Primary DC (Mumbai)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├── Daily incremental (local)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├── Weekly full (local)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└── Weekly full (replicated to Singapore)</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="the-recovery-point-objective" class="mt-8 text-lg leading-tight tracking-tight">The Recovery Point Objective</h3>
             <p class="mt-0 mb-6">When disaster strikes at 3 PM on Wednesday, how much data do you lose?</p>
             <p class="mt-0 mb-6">If your last backup was Tuesday night, you lose everything from Wednesday. Every order placed. Every user registered. Every payment processed. Gone.</p>
@@ -390,14 +431,19 @@
             <p class="mt-0 mb-6">Continuous redundancy fixes this. You maintain a live copy of your database, synchronized in real-time.</p>
             <h3 id="the-standby-replica" class="mt-8 text-lg leading-tight tracking-tight">The Standby Replica</h3>
             <p class="mt-0 mb-6">A standby replica is a second database that mirrors your primary. Every write to the primary is replicated to the standby.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Primary DB                      Standby DB</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├── users table     ──sync──→   ├── users table</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├── orders table    ──sync──→   ├── orders table</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└── payments table  ──sync──→   └── payments table</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Primary DB                      Standby DB</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├── users table     ──sync──→   ├── users table</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├── orders table    ──sync──→   ├── orders table</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└── payments table  ──sync──→   └── payments table</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The standby doesn&#39;t serve any traffic. No reads, no writes. It just sits there, maintaining an up-to-date copy of your data. Waiting for disaster.</p>
             <p class="mt-0 mb-6">When the primary fails:</p>
             <ol class="mt-0 mb-6">
@@ -415,13 +461,18 @@
             <p class="mt-0 mb-6">Let&#39;s walk through setting up streaming replication in PostgreSQL. The concept applies to other databases too, though the specific commands differ.</p>
             <p class="mt-0 mb-6"><strong>Step 1: Configure the Primary</strong></p>
             <p class="mt-0 mb-6">First, tell PostgreSQL to generate enough information for replicas to follow along. Edit <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">postgresql.conf</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">wal_level = replica</span>
-                <span class="block leading-(--pre-line) whitespace-pre">max_wal_senders = 3</span>
-                <span class="block leading-(--pre-line) whitespace-pre">wal_keep_size = 1GB</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">wal_level = replica</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">max_wal_senders = 3</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">wal_keep_size = 1GB</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">What these mean:</p>
             <ul class="mt-0 mb-6">
               <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">wal_level = replica</code>: Write-Ahead Log (WAL) contains enough detail for replicas to reconstruct changes. WAL is PostgreSQL&#39;s transaction log, every change goes here before hitting the actual tables.</li>
@@ -430,25 +481,40 @@
             </ul>
             <p class="mt-0 mb-6"><strong>Step 2: Allow Replica Connections</strong></p>
             <p class="mt-0 mb-6">PostgreSQL blocks replication connections by default. Add this to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">pg_hba.conf</code>:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">host replication replicator replica_ip/32 md5</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">host replication replicator replica_ip/32 md5</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This says: allow the user <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">replicator</code> to connect for replication purposes from <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">replica_ip</code>, authenticated with password (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">md5</code>). Create this user if it doesn&#39;t exist:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">USER</span> <span class="text-syn-f">replicator</span> <span class="text-syn-k">WITH</span> REPLICATION <span class="text-syn-k">ENCRYPTED</span> <span class="text-syn-k">PASSWORD</span> <span class="text-syn-s">&#39;secure_password&#39;</span>;</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">USER</span> <span class="text-syn-f">replicator</span> <span class="text-syn-k">WITH</span> REPLICATION <span class="text-syn-k">ENCRYPTED</span> <span class="text-syn-k">PASSWORD</span> <span class="text-syn-s">&#39;secure_password&#39;</span>;</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Restart PostgreSQL for changes to take effect.</p>
             <p class="mt-0 mb-6"><strong>Step 3: Initialize the Replica</strong></p>
             <p class="mt-0 mb-6">The replica needs a copy of the primary&#39;s data before it can start following changes. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">pg_basebackup</code> handles this:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_basebackup</span> <span class="text-syn-s">-h</span> <span class="text-syn-s">primary_ip</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">/var/lib/postgresql/data</span> <span class="text-syn-s">-U</span> <span class="text-syn-s">replicator</span> <span class="text-syn-s">-P</span> <span class="text-syn-s">-R</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pg_basebackup</span> <span class="text-syn-s">-h</span> <span class="text-syn-s">primary_ip</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">/var/lib/postgresql/data</span> <span class="text-syn-s">-U</span> <span class="text-syn-s">replicator</span> <span class="text-syn-s">-P</span> <span class="text-syn-s">-R</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Breaking this down:</p>
             <ul class="mt-0 mb-6">
               <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">-h primary_ip</code>: Connect to the primary server</li>
@@ -459,20 +525,30 @@
             </ul>
             <p class="mt-0 mb-6">This copies the entire database. For a 100GB database, expect this to take a while.</p>
             <p class="mt-0 mb-6"><strong>Step 4: Start the Replica</strong></p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">systemctl</span> <span class="text-syn-s">start</span> <span class="text-syn-s">postgresql</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sudo</span> <span class="text-syn-s">systemctl</span> <span class="text-syn-s">start</span> <span class="text-syn-s">postgresql</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">The replica automatically connects to the primary and starts receiving WAL stream. Every transaction on the primary flows to the replica within milliseconds (for async) or before commit (for sync).</p>
             <p class="mt-0 mb-6"><strong>Step 5: Verify It&#39;s Working</strong></p>
             <p class="mt-0 mb-6">On the primary, check connected replicas:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> client_addr, <span class="text-syn-k">state</span>, sent_lsn, replay_lsn</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">FROM</span> pg_stat_replication;</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> client_addr, <span class="text-syn-k">state</span>, sent_lsn, replay_lsn</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">FROM</span> pg_stat_replication;</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You should see your replica listed with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">state = streaming</code>. The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">sent_lsn</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">replay_lsn</code> columns show how caught up the replica is. If they&#39;re close together, replication is healthy.</p>
             <h2 id="disaster-recovery" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Disaster Recovery</h2>
             <p class="mt-0 mb-6">
@@ -485,28 +561,38 @@
             <p class="mt-0 mb-6">If all your infrastructure is in one location, you&#39;re betting your business that nothing bad will happen to that location. Ever.</p>
             <h3 id="cross-region-backups" class="mt-8 text-lg leading-tight tracking-tight">Cross-Region Backups</h3>
             <p class="mt-0 mb-6">The minimum: store one copy of your backups in a different geographic region.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Primary DC (Mumbai)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├── Production database</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├── Standby replica</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└── Local backups</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Secondary DC (Singapore)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└── Weekly backup copy</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Primary DC (Mumbai)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├── Production database</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├── Standby replica</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└── Local backups</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Secondary DC (Singapore)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└── Weekly backup copy</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">If Mumbai is underwater, you have data in Singapore. Recovery takes longer (restore from backup, not failover to replica), but you can recover.</p>
             <h3 id="cross-region-replication" class="mt-8 text-lg leading-tight tracking-tight">Cross-Region Replication</h3>
             <p class="mt-0 mb-6">For faster recovery, run a replica in another region.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Mumbai DC                        Singapore DC</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├── Primary DB ──────async──────→ DR Replica</span>
-                <span class="block leading-(--pre-line) whitespace-pre">├── Standby                       (24/7 sync)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└── App Servers                   └── Cold standby app servers</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Mumbai DC                        Singapore DC</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├── Primary DB ──────async──────→ DR Replica</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">├── Standby                       (24/7 sync)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└── App Servers                   └── Cold standby app servers</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Network latency makes synchronous replication impractical across regions. Async replication with a small lag (seconds to minutes) is the standard.</p>
             <p class="mt-0 mb-6">Recovery:</p>
             <ol class="mt-0 mb-6">
@@ -571,23 +657,28 @@
             <p class="mt-0 mb-6">Automatic failover removes the human from the critical path.</p>
             <h3 id="how-it-works" class="mt-8 text-lg leading-tight tracking-tight">How It Works</h3>
             <p class="mt-0 mb-6">A monitoring system continuously checks the primary&#39;s health:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">HealthCheck</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  endpoint<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  interval<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  timeout<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  failureThreshold<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> primaryHealthCheck<span class="text-syn-o">:</span> <span class="text-syn-t">HealthCheck</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">endpoint:</span> <span class="text-syn-s">&quot;tcp://primary:5432&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">interval:</span> <span class="text-syn-n">5000</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">timeout:</span> <span class="text-syn-n">2000</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">failureThreshold:</span> <span class="text-syn-n">3</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">HealthCheck</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  endpoint<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  interval<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  timeout<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  failureThreshold<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> primaryHealthCheck<span class="text-syn-o">:</span> <span class="text-syn-t">HealthCheck</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">endpoint:</span> <span class="text-syn-s">&quot;tcp://primary:5432&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">interval:</span> <span class="text-syn-n">5000</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">timeout:</span> <span class="text-syn-n">2000</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">failureThreshold:</span> <span class="text-syn-n">3</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">If the primary fails consecutive health checks:</p>
             <ol class="mt-0 mb-6">
               <li><strong>Confirm failure</strong>: Is it really down, or just a network blip?</li>
@@ -595,19 +686,24 @@
               <li><strong>Promote replica</strong>: Tell the replica it&#39;s now the primary</li>
               <li><strong>Redirect traffic</strong>: Update connection strings or DNS</li>
             </ol>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">handlePrimaryFailure</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> confirmed <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">confirmFailure</span><span class="text-syn-u">(</span>primary<span class="text-syn-u">,</span> <span class="text-syn-n">3</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>confirmed<span class="text-syn-u">)</span> <span class="text-syn-k">return</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> <span class="text-syn-f">fencePrimary</span><span class="text-syn-u">(</span>primary<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> <span class="text-syn-f">promoteReplica</span><span class="text-syn-u">(</span>standby<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> <span class="text-syn-f">updateDns</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;db.myapp.com&quot;</span><span class="text-syn-u">,</span> standby<span class="text-syn-u">.</span><span class="text-syn-p">ip</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> <span class="text-syn-f">alertOps</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Primary failed. Standby promoted.&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">handlePrimaryFailure</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> confirmed <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">confirmFailure</span><span class="text-syn-u">(</span>primary<span class="text-syn-u">,</span> <span class="text-syn-n">3</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>confirmed<span class="text-syn-u">)</span> <span class="text-syn-k">return</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> <span class="text-syn-f">fencePrimary</span><span class="text-syn-u">(</span>primary<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> <span class="text-syn-f">promoteReplica</span><span class="text-syn-u">(</span>standby<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> <span class="text-syn-f">updateDns</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;db.myapp.com&quot;</span><span class="text-syn-u">,</span> standby<span class="text-syn-u">.</span><span class="text-syn-p">ip</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> <span class="text-syn-f">alertOps</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Primary failed. Standby promoted.&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h3 id="tools-for-automatic-failover" class="mt-8 text-lg leading-tight tracking-tight">Tools for Automatic Failover</h3>
             <p class="mt-0 mb-6"><strong>PostgreSQL:</strong></p>
             <ul class="mt-0 mb-6">
@@ -630,61 +726,76 @@
             <h3 id="the-split-brain-problem" class="mt-8 text-lg leading-tight tracking-tight">The Split-Brain Problem</h3>
             <p class="mt-0 mb-6">What if the primary isn&#39;t actually dead? Maybe there was a network partition. The monitoring system can&#39;t reach the primary, but the primary is still running, still accepting writes.</p>
             <p class="mt-0 mb-6">Now you have two primaries. Two databases accepting writes independently. Data diverges. When the network heals, you have conflicting data. This is split-brain, and it&#39;s catastrophic.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Network partition:</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Monitoring ──✗── Primary (still running, taking writes)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     └── Promotes Replica (now also taking writes)</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Two primaries. Data diverging. Disaster.</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Network partition:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Monitoring ──✗── Primary (still running, taking writes)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     └── Promotes Replica (now also taking writes)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Two primaries. Data diverging. Disaster.</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Prevention:</p>
             <p class="mt-0 mb-6"><strong>Fencing</strong>: Before promoting the replica, ensure the primary can&#39;t accept writes. STONITH (Shoot The Other Node In The Head) - literally power off the old primary.</p>
             <p class="mt-0 mb-6"><strong>Quorum</strong>: Require majority agreement before failover. If monitoring can&#39;t reach the primary but the replica can, don&#39;t failover.</p>
             <p class="mt-0 mb-6"><strong>Witness node</strong>: Third node that breaks ties. If monitoring and witness both can&#39;t reach primary, it&#39;s probably really down.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">       Primary ───── Witness</span>
-                <span class="block leading-(--pre-line) whitespace-pre">          │            │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">          └──── Monitoring</span>
-                <span class="block leading-(--pre-line) whitespace-pre">               (needs 2/3 agreement)</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">       Primary ───── Witness</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          │            │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          └──── Monitoring</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">               (needs 2/3 agreement)</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Split-brain is rare but devastating. Any automatic failover system must address it.</p>
             <h2 id="putting-it-together" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Putting It Together</h2>
             <p class="mt-0 mb-6">A production-ready setup combines multiple strategies:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                  Mumbai DC                       │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  ┌─────────┐      ┌─────────┐                   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  │ Primary │──────│ Standby │                   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  │   DB    │ sync │   DB    │                   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  └────┬────┘      └─────────┘                   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│       │                                          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│       │ async replication                        │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│       │                                          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└───────┼─────────────────────────────────────────┘</span>
-                <span class="block leading-(--pre-line) whitespace-pre">        │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">        │ cross-region</span>
-                <span class="block leading-(--pre-line) whitespace-pre">        │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">┌───────┼─────────────────────────────────────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│       ▼            Singapore DC                  │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  ┌─────────┐                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  │   DR    │                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  │ Replica │                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  └─────────┘                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│                                                  │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  ┌─────────┐                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  │ Weekly  │                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  │ Backup  │                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│  └─────────┘                                    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────┘</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                  Mumbai DC                       │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  ┌─────────┐      ┌─────────┐                   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  │ Primary │──────│ Standby │                   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  │   DB    │ sync │   DB    │                   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  └────┬────┘      └─────────┘                   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│       │                                          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│       │ async replication                        │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│       │                                          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└───────┼─────────────────────────────────────────┘</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        │ cross-region</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">┌───────┼─────────────────────────────────────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│       ▼            Singapore DC                  │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  ┌─────────┐                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  │   DR    │                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  │ Replica │                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  └─────────┘                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│                                                  │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  ┌─────────┐                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  │ Weekly  │                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  │ Backup  │                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│  └─────────┘                                    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────┘</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6"><strong>Normal operation</strong>: Primary serves all traffic. Standby receives synchronous replication. DR replica receives async replication.</p>
             <p class="mt-0 mb-6"><strong>Primary disk failure</strong>: Automatic failover to standby. Near-zero downtime, zero data loss.</p>
             <p class="mt-0 mb-6"><strong>Mumbai DC outage</strong>: Manual failover to Singapore DR replica. Possible small data loss (async lag), but business continues.</p>
@@ -702,19 +813,24 @@
             <p class="mt-0 mb-6">This is where leader election becomes essential. It&#39;s the mechanism that lets your system recover from failures automatically, with zero human intervention.</p>
             <h2 id="the-monitoring-problem" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Monitoring Problem</h2>
             <p class="mt-0 mb-6">You have three servers behind a load balancer, handling HTTP requests:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">        User</span>
-                <span class="block leading-(--pre-line) whitespace-pre">          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">          ▼</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    Load Balancer</span>
-                <span class="block leading-(--pre-line) whitespace-pre">          │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    ┌─────┼─────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">    ▼     ▼     ▼</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Server  Server  Server</span>
-                <span class="block leading-(--pre-line) whitespace-pre">   1       2       3</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">        User</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          ▼</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    Load Balancer</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    ┌─────┼─────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    ▼     ▼     ▼</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Server  Server  Server</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">   1       2       3</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Server 2 crashes. What happens? Nothing automatic. Someone needs to detect the failure, spin up a new server, and add it to the load balancer.</p>
             <p class="mt-0 mb-6">Enter the <strong>orchestrator</strong>: a component whose job is to monitor your servers. When one goes down, it spins up a new one and puts it behind the load balancer.</p>
             <p class="mt-0 mb-6">
@@ -737,21 +853,26 @@
             <h2 id="leader-election-the-base-case" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Leader Election: The Base Case</h2>
             <p class="mt-0 mb-6">Leader election is a distributed systems concept where nodes in a cluster can automatically select one of themselves to be the leader. When the leader fails, the remaining nodes elect a new one.</p>
             <p class="mt-0 mb-6">This breaks the infinite recursion because you don&#39;t need external monitoring at the top level. The system monitors itself and self-heals.</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Traditional approach:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Component A monitors B</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Component C monitors A</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Component D monitors C</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  ... (infinite)</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">With leader election:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Leader monitors workers</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Workers monitor each other</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  If leader dies → workers elect new leader</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  System self-heals ✓</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Traditional approach:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Component A monitors B</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Component C monitors A</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Component D monitors C</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  ... (infinite)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">With leader election:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Leader monitors workers</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Workers monitor each other</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  If leader dies → workers elect new leader</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  System self-heals ✓</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h2 id="the-leader-follower-setup" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Leader-Follower Setup</h2>
             <p class="mt-0 mb-6">Instead of a single orchestrator, you run multiple orchestrator nodes in a leader-follower configuration.</p>
             <p class="mt-0 mb-6">
@@ -775,52 +896,67 @@
             <h2 id="failure-scenarios" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Failure Scenarios</h2>
             <p class="mt-0 mb-6">Let&#39;s walk through each failure scenario:</p>
             <h3 id="scenario-1-backend-server-dies" class="mt-8 text-lg leading-tight tracking-tight">Scenario 1: Backend Server Dies</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Server 2 stops responding</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Worker detects failure</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Worker spins up Server 4</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Worker adds Server 4 to load balancer</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">System recovered ✓</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Server 2 stops responding</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Worker detects failure</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Worker spins up Server 4</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Worker adds Server 4 to load balancer</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">System recovered ✓</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">No human intervention. The worker handles it.</p>
             <h3 id="scenario-2-orchestrator-worker-dies" class="mt-8 text-lg leading-tight tracking-tight">Scenario 2: Orchestrator Worker Dies</h3>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Worker 1 stops responding</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Leader detects failure</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Leader spins up Worker 3</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Leader assigns servers to Worker 3</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">System recovered ✓</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Worker 1 stops responding</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Leader detects failure</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Leader spins up Worker 3</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Leader assigns servers to Worker 3</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">System recovered ✓</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">No human intervention. The leader handles it.</p>
             <h3 id="scenario-3-orchestrator-leader-dies" class="mt-8 text-lg leading-tight tracking-tight">Scenario 3: Orchestrator Leader Dies</h3>
             <p class="mt-0 mb-6">This is where leader election kicks in:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Leader stops responding</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Workers detect leader is gone</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Workers run leader election algorithm</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">Worker 2 becomes new leader</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">New leader takes over responsibilities</span>
-                <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
-                <span class="block leading-(--pre-line) whitespace-pre">System recovered ✓</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Leader stops responding</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Workers detect leader is gone</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Workers run leader election algorithm</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Worker 2 becomes new leader</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">New leader takes over responsibilities</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">     ↓</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">System recovered ✓</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">No human intervention. The system self-heals.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/failure-scenarios.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
@@ -847,82 +983,92 @@
               <li>If the manager is sick one day, someone else steps up</li>
               <li>The team doesn&#39;t stop functioning because the manager is absent</li>
             </ul>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">Normal day:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Manager runs standup</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Team members do their work</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Manager handles coordination</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Manager is sick:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Team notices manager is absent</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Senior developer volunteers to run standup</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Team continues functioning</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">Manager returns:</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  Manager takes back responsibilities</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  System returns to normal</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">Normal day:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Manager runs standup</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Team members do their work</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Manager handles coordination</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Manager is sick:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Team notices manager is absent</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Senior developer volunteers to run standup</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Team continues functioning</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">Manager returns:</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  Manager takes back responsibilities</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  System returns to normal</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">This is exactly how leader election works in distributed systems. There&#39;s always someone who can step up. The system never stops functioning because of a single failure.</p>
             <h2 id="implementation-sketch" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Implementation Sketch</h2>
             <p class="mt-0 mb-6">Here&#39;s a simplified view of how this might look:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">OrchestratorNode</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  isLeader<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  peers<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">[];</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">class</span> <span class="text-syn-t">Orchestrator</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> node<span class="text-syn-o">:</span> <span class="text-syn-t">OrchestratorNode</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> leaderHeartbeatTimeout<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> <span class="text-syn-n">5000</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">async</span> <span class="text-syn-f">start</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span><span class="text-syn-p">isLeader</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      this<span class="text-syn-u">.</span><span class="text-syn-f">runAsLeader</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span> <span class="text-syn-k">else</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      this<span class="text-syn-u">.</span><span class="text-syn-f">runAsWorker</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> <span class="text-syn-k">async</span> <span class="text-syn-f">runAsLeader</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">while</span> <span class="text-syn-u">(</span>this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span><span class="text-syn-p">isLeader</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">sendHeartbeatsToWorkers</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">checkWorkerHealth</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">replaceDeadWorkers</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> <span class="text-syn-f">sleep</span><span class="text-syn-u">(</span><span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> <span class="text-syn-k">async</span> <span class="text-syn-f">runAsWorker</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">let</span> lastLeaderHeartbeat <span class="text-syn-o">=</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">while</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span><span class="text-syn-p">isLeader</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">checkServerHealth</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">replaceDeadServers</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">()</span> <span class="text-syn-o">-</span> lastLeaderHeartbeat <span class="text-syn-o">&gt;</span> this<span class="text-syn-u">.</span><span class="text-syn-p">leaderHeartbeatTimeout</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">initiateLeaderElection</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> <span class="text-syn-f">sleep</span><span class="text-syn-u">(</span><span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> <span class="text-syn-k">async</span> <span class="text-syn-f">initiateLeaderElection</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> votes <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">requestVotesFromPeers</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> majority <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">floor</span><span class="text-syn-u">(</span>this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span>peers<span class="text-syn-u">.</span>length <span class="text-syn-o">/</span> <span class="text-syn-n">2</span><span class="text-syn-u">)</span> <span class="text-syn-o">+</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>votes <span class="text-syn-o">&gt;=</span> majority<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span><span class="text-syn-p">isLeader</span> <span class="text-syn-o">=</span> <span class="text-syn-k">true</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">announceLeadership</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">OrchestratorNode</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  isLeader<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  peers<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">[];</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">class</span> <span class="text-syn-t">Orchestrator</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> node<span class="text-syn-o">:</span> <span class="text-syn-t">OrchestratorNode</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> leaderHeartbeatTimeout<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> <span class="text-syn-n">5000</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">async</span> <span class="text-syn-f">start</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span><span class="text-syn-p">isLeader</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      this<span class="text-syn-u">.</span><span class="text-syn-f">runAsLeader</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span> <span class="text-syn-k">else</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      this<span class="text-syn-u">.</span><span class="text-syn-f">runAsWorker</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> <span class="text-syn-k">async</span> <span class="text-syn-f">runAsLeader</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">while</span> <span class="text-syn-u">(</span>this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span><span class="text-syn-p">isLeader</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">sendHeartbeatsToWorkers</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">checkWorkerHealth</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">replaceDeadWorkers</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> <span class="text-syn-f">sleep</span><span class="text-syn-u">(</span><span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> <span class="text-syn-k">async</span> <span class="text-syn-f">runAsWorker</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">let</span> lastLeaderHeartbeat <span class="text-syn-o">=</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">while</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span><span class="text-syn-p">isLeader</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">checkServerHealth</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">replaceDeadServers</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">()</span> <span class="text-syn-o">-</span> lastLeaderHeartbeat <span class="text-syn-o">&gt;</span> this<span class="text-syn-u">.</span><span class="text-syn-p">leaderHeartbeatTimeout</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">initiateLeaderElection</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> <span class="text-syn-f">sleep</span><span class="text-syn-u">(</span><span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">private</span> <span class="text-syn-k">async</span> <span class="text-syn-f">initiateLeaderElection</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> votes <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">requestVotesFromPeers</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> majority <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">floor</span><span class="text-syn-u">(</span>this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span>peers<span class="text-syn-u">.</span>length <span class="text-syn-o">/</span> <span class="text-syn-n">2</span><span class="text-syn-u">)</span> <span class="text-syn-o">+</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>votes <span class="text-syn-o">&gt;=</span> majority<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      this<span class="text-syn-u">.</span>node<span class="text-syn-u">.</span><span class="text-syn-p">isLeader</span> <span class="text-syn-o">=</span> <span class="text-syn-k">true</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">await</span> this<span class="text-syn-u">.</span><span class="text-syn-f">announceLeadership</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <h2 id="hands-on-simulate-leader-election" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Hands-on: Simulate Leader Election</h2>
             <p class="mt-0 mb-6">I&#39;ve created a leader election demo you can run locally in my <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/systems">systems repo</a>:</p>
             <ul class="mt-0 mb-6">

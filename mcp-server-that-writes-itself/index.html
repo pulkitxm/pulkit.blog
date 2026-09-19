@@ -148,6 +148,7 @@
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
+    <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
     <script src="/theme.fa2a27cfd83d.js"></script>
@@ -155,7 +156,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.ef6322a174e9.css" />
+    <link rel="stylesheet" href="/styles.efa7e96ea1d5.css" />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <a class="absolute -top-25 text-inherit decoration-muted underline-offset-4 hover:decoration-current focus:top-2" href="#main">Skip to content</a>
@@ -245,18 +246,23 @@
             <p class="mt-0 mb-6">The catch is that vague docs hurt agents more than they hurt people. A summary that says &quot;Update resource&quot; is useless when the model is picking among dozens of tools. Before I wrote MCP glue at Noveum, I tightened the spec: clear summaries, real descriptions, response examples on the busy routes. The MCP layer only reflects what is in that file. Garbage in, garbage out.</p>
             <h2 id="the-architecture" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Architecture</h2>
             <p class="mt-0 mb-6">You can run the MCP handler inside the same Next.js app as your API. No second service, no extra port. The flow looks like this:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">┌────────────┐     ┌─────────────┐     ┌────────────────────┐     ┌─────────┐</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│    IDE     │────▶│  Next.js    │────▶│  withMcpAuth       │────▶│  Hono   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">│ (Cursor)   │POST │  /api/mcp   │     │  + McpServer       │     │  app    │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">└────────────┘     └─────────────┘     └────────────────────┘     └─────────┘</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                              │   │   │</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                              │   │   └── prompts (hand-written)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                              │   └────── resources (curated GETs)</span>
-                <span class="block leading-(--pre-line) whitespace-pre">                                              └────────── tools (from OpenAPI)</span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">┌────────────┐     ┌─────────────┐     ┌────────────────────┐     ┌─────────┐</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│    IDE     │────▶│  Next.js    │────▶│  withMcpAuth       │────▶│  Hono   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">│ (Cursor)   │POST │  /api/mcp   │     │  + McpServer       │     │  app    │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">└────────────┘     └─────────────┘     └────────────────────┘     └─────────┘</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                              │   │   │</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                              │   │   └── prompts (hand-written)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                              │   └────── resources (curated GETs)</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">                                              └────────── tools (from OpenAPI)</span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You need four pieces:</p>
             <ol class="mt-0 mb-6">
               <li>One Next.js route that serves <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/api/mcp</code>.</li>
@@ -266,46 +272,56 @@
             </ol>
             <h2 id="the-next-js-entry-point" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Next.js Entry Point</h2>
             <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">mcp-handler</code> package wraps the official MCP SDK so you can expose a handler from a route file. The whole entry can be six lines:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> mcpHandler <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@repo/api&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> runtime <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;nodejs&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> GET <span class="text-syn-o">=</span> mcpHandler<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> POST <span class="text-syn-o">=</span> mcpHandler<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> DELETE <span class="text-syn-o">=</span> mcpHandler<span class="text-syn-u">;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> mcpHandler <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@repo/api&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> runtime <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;nodejs&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> GET <span class="text-syn-o">=</span> mcpHandler<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> POST <span class="text-syn-o">=</span> mcpHandler<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> DELETE <span class="text-syn-o">=</span> mcpHandler<span class="text-syn-u">;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Put this at <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">app/api/mcp/[[...path]]/route.ts</code>. The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">[[...path]]</code> folder name lets the library handle extra path segments. Use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">runtime = &quot;nodejs&quot;</code> so you can use Prisma, Redis, and other Node-only code. Export <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">GET</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">POST</code>, and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">DELETE</code> because the client uses those for session setup and cleanup.</p>
             <p class="mt-0 mb-6">The real logic lives in the imported <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">mcpHandler</code>.</p>
             <h2 id="wiring-the-handler-and-auth" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Wiring the Handler and Auth</h2>
             <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">createMcpHandler</code> sets up the MCP server. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">withMcpAuth</code> runs your auth check first and blocks bad requests:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> createMcpHandler<span class="text-syn-u">,</span> withMcpAuth <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;mcp-handler&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-k">type</span> <span class="text-syn-u">{</span> McpServer <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@modelcontextprotocol/sdk/server/mcp.js&quot;</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> innerHandler <span class="text-syn-o">=</span> <span class="text-syn-f">createMcpHandler</span><span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>server<span class="text-syn-o">:</span> <span class="text-syn-t">McpServer</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> <span class="text-syn-f">initializeMcpServer</span><span class="text-syn-u">(</span>server<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">serverInfo:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">name:</span> <span class="text-syn-s">&quot;myapp&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">version:</span> <span class="text-syn-s">&quot;1.0.0&quot;</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">instructions:</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-s">&quot;Read the projects and filter-values resources first, then query tools with real IDs.&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">basePath:</span> <span class="text-syn-s">&quot;/api&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">disableSse:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> mcpHandler <span class="text-syn-o">=</span> <span class="text-syn-f">withMcpAuth</span><span class="text-syn-u">(</span>innerHandler<span class="text-syn-u">,</span> verifyApiKey<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">required:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> createMcpHandler<span class="text-syn-u">,</span> withMcpAuth <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;mcp-handler&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-k">type</span> <span class="text-syn-u">{</span> McpServer <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@modelcontextprotocol/sdk/server/mcp.js&quot;</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> innerHandler <span class="text-syn-o">=</span> <span class="text-syn-f">createMcpHandler</span><span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>server<span class="text-syn-o">:</span> <span class="text-syn-t">McpServer</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> <span class="text-syn-f">initializeMcpServer</span><span class="text-syn-u">(</span>server<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">serverInfo:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">name:</span> <span class="text-syn-s">&quot;myapp&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">version:</span> <span class="text-syn-s">&quot;1.0.0&quot;</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">instructions:</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-s">&quot;Read the projects and filter-values resources first, then query tools with real IDs.&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">basePath:</span> <span class="text-syn-s">&quot;/api&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">disableSse:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> mcpHandler <span class="text-syn-o">=</span> <span class="text-syn-f">withMcpAuth</span><span class="text-syn-u">(</span>innerHandler<span class="text-syn-u">,</span> verifyApiKey<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">required:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Quick read on the options:</p>
             <ul class="mt-0 mb-6">
               <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">basePath: &quot;/api&quot;</code> lines up with the file path so the public URL is <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/api/mcp</code>.</li>
@@ -314,87 +330,107 @@
               <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">withMcpAuth</code> with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">required: true</code> means no token, no response.</li>
             </ul>
             <p class="mt-0 mb-6">The function that verifies the token can be the same one you use for REST, cache and database included. In the example below I happen to be checking an API key record, but swap in whatever your REST middleware does today:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">verifyApiKey</span><span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  _req<span class="text-syn-o">:</span> <span class="text-syn-t">Request</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  bearerToken<span class="text-syn-o">?:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">AuthInfo</span> <span class="text-syn-o">|</span> <span class="text-syn-t">undefined</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>bearerToken<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">let</span> record <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> apiKeyCache<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>bearerToken<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>record<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    record <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>apiKey<span class="text-syn-u">.</span><span class="text-syn-f">findFirst</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">where:</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-c italic">/* hashed lookup */</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>record<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> apiKeyCache<span class="text-syn-u">.</span><span class="text-syn-f">set</span><span class="text-syn-u">(</span>bearerToken<span class="text-syn-u">,</span> record<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">token:</span> bearerToken<span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">clientId:</span> <span class="text-syn-s">&quot;myapp-api-key&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">scopes:</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;myapp.api&quot;</span><span class="text-syn-u">],</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">extra:</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">apiKeyId:</span> record<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">organizationId:</span> record<span class="text-syn-u">.</span><span class="text-syn-p">organizationId</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">userId:</span> record<span class="text-syn-u">.</span><span class="text-syn-p">userId</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">verifyApiKey</span><span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  _req<span class="text-syn-o">:</span> <span class="text-syn-t">Request</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  bearerToken<span class="text-syn-o">?:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">AuthInfo</span> <span class="text-syn-o">|</span> <span class="text-syn-t">undefined</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>bearerToken<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">let</span> record <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> apiKeyCache<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>bearerToken<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>record<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    record <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>apiKey<span class="text-syn-u">.</span><span class="text-syn-f">findFirst</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">where:</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-c italic">/* hashed lookup */</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>record<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> apiKeyCache<span class="text-syn-u">.</span><span class="text-syn-f">set</span><span class="text-syn-u">(</span>bearerToken<span class="text-syn-u">,</span> record<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">token:</span> bearerToken<span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">clientId:</span> <span class="text-syn-s">&quot;myapp-api-key&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">scopes:</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;myapp.api&quot;</span><span class="text-syn-u">],</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">extra:</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">apiKeyId:</span> record<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">organizationId:</span> record<span class="text-syn-u">.</span><span class="text-syn-p">organizationId</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">userId:</span> record<span class="text-syn-u">.</span><span class="text-syn-p">userId</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Same auth check as your REST API means one mental model for users. The SDK also passes the verified token into each tool handler, so when you call Hono you can set <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Authorization: Bearer</code> with that same value. The model acts as the user who owns the token.</p>
             <h2 id="server-initialization" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Server Initialization</h2>
             <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">initializeMcpServer</code> function is where the real work lives:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">initializeMcpServer</span><span class="text-syn-u">(</span>server<span class="text-syn-o">:</span> <span class="text-syn-t">McpServer</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> spec <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">loadFilteredOpenApi</span><span class="text-syn-u">(</span>app<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">registerOpenApiTools</span><span class="text-syn-u">(</span>server<span class="text-syn-u">,</span> app<span class="text-syn-u">,</span> spec<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">registerResources</span><span class="text-syn-u">(</span>server<span class="text-syn-u">,</span> app<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">registerPrompts</span><span class="text-syn-u">(</span>server<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">initializeMcpServer</span><span class="text-syn-u">(</span>server<span class="text-syn-o">:</span> <span class="text-syn-t">McpServer</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> spec <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">loadFilteredOpenApi</span><span class="text-syn-u">(</span>app<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">registerOpenApiTools</span><span class="text-syn-u">(</span>server<span class="text-syn-u">,</span> app<span class="text-syn-u">,</span> spec<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">registerResources</span><span class="text-syn-u">(</span>server<span class="text-syn-u">,</span> app<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">registerPrompts</span><span class="text-syn-u">(</span>server<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Three layers, in order: auto-generated tools from the spec, hand-written resources, hand-written prompts. Every fresh <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">McpServer</code> instance gets populated from this function, which means you can redeploy and new endpoints show up as tools on the next connection without touching any MCP code.</p>
             <h2 id="auto-generating-tools-from-openapi" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Auto-Generating Tools From OpenAPI</h2>
             <p class="mt-0 mb-6">This is the core idea. Inside something like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">openapi-to-tools.ts</code> you do the following.</p>
             <h3 id="section-1-load-the-spec-in-process" class="mt-8 text-lg leading-tight tracking-tight">1. Load the spec in-process</h3>
             <p class="mt-0 mb-6">Hono lets you call your own app with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">app.request(url)</code> inside the same Node process. No HTTP round trip to yourself. Use that to read the OpenAPI JSON your app already serves:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">loadFilteredOpenApi</span><span class="text-syn-u">(</span>app<span class="text-syn-o">:</span> <span class="text-syn-t">Hono</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> res <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> app<span class="text-syn-u">.</span><span class="text-syn-f">request</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;http://internal/api/openapi&quot;</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>res<span class="text-syn-u">.</span><span class="text-syn-p">ok</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">`openapi fetch failed: ${res.</span><span class="text-syn-p">status</span><span class="text-syn-s">}`</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> spec <span class="text-syn-o">=</span> <span class="text-syn-u">(</span><span class="text-syn-k">await</span> res<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">())</span> <span class="text-syn-k">as</span> <span class="text-syn-t">OpenApiDoc</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-f">filterOpenApiSpec</span><span class="text-syn-u">(</span>spec<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">loadFilteredOpenApi</span><span class="text-syn-u">(</span>app<span class="text-syn-o">:</span> <span class="text-syn-t">Hono</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> res <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> app<span class="text-syn-u">.</span><span class="text-syn-f">request</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;http://internal/api/openapi&quot;</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>res<span class="text-syn-u">.</span><span class="text-syn-p">ok</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">`openapi fetch failed: ${res.</span><span class="text-syn-p">status</span><span class="text-syn-s">}`</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> spec <span class="text-syn-o">=</span> <span class="text-syn-u">(</span><span class="text-syn-k">await</span> res<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">())</span> <span class="text-syn-k">as</span> <span class="text-syn-t">OpenApiDoc</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-f">filterOpenApiSpec</span><span class="text-syn-u">(</span>spec<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">If that file powers your docs page, your tool list always matches what humans see in the API reference.</p>
             <h3 id="section-2-block-dangerous-routes" class="mt-8 text-lg leading-tight tracking-tight">2. Block dangerous routes</h3>
             <p class="mt-0 mb-6">Agents should not create API keys, hit admin panels, or touch webhooks. Drop those paths and operation names before you register any tool. A short list of prefixes and substrings is enough to start:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> DENY_PATH_PREFIXES <span class="text-syn-o">=</span> <span class="text-syn-u">[</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/auth&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/webhooks&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/payments&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/admin&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/uploads&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/mcp&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">]</span> <span class="text-syn-k">as</span> <span class="text-syn-k">const</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> DENY_PATH_SUBSTRINGS <span class="text-syn-o">=</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;/api-keys&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;/credentials&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;/signed-upload-url&quot;</span><span class="text-syn-u">]</span> <span class="text-syn-k">as</span> <span class="text-syn-k">const</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> DENY_OPERATION_ID_SUBSTRINGS <span class="text-syn-o">=</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;apiKey&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;credential&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;signedUpload&quot;</span><span class="text-syn-u">];</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> DENY_PATH_PREFIXES <span class="text-syn-o">=</span> <span class="text-syn-u">[</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/auth&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/webhooks&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/payments&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/admin&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/uploads&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;/api/mcp&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">]</span> <span class="text-syn-k">as</span> <span class="text-syn-k">const</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> DENY_PATH_SUBSTRINGS <span class="text-syn-o">=</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;/api-keys&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;/credentials&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;/signed-upload-url&quot;</span><span class="text-syn-u">]</span> <span class="text-syn-k">as</span> <span class="text-syn-k">const</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> DENY_OPERATION_ID_SUBSTRINGS <span class="text-syn-o">=</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;apiKey&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;credential&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;signedUpload&quot;</span><span class="text-syn-u">];</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">If a route matches the list, it never appears in <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">tools/list</code>, so the model never tries to call it.</p>
             <h3 id="section-3-turn-every-remaining-operation-into-an-mcp-tool" class="mt-8 text-lg leading-tight tracking-tight">3. Turn every remaining operation into an MCP tool</h3>
             <p class="mt-0 mb-6">For each <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">(path, method)</code> pair that survives the filter:</p>
@@ -406,63 +442,78 @@
               <li><strong>Handler</strong>: rebuild the URL with path-param substitution and query string, forward the incoming Bearer on <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Authorization</code>, and call <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">app.request(...)</code> to run the real REST handler.</li>
             </ul>
             <p class="mt-0 mb-6">Tool names in MCP are length-limited, so you may need to trim long <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">operationId</code> strings and add a short hash to avoid collisions:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> MCP_TOOL_NAME_MAX_LEN <span class="text-syn-o">=</span> <span class="text-syn-n">48</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">shortenToMcpToolLimit</span><span class="text-syn-u">(</span>fullName<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>fullName<span class="text-syn-u">.</span>length <span class="text-syn-o">&lt;=</span> MCP_TOOL_NAME_MAX_LEN<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> fullName<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">createHash</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;sha256&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">update</span><span class="text-syn-u">(</span>fullName<span class="text-syn-u">).</span><span class="text-syn-f">digest</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;hex&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">6</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> suffix <span class="text-syn-o">=</span> <span class="text-syn-s">`_${hash}`</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> headLen <span class="text-syn-o">=</span> MCP_TOOL_NAME_MAX_LEN <span class="text-syn-o">-</span> suffix<span class="text-syn-u">.</span>length<span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-s">`${fullName.slice(0, headLen)}${suffix}`</span><span class="text-syn-u">;</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> MCP_TOOL_NAME_MAX_LEN <span class="text-syn-o">=</span> <span class="text-syn-n">48</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">shortenToMcpToolLimit</span><span class="text-syn-u">(</span>fullName<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>fullName<span class="text-syn-u">.</span>length <span class="text-syn-o">&lt;=</span> MCP_TOOL_NAME_MAX_LEN<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> fullName<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">createHash</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;sha256&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">update</span><span class="text-syn-u">(</span>fullName<span class="text-syn-u">).</span><span class="text-syn-f">digest</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;hex&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">6</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> suffix <span class="text-syn-o">=</span> <span class="text-syn-s">`_${hash}`</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> headLen <span class="text-syn-o">=</span> MCP_TOOL_NAME_MAX_LEN <span class="text-syn-o">-</span> suffix<span class="text-syn-u">.</span>length<span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-s">`${fullName.slice(0, headLen)}${suffix}`</span><span class="text-syn-u">;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Converting OpenAPI JSON Schema to Zod is mostly mechanical. One edge case is an <strong>empty enum</strong> in the spec, which can crash <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">z.enum([])</code>. Map that to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">z.never()</code> so a bad spec line does not break every tool at startup:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">jsonSchemaToZod</span><span class="text-syn-u">(</span>schema<span class="text-syn-u">,</span> root<span class="text-syn-u">,</span> required<span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">ZodTypeAny</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // ... type switches, $ref resolution ...</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>Array<span class="text-syn-u">.</span><span class="text-syn-f">isArray</span><span class="text-syn-u">(</span>schema<span class="text-syn-u">.</span><span class="text-syn-p">enum</span><span class="text-syn-u">)</span> <span class="text-syn-o">&amp;&amp;</span> schema<span class="text-syn-u">.</span>enum<span class="text-syn-u">.</span><span class="text-syn-f">every</span><span class="text-syn-u">((</span>x<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-o">typeof</span> x <span class="text-syn-o">===</span> <span class="text-syn-s">&quot;string&quot;</span><span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>schema<span class="text-syn-u">.</span>enum<span class="text-syn-u">.</span>length <span class="text-syn-o">===</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">return</span> required <span class="text-syn-o">?</span> z<span class="text-syn-u">.</span><span class="text-syn-f">never</span><span class="text-syn-u">()</span> <span class="text-syn-o">:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">never</span><span class="text-syn-u">().</span><span class="text-syn-f">optional</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> en <span class="text-syn-o">=</span> z<span class="text-syn-u">.</span><span class="text-syn-f">enum</span><span class="text-syn-u">(</span>schema<span class="text-syn-u">.</span><span class="text-syn-p">enum</span> <span class="text-syn-k">as</span> <span class="text-syn-u">[</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-o">...</span><span class="text-syn-t">string</span><span class="text-syn-u">[]]);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> required <span class="text-syn-o">?</span> en <span class="text-syn-o">:</span> en<span class="text-syn-u">.</span><span class="text-syn-f">optional</span><span class="text-syn-u">();</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // ...</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">jsonSchemaToZod</span><span class="text-syn-u">(</span>schema<span class="text-syn-u">,</span> root<span class="text-syn-u">,</span> required<span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">ZodTypeAny</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // ... type switches, $ref resolution ...</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>Array<span class="text-syn-u">.</span><span class="text-syn-f">isArray</span><span class="text-syn-u">(</span>schema<span class="text-syn-u">.</span><span class="text-syn-p">enum</span><span class="text-syn-u">)</span> <span class="text-syn-o">&amp;&amp;</span> schema<span class="text-syn-u">.</span>enum<span class="text-syn-u">.</span><span class="text-syn-f">every</span><span class="text-syn-u">((</span>x<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-o">typeof</span> x <span class="text-syn-o">===</span> <span class="text-syn-s">&quot;string&quot;</span><span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>schema<span class="text-syn-u">.</span>enum<span class="text-syn-u">.</span>length <span class="text-syn-o">===</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">return</span> required <span class="text-syn-o">?</span> z<span class="text-syn-u">.</span><span class="text-syn-f">never</span><span class="text-syn-u">()</span> <span class="text-syn-o">:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">never</span><span class="text-syn-u">().</span><span class="text-syn-f">optional</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> en <span class="text-syn-o">=</span> z<span class="text-syn-u">.</span><span class="text-syn-f">enum</span><span class="text-syn-u">(</span>schema<span class="text-syn-u">.</span><span class="text-syn-p">enum</span> <span class="text-syn-k">as</span> <span class="text-syn-u">[</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-o">...</span><span class="text-syn-t">string</span><span class="text-syn-u">[]]);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> required <span class="text-syn-o">?</span> en <span class="text-syn-o">:</span> en<span class="text-syn-u">.</span><span class="text-syn-f">optional</span><span class="text-syn-u">();</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // ...</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">For object types, allowing extra fields with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.passthrough()</code> avoids spurious errors when the client sends a bit more than the spec shows.</p>
             <h3 id="section-4-the-tool-handler" class="mt-8 text-lg leading-tight tracking-tight">4. The tool handler</h3>
             <p class="mt-0 mb-6">The tool implementation builds the same URL your REST client would and calls the app:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">server<span class="text-syn-u">.</span><span class="text-syn-f">registerTool</span><span class="text-syn-u">(</span>toolName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> title<span class="text-syn-u">,</span> description<span class="text-syn-u">,</span> inputSchema <span class="text-syn-u">},</span> <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>args<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> extra <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> url<span class="text-syn-u">,</span> method<span class="text-syn-u">,</span> body <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">buildRequest</span><span class="text-syn-u">(</span>path<span class="text-syn-u">,</span> httpMethod<span class="text-syn-u">,</span> args<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> headers <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Headers</span><span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">&quot;content-type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">authorization:</span> <span class="text-syn-s">`Bearer ${extra.authInfo.</span><span class="text-syn-p">token</span><span class="text-syn-s">}`</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> res <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> app<span class="text-syn-u">.</span><span class="text-syn-f">request</span><span class="text-syn-u">(</span>url<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> method<span class="text-syn-u">,</span> headers<span class="text-syn-u">,</span> body <span class="text-syn-u">});</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> payload<span class="text-syn-u">,</span> truncatedChars <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">readResponsePreview</span><span class="text-syn-u">(</span>res<span class="text-syn-u">,</span> MAX_TOOL_RESPONSE_CHARS<span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">isError:</span> <span class="text-syn-o">!</span>res<span class="text-syn-u">.</span><span class="text-syn-p">ok</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">content:</span> <span class="text-syn-u">[</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">type:</span> <span class="text-syn-s">&quot;text&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">text:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span> <span class="text-syn-p">status:</span> res<span class="text-syn-u">.</span><span class="text-syn-p">status</span><span class="text-syn-u">,</span> <span class="text-syn-p">body:</span> payload<span class="text-syn-u">,</span> truncatedChars <span class="text-syn-u">},</span> <span class="text-syn-k">null</span><span class="text-syn-u">,</span> <span class="text-syn-n">2</span><span class="text-syn-u">),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">],</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">server<span class="text-syn-u">.</span><span class="text-syn-f">registerTool</span><span class="text-syn-u">(</span>toolName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> title<span class="text-syn-u">,</span> description<span class="text-syn-u">,</span> inputSchema <span class="text-syn-u">},</span> <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>args<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> extra <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> url<span class="text-syn-u">,</span> method<span class="text-syn-u">,</span> body <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">buildRequest</span><span class="text-syn-u">(</span>path<span class="text-syn-u">,</span> httpMethod<span class="text-syn-u">,</span> args<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> headers <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Headers</span><span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">&quot;content-type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">authorization:</span> <span class="text-syn-s">`Bearer ${extra.authInfo.</span><span class="text-syn-p">token</span><span class="text-syn-s">}`</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> res <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> app<span class="text-syn-u">.</span><span class="text-syn-f">request</span><span class="text-syn-u">(</span>url<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> method<span class="text-syn-u">,</span> headers<span class="text-syn-u">,</span> body <span class="text-syn-u">});</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> payload<span class="text-syn-u">,</span> truncatedChars <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">readResponsePreview</span><span class="text-syn-u">(</span>res<span class="text-syn-u">,</span> MAX_TOOL_RESPONSE_CHARS<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">isError:</span> <span class="text-syn-o">!</span>res<span class="text-syn-u">.</span><span class="text-syn-p">ok</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">content:</span> <span class="text-syn-u">[</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">type:</span> <span class="text-syn-s">&quot;text&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">text:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span> <span class="text-syn-p">status:</span> res<span class="text-syn-u">.</span><span class="text-syn-p">status</span><span class="text-syn-u">,</span> <span class="text-syn-p">body:</span> payload<span class="text-syn-u">,</span> truncatedChars <span class="text-syn-u">},</span> <span class="text-syn-k">null</span><span class="text-syn-u">,</span> <span class="text-syn-n">2</span><span class="text-syn-u">),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">],</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Why this matters:</p>
             <ul class="mt-0 mb-6">
               <li>Same process means every middleware and validator you already wrote still runs. You are not maintaining two code paths.</li>
@@ -473,26 +524,31 @@
             <h2 id="resources" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Resources</h2>
             <p class="mt-0 mb-6"><strong>Tools</strong> are actions. <strong>Resources</strong> are small bundles of data the app can pin into context, like a cheat sheet. They cut down on back and forth, because the model can read a project list or filter options once.</p>
             <p class="mt-0 mb-6">Most of mine are just fixed GETs to the same API, with the same bearer token as any other call:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">server<span class="text-syn-u">.</span><span class="text-syn-f">registerResource</span><span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;scorers&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;myapp://scorers&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">title:</span> <span class="text-syn-s">&quot;Available Scorers&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">description:</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-s">&quot;All scorers available for evaluation jobs. Read this before creating an eval job.&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">mimeType:</span> <span class="text-syn-s">&quot;application/json&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>uri<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> extra <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">forwardJson</span><span class="text-syn-u">(</span>app<span class="text-syn-u">,</span> <span class="text-syn-s">&quot;/api/v1/scorers&quot;</span><span class="text-syn-u">,</span> extra<span class="text-syn-u">.</span>authInfo<span class="text-syn-u">.</span><span class="text-syn-p">token</span><span class="text-syn-u">);</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">contents:</span> <span class="text-syn-u">[{</span> <span class="text-syn-p">uri:</span> uri<span class="text-syn-u">.</span><span class="text-syn-p">href</span><span class="text-syn-u">,</span> <span class="text-syn-p">text:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">(</span>data<span class="text-syn-u">)</span> <span class="text-syn-u">}],</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">};</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">server<span class="text-syn-u">.</span><span class="text-syn-f">registerResource</span><span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;scorers&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;myapp://scorers&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">title:</span> <span class="text-syn-s">&quot;Available Scorers&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">description:</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-s">&quot;All scorers available for evaluation jobs. Read this before creating an eval job.&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">mimeType:</span> <span class="text-syn-s">&quot;application/json&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>uri<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> extra <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">forwardJson</span><span class="text-syn-u">(</span>app<span class="text-syn-u">,</span> <span class="text-syn-s">&quot;/api/v1/scorers&quot;</span><span class="text-syn-u">,</span> extra<span class="text-syn-u">.</span>authInfo<span class="text-syn-u">.</span><span class="text-syn-p">token</span><span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">contents:</span> <span class="text-syn-u">[{</span> <span class="text-syn-p">uri:</span> uri<span class="text-syn-u">.</span><span class="text-syn-p">href</span><span class="text-syn-u">,</span> <span class="text-syn-p">text:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">(</span>data<span class="text-syn-u">)</span> <span class="text-syn-u">}],</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">};</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Practical tips:</p>
             <ul class="mt-0 mb-6">
               <li>Expose the data people need first, for example project lists and valid filter values, so the model does not guess bad enums.</li>
@@ -501,48 +557,58 @@
             </ul>
             <h2 id="prompts" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Prompts</h2>
             <p class="mt-0 mb-6"><strong>Prompts</strong> are slash-style shortcuts that fill in a longer instruction for the model. They are the best place to teach ordering, for example &quot;read filter values, then list traces, then open spans for errors.&quot; A tiny example:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre">server<span class="text-syn-u">.</span><span class="text-syn-f">registerPrompt</span><span class="text-syn-u">(</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;debug_traces&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">description:</span> <span class="text-syn-s">&quot;Walk through error traces and summarise root causes&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">argsSchema:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">project:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">optional</span><span class="text-syn-u">()</span> <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">({</span> project <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">messages:</span> <span class="text-syn-u">[</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">role:</span> <span class="text-syn-s">&quot;user&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">content:</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">type:</span> <span class="text-syn-s">&quot;text&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">text:</span> <span class="text-syn-s">`You are debugging traces in the ${project ?? &quot;user&#39;s&quot;} project.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">1. Read myapp://filter-values to see environments and statuses.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">2. Call list_traces with status=error and size=20.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">3. For each error trace, call get_trace_spans to find the failing span.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">4. Summarise by failure mode, not by individual trace.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">${WORKERS_AND_POLLING}`</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">],</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre">server<span class="text-syn-u">.</span><span class="text-syn-f">registerPrompt</span><span class="text-syn-u">(</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">&quot;debug_traces&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">description:</span> <span class="text-syn-s">&quot;Walk through error traces and summarise root causes&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">argsSchema:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">project:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">optional</span><span class="text-syn-u">()</span> <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">({</span> project <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">messages:</span> <span class="text-syn-u">[</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">role:</span> <span class="text-syn-s">&quot;user&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">content:</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">type:</span> <span class="text-syn-s">&quot;text&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">text:</span> <span class="text-syn-s">`You are debugging traces in the ${project ?? &quot;user&#39;s&quot;} project.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">1. Read myapp://filter-values to see environments and statuses.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">2. Call list_traces with status=error and size=20.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">3. For each error trace, call get_trace_spans to find the failing span.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">4. Summarise by failure mode, not by individual trace.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">${WORKERS_AND_POLLING}`</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">],</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">If work runs in a queue, the first POST often returns a job id, not a finished result. Models love to call that a success. Append a short shared block to every async prompt that says which GET to poll, how often, and which status values count as done:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> WORKERS_AND_POLLING <span class="text-syn-o">=</span> <span class="text-syn-s">`</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">---</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">Background work (read this every time):</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Heavy work runs in background workers. Kickoff POSTs return immediately with a runId.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Poll the documented GET until status is terminal.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Queue map: ETL → etl-jobs, evaluation → eval-jobs, analysis → synthetic-runs.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Polling cadence: ETL every 3s then 15s; evaluation every 2s (cap ~5min); analysis every 5s.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Terminal statuses: completed | failed | cancelled.</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">`</span><span class="text-syn-u">.</span><span class="text-syn-f">trim</span><span class="text-syn-u">();</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> WORKERS_AND_POLLING <span class="text-syn-o">=</span> <span class="text-syn-s">`</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">---</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">Background work (read this every time):</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Heavy work runs in background workers. Kickoff POSTs return immediately with a runId.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Poll the documented GET until status is terminal.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Queue map: ETL → etl-jobs, evaluation → eval-jobs, analysis → synthetic-runs.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Polling cadence: ETL every 3s then 15s; evaluation every 2s (cap ~5min); analysis every 5s.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Terminal statuses: completed | failed | cancelled.</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">`</span><span class="text-syn-u">.</span><span class="text-syn-f">trim</span><span class="text-syn-u">();</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Reuse that block anywhere a prompt touches background jobs so the model does not treat &quot;accepted&quot; as &quot;finished.&quot;</p>
             <h2 id="why-this-design-works" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Why This Design Works</h2>
             <ol class="mt-0 mb-6">
@@ -555,30 +621,40 @@
             <p class="mt-0 mb-6">The ongoing work is documentation quality. Each new route needs a name and a sentence a model can use to choose it, not just a type signature.</p>
             <h2 id="trying-it-locally" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Trying It Locally</h2>
             <p class="mt-0 mb-6">Once the route is wired up, the MCP Inspector is the fastest way to smoke-test everything:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">bun</span> <span class="text-syn-s">dev</span>   <span class="text-syn-c italic"># starts Next.js on :3000</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> KEY<span class="text-syn-o">=</span>nv_xxxxxxxxxxxxxxxxxxxxxx</span>
-                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">bunx</span> <span class="text-syn-s">@modelcontextprotocol/inspector</span> <span class="text-syn-s">http://localhost:3000/api/mcp</span> \</span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">--header</span> <span class="text-syn-s">&quot;Authorization: Bearer $KEY&quot;</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">bun</span> <span class="text-syn-s">dev</span>   <span class="text-syn-c italic"># starts Next.js on :3000</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> KEY<span class="text-syn-o">=</span>nv_xxxxxxxxxxxxxxxxxxxxxx</span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">bunx</span> <span class="text-syn-s">@modelcontextprotocol/inspector</span> <span class="text-syn-s">http://localhost:3000/api/mcp</span> \</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-s">--header</span> <span class="text-syn-s">&quot;Authorization: Bearer $KEY&quot;</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">You can click through tools, try arguments, and read resources. If a tool is missing, check your block list. If the name looks weird, your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">operationId</code> may be long or repeated. A 401 usually means the auth check did not return a user.</p>
             <p class="mt-0 mb-6">To wire it up to Cursor for real:</p>
-            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-              <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;mcpServers&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">&quot;myapp&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">{</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">&quot;url&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;http://localhost:3000/api/mcp&quot;</span><span class="text-syn-u">,</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">&quot;headers&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Authorization&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;Bearer nv_xxxxxxxxxxxxxxxxxxxxxx&quot;</span> <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-              </code>
-            </pre>
+            <div class="relative mt-0 mb-6" data-code-block>
+              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;mcpServers&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">&quot;myapp&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">&quot;url&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;http://localhost:3000/api/mcp&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">&quot;headers&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Authorization&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;Bearer nv_xxxxxxxxxxxxxxxxxxxxxx&quot;</span> <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
+                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              </div>
+            </div>
             <p class="mt-0 mb-6">Drop that into <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">~/.cursor/mcp.json</code>, restart Cursor, and you should see your server in the MCP panel with all of its tools, resources, and prompts listed.</p>
             <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Wrapping Up</h2>
             <p class="mt-0 mb-6">MCP is not a second product. It is a thin front door on top of the API you already have. A route handler, an auth check, code that reads OpenAPI and registers tools, a few resources, a few prompts, and you are in business.</p>
