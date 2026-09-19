@@ -1,0 +1,1353 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Learn how Bloom filters work: a probabilistic data structure that tells you with 100% certainty when something doesn&#39;t exist. Understand hash functions, bit arrays, false positives, and real-world use cases like recommendation engines and web crawlers."
+    />
+    <link rel="canonical" href="https://pulkit.blog/system-design/bloom-filters/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Bloom Filters | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Learn how Bloom filters work: a probabilistic data structure that tells you with 100% certainty when something doesn&#39;t exist. Understand hash functions, bit arrays, false positives, and real-world use cases like recommendation engines and web crawlers."
+    />
+    <meta property="og:url" content="https://pulkit.blog/system-design/bloom-filters/" />
+    <meta
+      property="og:image"
+      content="https://pulkit.blog/og/system-design/bloom-filters/card.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/system-design/bloom-filters/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Bloom Filters" />
+    <meta property="article:published_time" content="2026-01-24" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bloom Filters | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Learn how Bloom filters work: a probabilistic data structure that tells you with 100% certainty when something doesn&#39;t exist. Understand hash functions, bit arrays, false positives, and real-world use cases like recommendation engines and web crawlers."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pulkit.blog/og/system-design/bloom-filters/card.png"
+    />
+    <meta name="twitter:image:alt" content="Bloom Filters" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/system-design/bloom-filters/#image","contentUrl":"https://pulkit.blog/og/system-design/bloom-filters/card.png","width":1200,"height":630,"caption":"Bloom Filters"},{"@type":"BlogPosting","@id":"https://pulkit.blog/system-design/bloom-filters/#article","headline":"Bloom Filters","description":"Learn how Bloom filters work: a probabilistic data structure that tells you with 100% certainty when something doesn't exist. Understand hash functions, bit arrays, false positives, and real-world use cases like recommendation engines and web crawlers.","datePublished":"2026-01-24","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/system-design/bloom-filters/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/system-design/#webpage"},"image":{"@id":"https://pulkit.blog/system-design/bloom-filters/#image"},"url":"https://pulkit.blog/system-design/bloom-filters/","inLanguage":"en","keywords":["System Design","Data Structures","Bloom Filters","Probabilistic","Redis"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/system-design/bloom-filters/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"System Design","item":"https://pulkit.blog/system-design/"},{"@type":"ListItem","position":3,"name":"Bloom Filters","item":"https://pulkit.blog/system-design/bloom-filters/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/system-design/bloom-filters/#webpage","url":"https://pulkit.blog/system-design/bloom-filters/","name":"Bloom Filters","description":"Learn how Bloom filters work: a probabilistic data structure that tells you with 100% certainty when something doesn't exist. Understand hash functions, bit arrays, false positives, and real-world use cases like recommendation engines and web crawlers.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/system-design/bloom-filters/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/system-design/bloom-filters/#article"},"breadcrumb":{"@id":"https://pulkit.blog/system-design/bloom-filters/#breadcrumbs"}}]}</script>
+    <link rel="stylesheet" href="/assets/katex/katex.min.css" />
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Bloom Filters | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Bloom Filters
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2026-01-24">January 24, 2026</time>
+              · 9 min read ·
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/system-design/"
+                >System Design</a
+              >
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              Instagram wants to recommend reels to you. But does it make sense to recommend a reel
+              you&#39;ve already watched? No. You&#39;d see the exact same video you saw an hour
+              ago. That&#39;s a terrible experience.
+            </p>
+            <p class="mt-0 mb-6">
+              So whenever Instagram recommends something, it needs to ensure you&#39;re seeing
+              something new. Not something you&#39;ve already watched. But how do you efficiently
+              check if a user has seen a particular reel among millions of reels they&#39;ve watched
+              over months?
+            </p>
+            <p class="mt-0 mb-6">This is exactly where Bloom filters shine.</p>
+            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              TL;DR
+            </h2>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong>Bloom filters</strong>
+                are probabilistic data structures that tell you with 100% certainty when something
+                does NOT exist
+              </li>
+              <li>
+                <strong>When it says no</strong>: The element is definitely not in the set.
+                Guaranteed
+              </li>
+              <li>
+                <strong>When it says yes</strong>: The element might be present. You need to verify
+              </li>
+              <li>
+                <strong>How it works</strong>: Hash the key, set bits in a bit array, check bits for
+                existence
+              </li>
+              <li>
+                <strong>Space efficient</strong>: Stores existence of thousands of items in a tiny
+                bit array (no actual keys stored)
+              </li>
+              <li>
+                <strong>False positives</strong>: Bloom filter can say &quot;yes&quot; when the
+                element isn&#39;t there. This rate increases as you add more keys
+              </li>
+              <li>
+                <strong>No deletions</strong>: Once you add something, you can&#39;t remove it (bits
+                are shared)
+              </li>
+              <li>
+                <strong>Sizing matters</strong>: Pick the right size based on expected keys and
+                acceptable false positive rate
+              </li>
+              <li>
+                <strong>Real-world uses</strong>: Recommendation engines, web crawlers, feed
+                generation, Tinder, Medium
+              </li>
+              <li>
+                <strong>Redis support</strong>: Redis offers Bloom filters as a native data
+                structure. Use it
+              </li>
+            </ul>
+            <h2 id="the-problem" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              The Problem
+            </h2>
+            <p class="mt-0 mb-6">
+              Let&#39;s say you&#39;re building Instagram&#39;s recommendation engine. You need to
+              track everything a user has watched so you don&#39;t recommend it again.
+            </p>
+            <p class="mt-0 mb-6">The naive approach? Store everything in a set:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> watchedPosts <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Set</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">&gt;();</span>
+
+watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_1&quot;</span><span class="text-syn-u">);</span>
+watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_9&quot;</span><span class="text-syn-u">);</span>
+watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_7&quot;</span><span class="text-syn-u">);</span>
+watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;post_1024&quot;</span><span class="text-syn-u">);</span>
+
+<span class="text-syn-k">function</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> watchedPosts<span class="text-syn-u">.</span><span class="text-syn-f">has</span><span class="text-syn-u">(</span>postId<span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This works. But think about the scale. People watch hundreds of reels every single
+              day. Over months, the set of all posts watched by a user becomes massive.
+            </p>
+            <p class="mt-0 mb-6">
+              To check if a key exists in a set implemented as a hash table or binary search tree,
+              you have to load the entire set into memory. When millions of users watch thousands of
+              reels daily, the memory and compute required becomes prohibitively expensive.
+            </p>
+            <p class="mt-0 mb-6">Can we do better?</p>
+            <h2
+              id="the-key-insight"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Key Insight
+            </h2>
+            <p class="mt-0 mb-6">
+              Here&#39;s a crucial observation: once someone has watched a reel, they can&#39;t
+              &quot;unwatch&quot; it. The view is registered. It&#39;s done.
+            </p>
+            <p class="mt-0 mb-6">
+              In a normal set, you can add and remove elements. But for tracking watched content, we
+              only ever add. We never remove.
+            </p>
+            <p class="mt-0 mb-6">
+              This constraint lets us relax the data structure. We don&#39;t need the full power of
+              a set. We just need to know: &quot;Has this user definitely NOT seen this post?&quot;
+            </p>
+            <p class="mt-0 mb-6">
+              If we can answer that question with 100% certainty, we can discard posts the user has
+              seen and only recommend new ones. Even if we occasionally miss recommending something
+              (<span class="inline-flex items-center gap-1"
+                >false positive<span
+                  title="A false positive is when the Bloom filter says an element is present, but it actually isn&#39;t."
+                  class="inline-flex size-4 cursor-help items-center justify-center rounded-full bg-surface text-[10px] font-bold text-muted"
+                  >i</span
+                ></span
+              >), that&#39;s okay. Performance matters more than perfect recall.
+            </p>
+            <p class="mt-0 mb-6">This trade-off is the foundation of Bloom filters.</p>
+            <h2
+              id="what-is-a-bloom-filter"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              What is a Bloom Filter?
+            </h2>
+            <p class="mt-0 mb-6">
+              A Bloom filter is a probabilistic data structure. It can tell you with 100% certainty
+              that an element does NOT belong to a set. But when it says an element IS present, it
+              might be wrong.
+            </p>
+            <p class="mt-0 mb-6">
+              The word &quot;filter&quot; in Bloom filter refers to a <strong>bit array</strong>.
+              Not a byte array. An array of individual bits. Each bit is either 0 or 1.
+            </p>
+            <p class="mt-0 mb-6">
+              The name comes from Burton Howard Bloom, who invented it in 1970.
+            </p>
+            <h3 id="how-it-works" class="mt-8 text-lg leading-tight tracking-tight">
+              How It Works
+            </h3>
+            <p class="mt-0 mb-6">
+              Let&#39;s walk through a simple example. Say we have an 8-bit Bloom filter:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Index:  0   1   2   3   4   5   6   7
+Bits:  [0] [0] [0] [0] [0] [0] [0] [0]
+</code></pre>
+            <p class="mt-0 mb-6">
+              We want to store the existence of words: &quot;apple&quot;, &quot;ball&quot;, and
+              &quot;cat&quot;.
+            </p>
+            <p class="mt-0 mb-6"><strong>Adding &quot;apple&quot;:</strong></p>
+            <ol class="mt-0 mb-6">
+              <li>Pass &quot;apple&quot; through a hash function</li>
+              <li>Take the result modulo 8 (our filter size)</li>
+              <li>Let&#39;s say we get 2</li>
+              <li>Set bit at index 2 to 1</li>
+            </ol>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Index:  0   1   2   3   4   5   6   7
+Bits:  [0] [0] [1] [0] [0] [0] [0] [0]
+                ↑
+              apple
+</code></pre>
+            <p class="mt-0 mb-6"><strong>Adding &quot;ball&quot;:</strong></p>
+            <ol class="mt-0 mb-6">
+              <li>Hash &quot;ball&quot;, mod 8</li>
+              <li>Let&#39;s say we get 6</li>
+              <li>Set bit at index 6 to 1</li>
+            </ol>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Index:  0   1   2   3   4   5   6   7
+Bits:  [0] [0] [1] [0] [0] [0] [1] [0]
+                ↑               ↑
+              apple            ball
+</code></pre>
+            <p class="mt-0 mb-6"><strong>Adding &quot;cat&quot;:</strong></p>
+            <ol class="mt-0 mb-6">
+              <li>Hash &quot;cat&quot;, mod 8</li>
+              <li>Let&#39;s say we get 2 (same as apple!)</li>
+              <li>Set bit at index 2 to 1 (already 1, no change)</li>
+            </ol>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Index:  0   1   2   3   4   5   6   7
+Bits:  [0] [0] [1] [0] [0] [0] [1] [0]
+                ↑               ↑
+             apple/cat         ball
+</code></pre>
+            <p class="mt-0 mb-6">
+              Notice that &quot;apple&quot; and &quot;cat&quot; hash to the same index. This is
+              called a <strong>collision</strong>, and it&#39;s expected. We&#39;re compressing
+              arbitrary data into a tiny bit array.
+            </p>
+            <h3 id="checking-for-existence" class="mt-8 text-lg leading-tight tracking-tight">
+              Checking for Existence
+            </h3>
+            <p class="mt-0 mb-6">Now let&#39;s check if some words exist:</p>
+            <p class="mt-0 mb-6"><strong>Does &quot;dog&quot; exist?</strong></p>
+            <ol class="mt-0 mb-6">
+              <li>Hash &quot;dog&quot;, mod 8</li>
+              <li>Let&#39;s say we get 5</li>
+              <li>Check bit at index 5 → it&#39;s 0</li>
+              <li><strong>Definitely NOT present</strong></li>
+            </ol>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Index:  0   1   2   3   4   5   6   7
+Bits:  [0] [0] [1] [0] [0] [0] [1] [0]
+                            ↑
+                    dog → 0 = NOT PRESENT ✓
+</code></pre>
+            <p class="mt-0 mb-6">
+              The Bloom filter says no. We can be 100% certain that &quot;dog&quot; was never added.
+            </p>
+            <p class="mt-0 mb-6"><strong>Does &quot;elephant&quot; exist?</strong></p>
+            <ol class="mt-0 mb-6">
+              <li>Hash &quot;elephant&quot;, mod 8</li>
+              <li>Let&#39;s say we get 6</li>
+              <li>Check bit at index 6 → it&#39;s 1</li>
+              <li><strong>Might be present</strong> (false positive!)</li>
+            </ol>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Index:  0   1   2   3   4   5   6   7
+Bits:  [0] [0] [1] [0] [0] [0] [1] [0]
+                                ↑
+                  elephant → 1 = MAYBE PRESENT?
+</code></pre>
+            <p class="mt-0 mb-6">
+              We never added &quot;elephant&quot;. But it hashes to the same index as
+              &quot;ball&quot;. The Bloom filter incorrectly says it might be present. This is a
+              <strong>false positive</strong>.
+            </p>
+            <h2
+              id="the-golden-rule"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Golden Rule
+            </h2>
+            <p class="mt-0 mb-6">
+              <strong
+                >When Bloom filter says NO → Element is definitely NOT present (100%
+                certain)</strong
+              >
+            </p>
+            <p class="mt-0 mb-6">
+              <strong
+                >When Bloom filter says YES → Element MIGHT be present (need to verify)</strong
+              >
+            </p>
+            <p class="mt-0 mb-6">
+              This asymmetry is what makes Bloom filters useful. For recommendation engines, we care
+              about the &quot;no&quot; case. If the Bloom filter says a user hasn&#39;t seen a post,
+              we can confidently recommend it.
+            </p>
+            <h2
+              id="space-efficiency"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Space Efficiency
+            </h2>
+            <p class="mt-0 mb-6">Let&#39;s compare the space used:</p>
+            <p class="mt-0 mb-6"><strong>Storing actual words:</strong></p>
+            <ul class="mt-0 mb-6">
+              <li>&quot;apple&quot; = 5 bytes</li>
+              <li>&quot;ball&quot; = 4 bytes</li>
+              <li>&quot;cat&quot; = 3 bytes</li>
+              <li>Total = 12 bytes (plus overhead for the set data structure)</li>
+            </ul>
+            <p class="mt-0 mb-6"><strong>Bloom filter:</strong></p>
+            <ul class="mt-0 mb-6">
+              <li>8 bits = 1 byte</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              We stored the existence of 3 words in just 1 byte. That&#39;s a massive space saving.
+            </p>
+            <p class="mt-0 mb-6">
+              In practice, you&#39;d use larger Bloom filters (1 KB, 10 KB, etc.) to reduce false
+              positive rates. But even then, the space savings are significant. A 10 KB Bloom filter
+              can track millions of items.
+            </p>
+            <p class="mt-0 mb-6">
+              This is because <strong>Bloom filters don&#39;t store the actual keys</strong>. They
+              only store existence information compressed into a bit array. You can&#39;t retrieve
+              the original keys from a Bloom filter. You can only ask &quot;is this key
+              present?&quot;
+            </p>
+            <h2
+              id="false-positive-rate"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              False Positive Rate
+            </h2>
+            <p class="mt-0 mb-6">
+              As you add more keys to a Bloom filter, more bits get set to 1. Eventually, most bits
+              are 1. At that point, almost any query returns &quot;might be present.&quot;
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Empty:     [0][0][0][0][0][0][0][0]  → Low false positive rate
+Some keys: [0][1][1][0][1][0][1][0]  → Medium false positive rate
+Many keys: [1][1][1][1][1][1][1][1]  → Everything says &quot;present&quot;!
+</code></pre>
+            <p class="mt-0 mb-6">The false positive rate increases as:</p>
+            <ul class="mt-0 mb-6">
+              <li>More keys are added</li>
+              <li>The Bloom filter size stays the same</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              This is the fundamental trade-off. You need to size your Bloom filter based on:
+            </p>
+            <ol class="mt-0 mb-6">
+              <li>Expected number of keys</li>
+              <li>Acceptable false positive rate</li>
+            </ol>
+            <p class="mt-0 mb-6">There&#39;s a mathematical formula for this:</p>
+            <div tabindex="0" class="my-4 overflow-x-auto text-center">
+              <!-- [html-validate-disable-block no-inline-style] --><span class="katex-display"
+                ><span class="katex"
+                  ><span class="katex-html" aria-hidden="true"
+                    ><span class="katex-base"
+                      ><span class="katex-strut" style="height:0.4306em;"></span
+                      ><span class="mord mathnormal">m</span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span
+                      ><span class="mrel">=</span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span></span
+                    ><span class="katex-base"
+                      ><span
+                        class="katex-strut"
+                        style="height:2.363em;vertical-align:-0.936em;"
+                      ></span><span class="mord"
+                        ><span class="mopen nulldelimiter"></span
+                        ><span class="mfrac"
+                          ><span class="vlist-t vlist-t2"
+                            ><span class="vlist-r"
+                              ><span class="vlist" style="height:1.427em;"
+                                ><span style="top:-2.314em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span class="mord"
+                                    ><span class="mopen">(</span><span class="mop">ln</span
+                                    ><span class="mspace" style="margin-right:0.1667em;"></span
+                                    ><span class="mord">2</span
+                                    ><span class="mclose"
+                                      ><span class="mclose">)</span
+                                      ><span class="msupsub"
+                                        ><span class="vlist-t"
+                                          ><span class="vlist-r"
+                                            ><span class="vlist" style="height:0.7401em;"
+                                              ><span style="top:-2.989em;margin-right:0.05em;"
+                                                ><span class="pstrut" style="height:2.7em;"></span
+                                                ><span class="katex-sizing reset-size6 size3 mtight"
+                                                  ><span class="mord mtight">2</span></span
+                                                ></span
+                                              ></span
+                                            ></span
+                                          ></span
+                                        ></span
+                                      ></span
+                                    ></span
+                                  ></span
+                                ><span style="top:-3.23em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span
+                                    class="frac-line"
+                                    style="border-bottom-width:0.04em;"
+                                  ></span></span
+                                ><span style="top:-3.677em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span class="mord"
+                                    ><span class="mord">−</span
+                                    ><span class="mord mathnormal">n</span
+                                    ><span class="mspace" style="margin-right:0.2222em;"></span
+                                    ><span class="mbin">⋅</span
+                                    ><span class="mspace" style="margin-right:0.2222em;"></span
+                                    ><span class="mop">ln</span><span class="mopen">(</span
+                                    ><span class="mord mathnormal">p</span
+                                    ><span class="mclose">)</span></span
+                                  ></span
+                                ></span
+                              ><span class="vlist-s">​</span></span
+                            ><span class="vlist-r"
+                              ><span class="vlist" style="height:0.936em;"
+                                ><span></span></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="mclose nulldelimiter"></span></span
+                      ></span
+                    ></span
+                  ></span
+                ></span
+              >
+            </div>
+            <p class="mt-0 mb-6">Where:</p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <span
+                  ><!-- [html-validate-disable-block no-inline-style] --><span class="katex"
+                    ><span class="katex-html" aria-hidden="true"
+                      ><span class="katex-base"
+                        ><span class="katex-strut" style="height:0.4306em;"></span
+                        ><span class="mord mathnormal">m</span></span
+                      ></span
+                    ></span
+                  ></span
+                >
+                = number of bits needed
+              </li>
+              <li>
+                <span
+                  ><!-- [html-validate-disable-block no-inline-style] --><span class="katex"
+                    ><span class="katex-html" aria-hidden="true"
+                      ><span class="katex-base"
+                        ><span class="katex-strut" style="height:0.4306em;"></span
+                        ><span class="mord mathnormal">n</span></span
+                      ></span
+                    ></span
+                  ></span
+                >
+                = expected number of elements
+              </li>
+              <li>
+                <span
+                  ><!-- [html-validate-disable-block no-inline-style] --><span class="katex"
+                    ><span class="katex-html" aria-hidden="true"
+                      ><span class="katex-base"
+                        ><span
+                          class="katex-strut"
+                          style="height:0.625em;vertical-align:-0.1944em;"
+                        ></span><span class="mord mathnormal">p</span></span
+                      ></span
+                    ></span
+                  ></span
+                >
+                = desired false positive probability
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              For example, if you expect 1 million keys and want a 1% false positive rate:
+            </p>
+            <div tabindex="0" class="my-4 overflow-x-auto text-center">
+              <!-- [html-validate-disable-block no-inline-style] --><span class="katex-display"
+                ><span class="katex"
+                  ><span class="katex-html" aria-hidden="true"
+                    ><span class="katex-base"
+                      ><span class="katex-strut" style="height:0.4306em;"></span
+                      ><span class="mord mathnormal">m</span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span
+                      ><span class="mrel">=</span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span></span
+                    ><span class="katex-base"
+                      ><span
+                        class="katex-strut"
+                        style="height:2.363em;vertical-align:-0.936em;"
+                      ></span><span class="mord"
+                        ><span class="mopen nulldelimiter"></span
+                        ><span class="mfrac"
+                          ><span class="vlist-t vlist-t2"
+                            ><span class="vlist-r"
+                              ><span class="vlist" style="height:1.427em;"
+                                ><span style="top:-2.314em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span class="mord"
+                                    ><span class="mopen">(</span><span class="mop">ln</span
+                                    ><span class="mspace" style="margin-right:0.1667em;"></span
+                                    ><span class="mord">2</span
+                                    ><span class="mclose"
+                                      ><span class="mclose">)</span
+                                      ><span class="msupsub"
+                                        ><span class="vlist-t"
+                                          ><span class="vlist-r"
+                                            ><span class="vlist" style="height:0.7401em;"
+                                              ><span style="top:-2.989em;margin-right:0.05em;"
+                                                ><span class="pstrut" style="height:2.7em;"></span
+                                                ><span class="katex-sizing reset-size6 size3 mtight"
+                                                  ><span class="mord mtight">2</span></span
+                                                ></span
+                                              ></span
+                                            ></span
+                                          ></span
+                                        ></span
+                                      ></span
+                                    ></span
+                                  ></span
+                                ><span style="top:-3.23em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span
+                                    class="frac-line"
+                                    style="border-bottom-width:0.04em;"
+                                  ></span></span
+                                ><span style="top:-3.677em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span class="mord"
+                                    ><span class="mord">−</span><span class="mord">1</span
+                                    ><span class="mpunct">,</span
+                                    ><span class="mspace" style="margin-right:0.1667em;"></span
+                                    ><span class="mord">000</span><span class="mpunct">,</span
+                                    ><span class="mspace" style="margin-right:0.1667em;"></span
+                                    ><span class="mord">000</span
+                                    ><span class="mspace" style="margin-right:0.2222em;"></span
+                                    ><span class="mbin">⋅</span
+                                    ><span class="mspace" style="margin-right:0.2222em;"></span
+                                    ><span class="mop">ln</span><span class="mopen">(</span
+                                    ><span class="mord">0.01</span
+                                    ><span class="mclose">)</span></span
+                                  ></span
+                                ></span
+                              ><span class="vlist-s">​</span></span
+                            ><span class="vlist-r"
+                              ><span class="vlist" style="height:0.936em;"
+                                ><span></span></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="mclose nulldelimiter"></span></span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span
+                      ><span class="mrel">≈</span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span></span
+                    ><span class="katex-base"
+                      ><span
+                        class="katex-strut"
+                        style="height:0.8889em;vertical-align:-0.1944em;"
+                      ></span><span class="mord">9</span><span class="mpunct">,</span
+                      ><span class="mspace" style="margin-right:0.1667em;"></span
+                      ><span class="mord">585</span><span class="mpunct">,</span
+                      ><span class="mspace" style="margin-right:0.1667em;"></span
+                      ><span class="mord">059</span
+                      ><span class="mord text"><span class="mord"> bits</span></span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span
+                      ><span class="mrel">≈</span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span></span
+                    ><span class="katex-base"
+                      ><span class="katex-strut" style="height:0.6833em;"></span
+                      ><span class="mord">1.14</span
+                      ><span class="mord text"><span class="mord"> MB</span></span></span
+                    ></span
+                  ></span
+                ></span
+              >
+            </div>
+            <p class="mt-0 mb-6">
+              About 1 MB to track a million items with 1% false positives. Not bad.
+            </p>
+            <h2
+              id="multiple-hash-functions"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Multiple Hash Functions
+            </h2>
+            <p class="mt-0 mb-6">
+              Real Bloom filters use multiple hash functions, not just one. Each key is hashed by k
+              different functions, and k bits are set.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">function</span> <span class="text-syn-f">addToBloomFilter</span><span class="text-syn-u">(</span>key<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">void</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> hash1 <span class="text-syn-o">=</span> <span class="text-syn-f">murmurhash</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span>
+  <span class="text-syn-k">const</span> hash2 <span class="text-syn-o">=</span> <span class="text-syn-f">sha256</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span>
+  <span class="text-syn-k">const</span> hash3 <span class="text-syn-o">=</span> <span class="text-syn-f">fnv1a</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span>
+
+  bitArray<span class="text-syn-u">[</span>hash1<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
+  bitArray<span class="text-syn-u">[</span>hash2<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
+  bitArray<span class="text-syn-u">[</span>hash3<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">function</span> <span class="text-syn-f">mightExist</span><span class="text-syn-u">(</span>key<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> hash1 <span class="text-syn-o">=</span> <span class="text-syn-f">murmurhash</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span>
+  <span class="text-syn-k">const</span> hash2 <span class="text-syn-o">=</span> <span class="text-syn-f">sha256</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span>
+  <span class="text-syn-k">const</span> hash3 <span class="text-syn-o">=</span> <span class="text-syn-f">fnv1a</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-o">%</span> filterSize<span class="text-syn-u">;</span>
+
+  <span class="text-syn-k">return</span> bitArray<span class="text-syn-u">[</span>hash1<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span> <span class="text-syn-o">&amp;&amp;</span> bitArray<span class="text-syn-u">[</span>hash2<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span> <span class="text-syn-o">&amp;&amp;</span> bitArray<span class="text-syn-u">[</span>hash3<span class="text-syn-u">]</span> <span class="text-syn-o">===</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              With multiple hash functions, all k bits must be set for a &quot;might exist&quot;
+              response. This reduces false positives because it&#39;s less likely that all k bits
+              were coincidentally set by other keys.
+            </p>
+            <p class="mt-0 mb-6">The optimal number of hash functions is:</p>
+            <div tabindex="0" class="my-4 overflow-x-auto text-center">
+              <!-- [html-validate-disable-block no-inline-style] --><span class="katex-display"
+                ><span class="katex"
+                  ><span class="katex-html" aria-hidden="true"
+                    ><span class="katex-base"
+                      ><span class="katex-strut" style="height:0.6944em;"></span
+                      ><span class="mord mathnormal" style="margin-right:0.0315em;">k</span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span
+                      ><span class="mrel">=</span
+                      ><span class="mspace" style="margin-right:0.2778em;"></span></span
+                    ><span class="katex-base"
+                      ><span
+                        class="katex-strut"
+                        style="height:1.7936em;vertical-align:-0.686em;"
+                      ></span><span class="mord"
+                        ><span class="mopen nulldelimiter"></span
+                        ><span class="mfrac"
+                          ><span class="vlist-t vlist-t2"
+                            ><span class="vlist-r"
+                              ><span class="vlist" style="height:1.1076em;"
+                                ><span style="top:-2.314em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span class="mord"
+                                    ><span class="mord mathnormal">n</span></span
+                                  ></span
+                                ><span style="top:-3.23em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span
+                                    class="frac-line"
+                                    style="border-bottom-width:0.04em;"
+                                  ></span></span
+                                ><span style="top:-3.677em;"
+                                  ><span class="pstrut" style="height:3em;"></span
+                                  ><span class="mord"
+                                    ><span class="mord mathnormal">m</span></span
+                                  ></span
+                                ></span
+                              ><span class="vlist-s">​</span></span
+                            ><span class="vlist-r"
+                              ><span class="vlist" style="height:0.686em;"
+                                ><span></span></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="mclose nulldelimiter"></span></span
+                      ><span class="mspace" style="margin-right:0.2222em;"></span
+                      ><span class="mbin">⋅</span
+                      ><span class="mspace" style="margin-right:0.2222em;"></span></span
+                    ><span class="katex-base"
+                      ><span class="katex-strut" style="height:0.6944em;"></span
+                      ><span class="mop">ln</span
+                      ><span class="mspace" style="margin-right:0.1667em;"></span
+                      ><span class="mord">2</span></span
+                    ></span
+                  ></span
+                ></span
+              >
+            </div>
+            <p class="mt-0 mb-6">Where:</p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <span
+                  ><!-- [html-validate-disable-block no-inline-style] --><span class="katex"
+                    ><span class="katex-html" aria-hidden="true"
+                      ><span class="katex-base"
+                        ><span class="katex-strut" style="height:0.6944em;"></span
+                        ><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span
+                      ></span
+                    ></span
+                  ></span
+                >
+                = number of hash functions
+              </li>
+              <li>
+                <span
+                  ><!-- [html-validate-disable-block no-inline-style] --><span class="katex"
+                    ><span class="katex-html" aria-hidden="true"
+                      ><span class="katex-base"
+                        ><span class="katex-strut" style="height:0.4306em;"></span
+                        ><span class="mord mathnormal">m</span></span
+                      ></span
+                    ></span
+                  ></span
+                >
+                = number of bits
+              </li>
+              <li>
+                <span
+                  ><!-- [html-validate-disable-block no-inline-style] --><span class="katex"
+                    ><span class="katex-html" aria-hidden="true"
+                      ><span class="katex-base"
+                        ><span class="katex-strut" style="height:0.4306em;"></span
+                        ><span class="mord mathnormal">n</span></span
+                      ></span
+                    ></span
+                  ></span
+                >
+                = expected number of elements
+              </li>
+            </ul>
+            <h2
+              id="the-deletion-problem"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Deletion Problem
+            </h2>
+            <p class="mt-0 mb-6">You cannot delete from a standard Bloom filter.</p>
+            <p class="mt-0 mb-6">
+              Why? Because bits are shared. If &quot;apple&quot; and &quot;cat&quot; both hash to
+              index 2, you can&#39;t unset that bit when removing &quot;apple&quot; it would
+              incorrectly indicate &quot;cat&quot; isn&#39;t present.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Before: [0][0][1][0][0][0][1][0]  → apple and cat both at index 2
+
+If we &quot;remove&quot; apple by unsetting bit 2:
+After:  [0][0][0][0][0][0][1][0]  → Now &quot;cat&quot; appears not present!
+</code></pre>
+            <p class="mt-0 mb-6">This is why Bloom filters work best for append-only use cases:</p>
+            <ul class="mt-0 mb-6">
+              <li>Tracking watched content</li>
+              <li>Caching negative lookups</li>
+              <li>Checking if URL was crawled</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              If you need deletions, look into <strong>Counting Bloom Filters</strong> or
+              <strong>Cuckoo Filters</strong>
+              (alternatives that support removal).
+            </p>
+            <h2
+              id="scaling-a-bloom-filter"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Scaling a Bloom Filter
+            </h2>
+            <p class="mt-0 mb-6">
+              What happens when your Bloom filter fills up and false positives become unacceptable?
+            </p>
+            <p class="mt-0 mb-6"><strong>You cannot resize a Bloom filter in place.</strong></p>
+            <p class="mt-0 mb-6">
+              The hash function results depend on the filter size (mod operation). If you change the
+              size, all the mappings change.
+            </p>
+            <p class="mt-0 mb-6">Your options:</p>
+            <ol class="mt-0 mb-6">
+              <li class="[&>p]:mb-2">
+                <p class="mt-0 mb-6">
+                  <strong>Recreate with larger size</strong>: Create a new, larger Bloom filter. Go
+                  back to your source of truth (database), iterate through all keys, and re-insert
+                  them into the new filter.
+                </p>
+              </li>
+              <li class="[&>p]:mb-2">
+                <p class="mt-0 mb-6">
+                  <strong>Start big</strong>: Estimate the maximum keys you&#39;ll need and
+                  provision a large enough filter from the start. This is the recommended approach.
+                </p>
+              </li>
+            </ol>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">interface</span> <span class="text-syn-t">BloomFilterConfig</span> <span class="text-syn-u">{</span>
+  expectedElements<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
+  falsePositiveRate<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">function</span> <span class="text-syn-f">calculateOptimalSize</span><span class="text-syn-u">(</span>config<span class="text-syn-o">:</span> <span class="text-syn-t">BloomFilterConfig</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> expectedElements<span class="text-syn-u">,</span> falsePositiveRate <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> config<span class="text-syn-u">;</span>
+  <span class="text-syn-k">const</span> bits <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">ceil</span><span class="text-syn-u">(</span>
+    <span class="text-syn-u">(</span><span class="text-syn-o">-</span>expectedElements <span class="text-syn-o">*</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>falsePositiveRate<span class="text-syn-u">))</span> <span class="text-syn-o">/</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">pow</span><span class="text-syn-u">(</span>Math<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-n">2</span><span class="text-syn-u">),</span> <span class="text-syn-n">2</span><span class="text-syn-u">),</span>
+  <span class="text-syn-u">);</span>
+  <span class="text-syn-k">return</span> bits<span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">const</span> config<span class="text-syn-o">:</span> <span class="text-syn-t">BloomFilterConfig</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">expectedElements:</span> <span class="text-syn-n">10_000_000</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">falsePositiveRate:</span> <span class="text-syn-n">0.01</span><span class="text-syn-u">,</span>
+<span class="text-syn-u">};</span>
+
+<span class="text-syn-k">const</span> filterSize <span class="text-syn-o">=</span> <span class="text-syn-f">calculateOptimalSize</span><span class="text-syn-u">(</span>config<span class="text-syn-u">);</span>
+</code></pre>
+            <h2
+              id="bloom-filters-with-redis"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Bloom Filters with Redis
+            </h2>
+            <p class="mt-0 mb-6">
+              You don&#39;t need to implement Bloom filters from scratch. Redis offers them as a
+              native data structure through the
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter"
+                >RedisBloom</a
+              >
+              module.
+            </p>
+            <p class="mt-0 mb-6">Here&#39;s how you use it via Redis CLI:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic"># Create a Bloom filter named &quot;watched_posts&quot;</span>
+<span class="text-syn-c italic"># 0.01 = 1% false positive rate</span>
+<span class="text-syn-c italic"># 1000000 = expected capacity of 1 million items</span>
+<span class="text-syn-f">BF.RESERVE</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">0.01</span> <span class="text-syn-s">1000000</span>
+
+<span class="text-syn-c italic"># Add items to the filter</span>
+<span class="text-syn-f">BF.ADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_123</span>
+<span class="text-syn-f">BF.ADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_456</span>
+
+<span class="text-syn-c italic"># Check if an item exists</span>
+<span class="text-syn-f">BF.EXISTS</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_123</span>  <span class="text-syn-c italic"># Returns 1 (might exist)</span>
+<span class="text-syn-f">BF.EXISTS</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_789</span>  <span class="text-syn-c italic"># Returns 0 (definitely not)</span>
+
+<span class="text-syn-c italic"># Add multiple items at once</span>
+<span class="text-syn-f">BF.MADD</span> <span class="text-syn-s">watched_posts</span> <span class="text-syn-s">post_1</span> <span class="text-syn-s">post_2</span> <span class="text-syn-s">post_3</span>
+</code></pre>
+            <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
+              <thead>
+                <tr>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Command</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">What it does</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >BF.RESERVE name error_rate capacity</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Creates a new Bloom filter with specified false positive rate and capacity
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >BF.ADD name item</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Adds an item to the filter
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >BF.EXISTS name item</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Checks if item might exist (1) or definitely doesn&#39;t (0)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >BF.MADD name item1 item2 ...</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Adds multiple items in one call
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="mt-0 mb-6">In TypeScript with ioredis:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> Redis <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;ioredis&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> redis <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Redis</span><span class="text-syn-u">();</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">markAsWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`watched:${userId}`</span><span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">boolean</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`watched:${userId}`</span><span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span>
+  <span class="text-syn-k">return</span> result <span class="text-syn-o">===</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">recommendPost</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> postId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">boolean</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> mightHaveWatched <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">hasUserWatched</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">,</span> postId<span class="text-syn-u">);</span>
+
+  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>mightHaveWatched<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">return</span> <span class="text-syn-k">true</span><span class="text-syn-u">;</span>
+  <span class="text-syn-u">}</span>
+
+  <span class="text-syn-k">return</span> <span class="text-syn-k">false</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">When creating a Bloom filter in Redis, you specify:</p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong>Error rate</strong>: The desired false positive rate (e.g., 0.01 for 1%)
+              </li>
+              <li><strong>Capacity</strong>: Expected number of elements</li>
+            </ul>
+            <p class="mt-0 mb-6">Redis handles the optimal sizing internally.</p>
+            <h2
+              id="real-world-use-cases"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Real-World Use Cases
+            </h2>
+            <h3 id="recommendation-engines" class="mt-8 text-lg leading-tight tracking-tight">
+              Recommendation Engines
+            </h3>
+            <p class="mt-0 mb-6">
+              Track what users have seen. Only recommend content they definitely haven&#39;t
+              consumed.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">User requests feed
+    ↓
+Generate candidate posts
+    ↓
+For each candidate:
+    Check Bloom filter → &quot;Definitely not seen?&quot;
+        Yes → Include in feed
+        No  → Skip (might have seen)
+    ↓
+Return filtered feed
+</code></pre>
+            <p class="mt-0 mb-6">
+              Medium uses Bloom filters for article recommendations. For every article you read,
+              it&#39;s added to your Bloom filter. The recommendation engine only suggests articles
+              that pass the &quot;definitely not read&quot; check.
+            </p>
+            <h3 id="web-crawlers" class="mt-8 text-lg leading-tight tracking-tight">
+              Web Crawlers
+            </h3>
+            <p class="mt-0 mb-6">
+              Track which URLs have already been crawled. Don&#39;t waste resources re-crawling.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">crawl</span><span class="text-syn-u">(</span>startUrl<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> queue <span class="text-syn-o">=</span> <span class="text-syn-u">[</span>startUrl<span class="text-syn-u">];</span>
+
+  <span class="text-syn-k">while</span> <span class="text-syn-u">(</span>queue<span class="text-syn-u">.</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">const</span> url <span class="text-syn-o">=</span> queue<span class="text-syn-u">.</span><span class="text-syn-f">shift</span><span class="text-syn-u">()</span><span class="text-syn-o">!</span><span class="text-syn-u">;</span>
+
+    <span class="text-syn-k">const</span> alreadyCrawled <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;crawled_urls&quot;</span><span class="text-syn-u">,</span> url<span class="text-syn-u">);</span>
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>alreadyCrawled<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-k">continue</span><span class="text-syn-u">;</span>
+    <span class="text-syn-u">}</span>
+
+    <span class="text-syn-k">const</span> html <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span>url<span class="text-syn-u">);</span>
+    <span class="text-syn-k">await</span> <span class="text-syn-f">processPage</span><span class="text-syn-u">(</span>html<span class="text-syn-u">);</span>
+
+    <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;crawled_urls&quot;</span><span class="text-syn-u">,</span> url<span class="text-syn-u">);</span>
+
+    <span class="text-syn-k">const</span> links <span class="text-syn-o">=</span> <span class="text-syn-f">extractLinks</span><span class="text-syn-u">(</span>html<span class="text-syn-u">);</span>
+    queue<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">(</span><span class="text-syn-o">...</span>links<span class="text-syn-u">);</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <h3 id="database-query-optimization" class="mt-8 text-lg leading-tight tracking-tight">
+              Database Query Optimization
+            </h3>
+            <p class="mt-0 mb-6">
+              Check if a key might exist before hitting the database. If the Bloom filter says no,
+              skip the database query entirely.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">User</span> <span class="text-syn-o">|</span> <span class="text-syn-t">null</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> mightExist <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;user_ids&quot;</span><span class="text-syn-u">,</span> userId<span class="text-syn-u">);</span>
+
+  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>mightExist<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">return</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span>
+  <span class="text-syn-u">}</span>
+
+  <span class="text-syn-k">return</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>userId<span class="text-syn-u">]);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This is particularly useful for negative lookups. If most queries are for non-existent
+              keys, Bloom filters save massive database load.
+            </p>
+            <h3 id="tinder-feed" class="mt-8 text-lg leading-tight tracking-tight">Tinder Feed</h3>
+            <p class="mt-0 mb-6">
+              Don&#39;t show profiles you&#39;ve already swiped on. Whether you swiped left or
+              right, that profile shouldn&#39;t appear again.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getNextProfiles</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Profile</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> candidates <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getCandidateProfiles</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span>
+
+  <span class="text-syn-k">const</span> unseen <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span>
+  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> profile <span class="text-syn-o">of</span> candidates<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">const</span> seen <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.EXISTS&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`swiped:${userId}`</span><span class="text-syn-u">,</span> profile<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">);</span>
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>seen<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+      unseen<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">(</span>profile<span class="text-syn-u">);</span>
+    <span class="text-syn-u">}</span>
+  <span class="text-syn-u">}</span>
+
+  <span class="text-syn-k">return</span> unseen<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">10</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">recordSwipe</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> profileId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">await</span> redis<span class="text-syn-u">.</span><span class="text-syn-f">call</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;BF.ADD&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">`swiped:${userId}`</span><span class="text-syn-u">,</span> profileId<span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <h3 id="spell-checkers" class="mt-8 text-lg leading-tight tracking-tight">
+              Spell Checkers
+            </h3>
+            <p class="mt-0 mb-6">
+              Dictionary lookups. If a word is definitely not in the dictionary, it&#39;s
+              misspelled.
+            </p>
+            <h3 id="cache-lookups" class="mt-8 text-lg leading-tight tracking-tight">
+              Cache Lookups
+            </h3>
+            <p class="mt-0 mb-6">
+              Before checking a distributed cache, check a local Bloom filter. If the key is
+              definitely not cached, don&#39;t bother with the network request.
+            </p>
+            <h2
+              id="when-not-to-use-bloom-filters"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              When NOT to Use Bloom Filters
+            </h2>
+            <p class="mt-0 mb-6">Bloom filters aren&#39;t always the answer:</p>
+            <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
+              <thead>
+                <tr>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Use Case</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Bloom Filter?</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Why</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Need exact answers</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">❌</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    False positives are unacceptable
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Need to delete items</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">❌</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Standard Bloom filters don&#39;t support deletion
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Small dataset</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">❌</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Just use a regular set
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Need to retrieve values
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">❌</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Bloom filters only store existence, not values
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Financial transactions
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">❌</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Can&#39;t afford false positives
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="mt-0 mb-6">
+              If you can&#39;t tolerate false positives, Bloom filters aren&#39;t for you. For
+              example, checking if a bank account exists before a transfer, a false positive could
+              cause real problems.
+            </p>
+            <h2
+              id="hands-on-practice"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Hands-on Practice
+            </h2>
+            <p class="mt-0 mb-6">
+              I&#39;ve created hands-on demos you can run locally, here:
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://github.com/pulkitxm/systems/tree/main/data-structures/bloom-filters"
+                >bloom-filters</a
+              >: TypeScript implementation of Bloom filters from scratch. Includes demos for basic
+              usage, false positive rate visualization, and Redis integration.
+            </p>
+            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Conclusion
+            </h2>
+            <p class="mt-0 mb-6">
+              Bloom filters are elegant. They trade perfect accuracy for massive space and time
+              efficiency.
+            </p>
+            <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
+              <thead>
+                <tr>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Aspect</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Bloom Filter</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Regular Set</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Space</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Tiny (bits)</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Large (stores keys)</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    &quot;Not exists&quot;
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">100% accurate</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">100% accurate</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">&quot;Exists&quot;</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    May have false positives
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">100% accurate</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Deletion</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Not supported</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Supported</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Lookup time</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">O(k) hash functions</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">O(1) to O(log n)</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="mt-0 mb-6">
+              The key insight: <strong>when Bloom filter says no, it&#39;s definitely no</strong>.
+              This makes them perfect for filtering out things you&#39;ve seen before, URLs
+              you&#39;ve crawled, or keys that don&#39;t exist in your cache.
+            </p>
+            <p class="mt-0 mb-6">Use them when:</p>
+            <ul class="mt-0 mb-6">
+              <li>You&#39;re okay with occasional false positives</li>
+              <li>You need space efficiency</li>
+              <li>You only add, never remove</li>
+              <li>You need fast existence checks at scale</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              Redis makes it trivial to use Bloom filters in production. Create one with
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >BF.RESERVE</code
+              >, add with
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >BF.ADD</code
+              >, check with
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >BF.EXISTS</code
+              >. That&#39;s it.
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/system-design/caching/"
+                >Caching</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/system-design/rate-limiting/"
+                >Rate Limiting</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/system-design/async-processing/"
+                >Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

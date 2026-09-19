@@ -1,0 +1,398 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Learn to create a personalized `npx` command to share your details with others efficiently. Follow my step-by-step guide on creating `npx devpulkit`"
+    />
+    <link rel="canonical" href="https://pulkit.blog/creating-npx-command/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Creating Your Own npx Command | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Learn to create a personalized `npx` command to share your details with others efficiently. Follow my step-by-step guide on creating `npx devpulkit`"
+    />
+    <meta property="og:url" content="https://pulkit.blog/creating-npx-command/" />
+    <meta property="og:image" content="https://pulkit.blog/og/creating-npx-command/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/creating-npx-command/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Creating Your Own npx Command" />
+    <meta property="article:published_time" content="2024-07-27" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Creating Your Own npx Command | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Learn to create a personalized `npx` command to share your details with others efficiently. Follow my step-by-step guide on creating `npx devpulkit`"
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/creating-npx-command/card.png" />
+    <meta name="twitter:image:alt" content="Creating Your Own npx Command" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/creating-npx-command/#image","contentUrl":"https://pulkit.blog/og/creating-npx-command/card.png","width":1200,"height":630,"caption":"Creating Your Own npx Command"},{"@type":"BlogPosting","@id":"https://pulkit.blog/creating-npx-command/#article","headline":"Creating Your Own npx Command","description":"Learn to create a personalized `npx` command to share your details with others efficiently. Follow my step-by-step guide on creating `npx devpulkit`","datePublished":"2024-07-27","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/creating-npx-command/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/creating-npx-command/#image"},"url":"https://pulkit.blog/creating-npx-command/","inLanguage":"en","keywords":["npm","npx","Node.js","CLI Tool","Backend"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/creating-npx-command/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Creating Your Own npx Command","item":"https://pulkit.blog/creating-npx-command/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/creating-npx-command/#webpage","url":"https://pulkit.blog/creating-npx-command/","name":"Creating Your Own npx Command","description":"Learn to create a personalized `npx` command to share your details with others efficiently. Follow my step-by-step guide on creating `npx devpulkit`","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/creating-npx-command/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/creating-npx-command/#article"},"breadcrumb":{"@id":"https://pulkit.blog/creating-npx-command/#breadcrumbs"}}]}</script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Creating Your Own npx Command | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Creating Your Own npx Command
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2024-07-27">July 27, 2024</time>
+              · 1 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              Creating a personalized command-line tool can be a fun and efficient way to share your
+              details with others. In this article, I&#39;ll walk you through how I created
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >npx devpulkit</code
+              >. Whether you&#39;re a developer looking to showcase your portfolio or someone who
+              wants to share their contact details effortlessly, this guide will provide you with
+              the steps and insights needed to build your own
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >npx</code
+              >
+              command. Let&#39;s dive in!
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/how-i-created-npx-devpulkit/c7e73998-b9bf-4bc1-aafb-e743296c1f7a.webp"
+                alt="Terminal showing npx devpulkit command output"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">I also added this on my portfolio.</p>
+            <h2 id="let-s-start" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Let&#39;s Start
+            </h2>
+            <p class="mt-0 mb-6">
+              To create your own
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >npx</code
+              >
+              command, follow these steps:
+            </p>
+            <ol class="mt-0 mb-6">
+              <li class="[&>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>Set Up Your Project</strong>:</p>
+                <ul class="mt-0 mb-6">
+                  <li>Create a new directory for your project and navigate into it.</li>
+                  <li>
+                    Initialize a new Node.js project by running
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >pnpm init</code
+                    >. This will create a
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >package.json</code
+                    >
+                    file.
+                    <pre
+                      tabindex="0"
+                      class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                    ><code class="language-json rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">{</span>
+  <span class="text-syn-p">&quot;name&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;bash-script&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;version&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;1.0.0&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;main&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;cli.js&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;scripts&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">&quot;test&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span>
+  <span class="text-syn-u">},</span>
+  <span class="text-syn-p">&quot;keywords&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">[],</span>
+  <span class="text-syn-p">&quot;author&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;license&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;ISC&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;description&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;&quot;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+                  </li>
+                </ul>
+              </li>
+              <li class="[&>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>Create the Script</strong>:</p>
+                <p class="mt-0 mb-6">
+                  Inside your project directory, create a new file named
+                  <code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >cli.js</code
+                  >. Inside the
+                  <code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >cli.js</code
+                  >
+                  explain about yourself/ I chose the js object for this
+                </p>
+                <pre
+                  tabindex="0"
+                  class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> info <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">name:</span> <span class="text-syn-s">&quot;Pulkit&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">status:</span> <span class="text-syn-s">&quot;CS student&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">web:</span> <span class="text-syn-s">&quot;https://pulkitxm.com&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">linkedin:</span> <span class="text-syn-s">&quot;https://www.linkedin.com/in/pulkitxm&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">gh:</span> <span class="text-syn-s">&quot;https://github.com/Pulkitxm&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">twitter:</span> <span class="text-syn-s">&quot;https://twitter.com/devpulkitt&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">desc:</span> <span class="text-syn-s">&quot;Passionate about web &amp; app development, MERN stack enthusiast, open-source contributor, and ICPC regionalist.&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">skills:</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">langs:</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;JavaScript&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;TypeScript&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Python&quot;</span><span class="text-syn-u">],</span>
+    <span class="text-syn-p">skills:</span> <span class="text-syn-u">[</span>
+      <span class="text-syn-s">&quot;React&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;React Native&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Node.js&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Express.js&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;MongoDB&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Git&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Docker&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Networking&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-u">],</span>
+  <span class="text-syn-u">},</span>
+<span class="text-syn-u">};</span>
+</code></pre>
+                <p class="mt-0 mb-6">
+                  Now you can simply do a
+                  <code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >console.log()</code
+                  >.
+                </p>
+                <pre
+                  tabindex="0"
+                  class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>info<span class="text-syn-u">);</span>
+</code></pre>
+                <p class="mt-0 mb-6">To get those colors, we can do this</p>
+                <pre
+                  tabindex="0"
+                  class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> <span class="text-syn-f">greenStr</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>str<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-s">`\x1b[32m${str}\x1b[32m`</span><span class="text-syn-u">;</span>
+</code></pre>
+                <p class="mt-0 mb-6">
+                  This functions colorize strings in green using ANSI escape codes. The
+                  <code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >\x1b[0m</code
+                  >
+                  at the end of each function resets the color back to default. Now to get the
+                  colorful text logged, we can do this
+                </p>
+                <pre
+                  tabindex="0"
+                  class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-f">greenStr</span><span class="text-syn-u">(</span>JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">(</span>info<span class="text-syn-u">)));</span>
+</code></pre>
+                <p class="mt-0 mb-6">So, the final code looks like</p>
+                <pre
+                  tabindex="0"
+                  class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">console<span class="text-syn-u">.</span><span class="text-syn-f">clear</span><span class="text-syn-u">();</span>
+console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;\n\x1b[36m&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Hi I am Pulkit 👋&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;\x1b[0m\n&quot;</span><span class="text-syn-u">);</span>
+
+<span class="text-syn-k">const</span> <span class="text-syn-f">greenStr</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>str<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-s">`\x1b[32m${str}\x1b[32m`</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> info <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">name:</span> <span class="text-syn-s">&quot;Pulkit&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">status:</span> <span class="text-syn-s">&quot;CS student&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">web:</span> <span class="text-syn-s">&quot;https://pulkitxm.com&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">linkedin:</span> <span class="text-syn-s">&quot;https://www.linkedin.com/in/pulkitxm&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">gh:</span> <span class="text-syn-s">&quot;https://github.com/Pulkitxm&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">twitter:</span> <span class="text-syn-s">&quot;https://twitter.com/devpulkitt&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">desc:</span> <span class="text-syn-s">&quot;Passionate about web &amp; app development, MERN stack enthusiast, open-source contributor, and ICPC regionalist.&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">skills:</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">langs:</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;JavaScript&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;TypeScript&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Python&quot;</span><span class="text-syn-u">],</span>
+    <span class="text-syn-p">skills:</span> <span class="text-syn-u">[</span>
+      <span class="text-syn-s">&quot;React&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;React Native&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Node.js&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Express.js&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;MongoDB&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Git&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Docker&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-s">&quot;Networking&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-u">],</span>
+  <span class="text-syn-u">},</span>
+<span class="text-syn-u">};</span>
+
+console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-f">greenStr</span><span class="text-syn-u">(</span>JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">(</span>info<span class="text-syn-u">,</span> <span class="text-syn-k">null</span><span class="text-syn-u">,</span> <span class="text-syn-n">2</span><span class="text-syn-u">)));</span>
+</code></pre>
+              </li>
+              <li class="[&>p]:mb-2">
+                <p class="mt-0 mb-6">
+                  <strong>Update</strong>
+                  <code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >package.json</code
+                  >:
+                </p>
+                <ul class="mt-0 mb-6">
+                  <li>
+                    Open the
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >package.json</code
+                    >
+                    file and add a
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >bin</code
+                    >
+                    field to specify the command name and the script file. It should look something
+                    like this:
+                    <pre
+                      tabindex="0"
+                      class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                    ><code class="language-json rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">{</span>
+  <span class="text-syn-p">&quot;name&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;devpulkit&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;version&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;0.1.1&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;description&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;just my intro&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;main&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;cli.js&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;bin&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;cli.js&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;files&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;cli.js&quot;</span><span class="text-syn-u">]</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+                  </li>
+                </ul>
+                <p class="mt-0 mb-6">
+                  Now you can publish the package to npm using
+                  <code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >npm publish</code
+                  >. Once published, you can test your command by running
+                  <code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >npx devpulkit</code
+                  >
+                  in your terminal.
+                </p>
+              </li>
+            </ol>
+            <p class="mt-0 mb-6">
+              By following these steps, you can create a personalized
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >npx</code
+              >
+              command to share your details effortlessly. I also added this on my portfolio.
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/aws-s3-with-nodejs/"
+                >AWS S3 with Node.js: Upload Files with SDK v3</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/cron-jobs-with-bullmq/"
+                >BullMQ Cron Jobs with Redis in Node.js</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/prisma-with-postgresql/"
+                >Prisma ORM with PostgreSQL</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

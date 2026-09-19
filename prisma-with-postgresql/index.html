@@ -1,0 +1,476 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Prisma ORM with PostgreSQL setup in Node.js and TypeScript, covering schema, migrations, and type-safe CRUD operations for fewer runtime errors"
+    />
+    <link rel="canonical" href="https://pulkit.blog/prisma-with-postgresql/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Prisma ORM with PostgreSQL | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Prisma ORM with PostgreSQL setup in Node.js and TypeScript, covering schema, migrations, and type-safe CRUD operations for fewer runtime errors"
+    />
+    <meta property="og:url" content="https://pulkit.blog/prisma-with-postgresql/" />
+    <meta property="og:image" content="https://pulkit.blog/og/prisma-with-postgresql/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/prisma-with-postgresql/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Prisma ORM with PostgreSQL" />
+    <meta property="article:published_time" content="2024-08-17" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Prisma ORM with PostgreSQL | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Prisma ORM with PostgreSQL setup in Node.js and TypeScript, covering schema, migrations, and type-safe CRUD operations for fewer runtime errors"
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/prisma-with-postgresql/card.png" />
+    <meta name="twitter:image:alt" content="Prisma ORM with PostgreSQL" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/prisma-with-postgresql/#image","contentUrl":"https://pulkit.blog/og/prisma-with-postgresql/card.png","width":1200,"height":630,"caption":"Prisma ORM with PostgreSQL"},{"@type":"BlogPosting","@id":"https://pulkit.blog/prisma-with-postgresql/#article","headline":"Prisma ORM with PostgreSQL","description":"Prisma ORM with PostgreSQL setup in Node.js and TypeScript, covering schema, migrations, and type-safe CRUD operations for fewer runtime errors","datePublished":"2024-08-17","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/prisma-with-postgresql/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/prisma-with-postgresql/#image"},"url":"https://pulkit.blog/prisma-with-postgresql/","inLanguage":"en","keywords":["Prisma","Prisma ORM","PostgreSQL","ORM","Node.js","TypeScript","Database","Backend"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/prisma-with-postgresql/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Prisma ORM with PostgreSQL","item":"https://pulkit.blog/prisma-with-postgresql/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/prisma-with-postgresql/#webpage","url":"https://pulkit.blog/prisma-with-postgresql/","name":"Prisma ORM with PostgreSQL","description":"Prisma ORM with PostgreSQL setup in Node.js and TypeScript, covering schema, migrations, and type-safe CRUD operations for fewer runtime errors","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/prisma-with-postgresql/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/prisma-with-postgresql/#article"},"breadcrumb":{"@id":"https://pulkit.blog/prisma-with-postgresql/#breadcrumbs"}}]}</script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Prisma ORM with PostgreSQL | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Prisma ORM with PostgreSQL
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2024-08-17">August 17, 2024</time>
+              · 2 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">Title: Setting Up Prisma ORM with PostgreSQL</p>
+            <p class="mt-0 mb-6">
+              Content: ORM stands for Object-Relational Mapping. It is a technique that allows
+              developers to interact with a database using an object-oriented approach. Instead of
+              writing raw SQL queries, you can use an ORM to work with database records as if they
+              were regular objects in your programming language. This simplifies database operations
+              and makes the code more maintainable.
+            </p>
+            <p class="mt-0 mb-6">
+              Prisma is a modern ORM that works seamlessly with PostgreSQL, among other databases.
+              It provides a type-safe database client, which means you get autocompletion and
+              type-checking in your code editor, reducing the likelihood of runtime errors. Prisma
+              also includes a powerful migration system to manage your database schema changes.
+            </p>
+            <h3
+              id="starting-with-a-fresh-node-js-project"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Starting with a Fresh Node.js Project
+            </h3>
+            <p class="mt-0 mb-6">
+              To begin, let&#39;s set up a new Node.js project. First, initialize a new Node.js
+              project by running the following command in your terminal:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">init</span>
+</code></pre>
+            <p class="mt-0 mb-6">Next, install TypeScript and the necessary type definitions:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">typescript</span> <span class="text-syn-s">@types/node</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Create a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >tsconfig.json</code
+              >
+              file to configure TypeScript:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-json rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">{</span>
+  <span class="text-syn-p">&quot;compilerOptions&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">&quot;target&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;ES6&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">&quot;module&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;commonjs&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">&quot;strict&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">&quot;esModuleInterop&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">&quot;skipLibCheck&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">&quot;forceConsistentCasingInFileNames&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-k">true</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">Now, let&#39;s add Prisma as a dependency:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">@prisma/client</span>
+<span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">prisma</span>
+</code></pre>
+            <p class="mt-0 mb-6">Initialize Prisma in your project:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">npx</span> <span class="text-syn-s">prisma</span> <span class="text-syn-s">init</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This command will create a new
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >prisma</code
+              >
+              directory with a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >schema.prisma</code
+              >
+              file inside it. The
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >schema.prisma</code
+              >
+              file is where you define your database schema.
+            </p>
+            <h3
+              id="configuring-the-database-connection"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Configuring the Database Connection
+            </h3>
+            <p class="mt-0 mb-6">
+              Next, let&#39;s configure the database connection in the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >schema.prisma</code
+              >
+              file. Open the file and add the following user schema:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">datasource db <span class="text-syn-u">{</span>
+  provider <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;postgresql&quot;</span>
+  url      <span class="text-syn-o">=</span> <span class="text-syn-f">env</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;DATABASE_URL&quot;</span><span class="text-syn-u">)</span>
+<span class="text-syn-u">}</span>
+
+generator client <span class="text-syn-u">{</span>
+  provider <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;prisma-client-js&quot;</span>
+<span class="text-syn-u">}</span>
+
+model User <span class="text-syn-u">{</span>
+  id    Int     <span class="text-syn-u">@</span>id <span class="text-syn-u">@</span><span class="text-syn-f">default</span><span class="text-syn-u">(</span><span class="text-syn-f">uuid</span><span class="text-syn-u">())</span>
+  name  String
+  email String  <span class="text-syn-u">@</span>unique
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Ensure you have a PostgreSQL database running and set the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >DATABASE_URL</code
+              >
+              environment variable in a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >.env</code
+              >
+              file:
+            </p>
+            <p class="mt-0 mb-6">You can run a postgres instance using docker also</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">docker</span> <span class="text-syn-s">run</span> <span class="text-syn-s">--name</span> <span class="text-syn-s">some-postgres</span> <span class="text-syn-s">-e</span> <span class="text-syn-s">POSTGRES_PASSWORD=mysecretpassword</span> <span class="text-syn-s">-p</span> <span class="text-syn-s">5432:5432</span> <span class="text-syn-s">-d</span> <span class="text-syn-s">postgres</span>
+</code></pre>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">DATABASE_URL<span class="text-syn-o">=</span><span class="text-syn-s">&quot;postgresql://postgres:mysecretpassword@localhost:5432/postgres&quot;</span>
+</code></pre>
+            <h3 id="making-a-database-migration" class="mt-8 text-lg leading-tight tracking-tight">
+              Making a Database Migration
+            </h3>
+            <p class="mt-0 mb-6">
+              To apply this schema to the database, let&#39;s create a migration:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">npx</span> <span class="text-syn-s">prisma</span> <span class="text-syn-s">migrate</span> <span class="text-syn-s">dev</span> <span class="text-syn-s">--name</span> <span class="text-syn-s">init</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This command will generate the necessary SQL to create the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >User</code
+              >
+              table in your database and apply the migration. You should see output indicating that
+              the migration was successful.
+            </p>
+            <h3 id="prisma-client" class="mt-8 text-lg leading-tight tracking-tight">
+              Prisma Client
+            </h3>
+            <p class="mt-0 mb-6">
+              <strong>Prisma Client</strong>
+              is an auto-generated and type-safe query builder for your database. After defining
+              your schema and running a migration, Prisma Client is created to help you interact
+              with your database in a type-safe way. It allows you to perform CRUD operations and
+              more, using a simple and intuitive API. This ensures that your database queries are
+              validated at compile time, reducing runtime errors and improving overall developer
+              productivity.
+            </p>
+            <p class="mt-0 mb-6">You can also generate the Prisma Client manually using:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">npx</span> <span class="text-syn-s">prisma</span> <span class="text-syn-s">generate</span>
+</code></pre>
+            <h3
+              id="database-operations-using-prisma-client"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Database Operations Using Prisma Client
+            </h3>
+            <p class="mt-0 mb-6">
+              Let&#39;s start coding by creating a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >/src/index.ts</code
+              >
+              file:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> PrismaClient <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@prisma/client&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> prisma <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">PrismaClient</span><span class="text-syn-u">();</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">main</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> users <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getUsers</span><span class="text-syn-u">();</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>users<span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-f">main</span><span class="text-syn-u">();</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUsers</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-k">await</span> prisma<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">findMany</span><span class="text-syn-u">();</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Create a new instance of
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >PrismaClient</code
+              >
+              in your code. This instance will allow you to interact with your database using the
+              Prisma Client&#39;s type-safe API.
+            </p>
+            <p class="mt-0 mb-6">
+              Let&#39;s start by defining the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >getUsers()</code
+              >
+              function:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUsers</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-k">await</span> prisma<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">findMany</span><span class="text-syn-u">();</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              And let&#39;s call it and see it in action. Add the following scripts in
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >package.json</code
+              >:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-json rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-s">&quot;scripts&quot;</span>: <span class="text-syn-u">{</span>
+  <span class="text-syn-p">&quot;start&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;ts-node src/index.ts&quot;</span> or <span class="text-syn-s">&quot;tsc -b &amp;&amp; node dist/index.js&quot;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Run
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >npm start</code
+              >
+              to see the result. Of course, we have not created any users yet, so we will see an
+              empty array.
+            </p>
+            <p class="mt-0 mb-6">
+              Let&#39;s add a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >createUser()</code
+              >
+              function:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">createUser</span><span class="text-syn-u">(</span>name<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> email<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-k">await</span> prisma<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span>
+    <span class="text-syn-p">data:</span> <span class="text-syn-u">{</span>
+      name<span class="text-syn-u">,</span>
+      email<span class="text-syn-u">,</span>
+    <span class="text-syn-u">},</span>
+  <span class="text-syn-u">});</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              After running
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >await createUser(&quot;Alice&quot;, &quot;alice@xyz.com&quot;);</code
+              >, we see the following output:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-json rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">{</span>
+  <span class="text-syn-p">&quot;id&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;name&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;Alice&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">&quot;email&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;alice@xyz.com&quot;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">We can also update user details:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">updateUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">,</span> name<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-k">await</span> prisma<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">update</span><span class="text-syn-u">({</span>
+    <span class="text-syn-p">where:</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">},</span>
+    <span class="text-syn-p">data:</span> <span class="text-syn-u">{</span> name <span class="text-syn-u">},</span>
+  <span class="text-syn-u">});</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">To delete a user, we can simply use:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">deleteUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-k">await</span> prisma<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">delete</span><span class="text-syn-u">({</span>
+    <span class="text-syn-p">where:</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">},</span>
+  <span class="text-syn-u">});</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              By following these steps, you can easily set up Prisma ORM with PostgreSQL and perform
+              various database operations in a type-safe and efficient manner. With this powerful
+              combination, you can streamline your database interactions and boost your
+              productivity. Happy coding! 🚀
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/cron-jobs-with-bullmq/"
+                >BullMQ Cron Jobs with Redis in Node.js</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/aws-s3-with-nodejs/"
+                >AWS S3 with Node.js: Upload Files with SDK v3</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/branded-types-in-typescript/"
+                >Branded Types in TypeScript</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,341 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Learn how to create a typewriter effect in React with this step-by-step guide. Engage your audience with nostalgic charm"
+    />
+    <link rel="canonical" href="https://pulkit.blog/typewriter-effect-in-react/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Typewriter Effect in React | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Learn how to create a typewriter effect in React with this step-by-step guide. Engage your audience with nostalgic charm"
+    />
+    <meta property="og:url" content="https://pulkit.blog/typewriter-effect-in-react/" />
+    <meta
+      property="og:image"
+      content="https://pulkit.blog/og/typewriter-effect-in-react/card.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/typewriter-effect-in-react/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Typewriter Effect in React" />
+    <meta property="article:published_time" content="2024-04-28" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Typewriter Effect in React | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Learn how to create a typewriter effect in React with this step-by-step guide. Engage your audience with nostalgic charm"
+    />
+    <meta
+      name="twitter:image"
+      content="https://pulkit.blog/og/typewriter-effect-in-react/card.png"
+    />
+    <meta name="twitter:image:alt" content="Typewriter Effect in React" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/typewriter-effect-in-react/#image","contentUrl":"https://pulkit.blog/og/typewriter-effect-in-react/card.png","width":1200,"height":630,"caption":"Typewriter Effect in React"},{"@type":"BlogPosting","@id":"https://pulkit.blog/typewriter-effect-in-react/#article","headline":"Typewriter Effect in React","description":"Learn how to create a typewriter effect in React with this step-by-step guide. Engage your audience with nostalgic charm","datePublished":"2024-04-28","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/typewriter-effect-in-react/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/typewriter-effect-in-react/#image"},"url":"https://pulkit.blog/typewriter-effect-in-react/","inLanguage":"en","keywords":["React","Typewriter Effect","React Hooks","UI Components","Frontend"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/typewriter-effect-in-react/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Typewriter Effect in React","item":"https://pulkit.blog/typewriter-effect-in-react/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/typewriter-effect-in-react/#webpage","url":"https://pulkit.blog/typewriter-effect-in-react/","name":"Typewriter Effect in React","description":"Learn how to create a typewriter effect in React with this step-by-step guide. Engage your audience with nostalgic charm","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/typewriter-effect-in-react/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/typewriter-effect-in-react/#article"},"breadcrumb":{"@id":"https://pulkit.blog/typewriter-effect-in-react/#breadcrumbs"}}]}</script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Typewriter Effect in React | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Typewriter Effect in React
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2024-04-28">April 28, 2024</time>
+              · 1 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              Adding interesting features to your website can grab your audience&#39;s attention in
+              today&#39;s fast digital world. The typewriter effect, like old typewriters, is a
+              delightful touch that can make your web content more lively. In this guide, we will
+              show you how to create this nostalgic effect using React, making your website more
+              dynamic and engaging for users.
+            </p>
+            <p class="mt-0 mb-6"><strong>Prerequisites:</strong></p>
+            <ul class="mt-0 mb-6">
+              <li>Node.js and npm (or yarn) are installed on your system.</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              <em
+                >For this walkthrough, you&#39;ll be creating a React project using Vite and
+                Tailwind CSS for styling. While these are my preferred choices, you can absolutely
+                tailor the setup to your existing project or preferences.</em
+              >
+            </p>
+            <h2
+              id="setting-up-the-app"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Setting up the App
+            </h2>
+            <ul class="mt-0 mb-6">
+              <li>
+                Create an empty React project
+                <pre
+                  tabindex="0"
+                  class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">pnpm create vite@latest react-typewiter -- --template react
+</code></pre>
+              </li>
+              <li>
+                Install Dependencies
+                <pre
+                  tabindex="0"
+                  class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">cd react-typewiter
+yarn
+</code></pre>
+              </li>
+              <li>
+                Start the development server:
+                <pre
+                  tabindex="0"
+                  class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">yarn dev
+</code></pre>
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/step-by-step-guide-to-implementing-typewriter-effect-in-react/296bc3f4-3dae-406f-9b02-8f821399fad5.webp"
+                alt="Vite React app running in browser"
+                loading="lazy"
+              />
+            </p>
+            <h2
+              id="creating-the-typewriter-component"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              <strong>Creating the Typewriter Component</strong>
+            </h2>
+            <p class="mt-0 mb-6"><em>src/components/Typewriter.jsx</em></p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> PropTypes <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;prop-types&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> <span class="text-syn-f">Typewriter</span> <span class="text-syn-o">=</span> <span class="text-syn-u">({</span> text <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;{</span>text<span class="text-syn-u">}&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;;</span>
+<span class="text-syn-u">};</span>
+
+<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> Typewriter<span class="text-syn-u">;</span>
+Typewriter<span class="text-syn-u">.</span><span class="text-syn-p">propTypes</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">text:</span> PropTypes<span class="text-syn-u">.</span>string<span class="text-syn-u">.</span><span class="text-syn-p">isRequired</span><span class="text-syn-u">,</span>
+<span class="text-syn-u">};</span>
+</code></pre>
+            <p class="mt-0 mb-6"><em>Import Typewriter Component</em></p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> Typewriter <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./src/components/Typewriter&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
+    <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Typewriter</span> <span class="text-syn-p">text</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span><span class="text-syn-s">&quot;Hello World&quot;</span><span class="text-syn-u">}</span> <span class="text-syn-u">/&gt;</span>
+    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+  <span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> App<span class="text-syn-u">;</span>
+</code></pre>
+            <h2
+              id="typewriter-logic"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Typewriter Logic
+            </h2>
+            <p class="mt-0 mb-6">Initialize a useState index for maintaining the typed words</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> <span class="text-syn-u">[</span>currentIndex<span class="text-syn-u">,</span> setCurrentIndex<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Now to maintain the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >currentIndex</code
+              >
+              to go from 0 to
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >text.length</code
+              >
+              , Introduce a useEffect hook. What could be an easy way to do that? Of course, a
+              setInterval could do the job.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> interval <span class="text-syn-o">=</span> <span class="text-syn-f">setInterval</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-f">setCurrentIndex</span><span class="text-syn-u">((</span>prevIndex<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>prevIndex <span class="text-syn-o">===</span> text<span class="text-syn-u">.</span>length<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+        <span class="text-syn-f">clearInterval</span><span class="text-syn-u">(</span>interval<span class="text-syn-u">);</span>
+        <span class="text-syn-k">return</span> prevIndex<span class="text-syn-u">;</span>
+      <span class="text-syn-u">}</span>
+      <span class="text-syn-k">return</span> prevIndex <span class="text-syn-o">+</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
+    <span class="text-syn-u">});</span>
+  <span class="text-syn-u">},</span> <span class="text-syn-n">100</span><span class="text-syn-u">);</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-f">clearInterval</span><span class="text-syn-u">(</span>interval<span class="text-syn-u">);</span>
+<span class="text-syn-u">},</span> <span class="text-syn-u">[</span>text<span class="text-syn-u">]);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              But we&#39;re not utilizing the currentIndex in the Component. We could simply slice
+              the string according to the currentIndex.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">text<span class="text-syn-u">.</span><span class="text-syn-f">substring</span><span class="text-syn-u">(</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> currentIndex<span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/step-by-step-guide-to-implementing-typewriter-effect-in-react/746c7b25-e1fe-4899-9efe-fad41d734ac2.gif"
+                alt="Typewriter effect animation showing text appearing character by character"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6"><em>Yay, it&#39;s complete!</em></p>
+            <hr class="mx-0 my-10 border-0 border-t border-line" />
+            <p class="mt-0 mb-6">This is my first article! 🥳</p>
+            <p class="mt-0 mb-6">
+              I would love to hear your feedback. Feel free to share your thoughts! If you found
+              this useful and want more similar content, I&#39;m happy to write about other features
+              or components.
+            </p>
+            <p class="mt-0 mb-6">
+              I&#39;ve also added custom props like speed, color, onComplete, blinkRate, cursorChar
+              (to change the blinking character, currently set as &#39;|&#39;), pauseOnHover to this
+              component. If you&#39;d like explanations on how these are implemented, please let me
+              know in the comments.
+            </p>
+            <p class="mt-0 mb-6">I hope you enjoyed reading. 🤍</p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/context-menu-in-react/"
+                >React Context Menu with react-contexify</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/image-gallery-with-photoswipe/"
+                >React Image Gallery with PhotoSwipe</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/scroll-indicator-with-framer/"
+                >Scroll Indicator with Framer Motion useScroll</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

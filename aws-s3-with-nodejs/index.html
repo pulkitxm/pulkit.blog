@@ -1,0 +1,616 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Integrate AWS S3 with Node.js using the @aws-sdk/client-s3 S3 client to upload files and images and manage buckets in your app."
+    />
+    <link rel="canonical" href="https://pulkit.blog/aws-s3-with-nodejs/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta
+      property="og:title"
+      content="AWS S3 with Node.js: Upload Files with SDK v3 | pulkit.blog"
+    />
+    <meta
+      property="og:description"
+      content="Integrate AWS S3 with Node.js using the @aws-sdk/client-s3 S3 client to upload files and images and manage buckets in your app."
+    />
+    <meta property="og:url" content="https://pulkit.blog/aws-s3-with-nodejs/" />
+    <meta property="og:image" content="https://pulkit.blog/og/aws-s3-with-nodejs/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/aws-s3-with-nodejs/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AWS S3 with Node.js: Upload Files with SDK v3" />
+    <meta property="article:published_time" content="2024-08-08" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="AWS S3 with Node.js: Upload Files with SDK v3 | pulkit.blog"
+    />
+    <meta
+      name="twitter:description"
+      content="Integrate AWS S3 with Node.js using the @aws-sdk/client-s3 S3 client to upload files and images and manage buckets in your app."
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/aws-s3-with-nodejs/card.png" />
+    <meta name="twitter:image:alt" content="AWS S3 with Node.js: Upload Files with SDK v3" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/aws-s3-with-nodejs/#image","contentUrl":"https://pulkit.blog/og/aws-s3-with-nodejs/card.png","width":1200,"height":630,"caption":"AWS S3 with Node.js: Upload Files with SDK v3"},{"@type":"BlogPosting","@id":"https://pulkit.blog/aws-s3-with-nodejs/#article","headline":"AWS S3 with Node.js: Upload Files with SDK v3","description":"Integrate AWS S3 with Node.js using the @aws-sdk/client-s3 S3 client to upload files and images and manage buckets in your app.","datePublished":"2024-08-08","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/aws-s3-with-nodejs/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/aws-s3-with-nodejs/#image"},"url":"https://pulkit.blog/aws-s3-with-nodejs/","inLanguage":"en","keywords":["AWS","S3","Node.js","S3 Client","AWS SDK","File Upload","Cloud Storage","Backend"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/aws-s3-with-nodejs/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"AWS S3 with Node.js: Upload Files with SDK v3","item":"https://pulkit.blog/aws-s3-with-nodejs/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/aws-s3-with-nodejs/#webpage","url":"https://pulkit.blog/aws-s3-with-nodejs/","name":"AWS S3 with Node.js: Upload Files with SDK v3","description":"Integrate AWS S3 with Node.js using the @aws-sdk/client-s3 S3 client to upload files and images and manage buckets in your app.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/aws-s3-with-nodejs/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/aws-s3-with-nodejs/#article"},"breadcrumb":{"@id":"https://pulkit.blog/aws-s3-with-nodejs/#breadcrumbs"}}]}</script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>AWS S3 with Node.js: Upload Files with SDK v3 | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              AWS S3 with Node.js: Upload Files with SDK v3
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2024-08-08">August 8, 2024</time>
+              · 3 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              I was recently working on a project(<a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://github.com/Pulkitxm/image-tweaker"
+                >image-tweaker</a
+              >) that required an image upload feature. I needed a reliable storage system to store
+              the images. After researching various options, I decided to use a cloud storage
+              service for its scalability and ease of integration. This choice allowed me to focus
+              more on the core functionality of the project rather than worrying about storage
+              limitations.
+            </p>
+            <p class="mt-0 mb-6">
+              Among the available cloud storage services, AWS S3 stood out due to its features,
+              reliability, and widespread adoption in the industry. AWS S3 provides a highly
+              durable, scalable, and secure solution for storing and retrieving any amount of data
+              from anywhere on the web. Its seamless integration with Node.js made it an ideal
+              choice for my project, enabling efficient image uploads and management. In this
+              article, I will walk you through the process of integrating AWS S3 with a Node.js
+              application, simplifying the steps to help you get started quickly.
+            </p>
+            <p class="mt-0 mb-6"><strong>Let&#39;s Start</strong></p>
+            <p class="mt-0 mb-6">
+              To integrate S3 with Node.js, you will need an
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >Access key</code
+              >
+              and a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >Secret access key</code
+              >. So let&#39;s start by creating one.
+            </p>
+            <h2
+              id="creating-access-key-and-secret-access-key"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Creating
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >Access key</code
+              >
+              and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >Secret access key</code
+              >
+            </h2>
+            <p class="mt-0 mb-6">
+              Head over to your
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users"
+                >AWS IAM dashboard</a
+              >
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/fb2fbc95-712e-4ec4-a20a-3b404bf5c186.webp"
+                alt="AWS IAM dashboard showing users list"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              Go to your IAM user, and click on the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >Security credentials</code
+              >
+              tab.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong
+                >Note: You can also create a new user with the necessary permissions for S3
+                only.</strong
+              >
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/6850b022-9690-4d09-8d0b-28a6af0e5052.webp"
+                alt="IAM user security credentials tab"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">Create a new access key</p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/66caf838-335e-4afe-bfbd-7f8f57c27bcf.webp"
+                alt="Create access key page"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">Add local code to access the S3 bucket</p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/9e1bb99e-246f-49c3-9f2a-7e061c6c0b0a.webp"
+                alt="Select local code use case for access key"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              Now you have you both
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >Access key</code
+              >
+              and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >Secret access key</code
+              >
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/95d9f416-5220-44ac-8db4-5205f59c2fb5.webp"
+                alt="Access key and secret access key generated successfully"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              Note: Please save both the keys carefully, you won&#39;t be showed the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >Secret access key</code
+              >
+              again on your dashboard.
+            </p>
+            <h2
+              id="initialize-a-new-node-js-project"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Initialize a new Node.js Project
+            </h2>
+            <p class="mt-0 mb-6">
+              So let&#39;s kick things off by initializing a new Node.js project!
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">init</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Next up, add
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >@aws-sdk/client-s3</code
+              >
+              and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >dotenv</code
+              >
+              as dependencies in your project!
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">@aws-sdk/client-s3</span> <span class="text-syn-s">dotenv</span>
+</code></pre>
+            <h2
+              id="starting-with-the-s3-client"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Starting with the S3 client
+            </h2>
+            <p class="mt-0 mb-6">
+              Starting with the S3 client is super exciting! Let&#39;s dive right in and get our
+              hands dirty with some code!
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// client.js</span>
+
+<span class="text-syn-k">const</span> <span class="text-syn-u">{</span> S3Client <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;@aws-sdk/client-s3&quot;</span><span class="text-syn-u">);</span>
+
+<span class="text-syn-k">const</span> s3 <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">S3Client</span><span class="text-syn-u">({</span>
+  <span class="text-syn-p">region:</span> <span class="text-syn-s">&quot;us-east-1&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">credentials:</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">accessKeyId:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>AWS_ACCESS_KEY_ID<span class="text-syn-u">,</span>
+    <span class="text-syn-p">secretAccessKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>AWS_SECRET_ACCESS_KEY<span class="text-syn-u">,</span>
+  <span class="text-syn-u">},</span>
+<span class="text-syn-u">});</span>
+
+<span class="text-syn-t">module</span><span class="text-syn-u">.</span><span class="text-syn-t">exports</span> <span class="text-syn-o">=</span> s3<span class="text-syn-u">;</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Make sure to save both the AWS keys in the .env file in the following format
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+</code></pre>
+            <h2
+              id="listing-s3-buckets"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Listing S3 buckets
+            </h2>
+            <p class="mt-0 mb-6">
+              Listing S3 buckets is a great way to verify that our setup is working correctly.
+              Let&#39;s write some code to list all the S3 buckets in our account.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// index.js</span>
+
+<span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;dotenv&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">config</span><span class="text-syn-u">();</span>
+<span class="text-syn-k">const</span> s3 <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;./client.js&quot;</span><span class="text-syn-u">);</span>
+<span class="text-syn-k">const</span> <span class="text-syn-u">{</span> ListBucketsCommand <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;@aws-sdk/client-s3&quot;</span><span class="text-syn-u">);</span>
+
+<span class="text-syn-k">const</span> <span class="text-syn-f">listBuckets</span> <span class="text-syn-o">=</span> <span class="text-syn-k">async</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> s3<span class="text-syn-u">.</span><span class="text-syn-f">send</span><span class="text-syn-u">(</span><span class="text-syn-o">new</span> <span class="text-syn-f">ListBucketsCommand</span><span class="text-syn-u">({}));</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Success&quot;</span><span class="text-syn-u">,</span> data<span class="text-syn-u">.</span><span class="text-syn-p">Buckets</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">};</span>
+
+<span class="text-syn-f">listBuckets</span><span class="text-syn-u">();</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              And guess what? We get an empty array because I don&#39;t have any S3 buckets in my
+              account yet!
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/0f93f326-b0e9-4cd9-856f-f5ce2ffff65f.webp"
+                alt="Terminal showing empty S3 buckets array"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">Let&#39;s create a new method to add a bucket.</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> <span class="text-syn-u">{</span> CreateBucketCommand <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;@aws-sdk/client-s3&quot;</span><span class="text-syn-u">);</span>
+
+<span class="text-syn-k">const</span> <span class="text-syn-f">createBucket</span> <span class="text-syn-o">=</span> <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>bucketName<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> s3<span class="text-syn-u">.</span><span class="text-syn-f">send</span><span class="text-syn-u">(</span><span class="text-syn-o">new</span> <span class="text-syn-f">CreateBucketCommand</span><span class="text-syn-u">({</span> <span class="text-syn-p">Bucket:</span> bucketName <span class="text-syn-u">}));</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Bucket created successfully&quot;</span><span class="text-syn-u">,</span> data<span class="text-syn-u">);</span>
+<span class="text-syn-u">};</span>
+
+<span class="text-syn-f">createBucket</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;pulkit-walkthrouh-s3&quot;</span><span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/af0dc97c-b1f1-493f-8982-2b38253ece39.webp"
+                alt="Terminal showing S3 bucket created successfully"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              And there, I observe a new bucket created in the S3 list within the AWS console.
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/5ad4671f-dfe7-4c58-8fd8-fb00526603a9.webp"
+                alt="AWS S3 console showing newly created bucket"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              If we have a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >createBucket</code
+              >
+              method, why not have a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >deleteBucket</code
+              >
+              method too?
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> <span class="text-syn-u">{</span> DeleteBucketCommand <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;@aws-sdk/client-s3&quot;</span><span class="text-syn-u">);</span>
+
+<span class="text-syn-k">const</span> <span class="text-syn-f">deleteBucket</span> <span class="text-syn-o">=</span> <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>bucketName<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> s3<span class="text-syn-u">.</span><span class="text-syn-f">send</span><span class="text-syn-u">(</span><span class="text-syn-o">new</span> <span class="text-syn-f">DeleteBucketCommand</span><span class="text-syn-u">({</span> <span class="text-syn-p">Bucket:</span> bucketName <span class="text-syn-u">}));</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Bucket deleted successfully&quot;</span><span class="text-syn-u">,</span> data<span class="text-syn-u">);</span>
+<span class="text-syn-u">};</span>
+
+<span class="text-syn-f">deleteBucket</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;pulkit-walkthrouh-s3&quot;</span><span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/f9c8acee-6b6e-418e-899e-d7e390ef9cc3.webp"
+                alt="Terminal showing S3 bucket deleted successfully"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              Okay so the basic create and delete is done with the SDK, now let&#39;s hop on to a
+              specific bucket and play around some objects within that.
+            </p>
+            <p class="mt-0 mb-6">
+              Before that let&#39;s move the final code to a separate file:
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >bucket.js</code
+              >
+            </p>
+            <h2
+              id="uploading-objects-on-s3"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Uploading Objects on S3
+            </h2>
+            <p class="mt-0 mb-6">
+              To upload an object to S3, we need a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >PutObjectCommand</code
+              >
+              method provided by the AWS SDK. Here&#39;s how you can use it:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> <span class="text-syn-u">{</span> PutObjectCommand <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;@aws-sdk/client-s3&quot;</span><span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              To read the object in JavaScript for uploading, we need the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >fs</code
+              >
+              module. Here&#39;s how you can use it:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> fs <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;fs&quot;</span><span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              finally the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >uploadObject</code
+              >
+              method would look like
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">uploadObject</span><span class="text-syn-u">(</span>pathToFile<span class="text-syn-u">,</span> key<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> uploadParams <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">Bucket:</span> <span class="text-syn-s">&quot;pulkit-walkthrouh-s3&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">Key:</span> key<span class="text-syn-u">,</span>
+    <span class="text-syn-p">Body:</span> fs<span class="text-syn-u">.</span><span class="text-syn-f">createReadStream</span><span class="text-syn-u">(</span>pathToFile<span class="text-syn-u">),</span>
+  <span class="text-syn-u">};</span>
+
+  <span class="text-syn-k">const</span> command <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">PutObjectCommand</span><span class="text-syn-u">(</span>uploadParams<span class="text-syn-u">);</span>
+  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> s3<span class="text-syn-u">.</span><span class="text-syn-f">send</span><span class="text-syn-u">(</span>command<span class="text-syn-u">);</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>response<span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-f">uploadObject</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;./test.txt&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;test.txt&quot;</span><span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/62d8b52e-5425-42ad-b743-d95a7c3d53ba.webp"
+                alt="Terminal showing file uploaded to S3 successfully"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              <strong
+                >One interesting observation: if we upload an object with the same key, it will
+                overwrite the existing object in the S3 bucket. This can be useful for updating
+                files but be cautious as it will replace the old content.</strong
+              >
+            </p>
+            <p class="mt-0 mb-6">
+              And yet, to delete an object from S3, we need the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >DeleteObjectCommand</code
+              >
+              method provided by the AWS SDK. Here&#39;s how you can use it:
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/5b6ea3fe-1b1f-4b50-bd84-92356ee98ff1.webp"
+                alt="AWS S3 console showing uploaded file in bucket"
+                loading="lazy"
+              />
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">deleteObject</span><span class="text-syn-u">(</span>key<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> deleteParams <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">Bucket:</span> <span class="text-syn-s">&quot;pulkit-walkthrouh-s3&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">Key:</span> key<span class="text-syn-u">,</span>
+  <span class="text-syn-u">};</span>
+
+  <span class="text-syn-k">const</span> command <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">DeleteObjectCommand</span><span class="text-syn-u">(</span>deleteParams<span class="text-syn-u">);</span>
+  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> s3<span class="text-syn-u">.</span><span class="text-syn-f">send</span><span class="text-syn-u">(</span>command<span class="text-syn-u">);</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>response<span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-f">deleteObject</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;test.txt&quot;</span><span class="text-syn-u">);</span>
+</code></pre>
+            <h2
+              id="upload-objects-in-a-s3-bucket"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Upload Objects in a S3 bucket
+            </h2>
+            <p class="mt-0 mb-6">
+              To list objects in a bucket, we need the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >ListObjectsCommand</code
+              >
+              method provided by the AWS SDK. Here&#39;s how you can use it:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> <span class="text-syn-u">{</span> ListObjectsCommand <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">require</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;@aws-sdk/client-s3&quot;</span><span class="text-syn-u">);</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">listObjects</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> listParams <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">Bucket:</span> <span class="text-syn-s">&quot;pulkit-walkthrouh-s3&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-u">};</span>
+
+  <span class="text-syn-k">const</span> command <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">ListObjectsCommand</span><span class="text-syn-u">(</span>listParams<span class="text-syn-u">);</span>
+  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> s3<span class="text-syn-u">.</span><span class="text-syn-f">send</span><span class="text-syn-u">(</span>command<span class="text-syn-u">);</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>response<span class="text-syn-u">.</span><span class="text-syn-p">Contents</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-f">listObjects</span><span class="text-syn-u">();</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/nodejs-s3-integration/02b29ad8-d5be-476d-b3dc-60ca8f310377.webp"
+                alt="Terminal showing list of objects in S3 bucket"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              I hope this guide helps you seamlessly integrate AWS S3 with your Node.js application,
+              making your uploads feature robust and efficient. Happy coding!
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/creating-npx-command/"
+                >Creating Your Own npx Command</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/cron-jobs-with-bullmq/"
+                >BullMQ Cron Jobs with Redis in Node.js</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/nodejs-on-ec2/"
+                >Node.js on EC2 with PM2 and NGINX</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,663 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Build a React virtualized list from scratch with the simple scroll math that renders only visible rows to keep huge lists smooth."
+    />
+    <link rel="canonical" href="https://pulkit.blog/virtualized-list/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="React Virtualized List from Scratch | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Build a React virtualized list from scratch with the simple scroll math that renders only visible rows to keep huge lists smooth."
+    />
+    <meta property="og:url" content="https://pulkit.blog/virtualized-list/" />
+    <meta property="og:image" content="https://pulkit.blog/og/virtualized-list/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/virtualized-list/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="React Virtualized List from Scratch" />
+    <meta property="article:published_time" content="2026-01-04" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="React Virtualized List from Scratch | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Build a React virtualized list from scratch with the simple scroll math that renders only visible rows to keep huge lists smooth."
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/virtualized-list/card.png" />
+    <meta name="twitter:image:alt" content="React Virtualized List from Scratch" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/virtualized-list/#image","contentUrl":"https://pulkit.blog/og/virtualized-list/card.png","width":1200,"height":630,"caption":"React Virtualized List from Scratch"},{"@type":"BlogPosting","@id":"https://pulkit.blog/virtualized-list/#article","headline":"React Virtualized List from Scratch","description":"Build a React virtualized list from scratch with the simple scroll math that renders only visible rows to keep huge lists smooth.","datePublished":"2026-01-04","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/virtualized-list/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/virtualized-list/#image"},"url":"https://pulkit.blog/virtualized-list/","inLanguage":"en","keywords":["React","Virtualized List","List Virtualization","Virtualization","Frontend","Performance","Web Development","DOM"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/virtualized-list/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"React Virtualized List from Scratch","item":"https://pulkit.blog/virtualized-list/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/virtualized-list/#webpage","url":"https://pulkit.blog/virtualized-list/","name":"React Virtualized List from Scratch","description":"Build a React virtualized list from scratch with the simple scroll math that renders only visible rows to keep huge lists smooth.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/virtualized-list/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/virtualized-list/#article"},"breadcrumb":{"@id":"https://pulkit.blog/virtualized-list/#breadcrumbs"}}]}</script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>React Virtualized List from Scratch | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              React Virtualized List from Scratch
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2026-01-04">January 4, 2026</time>
+              · 5 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              When building modern web applications, rendering large lists is a very common
+              requirement. Think of activity feeds, logs, search results, tables, or infinite
+              scrolling views. Rendering hundreds or thousands of DOM nodes at once might look fine
+              initially, but as the list grows, performance quickly takes a hit.
+            </p>
+            <p class="mt-0 mb-6">
+              This is where <strong>virtualized lists</strong> come in, a performance optimization
+              technique that can make your app feel buttery smooth even with massive datasets.
+            </p>
+            <p class="mt-0 mb-6">
+              In this post, I&#39;ll walk you through what virtualized lists are, why they matter,
+              and how you can implement a basic version in React using simple math and browser
+              primitives. Let&#39;s dive in!
+            </p>
+            <h2
+              id="the-problem-with-large-lists"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Problem With Large Lists
+            </h2>
+            <p class="mt-0 mb-6">
+              By default, React renders every item in a list. And that&#39;s usually fine for small
+              datasets.
+            </p>
+            <p class="mt-0 mb-6">But here&#39;s what happens as your list grows:</p>
+            <ul class="mt-0 mb-6">
+              <li><strong>10 items</strong> → Everything is smooth</li>
+              <li><strong>100 items</strong> → Still acceptable</li>
+              <li><strong>10,000 items</strong> → Scrolling becomes janky</li>
+              <li><strong>100,000 items</strong> → The browser struggles badly</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              The issue isn&#39;t React itself. The real bottleneck is the browser handling a
+              massive DOM tree. Layout, paint, and memory usage increase dramatically.
+            </p>
+            <p class="mt-0 mb-6">
+              Yet, on the screen, the user can only see maybe 10 to 20 items at a time.
+            </p>
+            <p class="mt-0 mb-6"><strong>Rendering the rest is pure waste.</strong></p>
+            <h2
+              id="what-is-a-virtualized-list"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              What Is a Virtualized List?
+            </h2>
+            <p class="mt-0 mb-6">
+              A virtualized list renders
+              <strong>only the items that are visible in the viewport</strong>, plus a small buffer.
+              The rest of the list isn&#39;t rendered at all.
+            </p>
+            <p class="mt-0 mb-6">The illusion of a full list is created by:</p>
+            <ol class="mt-0 mb-6">
+              <li>A scroll container with fixed height</li>
+              <li>A spacer element that represents the full height of the list</li>
+              <li>Only rendering visible rows and positioning them correctly</li>
+            </ol>
+            <p class="mt-0 mb-6">
+              As you scroll, old rows are removed and new ones are rendered in their place.
+            </p>
+            <p class="mt-0 mb-6">
+              To the user, it feels like a normal list. To the browser, it&#39;s extremely
+              lightweight.
+            </p>
+            <h2
+              id="core-idea-behind-virtualization"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Core Idea Behind Virtualization
+            </h2>
+            <p class="mt-0 mb-6">At any scroll position, we calculate:</p>
+            <ul class="mt-0 mb-6">
+              <li>Which item index should appear at the top</li>
+              <li>How many items fit in the viewport</li>
+              <li>Which subset of items should be rendered</li>
+            </ul>
+            <p class="mt-0 mb-6">Everything else is skipped.</p>
+            <p class="mt-0 mb-6">The key inputs we need are:</p>
+            <ul class="mt-0 mb-6">
+              <li>Total number of items</li>
+              <li>Fixed height of each item</li>
+              <li>Height of the scroll container</li>
+              <li>Current scroll position</li>
+            </ul>
+            <div class="mt-0 mb-6 text-center [&_img]:mx-auto">
+              <img
+                class="mx-auto my-7 block rounded-lg w-auto h-auto max-h-[400px]"
+                src="/assets/content/blogs/virtualized-list/example.gif"
+                alt="Virtualized list example"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <h2
+              id="the-math-that-powers-virtualization"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Math That Powers Virtualization
+            </h2>
+            <p class="mt-0 mb-6">Here&#39;s the simple math that makes virtualization work:</p>
+            <p class="mt-0 mb-6"><strong>1. Find the first visible item:</strong></p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">startIndex = floor(scrollTop / itemHeight)
+</code></pre>
+            <p class="mt-0 mb-6">
+              If you&#39;ve scrolled 500px down and each item is 50px tall, the first visible item
+              is at index 10 (500 ÷ 50).
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>2. Calculate how many items fit in the viewport:</strong>
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">visibleCount = ceil(containerHeight / itemHeight)
+</code></pre>
+            <p class="mt-0 mb-6">
+              If your container is 400px tall and each item is 50px, you can see 8 items at once
+              (400 ÷ 50).
+            </p>
+            <p class="mt-0 mb-6"><strong>3. Find the last item to render:</strong></p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">endIndex = startIndex + visibleCount + overscan
+</code></pre>
+            <p class="mt-0 mb-6">
+              We add a buffer (overscan) of extra items above and below the viewport for smoother
+              scrolling.
+            </p>
+            <p class="mt-0 mb-6">
+              With these three calculations, we know exactly which items should exist in the DOM at
+              any moment.
+            </p>
+            <h2
+              id="implementation-building-the-virtuallist-component"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Implementation: Building the VirtualList Component
+            </h2>
+            <p class="mt-0 mb-6">Now let&#39;s build the virtualized list step by step.</p>
+            <h3
+              id="step-1-set-up-component-props-and-state"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Step 1: Set Up Component Props and State
+            </h3>
+            <p class="mt-0 mb-6">
+              First, we define the TypeScript interface and set up our component with state:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useRef<span class="text-syn-u">,</span> useState <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">interface</span> <span class="text-syn-t">VirtualListProps</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
+  items<span class="text-syn-o">:</span> <span class="text-syn-t">T</span><span class="text-syn-u">[];</span>
+  height<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
+  itemHeight<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
+  overscan<span class="text-syn-o">?:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
+  <span class="text-syn-f">renderItem</span><span class="text-syn-o">:</span> <span class="text-syn-u">(</span>item<span class="text-syn-o">:</span> <span class="text-syn-t">T</span><span class="text-syn-u">,</span> index<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-t">React</span><span class="text-syn-u">.</span><span class="text-syn-t">ReactNode</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">VirtualList</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">&gt;({</span>
+  items<span class="text-syn-u">,</span>
+  height<span class="text-syn-u">,</span>
+  itemHeight<span class="text-syn-u">,</span>
+  overscan <span class="text-syn-o">=</span> <span class="text-syn-n">5</span><span class="text-syn-u">,</span>
+  renderItem<span class="text-syn-u">,</span>
+<span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-t">VirtualListProps</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">&gt;)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>scrollTop<span class="text-syn-u">,</span> setScrollTop<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">&gt;(</span><span class="text-syn-n">0</span><span class="text-syn-u">);</span>
+  <span class="text-syn-k">const</span> containerRef <span class="text-syn-o">=</span> <span class="text-syn-f">useRef</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">HTMLDivElement</span><span class="text-syn-u">&gt;(</span><span class="text-syn-k">null</span><span class="text-syn-u">);</span>
+
+<span class="text-syn-c italic">  // ... rest of the implementation</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">We accept:</p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >items</code
+                >: The full array of data (generic type
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >T</code
+                >)
+              </li>
+              <li>
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >height</code
+                >: Container height in pixels
+              </li>
+              <li>
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >itemHeight</code
+                >: Fixed height for each item
+              </li>
+              <li>
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >overscan</code
+                >: Buffer items to render (default 5)
+              </li>
+              <li>
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >renderItem</code
+                >: Function to render each item
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              We track
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >scrollTop</code
+              >
+              in state to recalculate visible items on scroll.
+            </p>
+            <h3
+              id="step-2-calculate-which-items-to-render"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Step 2: Calculate Which Items to Render
+            </h3>
+            <p class="mt-0 mb-6">
+              Inside the component, we calculate which items should be visible:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> totalHeight<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> items<span class="text-syn-u">.</span>length <span class="text-syn-o">*</span> itemHeight<span class="text-syn-u">;</span>
+<span class="text-syn-k">const</span> startIndex<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">floor</span><span class="text-syn-u">(</span>scrollTop <span class="text-syn-o">/</span> itemHeight<span class="text-syn-u">);</span>
+<span class="text-syn-k">const</span> visibleCount<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">ceil</span><span class="text-syn-u">(</span>height <span class="text-syn-o">/</span> itemHeight<span class="text-syn-u">);</span>
+<span class="text-syn-k">const</span> endIndex<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">min</span><span class="text-syn-u">(</span>items<span class="text-syn-u">.</span>length <span class="text-syn-o">-</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span> startIndex <span class="text-syn-o">+</span> visibleCount <span class="text-syn-o">+</span> overscan<span class="text-syn-u">);</span>
+
+<span class="text-syn-k">const</span> visibleItems<span class="text-syn-o">:</span> <span class="text-syn-t">T</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> items<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span>startIndex<span class="text-syn-u">,</span> endIndex <span class="text-syn-o">+</span> <span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">Here we:</p>
+            <ol class="mt-0 mb-6">
+              <li>Calculate the total height needed for all items</li>
+              <li>Find the first visible item index based on scroll position</li>
+              <li>Calculate how many items fit in the viewport</li>
+              <li>Find the last item to render (with overscan buffer)</li>
+              <li>Slice the array to get only visible items</li>
+            </ol>
+            <h3 id="step-3-render-the-component" class="mt-8 text-lg leading-tight tracking-tight">
+              Step 3: Render the Component
+            </h3>
+            <p class="mt-0 mb-6">
+              Now we return the JSX with a scrollable container and absolutely positioned items:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-o">&lt;</span>div
+  ref<span class="text-syn-o">=</span><span class="text-syn-u">{</span>containerRef<span class="text-syn-u">}</span>
+  style<span class="text-syn-o">=</span><span class="text-syn-u">{{</span> height<span class="text-syn-u">,</span> overflow<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;auto&quot;</span> <span class="text-syn-u">}}</span>
+  onScroll<span class="text-syn-o">=</span><span class="text-syn-u">{</span>(<span class="text-syn-p">e:</span> React<span class="text-syn-u">.</span><span class="text-syn-p">UIEvent</span><span class="text-syn-o">&lt;</span>HTMLDivElement<span class="text-syn-o">&gt;</span>) <span class="text-syn-k">=&gt;</span> <span class="text-syn-f">setScrollTop</span><span class="text-syn-u">(</span>e<span class="text-syn-u">.</span>currentTarget<span class="text-syn-u">.</span><span class="text-syn-p">scrollTop</span><span class="text-syn-u">)}</span>
+<span class="text-syn-o">&gt;</span>
+  <span class="text-syn-o">&lt;</span>div style<span class="text-syn-o">=</span><span class="text-syn-u">{{</span> height<span class="text-syn-u">:</span> totalHeight<span class="text-syn-u">,</span> position<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;relative&quot;</span> <span class="text-syn-u">}}</span><span class="text-syn-o">&gt;</span>
+    <span class="text-syn-u">{</span>visibleItems<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>item<span class="text-syn-o">:</span> <span class="text-syn-t">T</span><span class="text-syn-u">,</span> i<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-k">const</span> index<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> startIndex <span class="text-syn-o">+</span> i
+      <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
+        <span class="text-syn-o">&lt;</span>div
+          key<span class="text-syn-o">=</span><span class="text-syn-u">{</span>index<span class="text-syn-u">}</span>
+          style<span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
+            position<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;absolute&quot;</span><span class="text-syn-u">,</span>
+            top<span class="text-syn-u">:</span> index <span class="text-syn-o">*</span> itemHeight<span class="text-syn-u">,</span>
+            height<span class="text-syn-u">:</span> itemHeight<span class="text-syn-u">,</span>
+            width<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;100%&quot;</span>
+          <span class="text-syn-u">}}</span>
+        <span class="text-syn-o">&gt;</span>
+          <span class="text-syn-u">{</span>renderItem(item<span class="text-syn-u">,</span> index)<span class="text-syn-u">}</span>
+        <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span>
+      <span class="text-syn-u">)</span>
+    <span class="text-syn-u">})}</span>
+  <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span>
+<span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span>
+</code></pre>
+            <p class="mt-0 mb-6"><strong>Key points:</strong></p>
+            <ul class="mt-0 mb-6">
+              <li>
+                The outer div is our scroll container that updates
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >scrollTop</code
+                >
+                on scroll
+              </li>
+              <li>
+                The inner div with
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >totalHeight</code
+                >
+                creates the illusion of a full list
+              </li>
+              <li>
+                Each visible item is positioned absolutely at its correct location using
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >top: index * itemHeight</code
+                >
+              </li>
+            </ul>
+            <details class="mt-0 mb-6 rounded-lg border border-line p-4 [&>*:last-child]:mb-0">
+              <summary class="cursor-pointer font-bold">
+                Complete VirtualList Component Code
+              </summary>
+              <pre
+                tabindex="0"
+                class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+              ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useRef<span class="text-syn-u">,</span> useState <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span>
+
+<span class="text-syn-k">interface</span> <span class="text-syn-t">VirtualListProps</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
+  items<span class="text-syn-o">:</span> <span class="text-syn-t">T</span><span class="text-syn-u">[]</span>
+  height<span class="text-syn-o">:</span> <span class="text-syn-t">number</span>
+  itemHeight<span class="text-syn-o">:</span> <span class="text-syn-t">number</span>
+  overscan<span class="text-syn-o">?:</span> <span class="text-syn-t">number</span>
+  <span class="text-syn-f">renderItem</span><span class="text-syn-o">:</span> <span class="text-syn-u">(</span>item<span class="text-syn-o">:</span> <span class="text-syn-t">T</span><span class="text-syn-u">,</span> index<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-t">React</span><span class="text-syn-u">.</span><span class="text-syn-t">ReactNode</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">VirtualList</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">&gt;({</span>
+  items<span class="text-syn-u">,</span>
+  height<span class="text-syn-u">,</span>
+  itemHeight<span class="text-syn-u">,</span>
+  overscan <span class="text-syn-o">=</span> <span class="text-syn-n">5</span><span class="text-syn-u">,</span>
+  renderItem
+<span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-t">VirtualListProps</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">&gt;)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>scrollTop<span class="text-syn-u">,</span> setScrollTop<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">&gt;(</span><span class="text-syn-n">0</span><span class="text-syn-u">)</span>
+  <span class="text-syn-k">const</span> containerRef <span class="text-syn-o">=</span> <span class="text-syn-f">useRef</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">HTMLDivElement</span><span class="text-syn-u">&gt;(</span><span class="text-syn-k">null</span><span class="text-syn-u">)</span>
+
+  <span class="text-syn-k">const</span> totalHeight<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> items<span class="text-syn-u">.</span>length <span class="text-syn-o">*</span> itemHeight
+  <span class="text-syn-k">const</span> startIndex<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">floor</span><span class="text-syn-u">(</span>scrollTop <span class="text-syn-o">/</span> itemHeight<span class="text-syn-u">)</span>
+  <span class="text-syn-k">const</span> visibleCount<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">ceil</span><span class="text-syn-u">(</span>height <span class="text-syn-o">/</span> itemHeight<span class="text-syn-u">)</span>
+  <span class="text-syn-k">const</span> endIndex<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">min</span><span class="text-syn-u">(</span>
+    items<span class="text-syn-u">.</span>length <span class="text-syn-o">-</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span>
+    startIndex <span class="text-syn-o">+</span> visibleCount <span class="text-syn-o">+</span> overscan
+  <span class="text-syn-u">)</span>
+
+  <span class="text-syn-k">const</span> visibleItems<span class="text-syn-o">:</span> <span class="text-syn-t">T</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> items<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span>startIndex<span class="text-syn-u">,</span> endIndex <span class="text-syn-o">+</span> <span class="text-syn-n">1</span><span class="text-syn-u">)</span>
+
+  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
+    <span class="text-syn-o">&lt;</span>div
+      ref<span class="text-syn-o">=</span><span class="text-syn-u">{</span>containerRef<span class="text-syn-u">}</span>
+      style<span class="text-syn-o">=</span><span class="text-syn-u">{{</span> height<span class="text-syn-u">,</span> overflow<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;auto&quot;</span> <span class="text-syn-u">}}</span>
+      onScroll<span class="text-syn-o">=</span><span class="text-syn-u">{</span>(<span class="text-syn-p">e:</span> React<span class="text-syn-u">.</span><span class="text-syn-p">UIEvent</span><span class="text-syn-o">&lt;</span>HTMLDivElement<span class="text-syn-o">&gt;</span>) <span class="text-syn-k">=&gt;</span> <span class="text-syn-f">setScrollTop</span><span class="text-syn-u">(</span>e<span class="text-syn-u">.</span>currentTarget<span class="text-syn-u">.</span><span class="text-syn-p">scrollTop</span><span class="text-syn-u">)}</span>
+    <span class="text-syn-o">&gt;</span>
+      <span class="text-syn-o">&lt;</span>div style<span class="text-syn-o">=</span><span class="text-syn-u">{{</span> height<span class="text-syn-u">:</span> totalHeight<span class="text-syn-u">,</span> position<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;relative&quot;</span> <span class="text-syn-u">}}</span><span class="text-syn-o">&gt;</span>
+        <span class="text-syn-u">{</span>visibleItems.map((item<span class="text-syn-u">:</span> T<span class="text-syn-u">,</span> i<span class="text-syn-u">:</span> number) <span class="text-syn-o">=&gt;</span> <span class="text-syn-u">{</span>
+          const <span class="text-syn-p">index:</span> number <span class="text-syn-o">=</span> startIndex <span class="text-syn-o">+</span> i
+          <span class="text-syn-f">return</span> <span class="text-syn-u">(</span>
+            <span class="text-syn-o">&lt;</span>div
+              key<span class="text-syn-o">=</span><span class="text-syn-u">{</span>index<span class="text-syn-u">}</span>
+              style<span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
+                position<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;absolute&quot;</span><span class="text-syn-u">,</span>
+                top<span class="text-syn-u">:</span> index <span class="text-syn-o">*</span> itemHeight<span class="text-syn-u">,</span>
+                height<span class="text-syn-u">:</span> itemHeight<span class="text-syn-u">,</span>
+                width<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;100%&quot;</span>
+              <span class="text-syn-u">}}</span>
+            <span class="text-syn-o">&gt;</span>
+              <span class="text-syn-u">{</span><span class="text-syn-f">renderItem</span><span class="text-syn-u">(</span>item<span class="text-syn-u">,</span> index<span class="text-syn-u">)}</span>
+            <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span>
+          <span class="text-syn-u">)</span>
+        <span class="text-syn-u">}</span>)<span class="text-syn-u">}</span>
+      <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span>
+    <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span>
+  <span class="text-syn-u">)</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            </details>
+            <h2
+              id="using-the-virtualized-list"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Using the Virtualized List
+            </h2>
+            <p class="mt-0 mb-6">Here&#39;s how you can use this component in your app:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> items<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> Array<span class="text-syn-u">.</span><span class="text-syn-f">from</span><span class="text-syn-u">({</span> <span class="text-syn-p">length:</span> <span class="text-syn-n">100000</span> <span class="text-syn-u">},</span> <span class="text-syn-u">(</span>_<span class="text-syn-u">,</span> i<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-s">`Row ${i}`</span><span class="text-syn-u">)</span>
+
+<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
+    <span class="text-syn-o">&lt;</span>VirtualList<span class="text-syn-o">&lt;</span>string<span class="text-syn-o">&gt;</span>
+      items<span class="text-syn-o">=</span><span class="text-syn-u">{</span>items<span class="text-syn-u">}</span>
+      height<span class="text-syn-o">=</span><span class="text-syn-u">{</span><span class="text-syn-p">400</span><span class="text-syn-u">}</span>
+      itemHeight<span class="text-syn-o">=</span><span class="text-syn-u">{</span><span class="text-syn-p">40</span><span class="text-syn-u">}</span>
+      renderItem<span class="text-syn-o">=</span><span class="text-syn-u">{</span>(<span class="text-syn-p">item:</span> string<span class="text-syn-u">,</span> <span class="text-syn-p">index:</span> number) <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">(</span>
+        <span class="text-syn-o">&lt;</span>div style<span class="text-syn-o">=</span><span class="text-syn-u">{{</span> padding<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;0 12px&quot;</span> <span class="text-syn-u">}}</span><span class="text-syn-o">&gt;</span>
+          <span class="text-syn-u">{</span>index<span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span>item<span class="text-syn-u">}</span>
+        <span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span>
+      <span class="text-syn-u">)}</span>
+    <span class="text-syn-o">/&gt;</span>
+  <span class="text-syn-u">)</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Even with <strong>100,000 items</strong>, only a handful of rows are rendered at any
+              time. Scrolling stays smooth and memory usage remains low.
+            </p>
+            <h2
+              id="live-demo-virtualized-vs-normal-lists"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Live Demo: Virtualized vs Normal Lists
+            </h2>
+            <p class="mt-0 mb-6">
+              Here&#39;s a live comparison showing the performance difference between virtualized
+              and normal lists. Try scrolling through both to see how virtualization keeps
+              everything smooth even with thousands of items:
+            </p>
+            <iframe
+              class="mt-0 mb-6 block h-[500px] w-full overflow-hidden rounded border-0"
+              src="https://codesandbox.io/embed/hr8wwf?view=preview&amp;module=%2Fsrc%2FApp.tsx"
+              title="Virtualized list demo comparing performance with normal lists"
+              sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+              loading="lazy"
+            ></iframe>
+            <h2
+              id="when-should-you-use-virtualized-lists"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              When Should You Use Virtualized Lists?
+            </h2>
+            <p class="mt-0 mb-6">Not every list needs virtualization. Here&#39;s a quick guide:</p>
+            <p class="mt-0 mb-6"><strong>Use virtualization when:</strong></p>
+            <ul class="mt-0 mb-6">
+              <li>You&#39;re rendering 500+ items</li>
+              <li>Each item has a fixed or predictable height</li>
+              <li>Performance is noticeably degraded</li>
+              <li>You&#39;re building infinite scroll features</li>
+              <li>You&#39;re working with data-heavy dashboards</li>
+            </ul>
+            <p class="mt-0 mb-6"><strong>Skip virtualization when:</strong></p>
+            <ul class="mt-0 mb-6">
+              <li>You have fewer than 100 items</li>
+              <li>Item heights vary significantly</li>
+              <li>The list is rarely scrolled</li>
+              <li>You need complex interactions between items</li>
+            </ul>
+            <h2
+              id="taking-it-further"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Taking It Further
+            </h2>
+            <p class="mt-0 mb-6">
+              This implementation covers the basics, but there&#39;s a lot more you can add:
+            </p>
+            <ol class="mt-0 mb-6">
+              <li>
+                <strong>Variable Heights</strong>: Support items with different heights (more
+                complex math involved)
+              </li>
+              <li>
+                <strong>Horizontal Virtualization</strong>: Apply the same concept horizontally
+              </li>
+              <li><strong>Sticky Headers</strong>: Keep section headers visible while scrolling</li>
+              <li>
+                <strong>Keyboard Navigation</strong>: Ensure accessibility with proper focus
+                management
+              </li>
+              <li>
+                <strong>Loading States</strong>: Add skeleton screens or spinners for async data
+              </li>
+            </ol>
+            <p class="mt-0 mb-6">
+              If you want to skip building this yourself, check out libraries like
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://github.com/bvaughn/react-window"
+                >react-window</a
+              >
+              or
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://github.com/bvaughn/react-virtualized"
+                >react-virtualized</a
+              >. They&#39;re battle-tested and handle edge cases you might not think of.
+            </p>
+            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Conclusion
+            </h2>
+            <p class="mt-0 mb-6">
+              Virtualized lists are a powerful performance optimization technique that can
+              dramatically improve your app&#39;s responsiveness when dealing with large datasets.
+              By rendering only what&#39;s visible, you keep the DOM lean and your app snappy.
+            </p>
+            <p class="mt-0 mb-6">
+              The math behind it is surprisingly simple, just a few calculations based on scroll
+              position and item height. And the best part? Your users will notice the difference
+              immediately.
+            </p>
+            <p class="mt-0 mb-6">
+              So next time you&#39;re building a feature that involves rendering a large list,
+              remember: don&#39;t render what you can&#39;t see! Your browser (and your users) will
+              thank you.
+            </p>
+            <p class="mt-0 mb-6">Happy coding, and may your lists always scroll smoothly!</p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/context-menu-in-react/"
+                >React Context Menu with react-contexify</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/cookie-sync-pattern/"
+                >The Cookie Sync Pattern</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/image-gallery-with-photoswipe/"
+                >React Image Gallery with PhotoSwipe</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

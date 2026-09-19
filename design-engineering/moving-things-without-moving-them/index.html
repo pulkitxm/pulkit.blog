@@ -1,0 +1,1062 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Understand CSS transforms and why they&#39;re the foundation of performant animations. Learn translate, rotate, scale, the order trap that catches everyone, and how to think in 3D."
+    />
+    <link
+      rel="canonical"
+      href="https://pulkit.blog/design-engineering/moving-things-without-moving-them/"
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Moving Things Without Moving Them | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Understand CSS transforms and why they&#39;re the foundation of performant animations. Learn translate, rotate, scale, the order trap that catches everyone, and how to think in 3D."
+    />
+    <meta
+      property="og:url"
+      content="https://pulkit.blog/design-engineering/moving-things-without-moving-them/"
+    />
+    <meta
+      property="og:image"
+      content="https://pulkit.blog/og/design-engineering/moving-things-without-moving-them/card.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/design-engineering/moving-things-without-moving-them/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Moving Things Without Moving Them" />
+    <meta property="article:published_time" content="2026-02-24" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Moving Things Without Moving Them | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Understand CSS transforms and why they&#39;re the foundation of performant animations. Learn translate, rotate, scale, the order trap that catches everyone, and how to think in 3D."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pulkit.blog/og/design-engineering/moving-things-without-moving-them/card.png"
+    />
+    <meta name="twitter:image:alt" content="Moving Things Without Moving Them" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#image","contentUrl":"https://pulkit.blog/og/design-engineering/moving-things-without-moving-them/card.png","width":1200,"height":630,"caption":"Moving Things Without Moving Them"},{"@type":"BlogPosting","@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#article","headline":"Moving Things Without Moving Them","description":"Understand CSS transforms and why they're the foundation of performant animations. Learn translate, rotate, scale, the order trap that catches everyone, and how to think in 3D.","datePublished":"2026-02-24","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/design-engineering/#webpage"},"image":{"@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#image"},"url":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/","inLanguage":"en","keywords":["CSS","Transforms","3D","Animation","Motion Design"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Design Engineering","item":"https://pulkit.blog/design-engineering/"},{"@type":"ListItem","position":3,"name":"Moving Things Without Moving Them","item":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#webpage","url":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/","name":"Moving Things Without Moving Them","description":"Understand CSS transforms and why they're the foundation of performant animations. Learn translate, rotate, scale, the order trap that catches everyone, and how to think in 3D.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#article"},"breadcrumb":{"@id":"https://pulkit.blog/design-engineering/moving-things-without-moving-them/#breadcrumbs"}}]}</script>
+    <script type="module" src="/assets/embeds/image-popup.js"></script>
+    <link rel="stylesheet" href="/assets/demos/document.css" />
+    <script type="module" src="/assets/demos/index.js"></script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Moving Things Without Moving Them | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Moving Things Without Moving Them
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2026-02-24">February 24, 2026</time>
+              · 7 min read ·
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/design-engineering/"
+                >Design Engineering</a
+              >
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              Most animations you&#39;ll write use the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >transform</code
+              >
+              property. Not margins. Not positioning. Not width or height. Transforms.
+            </p>
+            <p class="mt-0 mb-6">
+              There&#39;s a reason for this. Transforms don&#39;t affect layout. When you move an
+              element with
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >translateX(100px)</code
+              >, the browser doesn&#39;t recalculate where every other element should go. The
+              element visually shifts, but as far as the document is concerned, it never moved.
+            </p>
+            <p class="mt-0 mb-6">
+              This is why transforms are so performant. They skip the expensive layout and paint
+              steps entirely. The GPU takes over, and your animation runs at 60fps without breaking
+              a sweat.
+            </p>
+            <p class="mt-0 mb-6">
+              But transforms are more than just a performance trick. They&#39;re a complete toolbox
+              for spatial manipulation. Translation, rotation, scaling, skewing, even perspective
+              and 3D effects. Before diving into keyframes and animation libraries, you need to
+              understand this foundation.
+            </p>
+            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              TL;DR
+            </h2>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong>Transforms don&#39;t affect layout.</strong>
+                The element&#39;s original position is preserved in the document flow. Other
+                elements don&#39;t shift
+              </li>
+              <li>
+                <strong>Four building blocks.</strong>
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >translate()</code
+                >
+                moves,
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >rotate()</code
+                >
+                spins,
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >scale()</code
+                >
+                resizes,
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >skew()</code
+                >
+                distorts
+              </li>
+              <li>
+                <strong>Order matters.</strong>
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >rotate(45deg) translateX(100px)</code
+                >
+                is completely different from
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >translateX(100px) rotate(45deg)</code
+                >
+              </li>
+              <li>
+                <strong>Percentages are relative to the element itself.</strong>
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >translateY(100%)</code
+                >
+                moves the element by its own height
+              </li>
+              <li>
+                <strong>Transform origin is your pivot point.</strong>
+                It determines where rotations and scales happen from
+              </li>
+              <li>
+                <strong>3D requires perspective.</strong>
+                Without it,
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >rotateX</code
+                >
+                and
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >rotateY</code
+                >
+                look flat
+              </li>
+            </ul>
+            <h2
+              id="transforms-live-outside-the-flow"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Transforms Live Outside the Flow
+            </h2>
+            <p class="mt-0 mb-6">
+              When you position an element with
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >margin</code
+              >,
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >padding</code
+              >, or
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >top</code
+              >/<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >left</code
+              >, you&#39;re changing where the element actually exists in the document. Other
+              elements respond. They shift, wrap, or resize to accommodate the change.
+            </p>
+            <p class="mt-0 mb-6">
+              Transforms work differently. They&#39;re applied after layout is calculated. The
+              browser figures out where everything goes, then transforms are applied visually on
+              top. It&#39;s like placing a sticker on a window. The window doesn&#39;t change. The
+              sticker just sits there, looking like it&#39;s part of the view.
+            </p>
+            <demo-showcase
+              data-component="transform-vs-margin"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              Watch how the margin change pushes the sibling element down, while the transform
+              leaves it untouched. Both buttons appear to move the same distance, but they have
+              completely different effects on the layout around them.
+            </p>
+            <p class="mt-0 mb-6">
+              This has practical implications. Want to animate an element&#39;s position? Use
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >transform: translateX()</code
+              >
+              instead of
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >left</code
+              >. Want to grow an element on hover? Use
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >transform: scale()</code
+              >
+              instead of
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >width</code
+              >. The visual result might look the same, but one triggers expensive layout
+              recalculations on every frame while the other runs entirely on the GPU.
+            </p>
+            <h2
+              id="the-four-transform-functions"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Four Transform Functions
+            </h2>
+            <p class="mt-0 mb-6">CSS gives you four fundamental ways to transform elements.</p>
+            <h3 id="translate-for-movement" class="mt-8 text-lg leading-tight tracking-tight">
+              Translate for Movement
+            </h3>
+            <p class="mt-0 mb-6">
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >translate()</code
+              >
+              moves an element along the x and y axes. Positive values go right and down. Negative
+              values go left and up.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translate</span><span class="text-syn-u">(</span><span class="text-syn-n">50px</span><span class="text-syn-u">,</span> <span class="text-syn-n">20px</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateX</span><span class="text-syn-u">(</span><span class="text-syn-n">50px</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateY</span><span class="text-syn-u">(</span><span class="text-syn-n">20px</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              The single-axis versions are cleaner when you only need to move in one direction. I
+              use them almost exclusively because they&#39;re more readable and easier to reason
+              about.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>The percentage trick</strong>: Unlike margin or padding, percentages in
+              translate are relative to the element&#39;s own dimensions, not its parent.
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >translateX(100%)</code
+              >
+              moves the element to the right by its own width.
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >translateY(-100%)</code
+              >
+              moves it up by its own height.
+            </p>
+            <demo-showcase
+              data-component="translate-percentage"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              This is incredibly useful for animations where elements need to move based on their
+              own size. Drawer components that slide off-screen use
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >translateY(100%)</code
+              >
+              because the drawer always moves by exactly its height, regardless of whether
+              that&#39;s 200px or 800px.
+            </p>
+            <h3 id="scale-for-resizing" class="mt-8 text-lg leading-tight tracking-tight">
+              Scale for Resizing
+            </h3>
+            <p class="mt-0 mb-6">
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >scale()</code
+              >
+              multiplies the element&#39;s size. A value of
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >1</code
+              >
+              is the original size.
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >2</code
+              >
+              doubles it.
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >0.5</code
+              >
+              halves it.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1.5</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scaleX</span><span class="text-syn-u">(</span><span class="text-syn-n">0.8</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1.2</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.9</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Unlike changing
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >width</code
+              >
+              and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >height</code
+              >, scaling affects the entire element including its children. Scale a button and its
+              text, icons, and borders all scale proportionally. This is usually what you want for
+              hover effects and enter/exit animations.
+            </p>
+            <demo-showcase
+              data-component="scale-vs-width-height"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              Notice how
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >scale()</code
+              >
+              keeps everything proportional and doesn&#39;t affect layout, while animating
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >width</code
+              >
+              and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >height</code
+              >
+              still triggers layout reflow.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>A tip</strong>: Never animate from
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >scale(0)</code
+              >. Things in the real world don&#39;t pop into existence from nothing. It looks
+              unnatural. Instead, start from something like
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >scale(0.95)</code
+              >
+              or
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >scale(0.8)</code
+              >
+              combined with an opacity fade. The element feels like it&#39;s entering rather than
+              materializing.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">@keyframes</span> enter <span class="text-syn-u">{</span>
+  from <span class="text-syn-u">{</span>
+    <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span>
+    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">0.95</span><span class="text-syn-u">);</span>
+  <span class="text-syn-u">}</span>
+  to <span class="text-syn-u">{</span>
+    <span class="text-syn-p">opacity</span><span class="text-syn-u">:</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
+    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <h3 id="rotate-for-spinning" class="mt-8 text-lg leading-tight tracking-tight">
+              Rotate for Spinning
+            </h3>
+            <p class="mt-0 mb-6">
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >rotate()</code
+              >
+              spins an element around its center (by default). Positive values rotate clockwise,
+              negative values rotate counter-clockwise.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">45deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">-90deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">0.5turn</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              You can use degrees, radians, or turns. I stick with degrees because they&#39;re the
+              most intuitive.
+            </p>
+            <demo-showcase
+              data-component="rotate"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              Rotation is powerful for loading spinners, icon transitions (hamburger to X, arrow to
+              chevron), and decorative effects. It&#39;s also essential when combined with translate
+              for more complex animations like items flying into a trash bin or cards being dealt.
+            </p>
+            <h3 id="skew-for-distortion" class="mt-8 text-lg leading-tight tracking-tight">
+              Skew for Distortion
+            </h3>
+            <p class="mt-0 mb-6">
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >skew()</code
+              >
+              tilts an element along its axes, creating a parallelogram effect.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">skew</span><span class="text-syn-u">(</span><span class="text-syn-n">10deg</span><span class="text-syn-u">,</span> <span class="text-syn-n">5deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">skewX</span><span class="text-syn-u">(</span><span class="text-syn-n">15deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Skew is the least commonly used transform function. It&#39;s hard to make skewed
+              elements look good in most UI contexts. But it has its moments for creative effects,
+              italic-like text styling, or building parallelogram shapes without images.
+            </p>
+            <demo-showcase
+              data-component="skew"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <h2
+              id="the-order-trap"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Order Trap
+            </h2>
+            <p class="mt-0 mb-6">
+              Here&#39;s where transforms get tricky. When you chain multiple transform functions,
+              they&#39;re applied from left to right. This means the order changes the result.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element-a</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateX</span><span class="text-syn-u">(</span><span class="text-syn-n">100px</span><span class="text-syn-u">)</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">45deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element-b</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">45deg</span><span class="text-syn-u">)</span> <span class="text-syn-f">translateX</span><span class="text-syn-u">(</span><span class="text-syn-n">100px</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">These look similar but produce completely different results.</p>
+            <demo-showcase
+              data-component="transform-order"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              <strong>What&#39;s happening</strong>: In the first case, the element translates first
+              (moving right), then rotates. After rotation, the element&#39;s &quot;right&quot;
+              direction has changed, so the translation already happened along the original axes. In
+              the second case, the element rotates first, then translates, so it moves 100px along
+              the rotated diagonal. The final position is different.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Think of it like this</strong>: Imagine you&#39;re standing facing north.
+              &quot;Rotate 45 degrees, then walk forward 10 steps&quot; ends you up somewhere
+              different than &quot;walk forward 10 steps, then rotate 45 degrees.&quot;
+            </p>
+            <p class="mt-0 mb-6">
+              The mental model that helps me: read transforms left-to-right as the order of
+              operations. The leftmost function happens first.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">transform: translateX(50px) scale(1<span class="text-syn-p">.2</span>) rotate(15deg);
+</code></pre>
+            <p class="mt-0 mb-6">
+              The element first translates 50px, then scales up, then rotates 15 degrees. Each
+              transform builds on top of the transformed state from the previous one.
+            </p>
+            <h2
+              id="transform-origin"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Transform Origin
+            </h2>
+            <p class="mt-0 mb-6">
+              By default, transforms happen from the center of the element. But you can change this
+              anchor point with
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >transform-origin</code
+              >.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform-origin</span><span class="text-syn-u">:</span> <span class="text-syn-k">top</span> <span class="text-syn-k">left</span><span class="text-syn-u">;</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">45deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform-origin</span><span class="text-syn-u">:</span> <span class="text-syn-k">center</span> <span class="text-syn-k">bottom</span><span class="text-syn-u">;</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">0.8</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform-origin</span><span class="text-syn-u">:</span> <span class="text-syn-n">100%</span> <span class="text-syn-n">50%</span><span class="text-syn-u">;</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">-90deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <demo-showcase
+              data-component="transform-origin"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              The origin point matters most for rotation and scaling. A scale from the top-left
+              corner feels different from a scale from the center. A rotation around the bottom edge
+              creates a &quot;door opening&quot; effect.
+            </p>
+            <p class="mt-0 mb-6"><strong>Common patterns</strong>:</p>
+            <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
+              <thead>
+                <tr>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Transform Origin</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Effect</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Good For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >center</code
+                    >
+                    (default)
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Transforms from middle
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Buttons, icons, general scaling
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >top left</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Anchors top-left corner
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Dropdown menus, expanding panels
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >bottom</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Anchors bottom edge</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Rising elements, tooltips above
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >top</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Anchors top edge</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Tooltips below, dropdowns
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="mt-0 mb-6">
+              For tooltip animations, setting the origin to the side closest to the trigger makes
+              the animation feel connected. A tooltip above a button should scale from its bottom
+              edge, as if it&#39;s growing out of the button.
+            </p>
+            <h2
+              id="thinking-in-3d"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Thinking in 3D
+            </h2>
+            <p class="mt-0 mb-6">
+              CSS can do 3D transforms too.
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >rotateX()</code
+              >
+              rotates around the horizontal axis (think of a
+              <button
+                type="button"
+                class="cursor-help border-0 border-b border-dashed border-fg/40 bg-transparent p-0 [font:inherit] text-inherit hover:border-fg/60"
+                popovertarget="image-popup-1"
+                data-image-popup
+              >
+                garage door opening
+              </button><span
+                id="image-popup-1"
+                popover
+                class="m-0 w-auto max-w-[min(280px,90vw)] scale-95 overflow-hidden rounded-md border border-line bg-surface p-0 opacity-0 shadow-md transition-[opacity,scale,display,overlay] transition-discrete duration-150 ease-out open:scale-100 open:opacity-100 motion-reduce:transition-none starting:open:scale-95 starting:open:opacity-0"
+                ><img
+                  class="block h-auto max-h-[50vh] w-full object-cover"
+                  src="/assets/content/blogs/moving-things-without-moving-them/garage-door.gif"
+                  alt="Garage door opening"
+                  width="280"
+                  height="200"
+                  loading="lazy"
+                /></span
+              >).
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >rotateY()</code
+              >
+              rotates around the vertical axis (think of a
+              <button
+                type="button"
+                class="cursor-help border-0 border-b border-dashed border-fg/40 bg-transparent p-0 [font:inherit] text-inherit hover:border-fg/60"
+                popovertarget="image-popup-2"
+                data-image-popup
+              >
+                revolving door
+              </button><span
+                id="image-popup-2"
+                popover
+                class="m-0 w-auto max-w-[min(280px,90vw)] scale-95 overflow-hidden rounded-md border border-line bg-surface p-0 opacity-0 shadow-md transition-[opacity,scale,display,overlay] transition-discrete duration-150 ease-out open:scale-100 open:opacity-100 motion-reduce:transition-none starting:open:scale-95 starting:open:opacity-0"
+                ><img
+                  class="block h-auto max-h-[50vh] w-full object-cover"
+                  src="/assets/content/blogs/moving-things-without-moving-them/revolving-door.gif"
+                  alt="Revolving door"
+                  width="280"
+                  height="200"
+                  loading="lazy"
+                /></span
+              >).
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >rotateZ()</code
+              >
+              is the same as regular
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >rotate()</code
+              >.
+            </p>
+            <p class="mt-0 mb-6">
+              But there&#39;s a catch. Without perspective, 3D rotations look flat.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.flat</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotateY</span><span class="text-syn-u">(</span><span class="text-syn-n">45deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.with-depth</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">perspective</span><span class="text-syn-u">:</span> <span class="text-syn-n">800px</span><span class="text-syn-u">;</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotateY</span><span class="text-syn-u">(</span><span class="text-syn-n">45deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <demo-showcase
+              data-component="perspective"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              Perspective defines how far the viewer is from the z-plane. Smaller values create more
+              dramatic perspective (things closer feel much bigger). Larger values create subtler
+              perspective (more like looking from far away).
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>The perspective property goes on the parent</strong>. The transforms go on the
+              children. This creates a shared perspective space where all children appear to exist
+              in the same 3D environment.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.container</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">perspective</span><span class="text-syn-u">:</span> <span class="text-syn-n">1000px</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.card</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotateY</span><span class="text-syn-u">(</span><span class="text-syn-n">15deg</span><span class="text-syn-u">);</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.card:hover</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotateY</span><span class="text-syn-u">(</span><span class="text-syn-n">-15deg</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              For interactive 3D effects, you&#39;ll also want
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >transform-style: preserve-3d</code
+              >
+              on containers to maintain 3D positioning of nested elements.
+            </p>
+            <demo-showcase
+              data-component="tilt-card"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+              data-files
+              ><script type="application/json">
+              [
+                {
+                  "filename": "App.tsx",
+                  "code": "import { TiltCard } from \"./tilt-card\";\n\nexport default function App() {\n  return (\n    \u003cdiv className=\"flex min-h-screen items-center justify-center\">\n      \u003cTiltCard />\n    \u003c/div>\n  );\n}",
+                  "html": "\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-k\">import\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span> TiltCard \u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-k\">from\u003c/span> \u003cspan class=\"text-syn-s\">&quot;./tilt-card&quot;\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\n\u003cspan class=\"text-syn-k\">export\u003c/span> \u003cspan class=\"text-syn-k\">default\u003c/span> \u003cspan class=\"text-syn-k\">function\u003c/span> \u003cspan class=\"text-syn-f\">App\u003c/span>\u003cspan class=\"text-syn-u\">()\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-k\">return\u003c/span> \u003cspan class=\"text-syn-u\">(\u003c/span>\n    \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;flex min-h-screen items-center justify-center&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">TiltCard\u003c/span> \u003cspan class=\"text-syn-u\">/&gt;\u003c/span>\n    \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n  \u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"
+                },
+                {
+                  "filename": "tilt-card.tsx",
+                  "code": "import { useRef, useState } from \"react\";\n\nexport function TiltCard() {\n  const [rotation, setRotation] = useState({ x: 0, y: 0 });\n  const cardRef = useRef\u003cHTMLDivElement>(null);\n\nconst handleMouseMove = (e: React.MouseEvent) => {\nconst rect = cardRef.current!.getBoundingClientRect();\nconst x = e.clientX - rect.left;\nconst y = e.clientY - rect.top;\nconst centerX = rect.width / 2;\nconst centerY = rect.height / 2;\nconst rotateX = ((y - centerY) / centerY) _ -15;\nconst rotateY = ((x - centerX) / centerX) _ 15;\nsetRotation({ x: rotateX, y: rotateY });\n};\n\nreturn (\n\n\u003cdiv style={{ perspective: \"1000px\" }}>\n\u003cdiv\nref={cardRef}\nonMouseMove={handleMouseMove}\nonMouseLeave={() => setRotation({ x: 0, y: 0 })}\nstyle={{\n          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,\n          transformStyle: \"preserve-3d\",\n          transition: \"transform 0.1s ease-out\",\n        }} >\n{/* Card content */}\n\u003c/div>\n\u003c/div>\n);\n}",
+                  "html": "\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-k\">import\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span> useRef\u003cspan class=\"text-syn-u\">,\u003c/span> useState \u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-k\">from\u003c/span> \u003cspan class=\"text-syn-s\">&quot;react&quot;\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\n\u003cspan class=\"text-syn-k\">export\u003c/span> \u003cspan class=\"text-syn-k\">function\u003c/span> \u003cspan class=\"text-syn-f\">TiltCard\u003c/span>\u003cspan class=\"text-syn-u\">()\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-k\">const\u003c/span> \u003cspan class=\"text-syn-u\">[\u003c/span>rotation\u003cspan class=\"text-syn-u\">,\u003c/span> setRotation\u003cspan class=\"text-syn-u\">]\u003c/span> \u003cspan class=\"text-syn-o\">=\u003c/span> \u003cspan class=\"text-syn-f\">useState\u003c/span>\u003cspan class=\"text-syn-u\">({\u003c/span> \u003cspan class=\"text-syn-p\">x:\u003c/span> \u003cspan class=\"text-syn-n\">0\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-p\">y:\u003c/span> \u003cspan class=\"text-syn-n\">0\u003c/span> \u003cspan class=\"text-syn-u\">});\u003c/span>\n  \u003cspan class=\"text-syn-k\">const\u003c/span> cardRef \u003cspan class=\"text-syn-o\">=\u003c/span> \u003cspan class=\"text-syn-f\">useRef\u003c/span>\u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-t\">HTMLDivElement\u003c/span>\u003cspan class=\"text-syn-u\">&gt;(\u003c/span>\u003cspan class=\"text-syn-k\">null\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\n\u003cspan class=\"text-syn-k\">const\u003c/span> \u003cspan class=\"text-syn-f\">handleMouseMove\u003c/span> \u003cspan class=\"text-syn-o\">=\u003c/span> \u003cspan class=\"text-syn-u\">(\u003c/span>e\u003cspan class=\"text-syn-o\">:\u003c/span> \u003cspan class=\"text-syn-t\">React\u003c/span>\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-t\">MouseEvent\u003c/span>\u003cspan class=\"text-syn-u\">)\u003c/span> \u003cspan class=\"text-syn-k\">=&gt;\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n\u003cspan class=\"text-syn-k\">const\u003c/span> rect \u003cspan class=\"text-syn-o\">=\u003c/span> cardRef\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-p\">current\u003c/span>\u003cspan class=\"text-syn-o\">!\u003c/span>\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-f\">getBoundingClientRect\u003c/span>\u003cspan class=\"text-syn-u\">();\u003c/span>\n\u003cspan class=\"text-syn-k\">const\u003c/span> x \u003cspan class=\"text-syn-o\">=\u003c/span> e\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-p\">clientX\u003c/span> \u003cspan class=\"text-syn-o\">-\u003c/span> rect\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-p\">left\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-k\">const\u003c/span> y \u003cspan class=\"text-syn-o\">=\u003c/span> e\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-p\">clientY\u003c/span> \u003cspan class=\"text-syn-o\">-\u003c/span> rect\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-p\">top\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-k\">const\u003c/span> centerX \u003cspan class=\"text-syn-o\">=\u003c/span> rect\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-p\">width\u003c/span> \u003cspan class=\"text-syn-o\">/\u003c/span> \u003cspan class=\"text-syn-n\">2\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-k\">const\u003c/span> centerY \u003cspan class=\"text-syn-o\">=\u003c/span> rect\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-p\">height\u003c/span> \u003cspan class=\"text-syn-o\">/\u003c/span> \u003cspan class=\"text-syn-n\">2\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-k\">const\u003c/span> rotateX \u003cspan class=\"text-syn-o\">=\u003c/span> \u003cspan class=\"text-syn-u\">((\u003c/span>y \u003cspan class=\"text-syn-o\">-\u003c/span> centerY\u003cspan class=\"text-syn-u\">)\u003c/span> \u003cspan class=\"text-syn-o\">/\u003c/span> centerY\u003cspan class=\"text-syn-u\">)\u003c/span> _ \u003cspan class=\"text-syn-o\">-\u003c/span>\u003cspan class=\"text-syn-n\">15\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-k\">const\u003c/span> rotateY \u003cspan class=\"text-syn-o\">=\u003c/span> \u003cspan class=\"text-syn-u\">((\u003c/span>x \u003cspan class=\"text-syn-o\">-\u003c/span> centerX\u003cspan class=\"text-syn-u\">)\u003c/span> \u003cspan class=\"text-syn-o\">/\u003c/span> centerX\u003cspan class=\"text-syn-u\">)\u003c/span> _ \u003cspan class=\"text-syn-n\">15\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-f\">setRotation\u003c/span>\u003cspan class=\"text-syn-u\">({\u003c/span> \u003cspan class=\"text-syn-p\">x:\u003c/span> rotateX\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-p\">y:\u003c/span> rotateY \u003cspan class=\"text-syn-u\">});\u003c/span>\n\u003cspan class=\"text-syn-u\">};\u003c/span>\n\n\u003cspan class=\"text-syn-k\">return\u003c/span> \u003cspan class=\"text-syn-u\">(\u003c/span>\n\n\u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">style\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{{\u003c/span> \u003cspan class=\"text-syn-p\">perspective:\u003c/span> \u003cspan class=\"text-syn-s\">&quot;1000px&quot;\u003c/span> \u003cspan class=\"text-syn-u\">}}&gt;\u003c/span>\n\u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\n\u003cspan class=\"text-syn-p\">ref\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>cardRef\u003cspan class=\"text-syn-u\">}\u003c/span>\n\u003cspan class=\"text-syn-p\">onMouseMove\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>handleMouseMove\u003cspan class=\"text-syn-u\">}\u003c/span>\n\u003cspan class=\"text-syn-p\">onMouseLeave\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{()\u003c/span> \u003cspan class=\"text-syn-k\">=&gt;\u003c/span> \u003cspan class=\"text-syn-f\">setRotation\u003c/span>\u003cspan class=\"text-syn-u\">({\u003c/span> \u003cspan class=\"text-syn-p\">x:\u003c/span> \u003cspan class=\"text-syn-n\">0\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-p\">y:\u003c/span> \u003cspan class=\"text-syn-n\">0\u003c/span> \u003cspan class=\"text-syn-u\">})}\u003c/span>\n\u003cspan class=\"text-syn-p\">style\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{{\u003c/span>\n          \u003cspan class=\"text-syn-p\">transform:\u003c/span> \u003cspan class=\"text-syn-s\">`rotateX(${rotation.\u003c/span>\u003cspan class=\"text-syn-p\">x\u003c/span>\u003cspan class=\"text-syn-s\">}deg) rotateY(${rotation.\u003c/span>\u003cspan class=\"text-syn-p\">y\u003c/span>\u003cspan class=\"text-syn-s\">}deg)`\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span>\n          \u003cspan class=\"text-syn-p\">transformStyle:\u003c/span> \u003cspan class=\"text-syn-s\">&quot;preserve-3d&quot;\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span>\n          \u003cspan class=\"text-syn-p\">transition:\u003c/span> \u003cspan class=\"text-syn-s\">&quot;transform 0.1s ease-out&quot;\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span>\n        \u003cspan class=\"text-syn-u\">}}\u003c/span> \u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-c italic\">/* Card content */\u003c/span>\u003cspan class=\"text-syn-u\">}\u003c/span>\n\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"
+                }
+              ]
+              </script></demo-showcase
+            >
+            <p class="mt-0 mb-6">
+              This card tilts based on mouse position using
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >rotateX()</code
+              >
+              and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >rotateY()</code
+              >. The perspective on the container gives the rotation depth, making one edge appear
+              closer than the other.
+            </p>
+            <h2
+              id="translatez-and-3d-movement"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              translateZ and 3D Movement
+            </h2>
+            <p class="mt-0 mb-6">
+              Beyond rotation, you can move elements in 3D space with
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >translateZ()</code
+              >. Positive values bring the element closer to the viewer. Negative values push it
+              away.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.container</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">perspective</span><span class="text-syn-u">:</span> <span class="text-syn-n">600px</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.closer</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateZ</span><span class="text-syn-u">(</span><span class="text-syn-n">100px</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.further</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">translateZ</span><span class="text-syn-u">(</span><span class="text-syn-n">-100px</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This creates a parallax effect without JavaScript. Elements at different z-positions
+              move at different speeds when the container scrolls or the parent transforms.
+            </p>
+            <p class="mt-0 mb-6">
+              You can also use
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >translate3d(x, y, z)</code
+              >
+              to set all three axes at once.
+            </p>
+            <h2
+              id="performance-considerations"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Performance Considerations
+            </h2>
+            <p class="mt-0 mb-6">
+              All transforms are GPU-accelerated, but there are still best practices.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Stick to translate, scale, rotate, and opacity</strong>. These are the
+              &quot;safe&quot; properties that the browser can optimize completely. Skew is also
+              fine but less common.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Avoid animating transform-origin</strong>. Changing the pivot point during an
+              animation creates strange visual artifacts. Set it once and leave it.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Use will-change sparingly</strong>. Telling the browser
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >will-change: transform</code
+              >
+              can help with complex animations, but it creates a new compositor layer. Too many
+              layers hurt performance instead of helping.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">will-change</span><span class="text-syn-u">:</span> transform<span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Only add this if you&#39;re seeing jank in DevTools and have identified that element
+              as the culprit.
+            </p>
+            <h2
+              id="common-transform-patterns"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Common Transform Patterns
+            </h2>
+            <p class="mt-0 mb-6">Here are patterns I use constantly.</p>
+            <p class="mt-0 mb-6"><strong>Button press feedback</strong>:</p>
+            <demo-showcase
+              data-component="button-press-pattern"
+              data-props="{}"
+              data-frame='{"focusCode":true,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+              data-files
+              ><script type="application/json">
+              [
+                {
+                  "filename": "button.css",
+                  "code": ".button {\n  transition: transform 150ms ease-out;\n}\n\n.button:active {\n  transform: scale(0.97);\n}",
+                  "html": "\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-p\">.button\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transition\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> transform \u003cspan class=\"text-syn-n\">150ms\u003c/span> \u003cspan class=\"text-syn-k\">ease-out\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.button:active\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">scale\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">0.97\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"
+                }
+              ]
+              </script></demo-showcase
+            >
+            <p class="mt-0 mb-6"><strong>Slide-in from below</strong>:</p>
+            <demo-showcase
+              data-component="slide-in-pattern"
+              data-props="{}"
+              data-frame='{"focusCode":true,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+              data-files
+              ><script type="application/json">
+              [
+                {
+                  "filename": "slide-up.css",
+                  "code": "@keyframes slideUp {\n  from {\n    opacity: 0;\n    transform: translateY(10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}",
+                  "html": "\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-k\">@keyframes\u003c/span> slideUp \u003cspan class=\"text-syn-u\">{\u003c/span>\n  from \u003cspan class=\"text-syn-u\">{\u003c/span>\n    \u003cspan class=\"text-syn-p\">opacity\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">0\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n    \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">translateY\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">10px\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n  \u003cspan class=\"text-syn-u\">}\u003c/span>\n  to \u003cspan class=\"text-syn-u\">{\u003c/span>\n    \u003cspan class=\"text-syn-p\">opacity\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">1\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n    \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">translateY\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">0\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n  \u003cspan class=\"text-syn-u\">}\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"
+                }
+              ]
+              </script></demo-showcase
+            >
+            <p class="mt-0 mb-6"><strong>Shake for error</strong>:</p>
+            <demo-showcase
+              data-component="shake-pattern"
+              data-props="{}"
+              data-frame='{"focusCode":true,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+              data-files
+              ><script type="application/json">
+              [
+                {
+                  "filename": "shake.css",
+                  "code": "@keyframes shake {\n  0%,\n  100% {\n    transform: translateX(0);\n  }\n  20%,\n  60% {\n    transform: translateX(-4px);\n  }\n  40%,\n  80% {\n    transform: translateX(4px);\n  }\n}\n\n.error {\n  animation: shake 300ms ease-in-out;\n}",
+                  "html": "\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-k\">@keyframes\u003c/span> shake \u003cspan class=\"text-syn-u\">{\u003c/span>\n  0%,\n  100% \u003cspan class=\"text-syn-u\">{\u003c/span>\n    \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">translateX\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">0\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n  \u003cspan class=\"text-syn-u\">}\u003c/span>\n  20%,\n  60% \u003cspan class=\"text-syn-u\">{\u003c/span>\n    \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">translateX\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">-4px\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n  \u003cspan class=\"text-syn-u\">}\u003c/span>\n  40%,\n  80% \u003cspan class=\"text-syn-u\">{\u003c/span>\n    \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">translateX\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">4px\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n  \u003cspan class=\"text-syn-u\">}\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.error\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">animation\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> shake \u003cspan class=\"text-syn-n\">300ms\u003c/span> \u003cspan class=\"text-syn-k\">ease-in-out\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"
+                }
+              ]
+              </script></demo-showcase
+            >
+            <p class="mt-0 mb-6"><strong>Flip card</strong>:</p>
+            <demo-showcase
+              data-component="flip-card-pattern"
+              data-props="{}"
+              data-frame='{"focusCode":true,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+              data-files
+              ><script type="application/json">
+              [
+                {
+                  "filename": "flip-card.css",
+                  "code": ".card-container {\n  perspective: 1000px;\n}\n\n.card {\n  transform-style: preserve-3d;\n  transition: transform 600ms ease-out;\n}\n\n.card.flipped {\n  transform: rotateY(180deg);\n}\n\n.card-back {\n  transform: rotateY(180deg);\n  backface-visibility: hidden;\n}",
+                  "html": "\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-p\">.card-container\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">perspective\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">1000px\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.card\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transform-style\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-k\">preserve-3d\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">transition\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> transform \u003cspan class=\"text-syn-n\">600ms\u003c/span> \u003cspan class=\"text-syn-k\">ease-out\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.card.flipped\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">rotateY\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">180deg\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.card-back\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">rotateY\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">180deg\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n  \u003cspan class=\"text-syn-p\">backface-visibility\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-k\">hidden\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"
+                }
+              ]
+              </script></demo-showcase
+            >
+            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Conclusion
+            </h2>
+            <p class="mt-0 mb-6">
+              Transforms are the backbone of CSS animation. They move, rotate, scale, and skew
+              without touching layout. They run on the GPU. They chain together for complex effects.
+            </p>
+            <p class="mt-0 mb-6">
+              The key concepts to internalize: transforms don&#39;t affect document flow, order
+              matters when chaining, percentages are relative to the element itself, and 3D requires
+              perspective.
+            </p>
+            <p class="mt-0 mb-6">
+              Most animations you build will use some combination of
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >translate()</code
+              >,
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >scale()</code
+              >, and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >rotate()</code
+              >. Master these three and you can create almost any motion effect. The fancier stuff
+              like 3D transforms and perspective are tools for specific situations, not everyday
+              necessities.
+            </p>
+            <p class="mt-0 mb-6">
+              Before reaching for an animation library, ask yourself: can I do this with transforms?
+              Often the answer is yes, and the result will be lighter and more performant than any
+              JavaScript solution.
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/design-engineering/clip-path-reveals/"
+                >Invisible Scissors</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/design-engineering/css-transitions/"
+                >Smooth Operators</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/design-engineering/easing-curves-that-feel-natural/"
+                >Easing Curves That Feel Natural</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

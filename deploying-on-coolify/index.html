@@ -1,0 +1,620 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Coolify self-hosting guide to deploy Postgres, Redis, and a Next.js app on one server, an open-source Vercel alternative you fully control."
+    />
+    <link rel="canonical" href="https://pulkit.blog/deploying-on-coolify/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta
+      property="og:title"
+      content="Coolify: Self-Host Postgres, Redis &amp; Next.js | pulkit.blog"
+    />
+    <meta
+      property="og:description"
+      content="Coolify self-hosting guide to deploy Postgres, Redis, and a Next.js app on one server, an open-source Vercel alternative you fully control."
+    />
+    <meta property="og:url" content="https://pulkit.blog/deploying-on-coolify/" />
+    <meta property="og:image" content="https://pulkit.blog/og/deploying-on-coolify/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/deploying-on-coolify/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Coolify: Self-Host Postgres, Redis &amp; Next.js" />
+    <meta property="article:published_time" content="2025-07-26" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Coolify: Self-Host Postgres, Redis &amp; Next.js | pulkit.blog"
+    />
+    <meta
+      name="twitter:description"
+      content="Coolify self-hosting guide to deploy Postgres, Redis, and a Next.js app on one server, an open-source Vercel alternative you fully control."
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/deploying-on-coolify/card.png" />
+    <meta name="twitter:image:alt" content="Coolify: Self-Host Postgres, Redis &amp; Next.js" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/deploying-on-coolify/#image","contentUrl":"https://pulkit.blog/og/deploying-on-coolify/card.png","width":1200,"height":630,"caption":"Coolify: Self-Host Postgres, Redis \u0026 Next.js"},{"@type":"BlogPosting","@id":"https://pulkit.blog/deploying-on-coolify/#article","headline":"Coolify: Self-Host Postgres, Redis \u0026 Next.js","description":"Coolify self-hosting guide to deploy Postgres, Redis, and a Next.js app on one server, an open-source Vercel alternative you fully control.","datePublished":"2025-07-26","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/deploying-on-coolify/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/deploying-on-coolify/#image"},"url":"https://pulkit.blog/deploying-on-coolify/","inLanguage":"en","keywords":["Coolify","Redis","PostgreSQL","Next.js","Self-Hosting","Deployment","Docker","DevOps"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/deploying-on-coolify/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Coolify: Self-Host Postgres, Redis \u0026 Next.js","item":"https://pulkit.blog/deploying-on-coolify/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/deploying-on-coolify/#webpage","url":"https://pulkit.blog/deploying-on-coolify/","name":"Coolify: Self-Host Postgres, Redis \u0026 Next.js","description":"Coolify self-hosting guide to deploy Postgres, Redis, and a Next.js app on one server, an open-source Vercel alternative you fully control.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/deploying-on-coolify/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/deploying-on-coolify/#article"},"breadcrumb":{"@id":"https://pulkit.blog/deploying-on-coolify/#breadcrumbs"}}]}</script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Coolify: Self-Host Postgres, Redis &amp; Next.js | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Coolify: Self-Host Postgres, Redis &amp; Next.js
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2025-07-26">July 26, 2025</time>
+              · 5 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <h2 id="intro" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Intro
+            </h2>
+            <p class="mt-0 mb-6">
+              While exploring some cool tech I came across
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="http://coolify.io"
+                >Coolify</a
+              >. It’s basically a self-hosted version of Vercel, an open-source deployment tool that
+              gives you full control. No limits, no paid plans, just full power.
+            </p>
+            <p class="mt-0 mb-6">Earlier, my setup was like this:</p>
+            <ul class="mt-0 mb-6">
+              <li>
+                My portfolio was deployed on
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="http://vercel.com"
+                  >Vercel</a
+                >
+              </li>
+              <li>
+                Postgres was on
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="http://neon.tech"
+                  >NeonDB</a
+                >
+              </li>
+              <li>
+                Redis was on
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="http://upstash.com"
+                  >Upstash</a
+                >
+              </li>
+            </ul>
+            <h2
+              id="my-previous-setup"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              My previous setup
+            </h2>
+            <p class="mt-0 mb-6">
+              So I had deployed my portfolio on vercel, postgres db on neondb and redis on upstash.
+              Btw I recently closed source my portfolio. Switching to Coolify helped me with these
+              things →
+            </p>
+            <ul class="mt-0 mb-6">
+              <li>Faster builds</li>
+              <li>Running as many apps as I want, with all the features</li>
+              <li>Insanely fast database queries</li>
+              <li>And honestly, a lot more peace of mind</li>
+              <li>Automatic Deployments(Just like vercel)</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              In this blog, I’ll walk you through how I did all setup by spinning up a VM on Azure
+              (had credits there, so why not), install Coolify, and deploy:
+            </p>
+            <ul class="mt-0 mb-6">
+              <li>
+                my Next.js portfolio(will of course work the same with any nextjs, react, express,
+                etc. project because we’ll dockerize it)
+              </li>
+              <li>a Postgres database</li>
+              <li>a Redis instance</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              All on a single server with 50GB storage(can be less as well, I added this much
+              because first I have credits so it’s not a pain for me and Second it will not crash
+              the server out of storage issues) and 8GB RAM.
+            </p>
+            <p class="mt-0 mb-6">This is my current config(for reference)</p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9434ba4b-bc77-4b13-baf3-f60892cb2c76.webp"
+                alt="Azure VM configuration showing 50GB storage and 8GB RAM"
+                loading="lazy"
+              />
+            </p>
+            <h2
+              id="setting-up-a-vm"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Setting up a VM
+            </h2>
+            <p class="mt-0 mb-6">
+              I have chose Azure but you can choose any of the cloud provider like AWS, GCP, Vultr
+              etc. All you need to do is get a compute server with given specs(50 gigs hdrive and 8
+              gigs memory).
+            </p>
+            <ol class="mt-0 mb-6">
+              <li>Go to Create page and click on create under Ubuntu Server.</li>
+            </ol>
+            <p class="mt-0 mb-6">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://portal.azure.com/#create/hub"
+                ><img
+                  class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                  src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/57c0ed18-7fe3-4e7a-b3ff-5dac9d8b251a.webp"
+                  alt="Azure portal create Ubuntu Server page"
+                  loading="lazy"
+                /></a
+              >
+            </p>
+            <ol class="mt-0 mb-6" start="2">
+              <li>Fill in the details, and select at least 8 gigs 4 vcpus in “Size”</li>
+            </ol>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/1d67e1ef-f3db-4d6d-bf5e-715153039872.webp"
+                alt="Azure VM size selection showing 8GB 4 vCPUs option"
+                loading="lazy"
+              />
+            </p>
+            <ol class="mt-0 mb-6" start="3">
+              <li>
+                You can choose whatever size that suits under the Disks section, After creation we
+                can add custom size(maybe choose custom size like 50 gigs from there)
+              </li>
+            </ol>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/d0c59bbe-b6ff-4f3a-9be2-c2769508d982.webp"
+                alt="Azure VM disk configuration page"
+                loading="lazy"
+              />
+            </p>
+            <ol class="mt-0 mb-6" start="4">
+              <li class="[&>p]:mb-2">
+                <p class="mt-0 mb-6">
+                  That’s it, then review and create. And wait for the deployment complete.
+                </p>
+                <p class="mt-0 mb-6">
+                  <img
+                    class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                    src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/62fddf51-739b-4866-a2de-14b4dad78d68.webp"
+                    alt="Azure deployment complete notification"
+                    loading="lazy"
+                  />
+                </p>
+              </li>
+            </ol>
+            <h2
+              id="setting-up-coolify"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Setting up Coolify
+            </h2>
+            <p class="mt-0 mb-6">
+              Coolify has a very simple setup, all you need to do is run a setup script that will
+              install all required tools and whole networking required behind the scenes.
+            </p>
+            <h3 id="installation-using-script" class="mt-8 text-lg leading-tight tracking-tight">
+              Installation using script
+            </h3>
+            <p class="mt-0 mb-6">
+              Just got to this page →
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://coolify.io/docs/get-started/installation#self-hosted-installation"
+                >https://coolify.io/docs/get-started/installation#self-hosted-installation</a
+              >
+            </p>
+            <p class="mt-0 mb-6">Or you can directly run this command:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">curl</span> <span class="text-syn-s">-fsSL</span> <span class="text-syn-s">https://cdn.coollabs.io/coolify/install.sh</span> <span class="text-syn-o">|</span> <span class="text-syn-f">sudo</span> <span class="text-syn-s">bash</span>
+</code></pre>
+            <p class="mt-0 mb-6">You need to ssh into your server and run this command</p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/78df5c83-af18-48c2-9505-dfebb08389ed.webp"
+                alt="Terminal showing Coolify installation script running"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              It will take around 4-5 minutes and install all required tools like Docker, Coolify, a
+              database to manage coolify’s state and all the setup to make available a Dashboard
+              just like vercel. And after the complete setup the final screen looks like something
+              this
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">   <span class="text-syn-f">____</span>                            <span class="text-syn-s">_</span>         <span class="text-syn-s">_</span>       <span class="text-syn-s">_</span>   <span class="text-syn-s">_</span>                 <span class="text-syn-s">_</span>
+  <span class="text-syn-f">/</span> <span class="text-syn-s">___</span><span class="text-syn-o">|</span><span class="text-syn-f">___</span>  <span class="text-syn-s">_</span> <span class="text-syn-s">__</span>   <span class="text-syn-s">__</span> <span class="text-syn-s">_</span> <span class="text-syn-s">_</span> <span class="text-syn-s">__</span> <span class="text-syn-s">__</span> <span class="text-syn-s">_</span><span class="text-syn-o">|</span> <span class="text-syn-o">|</span><span class="text-syn-f">_</span> <span class="text-syn-s">_</span>   <span class="text-syn-s">_</span><span class="text-syn-o">|</span> <span class="text-syn-o">|</span> <span class="text-syn-f">__</span> <span class="text-syn-s">_</span><span class="text-syn-o">|</span> <span class="text-syn-o">|</span><span class="text-syn-f">_(_</span>) ___  _ __  ___<span class="text-syn-o">|</span> <span class="text-syn-o">|</span>
+ <span class="text-syn-o">|</span> <span class="text-syn-o">|</span>   <span class="text-syn-f">/</span> <span class="text-syn-s">_</span> \| <span class="text-syn-s">&#39;_ \ / _` | &#39;__/</span> <span class="text-syn-s">_` | __| | | | |/ _`</span> <span class="text-syn-o">|</span> <span class="text-syn-f">__</span><span class="text-syn-o">|</span> <span class="text-syn-o">|</span><span class="text-syn-f">/</span> <span class="text-syn-s">_</span> \| <span class="text-syn-s">&#39;_ \/ __| |</span>
+<span class="text-syn-s"> | |__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \_|</span>
+<span class="text-syn-s">  \____\___/|_| |_|\__, |_|  \__,_|\__|\__,_|_|\__,_|\__|_|\___/|_| |_|___(_)</span>
+<span class="text-syn-s">                   |___/</span>
+
+<span class="text-syn-s">Your instance is ready to use!</span>
+
+<span class="text-syn-s">You can access Coolify through your Public IPV4: http://[your-server-ip]:8000</span>
+
+<span class="text-syn-s">If your Public IP is not accessible, you can use the following Private IPs:</span>
+
+<span class="text-syn-s">http://10.0.0.1:8000</span>
+<span class="text-syn-s">http://10.0.1.1:8000</span>
+<span class="text-syn-s">http://fdb9:e3dd:639b::1:8000</span>
+
+<span class="text-syn-s">WARNING: It is highly recommended to backup your Environment variables file (/data/coolify/source/.env) to a safe location, outside of this server (e.g. into a Password Manager).</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              So as it says your public dashboard will be available at →
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >http://[your-server-ip]:8000</code
+              >
+              .
+            </p>
+            <h3 id="configuring-ports" class="mt-8 text-lg leading-tight tracking-tight">
+              Configuring Ports
+            </h3>
+            <p class="mt-0 mb-6">But wait you might not be able to access the dashboard as yet.</p>
+            <p class="mt-0 mb-6">
+              You need to configure some networking related ports for this dashboard to work
+              properly [<a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://coolify.io/docs/knowledge-base/server/firewall#coolify-self-hosted"
+                >Firewall Settings</a
+              >]. You need to open up these ports.
+            </p>
+            <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
+              <thead>
+                <tr>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">
+                    <strong>8000</strong>
+                  </th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">
+                    HTTP access to the Coolify dashboard
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">6001</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Real-time communications
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">6002</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Terminal access (Required for Coolify version 4.0.0-beta.336 and above)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">22</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    SSH access (or your custom SSH port)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">80</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    SSL certificate generation via reverse proxy (Traefik or Caddy)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">443</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">HTTPS traffic</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="mt-0 mb-6">
+              Since we are deploying Redis and Postgres, if you need to expose them to the internet.
+              You need to add port
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >5432</code
+              >
+              and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >6379</code
+              >
+              as well. After these my Azure Networking section looked like this.
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3095fd2e-c030-4cb3-9d47-eddf13735c6b.webp"
+                alt="Azure networking configuration showing open ports for Coolify"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              That’s it now you would be able to see a login page on that url, make an account and
+              Login. After this follow all the onboarding steps and select localhost as the server.
+              And you will be able to see this type of page.
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3dfa3ba5-9def-4254-b0d5-5e898bc38cf2.webp"
+                alt="Coolify dashboard showing project overview"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              Now it’s like a vercel dashboard with superpowers. On this page you would be able to
+              see a lot of options like Postgres, MongoDB, Redis, and what not. A lot of open source
+              projects like Excalidraw, AppWrite are also available.
+            </p>
+            <h2
+              id="deploying-nextjs-app"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Deploying NextJs app
+            </h2>
+            <p class="mt-0 mb-6">
+              But for this walkthrough we will start with a nextjs App. So select public
+              repository(you can also select private repository and make a GitHub app for
+              authentication) and enter a url. In the next step, please select Dockerfile under
+              Build Packs and make sure the repository have a Dockerfile.
+            </p>
+            <p class="mt-0 mb-6">
+              The Dockerfile I used for my nextjs App →
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://gist.github.com/Pulkitxm/742a20fb68a4d6031c19a91949b12873"
+                >gist.github.com/Pulkitxm/742a20fb....</a
+              >
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9c970786-0745-49c1-8028-6b32912534d9.webp"
+                alt="Coolify repository selection with Dockerfile buildpack option"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              And click continue. Then on this screen you configure further things like Environment
+              variable, and other things. But for now click on Deploy.
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/957441f5-3da3-4609-8955-67517ceda1cb.webp"
+                alt="Coolify deployment configuration page with deploy button"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              After the complete Deployment you would be able to visit your website on the
+              configured domain(if not, there will be an autogenerated domain). For configuring
+              custom domain, you just need to add an
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >A</code
+              >
+              record pointing to the domain of the server and you should be good. For adding
+              multiple domains, you can add comma separated values.
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/99bcc776-539b-4e3c-8676-262019add16b.webp"
+                alt="Coolify domain configuration showing custom domain setup"
+                loading="lazy"
+              />
+            </p>
+            <h2
+              id="deploying-postgres-redis"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Deploying Postgres &amp; Redis
+            </h2>
+            <p class="mt-0 mb-6">
+              As I already mentioned in the Ports section you need to configure
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >5432</code
+              >
+              port for Postgres and
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >6379</code
+              >
+              for Redis. These two have a very simple and clean setup. Just go to a new Resource
+              page from you Project. For postgres you can choose what configuration you need, but I
+              am going with the default one.
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/4401c7fe-c1df-48fe-bea3-84efa5fb9057.webp"
+                alt="Coolify PostgreSQL database configuration page"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              And that’s it after this, click on start and you will see the deployment logs.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">...</span>
+ <span class="text-syn-f">Volume</span> <span class="text-syn-s">&quot;postgres-data-agookgc8ckkwkwww8ccsk8ok&quot;</span>  <span class="text-syn-s">Creating</span>
+ <span class="text-syn-f">Volume</span> <span class="text-syn-s">&quot;postgres-data-agookgc8ckkwkwww8ccsk8ok&quot;</span>  <span class="text-syn-s">Created</span>
+ <span class="text-syn-f">Container</span> <span class="text-syn-s">agookgc8ckkwkwww8ccsk8ok</span>  <span class="text-syn-s">Creating</span>
+ <span class="text-syn-f">agookgc8ckkwkwww8ccsk8ok</span> <span class="text-syn-s">Your</span> <span class="text-syn-s">kernel</span> <span class="text-syn-s">does</span> <span class="text-syn-s">not</span> <span class="text-syn-s">support</span> <span class="text-syn-s">memory</span> <span class="text-syn-s">swappiness</span> <span class="text-syn-s">capabilities</span> <span class="text-syn-s">or</span> <span class="text-syn-s">the</span> <span class="text-syn-s">cgroup</span> <span class="text-syn-s">is</span> <span class="text-syn-s">not</span> <span class="text-syn-s">mounted.</span> <span class="text-syn-s">Memory</span> <span class="text-syn-s">swappiness</span> <span class="text-syn-s">discarded.</span>
+ <span class="text-syn-f">Container</span> <span class="text-syn-s">agookgc8ckkwkwww8ccsk8ok</span>  <span class="text-syn-s">Created</span>
+ <span class="text-syn-f">Container</span> <span class="text-syn-s">agookgc8ckkwkwww8ccsk8ok</span>  <span class="text-syn-s">Starting</span>
+ <span class="text-syn-f">Container</span> <span class="text-syn-s">agookgc8ckkwkwww8ccsk8ok</span>  <span class="text-syn-s">Started</span>
+<span class="text-syn-f">Database</span> <span class="text-syn-s">started.</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              For configuring if the database should be exposed to the internet or not you can edit
+              in on the final dashboard. If you make it external then you will see Internal and
+              external links separately. But if it is internal(as in not exposed to internet) then
+              it can be used in environment variables for our nextjs project and it will work out of
+              the box.
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/74bc75e6-73ff-4485-8c21-1e1058fa736f.webp"
+                alt="Coolify database dashboard showing internal and external connection URLs"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              For redis also you can consider the same procedure and make it internal/external based
+              on requirements.
+            </p>
+            <p class="mt-0 mb-6">
+              Tip: If you are planning to use it for yourself then you can restrict the 8000 port of
+              your app to your IP in the networking section of your cloud provider. This will allow
+              you to work seamlessly without the threat of security.
+            </p>
+            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Conclusion
+            </h2>
+            <p class="mt-0 mb-6">
+              Switching to Coolify has been a game-changer for my deployment workflow. It&#39;s
+              fast, flexible, and gives me the control I need without the hassle. Whether you&#39;re
+              deploying a Next.js app or managing databases like Postgres and Redis, Coolify makes
+              it a breeze. Give it a try and see how it can transform your projects. Happy
+              deploying!
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/nodejs-on-ec2/"
+                >Node.js on EC2 with PM2 and NGINX</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/vscode-in-browser/"
+                >VSCode in Your Browser</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/contact-form-with-resend/"
+                >Build a Contact Form with Resend in Next.js</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

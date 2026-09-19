@@ -1,0 +1,381 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Learn how to simplify Python dependency management using Poetry with easy installation, project setup, and a FastAPI server example"
+    />
+    <link rel="canonical" href="https://pulkit.blog/python-poetry-guide/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Python Dependency Management with Poetry | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Learn how to simplify Python dependency management using Poetry with easy installation, project setup, and a FastAPI server example"
+    />
+    <meta property="og:url" content="https://pulkit.blog/python-poetry-guide/" />
+    <meta property="og:image" content="https://pulkit.blog/og/python-poetry-guide/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/python-poetry-guide/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Python Dependency Management with Poetry" />
+    <meta property="article:published_time" content="2024-07-13" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Python Dependency Management with Poetry | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Learn how to simplify Python dependency management using Poetry with easy installation, project setup, and a FastAPI server example"
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/python-poetry-guide/card.png" />
+    <meta name="twitter:image:alt" content="Python Dependency Management with Poetry" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/python-poetry-guide/#image","contentUrl":"https://pulkit.blog/og/python-poetry-guide/card.png","width":1200,"height":630,"caption":"Python Dependency Management with Poetry"},{"@type":"BlogPosting","@id":"https://pulkit.blog/python-poetry-guide/#article","headline":"Python Dependency Management with Poetry","description":"Learn how to simplify Python dependency management using Poetry with easy installation, project setup, and a FastAPI server example","datePublished":"2024-07-13","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/python-poetry-guide/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/python-poetry-guide/#image"},"url":"https://pulkit.blog/python-poetry-guide/","inLanguage":"en","keywords":["Poetry","Python","FastAPI","Package Management","Backend"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/python-poetry-guide/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Python Dependency Management with Poetry","item":"https://pulkit.blog/python-poetry-guide/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/python-poetry-guide/#webpage","url":"https://pulkit.blog/python-poetry-guide/","name":"Python Dependency Management with Poetry","description":"Learn how to simplify Python dependency management using Poetry with easy installation, project setup, and a FastAPI server example","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/python-poetry-guide/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/python-poetry-guide/#article"},"breadcrumb":{"@id":"https://pulkit.blog/python-poetry-guide/#breadcrumbs"}}]}</script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Python Dependency Management with Poetry | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Python Dependency Management with Poetry
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2024-07-13">July 13, 2024</time>
+              · 1 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              Managing Python dependencies can be hard, especially as projects get bigger. It&#39;s
+              important to have the right packages and versions installed without conflicts.
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://python-poetry.org"
+                >Poetry</a
+              >
+              helps with this. It&#39;s a tool that makes managing project dependencies, packaging,
+              and publishing easier. In this article, we&#39;ll show you how to use Poetry to manage
+              Python dependencies, make your workflow smoother, and keep your project setup clean
+              and efficient.
+            </p>
+            <p class="mt-0 mb-6">In this blog, you will learn how to:</p>
+            <ul class="mt-0 mb-6">
+              <li>Install Poetry on your system</li>
+              <li>Create a new Poetry project</li>
+              <li>How to run fastapi server with poetry</li>
+            </ul>
+            <h2
+              id="installing-poetry"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Installing Poetry
+            </h2>
+            <p class="mt-0 mb-6">
+              Reference:
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="http://python-poetry.org/docs/#installation"
+                >python-poetry.org/docs/#installation</a
+              >
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">curl -ssl https://install.python-poetry.org | python3 -
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/c573a7c1-fe3f-4d92-996d-d00a14ca3002.webp"
+                alt="Terminal showing Poetry installation"
+                loading="lazy"
+              />
+            </p>
+            <h2
+              id="create-a-new-poetry-project"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Create a new Poetry Project
+            </h2>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">poetry new awesome-project
+</code></pre>
+            <p class="mt-0 mb-6">
+              This will create a fresh poetry project with a directory structure like this
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/a24a1098-6c0e-436a-b6d3-baf7e2f21a61.webp"
+                alt="Poetry project directory structure"
+                loading="lazy"
+              />
+            </p>
+            <h3 id="pyproject-toml" class="mt-8 text-lg leading-tight tracking-tight">
+              Pyproject.toml
+            </h3>
+            <p class="mt-0 mb-6">
+              Poetry manages all the dependencies with the help of the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >pyproject.toml</code
+              >, It is similar to the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >package.json</code
+              >
+              in a node project
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">[tool.poetry]
+name = &quot;awesome-project&quot;
+version = &quot;0.1.0&quot;
+description = &quot;&quot;
+authors = [&quot;Your Name &lt;you@example.com&gt;&quot;]
+readme = &quot;README.md&quot;
+
+[tool.poetry.dependencies]
+python = &quot;^3.12&quot;
+
+
+[build-system]
+requires = [&quot;poetry-core&quot;]
+build-backend = &quot;poetry.core.masonry.api&quot;
+</code></pre>
+            <h3
+              id="activate-a-virtual-environment"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Activate a virtual environment
+            </h3>
+            <p class="mt-0 mb-6">
+              You can list all the
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.python.org/3/tutorial/venv.html"
+                >virtual environments</a
+              >
+              available in poetry
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">poetry shell
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/e4b5b000-b3fb-40ce-8a69-f448b49400c8.webp"
+                alt="Terminal showing Poetry shell activation"
+                loading="lazy"
+              />
+            </p>
+            <h2
+              id="let-s-make-a-simple-hello-world-fastapi-server"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Let&#39;s make a simple hello world FastAPI Server
+            </h2>
+            <h3
+              id="adding-fastapi-and-uvicorn-as-dependencies"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Adding fastapi and uvicorn as dependencies
+            </h3>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">poetry add fastapi uvicorn
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/ec031e29-236e-4e62-8795-9fb7c0e0ee6b.webp"
+                alt="Terminal showing FastAPI and Uvicorn installation with Poetry"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              Now if you check the pyproject.toml, fastapi and uvicorn are added as dependencies
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/fdfbc518-fe35-464e-9829-089b274f21d6.webp"
+                alt="pyproject.toml file showing added dependencies"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">Write a basic fastapi server</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-python rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">from</span> fastapi <span class="text-syn-k">import</span> FastAPI
+
+app <span class="text-syn-o">=</span> FastAPI<span class="text-syn-u">()</span>
+
+<span class="text-syn-f">@app.get</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/&quot;</span><span class="text-syn-u">)</span>
+<span class="text-syn-k">def</span> <span class="text-syn-f">read_root</span><span class="text-syn-u">():</span>
+    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span><span class="text-syn-s">&quot;message&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;Hello, World!&quot;</span><span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/8ea0f089-8cb2-4137-9159-cfe657b51cbd.webp"
+                alt="FastAPI server code in editor"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">To run the server lets start by using the following command</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-plaintext rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">poetry run uvicorn main:app --reload
+</code></pre>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/19097be8-be04-4232-b5ff-98ad69a394e2.webp"
+                alt="Terminal showing FastAPI server starting with Poetry"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">And as expected the server is in a good condition</p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/f076b941-a257-47ad-ad15-eb4665e8808f.webp"
+                alt="Browser showing Hello World response from FastAPI server"
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              By following the steps outlined in this article, you can effectively manage your
+              Python dependencies using Poetry. This powerful tool not only simplifies dependency
+              management but also enhances your workflow, ensuring that your projects remain clean,
+              efficient, and free from conflicts. Whether you&#39;re starting a new project or
+              maintaining an existing one, Poetry provides the structure and reliability needed to
+              keep your development process smooth and hassle-free. Happy coding!
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/sse-with-fastapi/"
+                >FastAPI SSE: Server-Sent Events in Python</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/aws-s3-with-nodejs/"
+                >AWS S3 with Node.js: Upload Files with SDK v3</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/creating-npx-command/"
+                >Creating Your Own npx Command</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

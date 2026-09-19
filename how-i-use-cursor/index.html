@@ -1,0 +1,919 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="A deep dive into how I use Cursor AI to ship production features faster than ever, the workflows that actually work, and why my company sponsors the Ultra plan for every engineer"
+    />
+    <link rel="canonical" href="https://pulkit.blog/how-i-use-cursor/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How I Use Cursor to Build at 1000x Speed | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="A deep dive into how I use Cursor AI to ship production features faster than ever, the workflows that actually work, and why my company sponsors the Ultra plan for every engineer"
+    />
+    <meta property="og:url" content="https://pulkit.blog/how-i-use-cursor/" />
+    <meta property="og:image" content="https://pulkit.blog/og/how-i-use-cursor/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/how-i-use-cursor/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="How I Use Cursor to Build at 1000x Speed" />
+    <meta property="article:published_time" content="2026-02-26" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How I Use Cursor to Build at 1000x Speed | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="A deep dive into how I use Cursor AI to ship production features faster than ever, the workflows that actually work, and why my company sponsors the Ultra plan for every engineer"
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/how-i-use-cursor/card.png" />
+    <meta name="twitter:image:alt" content="How I Use Cursor to Build at 1000x Speed" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/how-i-use-cursor/#image","contentUrl":"https://pulkit.blog/og/how-i-use-cursor/card.png","width":1200,"height":630,"caption":"How I Use Cursor to Build at 1000x Speed"},{"@type":"BlogPosting","@id":"https://pulkit.blog/how-i-use-cursor/#article","headline":"How I Use Cursor to Build at 1000x Speed","description":"A deep dive into how I use Cursor AI to ship production features faster than ever, the workflows that actually work, and why my company sponsors the Ultra plan for every engineer","datePublished":"2026-02-26","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/how-i-use-cursor/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/how-i-use-cursor/#image"},"url":"https://pulkit.blog/how-i-use-cursor/","inLanguage":"en","keywords":["Cursor","AI","Developer Tools","Productivity","Workflow","Web Development"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/how-i-use-cursor/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"How I Use Cursor to Build at 1000x Speed","item":"https://pulkit.blog/how-i-use-cursor/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/how-i-use-cursor/#webpage","url":"https://pulkit.blog/how-i-use-cursor/","name":"How I Use Cursor to Build at 1000x Speed","description":"A deep dive into how I use Cursor AI to ship production features faster than ever, the workflows that actually work, and why my company sponsors the Ultra plan for every engineer","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/how-i-use-cursor/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/how-i-use-cursor/#article"},"breadcrumb":{"@id":"https://pulkit.blog/how-i-use-cursor/#breadcrumbs"}}]}</script>
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/blog-media.js"></script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>How I Use Cursor to Build at 1000x Speed | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              How I Use Cursor to Build at 1000x Speed
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2026-02-26">February 26, 2026</time>
+              · 10 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              I&#39;m about to graduate in July. I started coding seriously in my freshman year, so
+              I haven&#39;t been at this for that long. And yet, before even graduating, I&#39;m
+              able to write and ship at a speed that feels insane. That&#39;s only possible because
+              of how I&#39;ve learned to use Cursor, and I owe a huge thanks to
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://www.linkedin.com/in/shashankagarwal2"
+                >Shashank Agarwal</a
+              >, our CEO, who put in so much time teaching us. He runs the dev syncs every two
+              weeks, personally onboarded each of us on Cursor, and made sure everyone on the team
+              understood the importance of AI and agentic coding. He&#39;s the one who taught us.
+            </p>
+            <div class="mt-0 mb-6 flex items-center justify-center">
+              <div class="relative mx-auto w-full max-w-[64rem]">
+                <div class="mx-auto w-full max-w-[48rem]">
+                  <section
+                    class="relative w-full"
+                    aria-roledescription="carousel"
+                    aria-label="Image carousel"
+                    data-carousel
+                  >
+                    <div class="overflow-hidden" data-carousel-viewport>
+                      <div class="-ml-4 flex">
+                        <section
+                          aria-roledescription="slide"
+                          aria-label="1 of 3"
+                          class="min-w-0 shrink-0 grow-0 basis-full pl-4"
+                          data-carousel-slide
+                        >
+                          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+                            <img
+                              src="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp"
+                              alt=""
+                              aria-hidden="true"
+                              width="1920"
+                              height="913"
+                              class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <div class="absolute inset-0 flex items-center justify-center">
+                              <a
+                                href="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp"
+                                class="block h-full w-full cursor-zoom-in"
+                                data-media-zoom
+                                data-width="1920"
+                                data-height="913"
+                                ><img
+                                  src="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp"
+                                  alt="Slide 1"
+                                  width="1920"
+                                  height="913"
+                                  class="block h-full w-full select-none object-contain"
+                                  loading="lazy"
+                                  decoding="async"
+                                /></a
+                              >
+                            </div>
+                          </div>
+                        </section>
+                        <section
+                          aria-roledescription="slide"
+                          aria-label="2 of 3"
+                          class="min-w-0 shrink-0 grow-0 basis-full pl-4"
+                          data-carousel-slide
+                        >
+                          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+                            <img
+                              src="/assets/content/blogs/how-i-use-cursor/cursor-2025.webp"
+                              alt=""
+                              aria-hidden="true"
+                              width="1080"
+                              height="1080"
+                              class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <div class="absolute inset-0 flex items-center justify-center">
+                              <a
+                                href="/assets/content/blogs/how-i-use-cursor/cursor-2025.webp"
+                                class="block h-full w-full cursor-zoom-in"
+                                data-media-zoom
+                                data-width="1080"
+                                data-height="1080"
+                                ><img
+                                  src="/assets/content/blogs/how-i-use-cursor/cursor-2025.webp"
+                                  alt="Slide 2"
+                                  width="1080"
+                                  height="1080"
+                                  class="block h-full w-full select-none object-contain"
+                                  loading="lazy"
+                                  decoding="async"
+                                /></a
+                              >
+                            </div>
+                          </div>
+                        </section>
+                        <section
+                          aria-roledescription="slide"
+                          aria-label="3 of 3"
+                          class="min-w-0 shrink-0 grow-0 basis-full pl-4"
+                          data-carousel-slide
+                        >
+                          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+                            <img
+                              src="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp"
+                              alt=""
+                              aria-hidden="true"
+                              width="1728"
+                              height="1000"
+                              class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <div class="absolute inset-0 flex items-center justify-center">
+                              <a
+                                href="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp"
+                                class="block h-full w-full cursor-zoom-in"
+                                data-media-zoom
+                                data-width="1728"
+                                data-height="1000"
+                                ><img
+                                  src="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp"
+                                  alt="Slide 3"
+                                  width="1728"
+                                  height="1000"
+                                  class="block h-full w-full select-none object-contain"
+                                  loading="lazy"
+                                  decoding="async"
+                                /></a
+                              >
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="absolute top-1/2 inline-flex size-8 p-0 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-line bg-[#000]/50 text-[#fff] shadow-[0_1px_3px_0_rgb(0_0_0/0.1),0_1px_2px_-1px_rgb(0_0_0/0.1)] transition-[color,background-color,box-shadow] duration-150 hover:bg-[#000]/75 focus-visible:outline-2 focus-visible:outline-offset-2 left-4 min-[48rem]:left-8"
+                      data-carousel-previous
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="pointer-events-none size-4 shrink-0"
+                      >
+                        <path d="m12 19-7-7 7-7" />
+                        <path d="M19 12H5" />
+                      </svg><span class="sr-only">Previous slide</span>
+                    </button><button
+                      type="button"
+                      class="absolute top-1/2 inline-flex size-8 p-0 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-line bg-[#000]/50 text-[#fff] shadow-[0_1px_3px_0_rgb(0_0_0/0.1),0_1px_2px_-1px_rgb(0_0_0/0.1)] transition-[color,background-color,box-shadow] duration-150 hover:bg-[#000]/75 focus-visible:outline-2 focus-visible:outline-offset-2 right-4 min-[48rem]:right-8"
+                      data-carousel-next
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="pointer-events-none size-4 shrink-0"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg><span class="sr-only">Next slide</span>
+                    </button>
+                    <div class="absolute right-0 bottom-3 left-0 flex justify-center">
+                      <button
+                        type="button"
+                        class="group flex h-6 min-w-6 cursor-pointer items-center justify-center border-0 bg-transparent p-0"
+                        aria-label="Go to slide 1"
+                        aria-current="true"
+                        data-carousel-dot="0"
+                      >
+                        <span
+                          class="block h-2 w-2 rounded-full bg-[#fff]/50 transition-[width,background-color] duration-150 group-aria-[current=true]:w-4 group-aria-[current=true]:bg-[#fff]"
+                        ></span>
+                      </button><button
+                        type="button"
+                        class="group flex h-6 min-w-6 cursor-pointer items-center justify-center border-0 bg-transparent p-0"
+                        aria-label="Go to slide 2"
+                        aria-current="false"
+                        data-carousel-dot="1"
+                      >
+                        <span
+                          class="block h-2 w-2 rounded-full bg-[#fff]/50 transition-[width,background-color] duration-150 group-aria-[current=true]:w-4 group-aria-[current=true]:bg-[#fff]"
+                        ></span>
+                      </button><button
+                        type="button"
+                        class="group flex h-6 min-w-6 cursor-pointer items-center justify-center border-0 bg-transparent p-0"
+                        aria-label="Go to slide 3"
+                        aria-current="false"
+                        data-carousel-dot="2"
+                      >
+                        <span
+                          class="block h-2 w-2 rounded-full bg-[#fff]/50 transition-[width,background-color] duration-150 group-aria-[current=true]:w-4 group-aria-[current=true]:bg-[#fff]"
+                        ></span>
+                      </button>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+            <p class="mt-0 mb-6">
+              I&#39;ve gone through the usual arc: VS Code with a million extensions, Vim motions
+              that made me feel like a hacker, terminal workflows that were more ritual than
+              productivity. But nothing, and I mean nothing, has changed the way I build software
+              the way Cursor has.
+            </p>
+            <p class="mt-0 mb-6">
+              This isn&#39;t a &quot;Cursor is cool&quot; post. This is a breakdown of how I
+              actually use it every day at work and on my personal projects, the specific workflows
+              that give me leverage, and the mental models that make the difference between using
+              Cursor as a fancy autocomplete and using it as a genuine force multiplier.
+            </p>
+            <h2
+              id="the-context-why-my-company-sponsors-the-ultra-plan"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Context: Why My Company Sponsors the Ultra Plan
+            </h2>
+            <p class="mt-0 mb-6">
+              I work at
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://noveum.ai"
+                >Noveum AI</a
+              >, a 7-engineer startup where customers regularly assume we&#39;re a 50-person team.
+              Recently, our CEO
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://www.linkedin.com/posts/shashankagarwal2_were-a-7-engineer-startup-customers-regularly-activity-7427177147267633153-PeFv"
+                >Shashank&#39;s post</a
+              >
+              about how we operate went viral on LinkedIn. The core idea: every developer gets a
+              company credit card with $50-200/month to spend on any AI tool they want. No approval
+              needed.
+            </p>
+            <div class="mt-0 mb-6 text-center [&_img]:mx-auto">
+              <img
+                class="mx-auto my-7 block rounded-lg w-auto h-auto max-w-full"
+                src="/assets/content/blogs/how-i-use-cursor/pricing.webp"
+                alt="Cursor individual plans pricing - Hobby (Free), Pro ($20/mo), Pro+ ($60/mo), Ultra ($200/mo)"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <br />
+            <p class="mt-0 mb-6">
+              I&#39;m fortunate enough to have the $200 Ultra plan sponsored. And it&#39;s not
+              charity, it&#39;s an investment. The output I produce with Cursor is genuinely
+              incomparable to what I was doing before. Features that used to take me days now take
+              hours. Entire modules that would&#39;ve been a week-long sprint get shipped in an
+              afternoon.
+            </p>
+            <p class="mt-0 mb-6">
+              Every two weeks, we do a &quot;Dev Sync&quot; where the team shares what&#39;s
+              working: new Cursor tricks, prompts that save time, patterns that didn&#39;t work. The
+              knowledge compounds fast when 7 people are all experimenting and sharing. This post is
+              essentially my version of that sync, but for everyone.
+            </p>
+            <h2
+              id="before-cursor-the-old-world"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Before Cursor: The Old World
+            </h2>
+            <p class="mt-0 mb-6">Let me paint the picture of what building looked like before:</p>
+            <ol class="mt-0 mb-6">
+              <li>Read docs for 30 minutes to understand an API</li>
+              <li>Write boilerplate by hand</li>
+              <li>Google the error, find a StackOverflow answer from 2019</li>
+              <li>Adapt it, break something else</li>
+              <li>Repeat</li>
+            </ol>
+            <p class="mt-0 mb-6">
+              It worked. We all did it. But looking back, so much of that time was spent on
+              <strong>translation</strong>, not <strong>thinking</strong>. I already knew what I
+              wanted to build. The bottleneck was turning that intent into code, dealing with syntax
+              I half-remembered, APIs I&#39;d used once before, and patterns I knew existed but
+              couldn&#39;t recall the exact shape of.
+            </p>
+            <p class="mt-0 mb-6">
+              Cursor eliminates the translation layer. I think, and the code appears. Not perfectly
+              every time, but close enough that I&#39;m editing instead of writing from scratch. And
+              no, it&#39;s not like I was a bad engineer before, I&#39;m a god-level engineer,
+              obviously :) I could ship without Cursor. The bottleneck was never my ability, it was
+              the speed of getting code onto the screen.
+            </p>
+            <h2
+              id="my-actual-workflow"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              My Actual Workflow
+            </h2>
+            <p class="mt-0 mb-6">
+              Here&#39;s how I use Cursor on a typical day. Not the theoretical &quot;you could do
+              this&quot; stuff, but what I actually do.
+            </p>
+            <h3
+              id="section-1-start-with-context-not-code"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              1. Start With Context, Not Code
+            </h3>
+            <p class="mt-0 mb-6">
+              The biggest mistake people make with Cursor is jumping straight into asking it to
+              write code. I always start by giving it context.
+            </p>
+            <p class="mt-0 mb-6">When I open a new task, I&#39;ll usually:</p>
+            <ul class="mt-0 mb-6">
+              <li>Open the relevant files that touch what I&#39;m building</li>
+              <li>
+                Reference them with
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >@</code
+                >
+                in the chat
+              </li>
+              <li>
+                Describe the feature I&#39;m building in plain English, including edge cases and
+                constraints. I use
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="http://wisprflow.ai"
+                  >Wisprflow</a
+                >
+                and blab every single thought in my head, no filter, no structure, just stream of
+                consciousness untill Cursor has enough context
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              Speaking is faster than typing. I can get my thoughts out way faster by talking than
+              by breaking the keyboard. I don&#39;t have a 100 wpm typing speed, so judge me all you
+              want. Voice input is my cheat code.
+            </p>
+            <p class="mt-0 mb-6">Something like:</p>
+            <blockquote class="mx-0 mt-0 mb-6 border-l-2 border-line pl-5 text-muted">
+              <p class="mt-0 mb-6">
+                I&#39;m adding a rate limiter to our API routes. We use Hono on Next.js with Redis
+                for state. The rate limit should be per-user based on thier API key, with a sliding
+                window of 60 seconds and a max of 100 requests. It needs to return proper 429
+                responses with retry-after headers.
+              </p>
+            </blockquote>
+            <p class="mt-0 mb-6">
+              This is way more effective than saying &quot;add rate limiting&quot;. The specificity
+              of the prompt directly correlates with the quality of the output.
+            </p>
+            <h3 id="section-2-plan-mode-first" class="mt-8 text-lg leading-tight tracking-tight">
+              2. Plan Mode First
+            </h3>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/how-i-use-cursor/plan-mode.webp"
+                alt=""
+                loading="lazy"
+              />
+            </p>
+            <p class="mt-0 mb-6">
+              Use
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                ><svg
+                  class="inline-block size-4 align-middle"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"
+                  />
+                </svg>
+                + .</code
+              >
+              to switch modes in Cursor. I always start with
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://cursor.com/blog/plan-mode"
+                >Plan mode</a
+              >. It&#39;s similar to Ask, but instead of jumping straight into code(like it is in
+              Agent mode), Plan mode edits a single markdown file and spits out a step-by-step flow
+              of how it&#39;ll build. You get a clear execution plan before any code gets written.
+              Review it, tweak the order if something doesn&#39;t make sense, and keep iterating on
+              the plan it makes till you&#39;re satisfied with it. Only then switch to Agent mode to
+              execute. It&#39;s like having a blueprint before breaking ground. Saves me from
+              backtracking when the agent goes down a path I didn&#39;t want.
+            </p>
+            <h3
+              id="section-3-agent-mode-for-greenfield-tab-for-everything-else"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              3. Agent Mode for Greenfield, Tab for Everything Else
+            </h3>
+            <p class="mt-0 mb-6">I use two modes almost exclusively:</p>
+            <p class="mt-0 mb-6">
+              <strong>Agent mode</strong>
+              when I&#39;m building something new. A new component, a new API route, a new utility.
+              Agent mode is incredible for greenfield work because it can create files, install
+              dependencies, and wire things together across your codebase. I&#39;ll describe what I
+              want, point it at the right directories, and let it work.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Tab completion</strong>
+              for everything else. When I&#39;m editing existing code, fixing bugs, or making small
+              changes, Cursor&#39;s tab completion is shockingly good. It reads the context of what
+              you&#39;re doing and suggests the next logical chunk. Not just the next line, but
+              often entire blocks that are exactly what you need.
+            </p>
+            <p class="mt-0 mb-6">
+              I almost never use the inline edit
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                ><svg
+                  class="inline-block size-4 align-middle"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"
+                  />
+                </svg>
+                + K</code
+              >
+              anymore. Agent mode or tab, that&#39;s it.
+            </p>
+            <h3
+              id="section-4-rules-are-everything"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              4. Rules Are Everything
+            </h3>
+            <p class="mt-0 mb-6">
+              This is probably the single most impactful thing I&#39;ve done with Cursor. I have a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >.cursor/rules</code
+              >
+              directory in every project with specific rules for the codebase.
+            </p>
+            <p class="mt-0 mb-6">My rules cover things like:</p>
+            <ul class="mt-0 mb-6">
+              <li>The coding style (functional components, no classes, no enums)</li>
+              <li>
+                Which libraries to prefer (Shadcn over custom components, Tailwind for styling)
+              </li>
+              <li>How to structure files</li>
+              <li>Naming conventions</li>
+              <li>Performance patterns to follow</li>
+              <li>
+                Community rules from
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="https://skills.sh"
+                  >skills.sh</a
+                >, install pre-built skills with
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >npx skills add owner/repo</code
+                >
+                to add React best practices, web design guidelines, and more
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              When Cursor knows the rules of your codebase, it stops generating generic code and
+              starts generating code that actually fits. The difference is night and day.
+            </p>
+            <h3 id="section-5-model-selection" class="mt-8 text-lg leading-tight tracking-tight">
+              5. Model Selection
+            </h3>
+            <p class="mt-0 mb-6">
+              Not all models are equal, and not every task needs the most expensive one. Be aware of
+              both the cost and the type of task you&#39;re doing.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Opus 4.6</strong>
+              is a great model for planning and reasoning. But if you use it for Agent mode -
+              long-running tasks where it&#39;s creating files, running commands, iterating across
+              your codebase - it will burn through your credits fast. Save the heavy models for the
+              thinking work, not the grunt work.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>For design tasks</strong>, try Gemini 3 or GPT 5.2. At this point in time,
+              these models tend to produce better design outputs - layouts, UI suggestions, visual
+              structure. Match the model to the job.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Cost awareness matters.</strong>
+              If you default to expensive models like Opus or ChatGPT&#39;s top-tier options for
+              everything, you&#39;ll blow through your credits before the month ends. Use cheaper
+              models for simple edits, tab completion, and routine tasks. Reserve the premium models
+              for complex architecture decisions, tricky debugging, and tasks where the extra
+              capability actually pays off.
+            </p>
+            <p class="mt-0 mb-6">
+              A common pattern I use: Plan mode with Opus 4.6 to think through the approach and get
+              a solid blueprint, then switch to cheaper models like Auto or others when Agent mode
+              executes. Let the expensive model do the thinking, let the cheaper one do the typing.
+            </p>
+            <h3
+              id="section-6-patterns-that-actually-work"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              6. Patterns That Actually Work!!
+            </h3>
+            <p class="mt-0 mb-6">
+              This one&#39;s probably the best and most actionable one, stick to it!!
+            </p>
+            <p class="mt-0 mb-6">
+              I use source control, for the longest time ever I&#39;ve been that guys who used to
+              enjoy writing git commands, but with the adoption to these AI tools like cursor,
+              claude code etc. I have started leaning towards using source control. It just gives me
+              better and faster visualization of the changes I&#39;m making with agents.
+            </p>
+            <p class="mt-0 mb-6">
+              So let&#39;s say I am doing a task with cursor/or whatever agent and I keep iterating
+              with it on and on. So how do I keep track of the changes I&#39;m making? I use source
+              control. Even while writing this blog I am using source control.
+            </p>
+            <div class="mt-0 mb-6 text-center [&_img]:mx-auto">
+              <img
+                class="mx-auto my-7 block rounded-lg w-auto h-auto max-w-full"
+                src="/assets/content/blogs/how-i-use-cursor/using-source-control.webp"
+                alt="Using source control to track agent changes"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <p class="mt-0 mb-6">
+              I keep staging/commiting changes regularly, so that I can always go back to a previous
+              version if I need to. This also helps me to understand the changes agent is making and
+              why it made them. This also helps in faster rollbacks, I know cursor have a better way
+              to do this.
+            </p>
+            <div class="mt-0 mb-6 text-center [&_img]:mx-auto">
+              <img
+                class="mx-auto my-7 block rounded-lg w-auto h-auto max-w-full"
+                src="/assets/content/blogs/how-i-use-cursor/rollback.webp"
+                alt="Cursor rollback UI for reverting agent changes"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <p class="mt-0 mb-6">
+              I usually run around &gt;4-5 agents and keeping track of the changes I&#39;m making
+              with all of them :) <br />
+              Good luck doing that without source control!!
+            </p>
+            <p class="mt-0 mb-6">
+              You can also try using different mcp servers, recently they caused me a hell lot of
+              issues in cursor so I refrain from using them!! But If they work out for you, go for
+              it!!
+            </p>
+            <div class="mt-0 mb-6 text-center [&_img]:mx-auto">
+              <img
+                class="mx-auto my-7 block rounded-lg w-auto h-auto max-w-full"
+                src="/assets/content/blogs/how-i-use-cursor/mail.webp"
+                alt="Cursor mail or notification UI"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <h3
+              id="section-7-don-t-accept-blindly"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              7. Don&#39;t Accept Blindly
+            </h3>
+            <p class="mt-0 mb-6">
+              This is critical. I read every line Cursor generates before accepting it. Not because
+              I don&#39;t trust it, but because:
+            </p>
+            <ul class="mt-0 mb-6">
+              <li>It catches the 10% of the time when the output is subtly wrong</li>
+              <li>I learn patterns I didn&#39;t know about</li>
+              <li>I maintain a mental model of my codebase</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              The developers who get burned by AI tools are the ones who accept everything without
+              reading. You&#39;re the architect, Cursor is the builder. The architect still needs to
+              review the blueprints.
+            </p>
+            <h2
+              id="what-1000x-actually-means"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              What 1000x Actually Means
+            </h2>
+            <p class="mt-0 mb-6">
+              When I say 1000x, people think I&#39;m exaggerating. Let me be specific about what I
+              mean.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>It&#39;s not that I write code 1000x faster.</strong>
+              It&#39;s that the entire feedback loop is compressed.
+            </p>
+            <p class="mt-0 mb-6">Before Cursor:</p>
+            <ul class="mt-0 mb-6">
+              <li>Think about what to build → 10 min</li>
+              <li>Look up the API/pattern → 20 min</li>
+              <li>Write the code → 40 min</li>
+              <li>Debug issues → 30 min</li>
+              <li>Write tests → 20 min</li>
+              <li><strong>Total: ~2 hours</strong></li>
+            </ul>
+            <p class="mt-0 mb-6">With Cursor:</p>
+            <ul class="mt-0 mb-6">
+              <li>Think about what to build → 10 min (this doesn&#39;t change)</li>
+              <li>Describe it to Cursor with context → 2 min</li>
+              <li>Review and refine the output → 10 min</li>
+              <li>Tests are already written → 0 min</li>
+              <li><strong>Total: ~22 minutes</strong></li>
+            </ul>
+            <p class="mt-0 mb-6">
+              For a single feature, that&#39;s roughly a 5x speedup. But the real multiplier comes
+              from compounding: I can now attempt things I wouldn&#39;t have before. A feature that
+              would&#39;ve taken 3 days? I&#39;ll try it in an afternoon. If it doesn&#39;t work,
+              I&#39;ve lost 3 hours instead of 3 days.
+            </p>
+            <p class="mt-0 mb-6">
+              The willingness to experiment, to build and throw away, to try ambitious approaches,
+              that&#39;s where the 1000x feeling comes from. It&#39;s not just speed, it&#39;s
+              expanded scope.
+            </p>
+            <h2
+              id="the-human-part-that-still-matters"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Human Part That Still Matters
+            </h2>
+            <p class="mt-0 mb-6">
+              Despite everything I&#39;ve said, here&#39;s what Cursor can&#39;t do:
+            </p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong>Understand your users.</strong>
+                It doesn&#39;t know why a feature matters or who it&#39;s for.
+              </li>
+              <li>
+                <strong>Make product decisions.</strong>
+                It can&#39;t decide what to build, only how.
+              </li>
+              <li>
+                <strong>Debug production issues.</strong>
+                It can help analyze logs, but it can&#39;t reason about distributed system failures
+                the way an experianced engineer can.
+              </li>
+              <li>
+                <strong>Review its own work critically.</strong>
+                You need to be the quality gate.
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              The best way I can describe it: Cursor handles the &quot;what&quot; and
+              &quot;how&quot; of coding. You still own the &quot;why&quot; and &quot;whether&quot;.
+            </p>
+            <h2
+              id="getting-started-if-you-re-new"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Getting Started If You&#39;re New
+            </h2>
+            <p class="mt-0 mb-6">
+              If you&#39;re reading this and haven&#39;t tried Cursor yet, here&#39;s my
+              recomendation:
+            </p>
+            <ol class="mt-0 mb-6">
+              <li>
+                <strong>Start with tab completion.</strong>
+                Just use it as a VS Code replacement and let tab do its thing. You&#39;ll be
+                impressed in the first hour.
+              </li>
+              <li>
+                <strong>Try Agent mode on a side project.</strong>
+                Build something small end-to-end. A CLI tool, a simple API, a component library.
+              </li>
+              <li>
+                <strong>Set up rules for your main project.</strong>
+                Even 10 lines of rules will noticeably improve output quality.
+              </li>
+              <li>
+                <strong>Share what works with your team.</strong>
+                The compounding effect of a whole team learning together is massive.
+              </li>
+            </ol>
+            <p class="mt-0 mb-6">
+              Can&#39;t afford it or your company won&#39;t sponsor it? Get the $20 Pro plan anyway.
+              It&#39;s one of the best investments you can make in yourself, you won&#39;t regret
+              it.
+            </p>
+            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Wrapping Up
+            </h2>
+            <p class="mt-0 mb-6">
+              A year ago, I was skeptical about AI coding tools. Today, I can&#39;t imagine going
+              back. Cursor hasn&#39;t made me a worse programmer, it&#39;s made me a more ambitious
+              one. I take on bigger projects, ship faster, and spend more time on the parts of
+              engineering that actually require human judgment.
+            </p>
+            <p class="mt-0 mb-6">
+              Sure, if I coded without AI now, it&#39;d take me longer. I might not remember
+              concepts as well as I did in pre-AI times. But code is no longer the leverage, ideas
+              are. So go out and build stuff.
+            </p>
+            <p class="mt-0 mb-6">
+              If your company isn&#39;t sponsoring AI tools for developers yet, show them the math.
+              A $200/month tool that makes each engineer even 3x more productive is the highest-ROI
+              investment in the entire tech budget.
+            </p>
+            <p class="mt-0 mb-6">
+              And if you&#39;re already using Cursor but feel like you&#39;re not getting the full
+              value, revisit your rules, be more specific with your prompts, and stop accepting code
+              you haven&#39;t read.
+            </p>
+            <p class="mt-0 mb-6">
+              If you want personalized Cursor tips or suggestions for your workflow, reach out.
+              I&#39;m happy to help. You can find all my socials and
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://pulkit.page/contact/"
+                >contact form</a
+              >.
+            </p>
+            <p class="mt-0 mb-6">Happy building!</p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/git-worktrees/"
+                >Git Worktrees</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/git-partial-clones/"
+                >Partial Clones, Shallow Clones, and Sparse Checkout</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/contact-form-with-resend/"
+                >Build a Contact Form with Resend in Next.js</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

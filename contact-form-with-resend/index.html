@@ -1,0 +1,746 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Build a Resend contact form in Next.js using Server Actions and React email templates, then verify a custom domain to reach the inbox."
+    />
+    <link rel="canonical" href="https://pulkit.blog/contact-form-with-resend/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Build a Contact Form with Resend in Next.js | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Build a Resend contact form in Next.js using Server Actions and React email templates, then verify a custom domain to reach the inbox."
+    />
+    <meta property="og:url" content="https://pulkit.blog/contact-form-with-resend/" />
+    <meta property="og:image" content="https://pulkit.blog/og/contact-form-with-resend/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/contact-form-with-resend/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Build a Contact Form with Resend in Next.js" />
+    <meta property="article:published_time" content="2024-12-13" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Build a Contact Form with Resend in Next.js | pulkit.blog"
+    />
+    <meta
+      name="twitter:description"
+      content="Build a Resend contact form in Next.js using Server Actions and React email templates, then verify a custom domain to reach the inbox."
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/contact-form-with-resend/card.png" />
+    <meta name="twitter:image:alt" content="Build a Contact Form with Resend in Next.js" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/contact-form-with-resend/#image","contentUrl":"https://pulkit.blog/og/contact-form-with-resend/card.png","width":1200,"height":630,"caption":"Build a Contact Form with Resend in Next.js"},{"@type":"BlogPosting","@id":"https://pulkit.blog/contact-form-with-resend/#article","headline":"Build a Contact Form with Resend in Next.js","description":"Build a Resend contact form in Next.js using Server Actions and React email templates, then verify a custom domain to reach the inbox.","datePublished":"2024-12-13","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/contact-form-with-resend/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/contact-form-with-resend/#image"},"url":"https://pulkit.blog/contact-form-with-resend/","inLanguage":"en","keywords":["Resend","Contact Form","Next.js","Email","Server Actions","Resend API","Web Development"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/contact-form-with-resend/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Build a Contact Form with Resend in Next.js","item":"https://pulkit.blog/contact-form-with-resend/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/contact-form-with-resend/#webpage","url":"https://pulkit.blog/contact-form-with-resend/","name":"Build a Contact Form with Resend in Next.js","description":"Build a Resend contact form in Next.js using Server Actions and React email templates, then verify a custom domain to reach the inbox.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/contact-form-with-resend/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/contact-form-with-resend/#article"},"breadcrumb":{"@id":"https://pulkit.blog/contact-form-with-resend/#breadcrumbs"}}]}</script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Build a Contact Form with Resend in Next.js | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Build a Contact Form with Resend in Next.js
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2024-12-13">December 13, 2024</time>
+              · 4 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              Sending emails is a common feature in web applications, whether for user signups,
+              notifications, or transactional purposes. In this guide, we’ll explore how to
+              integrate Resend, a developer-friendly email API, into a Next.js application for
+              seamless email delivery.
+            </p>
+            <h2
+              id="what-is-resend"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              <strong>What is Resend?</strong>
+            </h2>
+            <blockquote class="mx-0 mt-0 mb-6 border-l-2 border-line pl-5 text-muted">
+              <p class="mt-0 mb-6">
+                Resend is
+                <strong
+                  >a software development company that specializes in providing developer-focused
+                  email solutions</strong
+                >. The company offers an email API for developers, enabling them to build, test, and
+                send transactional emails at scale.
+              </p>
+            </blockquote>
+            <p class="mt-0 mb-6">
+              I&#39;m quite particular about my portfolio, and while browsing through some developer
+              portfolios online, I noticed that most of them had a contact section with a form in
+              addition to contact links. This led me to research some good email solutions.
+              Initially, I tried
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://www.emailjs.com"
+                >emailjs</a
+              >, but its free tier was pretty basic. That&#39;s how I eventually discovered Resend.
+            </p>
+            <p class="mt-0 mb-6">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://pulkitxm.com/contact"
+                ><img
+                  class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                  src="/assets/content/blogs/emails-with-resend/fb91fd24-5e0d-463d-90c9-223671d3db5c.webp"
+                  alt="Contact form on portfolio website"
+                  loading="lazy"
+                /></a
+              >
+            </p>
+            <p class="mt-0 mb-6">
+              So let me show you how you can easily integrate an awesome contact form into your
+              Next.js project!
+            </p>
+            <h2
+              id="setting-up-the-environment"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Setting Up the Environment
+            </h2>
+            <h3 id="create-a-new-next-js-app" class="mt-8 text-lg leading-tight tracking-tight">
+              Create a New Next.js App
+            </h3>
+            <p class="mt-0 mb-6">
+              Let&#39;s first set up a new Next.js project. You can follow along if you already have
+              one too!
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpx</span> <span class="text-syn-s">create-next-app</span> <span class="text-syn-s">resend-demo</span>
+</code></pre>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pulkit@pulkit-tuf:~/Desktop/resend-demo</span> <span class="text-syn-s">pnpx</span> <span class="text-syn-s">create-next-app</span> <span class="text-syn-s">resend-demo</span>
+<span class="text-syn-f">&#10004;</span> <span class="text-syn-s">Would</span> <span class="text-syn-s">you</span> <span class="text-syn-s">like</span> <span class="text-syn-s">to</span> <span class="text-syn-s">use</span> <span class="text-syn-s">TypeScript?</span> <span class="text-syn-s">…</span> <span class="text-syn-s">No</span> <span class="text-syn-s">/</span> <span class="text-syn-s">Yes</span>
+<span class="text-syn-f">&#10004;</span> <span class="text-syn-s">Would</span> <span class="text-syn-s">you</span> <span class="text-syn-s">like</span> <span class="text-syn-s">to</span> <span class="text-syn-s">use</span> <span class="text-syn-s">ESLint?</span> <span class="text-syn-s">…</span> <span class="text-syn-s">No</span> <span class="text-syn-s">/</span> <span class="text-syn-s">Yes</span>
+<span class="text-syn-f">&#10004;</span> <span class="text-syn-s">Would</span> <span class="text-syn-s">you</span> <span class="text-syn-s">like</span> <span class="text-syn-s">to</span> <span class="text-syn-s">use</span> <span class="text-syn-s">Tailwind</span> <span class="text-syn-s">CSS?</span> <span class="text-syn-s">…</span> <span class="text-syn-s">No</span> <span class="text-syn-s">/</span> <span class="text-syn-s">Yes</span>
+<span class="text-syn-f">&#10004;</span> <span class="text-syn-s">Would</span> <span class="text-syn-s">you</span> <span class="text-syn-s">like</span> <span class="text-syn-s">your</span> <span class="text-syn-s">code</span> <span class="text-syn-s">inside</span> <span class="text-syn-s">a</span> <span class="text-syn-s">`src/`</span> <span class="text-syn-f">directory?</span> <span class="text-syn-s">…</span> <span class="text-syn-s">No</span> <span class="text-syn-s">/</span> <span class="text-syn-s">Yes</span>
+<span class="text-syn-f">&#10004;</span> <span class="text-syn-s">Would</span> <span class="text-syn-s">you</span> <span class="text-syn-s">like</span> <span class="text-syn-s">to</span> <span class="text-syn-s">use</span> <span class="text-syn-s">App</span> <span class="text-syn-s">Router?</span> (recommended) … No / Yes
+<span class="text-syn-f">&#10004;</span> <span class="text-syn-s">Would</span> <span class="text-syn-s">you</span> <span class="text-syn-s">like</span> <span class="text-syn-s">to</span> <span class="text-syn-s">use</span> <span class="text-syn-s">Turbopack</span> <span class="text-syn-s">for</span> <span class="text-syn-s">`next dev`</span><span class="text-syn-o">?</span> … No / Yes
+<span class="text-syn-f">&#10004;</span> <span class="text-syn-s">Would</span> <span class="text-syn-s">you</span> <span class="text-syn-s">like</span> <span class="text-syn-s">to</span> <span class="text-syn-s">customize</span> <span class="text-syn-s">the</span> <span class="text-syn-s">import</span> <span class="text-syn-s">alias</span> (<span class="text-syn-s">`@/*`</span> <span class="text-syn-f">by</span> <span class="text-syn-s">default</span>)<span class="text-syn-o">?</span> … No / Yes
+<span class="text-syn-f">Creating</span> <span class="text-syn-s">a</span> <span class="text-syn-s">new</span> <span class="text-syn-s">Next.js</span> <span class="text-syn-s">app</span> <span class="text-syn-s">in</span> <span class="text-syn-s">~/Desktop/resend-demo.</span>
+</code></pre>
+            <p class="mt-0 mb-6">Once the setup is complete, navigate to the project directory:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">cd</span> <span class="text-syn-s">resend-demo</span>
+<span class="text-syn-f">pnpm</span> <span class="text-syn-s">dev</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Open
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="http://localhost:3000"
+                >http://localhost:3000</a
+              >
+              in your browser. You should see the default Next.js welcome page.
+            </p>
+            <h3
+              id="install-required-dependencies"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Install Required Dependencies
+            </h3>
+            <p class="mt-0 mb-6">Next, install the Resend SDK to integrate email functionality:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">resend</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This package will allow us to interact with Resend&#39;s API effortlessly.
+            </p>
+            <h3 id="set-up-environment-variables" class="mt-8 text-lg leading-tight tracking-tight">
+              Set Up Environment Variables
+            </h3>
+            <p class="mt-0 mb-6">
+              To securely use the Resend API, you&#39;ll need an API key. Follow these steps:
+            </p>
+            <ol class="mt-0 mb-6">
+              <li class="[&>p]:mb-2">
+                <p class="mt-0 mb-6">
+                  Visit
+                  <a
+                    class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                    href="https://resend.com"
+                    ><strong>resend.com</strong></a
+                  >
+                  and create an account if you haven&#39;t already.
+                </p>
+              </li>
+              <li class="[&>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>Generate an API Key</strong>:</p>
+                <ul class="mt-0 mb-6">
+                  <li>
+                    Navigate to the API keys section in your dashboard or go directly to
+                    <a
+                      class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                      href="https://resend.com/api-keys"
+                      >resend.com/api-keys</a
+                    >.
+                  </li>
+                  <li>
+                    Click on
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >Create API key</code
+                    >
+                    to generate a new key.
+                    <img
+                      class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                      src="/assets/content/blogs/emails-with-resend/957f2ab3-d003-4467-900a-03c6abbd3d7b.webp"
+                      alt="Resend API keys page with create button"
+                      loading="lazy"
+                    />
+                    <ul class="mt-0 mb-6">
+                      <li>
+                        Copy the generated API key for later use.
+                        <img
+                          class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                          src="/assets/content/blogs/emails-with-resend/faf1f878-5818-441e-a6b1-1b8c9527e1bf.webp"
+                          alt="Generated API key displayed on Resend dashboard"
+                          loading="lazy"
+                        />
+                      </li>
+                      <li>
+                        Add the key to a
+                        <code
+                          class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                          >.env</code
+                        >
+                        file in your project root
+                        <pre
+                          tabindex="0"
+                          class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+                        ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">RESEND_API_KEY<span class="text-syn-o">=</span><span class="text-syn-s">your-resend-api-key</span>
+</code></pre>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ol>
+            <h2
+              id="implementing-email-sending-in-next-js"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Implementing Email Sending in Next.js
+            </h2>
+            <p class="mt-0 mb-6">
+              Now, let&#39;s focus on implementing email sending functionality in our Next.js
+              application. This process involves integrating the Resend SDK, which we installed
+              earlier, to seamlessly interact with Resend&#39;s API. By doing so, we can send emails
+              directly from our application, enhancing its communication capabilities.
+            </p>
+            <h3
+              id="building-a-basic-contact-form"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              Building a Basic Contact Form
+            </h3>
+            <p class="mt-0 mb-6">
+              Before diving into sending emails, let’s create a basic contact form as our frontend
+              interface. This form will allow users to enter their name, email, and message. Once
+              submitted, we’ll handle the backend functionality to send emails via Resend.
+            </p>
+            <blockquote class="mx-0 mt-0 mb-6 border-l-2 border-line pl-5 text-muted">
+              <p class="mt-0 mb-6">
+                The below snippet defines a
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >ContactForm</code
+                >
+                component, managing form inputs for name, email, and message with state hooks. It
+                includes a submit handler that simulates sending a message with a loading animation,
+                using
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="https://ui.shadcn.com"
+                  >shadcn</a
+                >
+                components and icons for a polished user interface. The form provides feedback on
+                submission status with conditional rendering and animations.
+              </p>
+            </blockquote>
+            <p class="mt-0 mb-6">Before copying and pasting, please install the dependencies.</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpx</span> <span class="text-syn-s">shadcn</span> <span class="text-syn-s">add</span> <span class="text-syn-s">input</span> <span class="text-syn-s">textarea</span> <span class="text-syn-s">button</span> <span class="text-syn-s">label</span>
+<span class="text-syn-c italic">#lucid-icons are installed along these</span>
+</code></pre>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// src/components/ContactForm.tsx</span>
+<span class="text-syn-s">&quot;use client&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useCallback<span class="text-syn-u">,</span> useState <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span>
+<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Input <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@/components/ui/input&quot;</span><span class="text-syn-u">;</span>
+<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Textarea <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@/components/ui/textarea&quot;</span><span class="text-syn-u">;</span>
+<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Button <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@/components/ui/button&quot;</span><span class="text-syn-u">;</span>
+<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Label <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@/components/ui/label&quot;</span><span class="text-syn-u">;</span>
+<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Mail<span class="text-syn-u">,</span> MessageSquare<span class="text-syn-u">,</span> Send<span class="text-syn-u">,</span> User <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;lucide-react&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContactForm</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>formInputs<span class="text-syn-u">,</span> setFormInputs<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">({</span>
+    <span class="text-syn-p">name:</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">email:</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">message:</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-u">});</span>
+  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>isSubmitting<span class="text-syn-u">,</span> setIsSubmitting<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span>
+  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>isSubmitted<span class="text-syn-u">,</span> setIsSubmitted<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span>
+
+  <span class="text-syn-k">const</span> handleSendMessage <span class="text-syn-o">=</span> <span class="text-syn-f">useCallback</span><span class="text-syn-u">(</span>
+    <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>e<span class="text-syn-o">:</span> <span class="text-syn-t">React</span><span class="text-syn-u">.</span><span class="text-syn-t">FormEvent</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+      e<span class="text-syn-u">.</span><span class="text-syn-f">preventDefault</span><span class="text-syn-u">();</span>
+      <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">name</span> <span class="text-syn-o">||</span> <span class="text-syn-o">!</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">email</span> <span class="text-syn-o">||</span> <span class="text-syn-o">!</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">message</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span><span class="text-syn-u">;</span>
+
+      <span class="text-syn-f">setIsSubmitting</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span>
+
+      <span class="text-syn-k">try</span> <span class="text-syn-u">{</span>
+        <span class="text-syn-k">await</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> <span class="text-syn-n">2000</span><span class="text-syn-u">));</span>
+        <span class="text-syn-f">setIsSubmitted</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span>
+      <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">(</span>error<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+        console<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Failed to send email:&quot;</span><span class="text-syn-u">,</span> error<span class="text-syn-u">);</span>
+      <span class="text-syn-u">}</span> <span class="text-syn-k">finally</span> <span class="text-syn-u">{</span>
+        <span class="text-syn-f">setIsSubmitting</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span>
+      <span class="text-syn-u">}</span>
+    <span class="text-syn-u">},</span>
+    <span class="text-syn-u">[</span>formInputs<span class="text-syn-u">],</span>
+  <span class="text-syn-u">);</span>
+
+  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
+    <span class="text-syn-u">&lt;</span><span class="text-syn-g">form</span>
+      <span class="text-syn-p">onSubmit</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>handleSendMessage<span class="text-syn-u">}</span>
+      <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;mx-auto max-w-4xl space-y-4 px-4 sm:px-6 lg:px-8 min-w-[600px]&quot;</span>
+    <span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;space-y-2&quot;</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Label</span> <span class="text-syn-p">htmlFor</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;name&quot;</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-gray-300&quot;</span><span class="text-syn-u">&gt;</span>
+          Name
+        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Label</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;relative&quot;</span><span class="text-syn-u">&gt;</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">User</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400&quot;</span> <span class="text-syn-u">/&gt;</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">Input</span>
+            <span class="text-syn-p">type</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;text&quot;</span>
+            <span class="text-syn-p">value</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">}</span>
+            <span class="text-syn-p">onChange</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span>
+              <span class="text-syn-f">setFormInputs</span><span class="text-syn-u">((</span>prev<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span>
+                <span class="text-syn-o">...</span>prev<span class="text-syn-u">,</span>
+                <span class="text-syn-p">name:</span> e<span class="text-syn-u">.</span>target<span class="text-syn-u">.</span><span class="text-syn-p">value</span><span class="text-syn-u">,</span>
+              <span class="text-syn-u">}))</span>
+            <span class="text-syn-u">}</span>
+            <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span>
+            <span class="text-syn-p">placeholder</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;John Doe&quot;</span>
+            <span class="text-syn-p">required</span>
+          <span class="text-syn-u">/&gt;</span>
+        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+
+      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;space-y-2&quot;</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Label</span> <span class="text-syn-p">htmlFor</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;email&quot;</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-gray-300&quot;</span><span class="text-syn-u">&gt;</span>
+          Email
+        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Label</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;relative&quot;</span><span class="text-syn-u">&gt;</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">Mail</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400&quot;</span> <span class="text-syn-u">/&gt;</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">Input</span>
+            <span class="text-syn-p">type</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;email&quot;</span>
+            <span class="text-syn-p">value</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">email</span><span class="text-syn-u">}</span>
+            <span class="text-syn-p">onChange</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span>
+              <span class="text-syn-f">setFormInputs</span><span class="text-syn-u">((</span>prev<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span>
+                <span class="text-syn-o">...</span>prev<span class="text-syn-u">,</span>
+                <span class="text-syn-p">email:</span> e<span class="text-syn-u">.</span>target<span class="text-syn-u">.</span><span class="text-syn-p">value</span><span class="text-syn-u">,</span>
+              <span class="text-syn-u">}))</span>
+            <span class="text-syn-u">}</span>
+            <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span>
+            <span class="text-syn-p">placeholder</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;john@example.com&quot;</span>
+            <span class="text-syn-p">required</span>
+          <span class="text-syn-u">/&gt;</span>
+        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+
+      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;space-y-2&quot;</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Label</span> <span class="text-syn-p">htmlFor</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;message&quot;</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-gray-300&quot;</span><span class="text-syn-u">&gt;</span>
+          Message
+        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Label</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;relative&quot;</span><span class="text-syn-u">&gt;</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">MessageSquare</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;absolute left-3 top-3 h-4 w-4 text-gray-400&quot;</span> <span class="text-syn-u">/&gt;</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">Textarea</span>
+            <span class="text-syn-p">value</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">message</span><span class="text-syn-u">}</span>
+            <span class="text-syn-p">onChange</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span>
+              <span class="text-syn-f">setFormInputs</span><span class="text-syn-u">((</span>prev<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span>
+                <span class="text-syn-o">...</span>prev<span class="text-syn-u">,</span>
+                <span class="text-syn-p">message:</span> e<span class="text-syn-u">.</span>target<span class="text-syn-u">.</span><span class="text-syn-p">value</span><span class="text-syn-u">,</span>
+              <span class="text-syn-u">}))</span>
+            <span class="text-syn-u">}</span>
+            <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;min-h-[120px] border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span>
+            <span class="text-syn-p">placeholder</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;Your message here...&quot;</span>
+            <span class="text-syn-p">required</span>
+          <span class="text-syn-u">/&gt;</span>
+        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+
+      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Button</span>
+        <span class="text-syn-p">type</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;submit&quot;</span>
+        <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;w-full bg-white text-black hover:bg-white/90&quot;</span>
+        <span class="text-syn-p">disabled</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>isSubmitting <span class="text-syn-o">||</span> isSubmitted<span class="text-syn-u">}</span>
+      <span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">{</span>isSubmitting <span class="text-syn-o">?</span> <span class="text-syn-u">(</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">span</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;flex items-center gap-2&quot;</span><span class="text-syn-u">&gt;</span>
+            Sending...
+            <span class="text-syn-u">&lt;</span><span class="text-syn-g">span</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;animate-spin&quot;</span><span class="text-syn-u">&gt;</span>⏳<span class="text-syn-u">&lt;/</span><span class="text-syn-g">span</span><span class="text-syn-u">&gt;</span>
+          <span class="text-syn-u">&lt;/</span><span class="text-syn-g">span</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">)</span> <span class="text-syn-o">:</span> isSubmitted <span class="text-syn-o">?</span> <span class="text-syn-u">(</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">span</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;flex items-center gap-2&quot;</span><span class="text-syn-u">&gt;</span>
+            Thanks
+            <span class="text-syn-u">&lt;</span><span class="text-syn-g">span</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;animate-pulse&quot;</span><span class="text-syn-u">&gt;</span>✨<span class="text-syn-u">&lt;/</span><span class="text-syn-g">span</span><span class="text-syn-u">&gt;</span>
+          <span class="text-syn-u">&lt;/</span><span class="text-syn-g">span</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">)</span> <span class="text-syn-o">:</span> <span class="text-syn-u">(</span>
+          <span class="text-syn-u">&lt;</span><span class="text-syn-g">span</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;flex items-center gap-2&quot;</span><span class="text-syn-u">&gt;</span>
+            Send Message
+            <span class="text-syn-u">&lt;</span><span class="text-syn-g">Send</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;h-4 w-4&quot;</span> <span class="text-syn-u">/&gt;</span>
+          <span class="text-syn-u">&lt;/</span><span class="text-syn-g">span</span><span class="text-syn-u">&gt;</span>
+        <span class="text-syn-u">)}</span>
+      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Button</span><span class="text-syn-u">&gt;</span>
+    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">form</span><span class="text-syn-u">&gt;</span>
+  <span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <h3 id="sending-emails-with-resend" class="mt-8 text-lg leading-tight tracking-tight">
+              Sending Emails with Resend
+            </h3>
+            <p class="mt-0 mb-6">
+              For handling form submissions and sending emails in Next.js, I personally prefer
+              <strong>Server Actions</strong>, as they allow for cleaner and most important
+              <strong>type safety</strong>. However, if you prefer, we can also create an API
+              endpoint for the same functionality.
+            </p>
+            <p class="mt-0 mb-6">Now, let&#39;s dive into the code implementation:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-s">&quot;use server&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">import</span> EmailTemplate <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@/components/EmailTemplate&quot;</span><span class="text-syn-u">;</span>
+<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Resend <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;resend&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> <span class="text-syn-u">{</span> RESEND_API_KEY <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> process<span class="text-syn-u">.</span><span class="text-syn-p">env</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">sendEmail</span><span class="text-syn-u">(</span>data<span class="text-syn-o">:</span> <span class="text-syn-u">{</span>
+  from_name<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  message<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  sender_email<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">})</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>RESEND_API_KEY<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> <span class="text-syn-p">error:</span> <span class="text-syn-s">&quot;Failed to send email&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">status:</span> <span class="text-syn-n">500</span> <span class="text-syn-u">};</span>
+  <span class="text-syn-u">}</span>
+
+  <span class="text-syn-k">const</span> resend <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Resend</span><span class="text-syn-u">(</span>RESEND_API_KEY<span class="text-syn-u">);</span>
+
+  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">const</span> resp <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> resend<span class="text-syn-u">.</span>emails<span class="text-syn-u">.</span><span class="text-syn-f">send</span><span class="text-syn-u">({</span>
+      <span class="text-syn-p">from:</span> <span class="text-syn-s">&quot;Acme &lt;onboarding@resend.dev&gt;&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-p">to:</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;delivered@resend.dev&quot;</span><span class="text-syn-u">],</span>
+      <span class="text-syn-p">subject:</span> <span class="text-syn-s">&quot;🎉New submission to your contact form!&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-p">react:</span> <span class="text-syn-f">EmailTemplate</span><span class="text-syn-u">(</span>data<span class="text-syn-u">),</span>
+    <span class="text-syn-u">});</span>
+
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>resp<span class="text-syn-u">.</span><span class="text-syn-p">error</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+      console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>resp<span class="text-syn-u">.</span><span class="text-syn-p">error</span><span class="text-syn-u">);</span>
+      <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> <span class="text-syn-p">error:</span> <span class="text-syn-s">&quot;Failed to send email&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">status:</span> <span class="text-syn-n">500</span> <span class="text-syn-u">};</span>
+    <span class="text-syn-u">}</span>
+
+    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> <span class="text-syn-p">message:</span> <span class="text-syn-s">&quot;Email sent successfully&quot;</span> <span class="text-syn-u">};</span>
+<span class="text-syn-c italic">    // eslint-disable-next-line @typescript-eslint/no-explicit-any</span>
+  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">(</span>error<span class="text-syn-o">:</span> <span class="text-syn-t">any</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>error<span class="text-syn-u">);</span>
+    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> <span class="text-syn-p">error:</span> <span class="text-syn-s">&quot;Failed to send email&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">status:</span> <span class="text-syn-n">500</span> <span class="text-syn-u">};</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              You must have noticed the email template in the code above. Yes,
+              <strong>Resend</strong>
+              allows us to use <strong>React components</strong> as the email content, making it
+              super convenient to create dynamic and personalized email layouts.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// src/components/EmailTemplate.tsx</span>
+<span class="text-syn-k">import</span> Link <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;next/link&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">EmailTemplate</span><span class="text-syn-u">({</span>
+  from_name<span class="text-syn-u">,</span>
+  message<span class="text-syn-u">,</span>
+  sender_email<span class="text-syn-u">,</span>
+<span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span>
+  message<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  from_name<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  sender_email<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">})</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
+    <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;mx-auto max-w-md rounded-lg bg-white p-6 shadow-md&quot;</span><span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;</span><span class="text-syn-g">h1</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;mb-4 text-2xl font-bold text-gray-800&quot;</span><span class="text-syn-u">&gt;</span>New message from <span class="text-syn-u">{</span>from_name<span class="text-syn-u">}&lt;/</span><span class="text-syn-g">h1</span><span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;</span><span class="text-syn-g">p</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;mb-2 text-gray-600&quot;</span><span class="text-syn-u">&gt;{</span>message<span class="text-syn-u">}&lt;/</span><span class="text-syn-g">p</span><span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;</span><span class="text-syn-g">p</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-gray-500&quot;</span><span class="text-syn-u">&gt;</span>
+        Sender email:<span class="text-syn-u">{</span><span class="text-syn-s">&quot; &quot;</span><span class="text-syn-u">}</span>
+        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Link</span> <span class="text-syn-p">href</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span><span class="text-syn-s">`mailto:${sender_email}`</span><span class="text-syn-u">}</span> <span class="text-syn-p">className</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;text-blue-500 hover:underline&quot;</span><span class="text-syn-u">&gt;</span>
+          <span class="text-syn-u">{</span>sender_email<span class="text-syn-u">}</span>
+        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Link</span><span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">p</span><span class="text-syn-u">&gt;</span>
+    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span>
+  <span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">Now you can update the</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> sendEmail <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@/actions/email&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> handleSendMessage <span class="text-syn-o">=</span> <span class="text-syn-f">useCallback</span><span class="text-syn-u">(</span>
+  <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>e<span class="text-syn-o">:</span> <span class="text-syn-t">React</span><span class="text-syn-u">.</span><span class="text-syn-t">FormEvent</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+    e<span class="text-syn-u">.</span><span class="text-syn-f">preventDefault</span><span class="text-syn-u">();</span>
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">name</span> <span class="text-syn-o">||</span> <span class="text-syn-o">!</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">email</span> <span class="text-syn-o">||</span> <span class="text-syn-o">!</span>formInputs<span class="text-syn-u">.</span><span class="text-syn-p">message</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span><span class="text-syn-u">;</span>
+
+    <span class="text-syn-f">setIsSubmitting</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span>
+
+    <span class="text-syn-k">try</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-k">await</span> <span class="text-syn-f">sendEmail</span><span class="text-syn-u">({</span>
+        <span class="text-syn-p">from_name:</span> formInputs<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">message:</span> formInputs<span class="text-syn-u">.</span><span class="text-syn-p">message</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">sender_email:</span> formInputs<span class="text-syn-u">.</span><span class="text-syn-p">email</span><span class="text-syn-u">,</span>
+      <span class="text-syn-u">});</span>
+      <span class="text-syn-f">setIsSubmitted</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span>
+    <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">(</span>error<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+      console<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Failed to send email:&quot;</span><span class="text-syn-u">,</span> error<span class="text-syn-u">);</span>
+    <span class="text-syn-u">}</span> <span class="text-syn-k">finally</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-f">setIsSubmitting</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span>
+    <span class="text-syn-u">}</span>
+  <span class="text-syn-u">},</span>
+  <span class="text-syn-u">[</span>formInputs<span class="text-syn-u">],</span>
+<span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Now we can test the contact form and find all the emails in the resend dashboard.
+            </p>
+            <p class="mt-0 mb-6">
+              <img
+                class="mx-auto my-7 block h-auto max-w-full rounded-md"
+                src="/assets/content/blogs/emails-with-resend/c42f0db8-a864-4d0a-8c43-018b179f3742.webp"
+                alt="Resend dashboard showing sent emails"
+                loading="lazy"
+              />
+            </p>
+            <h2
+              id="adding-a-verified-domain"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Adding a Verified Domain
+            </h2>
+            <p class="mt-0 mb-6">
+              In the previous section, we&#39;ve demonstrated how to send emails using
+              <strong>Resend</strong>
+              in a Next.js application. However, to ensure your emails land in the recipient&#39;s
+              inbox and avoid being marked as spam, it’s crucial to add and verify a
+              <strong>custom domain</strong>. Here&#39;s why:
+            </p>
+            <h3 id="why-add-a-custom-domain" class="mt-8 text-lg leading-tight tracking-tight">
+              Why Add a Custom Domain?
+            </h3>
+            <p class="mt-0 mb-6">
+              When you send an email without a verified domain, it’s likely to be flagged by email
+              providers due to the absence of proper email authentication. By default, emails sent
+              through Resend come from generic email addresses (e.g.,
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="mailto:onboarding@resend.dev"
+                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >onboarding@resend.dev</code
+                ></a
+              >). While this can work for testing purposes, production emails require more
+              trustworthiness.
+            </p>
+            <h3 id="adding-a-custom-domain" class="mt-8 text-lg leading-tight tracking-tight">
+              Adding a custom domain
+            </h3>
+            <p class="mt-0 mb-6">
+              I had added a custom domain from my portfolio domain:
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://pulkitxm.com"
+                ><strong>pulkitxm.com</strong></a
+              >. Here’s a step-by-step guide on how I did it:
+            </p>
+            <ol class="mt-0 mb-6">
+              <li>
+                <strong>Add Domain</strong>: First, I logged into my Resend dashboard and added my
+                portfolio domain <strong>pulkitxm.com</strong>. This is the domain from which I
+                wanted to send emails.
+              </li>
+              <li>
+                <strong>DNS Settings</strong>: After adding the domain, Resend prompted me to
+                configure the <strong>DNS settings</strong>. It provided specific records, such as
+                <strong>SPF</strong>, <strong>DKIM</strong>, and <strong>DMARC</strong>, which I
+                needed to add to the DNS settings for my domain.
+              </li>
+              <li>
+                <strong>Update DNS Records</strong>: I accessed my domain registrar (where I
+                purchased <strong>pulkitxm.com</strong>) and updated the DNS settings by adding the
+                records provided by Resend. This process usually takes some time to propagate.
+              </li>
+              <li>
+                <strong>Domain Verification</strong>: Once the DNS settings were updated, Resend
+                verified the domain and completed the setup. It might take a few minutes to a couple
+                of hours for the verification process to complete.
+              </li>
+              <li>
+                <strong>Email Setup</strong>: After successfully adding and verifying my domain, I
+                was able to start sending emails from a custom email address:
+                <strong
+                  ><a
+                    class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                    href="mailto:mails-from-portfolio@pulkitxm.com"
+                    >mails-from-portfolio@pulkitxm.com</a
+                  ></strong
+                >.
+              </li>
+            </ol>
+            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Wrapping Up
+            </h2>
+            <p class="mt-0 mb-6">
+              And there you have it! You&#39;ve enhanced your Next.js app with a contact form and
+              Resend email integration. Now, users can easily contact you, and you&#39;ll be ready
+              to reply. Whether it&#39;s for a portfolio, business site, or just for fun, this setup
+              will impress. Try it out and enjoy the incoming emails. Happy coding!
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/og-images-in-nextjs/"
+                >Open Graph Images in Next.js</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/seo-for-nextjs-portfolio/"
+                >SEO for Next.js Portfolio</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/smooth-scroll/"
+                >Smooth Scrolling in Next.js</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

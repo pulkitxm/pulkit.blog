@@ -1,0 +1,1602 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Schedule cron jobs in Node.js with BullMQ repeatable jobs and Redis: workers, scheduler internals, graceful shutdown, and DB sync. Full TypeScript code."
+    />
+    <link rel="canonical" href="https://pulkit.blog/cron-jobs-with-bullmq/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="BullMQ Cron Jobs with Redis in Node.js | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Schedule cron jobs in Node.js with BullMQ repeatable jobs and Redis: workers, scheduler internals, graceful shutdown, and DB sync. Full TypeScript code."
+    />
+    <meta property="og:url" content="https://pulkit.blog/cron-jobs-with-bullmq/" />
+    <meta property="og:image" content="https://pulkit.blog/og/cron-jobs-with-bullmq/card.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/cron-jobs-with-bullmq/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BullMQ Cron Jobs with Redis in Node.js" />
+    <meta property="article:published_time" content="2026-03-29" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BullMQ Cron Jobs with Redis in Node.js | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Schedule cron jobs in Node.js with BullMQ repeatable jobs and Redis: workers, scheduler internals, graceful shutdown, and DB sync. Full TypeScript code."
+    />
+    <meta name="twitter:image" content="https://pulkit.blog/og/cron-jobs-with-bullmq/card.png" />
+    <meta name="twitter:image:alt" content="BullMQ Cron Jobs with Redis in Node.js" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/cron-jobs-with-bullmq/#image","contentUrl":"https://pulkit.blog/og/cron-jobs-with-bullmq/card.png","width":1200,"height":630,"caption":"BullMQ Cron Jobs with Redis in Node.js"},{"@type":"BlogPosting","@id":"https://pulkit.blog/cron-jobs-with-bullmq/#article","headline":"BullMQ Cron Jobs with Redis in Node.js","description":"Schedule cron jobs in Node.js with BullMQ repeatable jobs and Redis: workers, scheduler internals, graceful shutdown, and DB sync. Full TypeScript code.","datePublished":"2026-03-29","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/cron-jobs-with-bullmq/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/cron-jobs-with-bullmq/#image"},"url":"https://pulkit.blog/cron-jobs-with-bullmq/","inLanguage":"en","keywords":["BullMQ","Repeatable Jobs","Cron Jobs","Redis","Node.js","TypeScript","Backend"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/cron-jobs-with-bullmq/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"BullMQ Cron Jobs with Redis in Node.js","item":"https://pulkit.blog/cron-jobs-with-bullmq/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/cron-jobs-with-bullmq/#webpage","url":"https://pulkit.blog/cron-jobs-with-bullmq/","name":"BullMQ Cron Jobs with Redis in Node.js","description":"Schedule cron jobs in Node.js with BullMQ repeatable jobs and Redis: workers, scheduler internals, graceful shutdown, and DB sync. Full TypeScript code.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/cron-jobs-with-bullmq/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/cron-jobs-with-bullmq/#article"},"breadcrumb":{"@id":"https://pulkit.blog/cron-jobs-with-bullmq/#breadcrumbs"}}]}</script>
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <script type="module" src="/assets/embeds/blog-media.js"></script>
+    <script type="module" src="/assets/embeds/install-tabs.js"></script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>BullMQ Cron Jobs with Redis in Node.js | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              BullMQ Cron Jobs with Redis in Node.js
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2026-03-29">March 29, 2026</time>
+              · 11 min read
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              I was building cron jobs at
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://noveum.ai"
+                >Noveum.ai</a
+              >. We needed users to schedule automated analysis reports on their own terms: daily at
+              6 AM, every Monday at noon, every 15 minutes during business hours. The kind of thing
+              where the schedule lives in a database and each user can create, edit, or delete their
+              own.
+            </p>
+            <p class="mt-0 mb-6">
+              Before writing any code, I looked at how
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://vercel.com/docs/cron-jobs"
+                >Vercel handles cron</a
+              >. It&#39;s dead simple: you define a schedule in
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >vercel.json</code
+              >, and Vercel hits your API route at that interval. No infrastructure to manage, no
+              Redis, no workers. For simple periodic tasks, it&#39;s perfect.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-json rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">{</span>
+  <span class="text-syn-p">&quot;crons&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">[</span>
+    <span class="text-syn-u">{</span>
+      <span class="text-syn-p">&quot;path&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;/api/cron/daily-digest&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-p">&quot;schedule&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-s">&quot;0 8 * * *&quot;</span>
+    <span class="text-syn-u">}</span>
+  <span class="text-syn-u">]</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              But it didn&#39;t fit our use case. We wanted to self-host the whole thing inside our
+              AWS VPC: workers talking to Redis and our databases on private networks, not a
+              platform-managed cron hitting a public API route. Vercel cron schedules are also
+              static, defined at deploy time, and we needed dynamic schedules created at runtime by
+              users. On top of that we needed retries with exponential backoff, concurrency control,
+              long-running jobs that go well beyond serverless timeouts, and distributed workers
+              that can scale horizontally. That&#39;s what led me to
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.bullmq.io"
+                >BullMQ</a
+              >. Since we are already using it for our workers and it was super easy to set up cron
+              jobs with it, it was a no-brainer.
+            </p>
+            <p class="mt-0 mb-6">This is what we ended up building:</p>
+            <div class="mt-0 mb-6 flex items-center justify-center">
+              <div class="relative mx-auto w-full max-w-[64rem]">
+                <div class="mx-auto w-full max-w-[48rem]">
+                  <section
+                    class="relative w-full"
+                    aria-roledescription="carousel"
+                    aria-label="Image carousel"
+                    data-carousel
+                  >
+                    <div class="overflow-hidden" data-carousel-viewport>
+                      <div class="-ml-4 flex">
+                        <section
+                          aria-roledescription="slide"
+                          aria-label="1 of 3"
+                          class="min-w-0 shrink-0 grow-0 basis-full pl-4"
+                          data-carousel-slide
+                        >
+                          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+                            <img
+                              src="/assets/content/blogs/cron-jobs-with-bullmq/noveum-cron-dash.webp"
+                              alt=""
+                              aria-hidden="true"
+                              width="1920"
+                              height="1047"
+                              class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <div class="absolute inset-0 flex items-center justify-center">
+                              <a
+                                href="/assets/content/blogs/cron-jobs-with-bullmq/noveum-cron-dash.webp"
+                                class="block h-full w-full cursor-zoom-in"
+                                data-media-zoom
+                                data-width="1920"
+                                data-height="1047"
+                                ><img
+                                  src="/assets/content/blogs/cron-jobs-with-bullmq/noveum-cron-dash.webp"
+                                  alt="Slide 1"
+                                  width="1920"
+                                  height="1047"
+                                  class="block h-full w-full select-none object-contain"
+                                  loading="lazy"
+                                  decoding="async"
+                                /></a
+                              >
+                            </div>
+                          </div>
+                        </section>
+                        <section
+                          aria-roledescription="slide"
+                          aria-label="2 of 3"
+                          class="min-w-0 shrink-0 grow-0 basis-full pl-4"
+                          data-carousel-slide
+                        >
+                          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+                            <img
+                              src="/assets/content/blogs/cron-jobs-with-bullmq/cron-runs.webp"
+                              alt=""
+                              aria-hidden="true"
+                              width="1690"
+                              height="1173"
+                              class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <div class="absolute inset-0 flex items-center justify-center">
+                              <a
+                                href="/assets/content/blogs/cron-jobs-with-bullmq/cron-runs.webp"
+                                class="block h-full w-full cursor-zoom-in"
+                                data-media-zoom
+                                data-width="1690"
+                                data-height="1173"
+                                ><img
+                                  src="/assets/content/blogs/cron-jobs-with-bullmq/cron-runs.webp"
+                                  alt="Slide 2"
+                                  width="1690"
+                                  height="1173"
+                                  class="block h-full w-full select-none object-contain"
+                                  loading="lazy"
+                                  decoding="async"
+                                /></a
+                              >
+                            </div>
+                          </div>
+                        </section>
+                        <section
+                          aria-roledescription="slide"
+                          aria-label="3 of 3"
+                          class="min-w-0 shrink-0 grow-0 basis-full pl-4"
+                          data-carousel-slide
+                        >
+                          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
+                            <img
+                              src="/assets/content/blogs/cron-jobs-with-bullmq/create-cron-form.webp"
+                              alt=""
+                              aria-hidden="true"
+                              width="1920"
+                              height="723"
+                              class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <div class="absolute inset-0 flex items-center justify-center">
+                              <a
+                                href="/assets/content/blogs/cron-jobs-with-bullmq/create-cron-form.webp"
+                                class="block h-full w-full cursor-zoom-in"
+                                data-media-zoom
+                                data-width="1920"
+                                data-height="723"
+                                ><img
+                                  src="/assets/content/blogs/cron-jobs-with-bullmq/create-cron-form.webp"
+                                  alt="Slide 3"
+                                  width="1920"
+                                  height="723"
+                                  class="block h-full w-full select-none object-contain"
+                                  loading="lazy"
+                                  decoding="async"
+                                /></a
+                              >
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="absolute top-1/2 inline-flex size-8 p-0 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-line bg-[#000]/50 text-[#fff] shadow-[0_1px_3px_0_rgb(0_0_0/0.1),0_1px_2px_-1px_rgb(0_0_0/0.1)] transition-[color,background-color,box-shadow] duration-150 hover:bg-[#000]/75 focus-visible:outline-2 focus-visible:outline-offset-2 left-4 min-[48rem]:left-8"
+                      data-carousel-previous
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="pointer-events-none size-4 shrink-0"
+                      >
+                        <path d="m12 19-7-7 7-7" />
+                        <path d="M19 12H5" />
+                      </svg><span class="sr-only">Previous slide</span>
+                    </button><button
+                      type="button"
+                      class="absolute top-1/2 inline-flex size-8 p-0 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-line bg-[#000]/50 text-[#fff] shadow-[0_1px_3px_0_rgb(0_0_0/0.1),0_1px_2px_-1px_rgb(0_0_0/0.1)] transition-[color,background-color,box-shadow] duration-150 hover:bg-[#000]/75 focus-visible:outline-2 focus-visible:outline-offset-2 right-4 min-[48rem]:right-8"
+                      data-carousel-next
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="pointer-events-none size-4 shrink-0"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg><span class="sr-only">Next slide</span>
+                    </button>
+                    <div class="absolute right-0 bottom-3 left-0 flex justify-center">
+                      <button
+                        type="button"
+                        class="group flex h-6 min-w-6 cursor-pointer items-center justify-center border-0 bg-transparent p-0"
+                        aria-label="Go to slide 1"
+                        aria-current="true"
+                        data-carousel-dot="0"
+                      >
+                        <span
+                          class="block h-2 w-2 rounded-full bg-[#fff]/50 transition-[width,background-color] duration-150 group-aria-[current=true]:w-4 group-aria-[current=true]:bg-[#fff]"
+                        ></span>
+                      </button><button
+                        type="button"
+                        class="group flex h-6 min-w-6 cursor-pointer items-center justify-center border-0 bg-transparent p-0"
+                        aria-label="Go to slide 2"
+                        aria-current="false"
+                        data-carousel-dot="1"
+                      >
+                        <span
+                          class="block h-2 w-2 rounded-full bg-[#fff]/50 transition-[width,background-color] duration-150 group-aria-[current=true]:w-4 group-aria-[current=true]:bg-[#fff]"
+                        ></span>
+                      </button><button
+                        type="button"
+                        class="group flex h-6 min-w-6 cursor-pointer items-center justify-center border-0 bg-transparent p-0"
+                        aria-label="Go to slide 3"
+                        aria-current="false"
+                        data-carousel-dot="2"
+                      >
+                        <span
+                          class="block h-2 w-2 rounded-full bg-[#fff]/50 transition-[width,background-color] duration-150 group-aria-[current=true]:w-4 group-aria-[current=true]:bg-[#fff]"
+                        ></span>
+                      </button>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+            <p class="mt-0 mb-6">
+              In this post, I&#39;ll walk through how to build a production-grade cron system with
+              BullMQ and Redis: what cron expressions are, why common alternatives hit limits, how
+              BullMQ implements scheduling with repeatable jobs, then hands-on setup, workers, error
+              handling, and keeping your database in sync with Redis.
+            </p>
+            <h2
+              id="what-are-cron-jobs"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              What Are Cron Jobs?
+            </h2>
+            <p class="mt-0 mb-6">
+              Cron comes from Unix. It&#39;s a time-based scheduler that runs commands at specified
+              intervals. You define a schedule using a <strong>cron expression</strong>, a compact
+              string with five fields:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">┌───────────── minute (0–59)
+│ ┌───────────── hour (0–23)
+│ │ ┌───────────── day of month (1–31)
+│ │ │ ┌───────────── month (1–12)
+│ │ │ │ ┌───────────── day of week (0–7, where 0 and 7 = Sunday)
+│ │ │ │ │
+* * * * *
+</code></pre>
+            <p class="mt-0 mb-6">Some common patterns:</p>
+            <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
+              <thead>
+                <tr>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Expression</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >0 8 * * *</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Every day at 8:00 AM</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >*/15 * * * *</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Every 15 minutes</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >0 9 * * 1-5</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Weekdays at 9:00 AM</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >0 0 1 * *</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    First day of every month at midnight
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    <code
+                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                      >30 14 * * 0</code
+                    >
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Every Sunday at 2:30 PM
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h2
+              id="why-not-vercel-cron-node-cron-setinterval"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Why Not Vercel Cron / node-cron / setInterval?
+            </h2>
+            <p class="mt-0 mb-6">
+              Before reaching for BullMQ, it&#39;s worth understanding where simpler tools fit and
+              where they fall short.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Vercel Cron</strong>
+              is great when you need to run a serverless function on a fixed schedule. You define it
+              once in
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >vercel.json</code
+              >, deploy, and it just works. If you want long-lived workers self-hosted inside your
+              own AWS VPC with private access to Redis and internal services, that is a different
+              shape than the platform calling a public URL on a timer. The schedules are static, so
+              you can&#39;t let users create their own. It&#39;s also bound by serverless function
+              timeouts, has no built-in retry or backoff, and you have a limited number of cron jobs
+              depending on your plan.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong
+                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >node-cron</code
+                >
+                and
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >setInterval</code
+                ></strong
+              >
+              run in-process. The moment your server restarts, all schedules are gone. There&#39;s
+              no persistence, no retries, and no way to distribute work across multiple servers.
+              Fine for a dev script, not for production.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>BullMQ</strong>
+              sits in a different category entirely. Schedules are persisted in Redis, so they
+              survive restarts. Failed jobs automatically retry with configurable exponential
+              backoff. You get concurrency control, long-running job support, and distributed
+              workers, so multiple processes or servers can consume from the same queue. Most
+              importantly, schedules can be created, modified, and removed at runtime through your
+              API.
+            </p>
+            <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
+              <thead>
+                <tr>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Feature</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Vercel Cron</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">
+                    node-cron / setInterval
+                  </th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">BullMQ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Self-hosted in your VPC
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    No (platform invokes your deployment)
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Yes, if your Node process runs there
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Yes</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Persistence</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Survives deploys</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">None</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Redis-backed</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Dynamic schedules</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    No (deploy-time only)
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">No (code-time only)</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Yes (runtime API)</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Retries &amp; backoff
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">No</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">No</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Yes (configurable)</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Concurrency control</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">No</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">No</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Yes</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Long-running jobs</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Limited by function timeout
+                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Yes</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Yes</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Distributed workers</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">No</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">No</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Yes</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Setup complexity</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Minimal</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Minimal</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Moderate</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="mt-0 mb-6">
+              If Vercel cron covers your use case, use it. Reach for BullMQ when you need the extra
+              control.
+            </p>
+            <h2
+              id="how-bullmq-manages-cron-jobs-under-the-hood"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              How BullMQ Manages Cron Jobs Under the Hood
+            </h2>
+            <p class="mt-0 mb-6">
+              BullMQ doesn&#39;t have a separate &quot;cron scheduler&quot; daemon. There&#39;s no
+              long-running process with a timer that wakes up and says &quot;time to run this
+              job.&quot; Instead, the entire mechanism is built on top of
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.bullmq.io/guide/jobs/repeatable"
+                >repeatable jobs</a
+              >, which are really just <strong>delayed jobs that keep re-adding themselves</strong>.
+            </p>
+            <p class="mt-0 mb-6">Here&#39;s what happens step by step:</p>
+            <h3 id="section-1-registration" class="mt-8 text-lg leading-tight tracking-tight">
+              1. Registration
+            </h3>
+            <p class="mt-0 mb-6">
+              When you call
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >queue.add(&quot;my-job&quot;, data, { repeat: { pattern: &quot;0 8 * * *&quot; }
+                })</code
+              >, BullMQ does two things:
+            </p>
+            <ul class="mt-0 mb-6">
+              <li>
+                Creates a <strong>repeatable job configuration</strong> in Redis. This is a metadata
+                entry (not a regular job) that stores the cron pattern, timezone, job name, and a
+                generated
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="https://api.docs.bullmq.io/classes/v5.Job.html#repeatJobKey"
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >repeatJobKey</code
+                  ></a
+                >. This config is what persists across restarts.
+              </li>
+              <li>
+                Immediately schedules the <strong>first delayed job</strong> for the next matching
+                time. If you register at 4:07 AM and the pattern is every hour, the first job gets
+                scheduled for 5:00 AM. BullMQ
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="https://docs.bullmq.io/guide/jobs/repeatable"
+                  >aligns to the cron boundaries</a
+                >, so the first run always lands &quot;on the hour.&quot;
+              </li>
+            </ul>
+            <h3
+              id="section-2-execution-and-chaining"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              2. Execution and chaining
+            </h3>
+            <p class="mt-0 mb-6">
+              From the
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.bullmq.io/guide/jobs/repeatable"
+                >BullMQ docs</a
+              >: &quot;Every time a repeatable job is picked up for processing, the next repeatable
+              job is added to the queue with a proper delay.&quot; This is the core trick: each run
+              chains into the next. The cron pattern is evaluated, the next timestamp is computed,
+              and a new delayed job is placed in the queue.
+            </p>
+            <p class="mt-0 mb-6">
+              This means repeatable jobs are fundamentally just <strong>delayed jobs</strong> with
+              automatic re-scheduling. There&#39;s no background scheduler polling Redis on an
+              interval. The chain is self-sustaining as long as workers are processing. The newer
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.bullmq.io/guide/job-schedulers"
+                >Job Schedulers API</a
+              >
+              (BullMQ 5.16.0+) works the same way, noting that &quot;the scheduler will only
+              generate new jobs when the last job begins processing.&quot;
+            </p>
+            <h3 id="section-3-deduplication" class="mt-8 text-lg leading-tight tracking-tight">
+              3. Deduplication
+            </h3>
+            <p class="mt-0 mb-6">
+              BullMQ is
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.bullmq.io/guide/jobs/repeatable"
+                >smart enough not to add the same repeatable job</a
+              >
+              if the repeat options are the same. It generates a unique key for each repeatable job
+              based on the job name, cron pattern, and any custom
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >jobId</code
+              >
+              you provide. If you call
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >queue.add()</code
+              >
+              with the same repeat options twice, it won&#39;t create a duplicate. This is important
+              for deploy safety: your startup code can register repeatable jobs idempotently without
+              worrying about creating duplicates each time the app restarts.
+            </p>
+            <h3
+              id="section-4-what-if-no-workers-are-running"
+              class="mt-8 text-lg leading-tight tracking-tight"
+            >
+              4. What if no workers are running?
+            </h3>
+            <p class="mt-0 mb-6">
+              This is a common concern. The BullMQ docs are explicit here: &quot;If there are no
+              workers running, repeatable jobs will not accumulate next time a worker is
+              online&quot; (<a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.bullmq.io/guide/jobs/repeatable"
+                >source</a
+              >). Since the next occurrence is only scheduled when the current one is picked up,
+              jobs don&#39;t pile up. If workers are offline for 3 hours and you have a job that
+              runs every 15 minutes, you won&#39;t come back to 12 queued jobs. You&#39;ll have at
+              most one delayed job waiting, and processing resumes from there.
+            </p>
+            <p class="mt-0 mb-6">
+              The repeatable configuration itself stays in Redis regardless. It doesn&#39;t expire
+              or get lost because workers are offline. When workers come back, the chain picks up
+              from the next scheduled time.
+            </p>
+            <h2 id="setting-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Setting Up
+            </h2>
+            <p class="mt-0 mb-6">Install BullMQ:</p>
+            <div class="mt-6 mb-6 space-y-4" data-install-tabs>
+              <div
+                class="flex w-max items-center gap-1 rounded-lg border border-line bg-surface p-1"
+              >
+                <button
+                  type="button"
+                  class="cursor-pointer rounded-md border-0 bg-transparent px-3 py-1.5 font-medium font-mono text-muted text-xs hover:text-fg aria-pressed:bg-bg aria-pressed:text-fg aria-pressed:shadow-[0_1px_3px_0_rgb(0_0_0/0.1),0_1px_2px_-1px_rgb(0_0_0/0.1)]"
+                  aria-pressed="true"
+                  data-install-manager="bun"
+                >
+                  bun
+                </button><button
+                  type="button"
+                  class="cursor-pointer rounded-md border-0 bg-transparent px-3 py-1.5 font-medium font-mono text-muted text-xs hover:text-fg aria-pressed:bg-bg aria-pressed:text-fg aria-pressed:shadow-[0_1px_3px_0_rgb(0_0_0/0.1),0_1px_2px_-1px_rgb(0_0_0/0.1)]"
+                  aria-pressed="false"
+                  data-install-manager="pnpm"
+                >
+                  pnpm
+                </button><button
+                  type="button"
+                  class="cursor-pointer rounded-md border-0 bg-transparent px-3 py-1.5 font-medium font-mono text-muted text-xs hover:text-fg aria-pressed:bg-bg aria-pressed:text-fg aria-pressed:shadow-[0_1px_3px_0_rgb(0_0_0/0.1),0_1px_2px_-1px_rgb(0_0_0/0.1)]"
+                  aria-pressed="false"
+                  data-install-manager="npm"
+                >
+                  npm
+                </button><button
+                  type="button"
+                  class="cursor-pointer rounded-md border-0 bg-transparent px-3 py-1.5 font-medium font-mono text-muted text-xs hover:text-fg aria-pressed:bg-bg aria-pressed:text-fg aria-pressed:shadow-[0_1px_3px_0_rgb(0_0_0/0.1),0_1px_2px_-1px_rgb(0_0_0/0.1)]"
+                  aria-pressed="false"
+                  data-install-manager="yarn"
+                >
+                  yarn
+                </button>
+              </div>
+              <div class="relative">
+                <button
+                  type="button"
+                  class="absolute top-3 right-3 z-10 inline-flex size-7 cursor-pointer border-0 bg-transparent p-0 items-center justify-center rounded-md text-muted transition-colors duration-150 hover:bg-line hover:text-fg"
+                  aria-label="Copy to clipboard"
+                  data-install-copy
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    class="size-3.5"
+                    data-copy-idle
+                  >
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                  </svg><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    class="hidden size-3.5"
+                    data-copy-done
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </button>
+                <pre
+                  tabindex="0"
+                  class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 pr-12"
+                  data-install-command="bun"
+                ><code class="bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">bun</span> <span class="text-syn-s">add</span> <span class="text-syn-s">bullmq</span></code></pre>
+                <pre
+                  tabindex="0"
+                  class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 pr-12"
+                  data-install-command="pnpm"
+                  hidden
+                ><code class="bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">bullmq</span></code></pre>
+                <pre
+                  tabindex="0"
+                  class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 pr-12"
+                  data-install-command="npm"
+                  hidden
+                ><code class="bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">npm</span> <span class="text-syn-s">install</span> <span class="text-syn-s">bullmq</span></code></pre>
+                <pre
+                  tabindex="0"
+                  class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 pr-12"
+                  data-install-command="yarn"
+                  hidden
+                ><code class="bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">yarn</span> <span class="text-syn-s">add</span> <span class="text-syn-s">bullmq</span></code></pre>
+              </div>
+            </div>
+            <p class="mt-0 mb-6">
+              BullMQ uses Redis under the hood. You&#39;ll need a Redis instance running, whether
+              locally via Docker or a managed service like Upstash or AWS ElastiCache.
+            </p>
+            <p class="mt-0 mb-6">First, set up the Redis connection:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-k">type</span> <span class="text-syn-u">{</span> ConnectionOptions <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;bullmq&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">function</span> <span class="text-syn-f">createRedisConnection</span><span class="text-syn-u">()</span><span class="text-syn-o">:</span> <span class="text-syn-t">ConnectionOptions</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> host <span class="text-syn-o">=</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>REDIS_HOST<span class="text-syn-u">;</span>
+  <span class="text-syn-k">const</span> port <span class="text-syn-o">=</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>REDIS_PORT<span class="text-syn-u">;</span>
+
+  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>host <span class="text-syn-o">||</span> <span class="text-syn-o">!</span>port<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;REDIS_HOST and REDIS_PORT are required&quot;</span><span class="text-syn-u">);</span>
+  <span class="text-syn-u">}</span>
+
+  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span>
+    host<span class="text-syn-u">,</span>
+    <span class="text-syn-p">port:</span> <span class="text-syn-f">parseInt</span><span class="text-syn-u">(</span>port<span class="text-syn-u">,</span> <span class="text-syn-n">10</span><span class="text-syn-u">),</span>
+    <span class="text-syn-p">password:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>REDIS_PASSWORD <span class="text-syn-o">||</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">maxRetriesPerRequest:</span> <span class="text-syn-k">null</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">enableOfflineQueue:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span>
+  <span class="text-syn-u">};</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              The
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.bullmq.io/guide/connections"
+                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >maxRetriesPerRequest: null</code
+                ></a
+              >
+              is important: BullMQ requires this for workers to function properly. Without it,
+              you&#39;ll get errors when the worker tries to block-wait for jobs.
+            </p>
+            <p class="mt-0 mb-6">Now create a queue:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Queue <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;bullmq&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> connection <span class="text-syn-o">=</span> <span class="text-syn-f">createRedisConnection</span><span class="text-syn-u">();</span>
+
+<span class="text-syn-k">const</span> scheduledQueue <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Queue</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;scheduled-reports&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
+  connection<span class="text-syn-u">,</span>
+  <span class="text-syn-p">defaultJobOptions:</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">removeOnComplete:</span> <span class="text-syn-n">50</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">removeOnFail:</span> <span class="text-syn-n">25</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">attempts:</span> <span class="text-syn-n">2</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">backoff:</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-p">type:</span> <span class="text-syn-s">&quot;exponential&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-p">delay:</span> <span class="text-syn-n">5000</span><span class="text-syn-u">,</span>
+    <span class="text-syn-u">},</span>
+  <span class="text-syn-u">},</span>
+<span class="text-syn-u">});</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              The
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >defaultJobOptions</code
+              >
+              matter in production:
+            </p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >removeOnComplete: 50</code
+                  ></strong
+                >: keeps the last 50 completed jobs in Redis for debugging, then auto-cleans.
+                Without this, completed jobs pile up forever.
+              </li>
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >removeOnFail: 25</code
+                  ></strong
+                >: same idea for failed jobs.
+              </li>
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >attempts: 2</code
+                  ></strong
+                >: retry once on failure (2 total attempts).
+              </li>
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >backoff</code
+                  ></strong
+                >:
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="https://docs.bullmq.io/guide/retrying-failing-jobs"
+                  >exponential backoff</a
+                >
+                starting at 5 seconds. First retry at ~5s, second at ~10s, and so on.
+              </li>
+            </ul>
+            <h2
+              id="adding-repeatable-cron-jobs"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Adding Repeatable (Cron) Jobs
+            </h2>
+            <p class="mt-0 mb-6">
+              This is the core of the whole system. To schedule a repeating job, you call
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >queue.add()</code
+              >
+              with a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >repeat</code
+              >
+              option:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">interface</span> <span class="text-syn-t">ScheduledJobData</span> <span class="text-syn-u">{</span>
+  jobId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  scheduleId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  reportType<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">addScheduledJob</span><span class="text-syn-u">(</span>data<span class="text-syn-o">:</span> <span class="text-syn-t">ScheduledJobData</span><span class="text-syn-u">,</span> cronExpression<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> job <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> scheduledQueue<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;generate-report&quot;</span><span class="text-syn-u">,</span> data<span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">repeat:</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-p">pattern:</span> cronExpression<span class="text-syn-u">,</span>
+      <span class="text-syn-p">tz:</span> <span class="text-syn-s">&quot;UTC&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-u">},</span>
+  <span class="text-syn-u">});</span>
+
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Scheduled job registered&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">scheduleId:</span> data<span class="text-syn-u">.</span><span class="text-syn-p">scheduleId</span><span class="text-syn-u">,</span>
+    cronExpression<span class="text-syn-u">,</span>
+    <span class="text-syn-p">repeatJobKey:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">repeatJobKey</span><span class="text-syn-u">,</span>
+  <span class="text-syn-u">});</span>
+
+  <span class="text-syn-k">return</span> job<span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">A few things happening here:</p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >repeat.pattern</code
+                  ></strong
+                >
+                takes a standard cron expression.
+              </li>
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >repeat.tz</code
+                  ></strong
+                >
+                sets the timezone. I&#39;d recommend always using
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >&quot;UTC&quot;</code
+                >
+                and converting in your application layer, which avoids a whole class of timezone
+                bugs.
+              </li>
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >job.repeatJobKey</code
+                  ></strong
+                >
+                is a stable key BullMQ generates for this repeatable job. You&#39;ll need it later
+                for removal.
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              BullMQ deduplicates repeatable jobs by their combination of job name, cron pattern,
+              and any
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >jobId</code
+              >
+              you provide. If you call
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >addScheduledJob</code
+              >
+              with the same parameters twice, it won&#39;t create a duplicate; it just returns the
+              existing one.
+            </p>
+            <h3 id="managing-repeatable-jobs" class="mt-8 text-lg leading-tight tracking-tight">
+              Managing Repeatable Jobs
+            </h3>
+            <p class="mt-0 mb-6">
+              To list all active schedules using
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://api.docs.bullmq.io/classes/v5.Queue.html#getRepeatableJobs"
+                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >getRepeatableJobs()</code
+                ></a
+              >:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getSchedules</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> jobs <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> scheduledQueue<span class="text-syn-u">.</span><span class="text-syn-f">getRepeatableJobs</span><span class="text-syn-u">();</span>
+  <span class="text-syn-k">return</span> jobs<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>job<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span>
+    <span class="text-syn-p">key:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">key</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">name:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">pattern:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">pattern</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">next:</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Date</span><span class="text-syn-u">(</span>job<span class="text-syn-u">.</span><span class="text-syn-p">next</span><span class="text-syn-u">),</span>
+  <span class="text-syn-u">}));</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              To remove a schedule using
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://api.docs.bullmq.io/classes/v5.Queue.html#removeRepeatableByKey"
+                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >removeRepeatableByKey()</code
+                ></a
+              >:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">removeSchedule</span><span class="text-syn-u">(</span>repeatJobKey<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">await</span> scheduledQueue<span class="text-syn-u">.</span><span class="text-syn-f">removeRepeatableByKey</span><span class="text-syn-u">(</span>repeatJobKey<span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              You can also find and remove by scanning through repeatable jobs:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">removeScheduleById</span><span class="text-syn-u">(</span>scheduleId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> repeatableJobs <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> scheduledQueue<span class="text-syn-u">.</span><span class="text-syn-f">getRepeatableJobs</span><span class="text-syn-u">();</span>
+
+  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> job <span class="text-syn-o">of</span> repeatableJobs<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>job<span class="text-syn-u">.</span>key<span class="text-syn-u">.</span><span class="text-syn-f">includes</span><span class="text-syn-u">(</span>scheduleId<span class="text-syn-u">))</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-k">await</span> scheduledQueue<span class="text-syn-u">.</span><span class="text-syn-f">removeRepeatableByKey</span><span class="text-syn-u">(</span>job<span class="text-syn-u">.</span><span class="text-syn-p">key</span><span class="text-syn-u">);</span>
+      <span class="text-syn-k">return</span> <span class="text-syn-k">true</span><span class="text-syn-u">;</span>
+    <span class="text-syn-u">}</span>
+  <span class="text-syn-u">}</span>
+
+  <span class="text-syn-k">return</span> <span class="text-syn-k">false</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <h2
+              id="building-the-worker"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Building the Worker
+            </h2>
+            <p class="mt-0 mb-6">
+              The worker is the process that actually picks up and executes jobs when BullMQ fires
+              them according to the cron schedule.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Worker<span class="text-syn-u">,</span> <span class="text-syn-k">type</span> Job<span class="text-syn-u">,</span> UnrecoverableError <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;bullmq&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> connection <span class="text-syn-o">=</span> <span class="text-syn-f">createRedisConnection</span><span class="text-syn-u">();</span>
+
+<span class="text-syn-k">const</span> worker <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Worker</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ScheduledJobData</span><span class="text-syn-u">&gt;(</span>
+  <span class="text-syn-s">&quot;scheduled-reports&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-k">async</span> <span class="text-syn-u">(</span>job<span class="text-syn-o">:</span> <span class="text-syn-t">Job</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ScheduledJobData</span><span class="text-syn-u">&gt;)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Processing scheduled job&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-p">jobId:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span>
+      <span class="text-syn-p">scheduleId:</span> job<span class="text-syn-u">.</span>data<span class="text-syn-u">.</span><span class="text-syn-p">scheduleId</span><span class="text-syn-u">,</span>
+      <span class="text-syn-p">attempt:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">attemptsMade</span> <span class="text-syn-o">+</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span>
+    <span class="text-syn-u">});</span>
+
+    <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateReport</span><span class="text-syn-u">(</span>job<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span>
+
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>result<span class="text-syn-u">.</span><span class="text-syn-p">success</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>result<span class="text-syn-u">.</span><span class="text-syn-p">error</span> <span class="text-syn-o">===</span> <span class="text-syn-s">&quot;cancelled&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+        <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">UnrecoverableError</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Job was cancelled&quot;</span><span class="text-syn-u">);</span>
+      <span class="text-syn-u">}</span>
+      <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span>result<span class="text-syn-u">.</span><span class="text-syn-p">error</span> <span class="text-syn-o">||</span> <span class="text-syn-s">&quot;Report generation failed&quot;</span><span class="text-syn-u">);</span>
+    <span class="text-syn-u">}</span>
+
+    <span class="text-syn-k">return</span> result<span class="text-syn-u">;</span>
+  <span class="text-syn-u">},</span>
+  <span class="text-syn-u">{</span>
+    connection<span class="text-syn-u">,</span>
+    <span class="text-syn-p">concurrency:</span> <span class="text-syn-n">3</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">lockDuration:</span> <span class="text-syn-n">1800000</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">lockRenewTime:</span> <span class="text-syn-n">300000</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">stalledInterval:</span> <span class="text-syn-n">1800000</span><span class="text-syn-u">,</span>
+  <span class="text-syn-u">},</span>
+<span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">The worker options are tuned for long-running jobs:</p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >concurrency: 3</code
+                  ></strong
+                >: process up to 3 jobs simultaneously.
+              </li>
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >lockDuration: 1800000</code
+                  ></strong
+                >
+                (30 minutes): how long a job can run before BullMQ considers it
+                <a
+                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                  href="https://docs.bullmq.io/guide/workers/stalled-jobs"
+                  >stalled</a
+                >. Set this higher than your longest expected job.
+              </li>
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >lockRenewTime: 300000</code
+                  ></strong
+                >
+                (5 minutes): how often the worker renews the lock. Must be less than
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >lockDuration</code
+                >.
+              </li>
+              <li>
+                <strong
+                  ><code
+                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                    >stalledInterval: 1800000</code
+                  ></strong
+                >: how often BullMQ checks for stalled jobs.
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              The
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://docs.bullmq.io/guide/retrying-failing-jobs#unrecoverable-errors"
+                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >UnrecoverableError</code
+                ></a
+              >
+              is a BullMQ feature: throwing it tells BullMQ &quot;don&#39;t retry this job, it&#39;s
+              permanently failed.&quot; Use it for cancellations, invalid data, or any case where
+              retrying won&#39;t help.
+            </p>
+            <h3 id="error-handling" class="mt-8 text-lg leading-tight tracking-tight">
+              Error Handling
+            </h3>
+            <p class="mt-0 mb-6">Hook into worker events to log failures:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">worker<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;completed&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>job<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Job completed&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">jobId:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">scheduleId:</span> job<span class="text-syn-u">.</span>data<span class="text-syn-u">.</span><span class="text-syn-p">scheduleId</span><span class="text-syn-u">,</span>
+  <span class="text-syn-u">});</span>
+<span class="text-syn-u">});</span>
+
+worker<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;failed&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>job<span class="text-syn-u">,</span> err<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Job failed&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">jobId:</span> job<span class="text-syn-u">?.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">scheduleId:</span> job<span class="text-syn-u">?.</span>data<span class="text-syn-u">?.</span><span class="text-syn-p">scheduleId</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">error:</span> err<span class="text-syn-u">.</span><span class="text-syn-p">message</span><span class="text-syn-u">,</span>
+    <span class="text-syn-p">attempt:</span> job<span class="text-syn-u">?.</span><span class="text-syn-p">attemptsMade</span><span class="text-syn-u">,</span>
+  <span class="text-syn-u">});</span>
+<span class="text-syn-u">});</span>
+
+worker<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;error&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>err<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
+  console<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Worker error&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span> <span class="text-syn-p">error:</span> err<span class="text-syn-u">.</span><span class="text-syn-p">message</span> <span class="text-syn-u">});</span>
+<span class="text-syn-u">});</span>
+</code></pre>
+            <h3 id="graceful-shutdown" class="mt-8 text-lg leading-tight tracking-tight">
+              Graceful Shutdown
+            </h3>
+            <p class="mt-0 mb-6">
+              In production, you want your worker to finish active jobs before shutting down instead
+              of killing them mid-execution. Here&#39;s the pattern:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">let</span> isShuttingDown <span class="text-syn-o">=</span> <span class="text-syn-k">false</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">shutdown</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>isShuttingDown<span class="text-syn-u">)</span> <span class="text-syn-k">return</span><span class="text-syn-u">;</span>
+  isShuttingDown <span class="text-syn-o">=</span> <span class="text-syn-k">true</span><span class="text-syn-u">;</span>
+
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Starting graceful shutdown&quot;</span><span class="text-syn-u">);</span>
+
+  <span class="text-syn-k">const</span> SHUTDOWN_TIMEOUT <span class="text-syn-o">=</span> <span class="text-syn-n">120_000</span><span class="text-syn-u">;</span>
+
+  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">await</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">.</span><span class="text-syn-f">race</span><span class="text-syn-u">([</span>
+      <span class="text-syn-f">waitForActiveJobs</span><span class="text-syn-u">(),</span>
+      <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">((</span>_<span class="text-syn-u">,</span> reject<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span>
+        <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-f">reject</span><span class="text-syn-u">(</span><span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Shutdown timeout&quot;</span><span class="text-syn-u">)),</span> SHUTDOWN_TIMEOUT<span class="text-syn-u">),</span>
+      <span class="text-syn-u">),</span>
+    <span class="text-syn-u">]);</span>
+  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">(</span>err<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    console<span class="text-syn-u">.</span><span class="text-syn-f">warn</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Shutdown timeout, forcing close&quot;</span><span class="text-syn-u">);</span>
+  <span class="text-syn-u">}</span> <span class="text-syn-k">finally</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">await</span> worker<span class="text-syn-u">.</span><span class="text-syn-f">close</span><span class="text-syn-u">();</span>
+    <span class="text-syn-k">await</span> scheduledQueue<span class="text-syn-u">.</span><span class="text-syn-f">close</span><span class="text-syn-u">();</span>
+    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Worker stopped&quot;</span><span class="text-syn-u">);</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">waitForActiveJobs</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> MAX_CHECKS <span class="text-syn-o">=</span> <span class="text-syn-n">120</span><span class="text-syn-u">;</span>
+  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">let</span> i <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span> i <span class="text-syn-o">&lt;</span> MAX_CHECKS<span class="text-syn-u">;</span> i<span class="text-syn-o">++</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">const</span> active <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> scheduledQueue<span class="text-syn-u">.</span><span class="text-syn-f">getActiveCount</span><span class="text-syn-u">();</span>
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>active <span class="text-syn-o">===</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span><span class="text-syn-u">;</span>
+    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">`Waiting for ${active} active jobs...`</span><span class="text-syn-u">);</span>
+    <span class="text-syn-k">await</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">((</span>r<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>r<span class="text-syn-u">,</span> <span class="text-syn-n">1000</span><span class="text-syn-u">));</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+
+process<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SIGTERM&quot;</span><span class="text-syn-u">,</span> shutdown<span class="text-syn-u">);</span>
+process<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SIGINT&quot;</span><span class="text-syn-u">,</span> shutdown<span class="text-syn-u">);</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              The idea: when we receive a shutdown signal, stop accepting new jobs and wait up to 2
+              minutes for active ones to complete. If they don&#39;t finish in time, force-close.
+              This avoids both data loss (killing mid-job) and hanging deploys (waiting forever).
+            </p>
+            <h2
+              id="keeping-schedules-in-sync"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Keeping Schedules in Sync
+            </h2>
+            <p class="mt-0 mb-6">
+              Here&#39;s a production problem that catches people off guard: your database says
+              &quot;schedule X runs at
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >0 8 * * *</code
+              >,&quot; but Redis disagrees. This happens when:
+            </p>
+            <ul class="mt-0 mb-6">
+              <li>Redis gets flushed or restarted without persistence</li>
+              <li>Someone updates a schedule via the API but the Redis write fails</li>
+              <li>A deploy rolls back the code but not the Redis state</li>
+              <li>You migrate to a new Redis instance</li>
+            </ul>
+            <p class="mt-0 mb-6">
+              The fix is a <strong>reconciliation script</strong> that compares what your database
+              says against what Redis has, and brings them in line:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Queue <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;bullmq&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">interface</span> <span class="text-syn-t">DbSchedule</span> <span class="text-syn-u">{</span>
+  id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  cronExpression<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  reportType<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
+  enabled<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">syncSchedules</span><span class="text-syn-u">(</span>dbSchedules<span class="text-syn-o">:</span> <span class="text-syn-t">DbSchedule</span><span class="text-syn-u">[],</span> queue<span class="text-syn-o">:</span> <span class="text-syn-t">Queue</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> enabledSchedules <span class="text-syn-o">=</span> dbSchedules<span class="text-syn-u">.</span><span class="text-syn-f">filter</span><span class="text-syn-u">((</span>s<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> s<span class="text-syn-u">.</span><span class="text-syn-p">enabled</span><span class="text-syn-u">);</span>
+  <span class="text-syn-k">const</span> repeatableJobs <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> queue<span class="text-syn-u">.</span><span class="text-syn-f">getRepeatableJobs</span><span class="text-syn-u">();</span>
+
+  <span class="text-syn-k">const</span> desiredIds <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Set</span><span class="text-syn-u">(</span>enabledSchedules<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>s<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> s<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">));</span>
+
+  <span class="text-syn-k">const</span> existingByScheduleId <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Map</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span> key<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span> pattern<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">}&gt;();</span>
+  <span class="text-syn-k">const</span> orphaned<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span>
+
+  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> job <span class="text-syn-o">of</span> repeatableJobs<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">const</span> scheduleId <span class="text-syn-o">=</span> <span class="text-syn-f">extractScheduleId</span><span class="text-syn-u">(</span>job<span class="text-syn-u">.</span><span class="text-syn-p">key</span><span class="text-syn-u">);</span>
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>scheduleId <span class="text-syn-o">&amp;&amp;</span> desiredIds<span class="text-syn-u">.</span><span class="text-syn-f">has</span><span class="text-syn-u">(</span>scheduleId<span class="text-syn-u">))</span> <span class="text-syn-u">{</span>
+      existingByScheduleId<span class="text-syn-u">.</span><span class="text-syn-f">set</span><span class="text-syn-u">(</span>scheduleId<span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
+        <span class="text-syn-p">key:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">key</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">pattern:</span> job<span class="text-syn-u">.</span><span class="text-syn-p">pattern</span> <span class="text-syn-o">??</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-u">});</span>
+    <span class="text-syn-u">}</span> <span class="text-syn-k">else</span> <span class="text-syn-u">{</span>
+      orphaned<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">(</span>job<span class="text-syn-u">.</span><span class="text-syn-p">key</span><span class="text-syn-u">);</span>
+    <span class="text-syn-u">}</span>
+  <span class="text-syn-u">}</span>
+
+  <span class="text-syn-k">let</span> removed <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span>
+  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> key <span class="text-syn-o">of</span> orphaned<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">await</span> queue<span class="text-syn-u">.</span><span class="text-syn-f">removeRepeatableByKey</span><span class="text-syn-u">(</span>key<span class="text-syn-u">);</span>
+    removed<span class="text-syn-o">++</span><span class="text-syn-u">;</span>
+  <span class="text-syn-u">}</span>
+
+  <span class="text-syn-k">let</span> added <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span>
+  <span class="text-syn-k">let</span> updated <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span>
+  <span class="text-syn-k">let</span> unchanged <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span>
+
+  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> schedule <span class="text-syn-o">of</span> enabledSchedules<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-k">const</span> existing <span class="text-syn-o">=</span> existingByScheduleId<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>schedule<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">);</span>
+
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>existing <span class="text-syn-o">&amp;&amp;</span> existing<span class="text-syn-u">.</span><span class="text-syn-p">pattern</span> <span class="text-syn-o">===</span> schedule<span class="text-syn-u">.</span><span class="text-syn-p">cronExpression</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+      unchanged<span class="text-syn-o">++</span><span class="text-syn-u">;</span>
+      <span class="text-syn-k">continue</span><span class="text-syn-u">;</span>
+    <span class="text-syn-u">}</span>
+
+    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>existing<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-k">await</span> queue<span class="text-syn-u">.</span><span class="text-syn-f">removeRepeatableByKey</span><span class="text-syn-u">(</span>existing<span class="text-syn-u">.</span><span class="text-syn-p">key</span><span class="text-syn-u">);</span>
+    <span class="text-syn-u">}</span>
+
+    <span class="text-syn-k">await</span> queue<span class="text-syn-u">.</span><span class="text-syn-f">add</span><span class="text-syn-u">(</span>
+      <span class="text-syn-s">&quot;generate-report&quot;</span><span class="text-syn-u">,</span>
+      <span class="text-syn-u">{</span>
+        <span class="text-syn-p">jobId:</span> <span class="text-syn-s">`scheduled-${schedule.</span><span class="text-syn-p">id</span><span class="text-syn-s">}`</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">scheduleId:</span> schedule<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">userId:</span> schedule<span class="text-syn-u">.</span><span class="text-syn-p">userId</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">reportType:</span> schedule<span class="text-syn-u">.</span><span class="text-syn-p">reportType</span><span class="text-syn-u">,</span>
+      <span class="text-syn-u">},</span>
+      <span class="text-syn-u">{</span>
+        <span class="text-syn-p">repeat:</span> <span class="text-syn-u">{</span>
+          <span class="text-syn-p">pattern:</span> schedule<span class="text-syn-u">.</span><span class="text-syn-p">cronExpression</span><span class="text-syn-u">,</span>
+          <span class="text-syn-p">tz:</span> <span class="text-syn-s">&quot;UTC&quot;</span><span class="text-syn-u">,</span>
+        <span class="text-syn-u">},</span>
+      <span class="text-syn-u">},</span>
+    <span class="text-syn-u">);</span>
+
+    existing <span class="text-syn-o">?</span> updated<span class="text-syn-o">++</span> <span class="text-syn-o">:</span> added<span class="text-syn-o">++</span><span class="text-syn-u">;</span>
+  <span class="text-syn-u">}</span>
+
+  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Schedule sync complete&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">total:</span> enabledSchedules<span class="text-syn-u">.</span>length<span class="text-syn-u">,</span>
+    added<span class="text-syn-u">,</span>
+    updated<span class="text-syn-u">,</span>
+    unchanged<span class="text-syn-u">,</span>
+    <span class="text-syn-p">removedOrphans:</span> removed<span class="text-syn-u">,</span>
+  <span class="text-syn-u">});</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">function</span> <span class="text-syn-f">extractScheduleId</span><span class="text-syn-u">(</span>jobKey<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-o">|</span> <span class="text-syn-t">null</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> match <span class="text-syn-o">=</span> jobKey<span class="text-syn-u">.</span><span class="text-syn-f">match</span><span class="text-syn-u">(</span><span class="text-syn-s">/scheduled-([a-zA-Z0-9_-]+)/</span><span class="text-syn-u">);</span>
+  <span class="text-syn-k">return</span> match<span class="text-syn-u">?.[</span><span class="text-syn-n">1</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">The logic is straightforward:</p>
+            <ol class="mt-0 mb-6">
+              <li>Load all enabled schedules from your database</li>
+              <li>Load all repeatable jobs from Redis</li>
+              <li>Remove orphaned Redis jobs (exist in Redis but not in DB)</li>
+              <li>
+                For each DB schedule: if Redis has it with the same pattern, skip. If the pattern
+                changed, remove the old one and add the new one. If it&#39;s missing, add it.
+              </li>
+            </ol>
+            <p class="mt-0 mb-6">
+              Run this script on deploy, on a health check interval, or after any Redis incident.
+              It&#39;s idempotent, so running it multiple times is safe.
+            </p>
+            <p class="mt-0 mb-6">
+              At Noveum, we run this as a Kubernetes
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://kubernetes.io/docs/concepts/workloads/pods/init-containers/"
+                >init container</a
+              >
+              on the worker deployment. Before the worker pod starts accepting jobs, the init
+              container runs the sync script to reconcile the database with Redis:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-yaml rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-s">initContainers</span><span class="text-syn-u">:</span>
+  <span class="text-syn-u">-</span> <span class="text-syn-s">name</span><span class="text-syn-u">:</span> <span class="text-syn-s">sync-schedules</span>
+    <span class="text-syn-s">image</span><span class="text-syn-u">:</span> <span class="text-syn-s">your-workers-image:latest</span>
+    <span class="text-syn-s">command</span><span class="text-syn-u">:</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;tsx&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;scripts/sync-schedules.ts&quot;</span><span class="text-syn-u">]</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This guarantees that every time a worker pod starts (fresh deploy, restart after a
+              crash, scaling event), Redis has the correct set of repeatable jobs before the worker
+              begins processing. The main container only starts after the init container exits
+              successfully, so there&#39;s no window where the worker is running with stale or
+              missing schedules.
+            </p>
+            <h2
+              id="why-this-architecture-is-resilient"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Why This Architecture Is Resilient
+            </h2>
+            <p class="mt-0 mb-6">
+              One of the biggest advantages of BullMQ with Redis is that the
+              <strong>schedule itself lives in Redis, not in your application code</strong>. There
+              is no &quot;scheduler process&quot; running a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >setInterval</code
+              >
+              or a
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >node-cron</code
+              >
+              somewhere. The cron pattern, the next run time, and the repeatable job metadata all
+              live in Redis as durable state.
+            </p>
+            <p class="mt-0 mb-6">In our setup at Noveum, we have three moving pieces:</p>
+            <ol class="mt-0 mb-6">
+              <li>
+                <strong>Next.js app</strong>
+                (via API routes): this is where users create, update, and delete schedules. The API
+                calls
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >queue.add(..., { repeat: { pattern, tz } })</code
+                >
+                to register a repeatable job in Redis.
+              </li>
+              <li>
+                <strong>Worker processes</strong>: these run the BullMQ
+                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                  >Worker</code
+                >
+                that picks up and executes jobs when they fire.
+              </li>
+              <li>
+                <strong>Redis</strong>: this holds the queue, the repeatable job definitions, and
+                all job state.
+              </li>
+            </ol>
+            <p class="mt-0 mb-6">
+              The key insight is that
+              <strong
+                >none of the scheduling logic runs inside your Next.js app or your workers</strong
+              >. BullMQ&#39;s repeatable job mechanism is a Redis-native operation. Once a
+              repeatable job is registered, Redis knows the cron pattern and the next execution
+              time. When that time comes, BullMQ promotes the job into the waiting queue
+              automatically.
+            </p>
+            <p class="mt-0 mb-6">This means:</p>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong>Next.js goes down?</strong>
+                Doesn&#39;t matter. Existing schedules keep ticking because they&#39;re already
+                registered in Redis. You only lose the ability to create or edit schedules until the
+                API is back.
+              </li>
+              <li>
+                <strong>Workers go down?</strong>
+                Jobs pile up in the Redis queue. The moment a worker comes back online, it drains
+                the backlog and processes everything that was waiting.
+              </li>
+              <li>
+                <strong>Both Next.js and workers go down?</strong>
+                The cron schedules are still not affected. Redis continues to track the repeatable
+                patterns and queue new job instances on schedule. When your workers recover, they
+                pick up right where things left off.
+              </li>
+            </ul>
+            <p class="mt-0 mb-6">
+              The only real failure mode is <strong>Redis itself going down</strong>. If Redis is
+              gone, the schedules, the queue, and all job state go with it. That&#39;s why Redis
+              persistence (RDB snapshots, AOF, or a managed Redis service with automatic backups)
+              matters. And even in that worst case, the reconciliation script we built earlier can
+              rebuild all repeatable jobs from your database.
+            </p>
+            <p class="mt-0 mb-6">
+              Compare this to
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >node-cron</code
+              >
+              or
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >setInterval</code
+              >, where the scheduler, the executor, and the state all live in the same Node process.
+              If that process dies, everything is gone. With BullMQ, you&#39;ve cleanly separated
+              <strong>who registers schedules</strong>
+              (API),
+              <strong>who executes jobs</strong>
+              (workers), and
+              <strong>who holds the schedule state</strong>
+              (Redis). Each can fail independently without taking down the others.
+            </p>
+            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Wrapping Up
+            </h2>
+            <p class="mt-0 mb-6">
+              The full architecture looks like this: a <strong>Queue</strong> backed by Redis holds
+              the cron patterns, a <strong>Worker</strong> process picks up jobs when they fire,
+              your <strong>API</strong> lets users create and manage schedules, and an optional
+              <strong>sync script</strong>
+              reconciles the database with Redis when things drift.
+            </p>
+            <p class="mt-0 mb-6">
+              For sending emails as part of your cron jobs (weekly digests, reports, notifications),
+              I&#39;ve covered that in a
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/contact-form-with-resend/"
+                >previous post about email delivery with Resend</a
+              >.
+            </p>
+            <p class="mt-0 mb-6">
+              I&#39;ve put together a working example with all the code from this post that you can
+              run locally:
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://github.com/pulkitxm/systems/tree/main/messaging/cron-jobs"
+                >cron-jobs on GitHub</a
+              >. It includes the queue setup, worker with task handlers, schedule management
+              scripts, and the reconciliation logic, all wired up with Docker Compose for Redis.
+            </p>
+            <p class="mt-0 mb-6">
+              If your scheduling needs are simple, like a fixed cron that hits an API route, Vercel
+              cron or
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >node-cron</code
+              >
+              will serve you well. But when users need to define their own schedules, when jobs run
+              for minutes instead of seconds, when you need retries and distributed processing,
+              that&#39;s where BullMQ earns its place. It&#39;s more setup upfront, but the
+              reliability and flexibility in production makes it worth it.
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/prisma-with-postgresql/"
+                >Prisma ORM with PostgreSQL</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/aws-s3-with-nodejs/"
+                >AWS S3 with Node.js: Upload Files with SDK v3</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/branded-types-in-typescript/"
+                >Branded Types in TypeScript</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

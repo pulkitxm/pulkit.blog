@@ -1,0 +1,1031 @@
+<!doctype html>
+<html
+  lang="en"
+  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
+    </style>
+    <meta
+      name="description"
+      content="Master easing curves to make your animations feel natural. Learn why linear is almost always wrong, how cubic-bezier works, and which easing to use for different interactions."
+    />
+    <link
+      rel="canonical"
+      href="https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/"
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="pulkit.blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Easing Curves That Feel Natural | pulkit.blog" />
+    <meta
+      property="og:description"
+      content="Master easing curves to make your animations feel natural. Learn why linear is almost always wrong, how cubic-bezier works, and which easing to use for different interactions."
+    />
+    <meta
+      property="og:url"
+      content="https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/"
+    />
+    <meta
+      property="og:image"
+      content="https://pulkit.blog/og/design-engineering/easing-curves-that-feel-natural/card.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://pulkit.blog/og/design-engineering/easing-curves-that-feel-natural/card.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Easing Curves That Feel Natural" />
+    <meta property="article:published_time" content="2026-01-27" />
+    <meta property="article:author" content="https://pulkit.page/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Easing Curves That Feel Natural | pulkit.blog" />
+    <meta
+      name="twitter:description"
+      content="Master easing curves to make your animations feel natural. Learn why linear is almost always wrong, how cubic-bezier works, and which easing to use for different interactions."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pulkit.blog/og/design-engineering/easing-curves-that-feel-natural/card.png"
+    />
+    <meta name="twitter:image:alt" content="Easing Curves That Feel Natural" />
+    <script
+      type="application/ld+json"
+    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#image","contentUrl":"https://pulkit.blog/og/design-engineering/easing-curves-that-feel-natural/card.png","width":1200,"height":630,"caption":"Easing Curves That Feel Natural"},{"@type":"BlogPosting","@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#article","headline":"Easing Curves That Feel Natural","description":"Master easing curves to make your animations feel natural. Learn why linear is almost always wrong, how cubic-bezier works, and which easing to use for different interactions.","datePublished":"2026-01-27","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/design-engineering/#webpage"},"image":{"@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#image"},"url":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/","inLanguage":"en","keywords":["CSS","Cubic Bezier","Motion Design","UI Animation","Framer Motion"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Design Engineering","item":"https://pulkit.blog/design-engineering/"},{"@type":"ListItem","position":3,"name":"Easing Curves That Feel Natural","item":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#webpage","url":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/","name":"Easing Curves That Feel Natural","description":"Master easing curves to make your animations feel natural. Learn why linear is almost always wrong, how cubic-bezier works, and which easing to use for different interactions.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#article"},"breadcrumb":{"@id":"https://pulkit.blog/design-engineering/easing-curves-that-feel-natural/#breadcrumbs"}}]}</script>
+    <link rel="stylesheet" href="/assets/demos/document.css" />
+    <script type="module" src="/assets/demos/index.js"></script>
+    <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
+    <script src="/theme.af06a922519e.js"></script>
+    <title>Easing Curves That Feel Natural | pulkit.blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.fc493208788c.css" />
+  </head>
+
+  <body
+    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
+  >
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
+      >Skip to content</a
+    >
+    <div class="mx-auto max-w-170 px-6 max-sm:px-4">
+      <header
+        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
+      >
+        <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
+        <nav
+          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
+          aria-label="Main navigation"
+        >
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="/system-design/"
+            >System design</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="/design-engineering/"
+            >Design engineering</a
+          >
+          <a
+            class="text-inherit no-underline aria-[current=page]:text-fg"
+            href="https://pulkit.page/"
+            >About</a
+          >
+        </nav>
+      </header>
+
+      <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
+        <article>
+          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
+            <h1
+              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
+              data-title
+            >
+              Easing Curves That Feel Natural
+            </h1>
+            <p class="mt-0 mb-6 text-sm text-muted">
+              <time datetime="2026-01-27">January 27, 2026</time>
+              · 8 min read ·
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/design-engineering/"
+                >Design Engineering</a
+              >
+            </p>
+          </header>
+          <div class="text-[17px]/[1.75] wrap-anywhere">
+            <p class="mt-0 mb-6">
+              Linear animation is the default. It&#39;s also almost always wrong.
+            </p>
+            <p class="mt-0 mb-6">
+              When something moves at constant speed from start to finish, it feels robotic.
+              Mechanical. Unnatural. Real objects don&#39;t move this way. They accelerate out of
+              rest and decelerate into their final position.
+            </p>
+            <p class="mt-0 mb-6">
+              Easing is what makes animation feel alive. It&#39;s the difference between &quot;this
+              is a computer&quot; and &quot;this feels like a real thing.&quot;
+            </p>
+            <p class="mt-0 mb-6">
+              But easing isn&#39;t just about feel. It directly affects how fast your interface
+              <em>seems</em>. Two identical animations with different easing curves will feel like
+              they have different durations. The wrong curve makes your UI feel sluggish even when
+              the actual performance is fine. The right curve makes it feel snappy even when the
+              duration is longer.
+            </p>
+            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              TL;DR
+            </h2>
+            <ul class="mt-0 mb-6">
+              <li>
+                <strong>Linear is wrong</strong>
+                for most UI animations. It feels robotic because nothing in nature moves at constant
+                speed
+              </li>
+              <li>
+                <strong>Ease-out</strong>
+                is your default for UI. Elements decelerate into their final position, feels
+                responsive and snappy
+              </li>
+              <li>
+                <strong>Ease-in</strong>
+                is rare in UI. Only use for exits, it makes entrances feel sluggish
+              </li>
+              <li>
+                <strong>Ease-in-out</strong>
+                works for elements morphing or moving while staying on screen
+              </li>
+              <li>
+                <strong>Ease</strong>
+                is the elegant choice for hover effects and subtle color transitions
+              </li>
+              <li>
+                <strong>Cubic-bezier</strong>
+                gives you full control. Four numbers that define acceleration and deceleration
+              </li>
+              <li>
+                <strong>Custom curves</strong>
+                with stronger acceleration feel more energetic than built-in presets
+              </li>
+            </ul>
+            <h2
+              id="why-linear-feels-wrong"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Why Linear Feels Wrong
+            </h2>
+            <p class="mt-0 mb-6">
+              Watch a ball rolling across a table. It doesn&#39;t move at constant speed. Friction
+              slows it down. Now watch a ball being thrown. It accelerates as it leaves your hand,
+              then decelerates as it travels.
+            </p>
+            <p class="mt-0 mb-6">
+              Linear motion (constant speed from start to finish) exists only in physics problems
+              without friction. In the real world, everything accelerates and decelerates.
+            </p>
+            <demo-showcase
+              data-component="ball-drop"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              Your brain has spent your entire life learning how objects move. When something on
+              screen violates those expectations, it registers as wrong. Not consciously. You just
+              feel it.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">/* This feels robotic */</span>
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">linear</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              The element moves at exactly the same speed from start to finish. No acceleration at
+              the beginning. No deceleration at the end. It just... moves. And then stops abruptly.
+            </p>
+            <h2
+              id="the-four-standard-easings"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              The Four Standard Easings
+            </h2>
+            <p class="mt-0 mb-6">
+              CSS gives you four built-in easing functions. Each serves a different purpose.
+            </p>
+            <h3 id="ease-out-as-your-default" class="mt-8 text-lg leading-tight tracking-tight">
+              Ease Out as Your Default
+            </h3>
+            <p class="mt-0 mb-6">
+              The element starts fast and slows down as it reaches its destination.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <demo-showcase
+              data-component="easing-curve"
+              data-props='{"easeOut":true}'
+              data-frame='{"focusCode":false,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              <strong>Use for</strong>: Almost everything that appears or moves into position.
+              Modals opening, dropdowns appearing, elements sliding into view.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Why it works</strong>: When you push a physical object, it has momentum at the
+              start and slows down due to friction. Ease-out mimics this. The element
+              &quot;settles&quot; into its final position.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Mental model</strong>: The element is already moving and coming to rest at its
+              destination.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Pro tip</strong>: Add a subtle scale-down effect on button press for instant
+              responsiveness. A
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >scale(0.97)</code
+              >
+              on the
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >:active</code
+              >
+              state with
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >ease-out</code
+              >
+              makes buttons feel tactile:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.button</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">150ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.button:active</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">scale</span><span class="text-syn-u">(</span><span class="text-syn-n">0.97</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This tiny detail makes the difference between &quot;I clicked&quot; and &quot;the
+              button responded to me.&quot;
+            </p>
+            <demo-showcase
+              data-component="button-press"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <h3 id="ease-in" class="mt-8 text-lg leading-tight tracking-tight">Ease In</h3>
+            <p class="mt-0 mb-6">The element starts slow and speeds up.</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-in</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <demo-showcase
+              data-component="easing-curve"
+              data-props='{"easeIn":true}'
+              data-frame='{"focusCode":false,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              <strong>Use for</strong>: Elements leaving the screen. Modals closing, items being
+              dismissed.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Why it works</strong>: When something is about to leave your view, you want it
+              to accelerate away. Ease-in makes it feel like the element is &quot;getting out of the
+              way.&quot;
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Mental model</strong>: The element is gathering speed to leave.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Caution</strong>: Ease-in at the start of an interaction feels sluggish. The
+              element appears slow to respond. That&#39;s why you rarely use it for entrances.
+            </p>
+            <h3 id="ease-in-out" class="mt-8 text-lg leading-tight tracking-tight">Ease In Out</h3>
+            <p class="mt-0 mb-6">Slow start, fast middle, slow end.</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-in-out</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <demo-showcase
+              data-component="easing-curve"
+              data-props='{"easeInOut":true}'
+              data-frame='{"focusCode":false,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              <strong>Use for</strong>: Elements that are already visible and need to transform. A
+              progress bar growing, a card expanding into a detail view, a sidebar resizing. Also
+              good for looping animations where there&#39;s no clear entry or exit.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Why it works</strong>: It mimics how a car accelerates from a stop and
+              decelerates to a stop. The element doesn&#39;t just appear or disappear. It moves
+              through space while staying on screen.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Mental model</strong>: The element is at rest, moves, then comes to rest
+              again. Like sliding a book across a table.
+            </p>
+            <p class="mt-0 mb-6">
+              Think of Apple&#39;s Dynamic Island. It morphs between states while staying on screen.
+              If you were to convert its spring animation into an easing type, it would be
+              ease-in-out.
+            </p>
+            <h3 id="ease-as-the-elegant-choice" class="mt-8 text-lg leading-tight tracking-tight">
+              Ease as the Elegant Choice
+            </h3>
+            <p class="mt-0 mb-6">
+              CSS&#39;s default. Similar to ease-in-out but asymmetrical: it starts faster and ends
+              slower.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <demo-showcase
+              data-component="easing-curve"
+              data-props='{"ease":true}'
+              data-frame='{"focusCode":false,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              This is what you get if you don&#39;t specify anything. But don&#39;t dismiss it as a
+              generic default.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Use for</strong>: Hover effects, color transitions, opacity changes. Smaller,
+              more gentle animations where you want elegance over energy.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Why it works</strong>: The asymmetry creates a subtle sophistication. It&#39;s
+              neither as aggressive as ease-out nor as symmetrical as ease-in-out. For hover states
+              on buttons, links, or cards, this gentleness is exactly right.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Mental model</strong>: A refined, unhurried movement. Professional rather than
+              playful.
+            </p>
+            <p class="mt-0 mb-6">
+              The Sonner toast library uses
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >ease</code
+              >
+              instead of
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >ease-out</code
+              >
+              even though toasts enter and exit the screen. Why? Because
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >ease</code
+              >
+              makes the component feel more polished. Sometimes the &quot;correct&quot; easing
+              isn&#39;t the best choice. Context and character matter.
+            </p>
+            <h2
+              id="cubic-bezier-for-full-control"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Cubic Bezier for Full Control
+            </h2>
+            <p class="mt-0 mb-6">
+              All easing functions are cubic bezier curves under the hood. The four standard easings
+              are just presets:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">ease        = cubic-bezier(0<span class="text-syn-p">.25</span><span class="text-syn-u">,</span> 0<span class="text-syn-p">.1</span><span class="text-syn-u">,</span> 0<span class="text-syn-p">.25</span><span class="text-syn-u">,</span> 1<span class="text-syn-p">.0</span>)
+<span class="text-syn-g">ease-in</span>     = cubic-bezier(0<span class="text-syn-p">.42</span><span class="text-syn-u">,</span> 0<span class="text-syn-u">,</span> 1<span class="text-syn-p">.0</span><span class="text-syn-u">,</span> 1<span class="text-syn-p">.0</span>)
+<span class="text-syn-g">ease-out</span>    = cubic-bezier(0<span class="text-syn-u">,</span> 0<span class="text-syn-u">,</span> 0<span class="text-syn-p">.58</span><span class="text-syn-u">,</span> 1<span class="text-syn-p">.0</span>)
+<span class="text-syn-g">ease-in-out</span> = cubic-bezier(0<span class="text-syn-p">.42</span><span class="text-syn-u">,</span> 0<span class="text-syn-u">,</span> 0<span class="text-syn-p">.58</span><span class="text-syn-u">,</span> 1<span class="text-syn-p">.0</span>)
+linear      = cubic-bezier(0<span class="text-syn-u">,</span> 0<span class="text-syn-u">,</span> 1<span class="text-syn-u">,</span> 1)
+</code></pre>
+            <p class="mt-0 mb-6">The four numbers define two control points on a curve:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">cubic-bezier(x1, y1, x2, y2)
+
+x1, y1 = first control point
+x2, y2 = second control point
+</code></pre>
+            <demo-showcase
+              data-component="cubic-bezier-playground"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              <strong>X values</strong>
+              (0 to 1): Position in time. 0 is the start, 1 is the end.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Y values</strong>
+              (can exceed 0-1): Position in the animation. Values above 1 create overshoot. Values
+              below 0 create undershoot.
+            </p>
+            <h3 id="creating-custom-curves" class="mt-8 text-lg leading-tight tracking-tight">
+              Creating Custom Curves
+            </h3>
+            <p class="mt-0 mb-6"><strong>Snappy ease-out</strong> (faster deceleration):</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.16</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.3</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              This is more aggressive than standard ease-out. The element reaches near its final
+              position quickly, then slowly settles. Great for UI that needs to feel responsive.
+            </p>
+            <p class="mt-0 mb-6"><strong>Overshoot</strong> (bounce past target and settle):</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">400ms</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.34</span><span class="text-syn-u">,</span> <span class="text-syn-n">1.56</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.64</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              The y2 value (1.56) exceeds 1, so the element overshoots its target before settling
+              back. Creates a playful, bouncy feel.
+            </p>
+            <demo-showcase
+              data-component="easing-personalities"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6"><strong>Undershoot first</strong> (pull back before moving):</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">400ms</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.68</span><span class="text-syn-u">,</span> <span class="text-syn-n">-0.6</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.32</span><span class="text-syn-u">,</span> <span class="text-syn-n">1.6</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Negative y1 makes the element move backward first, then forward with overshoot. Use
+              sparingly. This is attention-grabbing.
+            </p>
+            <h2
+              id="common-easing-patterns"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Common Easing Patterns
+            </h2>
+            <p class="mt-0 mb-6">Here&#39;s my mental model for choosing easing:</p>
+            <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
+              <thead>
+                <tr>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Interaction</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Easing</th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Why</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Element appears</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">ease-out</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Coming to rest at destination
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Element disappears</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">ease-in</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Accelerating away</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Element morphs</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">ease-in-out</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Staying on screen, changing shape
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Hover effect</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">ease</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Elegant, unhurried transition
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Button press</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">ease-out</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Immediate feedback</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Loading spinner</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">linear</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Constant motion, no destination
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Marquee</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">linear</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Flowing, not arriving
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Hold to confirm</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">linear</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Visualizing time passage
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Dragging</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">none or linear</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Following user input 1:1
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Snap after drag</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">ease-out or spring</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">
+                    Settling into position
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> EASING <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">enter:</span> <span class="text-syn-s">&quot;cubic-bezier(0.16, 1, 0.3, 1)&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">exit:</span> <span class="text-syn-s">&quot;cubic-bezier(0.4, 0, 1, 1)&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">move:</span> <span class="text-syn-s">&quot;cubic-bezier(0.4, 0, 0.2, 1)&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">bounce:</span> <span class="text-syn-s">&quot;cubic-bezier(0.34, 1.56, 0.64, 1)&quot;</span><span class="text-syn-u">,</span>
+<span class="text-syn-u">};</span>
+</code></pre>
+            <h2
+              id="duration-and-easing-work-together"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Duration and Easing Work Together
+            </h2>
+            <p class="mt-0 mb-6">
+              Easing doesn&#39;t exist in isolation. A 200ms ease-out feels different from a 500ms
+              ease-out.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Shorter durations</strong>
+              (100-200ms): Need more aggressive easing to be noticeable. A subtle ease-out at 100ms
+              barely registers.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Longer durations</strong>
+              (300-500ms): Subtler easing works. Too aggressive and it feels cartoonish.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">/* Short duration, aggressive easing */</span>
+<span class="text-syn-p">.tooltip</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> opacity <span class="text-syn-n">150ms</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.16</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.3</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-c italic">/* Longer duration, gentler easing */</span>
+<span class="text-syn-p">.modal</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">350ms</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.4</span><span class="text-syn-u">,</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.2</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              As a rule: if you increase duration, consider softening the easing. If you decrease
+              duration, consider sharpening the easing.
+            </p>
+            <h2
+              id="tools-for-working-with-easing"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Tools for Working with Easing
+            </h2>
+            <p class="mt-0 mb-6">
+              <strong>Chrome DevTools</strong>: The cubic-bezier editor in the Styles panel lets you
+              visually edit curves and preview them.
+            </p>
+            <p class="mt-0 mb-6">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://cubic-bezier.com"
+                ><strong>cubic-bezier.com</strong></a
+              >: Interactive tool for creating and comparing curves.
+            </p>
+            <p class="mt-0 mb-6">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://easings.net"
+                ><strong>easings.net</strong></a
+              >: Visual reference for common easing functions with their cubic-bezier values.
+            </p>
+            <p class="mt-0 mb-6">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="https://www.framer.com/motion"
+                ><strong>Framer Motion</strong></a
+              >: If you&#39;re in React, spring animations often feel better than cubic-bezier for
+              interactive elements.
+            </p>
+            <h2
+              id="when-to-break-the-rules"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              When to Break the Rules
+            </h2>
+            <p class="mt-0 mb-6">Sometimes linear is correct:</p>
+            <ul class="mt-0 mb-6">
+              <li><strong>Continuous rotation</strong> (loading spinners)</li>
+              <li><strong>Following user input</strong> (dragging)</li>
+              <li><strong>Color transitions</strong> (can look better linear)</li>
+              <li><strong>Infinite scrolling marquees</strong></li>
+              <li>
+                <strong>Visualizing time passage</strong>
+                (progress bars, hold-to-confirm interactions)
+              </li>
+            </ul>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">/* Linear is correct for continuous rotation */</span>
+<span class="text-syn-p">.spinner</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> spin <span class="text-syn-n">1s</span> <span class="text-syn-k">linear</span> <span class="text-syn-k">infinite</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">@keyframes</span> spin <span class="text-syn-u">{</span>
+  from <span class="text-syn-u">{</span>
+    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">0deg</span><span class="text-syn-u">);</span>
+  <span class="text-syn-u">}</span>
+  to <span class="text-syn-u">{</span>
+    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-f">rotate</span><span class="text-syn-u">(</span><span class="text-syn-n">360deg</span><span class="text-syn-u">);</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              For a &quot;hold to delete&quot; button, you want the progress to fill linearly. Why?
+              Because you&#39;re showing the user how much time is left. Time passes linearly, so
+              the animation should too. Any easing would make the remaining time feel unpredictable.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">/* Linear is correct for time-based progress */</span>
+<span class="text-syn-p">.hold-progress</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> width <span class="text-syn-n">2s</span> <span class="text-syn-k">linear</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-p">.button:active</span> <span class="text-syn-p">.hold-progress</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">width</span><span class="text-syn-u">:</span> <span class="text-syn-n">100%</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <demo-showcase
+              data-component="hold-to-delete"
+              data-props="{}"
+              data-frame='{"focusCode":true,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">
+              A marquee scrolling text is another case. Constant speed feels correct because the
+              text is moving through a window, not arriving at a destination. Easing would make it
+              feel like the text is &quot;trying to get somewhere&quot; rather than flowing.
+            </p>
+            <demo-showcase
+              data-component="marquee"
+              data-props="{}"
+              data-frame='{"focusCode":true,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <p class="mt-0 mb-6">And sometimes dramatic easing is wrong:</p>
+            <ul class="mt-0 mb-6">
+              <li><strong>Banking/finance apps</strong>: keep it subtle</li>
+              <li><strong>Accessibility contexts</strong>: reduce motion preferences</li>
+              <li><strong>High-frequency interactions</strong>: tooltips, hover states</li>
+            </ul>
+            <h2
+              id="beyond-the-presets"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Beyond the Presets
+            </h2>
+            <p class="mt-0 mb-6">
+              The built-in CSS easing functions are starting points, not destinations. Their
+              accelerations are often too subtle for energetic UI.
+            </p>
+            <p class="mt-0 mb-6">
+              Compare the built-in
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >ease-out</code
+              >
+              to a custom curve:
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">/* Built-in: subtle, safe */</span>
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-c italic">/* Custom: snappier, more energetic */</span>
+<span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.16</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.3</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              The custom curve has a stronger initial acceleration. The element &quot;pops&quot;
+              into position rather than gently settling. Neither is universally better. It depends
+              on the personality you want.
+            </p>
+            <p class="mt-0 mb-6">Build a collection of custom curves for different intensities:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> EASING <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">subtle:</span> <span class="text-syn-s">&quot;cubic-bezier(0.4, 0, 0.2, 1)&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">standard:</span> <span class="text-syn-s">&quot;cubic-bezier(0.16, 1, 0.3, 1)&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">energetic:</span> <span class="text-syn-s">&quot;cubic-bezier(0.34, 1.56, 0.64, 1)&quot;</span><span class="text-syn-u">,</span>
+  <span class="text-syn-p">dramatic:</span> <span class="text-syn-s">&quot;cubic-bezier(0.68, -0.6, 0.32, 1.6)&quot;</span><span class="text-syn-u">,</span>
+<span class="text-syn-u">};</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              Many open-source libraries ship with carefully tuned curves. Vaul (the drawer
+              component) uses a curve specifically designed to mimic iOS sheet behavior. That single
+              detail makes the component feel native on mobile. When you find a curve that feels
+              right in someone else&#39;s work, inspect it and learn from it.
+            </p>
+            <h2
+              id="respecting-reduced-motion"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              Respecting Reduced Motion
+            </h2>
+            <p class="mt-0 mb-6">
+              Not everyone experiences motion the same way. For some users, animations can cause
+              discomfort, nausea, or seizures. The
+              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
+                >prefers-reduced-motion</code
+              >
+              media query lets you respect user preferences.
+            </p>
+            <demo-showcase
+              data-component="reduced-motion"
+              data-props="{}"
+              data-frame='{"focusCode":false,"replayButton":false,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <h3 id="the-media-query" class="mt-8 text-lg leading-tight tracking-tight">
+              The Media Query
+            </h3>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">@media</span> <span class="text-syn-u">(</span>prefers-reduced-motion<span class="text-syn-u">:</span> reduce<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> <span class="text-syn-k">none</span><span class="text-syn-u">;</span>
+    <span class="text-syn-p">animation</span><span class="text-syn-u">:</span> <span class="text-syn-k">none</span><span class="text-syn-u">;</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6">
+              But &quot;reduce&quot; doesn&#39;t mean &quot;remove entirely.&quot; The goal is to
+              minimize vestibular triggers while maintaining usability.
+            </p>
+            <h3 id="what-to-reduce" class="mt-8 text-lg leading-tight tracking-tight">
+              What to Reduce
+            </h3>
+            <p class="mt-0 mb-6">
+              <strong>Remove</strong>: Parallax effects, auto-playing videos, large-scale movements,
+              zooming animations, spinning or rotating elements.
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Keep but simplify</strong>: Opacity fades, color transitions, small-scale
+              position changes. These rarely cause issues and help users understand state changes.
+            </p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.modal</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span>
+    opacity <span class="text-syn-n">200ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">,</span>
+    transform <span class="text-syn-n">200ms</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.16</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.3</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">@media</span> <span class="text-syn-u">(</span>prefers-reduced-motion<span class="text-syn-u">:</span> reduce<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">.modal</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-c italic">/* Keep opacity, remove transform */</span>
+    <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> opacity <span class="text-syn-n">150ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span>
+    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-k">none</span> <span class="text-syn-k">!important</span><span class="text-syn-u">;</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <h3 id="implementation-patterns" class="mt-8 text-lg leading-tight tracking-tight">
+              Implementation Patterns
+            </h3>
+            <p class="mt-0 mb-6"><strong>CSS approach</strong> (best for simple cases):</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> transform <span class="text-syn-n">300ms</span> <span class="text-syn-f">cubic-bezier</span><span class="text-syn-u">(</span><span class="text-syn-n">0.16</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.3</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+
+<span class="text-syn-k">@media</span> <span class="text-syn-u">(</span>prefers-reduced-motion<span class="text-syn-u">:</span> reduce<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-p">.element</span> <span class="text-syn-u">{</span>
+    <span class="text-syn-p">transition</span><span class="text-syn-u">:</span> opacity <span class="text-syn-n">150ms</span> <span class="text-syn-k">ease-out</span><span class="text-syn-u">;</span>
+    <span class="text-syn-p">transform</span><span class="text-syn-u">:</span> <span class="text-syn-k">none</span><span class="text-syn-u">;</span>
+  <span class="text-syn-u">}</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <p class="mt-0 mb-6"><strong>JavaScript approach</strong> (for complex animations):</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> prefersReducedMotion <span class="text-syn-o">=</span> window<span class="text-syn-u">.</span><span class="text-syn-f">matchMedia</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;(prefers-reduced-motion: reduce)&quot;</span><span class="text-syn-u">).</span><span class="text-syn-p">matches</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">const</span> animationConfig <span class="text-syn-o">=</span> prefersReducedMotion
+  <span class="text-syn-o">?</span> <span class="text-syn-u">{</span> <span class="text-syn-p">opacity:</span> <span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">],</span> <span class="text-syn-p">duration:</span> <span class="text-syn-n">150</span><span class="text-syn-u">,</span> <span class="text-syn-p">easing:</span> <span class="text-syn-s">&quot;ease-out&quot;</span> <span class="text-syn-u">}</span>
+  <span class="text-syn-o">:</span> <span class="text-syn-u">{</span>
+      <span class="text-syn-p">opacity:</span> <span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">],</span>
+      <span class="text-syn-p">transform:</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;translateY(-8px) scale(0.95)&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;translateY(0) scale(1)&quot;</span><span class="text-syn-u">],</span>
+      <span class="text-syn-p">duration:</span> <span class="text-syn-n">200</span><span class="text-syn-u">,</span>
+      <span class="text-syn-p">easing:</span> <span class="text-syn-s">&quot;cubic-bezier(0.16, 1, 0.3, 1)&quot;</span><span class="text-syn-u">,</span>
+    <span class="text-syn-u">};</span>
+</code></pre>
+            <p class="mt-0 mb-6"><strong>Framer Motion approach</strong>:</p>
+            <pre
+              tabindex="0"
+              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
+            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useReducedMotion <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;framer-motion&quot;</span><span class="text-syn-u">;</span>
+
+<span class="text-syn-k">function</span> <span class="text-syn-f">Modal</span><span class="text-syn-u">({</span> isOpen<span class="text-syn-u">,</span> children <span class="text-syn-u">})</span> <span class="text-syn-u">{</span>
+  <span class="text-syn-k">const</span> shouldReduceMotion <span class="text-syn-o">=</span> <span class="text-syn-f">useReducedMotion</span><span class="text-syn-u">();</span>
+
+  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
+    <span class="text-syn-u">&lt;</span><span class="text-syn-g">motion.div</span>
+      <span class="text-syn-p">animate</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
+        <span class="text-syn-p">opacity:</span> isOpen <span class="text-syn-o">?</span> <span class="text-syn-n">1</span> <span class="text-syn-o">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">scale:</span> shouldReduceMotion <span class="text-syn-o">?</span> <span class="text-syn-n">1</span> <span class="text-syn-o">:</span> isOpen <span class="text-syn-o">?</span> <span class="text-syn-n">1</span> <span class="text-syn-o">:</span> <span class="text-syn-n">0.95</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">y:</span> shouldReduceMotion <span class="text-syn-o">?</span> <span class="text-syn-n">0</span> <span class="text-syn-o">:</span> isOpen <span class="text-syn-o">?</span> <span class="text-syn-n">0</span> <span class="text-syn-o">:</span> <span class="text-syn-o">-</span><span class="text-syn-n">8</span><span class="text-syn-u">,</span>
+      <span class="text-syn-u">}}</span>
+      <span class="text-syn-p">transition</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
+        <span class="text-syn-p">duration:</span> shouldReduceMotion <span class="text-syn-o">?</span> <span class="text-syn-n">0.15</span> <span class="text-syn-o">:</span> <span class="text-syn-n">0.2</span><span class="text-syn-u">,</span>
+        <span class="text-syn-p">ease:</span> shouldReduceMotion <span class="text-syn-o">?</span> <span class="text-syn-s">&quot;easeOut&quot;</span> <span class="text-syn-o">:</span> <span class="text-syn-u">[</span><span class="text-syn-n">0.16</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">,</span> <span class="text-syn-n">0.3</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">],</span>
+      <span class="text-syn-u">}}</span>
+    <span class="text-syn-u">&gt;</span>
+      <span class="text-syn-u">{</span>children<span class="text-syn-u">}</span>
+    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">motion.div</span><span class="text-syn-u">&gt;</span>
+  <span class="text-syn-u">);</span>
+<span class="text-syn-u">}</span>
+</code></pre>
+            <h3 id="testing-reduced-motion" class="mt-8 text-lg leading-tight tracking-tight">
+              Testing Reduced Motion
+            </h3>
+            <p class="mt-0 mb-6">
+              <strong>macOS</strong>: System Preferences &gt; Accessibility &gt; Display &gt; Reduce
+              motion
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Windows</strong>: Settings &gt; Ease of Access &gt; Display &gt; Show
+              animations in Windows
+            </p>
+            <p class="mt-0 mb-6">
+              <strong>Chrome DevTools</strong>: Rendering tab &gt; Emulate CSS media feature &gt;
+              prefers-reduced-motion
+            </p>
+            <p class="mt-0 mb-6">
+              Always test your site with reduced motion enabled. What seems like a minor animation
+              to you might be the difference between usable and unusable for someone else.
+            </p>
+            <h2
+              id="all-easings-compared"
+              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
+            >
+              All Easings Compared
+            </h2>
+            <p class="mt-0 mb-6">
+              Here&#39;s a side-by-side comparison of all the standard easing curves. Each curve
+              animates using its own easing function, so you can see how they feel in practice.
+              Click on any legend item to toggle its visibility.
+            </p>
+            <demo-showcase
+              data-component="easing-curve"
+              data-props='{"linear":true,"easeIn":true,"easeOut":true,"easeInOut":true,"ease":true,"spring":true}'
+              data-frame='{"focusCode":false,"replayButton":true,"bitBigger":false,"fullHeight":false}'
+              data-height="default"
+            ></demo-showcase>
+            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
+              Conclusion
+            </h2>
+            <p class="mt-0 mb-6">
+              Easing is the soul of animation. Without it, motion feels dead. With the wrong easing,
+              motion feels wrong.
+            </p>
+            <p class="mt-0 mb-6">
+              Start with ease-out for entrances, ease-in for exits. That covers 80% of cases. When
+              you need more control, learn cubic-bezier. Understand that the four numbers control
+              acceleration and deceleration, and that y-values above 1 create overshoot.
+            </p>
+            <p class="mt-0 mb-6">
+              The best way to learn is to experiment. Take the same animation and try different
+              easing values. Feel the difference. Your intuition will develop faster than any theory
+              can teach.
+            </p>
+            <p class="mt-0 mb-6">
+              And when something feels off but you can&#39;t explain why, it&#39;s probably the
+              easing.
+            </p>
+          </div>
+        </article>
+        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
+            Related writing
+          </h2>
+          <ul class="mt-0 mb-6">
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/design-engineering/css-transitions/"
+                >Smooth Operators</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/design-engineering/the-physics-behind-natural-motion/"
+                >The Physics Behind Natural Motion</a
+              >
+            </li>
+            <li class="my-2">
+              <a
+                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
+                href="/design-engineering/clip-path-reveals/"
+                >Invisible Scissors</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </main>
+      <footer
+        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
+      >
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <small class="text-inherit">© 2026 Pulkit</small
+          ><span
+            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
+            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
+            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
+              >LinkedIn</a
+            >
+            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
+          >
+        </div>
+        <button
+          class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch color theme"
+        >
+          Theme
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

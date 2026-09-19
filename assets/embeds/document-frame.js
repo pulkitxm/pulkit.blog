@@ -1,0 +1,1 @@
+for(let e of document.querySelectorAll("[data-document-frame]"))e.addEventListener("click",(t)=>{if(t.defaultPrevented||t.button!==0||t.metaKey||t.ctrlKey)return;t.preventDefault();let a=document.createElement("iframe");a.src=e.getAttribute("href"),a.title=e.dataset.title??"",a.className=e.dataset.frameClass??"",a.loading="lazy",e.replaceWith(a)});
