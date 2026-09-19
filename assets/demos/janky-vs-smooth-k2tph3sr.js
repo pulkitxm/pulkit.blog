@@ -38,14 +38,14 @@ import{I,A,g}from"./index.js";var o=16,l="rounded-md bg-amber-500 px-4 py-2 font
           ${s("janky-box rounded-sm bg-linear-to-br from-red-400 to-red-600")}
         </div>
         <span class="font-medium text-red-600 text-xs dark:text-red-400">Animates width, height</span>
-        <span class="text-neutral-500 text-xs">Triggers layout every frame</span>
+        <span class="text-neutral-600 dark:text-neutral-400 text-xs">Triggers layout every frame</span>
       </div>
       <div class="flex flex-col items-center gap-2">
         <div class="relative grid h-32 w-32 grid-cols-4 gap-1 overflow-hidden rounded-lg border border-green-200 bg-green-50 p-2 dark:border-green-900 dark:bg-green-950/40">
           ${s("smooth-box rounded-sm bg-linear-to-br from-green-400 to-green-600")}
         </div>
         <span class="font-medium text-green-600 text-xs dark:text-green-400">Animates transform only</span>
-        <span class="text-neutral-500 text-xs">GPU handles it</span>
+        <span class="text-neutral-600 dark:text-neutral-400 text-xs">GPU handles it</span>
       </div>
     </div>
     <div class="flex gap-3">
@@ -54,4 +54,4 @@ import{I,A,g}from"./index.js";var o=16,l="rounded-md bg-amber-500 px-4 py-2 font
     </div>
     <style>${d}</style>
     <p class="max-w-sm text-center text-neutral-500 text-xs dark:text-neutral-400">When you block the main thread, the left animation freezes because width/height changes require JavaScript. The right animation keeps running because transform is handled entirely by the GPU.</p>
-  </div>`;let{block:e,toggle:r}=g(t);e.addEventListener("click",()=>{e.disabled=!0,e.textContent="Blocking for 2s...";let n=2000,i=performance.now();while(performance.now()-i<n)Math.random()*Math.random();e.disabled=!1,e.textContent="Block Main Thread"}),r.addEventListener("click",()=>{a=!a,r.textContent=a?"Pause":"Play";for(let n of t.querySelectorAll("[data-box]"))n.style.animationPlayState=a?"running":"paused"})}export{m as mount};
+  </div>`;let{block:e,toggle:n}=g(t);e.addEventListener("click",()=>{e.disabled=!0,e.textContent="Blocking for 2s...";let r=2000,i=performance.now();while(performance.now()-i<r)Math.random()*Math.random();e.disabled=!1,e.textContent="Block Main Thread"}),n.addEventListener("click",()=>{a=!a,n.textContent=a?"Pause":"Play";for(let r of t.querySelectorAll("[data-box]"))r.style.animationPlayState=a?"running":"paused"})}export{m as mount};

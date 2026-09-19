@@ -9,7 +9,7 @@ import{A}from"./index.js";var a=[{duration:"1.5s",feel:"Feels sluggish",label:"1
             </svg>
           </div>
           <span class="text-neutral-600 text-xs dark:text-neutral-400">${e.label}</span>
-          <span class="text-neutral-400 text-xs">${e.feel}</span>
+          <span class="text-neutral-500 dark:text-neutral-400 text-xs">${e.feel}</span>
         </div>`)}
     </div>
     <p class="max-w-sm text-center text-neutral-600 text-xs dark:text-neutral-400">A faster spinner creates the illusion that your app is working harder, even though the actual load time is identical.</p>
