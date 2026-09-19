@@ -1,58 +1,30 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key."
-    />
-    <link
-      rel="canonical"
-      href="https://pulkit.blog/system-design/understanding-database-scaling-sharding/"
-    />
-    <link
-      rel="alternate"
-      type="text/markdown"
-      href="https://pulkit.blog/system-design/understanding-database-scaling-sharding.md"
-    />
+    <meta name="description" content="Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key." />
+    <link rel="canonical" href="https://pulkit.blog/system-design/understanding-database-scaling-sharding/" />
+    <link rel="alternate" type="text/markdown" href="https://pulkit.blog/system-design/understanding-database-scaling-sharding.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
-    <meta
-      property="og:title"
-      content="Understanding Database Scaling and Sharding Patterns | pulkit.blog"
-    />
-    <meta
-      property="og:description"
-      content="Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key."
-    />
-    <meta
-      property="og:url"
-      content="https://pulkit.blog/system-design/understanding-database-scaling-sharding/"
-    />
-    <meta
-      property="og:image"
-      content="https://pulkit.blog/og/system-design/understanding-database-scaling-sharding/card.png"
-    />
-    <meta
-      property="og:image:secure_url"
-      content="https://pulkit.blog/og/system-design/understanding-database-scaling-sharding/card.png"
-    />
+    <meta property="og:title" content="Understanding Database Scaling and Sharding Patterns | pulkit.blog" />
+    <meta property="og:description" content="Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key." />
+    <meta property="og:url" content="https://pulkit.blog/system-design/understanding-database-scaling-sharding/" />
+    <meta property="og:image" content="https://pulkit.blog/og/system-design/understanding-database-scaling-sharding/card.png" />
+    <meta property="og:image:secure_url" content="https://pulkit.blog/og/system-design/understanding-database-scaling-sharding/card.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -60,208 +32,197 @@
     <meta property="article:published_time" content="2026-01-07" />
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Understanding Database Scaling and Sharding Patterns | pulkit.blog"
-    />
-    <meta
-      name="twitter:description"
-      content="Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pulkit.blog/og/system-design/understanding-database-scaling-sharding/card.png"
-    />
+    <meta name="twitter:title" content="Understanding Database Scaling and Sharding Patterns | pulkit.blog" />
+    <meta name="twitter:description" content="Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key." />
+    <meta name="twitter:image" content="https://pulkit.blog/og/system-design/understanding-database-scaling-sharding/card.png" />
     <meta name="twitter:image:alt" content="Understanding Database Scaling and Sharding Patterns" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#image","contentUrl":"https://pulkit.blog/og/system-design/understanding-database-scaling-sharding/card.png","width":1200,"height":630,"caption":"Understanding Database Scaling and Sharding Patterns"},{"@type":"BlogPosting","@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#article","headline":"Understanding Database Scaling and Sharding Patterns","description":"Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key.","datePublished":"2026-01-07","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/system-design/#webpage"},"image":{"@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#image"},"url":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/","inLanguage":"en","keywords":["System Design","Database","Sharding","Replication","Scalability"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"System Design","item":"https://pulkit.blog/system-design/"},{"@type":"ListItem","position":3,"name":"Understanding Database Scaling and Sharding Patterns","item":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#webpage","url":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/","name":"Understanding Database Scaling and Sharding Patterns","description":"Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#article"},"breadcrumb":{"@id":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#image",
+            "contentUrl": "https://pulkit.blog/og/system-design/understanding-database-scaling-sharding/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Understanding Database Scaling and Sharding Patterns"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#article",
+            "headline": "Understanding Database Scaling and Sharding Patterns",
+            "description": "Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key.",
+            "datePublished": "2026-01-07",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/system-design/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#image"
+            },
+            "url": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/",
+            "inLanguage": "en",
+            "keywords": [
+              "System Design",
+              "Database",
+              "Sharding",
+              "Replication",
+              "Scalability"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "System Design",
+                "item": "https://pulkit.blog/system-design/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Understanding Database Scaling and Sharding Patterns",
+                "item": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#webpage",
+            "url": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/",
+            "name": "Understanding Database Scaling and Sharding Patterns",
+            "description": "Master database scaling from vertical to horizontal scaling, read replicas, sharding strategies, and partitioning techniques. Learn when to use synchronous vs asynchronous replication and how to choose the right shard key.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>Understanding Database Scaling and Sharding Patterns | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              Understanding Database Scaling and Sharding Patterns
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2026-01-07">January 7, 2026</time>
-              · 14 min read ·
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/"
-                >System Design</a
-              >
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>Understanding Database Scaling and Sharding Patterns</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-07">January 7, 2026</time> · 14 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
-            <p class="mt-0 mb-6">
-              One of the fastest ways to break a production system is to underestimate the database.
-            </p>
-            <p class="mt-0 mb-6">
-              Things often look fine in staging. Then real traffic arrives: your read volume spikes,
-              your write rate grows, indexes stop fitting in memory, and one slow query starts
-              cascading into timeouts across the stack.
-            </p>
-            <p class="mt-0 mb-6">
-              Understanding how to scale databases is critical. These techniques apply to most
-              databases out there, both relational (PostgreSQL, MySQL) and non-relational (MongoDB,
-              Cassandra). Always read your specific database&#39;s documentation for implementation
-              details.
-            </p>
-            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              TL;DR
-            </h2>
+            <p class="mt-0 mb-6">One of the fastest ways to break a production system is to underestimate the database.</p>
+            <p class="mt-0 mb-6">Things often look fine in staging. Then real traffic arrives: your read volume spikes, your write rate grows, indexes stop fitting in memory, and one slow query starts cascading into timeouts across the stack.</p>
+            <p class="mt-0 mb-6">Understanding how to scale databases is critical. These techniques apply to most databases out there, both relational (PostgreSQL, MySQL) and non-relational (MongoDB, Cassandra). Always read your specific database&#39;s documentation for implementation details.</p>
+            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">TL;DR</h2>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Vertical Scaling</strong>: Add more CPU, RAM, disk to your existing server.
-                Simple but has physical limits and requires downtime
-              </li>
-              <li>
-                <strong>Horizontal Scaling</strong>: Add more servers to distribute load. Two main
-                approaches: read replicas and sharding
-              </li>
-              <li>
-                <strong>Read Replicas</strong>: Offload reads to replica databases when your
-                read:write ratio is high (like 90:10)
-              </li>
-              <li>
-                <strong>Replication Modes</strong>: Synchronous gives strong consistency but slower
-                writes; Asynchronous gives faster writes but eventual consistency
-              </li>
-              <li>
-                <strong>Sharding</strong>: Split data across multiple independent databases when one
-                node can&#39;t handle the load
-              </li>
+              <li><strong>Vertical Scaling</strong>: Add more CPU, RAM, disk to your existing server. Simple but has physical limits and requires downtime</li>
+              <li><strong>Horizontal Scaling</strong>: Add more servers to distribute load. Two main approaches: read replicas and sharding</li>
+              <li><strong>Read Replicas</strong>: Offload reads to replica databases when your read:write ratio is high (like 90:10)</li>
+              <li><strong>Replication Modes</strong>: Synchronous gives strong consistency but slower writes; Asynchronous gives faster writes but eventual consistency</li>
+              <li><strong>Sharding</strong>: Split data across multiple independent databases when one node can&#39;t handle the load</li>
               <li>Each approach has trade-offs. Start simple, scale when needed</li>
             </ul>
-            <h2
-              id="before-you-scale"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Before You Scale
-            </h2>
-            <p class="mt-0 mb-6">
-              Scaling adds cost and complexity. Before you reach for bigger instances, replicas, or
-              shards, make sure you have the basics covered:
-            </p>
+            <h2 id="before-you-scale" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Before You Scale</h2>
+            <p class="mt-0 mb-6">Scaling adds cost and complexity. Before you reach for bigger instances, replicas, or shards, make sure you have the basics covered:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Query optimization</strong>: remove N+1 patterns, avoid full table scans,
-                validate query plans
-              </li>
+              <li><strong>Query optimization</strong>: remove N+1 patterns, avoid full table scans, validate query plans</li>
               <li><strong>Indexing</strong>: add the right composite indexes for your hot paths</li>
-              <li>
-                <strong>Connection pooling</strong>: cap connections, reuse them, prevent connection
-                storms
-              </li>
+              <li><strong>Connection pooling</strong>: cap connections, reuse them, prevent connection storms</li>
               <li><strong>Caching</strong>: cache hot reads (and be explicit about staleness)</li>
-              <li>
-                <strong>Data modeling</strong>: reduce unnecessary joins, avoid oversized rows in
-                hot tables
-              </li>
+              <li><strong>Data modeling</strong>: reduce unnecessary joins, avoid oversized rows in hot tables</li>
             </ul>
+            <p class="mt-0 mb-6">Many “database scaling problems” are actually “one bad query under real load” problems.</p>
+            <h3 id="connection-pooling-often-the-biggest-early-win" class="mt-8 text-lg leading-tight tracking-tight">Connection Pooling (Often the Biggest Early Win)</h3>
+            <p class="mt-0 mb-6">Without pooling, each request can create its own DB connection. Under load, the database spends time and memory on connection management instead of queries.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Pool <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;pg&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> pool <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;db.example.com&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">max:</span> <span class="text-syn-n">20</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">idleTimeoutMillis:</span> <span class="text-syn-n">30_000</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">connectionTimeoutMillis:</span> <span class="text-syn-n">2_000</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> pool<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>id<span class="text-syn-u">]);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> result<span class="text-syn-u">.</span><span class="text-syn-p">rows</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <h2 id="vertical-scaling" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Vertical Scaling</h2>
+            <p class="mt-0 mb-6">The simplest approach to scaling is vertical scaling, making your existing database server more powerful.</p>
             <p class="mt-0 mb-6">
-              Many “database scaling problems” are actually “one bad query under real load”
-              problems.
-            </p>
-            <h3
-              id="connection-pooling-often-the-biggest-early-win"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Connection Pooling (Often the Biggest Early Win)
-            </h3>
-            <p class="mt-0 mb-6">
-              Without pooling, each request can create its own DB connection. Under load, the
-              database spends time and memory on connection management instead of queries.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Pool <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;pg&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">const</span> pool <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span>
-  <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;db.example.com&quot;</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">max:</span> <span class="text-syn-n">20</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">idleTimeoutMillis:</span> <span class="text-syn-n">30_000</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">connectionTimeoutMillis:</span> <span class="text-syn-n">2_000</span><span class="text-syn-u">,</span>
-<span class="text-syn-u">});</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> pool<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>id<span class="text-syn-u">]);</span>
-  <span class="text-syn-k">return</span> result<span class="text-syn-u">.</span><span class="text-syn-p">rows</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <h2
-              id="vertical-scaling"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Vertical Scaling
-            </h2>
-            <p class="mt-0 mb-6">
-              The simplest approach to scaling is vertical scaling, making your existing database
-              server more powerful.
-            </p>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/database-scaling/vertical-scaling.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/database-scaling/vertical-scaling.webp"
-                  alt="Diagram showing vertical scaling by adding more CPU, RAM, and disk to a single server"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/database-scaling/vertical-scaling.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/vertical-scaling.webp" alt="Diagram showing vertical scaling by adding more CPU, RAM, and disk to a single server" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6"><strong>What it means:</strong></p>
             <ul class="mt-0 mb-6">
@@ -283,34 +244,13 @@
               <li>Gets exponentially expensive at higher tiers</li>
               <li>Single point of failure remains</li>
             </ul>
+            <p class="mt-0 mb-6">Vertical scaling is usually your first step. It&#39;s simple and effective until you hit the ceiling.</p>
+            <h2 id="horizontal-scaling" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Horizontal Scaling</h2>
+            <p class="mt-0 mb-6">Instead of making one server bigger, horizontal scaling means adding more servers to distribute the load.</p>
             <p class="mt-0 mb-6">
-              Vertical scaling is usually your first step. It&#39;s simple and effective until you
-              hit the ceiling.
-            </p>
-            <h2
-              id="horizontal-scaling"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Horizontal Scaling
-            </h2>
-            <p class="mt-0 mb-6">
-              Instead of making one server bigger, horizontal scaling means adding more servers to
-              distribute the load.
-            </p>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/database-scaling/horizontal-scaling.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/database-scaling/horizontal-scaling.webp"
-                  alt="Diagram showing horizontal scaling by adding multiple servers to distribute load"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/database-scaling/horizontal-scaling.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/horizontal-scaling.webp" alt="Diagram showing horizontal scaling by adding multiple servers to distribute load" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6"><strong>What it means:</strong></p>
             <ul class="mt-0 mb-6">
@@ -333,33 +273,14 @@
               <li>Need to handle data consistency across nodes</li>
               <li>Network latency between nodes</li>
             </ul>
-            <p class="mt-0 mb-6">
-              There are two main approaches to horizontal scaling:
-              <strong>Read Replicas</strong>
-              and <strong>Sharding</strong>.
-            </p>
-            <h3 id="read-replicas" class="mt-8 text-lg leading-tight tracking-tight">
-              Read Replicas
-            </h3>
-            <p class="mt-0 mb-6">
-              When your application is read-heavy (common scenario: 90% reads, 10% writes), you can
-              scale horizontally using read replicas.
-            </p>
+            <p class="mt-0 mb-6">There are two main approaches to horizontal scaling: <strong>Read Replicas</strong> and <strong>Sharding</strong>.</p>
+            <h3 id="read-replicas" class="mt-8 text-lg leading-tight tracking-tight">Read Replicas</h3>
+            <p class="mt-0 mb-6">When your application is read-heavy (common scenario: 90% reads, 10% writes), you can scale horizontally using read replicas.</p>
             <p class="mt-0 mb-6"><strong>How it works:</strong></p>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/database-scaling/read-replicas.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/database-scaling/read-replicas.webp"
-                  alt="Diagram showing primary database with multiple read replicas for scaling read operations"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/database-scaling/read-replicas.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/read-replicas.webp" alt="Diagram showing primary database with multiple read replicas for scaling read operations" loading="lazy" />
+              </a>
             </p>
             <ol class="mt-0 mb-6">
               <li>You have a primary (master) database that handles all writes</li>
@@ -371,167 +292,109 @@
             <ul class="mt-0 mb-6">
               <li>The master is now free to focus on writes</li>
               <li>You can add multiple replicas to handle more read load</li>
-              <li>
-                Your API servers need to know which database to connect to for reads vs writes
-              </li>
+              <li>Your API servers need to know which database to connect to for reads vs writes</li>
             </ul>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Pool <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;pg&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">const</span> masterDb <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;master.db.example.com&quot;</span> <span class="text-syn-u">});</span>
-<span class="text-syn-k">const</span> replicaDb <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;replica.db.example.com&quot;</span> <span class="text-syn-u">});</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> replicaDb<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>id<span class="text-syn-u">]);</span>
-  <span class="text-syn-k">return</span> result<span class="text-syn-u">.</span><span class="text-syn-p">rows</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">updateUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> data<span class="text-syn-o">:</span> <span class="text-syn-t">UserData</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">await</span> masterDb<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;UPDATE users SET name = $1 WHERE id = $2&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>data<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">,</span> id<span class="text-syn-u">]);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Pool <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;pg&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> masterDb <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;master.db.example.com&quot;</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> replicaDb <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Pool</span><span class="text-syn-u">({</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;replica.db.example.com&quot;</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> replicaDb<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>id<span class="text-syn-u">]);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> result<span class="text-syn-u">.</span><span class="text-syn-p">rows</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]</span> <span class="text-syn-o">??</span> <span class="text-syn-k">null</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">updateUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span> data<span class="text-syn-o">:</span> <span class="text-syn-t">UserData</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">await</span> masterDb<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;UPDATE users SET name = $1 WHERE id = $2&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>data<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">,</span> id<span class="text-syn-u">]);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
             <h4 id="replication-modes" class="leading-tight tracking-tight">Replication Modes</h4>
-            <p class="mt-0 mb-6">
-              When you have replicas, changes on the master need to be sent to replicas to maintain
-              consistency. There are two modes of replication:
-            </p>
+            <p class="mt-0 mb-6">When you have replicas, changes on the master need to be sent to replicas to maintain consistency. There are two modes of replication:</p>
             <h5 id="section-1-synchronous-replication">1. Synchronous Replication</h5>
-            <p class="mt-0 mb-6">
-              The master waits for the replica to confirm it received the data before acknowledging
-              the write to the client.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Client → API → Master → Replica
-                  ↓         ↓
-              (write)   (write)
-                  ↓         ↓
-              (wait) ← (confirm)
-                  ↓
-              (ack to client)
-</code></pre>
+            <p class="mt-0 mb-6">The master waits for the replica to confirm it received the data before acknowledging the write to the client.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Client → API → Master → Replica</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                  ↓         ↓</span>
+                <span class="block leading-(--pre-line) whitespace-pre">              (write)   (write)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                  ↓         ↓</span>
+                <span class="block leading-(--pre-line) whitespace-pre">              (wait) ← (confirm)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
+                <span class="block leading-(--pre-line) whitespace-pre">              (ack to client)</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Characteristics:</strong></p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Strong consistency</strong>: Read from any replica, get the latest data
-              </li>
+              <li><strong>Strong consistency</strong>: Read from any replica, get the latest data</li>
               <li><strong>Zero replication lag</strong>: Replicas are always up-to-date</li>
               <li><strong>Slower writes</strong>: Every write waits for replica confirmation</li>
             </ul>
-            <p class="mt-0 mb-6">
-              Use synchronous replication when data consistency is critical (financial transactions,
-              inventory systems).
-            </p>
+            <p class="mt-0 mb-6">Use synchronous replication when data consistency is critical (financial transactions, inventory systems).</p>
             <h5 id="section-2-asynchronous-replication">2. Asynchronous Replication</h5>
-            <p class="mt-0 mb-6">
-              The master acknowledges the write immediately and sends data to replicas in the
-              background.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Client → API → Master → (async) → Replica
-                  ↓
-              (write)
-                  ↓
-              (ack to client immediately)
-</code></pre>
+            <p class="mt-0 mb-6">The master acknowledges the write immediately and sends data to replicas in the background.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Client → API → Master → (async) → Replica</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
+                <span class="block leading-(--pre-line) whitespace-pre">              (write)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
+                <span class="block leading-(--pre-line) whitespace-pre">              (ack to client immediately)</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Characteristics:</strong></p>
             <ul class="mt-0 mb-6">
               <li><strong>Eventual consistency</strong>: Replicas might be slightly behind</li>
-              <li>
-                <strong>Some replication lag</strong>: Usually milliseconds, but can grow under load
-              </li>
+              <li><strong>Some replication lag</strong>: Usually milliseconds, but can grow under load</li>
               <li><strong>Faster writes</strong>: No waiting for replica confirmation</li>
             </ul>
-            <p class="mt-0 mb-6">
-              Use asynchronous replication when you can tolerate slight delays (social media feeds,
-              analytics, caching layers).
-            </p>
+            <p class="mt-0 mb-6">Use asynchronous replication when you can tolerate slight delays (social media feeds, analytics, caching layers).</p>
             <h5 id="read-your-writes-practical-tip">Read-Your-Writes (Practical Tip)</h5>
-            <p class="mt-0 mb-6">
-              Even with tiny replication lag, a user can update something and then immediately read
-              stale data from a replica. A common approach is:
-            </p>
+            <p class="mt-0 mb-6">Even with tiny replication lag, a user can update something and then immediately read stale data from a replica. A common approach is:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                For requests that follow a write (or for the same user session), read from the
-                master for a short window
-              </li>
+              <li>For requests that follow a write (or for the same user session), read from the master for a short window</li>
               <li>For everything else, read from replicas</li>
             </ul>
-            <p class="mt-0 mb-6">
-              This keeps the system fast while preserving the “I just updated it, why don’t I see
-              it?” user experience.
-            </p>
-            <h4
-              id="cap-trade-offs-why-sync-vs-async-feels-different"
-              class="leading-tight tracking-tight"
-            >
-              CAP Trade-offs (Why Sync vs Async Feels Different)
-            </h4>
-            <p class="mt-0 mb-6">
-              Once you replicate data across nodes, you&#39;re implicitly making trade-offs
-              described by the <strong>CAP theorem</strong>. It states that a distributed system can
-              only guarantee <strong>two out of three</strong> properties:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">        Consistency
-            /\
-           /  \
-          /    \
-         /  ??  \
-        /________\
- Availability    Partition Tolerance
-</code></pre>
+            <p class="mt-0 mb-6">This keeps the system fast while preserving the “I just updated it, why don’t I see it?” user experience.</p>
+            <h4 id="cap-trade-offs-why-sync-vs-async-feels-different" class="leading-tight tracking-tight">CAP Trade-offs (Why Sync vs Async Feels Different)</h4>
+            <p class="mt-0 mb-6">Once you replicate data across nodes, you&#39;re implicitly making trade-offs described by the <strong>CAP theorem</strong>. It states that a distributed system can only guarantee <strong>two out of three</strong> properties:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">        Consistency</span>
+                <span class="block leading-(--pre-line) whitespace-pre">            /\</span>
+                <span class="block leading-(--pre-line) whitespace-pre">           /  \</span>
+                <span class="block leading-(--pre-line) whitespace-pre">          /    \</span>
+                <span class="block leading-(--pre-line) whitespace-pre">         /  ??  \</span>
+                <span class="block leading-(--pre-line) whitespace-pre">        /________\</span>
+                <span class="block leading-(--pre-line) whitespace-pre"> Availability    Partition Tolerance</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Consistency (C)</strong>: Every read returns the most recent write. All
-                nodes see the same data at the same time.
-              </li>
-              <li>
-                <strong>Availability (A)</strong>: Every request gets a response, even if it might
-                not be the latest data.
-              </li>
-              <li>
-                <strong>Partition Tolerance (P)</strong>: The system continues to work even when
-                network partitions (communication failures between nodes) occur.
-              </li>
+              <li><strong>Consistency (C)</strong>: Every read returns the most recent write. All nodes see the same data at the same time.</li>
+              <li><strong>Availability (A)</strong>: Every request gets a response, even if it might not be the latest data.</li>
+              <li><strong>Partition Tolerance (P)</strong>: The system continues to work even when network partitions (communication failures between nodes) occur.</li>
             </ul>
-            <p class="mt-0 mb-6">
-              <strong>The catch</strong>: Network partitions are unavoidable in distributed systems.
-              So you&#39;re really choosing between <strong>CP</strong> (consistency over
-              availability) or <strong>AP</strong> (availability over consistency).
-            </p>
+            <p class="mt-0 mb-6"><strong>The catch</strong>: Network partitions are unavoidable in distributed systems. So you&#39;re really choosing between <strong>CP</strong> (consistency over availability) or <strong>AP</strong> (availability over consistency).</p>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
                 <tr>
                   <th class="border-b border-line px-3.5 py-2.5 text-left">Replication Mode</th>
                   <th class="border-b border-line px-3.5 py-2.5 text-left">CAP Bias</th>
-                  <th class="border-b border-line px-3.5 py-2.5 text-left">
-                    Behavior During Partition
-                  </th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">Behavior During Partition</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Synchronous</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">CP</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Writes block or fail until replicas confirm
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Writes block or fail until replicas confirm</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Asynchronous</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">AP</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Writes succeed, but replicas may lag
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Writes succeed, but replicas may lag</td>
                 </tr>
               </tbody>
             </table>
@@ -547,31 +410,14 @@
               <li>Analytics dashboards (near real-time is good enough)</li>
               <li>Caching layers (eventual consistency is acceptable)</li>
             </ul>
-            <p class="mt-0 mb-6">
-              Most systems aren&#39;t purely one or the other. You might use synchronous replication
-              for payment writes but async for user activity logs,pick based on what matters for
-              each data type.
-            </p>
+            <p class="mt-0 mb-6">Most systems aren&#39;t purely one or the other. You might use synchronous replication for payment writes but async for user activity logs,pick based on what matters for each data type.</p>
             <h3 id="sharding" class="mt-8 text-lg leading-tight tracking-tight">Sharding</h3>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/database-scaling/sharding.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/database-scaling/sharding.webp"
-                  alt="Diagram showing data distributed across multiple database shards"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/database-scaling/sharding.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/sharding.webp" alt="Diagram showing data distributed across multiple database shards" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              When one node cannot handle all your data or load, you split the data into multiple
-              exclusive subsets called <strong>shards</strong>.
-            </p>
+            <p class="mt-0 mb-6">When one node cannot handle all your data or load, you split the data into multiple exclusive subsets called <strong>shards</strong>.</p>
             <p class="mt-0 mb-6"><strong>How it works:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Each shard holds a portion of your data</li>
@@ -579,103 +425,58 @@
               <li>Shards are independent, no replication between them</li>
               <li>Your application (or a proxy) routes requests to the correct shard</li>
             </ul>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">                    ┌─────────┐
-                    │   API   │
-                    └────┬────┘
-           ┌─────────────┼─────────────┐
-           ↓             ↓             ↓
-      ┌─────────┐   ┌─────────┐   ┌─────────┐
-      │ Shard 1 │   │ Shard 2 │   │ Shard 3 │
-      │ (A-I)   │   │ (J-R)   │   │ (S-Z)   │
-      └─────────┘   └─────────┘   └─────────┘
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">                    ┌─────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                    │   API   │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                    └────┬────┘</span>
+                <span class="block leading-(--pre-line) whitespace-pre">           ┌─────────────┼─────────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">           ↓             ↓             ↓</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      ┌─────────┐   ┌─────────┐   ┌─────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      │ Shard 1 │   │ Shard 2 │   │ Shard 3 │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      │ (A-I)   │   │ (J-R)   │   │ (S-Z)   │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      └─────────┘   └─────────┘   └─────────┘</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Key considerations:</strong></p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Shard key selection</strong>: Choose wisely. A bad shard key leads to hot
-                spots
-              </li>
-              <li>
-                <strong>Routing logic</strong>: API servers need to know which shard to connect to
-              </li>
-              <li>
-                <strong>Cross-shard queries</strong>: Queries spanning multiple shards are expensive
-              </li>
+              <li><strong>Shard key selection</strong>: Choose wisely. A bad shard key leads to hot spots</li>
+              <li><strong>Routing logic</strong>: API servers need to know which shard to connect to</li>
+              <li><strong>Cross-shard queries</strong>: Queries spanning multiple shards are expensive</li>
               <li><strong>Resharding</strong>: Adding/removing shards is complex</li>
             </ul>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">function</span> <span class="text-syn-f">getShardForUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Database</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> firstChar <span class="text-syn-o">=</span> userId<span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-f">toLowerCase</span><span class="text-syn-u">();</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&gt;=</span> <span class="text-syn-s">&quot;a&quot;</span> <span class="text-syn-o">&amp;&amp;</span> firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;m&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">return</span> shardA<span class="text-syn-u">;</span> <span class="text-syn-c italic">// handles a-m</span>
-  <span class="text-syn-u">}</span>
-  <span class="text-syn-k">return</span> shardB<span class="text-syn-u">;</span> <span class="text-syn-c italic">// handles n-z</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> shard <span class="text-syn-o">=</span> <span class="text-syn-f">getShardForUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span>
-  <span class="text-syn-k">return</span> shard<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>userId<span class="text-syn-u">]);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getShardForUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Database</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> firstChar <span class="text-syn-o">=</span> userId<span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-f">toLowerCase</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&gt;=</span> <span class="text-syn-s">&quot;a&quot;</span> <span class="text-syn-o">&amp;&amp;</span> firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;m&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> shardA<span class="text-syn-u">;</span> <span class="text-syn-c italic">// handles a-m</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> shardB<span class="text-syn-u">;</span> <span class="text-syn-c italic">// handles n-z</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> shard <span class="text-syn-o">=</span> <span class="text-syn-f">getShardForUser</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> shard<span class="text-syn-u">.</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM users WHERE id = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>userId<span class="text-syn-u">]);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6"><strong>Note:</strong> Some databases have built-in proxies or native support for sharding and replication. Examples include Citus for PostgreSQL, PostgreSQL&#39;s built-in streaming replication, Redis Cluster and Sentinel, and ClickHouse with Zookeeper for coordination. Each shard can also have its own replicas for read scaling.</p>
+            <h2 id="sharding-vs-partitioning" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Sharding vs Partitioning</h2>
             <p class="mt-0 mb-6">
-              <strong>Note:</strong>
-              Some databases have built-in proxies or native support for sharding and replication.
-              Examples include Citus for PostgreSQL, PostgreSQL&#39;s built-in streaming
-              replication, Redis Cluster and Sentinel, and ClickHouse with Zookeeper for
-              coordination. Each shard can also have its own replicas for read scaling.
+              <a href="/assets/content/blogs/database-scaling/sharding-vs-partioning.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/sharding-vs-partioning.webp" alt="Diagram comparing sharding across servers vs partitioning within a single server" loading="lazy" />
+              </a>
             </p>
-            <h2
-              id="sharding-vs-partitioning"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Sharding vs Partitioning
-            </h2>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/database-scaling/sharding-vs-partioning.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/database-scaling/sharding-vs-partioning.webp"
-                  alt="Diagram comparing sharding across servers vs partitioning within a single server"
-                  loading="lazy"
-                /></a
-              >
-            </p>
-            <p class="mt-0 mb-6">
-              These terms are often mixed up. Here’s the clean way to think about them:
-            </p>
+            <p class="mt-0 mb-6">These terms are often mixed up. Here’s the clean way to think about them:</p>
             <ul class="mt-0 mb-6">
               <li><strong>Partitioning</strong>: splitting data inside one database instance</li>
-              <li>
-                <strong>Sharding</strong>: distributing data across multiple database instances
-                (multiple machines)
-              </li>
+              <li><strong>Sharding</strong>: distributing data across multiple database instances (multiple machines)</li>
             </ul>
-            <p class="mt-0 mb-6">
-              You can have partitioning without sharding (one machine). If you shard, you’re always
-              partitioning the dataset in some way (multiple machines).
-            </p>
-            <h3 id="why-people-get-confused" class="mt-8 text-lg leading-tight tracking-tight">
-              Why People Get Confused
-            </h3>
-            <p class="mt-0 mb-6">
-              In practice, teams often say “we partitioned the database” when they mean “we sharded
-              the database”, because the dataset is being split either way. A precise phrasing that
-              stays correct:
-            </p>
-            <p class="mt-0 mb-6">
-              The database is sharded across servers, and the data is partitioned across those
-              shards.
-            </p>
+            <p class="mt-0 mb-6">You can have partitioning without sharding (one machine). If you shard, you’re always partitioning the dataset in some way (multiple machines).</p>
+            <h3 id="why-people-get-confused" class="mt-8 text-lg leading-tight tracking-tight">Why People Get Confused</h3>
+            <p class="mt-0 mb-6">In practice, teams often say “we partitioned the database” when they mean “we sharded the database”, because the dataset is being split either way. A precise phrasing that stays correct:</p>
+            <p class="mt-0 mb-6">The database is sharded across servers, and the data is partitioned across those shards.</p>
             <p class="mt-0 mb-6">Think of it this way:</p>
             <ul class="mt-0 mb-6">
               <li>You have a 100GB database</li>
@@ -690,17 +491,8 @@
               </li>
               <li>This depends on the number of shards you have</li>
             </ul>
-            <h3
-              id="understanding-database-servers"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Understanding Database Servers
-            </h3>
-            <p class="mt-0 mb-6">
-              A database server is just a database process (mysqld, mongod, postgres) running on an
-              EC2 machine or any other server. When we represent databases in diagrams, we typically
-              show them as simple cylinder icons.
-            </p>
+            <h3 id="understanding-database-servers" class="mt-8 text-lg leading-tight tracking-tight">Understanding Database Servers</h3>
+            <p class="mt-0 mb-6">A database server is just a database process (mysqld, mongod, postgres) running on an EC2 machine or any other server. When we represent databases in diagrams, we typically show them as simple cylinder icons.</p>
             <p class="mt-0 mb-6">Let&#39;s walk through a real-world scaling journey:</p>
             <p class="mt-0 mb-6"><strong>Stage 1: Starting Small</strong></p>
             <ul class="mt-0 mb-6">
@@ -714,10 +506,7 @@
               <li>Database is unable to handle the load</li>
               <li>You scale up by giving it more CPU, RAM, and disk</li>
               <li>Capacity increases to 200 WPS</li>
-              <li>
-                This is <strong>vertical scaling</strong> + <strong>read replicas</strong> (bigger
-                server + read distribution)
-              </li>
+              <li>This is <strong>vertical scaling</strong> + <strong>read replicas</strong> (bigger server + read distribution)</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Stage 3: Hitting the Vertical Limit</strong></p>
             <ul class="mt-0 mb-6">
@@ -728,135 +517,100 @@
               <li><strong>Vertical scaling has a physical hardware limit</strong></li>
             </ul>
             <p class="mt-0 mb-6"><strong>Stage 4: Enter Horizontal Scaling</strong></p>
-            <p class="mt-0 mb-6">
-              Now you need to resort to <strong>horizontal scaling</strong> because you&#39;re
-              getting 1500 WPS but your single server maxes out at 1000 WPS.
-            </p>
+            <p class="mt-0 mb-6">Now you need to resort to <strong>horizontal scaling</strong> because you&#39;re getting 1500 WPS but your single server maxes out at 1000 WPS.</p>
             <p class="mt-0 mb-6">Here&#39;s the math:</p>
             <p class="mt-0 mb-6"><strong>Before (Single Server):</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">API Server → Database (1000 WPS max)
-Current load: 1500 WPS needed
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">API Server → Database (1000 WPS max)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Current load: 1500 WPS needed</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>After (Two Shards with 50-50 split):</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">            ┌─ Shard 1 (50% data) → 750 WPS
-API Server ─┤
-            └─ Shard 2 (50% data) → 750 WPS
-
-Total capacity: 1500 WPS
-</code></pre>
-            <p class="mt-0 mb-6">
-              <strong>Key insight</strong>: By adding one more database server and splitting the
-              data 50-50:
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">            ┌─ Shard 1 (50% data) → 750 WPS</span>
+                <span class="block leading-(--pre-line) whitespace-pre">API Server ─┤</span>
+                <span class="block leading-(--pre-line) whitespace-pre">            └─ Shard 2 (50% data) → 750 WPS</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">Total capacity: 1500 WPS</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6"><strong>Key insight</strong>: By adding one more database server and splitting the data 50-50:</p>
             <ul class="mt-0 mb-6">
               <li>Each database now handles 750 WPS (instead of 1500 WPS)</li>
               <li>Each shard holds 50% of the data</li>
               <li>The load is reduced on each node</li>
               <li>You can now handle higher throughput</li>
             </ul>
-            <h3 id="how-to-partition-data" class="mt-8 text-lg leading-tight tracking-tight">
-              How to Partition Data
-            </h3>
+            <h3 id="how-to-partition-data" class="mt-8 text-lg leading-tight tracking-tight">How to Partition Data</h3>
             <p class="mt-0 mb-6">There are two main categories of partitioning:</p>
             <ol class="mt-0 mb-6">
               <li><strong>Horizontal Partitioning</strong>: Split rows across partitions</li>
               <li><strong>Vertical Partitioning</strong>: Split columns across partitions</li>
             </ol>
-            <p class="mt-0 mb-6">
-              When we &quot;split&quot; the 100GB data, we could use either approach. Deciding which
-              one to pick depends on:
-            </p>
+            <p class="mt-0 mb-6">When we &quot;split&quot; the 100GB data, we could use either approach. Deciding which one to pick depends on:</p>
             <ul class="mt-0 mb-6">
               <li><strong>Load</strong>: How much traffic each partition will receive</li>
               <li><strong>Use case</strong>: What your application does</li>
               <li><strong>Access pattern</strong>: How your application queries the data</li>
             </ul>
-            <h3
-              id="horizontal-partitioning-row-based-split"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Horizontal Partitioning (Row-based Split)
-            </h3>
+            <h3 id="horizontal-partitioning-row-based-split" class="mt-8 text-lg leading-tight tracking-tight">Horizontal Partitioning (Row-based Split)</h3>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/database-scaling/horizontal-partitioning.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/database-scaling/horizontal-partitioning.webp"
-                  alt="Diagram showing horizontal partitioning splitting data by rows"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/database-scaling/horizontal-partitioning.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/horizontal-partitioning.webp" alt="Diagram showing horizontal partitioning splitting data by rows" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              This is the most common approach. You split data by <strong>rows</strong> based on
-              some criteria.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Example</strong>: Partition by alphabets, useful for name-based lookups or
-              dictionary-like data.
-            </p>
+            <p class="mt-0 mb-6">This is the most common approach. You split data by <strong>rows</strong> based on some criteria.</p>
+            <p class="mt-0 mb-6"><strong>Example</strong>: Partition by alphabets, useful for name-based lookups or dictionary-like data.</p>
             <p class="mt-0 mb-6">Original table (100GB):</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">products table: product_id, name, category, price, stock, ...
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">products table: product_id, name, category, price, stock, ...</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Partition by first letter of product name:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Partition A: Names starting with A-D  → 30GB
-Partition B: Names starting with E-H  → 10GB
-Partition C: Names starting with I-M  → 30GB
-Partition D: Names starting with N-R  → 20GB
-Partition E: Names starting with S-Z  → 10GB
-</code></pre>
-            <p class="mt-0 mb-6">
-              Each partition has <strong>all columns</strong> but only a
-              <strong>subset of rows</strong>.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Partition A: Names starting with A-D  → 30GB</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Partition B: Names starting with E-H  → 10GB</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Partition C: Names starting with I-M  → 30GB</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Partition D: Names starting with N-R  → 20GB</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Partition E: Names starting with S-Z  → 10GB</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Each partition has <strong>all columns</strong> but only a <strong>subset of rows</strong>.</p>
             <p class="mt-0 mb-6"><strong>Query example:</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-sql rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">-- Query hits only Partition A (products starting with &#39;A&#39; or &#39;B&#39;)</span>
-<span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-k">LIKE</span> <span class="text-syn-s">&#39;Apple%&#39;</span>;
-
-<span class="text-syn-c italic">-- Query hits only Partition E</span>
-<span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&#39;Samsung Galaxy S23&#39;</span>;
-
-<span class="text-syn-c italic">-- Range query might hit multiple partitions</span>
-<span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-k">BETWEEN</span> <span class="text-syn-s">&#39;Dell&#39;</span> <span class="text-syn-k">AND</span> <span class="text-syn-s">&#39;Samsung&#39;</span>;
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query hits only Partition A (products starting with &#39;A&#39; or &#39;B&#39;)</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-k">LIKE</span> <span class="text-syn-s">&#39;Apple%&#39;</span>;</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query hits only Partition E</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&#39;Samsung Galaxy S23&#39;</span>;</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Range query might hit multiple partitions</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> products <span class="text-syn-k">WHERE</span> <span class="text-syn-k">name</span> <span class="text-syn-k">BETWEEN</span> <span class="text-syn-s">&#39;Dell&#39;</span> <span class="text-syn-k">AND</span> <span class="text-syn-s">&#39;Samsung&#39;</span>;</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Implementation in code:</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">function</span> <span class="text-syn-f">getPartitionForProduct</span><span class="text-syn-u">(</span>productName<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> firstChar <span class="text-syn-o">=</span> productName<span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-f">toUpperCase</span><span class="text-syn-u">();</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;D&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_a&quot;</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;H&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_b&quot;</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;M&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_c&quot;</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;R&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_d&quot;</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_e&quot;</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getProduct</span><span class="text-syn-u">(</span>name<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> partition <span class="text-syn-o">=</span> <span class="text-syn-f">getPartitionForProduct</span><span class="text-syn-u">(</span>name<span class="text-syn-u">);</span>
-  <span class="text-syn-k">return</span> db<span class="text-syn-u">[</span>partition<span class="text-syn-u">].</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM products WHERE name = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>name<span class="text-syn-u">]);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getPartitionForProduct</span><span class="text-syn-u">(</span>productName<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> firstChar <span class="text-syn-o">=</span> productName<span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-f">toUpperCase</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;D&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_a&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;H&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_b&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;M&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_c&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>firstChar <span class="text-syn-o">&lt;=</span> <span class="text-syn-s">&quot;R&quot;</span><span class="text-syn-u">)</span> <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_d&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-s">&quot;partition_e&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getProduct</span><span class="text-syn-u">(</span>name<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> partition <span class="text-syn-o">=</span> <span class="text-syn-f">getPartitionForProduct</span><span class="text-syn-u">(</span>name<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> db<span class="text-syn-u">[</span>partition<span class="text-syn-u">].</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SELECT * FROM products WHERE name = $1&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">[</span>name<span class="text-syn-u">]);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Use cases for horizontal partitioning:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Alphabet-based: Product catalogs, directories, dictionaries</li>
@@ -865,62 +619,41 @@ Partition E: Names starting with S-Z  → 10GB
               <li>Transaction logs: Financial systems (partition by timestamp)</li>
               <li>Multi-tenant apps: SaaS platforms (partition by tenant_id)</li>
             </ul>
-            <h3
-              id="vertical-partitioning-column-based-split"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Vertical Partitioning (Column-based Split)
-            </h3>
+            <h3 id="vertical-partitioning-column-based-split" class="mt-8 text-lg leading-tight tracking-tight">Vertical Partitioning (Column-based Split)</h3>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/database-scaling/vertical-partitioning.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/database-scaling/vertical-partitioning.webp"
-                  alt="Diagram showing vertical partitioning splitting data by columns"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/database-scaling/vertical-partitioning.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/vertical-partitioning.webp" alt="Diagram showing vertical partitioning splitting data by columns" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              Split data by <strong>columns</strong>, keeping frequently accessed columns together
-              and separating rarely used ones.
-            </p>
+            <p class="mt-0 mb-6">Split data by <strong>columns</strong>, keeping frequently accessed columns together and separating rarely used ones.</p>
             <p class="mt-0 mb-6"><strong>Example: E-commerce Users Table</strong></p>
             <p class="mt-0 mb-6">Original table (100GB):</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">users: user_id, name, email, country, address, preferences, bio, avatar_url, ...
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">users: user_id, name, email, country, address, preferences, bio, avatar_url, ...</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Vertical partitioning:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Partition 1 (Hot data - frequently accessed):
-  user_id, name, email, country → 20GB
-
-Partition 2 (Cold data - rarely accessed):
-  user_id, address, preferences, bio, avatar_url → 80GB
-</code></pre>
-            <p class="mt-0 mb-6">
-              Each partition has <strong>all rows</strong> but only a
-              <strong>subset of columns</strong>.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Partition 1 (Hot data - frequently accessed):</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  user_id, name, email, country → 20GB</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">Partition 2 (Cold data - rarely accessed):</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  user_id, address, preferences, bio, avatar_url → 80GB</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Each partition has <strong>all rows</strong> but only a <strong>subset of columns</strong>.</p>
             <p class="mt-0 mb-6"><strong>Query example:</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-sql rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">-- Fast: hits only Partition 1</span>
-<span class="text-syn-k">SELECT</span> <span class="text-syn-k">name</span>, email <span class="text-syn-k">FROM</span> users <span class="text-syn-k">WHERE</span> user_id <span class="text-syn-o">=</span> <span class="text-syn-n">500</span>;
-
-<span class="text-syn-c italic">-- Slow: requires JOIN across partitions</span>
-<span class="text-syn-k">SELECT</span> <span class="text-syn-k">name</span>, email, <span class="text-syn-k">address</span>, bio <span class="text-syn-k">FROM</span> users <span class="text-syn-k">WHERE</span> user_id <span class="text-syn-o">=</span> <span class="text-syn-n">500</span>;
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Fast: hits only Partition 1</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-k">name</span>, email <span class="text-syn-k">FROM</span> users <span class="text-syn-k">WHERE</span> user_id <span class="text-syn-o">=</span> <span class="text-syn-n">500</span>;</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Slow: requires JOIN across partitions</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-k">name</span>, email, <span class="text-syn-k">address</span>, bio <span class="text-syn-k">FROM</span> users <span class="text-syn-k">WHERE</span> user_id <span class="text-syn-o">=</span> <span class="text-syn-n">500</span>;</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Use cases:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Large tables with some rarely accessed columns</li>
@@ -928,74 +661,59 @@ Partition 2 (Cold data - rarely accessed):
               <li>Optimizing for specific access patterns</li>
               <li>Reducing I/O for common queries</li>
             </ul>
-            <h3
-              id="practical-partitioning-example"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Practical Partitioning Example
-            </h3>
-            <p class="mt-0 mb-6">
-              Let&#39;s say you have 100GB of total data. You horizontally partition it into 5
-              mutually exclusive partitions:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">            100GB Total Data
-                  ↓
-    ┌──────┬──────┬──────┬──────┬──────┐
-    │ 30GB │ 10GB │ 30GB │ 20GB │ 10GB │
-    │  A   │  B   │  C   │  D   │  E   │
-    └──────┴──────┴──────┴──────┴──────┘
-</code></pre>
-            <p class="mt-0 mb-6">
-              Now you need to decide how to distribute these 5 partitions across your database
-              servers (shards).
-            </p>
+            <h3 id="practical-partitioning-example" class="mt-8 text-lg leading-tight tracking-tight">Practical Partitioning Example</h3>
+            <p class="mt-0 mb-6">Let&#39;s say you have 100GB of total data. You horizontally partition it into 5 mutually exclusive partitions:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">            100GB Total Data</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                  ↓</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    ┌──────┬──────┬──────┬──────┬──────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    │ 30GB │ 10GB │ 30GB │ 20GB │ 10GB │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    │  A   │  B   │  C   │  D   │  E   │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    └──────┴──────┴──────┴──────┴──────┘</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Now you need to decide how to distribute these 5 partitions across your database servers (shards).</p>
             <p class="mt-0 mb-6"><strong>Option 1: One partition per server (5 shards)</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Shard 1: Partition A [30GB]
-Shard 2: Partition B [10GB]
-Shard 3: Partition C [30GB]
-Shard 4: Partition D [20GB]
-Shard 5: Partition E [10GB]
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition B [10GB]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 3: Partition C [30GB]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 4: Partition D [20GB]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 5: Partition E [10GB]</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li>Maximum parallelism</li>
               <li>Highest cost (5 servers)</li>
               <li>Each shard handles less load</li>
             </ul>
-            <p class="mt-0 mb-6">
-              <strong>Option 2: Multiple partitions per server (2 shards)</strong>
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Shard 1: Partition A [30GB] + Partition C [30GB] → 60GB total
-Shard 2: Partition B [10GB] + Partition D [20GB] + Partition E [10GB] → 40GB total
-</code></pre>
+            <p class="mt-0 mb-6"><strong>Option 2: Multiple partitions per server (2 shards)</strong></p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB] + Partition C [30GB] → 60GB total</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition B [10GB] + Partition D [20GB] + Partition E [10GB] → 40GB total</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li>Cost-effective (2 servers)</li>
               <li>Each shard handles more load</li>
               <li>Need to balance distribution carefully</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Option 3: Mixed approach (3 shards)</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Shard 1: Partition A [30GB] + Partition B [10GB] → 40GB
-Shard 2: Partition C [30GB]                      → 30GB
-Shard 3: Partition D [20GB] + Partition E [10GB] → 30GB
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 1: Partition A [30GB] + Partition B [10GB] → 40GB</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 2: Partition C [30GB]                      → 30GB</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 3: Partition D [20GB] + Partition E [10GB] → 30GB</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li>Balanced approach</li>
               <li>Can optimize based on access patterns</li>
             </ul>
-            <h3 id="factors-to-consider" class="mt-8 text-lg leading-tight tracking-tight">
-              Factors to Consider
-            </h3>
+            <h3 id="factors-to-consider" class="mt-8 text-lg leading-tight tracking-tight">Factors to Consider</h3>
             <p class="mt-0 mb-6">The choice depends on:</p>
             <p class="mt-0 mb-6"><strong>1. Load Distribution</strong></p>
             <ul class="mt-0 mb-6">
@@ -1008,13 +726,13 @@ Shard 3: Partition D [20GB] + Partition E [10GB] → 30GB
               <li>Find the sweet spot between performance and cost</li>
             </ul>
             <p class="mt-0 mb-6"><strong>3. Access Patterns</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Partition A: 1000 queries/sec  → Needs dedicated shard
-Partition B: 100 queries/sec   → Can share with others
-Partition E: 50 queries/sec    → Can share with others
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Partition A: 1000 queries/sec  → Needs dedicated shard</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Partition B: 100 queries/sec   → Can share with others</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Partition E: 50 queries/sec    → Can share with others</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>4. Growth Expectations</strong></p>
             <ul class="mt-0 mb-6">
               <li>If Partition C is expected to grow rapidly, give it room to breathe</li>
@@ -1026,92 +744,70 @@ Partition E: 50 queries/sec    → Can share with others
               <li>If Shard 1 fails, Shards 2-5 continue working</li>
               <li>But also more points of failure to monitor</li>
             </ul>
-            <p class="mt-0 mb-6">
-              <strong>Remember</strong>: The database as a whole is
-              <strong>sharded</strong>
-              (distributed across servers), while the data is
-              <strong>partitioned</strong>
-              (split into chunks). This depends on the number of shards you have.
-            </p>
-            <h3 id="common-sharding-strategies" class="mt-8 text-lg leading-tight tracking-tight">
-              Common Sharding Strategies
-            </h3>
-            <p class="mt-0 mb-6">
-              When you shard your database, you need a strategy to decide which data goes where:
-            </p>
+            <p class="mt-0 mb-6"><strong>Remember</strong>: The database as a whole is <strong>sharded</strong> (distributed across servers), while the data is <strong>partitioned</strong> (split into chunks). This depends on the number of shards you have.</p>
+            <h3 id="common-sharding-strategies" class="mt-8 text-lg leading-tight tracking-tight">Common Sharding Strategies</h3>
+            <p class="mt-0 mb-6">When you shard your database, you need a strategy to decide which data goes where:</p>
             <p class="mt-0 mb-6"><strong>1. Range-based Sharding</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">User IDs 1-1,000,000     → Shard 1
-User IDs 1,000,001-2M    → Shard 2
-User IDs 2M-3M           → Shard 3
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">User IDs 1-1,000,000     → Shard 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">User IDs 1,000,001-2M    → Shard 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">User IDs 2M-3M           → Shard 3</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li><strong>Pros</strong>: Simple to implement, easy to add new shards</li>
-              <li>
-                <strong>Cons</strong>: Risk of uneven distribution (hot spots) if IDs aren&#39;t
-                uniformly distributed
-              </li>
+              <li><strong>Cons</strong>: Risk of uneven distribution (hot spots) if IDs aren&#39;t uniformly distributed</li>
             </ul>
             <p class="mt-0 mb-6"><strong>2. Hash-based Sharding</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">function</span> <span class="text-syn-f">getShard</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashFunction</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span>
-  <span class="text-syn-k">return</span> hash <span class="text-syn-o">%</span> numberOfShards<span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-c italic">// Example: hash(&quot;user_123&quot;) % 4 = 2 → Goes to Shard 2</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getShard</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashFunction</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> hash <span class="text-syn-o">%</span> numberOfShards<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Example: hash(&quot;user_123&quot;) % 4 = 2 → Goes to Shard 2</span></span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li><strong>Pros</strong>: Even distribution of data</li>
-              <li>
-                <strong>Cons</strong>: Range queries become expensive, resharding is difficult
-              </li>
+              <li><strong>Cons</strong>: Range queries become expensive, resharding is difficult</li>
             </ul>
             <p class="mt-0 mb-6"><strong>3. Geographic Sharding</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">US users       → US datacenter shard
-EU users       → EU datacenter shard
-Asia users     → Asia datacenter shard
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">US users       → US datacenter shard</span>
+                <span class="block leading-(--pre-line) whitespace-pre">EU users       → EU datacenter shard</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Asia users     → Asia datacenter shard</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li><strong>Pros</strong>: Lower latency, data residency compliance (GDPR)</li>
-              <li>
-                <strong>Cons</strong>: Uneven distribution if user base isn&#39;t geographically
-                balanced
-              </li>
+              <li><strong>Cons</strong>: Uneven distribution if user base isn&#39;t geographically balanced</li>
             </ul>
             <p class="mt-0 mb-6"><strong>4. Entity-based (Tenant) Sharding</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Company A&#39;s data → Shard 1
-Company B&#39;s data → Shard 2
-Company C&#39;s data → Shard 3
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Company A&#39;s data → Shard 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Company B&#39;s data → Shard 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Company C&#39;s data → Shard 3</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li><strong>Pros</strong>: Easy data isolation, good for multi-tenant SaaS</li>
               <li><strong>Cons</strong>: Large tenants can create hot spots</li>
             </ul>
-            <h3 id="challenges-with-sharding" class="mt-8 text-lg leading-tight tracking-tight">
-              Challenges with Sharding
-            </h3>
+            <h3 id="challenges-with-sharding" class="mt-8 text-lg leading-tight tracking-tight">Challenges with Sharding</h3>
             <p class="mt-0 mb-6"><strong>1. Cross-shard Queries</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-sql rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">-- This is expensive if users are on different shards</span>
-<span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> orders
-<span class="text-syn-k">WHERE</span> user_id <span class="text-syn-k">IN</span> (<span class="text-syn-n">123</span>, <span class="text-syn-n">456</span>, <span class="text-syn-n">789</span>);
-</code></pre>
-            <p class="mt-0 mb-6">
-              You have to query multiple shards and aggregate results in your application.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- This is expensive if users are on different shards</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> orders</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">WHERE</span> user_id <span class="text-syn-k">IN</span> (<span class="text-syn-n">123</span>, <span class="text-syn-n">456</span>, <span class="text-syn-n">789</span>);</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">You have to query multiple shards and aggregate results in your application.</p>
             <p class="mt-0 mb-6"><strong>2. Resharding</strong></p>
             <p class="mt-0 mb-6">When you need to add more shards:</p>
             <ul class="mt-0 mb-6">
@@ -1121,78 +817,58 @@ Company C&#39;s data → Shard 3
             </ul>
             <p class="mt-0 mb-6"><strong>3. Referential Integrity</strong></p>
             <p class="mt-0 mb-6">Foreign keys don&#39;t work across shards:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-sql rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">-- This won&#39;t work if users and orders are on different shards</span>
-<span class="text-syn-k">ALTER</span> <span class="text-syn-k">TABLE</span> orders
-<span class="text-syn-k">ADD</span> <span class="text-syn-k">FOREIGN KEY</span> (user_id) <span class="text-syn-k">REFERENCES</span> users(id);
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- This won&#39;t work if users and orders are on different shards</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">ALTER</span> <span class="text-syn-k">TABLE</span> orders</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">ADD</span> <span class="text-syn-k">FOREIGN KEY</span> (user_id) <span class="text-syn-k">REFERENCES</span> users(id);</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">You have to handle this at the application level.</p>
             <p class="mt-0 mb-6"><strong>4. Distributed Transactions</strong></p>
-            <p class="mt-0 mb-6">
-              ACID transactions across shards are complex and slow. You often need to:
-            </p>
+            <p class="mt-0 mb-6">ACID transactions across shards are complex and slow. You often need to:</p>
             <ul class="mt-0 mb-6">
               <li>Use eventual consistency</li>
               <li>Implement saga patterns</li>
               <li>Use two-phase commit (slow and fragile)</li>
             </ul>
-            <h3 id="best-practices-for-sharding" class="mt-8 text-lg leading-tight tracking-tight">
-              Best Practices for Sharding
-            </h3>
+            <h3 id="best-practices-for-sharding" class="mt-8 text-lg leading-tight tracking-tight">Best Practices for Sharding</h3>
             <p class="mt-0 mb-6"><strong>Choose the Right Shard Key</strong></p>
-            <p class="mt-0 mb-6">
-              Your shard key determines how data is distributed. Choose wisely:
-            </p>
+            <p class="mt-0 mb-6">Your shard key determines how data is distributed. Choose wisely:</p>
             <p class="mt-0 mb-6"><strong>Good shard keys:</strong></p>
             <ul class="mt-0 mb-6">
               <li>High cardinality (many unique values)</li>
               <li>Evenly distributed</li>
               <li>Frequently used in queries</li>
-              <li>
-                Example:
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >user_id</code
-                >
-                for a social media app
-              </li>
+              <li>Example: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">user_id</code> for a social media app</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Bad shard keys:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Low cardinality (few unique values)</li>
               <li>Skewed distribution</li>
-              <li>
-                Example:
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >country</code
-                >
-                (USA might have 80% of users)
-              </li>
+              <li>Example: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">country</code> (USA might have 80% of users)</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Design for Single-Shard Queries</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// Good: Query stays within one shard</span>
-<span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>users<span class="text-syn-u">.</span><span class="text-syn-f">findOne</span><span class="text-syn-u">({</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span>
-<span class="text-syn-k">const</span> posts <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>posts<span class="text-syn-u">.</span><span class="text-syn-f">find</span><span class="text-syn-u">({</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span>
-
-<span class="text-syn-c italic">// Bad: Query needs to scan all shards</span>
-<span class="text-syn-k">const</span> posts <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>posts<span class="text-syn-u">.</span><span class="text-syn-f">find</span><span class="text-syn-u">({</span> <span class="text-syn-p">likes:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">$gt:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">}</span> <span class="text-syn-u">});</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Structure your data so most queries can be answered from a single shard.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Good: Query stays within one shard</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>users<span class="text-syn-u">.</span><span class="text-syn-f">findOne</span><span class="text-syn-u">({</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> posts <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>posts<span class="text-syn-u">.</span><span class="text-syn-f">find</span><span class="text-syn-u">({</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Bad: Query needs to scan all shards</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> posts <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>posts<span class="text-syn-u">.</span><span class="text-syn-f">find</span><span class="text-syn-u">({</span> <span class="text-syn-p">likes:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">$gt:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">}</span> <span class="text-syn-u">});</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Structure your data so most queries can be answered from a single shard.</p>
             <p class="mt-0 mb-6"><strong>Plan for Growth</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Start: 2 shards (can handle current load)
-Year 1: 4 shards
-Year 2: 8 shards
-Year 3: 16 shards
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Start: 2 shards (can handle current load)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Year 1: 4 shards</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Year 2: 8 shards</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Year 3: 16 shards</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Use a sharding strategy that makes adding shards easier:</p>
             <ul class="mt-0 mb-6">
               <li>Consistent hashing (minimal data movement)</li>
@@ -1200,144 +876,97 @@ Year 3: 16 shards
             </ul>
             <p class="mt-0 mb-6"><strong>Monitor Shard Health</strong></p>
             <p class="mt-0 mb-6">Keep track of:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Shard 1: 45% storage, 600 WPS, 50ms avg latency
-Shard 2: 78% storage, 1200 WPS, 120ms avg latency (warning: hot spot)
-Shard 3: 32% storage, 450 WPS, 45ms avg latency
-</code></pre>
-            <p class="mt-0 mb-6">
-              Shard 2 is becoming a hot spot and needs attention (maybe split it further or
-              redistribute data).
-            </p>
-            <h3
-              id="sharding-vs-partitioning-the-four-scenarios"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Sharding vs Partitioning: The Four Scenarios
-            </h3>
-            <p class="mt-0 mb-6">
-              Here&#39;s how partitioning and sharding can be combined (or not):
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 1: 45% storage, 600 WPS, 50ms avg latency</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 2: 78% storage, 1200 WPS, 120ms avg latency (warning: hot spot)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Shard 3: 32% storage, 450 WPS, 45ms avg latency</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Shard 2 is becoming a hot spot and needs attention (maybe split it further or redistribute data).</p>
+            <h3 id="sharding-vs-partitioning-the-four-scenarios" class="mt-8 text-lg leading-tight tracking-tight">Sharding vs Partitioning: The Four Scenarios</h3>
+            <p class="mt-0 mb-6">Here&#39;s how partitioning and sharding can be combined (or not):</p>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
                 <tr>
                   <th class="border-b border-line px-3.5 py-2.5 text-left"></th>
-                  <th class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>No Partitioning</strong>
-                  </th>
-                  <th class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>With Partitioning</strong>
-                  </th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left"><strong>No Partitioning</strong></th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left"><strong>With Partitioning</strong></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>No Sharding</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Scenario 1</strong>: Single database with all data in one
-                    table/collection on one server.<br /><br /><strong>Use case</strong>: Small
-                    applications, prototypes<br /><strong>Max scale</strong>: ~100-200 WPS
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Scenario 2</strong>: One database with data logically split into
-                    partitions (by date, region, etc.) on one server.<br /><br />
-                    <strong>Use case</strong>: Medium applications with time-series data<br />
-                    <strong>Max scale</strong>: ~500-1000 WPS
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>No Sharding</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Scenario 1</strong>: Single database with all data in one table/collection on one server.<br /><br /><strong>Use case</strong>: Small applications, prototypes<br /><strong>Max scale</strong>: ~100-200 WPS</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Scenario 2</strong>: One database with data logically split into partitions (by date, region, etc.) on one server.<br /><br /><strong>Use case</strong>: Medium applications with time-series data<br /><strong>Max scale</strong>: ~500-1000 WPS</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>With Sharding</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Scenario 3</strong>: Data distributed across multiple database servers.
-                    Each shard holds a portion without internal partitioning.<br /><br />
-                    <strong>Use case</strong>: Large applications needing horizontal scale<br />
-                    <strong>Max scale</strong>: Thousands of WPS per shard
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Scenario 4</strong>: Each shard has partitioned data + read replicas.
-                    The ultimate setup for massive scale.<br /><br /><strong>Use case</strong>: Tech
-                    giants, global applications<br /><strong>Max scale</strong>: Virtually unlimited
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>With Sharding</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Scenario 3</strong>: Data distributed across multiple database servers. Each shard holds a portion without internal partitioning.<br /><br /><strong>Use case</strong>: Large applications needing horizontal scale<br /><strong>Max scale</strong>: Thousands of WPS per shard</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Scenario 4</strong>: Each shard has partitioned data + read replicas. The ultimate setup for massive scale.<br /><br /><strong>Use case</strong>: Tech giants, global applications<br /><strong>Max scale</strong>: Virtually unlimited</td>
                 </tr>
               </tbody>
             </table>
-            <h4 id="scenario-1-no-sharding-no-partitioning" class="leading-tight tracking-tight">
-              Scenario 1: No Sharding, No Partitioning
-            </h4>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">┌─────────────────┐
-│   Database      │
-│  [All Data]     │  ← Everything in one place
-└─────────────────┘
-</code></pre>
+            <h4 id="scenario-1-no-sharding-no-partitioning" class="leading-tight tracking-tight">Scenario 1: No Sharding, No Partitioning</h4>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│   Database      │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│  [All Data]     │  ← Everything in one place</span>
+                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────┘</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li>Simplest setup</li>
               <li>All data in one table</li>
               <li>Easy to query and maintain</li>
               <li>Limited by single server capacity</li>
             </ul>
-            <h4 id="scenario-2-no-sharding-with-partitioning" class="leading-tight tracking-tight">
-              Scenario 2: No Sharding, With Partitioning
-            </h4>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">┌─────────────────────────┐
-│      Database           │
-│  [2024 Data]            │  ← Partitioned by year
-│  [2023 Data]            │
-│  [2022 Data]            │
-└─────────────────────────┘
-</code></pre>
+            <h4 id="scenario-2-no-sharding-with-partitioning" class="leading-tight tracking-tight">Scenario 2: No Sharding, With Partitioning</h4>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│      Database           │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│  [2024 Data]            │  ← Partitioned by year</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│  [2023 Data]            │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│  [2022 Data]            │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────┘</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li>Better query performance (queries scan less data)</li>
               <li>Easier to archive old data</li>
               <li>Still limited by single server</li>
               <li>Good for time-series data</li>
             </ul>
-            <h4 id="scenario-3-with-sharding-no-partitioning" class="leading-tight tracking-tight">
-              Scenario 3: With Sharding, No Partitioning
-            </h4>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-│  Shard 1    │  │  Shard 2    │  │  Shard 3    │
-│  [A-I data] │  │  [J-R data] │  │  [S-Z data] │
-└─────────────┘  └─────────────┘  └─────────────┘
-</code></pre>
+            <h4 id="scenario-3-with-sharding-no-partitioning" class="leading-tight tracking-tight">Scenario 3: With Sharding, No Partitioning</h4>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐  ┌─────────────┐  ┌─────────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│  Shard 1    │  │  Shard 2    │  │  Shard 3    │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│  [A-I data] │  │  [J-R data] │  │  [S-Z data] │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘  └─────────────┘  └─────────────┘</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li>Scales horizontally</li>
               <li>Each shard is a simple database</li>
               <li>Application handles routing</li>
               <li>Can add more shards as needed</li>
             </ul>
-            <h4
-              id="scenario-4-with-sharding-partitioning-read-replicas"
-              class="leading-tight tracking-tight"
-            >
-              Scenario 4: With Sharding + Partitioning + Read Replicas
-            </h4>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">┌─────────────────────┐     ┌─────────────────────┐
-│  Shard 1 (Master)   │     │  Shard 2 (Master)   │
-│   [2024 A-M Data]   │     │   [2024 N-Z Data]   │
-│   [2023 A-M Data]   │     │   [2023 N-Z Data]   │
-└──────┬──────────────┘     └──────┬──────────────┘
-       │                           │
-       ├─ Replica 1                ├─ Replica 1
-       └─ Replica 2                └─ Replica 2
-</code></pre>
+            <h4 id="scenario-4-with-sharding-partitioning-read-replicas" class="leading-tight tracking-tight">Scenario 4: With Sharding + Partitioning + Read Replicas</h4>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────┐     ┌─────────────────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│  Shard 1 (Master)   │     │  Shard 2 (Master)   │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│   [2024 A-M Data]   │     │   [2024 N-Z Data]   │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">│   [2023 A-M Data]   │     │   [2023 N-Z Data]   │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">└──────┬──────────────┘     └──────┬──────────────┘</span>
+                <span class="block leading-(--pre-line) whitespace-pre">       │                           │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">       ├─ Replica 1                ├─ Replica 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">       └─ Replica 2                └─ Replica 2</span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
               <li>Maximum scalability and performance</li>
               <li>Each shard partitions data internally</li>
@@ -1345,9 +974,7 @@ Shard 3: 32% storage, 450 WPS, 45ms avg latency
               <li>Complex but handles any scale</li>
               <li>This is how companies like Facebook, Twitter scale</li>
             </ul>
-            <h3 id="detailed-comparison" class="mt-8 text-lg leading-tight tracking-tight">
-              Detailed Comparison
-            </h3>
+            <h3 id="detailed-comparison" class="mt-8 text-lg leading-tight tracking-tight">Detailed Comparison</h3>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
                 <tr>
@@ -1358,155 +985,97 @@ Shard 3: 32% storage, 450 WPS, 45ms avg latency
               </thead>
               <tbody>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Scope</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Within one database instance
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Across multiple database instances
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Scope</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Within one database instance</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Across multiple database instances</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Physical Location</strong>
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Physical Location</strong></td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Same server</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Different servers</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Primary Goal</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Query performance, data organization
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Load distribution, capacity scaling
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Primary Goal</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Query performance, data organization</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Load distribution, capacity scaling</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Complexity</strong>
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Complexity</strong></td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Low to moderate</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">High</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Cost</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    No additional hardware
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Requires multiple servers
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Cost</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">No additional hardware</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Requires multiple servers</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Application Changes</strong>
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Application Changes</strong></td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Minimal or none</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Significant routing logic needed
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Significant routing logic needed</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Query Complexity</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Database handles internally
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Application must route requests
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Query Complexity</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Database handles internally</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Application must route requests</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Fault Tolerance</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Single point of failure
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Better (one shard fails, others work)
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Fault Tolerance</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Single point of failure</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Better (one shard fails, others work)</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Examples</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    PostgreSQL table partitioning by date
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    MongoDB sharded cluster across servers
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Examples</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">PostgreSQL table partitioning by date</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">MongoDB sharded cluster across servers</td>
                 </tr>
               </tbody>
             </table>
-            <h3 id="real-world-examples" class="mt-8 text-lg leading-tight tracking-tight">
-              Real-World Examples
-            </h3>
-            <p class="mt-0 mb-6">
-              <strong>PostgreSQL Table Partitioning</strong>
-              (Partitioning, not Sharding)
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-sql rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">-- Create parent table</span>
-<span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements</span> (
-    id <span class="text-syn-k">SERIAL</span>,
-    logdate <span class="text-syn-k">DATE</span> <span class="text-syn-k">NOT NULL</span>,
-    temperature <span class="text-syn-k">INT</span>
-) <span class="text-syn-k">PARTITION</span> <span class="text-syn-k">BY</span> <span class="text-syn-k">RANGE</span> (logdate);
-
-<span class="text-syn-c italic">-- Create partitions for different months</span>
-<span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements_2024_01</span> <span class="text-syn-k">PARTITION</span> OF measurements
-    <span class="text-syn-k">FOR</span> <span class="text-syn-k">VALUES</span> <span class="text-syn-k">FROM</span> (<span class="text-syn-s">&#39;2024-01-01&#39;</span>) <span class="text-syn-k">TO</span> (<span class="text-syn-s">&#39;2024-02-01&#39;</span>);
-
-<span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements_2024_02</span> <span class="text-syn-k">PARTITION</span> OF measurements
-    <span class="text-syn-k">FOR</span> <span class="text-syn-k">VALUES</span> <span class="text-syn-k">FROM</span> (<span class="text-syn-s">&#39;2024-02-01&#39;</span>) <span class="text-syn-k">TO</span> (<span class="text-syn-s">&#39;2024-03-01&#39;</span>);
-
-<span class="text-syn-c italic">-- Query automatically uses the right partition</span>
-<span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> measurements <span class="text-syn-k">WHERE</span> logdate <span class="text-syn-o">=</span> <span class="text-syn-s">&#39;2024-01-15&#39;</span>;
-</code></pre>
+            <h3 id="real-world-examples" class="mt-8 text-lg leading-tight tracking-tight">Real-World Examples</h3>
+            <p class="mt-0 mb-6"><strong>PostgreSQL Table Partitioning</strong> (Partitioning, not Sharding)</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-sql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Create parent table</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements</span> (</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    id <span class="text-syn-k">SERIAL</span>,</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    logdate <span class="text-syn-k">DATE</span> <span class="text-syn-k">NOT NULL</span>,</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    temperature <span class="text-syn-k">INT</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">) <span class="text-syn-k">PARTITION</span> <span class="text-syn-k">BY</span> <span class="text-syn-k">RANGE</span> (logdate);</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Create partitions for different months</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements_2024_01</span> <span class="text-syn-k">PARTITION</span> OF measurements</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">FOR</span> <span class="text-syn-k">VALUES</span> <span class="text-syn-k">FROM</span> (<span class="text-syn-s">&#39;2024-01-01&#39;</span>) <span class="text-syn-k">TO</span> (<span class="text-syn-s">&#39;2024-02-01&#39;</span>);</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">CREATE</span> <span class="text-syn-k">TABLE</span> <span class="text-syn-f">measurements_2024_02</span> <span class="text-syn-k">PARTITION</span> OF measurements</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">FOR</span> <span class="text-syn-k">VALUES</span> <span class="text-syn-k">FROM</span> (<span class="text-syn-s">&#39;2024-02-01&#39;</span>) <span class="text-syn-k">TO</span> (<span class="text-syn-s">&#39;2024-03-01&#39;</span>);</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">-- Query automatically uses the right partition</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">SELECT</span> <span class="text-syn-o">*</span> <span class="text-syn-k">FROM</span> measurements <span class="text-syn-k">WHERE</span> logdate <span class="text-syn-o">=</span> <span class="text-syn-s">&#39;2024-01-15&#39;</span>;</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">All partitions are on the same PostgreSQL instance.</p>
             <p class="mt-0 mb-6"><strong>MongoDB Sharded Cluster</strong> (True Sharding)</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-javascript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// Enable sharding for a database</span>
-sh<span class="text-syn-u">.</span><span class="text-syn-f">enableSharding</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;myapp&quot;</span><span class="text-syn-u">);</span>
-
-<span class="text-syn-c italic">// Shard a collection by user_id</span>
-sh<span class="text-syn-u">.</span><span class="text-syn-f">shardCollection</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;myapp.users&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;hashed&quot;</span> <span class="text-syn-u">});</span>
-
-<span class="text-syn-c italic">// MongoDB automatically distributes data across shards</span>
-<span class="text-syn-c italic">// mongos router handles query routing transparently</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-javascript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Enable sharding for a database</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">sh<span class="text-syn-u">.</span><span class="text-syn-f">enableSharding</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;myapp&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Shard a collection by user_id</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">sh<span class="text-syn-u">.</span><span class="text-syn-f">shardCollection</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;myapp.users&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span> <span class="text-syn-p">user_id:</span> <span class="text-syn-s">&quot;hashed&quot;</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// MongoDB automatically distributes data across shards</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// mongos router handles query routing transparently</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Data is distributed across multiple MongoDB instances (shards).</p>
             <p class="mt-0 mb-6"><strong>Why This Matters</strong></p>
-            <p class="mt-0 mb-6">
-              When your architect says &quot;let&#39;s shard the database,&quot; clarify:
-            </p>
+            <p class="mt-0 mb-6">When your architect says &quot;let&#39;s shard the database,&quot; clarify:</p>
             <ul class="mt-0 mb-6">
               <li>Do they mean table partitioning on one server? (Easier, limited scaling)</li>
               <li>Or true sharding across multiple servers? (Harder, unlimited scaling)</li>
             </ul>
-            <p class="mt-0 mb-6">
-              The implementation complexity and operational overhead are vastly different!
-            </p>
-            <h2
-              id="when-to-use-what"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              When to Use What
-            </h2>
+            <p class="mt-0 mb-6">The implementation complexity and operational overhead are vastly different!</p>
+            <h2 id="when-to-use-what" class="mt-12 text-xl font-semibold leading-tight tracking-tight">When to Use What</h2>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
                 <tr>
@@ -1516,167 +1085,69 @@ sh<span class="text-syn-u">.</span><span class="text-syn-f">shardCollection</spa
               </thead>
               <tbody>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    CPU/Memory bottleneck, simple setup
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">CPU/Memory bottleneck, simple setup</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Vertical scaling</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Read-heavy workload (90%+ reads)
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Read-heavy workload (90%+ reads)</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Read replicas</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Need strong consistency
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Synchronous replication
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Need strong consistency</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Synchronous replication</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Can tolerate slight delays, need speed
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Asynchronous replication
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Can tolerate slight delays, need speed</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Asynchronous replication</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Single node can&#39;t hold all data
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Single node can&#39;t hold all data</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Sharding</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Vertical scaling limit reached
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Horizontal scaling with sharding
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Vertical scaling limit reached</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Horizontal scaling with sharding</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Need both read scaling and data distribution
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Sharding + Replicas per shard
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Need both read scaling and data distribution</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Sharding + Replicas per shard</td>
                 </tr>
               </tbody>
             </table>
-            <h2
-              id="hands-on-practice"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Hands-on Practice
-            </h2>
-            <p class="mt-0 mb-6">
-              I&#39;ve created demos you can run locally to experiment with these concepts:
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://github.com/pulkitxm/systems/tree/main/databases/scaling-db"
-                >scaling-db</a
-              >
-            </p>
+            <h2 id="hands-on-practice" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Hands-on Practice</h2>
+            <p class="mt-0 mb-6">I&#39;ve created demos you can run locally to experiment with these concepts: <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/systems/tree/main/databases/scaling-db">scaling-db</a></p>
             <ul class="mt-0 mb-6">
-              <li>
-                <a
-                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                  href="https://github.com/pulkitxm/systems/tree/main/databases/scaling-db/read-replicas"
-                  >read-replicas</a
-                >: Set up a primary with multiple read replicas, test read distribution, and measure
-                replication lag.
-              </li>
-              <li>
-                <a
-                  class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                  href="https://github.com/pulkitxm/systems/tree/main/databases/scaling-db/sharding"
-                  >sharding</a
-                >: Hash-based sharding across multiple PostgreSQL instances with a shard manager.
-              </li>
+              <li><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/systems/tree/main/databases/scaling-db/read-replicas">read-replicas</a>: Set up a primary with multiple read replicas, test read distribution, and measure replication lag.</li>
+              <li><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/systems/tree/main/databases/scaling-db/sharding">sharding</a>: Hash-based sharding across multiple PostgreSQL instances with a shard manager.</li>
             </ul>
-            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              Conclusion
-            </h2>
-            <p class="mt-0 mb-6">
-              Database scaling isn&#39;t one-size-fits-all. Start with the simplest solution that
-              works:
-            </p>
+            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Conclusion</h2>
+            <p class="mt-0 mb-6">Database scaling isn&#39;t one-size-fits-all. Start with the simplest solution that works:</p>
             <ol class="mt-0 mb-6">
               <li><strong>First</strong>: Optimize your queries and add indexes</li>
               <li><strong>Then</strong>: Vertical scaling (bigger server)</li>
               <li><strong>Next</strong>: Read replicas (if read-heavy)</li>
-              <li>
-                <strong>Finally</strong>: Sharding (when data/load exceeds single node capacity)
-              </li>
+              <li><strong>Finally</strong>: Sharding (when data/load exceeds single node capacity)</li>
             </ol>
-            <p class="mt-0 mb-6">
-              Each step adds complexity. Only move to the next level when you&#39;ve exhausted the
-              current one. And always, read your database&#39;s documentation. The implementation
-              details matter.
-            </p>
+            <p class="mt-0 mb-6">Each step adds complexity. Only move to the next level when you&#39;ve exhausted the current one. And always, read your database&#39;s documentation. The implementation details matter.</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/db-transaction-internals/"
-                >Database Transaction Internals: ACID, WAL, MVCC &amp; Locking</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/load-balancers/"
-                >Load Balancers</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/rate-limiting/"
-                >Rate Limiting</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/db-transaction-internals/">Database Transaction Internals: ACID, WAL, MVCC &amp; Locking</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/load-balancers/">Load Balancers</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/rate-limiting/">Rate Limiting</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/system-design/understanding-database-scaling-sharding.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/system-design/understanding-database-scaling-sharding.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>

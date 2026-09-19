@@ -1,25 +1,19 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="Deep dives into system design concepts, from databases and caching to distributed systems and scalability patterns."
-    />
+    <meta name="description" content="Deep dives into system design concepts, from databases and caching to distributed systems and scalability patterns." />
     <link rel="canonical" href="https://pulkit.blog/system-design/" />
     <link rel="alternate" type="text/markdown" href="https://pulkit.blog/system-design.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -27,10 +21,7 @@
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="System Design | pulkit.blog" />
-    <meta
-      property="og:description"
-      content="Deep dives into system design concepts, from databases and caching to distributed systems and scalability patterns."
-    />
+    <meta property="og:description" content="Deep dives into system design concepts, from databases and caching to distributed systems and scalability patterns." />
     <meta property="og:url" content="https://pulkit.blog/system-design/" />
     <meta property="og:image" content="https://pulkit.blog/og/system-design/card.png" />
     <meta property="og:image:secure_url" content="https://pulkit.blog/og/system-design/card.png" />
@@ -38,243 +29,217 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="System Design" />
-
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="System Design | pulkit.blog" />
-    <meta
-      name="twitter:description"
-      content="Deep dives into system design concepts, from databases and caching to distributed systems and scalability patterns."
-    />
+    <meta name="twitter:description" content="Deep dives into system design concepts, from databases and caching to distributed systems and scalability patterns." />
     <meta name="twitter:image" content="https://pulkit.blog/og/system-design/card.png" />
     <meta name="twitter:image:alt" content="System Design" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/system-design/#image","contentUrl":"https://pulkit.blog/og/system-design/card.png","width":1200,"height":630,"caption":"System Design"},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/system-design/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"System Design","item":"https://pulkit.blog/system-design/"}]},{"@type":"CollectionPage","@id":"https://pulkit.blog/system-design/#webpage","url":"https://pulkit.blog/system-design/","name":"System Design","description":"Deep dives into system design concepts, from databases and caching to distributed systems and scalability patterns.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/system-design/#image"},"inLanguage":"en","mainEntity":{"@type":"ItemList","@id":"https://pulkit.blog/system-design/#list","itemListElement":[{"@type":"ListItem","position":1,"name":"Rate Limiting","url":"https://pulkit.blog/system-design/rate-limiting/"},{"@type":"ListItem","position":2,"name":"Introduction to Big Data Tools","url":"https://pulkit.blog/system-design/big-data-tools/"},{"@type":"ListItem","position":3,"name":"Bloom Filters","url":"https://pulkit.blog/system-design/bloom-filters/"},{"@type":"ListItem","position":4,"name":"Consistent Hashing","url":"https://pulkit.blog/system-design/consistent-hashing/"},{"@type":"ListItem","position":5,"name":"Communication Protocols","url":"https://pulkit.blog/system-design/communication-protocols/"},{"@type":"ListItem","position":6,"name":"High Availability","url":"https://pulkit.blog/system-design/high-availability/"},{"@type":"ListItem","position":7,"name":"Circuit Breakers","url":"https://pulkit.blog/system-design/circuit-breakers/"},{"@type":"ListItem","position":8,"name":"Load Balancers","url":"https://pulkit.blog/system-design/load-balancers/"},{"@type":"ListItem","position":9,"name":"Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub","url":"https://pulkit.blog/system-design/async-processing/"},{"@type":"ListItem","position":10,"name":"Caching","url":"https://pulkit.blog/system-design/caching/"},{"@type":"ListItem","position":11,"name":"Non-Relational Databases","url":"https://pulkit.blog/system-design/non-relational-databases/"},{"@type":"ListItem","position":12,"name":"Understanding Database Scaling and Sharding Patterns","url":"https://pulkit.blog/system-design/understanding-database-scaling-sharding/"},{"@type":"ListItem","position":13,"name":"Database Transaction Internals: ACID, WAL, MVCC \u0026 Locking","url":"https://pulkit.blog/system-design/db-transaction-internals/"}]},"breadcrumb":{"@id":"https://pulkit.blog/system-design/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/system-design/#image",
+            "contentUrl": "https://pulkit.blog/og/system-design/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "System Design"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/system-design/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "System Design",
+                "item": "https://pulkit.blog/system-design/"
+              }
+            ]
+          },
+          {
+            "@type": "CollectionPage",
+            "@id": "https://pulkit.blog/system-design/#webpage",
+            "url": "https://pulkit.blog/system-design/",
+            "name": "System Design",
+            "description": "Deep dives into system design concepts, from databases and caching to distributed systems and scalability patterns.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/system-design/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@type": "ItemList",
+              "@id": "https://pulkit.blog/system-design/#list",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Rate Limiting",
+                  "url": "https://pulkit.blog/system-design/rate-limiting/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Introduction to Big Data Tools",
+                  "url": "https://pulkit.blog/system-design/big-data-tools/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Bloom Filters",
+                  "url": "https://pulkit.blog/system-design/bloom-filters/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 4,
+                  "name": "Consistent Hashing",
+                  "url": "https://pulkit.blog/system-design/consistent-hashing/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 5,
+                  "name": "Communication Protocols",
+                  "url": "https://pulkit.blog/system-design/communication-protocols/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 6,
+                  "name": "High Availability",
+                  "url": "https://pulkit.blog/system-design/high-availability/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 7,
+                  "name": "Circuit Breakers",
+                  "url": "https://pulkit.blog/system-design/circuit-breakers/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 8,
+                  "name": "Load Balancers",
+                  "url": "https://pulkit.blog/system-design/load-balancers/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 9,
+                  "name": "Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub",
+                  "url": "https://pulkit.blog/system-design/async-processing/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 10,
+                  "name": "Caching",
+                  "url": "https://pulkit.blog/system-design/caching/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 11,
+                  "name": "Non-Relational Databases",
+                  "url": "https://pulkit.blog/system-design/non-relational-databases/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 12,
+                  "name": "Understanding Database Scaling and Sharding Patterns",
+                  "url": "https://pulkit.blog/system-design/understanding-database-scaling-sharding/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 13,
+                  "name": "Database Transaction Internals: ACID, WAL, MVCC \u0026 Locking",
+                  "url": "https://pulkit.blog/system-design/db-transaction-internals/"
+                }
+              ]
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/system-design/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>System Design | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <header class="mb-8">
-          <h1
-            class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight"
-            data-title
-          >
-            System Design
-          </h1>
+          <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight" data-title>System Design</h1>
         </header>
-        <div class="text-muted wrap-anywhere [&_ul]:text-fg">
-          <p class="mt-0 mb-6">
-            The
-            <strong
-              ><a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://github.com/pulkitxm/systems"
-                >pulkitxm/systems</a
-              ></strong
-            >
-            repository on GitHub has supplementary sketches, runnable implementations, and small
-            code-heavy examples keyed to themes in this series. Pair it with these posts when you
-            want reference code alongside the write-ups.
-          </p>
-          <h2
-            class="mt-10 mb-2 flex items-center gap-4 text-md font-medium leading-tight tracking-normal text-muted after:h-px after:flex-1 after:bg-line"
-          >
-            2026
-          </h2>
+        <div class="text-muted wrap-anywhere [&amp;_ul]:text-fg">
+          <p class="mt-0 mb-6">The <strong><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/systems">pulkitxm/systems</a></strong> repository on GitHub has supplementary sketches, runnable implementations, and small code-heavy examples keyed to themes in this series. Pair it with these posts when you want reference code alongside the write-ups.</p>
+          <h2 class="mt-10 mb-2 flex items-center gap-4 text-md font-medium leading-tight tracking-normal text-muted after:h-px after:flex-1 after:bg-line">2026</h2>
           <ul class="mt-0 mb-6 list-none p-0">
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/rate-limiting/"
-                ><span class="group-hover:underline" data-title>Rate Limiting</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-04-11">Apr 11</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/bloom-filters/"
-                ><span class="group-hover:underline" data-title>Bloom Filters</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-24">Jan 24</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/consistent-hashing/"
-                ><span class="group-hover:underline" data-title>Consistent Hashing</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-24">Jan 24</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/big-data-tools/"
-                ><span class="group-hover:underline" data-title>Introduction to Big Data Tools</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-24">Jan 24</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/communication-protocols/"
-                ><span class="group-hover:underline" data-title>Communication Protocols</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-23">Jan 23</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/high-availability/"
-                ><span class="group-hover:underline" data-title>High Availability</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-23">Jan 23</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/circuit-breakers/"
-                ><span class="group-hover:underline" data-title>Circuit Breakers</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-13">Jan 13</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/load-balancers/"
-                ><span class="group-hover:underline" data-title>Load Balancers</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-11">Jan 11</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/async-processing/"
-                ><span class="group-hover:underline" data-title
-                  >Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-10">Jan 10</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/caching/"
-                ><span class="group-hover:underline" data-title>Caching</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-08">Jan 8</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/non-relational-databases/"
-                ><span class="group-hover:underline" data-title>Non-Relational Databases</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-08">Jan 8</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/understanding-database-scaling-sharding/"
-                ><span class="group-hover:underline" data-title
-                  >Understanding Database Scaling and Sharding Patterns</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-07">Jan 7</time></span
-                ></a
-              >
-            </li>
-            <li class="border-b border-line">
-              <a
-                class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3"
-                href="/system-design/db-transaction-internals/"
-                ><span class="group-hover:underline" data-title
-                  >Database Transaction Internals: ACID, WAL, MVCC &amp; Locking</span
-                ><span class="shrink-0 text-xs text-muted max-sm:text-2xs"
-                  ><time datetime="2026-01-03">Jan 3</time></span
-                ></a
-              >
-            </li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/rate-limiting/"><span class="group-hover:underline" data-title>Rate Limiting</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-04-11">Apr 11</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/bloom-filters/"><span class="group-hover:underline" data-title>Bloom Filters</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-24">Jan 24</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/consistent-hashing/"><span class="group-hover:underline" data-title>Consistent Hashing</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-24">Jan 24</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/big-data-tools/"><span class="group-hover:underline" data-title>Introduction to Big Data Tools</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-24">Jan 24</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/communication-protocols/"><span class="group-hover:underline" data-title>Communication Protocols</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-23">Jan 23</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/high-availability/"><span class="group-hover:underline" data-title>High Availability</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-23">Jan 23</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/circuit-breakers/"><span class="group-hover:underline" data-title>Circuit Breakers</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-13">Jan 13</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/load-balancers/"><span class="group-hover:underline" data-title>Load Balancers</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-11">Jan 11</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/async-processing/"><span class="group-hover:underline" data-title>Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-10">Jan 10</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/caching/"><span class="group-hover:underline" data-title>Caching</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-08">Jan 8</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/non-relational-databases/"><span class="group-hover:underline" data-title>Non-Relational Databases</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-08">Jan 8</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/understanding-database-scaling-sharding/"><span class="group-hover:underline" data-title>Understanding Database Scaling and Sharding Patterns</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-07">Jan 7</time></span></a></li>
+            <li class="border-b border-line"><a class="group flex items-baseline justify-between gap-5 py-3.75 leading-normal text-inherit no-underline underline-offset-4 max-sm:gap-3" href="/system-design/db-transaction-internals/"><span class="group-hover:underline" data-title>Database Transaction Internals: ACID, WAL, MVCC &amp; Locking</span><span class="shrink-0 text-xs text-muted max-sm:text-2xs"><time datetime="2026-01-03">Jan 3</time></span></a></li>
           </ul>
         </div>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/system-design.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/system-design.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>

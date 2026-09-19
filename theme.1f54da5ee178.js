@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   button?.addEventListener("click", () => {
     const dark = document.documentElement.dataset.theme
       ? document.documentElement.dataset.theme === "dark"
-      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
     const theme = dark ? "light" : "dark";
     document.documentElement.dataset.theme = theme;
     try {
@@ -49,11 +49,11 @@ function entryTransition(event, otherUrl) {
   if (!transition) {
     return;
   }
-  if (!otherUrl || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     transition.skipTransition();
     return;
   }
-  const current = new URL(window.location.href);
+  const current = new URL(globalThis.location.href);
   const other = new URL(otherUrl);
   const titles = [...document.querySelectorAll("[data-title]")];
   const title =
@@ -71,9 +71,9 @@ function entryTransition(event, otherUrl) {
   captured.then(clear, clear);
 }
 
-window.addEventListener("pageswap", (event) => {
+globalThis.addEventListener("pageswap", (event) => {
   entryTransition(event, event.activation?.entry?.url);
 });
-window.addEventListener("pagereveal", (event) => {
-  entryTransition(event, window.navigation?.activation?.from?.url);
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
 });

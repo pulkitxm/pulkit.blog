@@ -1,25 +1,19 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other."
-    />
+    <meta name="description" content="A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other." />
     <link rel="canonical" href="https://pulkit.blog/git-worktrees/" />
     <link rel="alternate" type="text/markdown" href="https://pulkit.blog/git-worktrees.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -27,10 +21,7 @@
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="Git Worktrees | pulkit.blog" />
-    <meta
-      property="og:description"
-      content="A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other."
-    />
+    <meta property="og:description" content="A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other." />
     <meta property="og:url" content="https://pulkit.blog/git-worktrees/" />
     <meta property="og:image" content="https://pulkit.blog/og/git-worktrees/card.png" />
     <meta property="og:image:secure_url" content="https://pulkit.blog/og/git-worktrees/card.png" />
@@ -42,658 +33,278 @@
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Git Worktrees | pulkit.blog" />
-    <meta
-      name="twitter:description"
-      content="A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other."
-    />
+    <meta name="twitter:description" content="A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other." />
     <meta name="twitter:image" content="https://pulkit.blog/og/git-worktrees/card.png" />
     <meta name="twitter:image:alt" content="Git Worktrees" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/git-worktrees/#image","contentUrl":"https://pulkit.blog/og/git-worktrees/card.png","width":1200,"height":630,"caption":"Git Worktrees"},{"@type":"BlogPosting","@id":"https://pulkit.blog/git-worktrees/#article","headline":"Git Worktrees","description":"A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other.","datePublished":"2026-05-29","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/git-worktrees/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/git-worktrees/#image"},"url":"https://pulkit.blog/git-worktrees/","inLanguage":"en","keywords":["Git","Git Worktrees","AI","Agents","Claude Code","Workflow","Developer Tools","Productivity"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/git-worktrees/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Git Worktrees","item":"https://pulkit.blog/git-worktrees/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/git-worktrees/#webpage","url":"https://pulkit.blog/git-worktrees/","name":"Git Worktrees","description":"A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/git-worktrees/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/git-worktrees/#article"},"breadcrumb":{"@id":"https://pulkit.blog/git-worktrees/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/git-worktrees/#image",
+            "contentUrl": "https://pulkit.blog/og/git-worktrees/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Git Worktrees"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/git-worktrees/#article",
+            "headline": "Git Worktrees",
+            "description": "A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other.",
+            "datePublished": "2026-05-29",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/git-worktrees/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/git-worktrees/#image"
+            },
+            "url": "https://pulkit.blog/git-worktrees/",
+            "inLanguage": "en",
+            "keywords": [
+              "Git",
+              "Git Worktrees",
+              "AI",
+              "Agents",
+              "Claude Code",
+              "Workflow",
+              "Developer Tools",
+              "Productivity"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/git-worktrees/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Git Worktrees",
+                "item": "https://pulkit.blog/git-worktrees/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/git-worktrees/#webpage",
+            "url": "https://pulkit.blog/git-worktrees/",
+            "name": "Git Worktrees",
+            "description": "A deep dive into git worktrees: how they actually work under the hood, the full command surface, and the workflow I use to run multiple AI agents like Claude Code in parallel without them stepping on each other.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/git-worktrees/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/git-worktrees/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/git-worktrees/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>Git Worktrees | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              Git Worktrees
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2026-05-29">May 29, 2026</time>
-              · 17 min read
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>Git Worktrees</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-05-29">May 29, 2026</time> · 17 min read</p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
-            <p class="mt-0 mb-6">
-              I work at
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://noveum.ai"
-                >Noveum.ai</a
-              >, a small, fast-moving startup. On a normal day I&#39;ll be deep in a new feature, an
-              agent grinding through a refactor in the background, and then it happens: something
-              breaks in prod. Or a customer hits a bug we need fixed in the next hour. Or a tiny
-              config change has to ship <em>right now</em>.
-            </p>
-            <p class="mt-0 mb-6">
-              So I have to drop everything and context switch. And for the longest time, the way I
-              handled that switch was bad. Really bad.
-            </p>
+            <p class="mt-0 mb-6">I work at <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://noveum.ai">Noveum.ai</a>, a small, fast-moving startup. On a normal day I&#39;ll be deep in a new feature, an agent grinding through a refactor in the background, and then it happens: something breaks in prod. Or a customer hits a bug we need fixed in the next hour. Or a tiny config change has to ship <em>right now</em>.</p>
+            <p class="mt-0 mb-6">So I have to drop everything and context switch. And for the longest time, the way I handled that switch was bad. Really bad.</p>
             <p class="mt-0 mb-6">I&#39;d either:</p>
             <ol class="mt-0 mb-6">
-              <li>
-                <strong>Stash my work</strong>, switch branches, fix the thing, switch back,
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git stash pop</code
-                >, and pray nothing got mangled, or
-              </li>
-              <li>
-                <strong>Sit and wait</strong>
-                for my long-running agent task to finish before I touched anything, or
-              </li>
-              <li>
-                <strong>Clone the whole repo into a second folder</strong>, then hand-copy over all
-                the
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.env</code
-                >
-                and config files that aren&#39;t tracked by git, just to have a clean place to do
-                the hotfix.
-              </li>
+              <li><strong>Stash my work</strong>, switch branches, fix the thing, switch back, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git stash pop</code>, and pray nothing got mangled, or</li>
+              <li><strong>Sit and wait</strong> for my long-running agent task to finish before I touched anything, or</li>
+              <li><strong>Clone the whole repo into a second folder</strong>, then hand-copy over all the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code> and config files that aren&#39;t tracked by git, just to have a clean place to do the hotfix.</li>
             </ol>
-            <p class="mt-0 mb-6">
-              All three are bad in their own way. Stashing throws away your dev server, your build
-              cache, and your train of thought. Waiting is just... waiting. And cloning the repo
-              twice means a second multi-gigabyte download, a second
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >node_modules</code
-              >, a second set of remotes to fetch, manually copying every untracked
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.env</code
-              >
-              and config file across, and two copies of history that drift apart.
-            </p>
-            <p class="mt-0 mb-6">
-              Then I properly learned <strong>git worktrees</strong>, and the whole problem
-              dissolved. Now I keep my feature work exactly where it is, agent and all, and spin up
-              a separate, clean checkout for the hotfix in seconds, sharing the same
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git</code
-              >. No stashing. No waiting. No second clone.
-            </p>
-            <p class="mt-0 mb-6">
-              I genuinely think this is one of the biggest unlocks for anyone working with AI agents
-              today, and almost nobody I talk to uses it. So this is the post I wish I&#39;d read.
-              We&#39;re going to go deep: what a worktree actually <em>is</em> on disk, the full
-              command surface, the gotchas, and the exact workflow I use to run multiple
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://code.claude.com"
-                >Claude Code</a
-              >
-              sessions in parallel.
-            </p>
-            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              TL;DR
-            </h2>
+            <p class="mt-0 mb-6">All three are bad in their own way. Stashing throws away your dev server, your build cache, and your train of thought. Waiting is just... waiting. And cloning the repo twice means a second multi-gigabyte download, a second <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code>, a second set of remotes to fetch, manually copying every untracked <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code> and config file across, and two copies of history that drift apart.</p>
+            <p class="mt-0 mb-6">Then I properly learned <strong>git worktrees</strong>, and the whole problem dissolved. Now I keep my feature work exactly where it is, agent and all, and spin up a separate, clean checkout for the hotfix in seconds, sharing the same <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code>. No stashing. No waiting. No second clone.</p>
+            <p class="mt-0 mb-6">I genuinely think this is one of the biggest unlocks for anyone working with AI agents today, and almost nobody I talk to uses it. So this is the post I wish I&#39;d read. We&#39;re going to go deep: what a worktree actually <em>is</em> on disk, the full command surface, the gotchas, and the exact workflow I use to run multiple <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://code.claude.com">Claude Code</a> sessions in parallel.</p>
+            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">TL;DR</h2>
             <ul class="mt-0 mb-6">
-              <li>
-                A <strong>git worktree</strong> lets you check out multiple branches into multiple
-                directories at the same time, all backed by <strong>one</strong> shared
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.git</code
-                >. One clone, many working directories.
-              </li>
-              <li>
-                It&#39;s not a second clone. The object database, refs, and config are shared. You
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git fetch</code
-                >
-                once and every worktree sees it. The only extra cost is the checked-out files.
-              </li>
-              <li>
-                The core command is
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git worktree add ../some-dir -b some-branch</code
-                >. Then
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >cd</code
-                >
-                into it and it behaves like a normal repo.
-              </li>
-              <li>
-                This is the perfect substrate for AI agents: each agent gets its
-                <strong>own</strong>
-                working directory and branch, so they never clobber each other&#39;s files. One
-                agent can refactor for 20 minutes in worktree A while you ship a hotfix in worktree
-                B.
-              </li>
-              <li>
-                <strong>Claude Code has this built in</strong>:
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >claude --worktree &lt;name&gt;</code
-                >
-                spins up an isolated worktree per session, and subagents can run with
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >isolation: worktree</code
-                >
-                so parallel agents stay sandboxed.
-              </li>
-              <li>
-                The two things that bite everyone: a fresh worktree has
-                <strong
-                  >no
-                  <code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >node_modules</code
-                  >
-                  and no
-                  <code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >.env</code
-                  ></strong
-                >
-                (they aren&#39;t in git), and
-                <strong>you can&#39;t check out the same branch in two worktrees</strong>. We&#39;ll
-                handle both.
-              </li>
+              <li>A <strong>git worktree</strong> lets you check out multiple branches into multiple directories at the same time, all backed by <strong>one</strong> shared <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code>. One clone, many working directories.</li>
+              <li>It&#39;s not a second clone. The object database, refs, and config are shared. You <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git fetch</code> once and every worktree sees it. The only extra cost is the checked-out files.</li>
+              <li>The core command is <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree add ../some-dir -b some-branch</code>. Then <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">cd</code> into it and it behaves like a normal repo.</li>
+              <li>This is the perfect substrate for AI agents: each agent gets its <strong>own</strong> working directory and branch, so they never clobber each other&#39;s files. One agent can refactor for 20 minutes in worktree A while you ship a hotfix in worktree B.</li>
+              <li><strong>Claude Code has this built in</strong>: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">claude --worktree &lt;name&gt;</code> spins up an isolated worktree per session, and subagents can run with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">isolation: worktree</code> so parallel agents stay sandboxed.</li>
+              <li>The two things that bite everyone: a fresh worktree has <strong>no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code> and no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code></strong> (they aren&#39;t in git), and <strong>you can&#39;t check out the same branch in two worktrees</strong>. We&#39;ll handle both.</li>
             </ul>
-            <h2
-              id="first-the-mental-model"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              First, the mental model
-            </h2>
-            <p class="mt-0 mb-6">
-              Before any commands, you need the right picture in your head, because once you have
-              it, every quirk of worktrees makes sense.
-            </p>
-            <p class="mt-0 mb-6">
-              A normal Git repository has two parts that we usually think of as one thing:
-            </p>
+            <h2 id="first-the-mental-model" class="mt-12 text-xl font-semibold leading-tight tracking-tight">First, the mental model</h2>
+            <p class="mt-0 mb-6">Before any commands, you need the right picture in your head, because once you have it, every quirk of worktrees makes sense.</p>
+            <p class="mt-0 mb-6">A normal Git repository has two parts that we usually think of as one thing:</p>
             <ol class="mt-0 mb-6">
-              <li>
-                <strong>The repository</strong>
-                itself, the
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.git</code
-                >
-                directory: the object database (every commit, tree, and blob), your refs (branches,
-                tags, remotes), and config.
-              </li>
-              <li>
-                <strong>The working tree</strong>: the actual checked-out files you edit, plus a
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >HEAD</code
-                >
-                (what&#39;s checked out) and an
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >index</code
-                >
-                (the staging area).
-              </li>
+              <li><strong>The repository</strong> itself, the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> directory: the object database (every commit, tree, and blob), your refs (branches, tags, remotes), and config.</li>
+              <li><strong>The working tree</strong>: the actual checked-out files you edit, plus a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">HEAD</code> (what&#39;s checked out) and an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">index</code> (the staging area).</li>
             </ol>
-            <p class="mt-0 mb-6">
-              When you
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git clone</code
-              >, you get exactly one of each, glued together. The mental leap with worktrees is
-              realizing
-              <strong
-                >a single repository can have many working trees attached to it at once.</strong
-              >
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">        ┌──────────────────────────────────────────┐
-        │   ONE repository (.git)                  │
-        │   objects, refs, config (shared)         │
-        └──────────────────────────────────────────┘
-            ▲                ▲                 ▲
-            │                │                 │
-   ┌────────┴───────┐ ┌──────┴────────┐ ┌──────┴─────────┐
-   │  main checkout │ │  worktree A   │ │  worktree B    │
-   │  branch: main  │ │ branch: feat  │ │ branch: hotfix │
-   │  own HEAD+index│ │ own HEAD+index│ │ own HEAD+index │
-   │  own files     │ │ own files     │ │ own files      │
-   └────────────────┘ └───────────────┘ └────────────────┘
-</code></pre>
-            <p class="mt-0 mb-6">
-              The directory you created with
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git clone</code
-              >
-              is the <strong>main working tree</strong>. Every directory you add later with
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree add</code
-              >
-              is a <strong>linked working tree</strong>. They all share the same underlying
-              repository, but each has its own checked-out files, its own
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >HEAD</code
-              >, and its own index.
-            </p>
-            <p class="mt-0 mb-6">
-              The single most important consequence: <strong>fetch once, use everywhere.</strong> A
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git fetch</code
-              >
-              in any worktree updates the shared object store and remote-tracking refs, and every
-              other worktree immediately sees those new commits. You are not re-downloading
-              anything. That&#39;s the fundamental difference from cloning the repo a second time.
-            </p>
-            <h2
-              id="what-s-actually-happening-on-disk"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              What&#39;s actually happening on disk
-            </h2>
-            <p class="mt-0 mb-6">
-              This is the part most tutorials skip, and it&#39;s the part that makes you
-              <em>trust</em>
-              worktrees instead of treating them as magic. Let&#39;s say your main repo is at
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >~/code/myapp</code
-              >
-              and you run:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">feat-auth</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Let&#39;s read that command left to right, because every piece matters:
-            </p>
+            <p class="mt-0 mb-6">When you <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code>, you get exactly one of each, glued together. The mental leap with worktrees is realizing <strong>a single repository can have many working trees attached to it at once.</strong></p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">        ┌──────────────────────────────────────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">        │   ONE repository (.git)                  │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">        │   objects, refs, config (shared)         │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">        └──────────────────────────────────────────┘</span>
+                <span class="block leading-(--pre-line) whitespace-pre">            ▲                ▲                 ▲</span>
+                <span class="block leading-(--pre-line) whitespace-pre">            │                │                 │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   ┌────────┴───────┐ ┌──────┴────────┐ ┌──────┴─────────┐</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   │  main checkout │ │  worktree A   │ │  worktree B    │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   │  branch: main  │ │ branch: feat  │ │ branch: hotfix │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   │  own HEAD+index│ │ own HEAD+index│ │ own HEAD+index │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   │  own files     │ │ own files     │ │ own files      │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   └────────────────┘ └───────────────┘ └────────────────┘</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The directory you created with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code> is the <strong>main working tree</strong>. Every directory you add later with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree add</code> is a <strong>linked working tree</strong>. They all share the same underlying repository, but each has its own checked-out files, its own <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">HEAD</code>, and its own index.</p>
+            <p class="mt-0 mb-6">The single most important consequence: <strong>fetch once, use everywhere.</strong> A <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git fetch</code> in any worktree updates the shared object store and remote-tracking refs, and every other worktree immediately sees those new commits. You are not re-downloading anything. That&#39;s the fundamental difference from cloning the repo a second time.</p>
+            <h2 id="what-s-actually-happening-on-disk" class="mt-12 text-xl font-semibold leading-tight tracking-tight">What&#39;s actually happening on disk</h2>
+            <p class="mt-0 mb-6">This is the part most tutorials skip, and it&#39;s the part that makes you <em>trust</em> worktrees instead of treating them as magic. Let&#39;s say your main repo is at <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">~/code/myapp</code> and you run:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">feat-auth</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Let&#39;s read that command left to right, because every piece matters:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong
-                  ><code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >git worktree add</code
-                  ></strong
-                >
-                is the subcommand that creates a new linked working tree.
-              </li>
-              <li>
-                <strong
-                  ><code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >../myapp-worktrees/feat-auth</code
-                  ></strong
-                >
-                is <em>where</em> to create it, the path to the new directory. The
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >../</code
-                >
-                means &quot;go up one level out of my current repo, into a sibling folder,&quot; so
-                if your repo is
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >~/code/myapp</code
-                >, this makes
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >~/code/myapp-worktrees/feat-auth</code
-                >. The directory must not already exist, Git creates it for you. (The path can be
-                anywhere you like; this sibling layout is just the convention I&#39;ll recommend
-                later.)
-              </li>
-              <li>
-                <strong
-                  ><code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >-b feat-auth</code
-                  ></strong
-                >
-                means &quot;create a new branch called
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >feat-auth</code
-                >
-                and check it out here.&quot; It&#39;s the exact same
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >-b</code
-                >
-                you know from
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git checkout -b</code
-                >
-                /
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git switch -c</code
-                >, just aimed at the new directory instead of the one you&#39;re standing in.
-              </li>
+              <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree add</code></strong> is the subcommand that creates a new linked working tree.</li>
+              <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">../myapp-worktrees/feat-auth</code></strong> is <em>where</em> to create it, the path to the new directory. The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">../</code> means &quot;go up one level out of my current repo, into a sibling folder,&quot; so if your repo is <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">~/code/myapp</code>, this makes <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">~/code/myapp-worktrees/feat-auth</code>. The directory must not already exist, Git creates it for you. (The path can be anywhere you like; this sibling layout is just the convention I&#39;ll recommend later.)</li>
+              <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">-b feat-auth</code></strong> means &quot;create a new branch called <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">feat-auth</code> and check it out here.&quot; It&#39;s the exact same <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">-b</code> you know from <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git checkout -b</code> / <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git switch -c</code>, just aimed at the new directory instead of the one you&#39;re standing in.</li>
             </ul>
-            <p class="mt-0 mb-6">
-              Put together, that one line creates a new folder, makes a fresh
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >feat-auth</code
-              >
-              branch, and checks it out <em>into that folder</em>, all without touching your main
-              checkout or the branch you currently have open. You now have two branches checked out
-              at once, in two directories, backed by one repo. (If you wanted to check out a branch
-              that <em>already exists</em> instead of making one, you&#39;d just drop the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >-b</code
-              >, more on the variations later.)
-            </p>
-            <p class="mt-0 mb-6">
-              Go look inside the new directory and you&#39;ll find something surprising. In a normal
-              repo,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git</code
-              >
-              is a <strong>directory</strong>. In a linked worktree,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git</code
-              >
-              is a <strong>plain text file</strong>. Its entire contents are a single line:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">gitdir: /Users/you/code/myapp/.git/worktrees/feat-auth
-</code></pre>
-            <p class="mt-0 mb-6">
-              That&#39;s it. It&#39;s a pointer. When Git runs inside the linked worktree, it
-              follows that pointer to a small per-worktree admin directory that lives
-              <em>inside the main repo&#39;s</em>
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git</code
-              >. So the real
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git</code
-              >
-              data never gets duplicated, the linked worktree just points back to it.
-            </p>
-            <p class="mt-0 mb-6">
-              Inside that admin directory git keeps this worktree&#39;s own
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >HEAD</code
-              >, its own index, and small pointer files back to the shared repo. The takeaway:
-              <strong
-                >the repository itself, all your commits and branches, lives once and is
-                shared</strong
-              >; each worktree just adds its own checked-out files on top. Your git config is shared
-              too, so your remotes and aliases work everywhere without re-setting anything.
-            </p>
+            <p class="mt-0 mb-6">Put together, that one line creates a new folder, makes a fresh <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">feat-auth</code> branch, and checks it out <em>into that folder</em>, all without touching your main checkout or the branch you currently have open. You now have two branches checked out at once, in two directories, backed by one repo. (If you wanted to check out a branch that <em>already exists</em> instead of making one, you&#39;d just drop the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">-b</code>, more on the variations later.)</p>
+            <p class="mt-0 mb-6">Go look inside the new directory and you&#39;ll find something surprising. In a normal repo, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> is a <strong>directory</strong>. In a linked worktree, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> is a <strong>plain text file</strong>. Its entire contents are a single line:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">gitdir: /Users/you/code/myapp/.git/worktrees/feat-auth</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">That&#39;s it. It&#39;s a pointer. When Git runs inside the linked worktree, it follows that pointer to a small per-worktree admin directory that lives <em>inside the main repo&#39;s</em> <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code>. So the real <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> data never gets duplicated, the linked worktree just points back to it.</p>
+            <p class="mt-0 mb-6">Inside that admin directory git keeps this worktree&#39;s own <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">HEAD</code>, its own index, and small pointer files back to the shared repo. The takeaway: <strong>the repository itself, all your commits and branches, lives once and is shared</strong>; each worktree just adds its own checked-out files on top. Your git config is shared too, so your remotes and aliases work everywhere without re-setting anything.</p>
             <blockquote class="mx-0 mt-0 mb-6 border-l-2 border-line pl-5 text-muted">
-              <p class="mt-0 mb-6">
-                One habit worth keeping: don&#39;t hand-edit the files <em>inside</em>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.git</code
-                >. Read them to understand what&#39;s going on, but change them with git commands,
-                not a text editor.
-              </p>
+              <p class="mt-0 mb-6">One habit worth keeping: don&#39;t hand-edit the files <em>inside</em> <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code>. Read them to understand what&#39;s going on, but change them with git commands, not a text editor.</p>
             </blockquote>
-            <h2
-              id="the-command-surface"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The command surface
-            </h2>
-            <p class="mt-0 mb-6">
-              There are really only a handful of subcommands. Here&#39;s the whole thing.
-            </p>
-            <h3 id="git-worktree-add-create-one" class="mt-8 text-lg leading-tight tracking-tight">
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree add</code
-              >: create one
-            </h3>
+            <h2 id="the-command-surface" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The command surface</h2>
+            <p class="mt-0 mb-6">There are really only a handful of subcommands. Here&#39;s the whole thing.</p>
+            <h3 id="git-worktree-add-create-one" class="mt-8 text-lg leading-tight tracking-tight"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree add</code>: create one</h3>
             <p class="mt-0 mb-6">This is the command you&#39;ll use 95% of the time.</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic"># Create a NEW branch and check it out in a new directory (most common)</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">feat-auth</span>
-
-<span class="text-syn-c italic"># Check out an EXISTING branch into a new directory</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../myapp-worktrees/hotfix</span> <span class="text-syn-s">hotfix</span>
-
-<span class="text-syn-c italic"># Branch from a specific start point</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">feat-auth</span> <span class="text-syn-s">origin/main</span>
-</code></pre>
-            <h3
-              id="git-worktree-list-see-what-you-ve-got"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree list</code
-              >: see what you&#39;ve got
-            </h3>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">list</span>
-<span class="text-syn-c italic"># /Users/you/code/myapp                  abcd123 [main]</span>
-<span class="text-syn-c italic"># /Users/you/code/myapp-worktrees/feat   ef45678 [feat-auth]</span>
-<span class="text-syn-c italic"># /Users/you/code/inspect                9988776 (detached HEAD)</span>
-
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">list</span> <span class="text-syn-s">--porcelain</span>   <span class="text-syn-c italic"># stable, machine-readable; parse this, not the human format</span>
-</code></pre>
-            <h3
-              id="git-worktree-remove-clean-one-up"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree remove</code
-              >: clean one up
-            </h3>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span>        <span class="text-syn-c italic"># refuses if there are uncommitted changes</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">--force</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span> <span class="text-syn-c italic"># remove anyway</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Always prefer this over
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >rm -rf</code
-              >-ing the directory. If you delete the folder manually, Git doesn&#39;t know it&#39;s
-              gone, and the admin directory hangs around as a ghost (which can later trigger
-              confusing &quot;already checked out&quot; errors). If you <em>do</em> delete a
-              worktree folder by hand, run
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree prune</code
-              >
-              to clear the stale entry.
-            </p>
-            <h3
-              id="git-worktree-prune-sweep-the-ghosts"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree prune</code
-              >: sweep the ghosts
-            </h3>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span> <span class="text-syn-s">-n</span>              <span class="text-syn-c italic"># dry run: show what would be pruned</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span> <span class="text-syn-s">-v</span>              <span class="text-syn-c italic"># verbose: report each removal</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span> <span class="text-syn-s">--expire</span> <span class="text-syn-s">3.days.ago</span>
-</code></pre>
-            <h2
-              id="the-gotchas-that-will-bite-you"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The gotchas that will bite you
-            </h2>
-            <p class="mt-0 mb-6">
-              I hit most of these the hard way, so let me save you the trouble.
-            </p>
-            <h3
-              id="you-cannot-check-out-the-same-branch-in-two-worktrees"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              You cannot check out the same branch in two worktrees
-            </h3>
-            <p class="mt-0 mb-6">
-              This is the cardinal rule and it confuses everyone the first time:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">$</span> <span class="text-syn-s">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../second</span> <span class="text-syn-s">main</span>
-<span class="text-syn-f">fatal:</span> <span class="text-syn-s">&#39;main&#39;</span> <span class="text-syn-s">is</span> <span class="text-syn-s">already</span> <span class="text-syn-s">checked</span> <span class="text-syn-s">out</span> <span class="text-syn-s">at</span> <span class="text-syn-s">&#39;/Users/you/code/myapp&#39;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Why? Each worktree has its own
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >HEAD</code
-              >
-              and
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >index</code
-              >, but a branch ref is <strong>shared</strong>. If two worktrees were both
-              &quot;on&quot;
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >main</code
-              >, a commit in one would move the shared ref out from under the other, and the second
-              worktree would silently think a bunch of files were modified or deleted. Git refuses
-              to let you create that footgun.
-            </p>
-            <p class="mt-0 mb-6">
-              There&#39;s a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--force</code
-              >
-              to override it, but don&#39;t, unless you genuinely want a throwaway read-only
-              checkout and understand exactly what you&#39;re doing. The right move is: one branch,
-              one worktree. If you want to look at
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >main</code
-              >&#39;s code while you&#39;re on
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >main</code
-              >, just use the main checkout you already have.
-            </p>
-            <h3
-              id="a-fresh-worktree-has-no-node-modules-and-no-env"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              A fresh worktree has no
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >node_modules</code
-              >
-              and no
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.env</code
-              >
-            </h3>
-            <p class="mt-0 mb-6">
-              This is the big one for any real project, and it trips up agents constantly. A
-              worktree is a <strong>fresh checkout of tracked files only.</strong> Anything in your
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.gitignore</code
-              >,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >node_modules/</code
-              >,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.venv/</code
-              >,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.next/</code
-              >, build caches, and crucially your
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.env</code
-              >
-              files, does <strong>not</strong> exist in a new worktree. Your agent will cheerfully
-              run
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >bun run dev</code
-              >
-              and immediately fail with &quot;module not found.&quot;
-            </p>
-            <p class="mt-0 mb-6">
-              We&#39;ll solve this properly in the next section. Just know it&#39;s expected, not a
-              bug.
-            </p>
-            <h3
-              id="stash-is-global-not-per-worktree"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Stash is global, not per-worktree
-            </h3>
-            <p class="mt-0 mb-6">
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git stash</code
-              >
-              is stored on a shared ref, so a stash you make in worktree A is visible (and poppable)
-              from worktree B. This surprises people. Honestly, though, the beauty of worktrees is
-              that you rarely <em>need</em> to stash anymore. Instead of stashing to switch context,
-              you just walk to a different directory.
-            </p>
-            <h3
-              id="manually-deleting-a-worktree-directory-leaves-a-ghost"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Manually deleting a worktree directory leaves a ghost
-            </h3>
-            <p class="mt-0 mb-6">
-              Covered above, but worth repeating because it&#39;s the most common mess: use
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree remove</code
-              >, not
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >rm -rf</code
-              >. If you forget,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree prune</code
-              >
-              cleans up.
-            </p>
-            <h2
-              id="how-worktrees-compare-to-the-alternatives"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              How worktrees compare to the alternatives
-            </h2>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Create a NEW branch and check it out in a new directory (most common)</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">feat-auth</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Check out an EXISTING branch into a new directory</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../myapp-worktrees/hotfix</span> <span class="text-syn-s">hotfix</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Branch from a specific start point</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">feat-auth</span> <span class="text-syn-s">origin/main</span></span>
+              </code>
+            </pre>
+            <h3 id="git-worktree-list-see-what-you-ve-got" class="mt-8 text-lg leading-tight tracking-tight"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree list</code>: see what you&#39;ve got</h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">list</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># /Users/you/code/myapp                  abcd123 [main]</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># /Users/you/code/myapp-worktrees/feat   ef45678 [feat-auth]</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># /Users/you/code/inspect                9988776 (detached HEAD)</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">list</span> <span class="text-syn-s">--porcelain</span>   <span class="text-syn-c italic"># stable, machine-readable; parse this, not the human format</span></span>
+              </code>
+            </pre>
+            <h3 id="git-worktree-remove-clean-one-up" class="mt-8 text-lg leading-tight tracking-tight"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree remove</code>: clean one up</h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span>        <span class="text-syn-c italic"># refuses if there are uncommitted changes</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">--force</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span> <span class="text-syn-c italic"># remove anyway</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Always prefer this over <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rm -rf</code>-ing the directory. If you delete the folder manually, Git doesn&#39;t know it&#39;s gone, and the admin directory hangs around as a ghost (which can later trigger confusing &quot;already checked out&quot; errors). If you <em>do</em> delete a worktree folder by hand, run <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree prune</code> to clear the stale entry.</p>
+            <h3 id="git-worktree-prune-sweep-the-ghosts" class="mt-8 text-lg leading-tight tracking-tight"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree prune</code>: sweep the ghosts</h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span> <span class="text-syn-s">-n</span>              <span class="text-syn-c italic"># dry run: show what would be pruned</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span> <span class="text-syn-s">-v</span>              <span class="text-syn-c italic"># verbose: report each removal</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span> <span class="text-syn-s">--expire</span> <span class="text-syn-s">3.days.ago</span></span>
+              </code>
+            </pre>
+            <h2 id="the-gotchas-that-will-bite-you" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The gotchas that will bite you</h2>
+            <p class="mt-0 mb-6">I hit most of these the hard way, so let me save you the trouble.</p>
+            <h3 id="you-cannot-check-out-the-same-branch-in-two-worktrees" class="mt-8 text-lg leading-tight tracking-tight">You cannot check out the same branch in two worktrees</h3>
+            <p class="mt-0 mb-6">This is the cardinal rule and it confuses everyone the first time:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">$</span> <span class="text-syn-s">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">../second</span> <span class="text-syn-s">main</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">fatal:</span> <span class="text-syn-s">&#39;main&#39;</span> <span class="text-syn-s">is</span> <span class="text-syn-s">already</span> <span class="text-syn-s">checked</span> <span class="text-syn-s">out</span> <span class="text-syn-s">at</span> <span class="text-syn-s">&#39;/Users/you/code/myapp&#39;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Why? Each worktree has its own <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">HEAD</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">index</code>, but a branch ref is <strong>shared</strong>. If two worktrees were both &quot;on&quot; <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">main</code>, a commit in one would move the shared ref out from under the other, and the second worktree would silently think a bunch of files were modified or deleted. Git refuses to let you create that footgun.</p>
+            <p class="mt-0 mb-6">There&#39;s a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--force</code> to override it, but don&#39;t, unless you genuinely want a throwaway read-only checkout and understand exactly what you&#39;re doing. The right move is: one branch, one worktree. If you want to look at <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">main</code>&#39;s code while you&#39;re on <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">main</code>, just use the main checkout you already have.</p>
+            <h3 id="a-fresh-worktree-has-no-node-modules-and-no-env" class="mt-8 text-lg leading-tight tracking-tight">A fresh worktree has no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code> and no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code></h3>
+            <p class="mt-0 mb-6">This is the big one for any real project, and it trips up agents constantly. A worktree is a <strong>fresh checkout of tracked files only.</strong> Anything in your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.gitignore</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules/</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.venv/</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.next/</code>, build caches, and crucially your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code> files, does <strong>not</strong> exist in a new worktree. Your agent will cheerfully run <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">bun run dev</code> and immediately fail with &quot;module not found.&quot;</p>
+            <p class="mt-0 mb-6">We&#39;ll solve this properly in the next section. Just know it&#39;s expected, not a bug.</p>
+            <h3 id="stash-is-global-not-per-worktree" class="mt-8 text-lg leading-tight tracking-tight">Stash is global, not per-worktree</h3>
+            <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git stash</code> is stored on a shared ref, so a stash you make in worktree A is visible (and poppable) from worktree B. This surprises people. Honestly, though, the beauty of worktrees is that you rarely <em>need</em> to stash anymore. Instead of stashing to switch context, you just walk to a different directory.</p>
+            <h3 id="manually-deleting-a-worktree-directory-leaves-a-ghost" class="mt-8 text-lg leading-tight tracking-tight">Manually deleting a worktree directory leaves a ghost</h3>
+            <p class="mt-0 mb-6">Covered above, but worth repeating because it&#39;s the most common mess: use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree remove</code>, not <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rm -rf</code>. If you forget, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree prune</code> cleans up.</p>
+            <h2 id="how-worktrees-compare-to-the-alternatives" class="mt-12 text-xl font-semibold leading-tight tracking-tight">How worktrees compare to the alternatives</h2>
             <p class="mt-0 mb-6">This table is the whole argument in one place:</p>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
@@ -707,57 +318,28 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong
-                      ><code
-                        class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                        >git worktree add</code
-                      ></strong
-                    >
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Shared</strong>
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Just the extra checked-out files
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <strong>Once</strong>
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree add</code></strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Shared</strong></td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Just the extra checked-out files</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Once</strong></td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Yes</strong></td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >git clone</code
-                    >
-                    a 2nd copy
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code> a 2nd copy</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Duplicated</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Full second copy of history + files
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Full second copy of history + files</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Per clone</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Yes</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >git stash</code
-                    >
-                    + switch
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git stash</code> + switch</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Shared</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Zero extra</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">n/a</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">No (one dir)</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Just switching branches
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Just switching branches</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Shared</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Zero extra</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">n/a</td>
@@ -765,822 +347,247 @@
                 </tr>
               </tbody>
             </table>
-            <p class="mt-0 mb-6">
-              Worktrees give you clone-level isolation of your <em>working files</em> with
-              single-clone disk and fetch costs. A second clone only wins when you need
-              <em>fully</em>
-              independent state (different config, a sandbox you can corrupt safely). Stash and
-              branch-switching keep you stuck in a single directory, which is exactly the bottleneck
-              we&#39;re trying to escape.
-            </p>
-            <h2
-              id="the-convention-i-settled-on"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The convention I settled on
-            </h2>
-            <p class="mt-0 mb-6">
-              After trying a few layouts, here&#39;s what I recommend, and what I now use
-              everywhere.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Keep worktrees in a sibling folder named after the repo:</strong>
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >../&lt;repo&gt;-worktrees/&lt;branch&gt;</code
-              >.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">~/code/myapp/                 # main checkout (your normal clone)
-~/code/myapp-worktrees/
-  ├── feat-auth/              # branch: feat-auth
-  ├── hotfix-billing/         # branch: hotfix-billing
-  └── pr-1234/                # a PR you&#39;re reviewing
-</code></pre>
-            <p class="mt-0 mb-6">
-              The alternative is putting worktrees <em>inside</em> the repo (like
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >./.worktrees/feat-auth</code
-              >), and Claude Code&#39;s default actually does a version of this under
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.claude/worktrees/</code
-              >. The problem with in-repo worktrees when <em>you&#39;re</em> driving manually is
-              <strong>recursion</strong>: file watchers,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >ripgrep</code
-              >, your test runner, your bundler, and the agent itself can all descend into the
-              worktree folder and suddenly see N copies of your codebase. Keeping worktrees as
-              siblings, physically outside the repo, sidesteps that entire class of problem. So:
-              siblings when you manage them by hand; in-repo is fine when the agent owns the
-              lifecycle and handles the ignores for you.
-            </p>
-            <h3 id="a-one-command-helper" class="mt-8 text-lg leading-tight tracking-tight">
-              A one-command helper
-            </h3>
-            <p class="mt-0 mb-6">
-              Creating a worktree <em>and</em> getting it ready to run is a few steps every time, so
-              I wrapped it. This simple version creates the worktree, copies the common gitignored
-              config a fresh checkout is missing (<code
-                class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.env</code
-              >
-              and friends), and installs dependencies; the fuller version further down copies
-              whatever else you list. Drop it in your
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >~/.zshrc</code
-              >
-              or
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >~/.bashrc</code
-              >:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic"># wt &lt;branch&gt; [base]: create a worktree, copy common config, install deps</span>
-<span class="text-syn-f">wt</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">local</span> branch<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$1&quot;</span>
-  <span class="text-syn-k">local</span> base<span class="text-syn-o">=</span><span class="text-syn-s">&quot;${2:-origin/HEAD}&quot;</span>
-  <span class="text-syn-u">[</span> <span class="text-syn-o">-z</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-u">]</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;usage: wt &lt;branch&gt; [base]&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span><span class="text-syn-u">;</span> <span class="text-syn-u">}</span>
-
-  <span class="text-syn-k">local</span> root<span class="text-syn-u">;</span> root<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git rev-parse --show-toplevel)&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-  <span class="text-syn-k">local</span> repo<span class="text-syn-u">;</span> repo<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(basename &quot;$root&quot;)&quot;</span>
-  <span class="text-syn-k">local</span> wtdir<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(dirname &quot;$root&quot;)/${repo}-worktrees/${branch//\//-}&quot;</span>
-
-  <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--quiet</span> <span class="text-syn-s">origin</span>
-  <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-s">&quot;$base&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-
-  <span class="text-syn-c italic"># copy the common gitignored config a fresh checkout is missing</span>
-  <span class="text-syn-k">for</span> f <span class="text-syn-k">in</span> <span class="text-syn-s">.env</span> <span class="text-syn-s">.env.local</span> <span class="text-syn-s">.npmrc</span><span class="text-syn-u">;</span> <span class="text-syn-k">do</span>
-    <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> <span class="text-syn-s">&quot;$root/$f&quot;</span> <span class="text-syn-u">]</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">cp</span> <span class="text-syn-s">&quot;$root/$f&quot;</span> <span class="text-syn-s">&quot;$wtdir/$f&quot;</span>
-  <span class="text-syn-k">done</span>
-
-  <span class="text-syn-c italic"># install deps</span>
-  <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-  <span class="text-syn-f">bun</span> <span class="text-syn-s">install</span>
-
-  <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;✅ worktree ready: $wtdir&quot;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-c italic"># wtrm: tear down the current worktree + its branch, run from inside it</span>
-<span class="text-syn-f">wtrm</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">local</span> wt<span class="text-syn-u">;</span> wt<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git rev-parse --show-toplevel)&quot;</span>
-  <span class="text-syn-k">local</span> branch<span class="text-syn-u">;</span> branch<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git symbolic-ref --short HEAD)&quot;</span>
-  <span class="text-syn-k">local</span> main<span class="text-syn-u">;</span> main<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git worktree list --porcelain | awk &#39;NR==1{print $2}&#39;)&quot;</span>
-  <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$main&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-  <span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">&quot;$wt&quot;</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">branch</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <details class="mt-0 mb-6 rounded-lg border border-line p-4 [&>*:last-child]:mb-0">
-              <summary class="cursor-pointer font-bold">
-                The full version I actually use in my workflow
-              </summary>
-              <p class="mt-0 mb-6">
-                This is the real one. It does a fair bit more than the simple version above: it
-                reads a
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.worktreeinclude</code
-                >
-                (or falls back to a default list) and copies nested config like
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >config/secrets.json</code
-                >
-                across with a portable tar-pipe, it attaches to a branch that already exists instead
-                of erroring, and it detects Bun.
-              </p>
-              <pre
-                tabindex="0"
-                class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-              ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">wt</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-f">emulate</span> <span class="text-syn-s">-L</span> <span class="text-syn-s">bash</span> <span class="text-syn-o">2&gt;</span><span class="text-syn-s">/dev/null</span> <span class="text-syn-o">||</span> <span class="text-syn-f">true</span>
-  <span class="text-syn-k">local</span> branch<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$1&quot;</span>
-  <span class="text-syn-k">local</span> base<span class="text-syn-o">=</span><span class="text-syn-s">&quot;${2:-origin/HEAD}&quot;</span>
-  <span class="text-syn-u">[</span> <span class="text-syn-o">-z</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-u">]</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;usage: wt &lt;branch&gt; [base]&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span><span class="text-syn-u">;</span> <span class="text-syn-u">}</span>
-
-  <span class="text-syn-k">local</span> root<span class="text-syn-u">;</span> root<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git rev-parse --show-toplevel)&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-  <span class="text-syn-k">local</span> repo<span class="text-syn-u">;</span> repo<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(basename &quot;$root&quot;)&quot;</span>
-  <span class="text-syn-k">local</span> wtdir<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(dirname &quot;$root&quot;)/${repo}-worktrees/${branch//\//-}&quot;</span>
-
-  <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--quiet</span> <span class="text-syn-s">origin</span>
-
-  <span class="text-syn-k">if</span> <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">show-ref</span> <span class="text-syn-s">--verify</span> <span class="text-syn-s">--quiet</span> <span class="text-syn-s">&quot;refs/heads/$branch&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-k">then</span>
-    <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;branch &#39;$branch&#39; already exists, attaching a worktree to it&quot;</span>
-    <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-  <span class="text-syn-k">else</span>
-    <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-s">&quot;$base&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-  <span class="text-syn-k">fi</span>
-
-  wtdir<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(cd &quot;$wtdir&quot; &amp;&amp; pwd)&quot;</span>
-
-  <span class="text-syn-k">local</span> <span class="text-syn-s">-a</span> include
-  <span class="text-syn-k">if</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> <span class="text-syn-s">&quot;$root/.worktreeinclude&quot;</span> <span class="text-syn-u">];</span> <span class="text-syn-k">then</span>
-    <span class="text-syn-k">while</span> IFS<span class="text-syn-o">=</span> <span class="text-syn-f">read</span> <span class="text-syn-s">-r</span> <span class="text-syn-s">line</span><span class="text-syn-u">;</span> <span class="text-syn-k">do</span>
-      <span class="text-syn-k">case</span> <span class="text-syn-s">&quot;$line&quot;</span> <span class="text-syn-k">in</span> <span class="text-syn-s">&#39;&#39;</span><span class="text-syn-o">|</span><span class="text-syn-s">&#39;#&#39;</span><span class="text-syn-o">*)</span> <span class="text-syn-f">continue</span> <span class="text-syn-u">;;</span> <span class="text-syn-k">esac</span>
-      include<span class="text-syn-o">+=</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;$line&quot;</span><span class="text-syn-u">)</span>
-    <span class="text-syn-k">done</span> <span class="text-syn-o">&lt;</span> <span class="text-syn-s">&quot;$root/.worktreeinclude&quot;</span>
-  <span class="text-syn-k">else</span>
-    include<span class="text-syn-o">=</span><span class="text-syn-u">(</span><span class="text-syn-s">.env</span> <span class="text-syn-s">.env.local</span> <span class="text-syn-s">.env.development</span> <span class="text-syn-s">.env.production</span> <span class="text-syn-s">.env.test</span>
-             <span class="text-syn-s">.npmrc</span> <span class="text-syn-s">.tool-versions</span> <span class="text-syn-s">.nvmrc</span>
-             <span class="text-syn-s">config/secrets.json</span> <span class="text-syn-s">certs/localhost.pem</span> <span class="text-syn-s">certs/localhost-key.pem</span><span class="text-syn-u">)</span>
-  <span class="text-syn-k">fi</span>
-
-  <span class="text-syn-u">(</span> <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$root&quot;</span>
-    <span class="text-syn-k">for</span> pat <span class="text-syn-k">in</span> <span class="text-syn-s">&quot;${include[@]}&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-k">do</span>
-      <span class="text-syn-k">for</span> f <span class="text-syn-k">in</span> <span class="text-syn-u">$</span>pat<span class="text-syn-u">;</span> <span class="text-syn-k">do</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-e</span> <span class="text-syn-s">&quot;$f&quot;</span> <span class="text-syn-u">]</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">printf</span> <span class="text-syn-s">&#39;%s\0&#39;</span> <span class="text-syn-s">&quot;$f&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-k">done</span>
-    <span class="text-syn-k">done</span>
-  <span class="text-syn-u">)</span> <span class="text-syn-o">|</span> <span class="text-syn-f">tar</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">--null</span> <span class="text-syn-s">-T</span> <span class="text-syn-s">-</span> <span class="text-syn-s">-cf</span> <span class="text-syn-s">-</span> <span class="text-syn-o">|</span> <span class="text-syn-f">tar</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-s">-xf</span> <span class="text-syn-s">-</span>
-
-  <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-  <span class="text-syn-k">if</span>   <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> pnpm-lock.yaml <span class="text-syn-u">];</span>               <span class="text-syn-k">then</span> <span class="text-syn-f">pnpm</span> <span class="text-syn-s">install</span>
-  <span class="text-syn-k">elif</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> bun.lockb <span class="text-syn-u">]</span> <span class="text-syn-o">||</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> bun.lock <span class="text-syn-u">];</span> <span class="text-syn-k">then</span> <span class="text-syn-f">bun</span> <span class="text-syn-s">install</span>
-  <span class="text-syn-k">elif</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> yarn.lock <span class="text-syn-u">];</span>                    <span class="text-syn-k">then</span> <span class="text-syn-f">yarn</span> <span class="text-syn-s">install</span>
-  <span class="text-syn-k">elif</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> package-lock.json <span class="text-syn-u">];</span>            <span class="text-syn-k">then</span> <span class="text-syn-f">npm</span> <span class="text-syn-s">ci</span>
-  <span class="text-syn-k">fi</span>
-
-  <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;✅ worktree ready: $wtdir (branch: $branch, config seeded from $repo)&quot;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-f">wtrm</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">local</span> wt<span class="text-syn-u">;</span> wt<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git rev-parse --show-toplevel)&quot;</span>
-  <span class="text-syn-k">local</span> branch<span class="text-syn-u">;</span> branch<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git symbolic-ref --short HEAD)&quot;</span>
-  <span class="text-syn-k">local</span> main<span class="text-syn-u">;</span> main<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git worktree list --porcelain | awk &#39;NR==1{print $2}&#39;)&quot;</span>
-  <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$main&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span>
-  <span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">&quot;$wt&quot;</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">branch</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span>
-<span class="text-syn-u">}</span>
-</code></pre>
+            <p class="mt-0 mb-6">Worktrees give you clone-level isolation of your <em>working files</em> with single-clone disk and fetch costs. A second clone only wins when you need <em>fully</em> independent state (different config, a sandbox you can corrupt safely). Stash and branch-switching keep you stuck in a single directory, which is exactly the bottleneck we&#39;re trying to escape.</p>
+            <h2 id="the-convention-i-settled-on" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The convention I settled on</h2>
+            <p class="mt-0 mb-6">After trying a few layouts, here&#39;s what I recommend, and what I now use everywhere.</p>
+            <p class="mt-0 mb-6"><strong>Keep worktrees in a sibling folder named after the repo:</strong> <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">../&lt;repo&gt;-worktrees/&lt;branch&gt;</code>.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">~/code/myapp/                 # main checkout (your normal clone)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">~/code/myapp-worktrees/</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  ├── feat-auth/              # branch: feat-auth</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  ├── hotfix-billing/         # branch: hotfix-billing</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  └── pr-1234/                # a PR you&#39;re reviewing</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The alternative is putting worktrees <em>inside</em> the repo (like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">./.worktrees/feat-auth</code>), and Claude Code&#39;s default actually does a version of this under <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.claude/worktrees/</code>. The problem with in-repo worktrees when <em>you&#39;re</em> driving manually is <strong>recursion</strong>: file watchers, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ripgrep</code>, your test runner, your bundler, and the agent itself can all descend into the worktree folder and suddenly see N copies of your codebase. Keeping worktrees as siblings, physically outside the repo, sidesteps that entire class of problem. So: siblings when you manage them by hand; in-repo is fine when the agent owns the lifecycle and handles the ignores for you.</p>
+            <h3 id="a-one-command-helper" class="mt-8 text-lg leading-tight tracking-tight">A one-command helper</h3>
+            <p class="mt-0 mb-6">Creating a worktree <em>and</em> getting it ready to run is a few steps every time, so I wrapped it. This simple version creates the worktree, copies the common gitignored config a fresh checkout is missing (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code> and friends), and installs dependencies; the fuller version further down copies whatever else you list. Drop it in your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">~/.zshrc</code> or <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">~/.bashrc</code>:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># wt &lt;branch&gt; [base]: create a worktree, copy common config, install deps</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">wt</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> branch<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$1&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> base<span class="text-syn-o">=</span><span class="text-syn-s">&quot;${2:-origin/HEAD}&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">[</span> <span class="text-syn-o">-z</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-u">]</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;usage: wt &lt;branch&gt; [base]&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span><span class="text-syn-u">;</span> <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> root<span class="text-syn-u">;</span> root<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git rev-parse --show-toplevel)&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> repo<span class="text-syn-u">;</span> repo<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(basename &quot;$root&quot;)&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> wtdir<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(dirname &quot;$root&quot;)/${repo}-worktrees/${branch//\//-}&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--quiet</span> <span class="text-syn-s">origin</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-s">&quot;$base&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-c italic"># copy the common gitignored config a fresh checkout is missing</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> f <span class="text-syn-k">in</span> <span class="text-syn-s">.env</span> <span class="text-syn-s">.env.local</span> <span class="text-syn-s">.npmrc</span><span class="text-syn-u">;</span> <span class="text-syn-k">do</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> <span class="text-syn-s">&quot;$root/$f&quot;</span> <span class="text-syn-u">]</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">cp</span> <span class="text-syn-s">&quot;$root/$f&quot;</span> <span class="text-syn-s">&quot;$wtdir/$f&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">done</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-c italic"># install deps</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">bun</span> <span class="text-syn-s">install</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;✅ worktree ready: $wtdir&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># wtrm: tear down the current worktree + its branch, run from inside it</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">wtrm</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> wt<span class="text-syn-u">;</span> wt<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git rev-parse --show-toplevel)&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> branch<span class="text-syn-u">;</span> branch<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git symbolic-ref --short HEAD)&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> main<span class="text-syn-u">;</span> main<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git worktree list --porcelain | awk &#39;NR==1{print $2}&#39;)&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$main&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">&quot;$wt&quot;</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">branch</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <details class="mt-0 mb-6 rounded-lg border border-line p-4 [&amp;>*:last-child]:mb-0">
+              <summary class="cursor-pointer font-bold">The full version I actually use in my workflow</summary>
+              <p class="mt-0 mb-6">This is the real one. It does a fair bit more than the simple version above: it reads a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.worktreeinclude</code> (or falls back to a default list) and copies nested config like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">config/secrets.json</code> across with a portable tar-pipe, it attaches to a branch that already exists instead of erroring, and it detects Bun.</p>
+              <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">wt</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">emulate</span> <span class="text-syn-s">-L</span> <span class="text-syn-s">bash</span> <span class="text-syn-o">2&gt;</span><span class="text-syn-s">/dev/null</span> <span class="text-syn-o">||</span> <span class="text-syn-f">true</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> branch<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$1&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> base<span class="text-syn-o">=</span><span class="text-syn-s">&quot;${2:-origin/HEAD}&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">[</span> <span class="text-syn-o">-z</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-u">]</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;usage: wt &lt;branch&gt; [base]&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span><span class="text-syn-u">;</span> <span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> root<span class="text-syn-u">;</span> root<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git rev-parse --show-toplevel)&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> repo<span class="text-syn-u">;</span> repo<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(basename &quot;$root&quot;)&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> wtdir<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(dirname &quot;$root&quot;)/${repo}-worktrees/${branch//\//-}&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--quiet</span> <span class="text-syn-s">origin</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">show-ref</span> <span class="text-syn-s">--verify</span> <span class="text-syn-s">--quiet</span> <span class="text-syn-s">&quot;refs/heads/$branch&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-k">then</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;branch &#39;$branch&#39; already exists, attaching a worktree to it&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">else</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">git</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">add</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-s">-b</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-s">&quot;$base&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">fi</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  wtdir<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(cd &quot;$wtdir&quot; &amp;&amp; pwd)&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> <span class="text-syn-s">-a</span> include</span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> <span class="text-syn-s">&quot;$root/.worktreeinclude&quot;</span> <span class="text-syn-u">];</span> <span class="text-syn-k">then</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">while</span> IFS<span class="text-syn-o">=</span> <span class="text-syn-f">read</span> <span class="text-syn-s">-r</span> <span class="text-syn-s">line</span><span class="text-syn-u">;</span> <span class="text-syn-k">do</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">case</span> <span class="text-syn-s">&quot;$line&quot;</span> <span class="text-syn-k">in</span> <span class="text-syn-s">&#39;&#39;</span><span class="text-syn-o">|</span><span class="text-syn-s">&#39;#&#39;</span><span class="text-syn-o">*)</span> <span class="text-syn-f">continue</span> <span class="text-syn-u">;;</span> <span class="text-syn-k">esac</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      include<span class="text-syn-o">+=</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;$line&quot;</span><span class="text-syn-u">)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">done</span> <span class="text-syn-o">&lt;</span> <span class="text-syn-s">&quot;$root/.worktreeinclude&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">else</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    include<span class="text-syn-o">=</span><span class="text-syn-u">(</span><span class="text-syn-s">.env</span> <span class="text-syn-s">.env.local</span> <span class="text-syn-s">.env.development</span> <span class="text-syn-s">.env.production</span> <span class="text-syn-s">.env.test</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">             <span class="text-syn-s">.npmrc</span> <span class="text-syn-s">.tool-versions</span> <span class="text-syn-s">.nvmrc</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">             <span class="text-syn-s">config/secrets.json</span> <span class="text-syn-s">certs/localhost.pem</span> <span class="text-syn-s">certs/localhost-key.pem</span><span class="text-syn-u">)</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">fi</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">(</span> <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$root&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">for</span> pat <span class="text-syn-k">in</span> <span class="text-syn-s">&quot;${include[@]}&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-k">do</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">for</span> f <span class="text-syn-k">in</span> <span class="text-syn-u">$</span>pat<span class="text-syn-u">;</span> <span class="text-syn-k">do</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-e</span> <span class="text-syn-s">&quot;$f&quot;</span> <span class="text-syn-u">]</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">printf</span> <span class="text-syn-s">&#39;%s\0&#39;</span> <span class="text-syn-s">&quot;$f&quot;</span><span class="text-syn-u">;</span> <span class="text-syn-k">done</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">done</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">)</span> <span class="text-syn-o">|</span> <span class="text-syn-f">tar</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$root&quot;</span> <span class="text-syn-s">--null</span> <span class="text-syn-s">-T</span> <span class="text-syn-s">-</span> <span class="text-syn-s">-cf</span> <span class="text-syn-s">-</span> <span class="text-syn-o">|</span> <span class="text-syn-f">tar</span> <span class="text-syn-s">-C</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-s">-xf</span> <span class="text-syn-s">-</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$wtdir&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span>   <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> pnpm-lock.yaml <span class="text-syn-u">];</span>               <span class="text-syn-k">then</span> <span class="text-syn-f">pnpm</span> <span class="text-syn-s">install</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">elif</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> bun.lockb <span class="text-syn-u">]</span> <span class="text-syn-o">||</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> bun.lock <span class="text-syn-u">];</span> <span class="text-syn-k">then</span> <span class="text-syn-f">bun</span> <span class="text-syn-s">install</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">elif</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> yarn.lock <span class="text-syn-u">];</span>                    <span class="text-syn-k">then</span> <span class="text-syn-f">yarn</span> <span class="text-syn-s">install</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">elif</span> <span class="text-syn-u">[</span> <span class="text-syn-o">-f</span> package-lock.json <span class="text-syn-u">];</span>            <span class="text-syn-k">then</span> <span class="text-syn-f">npm</span> <span class="text-syn-s">ci</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">fi</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;✅ worktree ready: $wtdir (branch: $branch, config seeded from $repo)&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">wtrm</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> wt<span class="text-syn-u">;</span> wt<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git rev-parse --show-toplevel)&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> branch<span class="text-syn-u">;</span> branch<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git symbolic-ref --short HEAD)&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">local</span> main<span class="text-syn-u">;</span> main<span class="text-syn-o">=</span><span class="text-syn-s">&quot;$(git worktree list --porcelain | awk &#39;NR==1{print $2}&#39;)&quot;</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">cd</span> <span class="text-syn-s">&quot;$main&quot;</span> <span class="text-syn-o">||</span> <span class="text-syn-f">return</span> <span class="text-syn-s">1</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">&quot;$wt&quot;</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">branch</span> <span class="text-syn-s">-D</span> <span class="text-syn-s">&quot;$branch&quot;</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
             </details>
-            <p class="mt-0 mb-6">
-              Now
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >wt feat-auth</code
-              >
-              gives me a working worktree in seconds: branched, config seeded, dependencies
-              installed, ready for an agent.
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >wtrm</code
-              >
-              from inside one tears it down cleanly.
-            </p>
-            <p class="mt-0 mb-6">
-              It copies a <strong>curated</strong> (hand-picked) list on purpose, not every
-              gitignored file. The full version above reads that list from a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.worktreeinclude</code
-              >
-              if you have one (same idea as Claude Code&#39;s, more on that below), otherwise a
-              sensible default. Blanket-copying everything would drag in junk you never meant to
-              duplicate, a multi-gigabyte local SQLite database, a stray
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.pem</code
-              >, build caches.
-            </p>
-            <h2
-              id="solving-the-dependency-secrets-and-port-problems"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Solving the dependency, secrets, and port problems
-            </h2>
-            <p class="mt-0 mb-6">
-              These three are what separate &quot;I tried worktrees once and it was annoying&quot;
-              from &quot;I live in worktrees now.&quot;
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Dependencies.</strong>
-              A fresh worktree has no
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >node_modules</code
-              >. The always-correct option is just to reinstall (<code
-                class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >bun install</code
-              >), which the helper above does. If your
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >node_modules</code
-              >
-              is huge and reinstalling per worktree hurts, this is where
-              <strong>bun</strong>
-              shines: it keeps every package version once in a global cache (<code
-                class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >~/.bun/install/cache</code
-              >) and links it into each project, so a second worktree&#39;s install is nearly
-              instant and costs almost no extra disk. You get that behavior by default, with no
-              special config.
-            </p>
-            <p class="mt-0 mb-6">
-              One thing <em>not</em> to do: symlink a single
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >node_modules</code
-              >
-              across worktrees. The whole point is that different branches can have different
-              dependencies, and a shared
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >node_modules</code
-              >
-              is then wrong for at least one of them. Native modules and postinstall scripts assume
-              a real per-project tree. Let bun share file <em>content</em> safely through its global
-              cache instead.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Secrets and config.</strong>
-              Your
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.env</code
-              >
-              and friends aren&#39;t in git, so a fresh worktree won&#39;t have them, the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >wt</code
-              >
-              helper copies them in for you (and Claude Code does the same via
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.worktreeinclude</code
-              >, covered below). Don&#39;t copy everything blindly though, local databases and build
-              caches should <em>not</em> be carried over, which brings us to the next point.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Ports and databases.</strong>
-              If two worktrees both run
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >bun run dev</code
-              >, they&#39;ll fight over port 3000. Give each one its own port via its (gitignored,
-              therefore per-worktree)
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.env.local</code
-              >:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic"># in each worktree</span>
-<span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;PORT=3001&quot;</span> <span class="text-syn-o">&gt;&gt;</span> <span class="text-syn-s">.env.local</span>        <span class="text-syn-c italic"># 3002, 3003, ... per worktree</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The bigger hazard is shared external state. If two worktrees point at the
-              <strong>same</strong>
-              database and an agent runs a destructive
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >migrate</code
-              >
-              or
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >db push</code
-              >
-              in one, it can wreck the other&#39;s runtime. Give each agent&#39;s worktree its own
-              database, or at least its own schema.
-            </p>
-            <p class="mt-0 mb-6">
-              The rule of thumb:
-              <strong>git shares your history and objects, not your runtime.</strong>
-              Ports, databases, caches, secrets, and uncommitted work are all per-worktree by
-              design. Plan for that and the friction disappears.
-            </p>
-            <h2
-              id="the-part-you-came-for-running-ai-agents-in-parallel"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The part you came for: running AI agents in parallel
-            </h2>
-            <p class="mt-0 mb-6">
-              Here&#39;s where worktrees stop being a nice git trick and become a genuinely
-              different way to work.
-            </p>
-            <p class="mt-0 mb-6">
-              The core insight is simple:
-              <strong>an AI agent editing your code needs its own working directory.</strong>
-              If you run two agents in the same checkout, they&#39;ll overwrite each other&#39;s
-              files, fight over the dev server, and generally create chaos. Give each agent its own
-              worktree and the problem vanishes, each one has an isolated copy of the files and its
-              own branch, and they&#39;re completely invisible to each other until you commit.
-            </p>
-            <p class="mt-0 mb-6">
-              That maps perfectly onto my Noveum day. The feature I&#39;m building lives in one
-              worktree with its own agent. When prod breaks, I open a second worktree off
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >main</code
-              >, point an agent at the hotfix, and ship it, all while the first agent keeps
-              grinding, untouched. No stash, no wait, no second clone.
-            </p>
-            <h3
-              id="the-pattern-one-long-task-one-foreground"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              The pattern: one long task, one foreground
-            </h3>
-            <p class="mt-0 mb-6">
-              This is my bread and butter: I kick off a slow, autonomous task in worktree A, a big
-              refactor, a flaky-test fix, a dependency bump, and let the agent churn. Then I switch
-              to worktree B and do focused work, pairing with a second agent or hand-editing the
-              hotfix. Because the worktrees are isolated checkouts, the background agent can rewrite
-              half the codebase and never touch what I&#39;m doing. I check back on A when it&#39;s
-              done; it has its own branch ready to become a PR. (If you&#39;ve read
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/how-i-use-cursor/"
-                >how I use Cursor</a
-              >, you know I run a few of these at once, worktrees are what keep it sane.)
-            </p>
-            <p class="mt-0 mb-6">
-              Practically, run each worktree in its own terminal tab or
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >tmux</code
-              >
-              window, each with its own agent. One tip that saves a lot of confusion:
-              <strong>name the worktree directory exactly the same as its branch</strong>
-              (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >feat-auth/</code
-              >
-              on branch
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >feat-auth</code
-              >), and put the branch in your shell prompt, so you always know which world you&#39;re
-              typing in.
-            </p>
-            <h3
-              id="claude-code-has-worktrees-built-in"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Claude Code has worktrees built in
-            </h3>
-            <p class="mt-0 mb-6">
-              Here&#39;s the part that genuinely surprised me, and it&#39;s why I wanted to write
-              this with current, accurate detail rather than describing worktrees as a purely manual
-              thing:
-              <strong>Claude Code treats worktrees as a first-class feature.</strong>
-              Anthropic has a
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://code.claude.com/docs/en/worktrees"
-                >dedicated docs page on running parallel sessions with worktrees</a
-              >. The manual
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree</code
-              >
-              ceremony I described above is great to understand, but for the agent workflow
-              specifically, a lot of it is handled for you.
-            </p>
+            <p class="mt-0 mb-6">Now <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">wt feat-auth</code> gives me a working worktree in seconds: branched, config seeded, dependencies installed, ready for an agent. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">wtrm</code> from inside one tears it down cleanly.</p>
+            <p class="mt-0 mb-6">It copies a <strong>curated</strong> (hand-picked) list on purpose, not every gitignored file. The full version above reads that list from a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.worktreeinclude</code> if you have one (same idea as Claude Code&#39;s, more on that below), otherwise a sensible default. Blanket-copying everything would drag in junk you never meant to duplicate, a multi-gigabyte local SQLite database, a stray <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.pem</code>, build caches.</p>
+            <h2 id="solving-the-dependency-secrets-and-port-problems" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Solving the dependency, secrets, and port problems</h2>
+            <p class="mt-0 mb-6">These three are what separate &quot;I tried worktrees once and it was annoying&quot; from &quot;I live in worktrees now.&quot;</p>
+            <p class="mt-0 mb-6"><strong>Dependencies.</strong> A fresh worktree has no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code>. The always-correct option is just to reinstall (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">bun install</code>), which the helper above does. If your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code> is huge and reinstalling per worktree hurts, this is where <strong>bun</strong> shines: it keeps every package version once in a global cache (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">~/.bun/install/cache</code>) and links it into each project, so a second worktree&#39;s install is nearly instant and costs almost no extra disk. You get that behavior by default, with no special config.</p>
+            <p class="mt-0 mb-6">One thing <em>not</em> to do: symlink a single <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code> across worktrees. The whole point is that different branches can have different dependencies, and a shared <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code> is then wrong for at least one of them. Native modules and postinstall scripts assume a real per-project tree. Let bun share file <em>content</em> safely through its global cache instead.</p>
+            <p class="mt-0 mb-6"><strong>Secrets and config.</strong> Your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code> and friends aren&#39;t in git, so a fresh worktree won&#39;t have them, the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">wt</code> helper copies them in for you (and Claude Code does the same via <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.worktreeinclude</code>, covered below). Don&#39;t copy everything blindly though, local databases and build caches should <em>not</em> be carried over, which brings us to the next point.</p>
+            <p class="mt-0 mb-6"><strong>Ports and databases.</strong> If two worktrees both run <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">bun run dev</code>, they&#39;ll fight over port 3000. Give each one its own port via its (gitignored, therefore per-worktree) <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env.local</code>:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># in each worktree</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">echo</span> <span class="text-syn-s">&quot;PORT=3001&quot;</span> <span class="text-syn-o">&gt;&gt;</span> <span class="text-syn-s">.env.local</span>        <span class="text-syn-c italic"># 3002, 3003, ... per worktree</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The bigger hazard is shared external state. If two worktrees point at the <strong>same</strong> database and an agent runs a destructive <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">migrate</code> or <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">db push</code> in one, it can wreck the other&#39;s runtime. Give each agent&#39;s worktree its own database, or at least its own schema.</p>
+            <p class="mt-0 mb-6">The rule of thumb: <strong>git shares your history and objects, not your runtime.</strong> Ports, databases, caches, secrets, and uncommitted work are all per-worktree by design. Plan for that and the friction disappears.</p>
+            <h2 id="the-part-you-came-for-running-ai-agents-in-parallel" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The part you came for: running AI agents in parallel</h2>
+            <p class="mt-0 mb-6">Here&#39;s where worktrees stop being a nice git trick and become a genuinely different way to work.</p>
+            <p class="mt-0 mb-6">The core insight is simple: <strong>an AI agent editing your code needs its own working directory.</strong> If you run two agents in the same checkout, they&#39;ll overwrite each other&#39;s files, fight over the dev server, and generally create chaos. Give each agent its own worktree and the problem vanishes, each one has an isolated copy of the files and its own branch, and they&#39;re completely invisible to each other until you commit.</p>
+            <p class="mt-0 mb-6">That maps perfectly onto my Noveum day. The feature I&#39;m building lives in one worktree with its own agent. When prod breaks, I open a second worktree off <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">main</code>, point an agent at the hotfix, and ship it, all while the first agent keeps grinding, untouched. No stash, no wait, no second clone.</p>
+            <h3 id="the-pattern-one-long-task-one-foreground" class="mt-8 text-lg leading-tight tracking-tight">The pattern: one long task, one foreground</h3>
+            <p class="mt-0 mb-6">This is my bread and butter: I kick off a slow, autonomous task in worktree A, a big refactor, a flaky-test fix, a dependency bump, and let the agent churn. Then I switch to worktree B and do focused work, pairing with a second agent or hand-editing the hotfix. Because the worktrees are isolated checkouts, the background agent can rewrite half the codebase and never touch what I&#39;m doing. I check back on A when it&#39;s done; it has its own branch ready to become a PR. (If you&#39;ve read <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/how-i-use-cursor/">how I use Cursor</a>, you know I run a few of these at once, worktrees are what keep it sane.)</p>
+            <p class="mt-0 mb-6">Practically, run each worktree in its own terminal tab or <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">tmux</code> window, each with its own agent. One tip that saves a lot of confusion: <strong>name the worktree directory exactly the same as its branch</strong> (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">feat-auth/</code> on branch <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">feat-auth</code>), and put the branch in your shell prompt, so you always know which world you&#39;re typing in.</p>
+            <h3 id="claude-code-has-worktrees-built-in" class="mt-8 text-lg leading-tight tracking-tight">Claude Code has worktrees built in</h3>
+            <p class="mt-0 mb-6">Here&#39;s the part that genuinely surprised me, and it&#39;s why I wanted to write this with current, accurate detail rather than describing worktrees as a purely manual thing: <strong>Claude Code treats worktrees as a first-class feature.</strong> Anthropic has a <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://code.claude.com/docs/en/worktrees">dedicated docs page on running parallel sessions with worktrees</a>. The manual <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree</code> ceremony I described above is great to understand, but for the agent workflow specifically, a lot of it is handled for you.</p>
             <p class="mt-0 mb-6">The pieces that matter:</p>
-            <p class="mt-0 mb-6">
-              <strong
-                >The
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >--worktree</code
-                >
-                flag.</strong
-              >
-              Start an isolated session in one command:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">claude</span> <span class="text-syn-s">--worktree</span> <span class="text-syn-s">feat-auth</span>      <span class="text-syn-c italic"># creates an isolated worktree + branch, starts Claude in it</span>
-<span class="text-syn-f">claude</span> <span class="text-syn-s">-w</span> <span class="text-syn-s">bugfix-123</span>             <span class="text-syn-c italic"># second isolated session, its own branch</span>
-<span class="text-syn-f">claude</span> <span class="text-syn-s">--worktree</span> <span class="text-syn-s">&quot;#1234&quot;</span>        <span class="text-syn-c italic"># check out a PR (fetches pull/1234/head) into its own worktree</span>
-<span class="text-syn-f">claude</span> <span class="text-syn-s">--worktree</span>                <span class="text-syn-c italic"># no name -&gt; auto-generates one like &quot;bright-running-fox&quot;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              By default it creates the worktree under
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.claude/worktrees/&lt;name&gt;/</code
-              >
-              on a new branch, and branches from
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >origin/HEAD</code
-              >
-              so you start clean and matching the remote. You can change that to branch from your
-              local
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >HEAD</code
-              >
-              (carrying unpushed work) with the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >worktree.baseRef</code
-              >
-              setting. Add
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.claude/worktrees/</code
-              >
-              to your
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.gitignore</code
-              >
-              so the worktree contents don&#39;t show up as untracked noise in your main checkout.
-            </p>
-            <p class="mt-0 mb-6">
-              Run that in two terminals with two different names and you&#39;ve got two fully
-              isolated Claude Code sessions, one building a feature, one fixing a bug, neither able
-              to touch the other&#39;s files. That&#39;s the entire workflow, packaged.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong
-                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >EnterWorktree</code
-                >
-                /
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >ExitWorktree</code
-                >.</strong
-              >
-              You don&#39;t even need the flag. Mid-session you can just tell Claude to &quot;work
-              in a worktree&quot; and it will create one and switch into it, then return when
-              you&#39;re done.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Subagent isolation.</strong>
-              When Claude fans out to subagents, you can have each one run in its own temporary
-              worktree by setting
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >isolation: worktree</code
-              >
-              in the subagent&#39;s config (or just asking it to &quot;use worktrees for your
-              agents&quot;). Each subagent gets an isolated copy of the repo and the worktree is
-              cleaned up automatically if it didn&#39;t make changes. This is how you safely run
-              several subagents editing files <em>in parallel</em>, they&#39;re not fighting over
-              one working directory.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong
-                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.worktreeinclude</code
-                >.</strong
-              >
-              Remember the &quot;fresh worktree has no
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.env</code
-              >&quot; problem? This is Claude Code&#39;s built-in answer, and it&#39;s the same idea
-              as the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >wt</code
-              >
-              helper above. Drop a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.worktreeinclude</code
-              >
-              file at your project root (it uses
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.gitignore</code
-              >
-              syntax), and Claude copies the matching files into every worktree it creates, for
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--worktree</code
-              >, for subagents running with
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >isolation: worktree</code
-              >, and for the desktop app&#39;s parallel sessions. The one rule to internalize: it
-              only copies files that match a pattern <em>and</em> are gitignored, tracked files are
-              already in the checkout, so they&#39;re never duplicated. Keep the patterns narrow
-              (env, secrets, certs); don&#39;t write broad globs that would sweep in
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >node_modules</code
-              >.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"># .worktreeinclude  (project root, .gitignore syntax)
-
-# Local secrets and env (gitignored, so they get copied)
-.env
-.env.local
-.env.*.local
-
-# Service credentials and local TLS certs
-config/secrets.json
-.npmrc
-certs/localhost.pem
-certs/localhost-key.pem
-</code></pre>
-            <p class="mt-0 mb-6">
-              If you need full control over how worktrees get created and cleaned up, or you&#39;re
-              on a non-git VCS like SVN or Mercurial, there are
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >WorktreeCreate</code
-              >
-              and
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >WorktreeRemove</code
-              >
-              hooks. One sharp edge worth knowing: a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >WorktreeCreate</code
-              >
-              hook <em>replaces</em> git&#39;s default logic entirely, so
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.worktreeinclude</code
-              >
-              is <strong>not</strong> processed when that hook is set, you copy local config inside
-              the hook script yourself (which is also the natural place to run
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >install</code
-              >
-              and
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >migrate</code
-              >).
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>The desktop app does it automatically.</strong>
-              In the Claude Code desktop app, every session gets its own worktree with no setup,
-              just open a new session and you&#39;re isolated.
-            </p>
+            <p class="mt-0 mb-6"><strong>The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--worktree</code> flag.</strong> Start an isolated session in one command:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">claude</span> <span class="text-syn-s">--worktree</span> <span class="text-syn-s">feat-auth</span>      <span class="text-syn-c italic"># creates an isolated worktree + branch, starts Claude in it</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">claude</span> <span class="text-syn-s">-w</span> <span class="text-syn-s">bugfix-123</span>             <span class="text-syn-c italic"># second isolated session, its own branch</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">claude</span> <span class="text-syn-s">--worktree</span> <span class="text-syn-s">&quot;#1234&quot;</span>        <span class="text-syn-c italic"># check out a PR (fetches pull/1234/head) into its own worktree</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">claude</span> <span class="text-syn-s">--worktree</span>                <span class="text-syn-c italic"># no name -&gt; auto-generates one like &quot;bright-running-fox&quot;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">By default it creates the worktree under <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.claude/worktrees/&lt;name&gt;/</code> on a new branch, and branches from <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">origin/HEAD</code> so you start clean and matching the remote. You can change that to branch from your local <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">HEAD</code> (carrying unpushed work) with the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">worktree.baseRef</code> setting. Add <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.claude/worktrees/</code> to your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.gitignore</code> so the worktree contents don&#39;t show up as untracked noise in your main checkout.</p>
+            <p class="mt-0 mb-6">Run that in two terminals with two different names and you&#39;ve got two fully isolated Claude Code sessions, one building a feature, one fixing a bug, neither able to touch the other&#39;s files. That&#39;s the entire workflow, packaged.</p>
+            <p class="mt-0 mb-6"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">EnterWorktree</code> / <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ExitWorktree</code>.</strong> You don&#39;t even need the flag. Mid-session you can just tell Claude to &quot;work in a worktree&quot; and it will create one and switch into it, then return when you&#39;re done.</p>
+            <p class="mt-0 mb-6"><strong>Subagent isolation.</strong> When Claude fans out to subagents, you can have each one run in its own temporary worktree by setting <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">isolation: worktree</code> in the subagent&#39;s config (or just asking it to &quot;use worktrees for your agents&quot;). Each subagent gets an isolated copy of the repo and the worktree is cleaned up automatically if it didn&#39;t make changes. This is how you safely run several subagents editing files <em>in parallel</em>, they&#39;re not fighting over one working directory.</p>
+            <p class="mt-0 mb-6"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.worktreeinclude</code>.</strong> Remember the &quot;fresh worktree has no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code>&quot; problem? This is Claude Code&#39;s built-in answer, and it&#39;s the same idea as the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">wt</code> helper above. Drop a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.worktreeinclude</code> file at your project root (it uses <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.gitignore</code> syntax), and Claude copies the matching files into every worktree it creates, for <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--worktree</code>, for subagents running with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">isolation: worktree</code>, and for the desktop app&#39;s parallel sessions. The one rule to internalize: it only copies files that match a pattern <em>and</em> are gitignored, tracked files are already in the checkout, so they&#39;re never duplicated. Keep the patterns narrow (env, secrets, certs); don&#39;t write broad globs that would sweep in <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code>.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"># .worktreeinclude  (project root, .gitignore syntax)</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"># Local secrets and env (gitignored, so they get copied)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">.env</span>
+                <span class="block leading-(--pre-line) whitespace-pre">.env.local</span>
+                <span class="block leading-(--pre-line) whitespace-pre">.env.*.local</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"># Service credentials and local TLS certs</span>
+                <span class="block leading-(--pre-line) whitespace-pre">config/secrets.json</span>
+                <span class="block leading-(--pre-line) whitespace-pre">.npmrc</span>
+                <span class="block leading-(--pre-line) whitespace-pre">certs/localhost.pem</span>
+                <span class="block leading-(--pre-line) whitespace-pre">certs/localhost-key.pem</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">If you need full control over how worktrees get created and cleaned up, or you&#39;re on a non-git VCS like SVN or Mercurial, there are <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">WorktreeCreate</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">WorktreeRemove</code> hooks. One sharp edge worth knowing: a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">WorktreeCreate</code> hook <em>replaces</em> git&#39;s default logic entirely, so <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.worktreeinclude</code> is <strong>not</strong> processed when that hook is set, you copy local config inside the hook script yourself (which is also the natural place to run <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">install</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">migrate</code>).</p>
+            <p class="mt-0 mb-6"><strong>The desktop app does it automatically.</strong> In the Claude Code desktop app, every session gets its own worktree with no setup, just open a new session and you&#39;re isolated.</p>
             <p class="mt-0 mb-6">A couple of honest caveats so you don&#39;t get surprised:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>You still have to install dependencies in each worktree.</strong>
-                Creating the worktree doesn&#39;t run your
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >bun install</code
-                >, the docs are explicit about this. The
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.worktreeinclude</code
-                >
-                handles config files, not
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >node_modules</code
-                >.
-              </li>
-              <li>
-                <strong>Running several sessions multiplies your token usage.</strong>
-                Three agents working at once is roughly three times the spend. Worth it for the
-                parallelism, but go in with eyes open.
-              </li>
-              <li>
-                The sandbox is worktree-aware, when a session runs in a linked worktree, the sandbox
-                still lets
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git commit</code
-                >
-                update the shared
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.git</code
-                >, so commits work normally from inside a worktree.
-              </li>
+              <li><strong>You still have to install dependencies in each worktree.</strong> Creating the worktree doesn&#39;t run your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">bun install</code>, the docs are explicit about this. The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.worktreeinclude</code> handles config files, not <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code>.</li>
+              <li><strong>Running several sessions multiplies your token usage.</strong> Three agents working at once is roughly three times the spend. Worth it for the parallelism, but go in with eyes open.</li>
+              <li>The sandbox is worktree-aware, when a session runs in a linked worktree, the sandbox still lets <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git commit</code> update the shared <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code>, so commits work normally from inside a worktree.</li>
             </ul>
-            <p class="mt-0 mb-6">
-              If you take one thing from this section:
-              <strong>one agent, one worktree, one branch.</strong>
-              Everything else is logistics.
-            </p>
-            <h2
-              id="review-and-merge-flow"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Review and merge flow
-            </h2>
-            <p class="mt-0 mb-6">
-              Worktrees map one-to-one onto a PR-per-feature flow, which is exactly how you want to
-              work with agents anyway. One worktree, one branch, one PR.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic"># inside the worktree</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">add</span> <span class="text-syn-s">-A</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">commit</span> <span class="text-syn-s">-m</span> <span class="text-syn-s">&quot;feat: add auth flow&quot;</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">push</span> <span class="text-syn-s">-u</span> <span class="text-syn-s">origin</span> <span class="text-syn-s">feat-auth</span>
-<span class="text-syn-f">gh</span> <span class="text-syn-s">pr</span> <span class="text-syn-s">create</span> <span class="text-syn-s">--fill</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              When the PR merges, tear it all down. Note that you can&#39;t remove a worktree from
-              <em>inside</em>
-              it, and you can&#39;t delete a branch that&#39;s still checked out somewhere, so order
-              matters:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">cd</span> <span class="text-syn-s">~/code/myapp</span>                                       <span class="text-syn-c italic"># back to the main checkout</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span>      <span class="text-syn-c italic"># add --force if there&#39;s leftover junk</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">branch</span> <span class="text-syn-s">-d</span> <span class="text-syn-s">feat-auth</span>                               <span class="text-syn-c italic"># -d refuses if unmerged; -D forces</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span>                                    <span class="text-syn-c italic"># drop stale admin entries</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              If you use Claude Code, it cleans most of this up for you: an unnamed session that
-              made no changes removes its own worktree and branch on exit.
-            </p>
-            <h2
-              id="when-not-to-use-worktrees"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              When NOT to use worktrees
-            </h2>
-            <p class="mt-0 mb-6">
-              I&#39;m not going to pretend they&#39;re free. Some honest cases where they&#39;re the
-              wrong tool:
-            </p>
+            <p class="mt-0 mb-6">If you take one thing from this section: <strong>one agent, one worktree, one branch.</strong> Everything else is logistics.</p>
+            <h2 id="review-and-merge-flow" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Review and merge flow</h2>
+            <p class="mt-0 mb-6">Worktrees map one-to-one onto a PR-per-feature flow, which is exactly how you want to work with agents anyway. One worktree, one branch, one PR.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># inside the worktree</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">add</span> <span class="text-syn-s">-A</span> <span class="text-syn-u">&amp;&amp;</span> <span class="text-syn-f">git</span> <span class="text-syn-s">commit</span> <span class="text-syn-s">-m</span> <span class="text-syn-s">&quot;feat: add auth flow&quot;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">push</span> <span class="text-syn-s">-u</span> <span class="text-syn-s">origin</span> <span class="text-syn-s">feat-auth</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">gh</span> <span class="text-syn-s">pr</span> <span class="text-syn-s">create</span> <span class="text-syn-s">--fill</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">When the PR merges, tear it all down. Note that you can&#39;t remove a worktree from <em>inside</em> it, and you can&#39;t delete a branch that&#39;s still checked out somewhere, so order matters:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">cd</span> <span class="text-syn-s">~/code/myapp</span>                                       <span class="text-syn-c italic"># back to the main checkout</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">remove</span> <span class="text-syn-s">../myapp-worktrees/feat-auth</span>      <span class="text-syn-c italic"># add --force if there&#39;s leftover junk</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">branch</span> <span class="text-syn-s">-d</span> <span class="text-syn-s">feat-auth</span>                               <span class="text-syn-c italic"># -d refuses if unmerged; -D forces</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">worktree</span> <span class="text-syn-s">prune</span>                                    <span class="text-syn-c italic"># drop stale admin entries</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">If you use Claude Code, it cleans most of this up for you: an unnamed session that made no changes removes its own worktree and branch on exit.</p>
+            <h2 id="when-not-to-use-worktrees" class="mt-12 text-xl font-semibold leading-tight tracking-tight">When NOT to use worktrees</h2>
+            <p class="mt-0 mb-6">I&#39;m not going to pretend they&#39;re free. Some honest cases where they&#39;re the wrong tool:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Big trees or heavy build artifacts.</strong>
-                Each worktree is a full checkout on disk (only
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.git</code
-                >
-                is shared) and a fresh one has no
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >node_modules</code
-                >. If your tree is multi-gigabyte or your installs are slow and native-heavy, the
-                per-worktree duplication can outweigh the benefit, bun&#39;s global cache helps, but
-                not always.
-              </li>
-              <li>
-                <strong>When branch-switching is genuinely cheap.</strong>
-                If your branches share the same dependencies and switching is a one-second
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git switch</code
-                >, the worktree overhead may exceed the benefit. Worktrees pay off specifically when
-                you want things running <strong>in parallel</strong>, or when switching is expensive
-                because of dirty state or long rebuilds. The AI-agent case is squarely the former.
-              </li>
+              <li><strong>Big trees or heavy build artifacts.</strong> Each worktree is a full checkout on disk (only <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> is shared) and a fresh one has no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code>. If your tree is multi-gigabyte or your installs are slow and native-heavy, the per-worktree duplication can outweigh the benefit, bun&#39;s global cache helps, but not always.</li>
+              <li><strong>When branch-switching is genuinely cheap.</strong> If your branches share the same dependencies and switching is a one-second <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git switch</code>, the worktree overhead may exceed the benefit. Worktrees pay off specifically when you want things running <strong>in parallel</strong>, or when switching is expensive because of dirty state or long rebuilds. The AI-agent case is squarely the former.</li>
             </ul>
-            <h2
-              id="the-top-gotchas-in-one-list"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The top gotchas, in one list
-            </h2>
+            <h2 id="the-top-gotchas-in-one-list" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The top gotchas, in one list</h2>
             <p class="mt-0 mb-6">Bookmark this:</p>
             <ol class="mt-0 mb-6">
-              <li>
-                <strong
-                  >Fresh worktree has no
-                  <code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >node_modules</code
-                  >
-                  /
-                  <code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >.env</code
-                  >
-                  / build cache.</strong
-                >
-                Always bootstrap (install + copy config). Use
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.worktreeinclude</code
-                >
-                with Claude Code.
-              </li>
-              <li>
-                <strong>You can&#39;t check out the same branch in two worktrees.</strong>
-                One branch, one worktree.
-              </li>
-              <li>
-                <strong>Port collisions.</strong>
-                Two dev servers on :3000. Assign a deterministic per-worktree port via
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >.env.local</code
-                >.
-              </li>
-              <li>
-                <strong>Shared database = cross-worktree corruption.</strong>
-                An agent&#39;s migration in one worktree breaks another&#39;s runtime. Isolate the
-                DB or schema per worktree.
-              </li>
-              <li>
-                <strong>It&#39;s per-worktree state, not shared.</strong>
-                Git shares objects and history, not your runtime, secrets, ports, or uncommitted
-                work.
-              </li>
+              <li><strong>Fresh worktree has no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">node_modules</code> / <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env</code> / build cache.</strong> Always bootstrap (install + copy config). Use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.worktreeinclude</code> with Claude Code.</li>
+              <li><strong>You can&#39;t check out the same branch in two worktrees.</strong> One branch, one worktree.</li>
+              <li><strong>Port collisions.</strong> Two dev servers on :3000. Assign a deterministic per-worktree port via <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.env.local</code>.</li>
+              <li><strong>Shared database = cross-worktree corruption.</strong> An agent&#39;s migration in one worktree breaks another&#39;s runtime. Isolate the DB or schema per worktree.</li>
+              <li><strong>It&#39;s per-worktree state, not shared.</strong> Git shares objects and history, not your runtime, secrets, ports, or uncommitted work.</li>
             </ol>
-            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              Wrapping up
-            </h2>
-            <p class="mt-0 mb-6">
-              The shift is real, and it fits how we build now: several streams of work at once, a
-              feature here, a refactor there, a hotfix that just landed. Worktrees are what let you
-              run all of it in parallel without it turning into mush, and Claude Code building them
-              in as a first-class feature tells you this is where the workflow is heading.
-            </p>
-            <p class="mt-0 mb-6">
-              If you take nothing else away: next time prod breaks while you&#39;re mid-feature,
-              don&#39;t stash and don&#39;t clone. Run
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git worktree add ../myapp-worktrees/hotfix -b hotfix</code
-              >, fix the thing, ship it, and walk right back to where you were. Once you feel that,
-              you won&#39;t go back.
-            </p>
-            <p class="mt-0 mb-6">
-              If you want to go deeper, the
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://code.claude.com/docs/en/worktrees"
-                >Claude Code worktrees docs</a
-              >
-              and the
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://git-scm.com/docs/git-worktree"
-                >official
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git worktree</code
-                >
-                reference</a
-              >
-              are both excellent. And if you set this up and have questions about wiring it into
-              your own workflow, reach out, you can find all my socials and a
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://pulkit.page/contact/"
-                >contact form</a
-              >.
-            </p>
+            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Wrapping up</h2>
+            <p class="mt-0 mb-6">The shift is real, and it fits how we build now: several streams of work at once, a feature here, a refactor there, a hotfix that just landed. Worktrees are what let you run all of it in parallel without it turning into mush, and Claude Code building them in as a first-class feature tells you this is where the workflow is heading.</p>
+            <p class="mt-0 mb-6">If you take nothing else away: next time prod breaks while you&#39;re mid-feature, don&#39;t stash and don&#39;t clone. Run <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree add ../myapp-worktrees/hotfix -b hotfix</code>, fix the thing, ship it, and walk right back to where you were. Once you feel that, you won&#39;t go back.</p>
+            <p class="mt-0 mb-6">If you want to go deeper, the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://code.claude.com/docs/en/worktrees">Claude Code worktrees docs</a> and the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://git-scm.com/docs/git-worktree">official <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git worktree</code> reference</a> are both excellent. And if you set this up and have questions about wiring it into your own workflow, reach out, you can find all my socials and a <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://pulkit.page/contact/">contact form</a>.</p>
             <p class="mt-0 mb-6">Happy shipping!</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/how-i-use-cursor/"
-                >How I Use Cursor to Build at 1000x Speed</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/git-partial-clones/"
-                >Partial Clones, Shallow Clones, and Sparse Checkout</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/mcp-server-that-writes-itself/"
-                >An MCP Server That Writes Itself</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/git-partial-clones/">Partial Clones, Shallow Clones, and Sparse Checkout</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/mcp-server-that-writes-itself/">An MCP Server That Writes Itself</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/git-worktrees.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/git-worktrees.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>

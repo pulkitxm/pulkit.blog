@@ -1,49 +1,30 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase."
-    />
+    <meta name="description" content="Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase." />
     <link rel="canonical" href="https://pulkit.blog/branded-types-in-typescript/" />
-    <link
-      rel="alternate"
-      type="text/markdown"
-      href="https://pulkit.blog/branded-types-in-typescript.md"
-    />
+    <link rel="alternate" type="text/markdown" href="https://pulkit.blog/branded-types-in-typescript.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="Branded Types in TypeScript | pulkit.blog" />
-    <meta
-      property="og:description"
-      content="Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase."
-    />
+    <meta property="og:description" content="Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase." />
     <meta property="og:url" content="https://pulkit.blog/branded-types-in-typescript/" />
-    <meta
-      property="og:image"
-      content="https://pulkit.blog/og/branded-types-in-typescript/card.png"
-    />
-    <meta
-      property="og:image:secure_url"
-      content="https://pulkit.blog/og/branded-types-in-typescript/card.png"
-    />
+    <meta property="og:image" content="https://pulkit.blog/og/branded-types-in-typescript/card.png" />
+    <meta property="og:image:secure_url" content="https://pulkit.blog/og/branded-types-in-typescript/card.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -52,1116 +33,598 @@
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Branded Types in TypeScript | pulkit.blog" />
-    <meta
-      name="twitter:description"
-      content="Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pulkit.blog/og/branded-types-in-typescript/card.png"
-    />
+    <meta name="twitter:description" content="Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase." />
+    <meta name="twitter:image" content="https://pulkit.blog/og/branded-types-in-typescript/card.png" />
     <meta name="twitter:image:alt" content="Branded Types in TypeScript" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/branded-types-in-typescript/#image","contentUrl":"https://pulkit.blog/og/branded-types-in-typescript/card.png","width":1200,"height":630,"caption":"Branded Types in TypeScript"},{"@type":"BlogPosting","@id":"https://pulkit.blog/branded-types-in-typescript/#article","headline":"Branded Types in TypeScript","description":"Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase.","datePublished":"2025-12-26","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/branded-types-in-typescript/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/branded-types-in-typescript/#image"},"url":"https://pulkit.blog/branded-types-in-typescript/","inLanguage":"en","keywords":["TypeScript","Type Safety","Branded Types","Drizzle ORM","Zod","Node.js"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/branded-types-in-typescript/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Branded Types in TypeScript","item":"https://pulkit.blog/branded-types-in-typescript/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/branded-types-in-typescript/#webpage","url":"https://pulkit.blog/branded-types-in-typescript/","name":"Branded Types in TypeScript","description":"Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/branded-types-in-typescript/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/branded-types-in-typescript/#article"},"breadcrumb":{"@id":"https://pulkit.blog/branded-types-in-typescript/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/branded-types-in-typescript/#image",
+            "contentUrl": "https://pulkit.blog/og/branded-types-in-typescript/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Branded Types in TypeScript"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/branded-types-in-typescript/#article",
+            "headline": "Branded Types in TypeScript",
+            "description": "Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase.",
+            "datePublished": "2025-12-26",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/branded-types-in-typescript/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/branded-types-in-typescript/#image"
+            },
+            "url": "https://pulkit.blog/branded-types-in-typescript/",
+            "inLanguage": "en",
+            "keywords": [
+              "TypeScript",
+              "Type Safety",
+              "Branded Types",
+              "Drizzle ORM",
+              "Zod",
+              "Node.js"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/branded-types-in-typescript/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Branded Types in TypeScript",
+                "item": "https://pulkit.blog/branded-types-in-typescript/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/branded-types-in-typescript/#webpage",
+            "url": "https://pulkit.blog/branded-types-in-typescript/",
+            "name": "Branded Types in TypeScript",
+            "description": "Learn how branded types can prevent ID mix-ups and enforce domain rules across your TypeScript, Next.js, Drizzle, and Zod codebase.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/branded-types-in-typescript/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/branded-types-in-typescript/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/branded-types-in-typescript/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <script type="module" src="/assets/embeds/youtube-embed.js"></script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>Branded Types in TypeScript | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              Branded Types in TypeScript
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2025-12-26">December 26, 2025</time>
-              · 7 min read
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>Branded Types in TypeScript</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2025-12-26">December 26, 2025</time> · 7 min read</p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
-            <h2
-              id="why-string-and-number-aren-t-enough"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Why String and Number Aren’t Enough
-            </h2>
-            <p class="mt-0 mb-6">
-              When your project is small, you can get away with using plain
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >string</code
-              >
-              and
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >number</code
-              >
-              for everything. But as your codebase grows, multiple entities, multiple IDs, different
-              units of measure,
-              <strong
-                >“just use
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >string</code
-                >” turns into a source of subtle, expensive bugs</strong
-              >.
-            </p>
+            <h2 id="why-string-and-number-aren-t-enough" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Why String and Number Aren’t Enough</h2>
+            <p class="mt-0 mb-6">When your project is small, you can get away with using plain <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">number</code> for everything. But as your codebase grows, multiple entities, multiple IDs, different units of measure, <strong>“just use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code>” turns into a source of subtle, expensive bugs</strong>.</p>
             <p class="mt-0 mb-6">In this post, you’ll see:</p>
             <ul class="mt-0 mb-6">
               <li><strong>Why plain primitives break down</strong> in real-world codebases</li>
-              <li>
-                <strong>How branded types work in TypeScript</strong>
-                (with a single reusable
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >Brand</code
-                >
-                helper)
-              </li>
-              <li>
-                <strong>How to push brands into Drizzle ORM and Zod</strong>, so your types stay
-                consistent end‑to‑end
-              </li>
+              <li><strong>How branded types work in TypeScript</strong> (with a single reusable <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand</code> helper)</li>
+              <li><strong>How to push brands into Drizzle ORM and Zod</strong>, so your types stay consistent end‑to‑end</li>
               <li><strong>How to handle raw values, numbers, and units</strong> with brands</li>
               <li><strong>When to use brands vs unions, template literals, or wrappers</strong></li>
             </ul>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="the-core-problem-all-strings-look-the-same"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The Core Problem: All Strings Look the Same
-            </h2>
-            <p class="mt-0 mb-6">
-              In most TypeScript codebases, IDs and primitive values are just strings or numbers:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">type</span> <span class="text-syn-t">SaleId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-</code></pre>
+            <h2 id="the-core-problem-all-strings-look-the-same" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Core Problem: All Strings Look the Same</h2>
+            <p class="mt-0 mb-6">In most TypeScript codebases, IDs and primitive values are just strings or numbers:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SaleId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">This works until your app grows. Then you see code like:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">example</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">();</span>
-  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">latestSaleId</span><span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              If
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >latestSaleId</code
-              >
-              is a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >string</code
-              >
-              and
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >getInvoice</code
-              >
-              expects a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >string</code
-              >, <strong>TypeScript is perfectly happy</strong>. But conceptually, this is wrong:
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">example</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">latestSaleId</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">If <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">latestSaleId</code> is a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">getInvoice</code> expects a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code>, <strong>TypeScript is perfectly happy</strong>. But conceptually, this is wrong:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >latestSaleId</code
-                >
-                is a
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >SaleId</code
-                >
-              </li>
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >getInvoice</code
-                >
-                wants an
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >InvoiceId</code
-                >
-              </li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">latestSaleId</code> is a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">SaleId</code></li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">getInvoice</code> wants an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code></li>
             </ul>
-            <p class="mt-0 mb-6">
-              Both are strings, but they are <strong>different concepts</strong>. In a large
-              codebase with dozens of ID types (user, org, tenant, order, invoice, payment,
-              session…), this kind of mix-up becomes easy and dangerous.
-            </p>
-            <p class="mt-0 mb-6">
-              You want the <strong>type system to encode your domain</strong>, not just primitive
-              shapes.
-            </p>
+            <p class="mt-0 mb-6">Both are strings, but they are <strong>different concepts</strong>. In a large codebase with dozens of ID types (user, org, tenant, order, invoice, payment, session…), this kind of mix-up becomes easy and dangerous.</p>
+            <p class="mt-0 mb-6">You want the <strong>type system to encode your domain</strong>, not just primitive shapes.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="your-first-branded-type"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Your First Branded Type
-            </h2>
-            <p class="mt-0 mb-6">
-              A <strong>branded type</strong> lets you create a distinct type from a primitive,
-              without changing its runtime representation.
-            </p>
-            <p class="mt-0 mb-6">
-              Let’s start with a single branded
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >InvoiceId</code
-              >:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> __brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-u">[</span>__brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-s">&quot;invoiceId&quot;</span> <span class="text-syn-u">};</span>
-</code></pre>
+            <h2 id="your-first-branded-type" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Your First Branded Type</h2>
+            <p class="mt-0 mb-6">A <strong>branded type</strong> lets you create a distinct type from a primitive, without changing its runtime representation.</p>
+            <p class="mt-0 mb-6">Let’s start with a single branded <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> __brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-u">[</span>__brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-s">&quot;invoiceId&quot;</span> <span class="text-syn-u">};</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Here:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >InvoiceId</code
-                >
-                is still a
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >string</code
-                >
-                at runtime.
-              </li>
-              <li>
-                The extra
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >{ [__brand]: &quot;invoiceId&quot; }</code
-                >
-                part only exists in the type system.
-              </li>
-              <li>
-                Because
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >__brand</code
-                >
-                is a
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >unique symbol</code
-                >, TypeScript treats
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >InvoiceId</code
-                >
-                as different from plain
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >string</code
-                >.
-              </li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code> is still a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> at runtime.</li>
+              <li>The extra <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">{ [__brand]: &quot;invoiceId&quot; }</code> part only exists in the type system.</li>
+              <li>Because <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">__brand</code> is a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">unique symbol</code>, TypeScript treats <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code> as different from plain <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code>.</li>
             </ul>
             <p class="mt-0 mb-6">You can now write:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> rawString<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span>
-
-<span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>rawString<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ❌ Type error</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              You still pass strings at runtime, but the compiler prevents you from accidentally
-              passing any old
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >string</code
-              >
-              that isn’t an
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >InvoiceId</code
-              >.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> rawString<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>rawString<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ❌ Type error</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">You still pass strings at runtime, but the compiler prevents you from accidentally passing any old <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> that isn’t an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h3 id="creating-an-invoiceid-value" class="mt-8 text-lg leading-tight tracking-tight">
-              Creating an InvoiceId Value
-            </h3>
-            <p class="mt-0 mb-6">
-              Most of the time you will start from a plain string (for example from your database or
-              an external API) and want to treat it as an
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >InvoiceId</code
-              >:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> rawId <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;inv_123&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> rawId <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              This does not change anything at runtime; it only tells TypeScript that this
-              particular value should be considered an
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >InvoiceId</code
-              >. Later in the post we will see safer ways to do this branding (with Zod and
-              assertion functions), but this is the minimal starting point.
-            </p>
-            <h3
-              id="drizzle-getting-branded-ids-from-the-database"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Drizzle: Getting Branded IDs from the Database
-            </h3>
-            <p class="mt-0 mb-6">
-              You can also push the brand into your database schema so that Drizzle returns an
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >InvoiceId</code
-              >
-              automatically:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> pgTable<span class="text-syn-u">,</span> varchar <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;drizzle-orm/pg-core&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> __brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-u">[</span>__brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-s">&quot;invoiceId&quot;</span> <span class="text-syn-u">};</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">const</span> invoices <span class="text-syn-o">=</span> <span class="text-syn-f">pgTable</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;invoices&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-p">id:</span> <span class="text-syn-f">varchar</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;id&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">$type</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">InvoiceId</span><span class="text-syn-u">&gt;().</span><span class="text-syn-f">primaryKey</span><span class="text-syn-u">(),</span>
-<span class="text-syn-u">});</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">loadInvoice</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> invoice <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>query<span class="text-syn-u">.</span>invoices<span class="text-syn-u">.</span><span class="text-syn-f">findFirst</span><span class="text-syn-u">();</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>invoice<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">return</span><span class="text-syn-u">;</span>
-  <span class="text-syn-u">}</span>
-
-  invoice<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// InvoiceId</span>
-  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoice<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Now the schema is the single source of truth for the brand: everywhere else in your
-              app,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >invoice.id</code
-              >
-              is already typed as
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >InvoiceId</code
-              >, and
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >getInvoice</code
-              >
-              can rely on that.
-            </p>
+            <h3 id="creating-an-invoiceid-value" class="mt-8 text-lg leading-tight tracking-tight">Creating an InvoiceId Value</h3>
+            <p class="mt-0 mb-6">Most of the time you will start from a plain string (for example from your database or an external API) and want to treat it as an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> rawId <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;inv_123&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> rawId <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">This does not change anything at runtime; it only tells TypeScript that this particular value should be considered an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>. Later in the post we will see safer ways to do this branding (with Zod and assertion functions), but this is the minimal starting point.</p>
+            <h3 id="drizzle-getting-branded-ids-from-the-database" class="mt-8 text-lg leading-tight tracking-tight">Drizzle: Getting Branded IDs from the Database</h3>
+            <p class="mt-0 mb-6">You can also push the brand into your database schema so that Drizzle returns an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code> automatically:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> pgTable<span class="text-syn-u">,</span> varchar <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;drizzle-orm/pg-core&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> __brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">string</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-u">[</span>__brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-s">&quot;invoiceId&quot;</span> <span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> invoices <span class="text-syn-o">=</span> <span class="text-syn-f">pgTable</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;invoices&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">id:</span> <span class="text-syn-f">varchar</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;id&quot;</span><span class="text-syn-u">).</span><span class="text-syn-f">$type</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">InvoiceId</span><span class="text-syn-u">&gt;().</span><span class="text-syn-f">primaryKey</span><span class="text-syn-u">(),</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">loadInvoice</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> invoice <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>query<span class="text-syn-u">.</span>invoices<span class="text-syn-u">.</span><span class="text-syn-f">findFirst</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>invoice<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  invoice<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoice<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Now the schema is the single source of truth for the brand: everywhere else in your app, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">invoice.id</code> is already typed as <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>, and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">getInvoice</code> can rely on that.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="branded-types-in-one-reusable-helper"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Branded Types in One Reusable Helper
-            </h2>
-            <p class="mt-0 mb-6">
-              Copy‑pasting the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >__brand</code
-              >
-              pattern for every type gets noisy quickly, so we can generalize it into a reusable
-              helper:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">type</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">,</span> <span class="text-syn-t">B</span> <span class="text-syn-k">extends</span> <span class="text-syn-t">string</span><span class="text-syn-u">&gt;</span> <span class="text-syn-o">=</span> <span class="text-syn-t">T</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-k">readonly</span> <span class="text-syn-u">[</span>brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-t">B</span> <span class="text-syn-u">};</span>
-
-<span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span>
-<span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span>
-<span class="text-syn-k">type</span> <span class="text-syn-t">SaleId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;SaleId&quot;</span><span class="text-syn-u">&gt;;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              We’ll use this
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >Brand&lt;T, B&gt;</code
-              >
-              helper throughout the rest of the post:
-            </p>
+            <h2 id="branded-types-in-one-reusable-helper" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Branded Types in One Reusable Helper</h2>
+            <p class="mt-0 mb-6">Copy‑pasting the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">__brand</code> pattern for every type gets noisy quickly, so we can generalize it into a reusable helper:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> brand<span class="text-syn-o">:</span> <span class="text-syn-t">unique</span> <span class="text-syn-t">symbol</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">T</span><span class="text-syn-u">,</span> <span class="text-syn-t">B</span> <span class="text-syn-k">extends</span> <span class="text-syn-t">string</span><span class="text-syn-u">&gt;</span> <span class="text-syn-o">=</span> <span class="text-syn-t">T</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-u">{</span> <span class="text-syn-k">readonly</span> <span class="text-syn-u">[</span>brand<span class="text-syn-u">]</span><span class="text-syn-o">:</span> <span class="text-syn-t">B</span> <span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SaleId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;SaleId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">We’ll use this <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand&lt;T, B&gt;</code> helper throughout the rest of the post:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >Brand&lt;T, B&gt;</code
-                >
-                takes a base type
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >T</code
-                >
-                (like
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >string</code
-                >
-                or
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >number</code
-                >) and intersects it with a phantom property keyed by a unique
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >symbol</code
-                >.
-              </li>
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >declare const brand: unique symbol</code
-                >
-                exists only in the type system. No property is emitted at runtime.
-              </li>
-              <li>
-                Each distinct brand string (<code
-                  class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >&quot;UserId&quot;</code
-                >,
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >&quot;InvoiceId&quot;</code
-                >,
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >&quot;SaleId&quot;</code
-                >) produces a <strong>distinct, non‑interchangeable type</strong>, even though all
-                are still just strings at runtime.
-              </li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand&lt;T, B&gt;</code> takes a base type <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">T</code> (like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">string</code> or <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">number</code>) and intersects it with a phantom property keyed by a unique <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">symbol</code>.</li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">declare const brand: unique symbol</code> exists only in the type system. No property is emitted at runtime.</li>
+              <li>Each distinct brand string (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&quot;UserId&quot;</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&quot;InvoiceId&quot;</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&quot;SaleId&quot;</code>) produces a <strong>distinct, non‑interchangeable type</strong>, even though all are still just strings at runtime.</li>
             </ul>
-            <p class="mt-0 mb-6">
-              Now TypeScript can tell all these concepts apart while your runtime values stay
-              simple.
-            </p>
+            <p class="mt-0 mb-6">Now TypeScript can tell all these concepts apart while your runtime values stay simple.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="using-branded-types-in-your-apis"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Using Branded Types in Your APIs
-            </h2>
-            <p class="mt-0 mb-6">
-              Once you have branded types, you can make your APIs much clearer:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span>
-<span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">getUserInvoices</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">[];</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> userId<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span>
-<span class="text-syn-c italic">// getInvoice(userId)      // ❌ Type error</span>
-
-<span class="text-syn-f">getUserInvoices</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span>
-<span class="text-syn-c italic">// getUserInvoices(invoiceId) // ❌ Type error</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The more your domain grows, the more these branded types protect you from wiring
-              things up incorrectly.
-            </p>
+            <h2 id="using-branded-types-in-your-apis" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Using Branded Types in Your APIs</h2>
+            <p class="mt-0 mb-6">Once you have branded types, you can make your APIs much clearer:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> id <span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getUserInvoices</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">[];</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> userId<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> invoiceId<span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// getInvoice(userId)      // ❌ Type error</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getUserInvoices</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// getUserInvoices(invoiceId) // ❌ Type error</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The more your domain grows, the more these branded types protect you from wiring things up incorrectly.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="validating-and-branding-input-type-guards-assertions"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Validating and Branding Input (Type Guards &amp; Assertions)
-            </h2>
-            <p class="mt-0 mb-6">
-              The tricky part is turning <strong>untyped input</strong> (e.g. from
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >req.params</code
-              >
-              or query strings) into branded values.
-            </p>
+            <h2 id="validating-and-branding-input-type-guards-assertions" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Validating and Branding Input (Type Guards &amp; Assertions)</h2>
+            <p class="mt-0 mb-6">The tricky part is turning <strong>untyped input</strong> (e.g. from <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">req.params</code> or query strings) into branded values.</p>
             <h3 id="type-guards" class="mt-8 text-lg leading-tight tracking-tight">Type guards</h3>
             <p class="mt-0 mb-6">Use a type guard to check a value and narrow it to a brand:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">isInvoiceId</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> value<span class="text-syn-u">.</span><span class="text-syn-f">startsWith</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;inv_&quot;</span><span class="text-syn-u">);</span> <span class="text-syn-c italic">// basically validating if the string is like inv_123</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">handleRequest</span><span class="text-syn-u">(</span>idParam<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span><span class="text-syn-f">isInvoiceId</span><span class="text-syn-u">(</span>idParam<span class="text-syn-u">))</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Invalid invoice ID&quot;</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">}</span>
-
-  <span class="text-syn-k">const</span> invoiceId <span class="text-syn-o">=</span> idParam<span class="text-syn-u">;</span>
-  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// invoiceId: InvoiceId</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Inside the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >if</code
-              >, TypeScript knows
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >invoiceId</code
-              >
-              is an
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >InvoiceId</code
-              >.
-            </p>
-            <h3 id="assertion-functions" class="mt-8 text-lg leading-tight tracking-tight">
-              Assertion functions
-            </h3>
-            <p class="mt-0 mb-6">
-              For cleaner call sites, you can wrap that check in an assertion:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;PositiveSeconds&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> value <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-o">asserts</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span><span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-u">))</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Expected a positive number of seconds&quot;</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">}</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">waitForSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">PositiveSeconds</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> seconds <span class="text-syn-o">*</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">});</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">scheduleReminder</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-f">waitForSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              At the boundary (e.g. controller, API handler), you validate once. After
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >assertPositiveSeconds</code
-              >, the compiler treats
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >seconds</code
-              >
-              as a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >PositiveSeconds</code
-              >
-              everywhere downstream.
-            </p>
-            <details class="mt-0 mb-6 rounded-lg border border-line p-4 [&>*:last-child]:mb-0">
-              <summary class="cursor-pointer font-bold">
-                <strong
-                  >Wait, what do
-                  <code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >asserts</code
-                  >
-                  and
-                  <code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >is</code
-                  >
-                  mean here?</strong
-                >
-              </summary>
-              <p class="mt-0 mb-6">
-                If you’re confused by the
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >is</code
-                >
-                and
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >asserts</code
-                >
-                keywords in these function signatures, here’s what they do:
-              </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">isInvoiceId</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value<span class="text-syn-u">.</span><span class="text-syn-f">startsWith</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;inv_&quot;</span><span class="text-syn-u">);</span> <span class="text-syn-c italic">// basically validating if the string is like inv_123</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">handleRequest</span><span class="text-syn-u">(</span>idParam<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span><span class="text-syn-f">isInvoiceId</span><span class="text-syn-u">(</span>idParam<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Invalid invoice ID&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> invoiceId <span class="text-syn-o">=</span> idParam<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span> <span class="text-syn-c italic">// invoiceId: InvoiceId</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Inside the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">if</code>, TypeScript knows <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">invoiceId</code> is an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>.</p>
+            <h3 id="assertion-functions" class="mt-8 text-lg leading-tight tracking-tight">Assertion functions</h3>
+            <p class="mt-0 mb-6">For cleaner call sites, you can wrap that check in an assertion:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;PositiveSeconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-o">asserts</span> value <span class="text-syn-o">is</span> <span class="text-syn-t">PositiveSeconds</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span><span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>value<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Expected a positive number of seconds&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">waitForSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">PositiveSeconds</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> seconds <span class="text-syn-o">*</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">scheduleReminder</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-f">waitForSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">At the boundary (e.g. controller, API handler), you validate once. After <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">assertPositiveSeconds</code>, the compiler treats <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">seconds</code> as a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">PositiveSeconds</code> everywhere downstream.</p>
+            <details class="mt-0 mb-6 rounded-lg border border-line p-4 [&amp;>*:last-child]:mb-0">
+              <summary class="cursor-pointer font-bold"><strong>Wait, what do <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">asserts</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">is</code> mean here?</strong></summary>
+              <p class="mt-0 mb-6">If you’re confused by the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">is</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">asserts</code> keywords in these function signatures, here’s what they do:</p>
               <ul class="mt-0 mb-6">
-                <li class="[&>p]:mb-2">
-                  <p class="mt-0 mb-6">
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >value is PositiveSeconds</code
-                    >
-                    in<br />
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >function isPositiveSeconds(value: number): value is PositiveSeconds</code
-                    ><br />is a <strong>type predicate</strong>. The function still returns a
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >boolean</code
-                    >
-                    at runtime, but at the type level it tells TypeScript:<br />“When this function
-                    returns
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >true</code
-                    >, you can treat
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >value</code
-                    >
-                    as
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >PositiveSeconds</code
-                    >
-                    inside the
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >if</code
-                    >
-                    block.”
-                  </p>
+                <li class="[&amp;>p]:mb-2">
+                  <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">value is PositiveSeconds</code> in<br /><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">function isPositiveSeconds(value: number): value is PositiveSeconds</code><br />is a <strong>type predicate</strong>. The function still returns a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">boolean</code> at runtime, but at the type level it tells TypeScript:<br />“When this function returns <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">true</code>, you can treat <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">value</code> as <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">PositiveSeconds</code> inside the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">if</code> block.”</p>
                 </li>
-                <li class="[&>p]:mb-2">
-                  <p class="mt-0 mb-6">
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >asserts value is PositiveSeconds</code
-                    >
-                    in<br />
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >function assertPositiveSeconds(value: number): asserts value is
-                      PositiveSeconds</code
-                    ><br />makes this an <strong>assertion function</strong>. It doesn’t return a
-                    value; instead:
-                  </p>
+                <li class="[&amp;>p]:mb-2">
+                  <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">asserts value is PositiveSeconds</code> in<br /><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">function assertPositiveSeconds(value: number): asserts value is PositiveSeconds</code><br />makes this an <strong>assertion function</strong>. It doesn’t return a value; instead:</p>
                   <ul class="mt-0 mb-6">
                     <li>If it throws, execution stops.</li>
-                    <li>
-                      If it returns without throwing, TypeScript assumes
-                      <code
-                        class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                        >value</code
-                      >
-                      is now definitely
-                      <code
-                        class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                        >PositiveSeconds</code
-                      >
-                      for all code that comes after the call.
-                    </li>
+                    <li>If it returns without throwing, TypeScript assumes <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">value</code> is now definitely <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">PositiveSeconds</code> for all code that comes after the call.</li>
                   </ul>
                 </li>
               </ul>
               <p class="mt-0 mb-6">So:</p>
-              <pre
-                tabindex="0"
-                class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-              ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">))</span> <span class="text-syn-u">{</span>
-<span class="text-syn-c italic">  // inside this block, seconds is PositiveSeconds</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span>
-<span class="text-syn-c italic">// after this line, seconds is PositiveSeconds everywhere below</span>
-</code></pre>
-              <p class="mt-0 mb-6">
-                Type predicates (<code
-                  class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >value is T</code
-                >) narrow types inside conditionals, while assertion functions (<code
-                  class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >asserts value is T</code
-                >) narrow types for all subsequent code if they return.
-              </p>
+              <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-f">isPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">))</span> <span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // inside this block, seconds is PositiveSeconds</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">assertPositiveSeconds</span><span class="text-syn-u">(</span>seconds<span class="text-syn-u">);</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// after this line, seconds is PositiveSeconds everywhere below</span></span>
+                </code>
+              </pre>
+              <p class="mt-0 mb-6">Type predicates (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">value is T</code>) narrow types inside conditionals, while assertion functions (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">asserts value is T</code>) narrow types for all subsequent code if they return.</p>
             </details>
-            <h3 id="branding-trusted-values" class="mt-8 text-lg leading-tight tracking-tight">
-              Branding trusted values
-            </h3>
-            <p class="mt-0 mb-6">
-              Sometimes you generate values yourself and already know they’re valid. In those cases,
-              a tiny helper is enough:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">asInvoiceId</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> value <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">const</span> id <span class="text-syn-o">=</span> <span class="text-syn-f">asInvoiceId</span><span class="text-syn-u">(</span><span class="text-syn-s">`inv_${crypto.randomUUID()}`</span><span class="text-syn-u">);</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              This does not validate; it just tells TypeScript, “this value is already safe”.
-            </p>
+            <h3 id="branding-trusted-values" class="mt-8 text-lg leading-tight tracking-tight">Branding trusted values</h3>
+            <p class="mt-0 mb-6">Sometimes you generate values yourself and already know they’re valid. In those cases, a tiny helper is enough:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">asInvoiceId</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> value <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> id <span class="text-syn-o">=</span> <span class="text-syn-f">asInvoiceId</span><span class="text-syn-u">(</span><span class="text-syn-s">`inv_${crypto.randomUUID()}`</span><span class="text-syn-u">);</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">This does not validate; it just tells TypeScript, “this value is already safe”.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="using-branded-types-with-zod"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Using Branded Types with Zod
-            </h2>
-            <p class="mt-0 mb-6">
-              Zod is your first line of defense for untrusted input (HTTP requests, forms,
-              webhooks). You want it to emit values that are already branded.
-            </p>
-            <h3
-              id="why-not-use-z-string-brand-directly"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Why not use
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >z.string().brand()</code
-              >
-              directly?
-            </h3>
-            <p class="mt-0 mb-6">
-              Zod has a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.brand()</code
-              >
-              helper:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">const</span> InvoiceIdSchema <span class="text-syn-o">=</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">uuid</span><span class="text-syn-u">().</span><span class="text-syn-f">brand</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">);</span>
-
-<span class="text-syn-k">type</span> <span class="text-syn-t">ZodInvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">z</span><span class="text-syn-u">.</span><span class="text-syn-t">infer</span><span class="text-syn-u">&lt;</span><span class="text-syn-o">typeof</span> InvoiceIdSchema<span class="text-syn-u">&gt;;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              This works, but
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >ZodInvoiceId</code
-              >
-              is a <strong>Zod-specific brand</strong>, not your shared
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >InvoiceId</code
-              >
-              type. You’d end up with multiple “brands” for the same concept across your app.
-            </p>
-            <h3
-              id="use-transform-to-apply-your-own-brand"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Use
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.transform()</code
-              >
-              to apply your own brand
-            </h3>
-            <p class="mt-0 mb-6">
-              A better approach is to validate with Zod, then apply your
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >Brand</code
-              >:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">const</span> InvoiceIdSchema <span class="text-syn-o">=</span> z
-  <span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">()</span>
-  <span class="text-syn-u">.</span><span class="text-syn-f">uuid</span><span class="text-syn-u">()</span>
-  <span class="text-syn-u">.</span><span class="text-syn-f">transform</span><span class="text-syn-u">((</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> value <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">);</span>
-
-<span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceIdFromZod</span> <span class="text-syn-o">=</span> <span class="text-syn-t">z</span><span class="text-syn-u">.</span><span class="text-syn-t">infer</span><span class="text-syn-u">&lt;</span><span class="text-syn-o">typeof</span> InvoiceIdSchema<span class="text-syn-u">&gt;;</span> <span class="text-syn-c italic">// InvoiceId</span>
-</code></pre>
+            <h2 id="using-branded-types-with-zod" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Using Branded Types with Zod</h2>
+            <p class="mt-0 mb-6">Zod is your first line of defense for untrusted input (HTTP requests, forms, webhooks). You want it to emit values that are already branded.</p>
+            <h3 id="why-not-use-z-string-brand-directly" class="mt-8 text-lg leading-tight tracking-tight">Why not use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">z.string().brand()</code> directly?</h3>
+            <p class="mt-0 mb-6">Zod has a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.brand()</code> helper:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> InvoiceIdSchema <span class="text-syn-o">=</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">uuid</span><span class="text-syn-u">().</span><span class="text-syn-f">brand</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ZodInvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">z</span><span class="text-syn-u">.</span><span class="text-syn-t">infer</span><span class="text-syn-u">&lt;</span><span class="text-syn-o">typeof</span> InvoiceIdSchema<span class="text-syn-u">&gt;;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">This works, but <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ZodInvoiceId</code> is a <strong>Zod-specific brand</strong>, not your shared <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code> type. You’d end up with multiple “brands” for the same concept across your app.</p>
+            <h3 id="use-transform-to-apply-your-own-brand" class="mt-8 text-lg leading-tight tracking-tight">Use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.transform()</code> to apply your own brand</h3>
+            <p class="mt-0 mb-6">A better approach is to validate with Zod, then apply your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand</code>:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InvoiceId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> InvoiceIdSchema <span class="text-syn-o">=</span> z</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">()</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">uuid</span><span class="text-syn-u">()</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">.</span><span class="text-syn-f">transform</span><span class="text-syn-u">((</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> value <span class="text-syn-k">as</span> <span class="text-syn-t">InvoiceId</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InvoiceIdFromZod</span> <span class="text-syn-o">=</span> <span class="text-syn-t">z</span><span class="text-syn-u">.</span><span class="text-syn-t">infer</span><span class="text-syn-u">&lt;</span><span class="text-syn-o">typeof</span> InvoiceIdSchema<span class="text-syn-u">&gt;;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Usage:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> InvoiceIdSchema<span class="text-syn-u">.</span><span class="text-syn-f">safeParse</span><span class="text-syn-u">(</span>input<span class="text-syn-u">);</span>
-
-<span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>result<span class="text-syn-u">.</span><span class="text-syn-p">success</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Invalid invoice ID&quot;</span><span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">const</span> invoiceId <span class="text-syn-o">=</span> result<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// InvoiceId</span>
-
-<span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> result <span class="text-syn-o">=</span> InvoiceIdSchema<span class="text-syn-u">.</span><span class="text-syn-f">safeParse</span><span class="text-syn-u">(</span>input<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>result<span class="text-syn-u">.</span><span class="text-syn-p">success</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Invalid invoice ID&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoiceId <span class="text-syn-o">=</span> result<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// InvoiceId</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">getInvoice</span><span class="text-syn-u">(</span>invoiceId<span class="text-syn-u">);</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Now:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                Zod emits
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >InvoiceId</code
-                >
-              </li>
-              <li>
-                Drizzle returns
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >InvoiceId</code
-                >
-              </li>
-              <li>
-                Your helpers accept and return
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >InvoiceId</code
-                >
-              </li>
+              <li>Zod emits <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code></li>
+              <li>Drizzle returns <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code></li>
+              <li>Your helpers accept and return <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code></li>
             </ul>
             <p class="mt-0 mb-6"><strong>One brand, shared across your whole stack.</strong></p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="branding-more-than-just-ids-units-currency-content"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Branding More Than Just IDs (Units, Currency, Content)
-            </h2>
-            <p class="mt-0 mb-6">
-              Branded types are not just for IDs. They work with any primitive or structural type.
-            </p>
-            <h3 id="units-and-time" class="mt-8 text-lg leading-tight tracking-tight">
-              Units and time
-            </h3>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">Milliseconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Milliseconds&quot;</span><span class="text-syn-u">&gt;;</span>
-<span class="text-syn-k">type</span> <span class="text-syn-t">Seconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Seconds&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">sleep</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">Seconds</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> seconds <span class="text-syn-o">*</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">});</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> delayMs<span class="text-syn-o">:</span> <span class="text-syn-t">Milliseconds</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> delaySec<span class="text-syn-o">:</span> <span class="text-syn-t">Seconds</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-f">sleep</span><span class="text-syn-u">(</span>delaySec<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span>
-<span class="text-syn-c italic">// sleep(delayMs) // ❌ Type error</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              No more accidentally mixing
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >ms</code
-              >
-              and
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >s</code
-              >.
-            </p>
-            <h3
-              id="currency-and-other-numeric-domains"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Currency and other numeric domains
-            </h3>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">InrRupee</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InrRupee&quot;</span><span class="text-syn-u">&gt;;</span>
-<span class="text-syn-k">type</span> <span class="text-syn-t">UsdCents</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UsdCents&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">interface</span> <span class="text-syn-t">Invoice</span> <span class="text-syn-u">{</span>
-  total<span class="text-syn-o">:</span> <span class="text-syn-t">InrRupee</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> inr<span class="text-syn-o">:</span> <span class="text-syn-t">InrRupee</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> usd<span class="text-syn-o">:</span> <span class="text-syn-t">UsdCents</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">const</span> invoice<span class="text-syn-o">:</span> <span class="text-syn-t">Invoice</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span> <span class="text-syn-p">total:</span> inr <span class="text-syn-u">};</span> <span class="text-syn-c italic">// ✅</span>
-<span class="text-syn-c italic">// const bad: Invoice = { total: usd }  // ❌ Type error</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              You can add more domain rules (e.g. non‑negative) with the assertion patterns shown
-              earlier.
-            </p>
-            <h3 id="safe-vs-unsafe-content" class="mt-8 text-lg leading-tight tracking-tight">
-              Safe vs unsafe content
-            </h3>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">SafeHtml</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;SafeHtml&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">declare</span> <span class="text-syn-k">function</span> <span class="text-syn-f">sanitize</span><span class="text-syn-u">(</span>input<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">SafeHtml</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">render</span><span class="text-syn-u">(</span>html<span class="text-syn-o">:</span> <span class="text-syn-t">SafeHtml</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  document<span class="text-syn-u">.</span>body<span class="text-syn-u">.</span><span class="text-syn-p">innerHTML</span> <span class="text-syn-o">=</span> html<span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">const</span> userInput <span class="text-syn-o">=</span> <span class="text-syn-s">`&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;`</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-f">render</span><span class="text-syn-u">(</span><span class="text-syn-f">sanitize</span><span class="text-syn-u">(</span>userInput<span class="text-syn-u">));</span> <span class="text-syn-c italic">// ✅</span>
-<span class="text-syn-c italic">// render(userInput)        // ❌ Type error</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The brand forces all HTML to go through your sanitizer before it ever touches
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >innerHTML</code
-              >.
-            </p>
+            <h2 id="branding-more-than-just-ids-units-currency-content" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Branding More Than Just IDs (Units, Currency, Content)</h2>
+            <p class="mt-0 mb-6">Branded types are not just for IDs. They work with any primitive or structural type.</p>
+            <h3 id="units-and-time" class="mt-8 text-lg leading-tight tracking-tight">Units and time</h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Milliseconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Milliseconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Seconds</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;Seconds&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">sleep</span><span class="text-syn-u">(</span>seconds<span class="text-syn-o">:</span> <span class="text-syn-t">Seconds</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">void</span><span class="text-syn-u">&gt;((</span>resolve<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">setTimeout</span><span class="text-syn-u">(</span>resolve<span class="text-syn-u">,</span> seconds <span class="text-syn-o">*</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> delayMs<span class="text-syn-o">:</span> <span class="text-syn-t">Milliseconds</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> delaySec<span class="text-syn-o">:</span> <span class="text-syn-t">Seconds</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">sleep</span><span class="text-syn-u">(</span>delaySec<span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// sleep(delayMs) // ❌ Type error</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">No more accidentally mixing <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ms</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">s</code>.</p>
+            <h3 id="currency-and-other-numeric-domains" class="mt-8 text-lg leading-tight tracking-tight">Currency and other numeric domains</h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">InrRupee</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;InrRupee&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UsdCents</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UsdCents&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Invoice</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  total<span class="text-syn-o">:</span> <span class="text-syn-t">InrRupee</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> inr<span class="text-syn-o">:</span> <span class="text-syn-t">InrRupee</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">const</span> usd<span class="text-syn-o">:</span> <span class="text-syn-t">UsdCents</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> invoice<span class="text-syn-o">:</span> <span class="text-syn-t">Invoice</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span> <span class="text-syn-p">total:</span> inr <span class="text-syn-u">};</span> <span class="text-syn-c italic">// ✅</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// const bad: Invoice = { total: usd }  // ❌ Type error</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">You can add more domain rules (e.g. non‑negative) with the assertion patterns shown earlier.</p>
+            <h3 id="safe-vs-unsafe-content" class="mt-8 text-lg leading-tight tracking-tight">Safe vs unsafe content</h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">SafeHtml</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;SafeHtml&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">declare</span> <span class="text-syn-k">function</span> <span class="text-syn-f">sanitize</span><span class="text-syn-u">(</span>input<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">SafeHtml</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">render</span><span class="text-syn-u">(</span>html<span class="text-syn-o">:</span> <span class="text-syn-t">SafeHtml</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  document<span class="text-syn-u">.</span>body<span class="text-syn-u">.</span><span class="text-syn-p">innerHTML</span> <span class="text-syn-o">=</span> html<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> userInput <span class="text-syn-o">=</span> <span class="text-syn-s">`&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;`</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">render</span><span class="text-syn-u">(</span><span class="text-syn-f">sanitize</span><span class="text-syn-u">(</span>userInput<span class="text-syn-u">));</span> <span class="text-syn-c italic">// ✅</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// render(userInput)        // ❌ Type error</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The brand forces all HTML to go through your sanitizer before it ever touches <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">innerHTML</code>.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="when-branded-types-are-not-the-best-tool"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              When Branded Types Are Not the Best Tool
-            </h2>
-            <p class="mt-0 mb-6">
-              Branded types are great, but they are not always the simplest or clearest choice.
-            </p>
-            <h3
-              id="use-unions-for-small-closed-sets"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Use unions for small closed sets
-            </h3>
-            <p class="mt-0 mb-6">
-              If a value can only be one of a few literals, a union is usually clearer:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">TaskStatus</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;pending&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;rejected&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;resolved&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">interface</span> <span class="text-syn-t">Task</span> <span class="text-syn-u">{</span>
-  status<span class="text-syn-o">:</span> <span class="text-syn-t">TaskStatus</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              You get exhaustiveness checking in
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >switch</code
-              >
-              statements with no branding overhead.
-            </p>
-            <h3
-              id="use-template-literal-types-for-patterns"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Use template literal types for patterns
-            </h3>
-            <p class="mt-0 mb-6">
-              When valid strings follow a pattern, template literal types can encode that pattern
-              directly:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">type</span> <span class="text-syn-t">ThemeBase</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;dark&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;light&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;system&quot;</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">type</span> <span class="text-syn-t">ThemeContrast</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;high&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;low&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;standard&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">type</span> <span class="text-syn-t">Theme</span> <span class="text-syn-o">=</span> <span class="text-syn-s">`${ThemeBase}-${ThemeContrast}`</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">setTheme</span><span class="text-syn-u">(</span>theme<span class="text-syn-o">:</span> <span class="text-syn-t">Theme</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> theme<span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-f">setTheme</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;dark-high&quot;</span><span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span>
-<span class="text-syn-c italic">// setTheme(&quot;dark-regular&quot;) // ❌ Type error</span>
-</code></pre>
+            <h2 id="when-branded-types-are-not-the-best-tool" class="mt-12 text-xl font-semibold leading-tight tracking-tight">When Branded Types Are Not the Best Tool</h2>
+            <p class="mt-0 mb-6">Branded types are great, but they are not always the simplest or clearest choice.</p>
+            <h3 id="use-unions-for-small-closed-sets" class="mt-8 text-lg leading-tight tracking-tight">Use unions for small closed sets</h3>
+            <p class="mt-0 mb-6">If a value can only be one of a few literals, a union is usually clearer:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">TaskStatus</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;pending&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;rejected&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;resolved&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Task</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  status<span class="text-syn-o">:</span> <span class="text-syn-t">TaskStatus</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">You get exhaustiveness checking in <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">switch</code> statements with no branding overhead.</p>
+            <h3 id="use-template-literal-types-for-patterns" class="mt-8 text-lg leading-tight tracking-tight">Use template literal types for patterns</h3>
+            <p class="mt-0 mb-6">When valid strings follow a pattern, template literal types can encode that pattern directly:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ThemeBase</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;dark&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;light&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;system&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">ThemeContrast</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;high&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;low&quot;</span> <span class="text-syn-o">|</span> <span class="text-syn-s">&quot;standard&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Theme</span> <span class="text-syn-o">=</span> <span class="text-syn-s">`${ThemeBase}-${ThemeContrast}`</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">setTheme</span><span class="text-syn-u">(</span>theme<span class="text-syn-o">:</span> <span class="text-syn-t">Theme</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> theme<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">setTheme</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;dark-high&quot;</span><span class="text-syn-u">);</span> <span class="text-syn-c italic">// ✅</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// setTheme(&quot;dark-regular&quot;) // ❌ Type error</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">No brands needed, the pattern is in the type itself.</p>
-            <h3
-              id="use-wrappers-for-strongest-runtime-guarantees"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Use wrappers for strongest runtime guarantees
-            </h3>
-            <p class="mt-0 mb-6">
-              If you need heavyweight safety (e.g. security‑critical code), a wrapper type can
-              enforce invariants at creation:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">interface</span> <span class="text-syn-t">Positive</span> <span class="text-syn-u">{</span>
-  value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">createPositive</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Positive</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>value <span class="text-syn-o">&lt;=</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Expected a positive number&quot;</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">}</span>
-
-  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> value <span class="text-syn-u">};</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              This adds runtime cost and a new object, but the guarantee is very strong.
-            </p>
+            <h3 id="use-wrappers-for-strongest-runtime-guarantees" class="mt-8 text-lg leading-tight tracking-tight">Use wrappers for strongest runtime guarantees</h3>
+            <p class="mt-0 mb-6">If you need heavyweight safety (e.g. security‑critical code), a wrapper type can enforce invariants at creation:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">Positive</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">createPositive</span><span class="text-syn-u">(</span>value<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Positive</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>value <span class="text-syn-o">&lt;=</span> <span class="text-syn-n">0</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">throw</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Expected a positive number&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">{</span> value <span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">This adds runtime cost and a new object, but the guarantee is very strong.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="community-helpers-ts-brand-and-effect"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Community Helpers:
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >ts-brand</code
-              >
-              and
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >effect</code
-              >
-            </h2>
-            <p class="mt-0 mb-6">
-              If you don’t want to maintain your own
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >Brand</code
-              >
-              helper, two solid libraries exist:
-            </p>
+            <h2 id="community-helpers-ts-brand-and-effect" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Community Helpers: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ts-brand</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">effect</code></h2>
+            <p class="mt-0 mb-6">If you don’t want to maintain your own <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand</code> helper, two solid libraries exist:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong
-                  ><a
-                    class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                    href="https://github.com/kourge/ts-brand"
-                    ><code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >ts-brand</code
-                    ></a
-                  ></strong
-                >: a tiny, focused branded-type utility.
-              </li>
-              <li>
-                <strong
-                  ><a
-                    class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                    href="https://effect.website"
-                    ><code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >effect</code
-                    ></a
-                  ></strong
-                >: a full framework that includes a powerful
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >Brand</code
-                >
-                module with helpers like
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >Brand.refined</code
-                >.
-              </li>
+              <li><strong><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/kourge/ts-brand"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ts-brand</code></a></strong>: a tiny, focused branded-type utility.</li>
+              <li><strong><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://effect.website"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">effect</code></a></strong>: a full framework that includes a powerful <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand</code> module with helpers like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Brand.refined</code>.</li>
             </ul>
-            <p class="mt-0 mb-6">
-              Example with
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >ts-brand</code
-              >:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Brand <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;ts-brand&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> id<span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Example with
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >effect</code
-              >:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Brand <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;effect&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">type</span> <span class="text-syn-t">Positive</span> <span class="text-syn-o">=</span> <span class="text-syn-t">number</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">.</span><span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-s">&quot;Positive&quot;</span><span class="text-syn-u">&gt;;</span>
-
-<span class="text-syn-k">const</span> asPositive <span class="text-syn-o">=</span> Brand<span class="text-syn-u">.</span><span class="text-syn-f">refined</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Positive</span><span class="text-syn-u">&gt;(</span>
-  <span class="text-syn-u">(</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> value <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span>
-  <span class="text-syn-u">(</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> Brand<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">`Non-positive value: ${value}`</span><span class="text-syn-u">),</span>
-<span class="text-syn-u">);</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Both use the same phantom‑property trick you saw earlier, just packaged and maintained
-              for you.
-            </p>
+            <p class="mt-0 mb-6">Example with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">ts-brand</code>:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Brand <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;ts-brand&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">UserId</span> <span class="text-syn-o">=</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;UserId&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getUser</span><span class="text-syn-u">(</span>id<span class="text-syn-o">:</span> <span class="text-syn-t">UserId</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> id<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Example with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">effect</code>:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Brand <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;effect&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">type</span> <span class="text-syn-t">Positive</span> <span class="text-syn-o">=</span> <span class="text-syn-t">number</span> <span class="text-syn-o">&amp;</span> <span class="text-syn-t">Brand</span><span class="text-syn-u">.</span><span class="text-syn-t">Brand</span><span class="text-syn-u">&lt;</span><span class="text-syn-s">&quot;Positive&quot;</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> asPositive <span class="text-syn-o">=</span> Brand<span class="text-syn-u">.</span><span class="text-syn-f">refined</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">Positive</span><span class="text-syn-u">&gt;(</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">(</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> value <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">(</span>value<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> Brand<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">`Non-positive value: ${value}`</span><span class="text-syn-u">),</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Both use the same phantom‑property trick you saw earlier, just packaged and maintained for you.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="when-branded-types-shine"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              When Branded Types Shine
-            </h2>
+            <h2 id="when-branded-types-shine" class="mt-12 text-xl font-semibold leading-tight tracking-tight">When Branded Types Shine</h2>
             <p class="mt-0 mb-6">Branded types are most valuable when:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                You have <strong>many concepts that share the same primitive</strong> (multiple IDs,
-                currencies, units, etc.)
-              </li>
-              <li>
-                You work in a <strong>medium or large codebase</strong> with many contributors
-              </li>
-              <li>
-                You want to <strong>encode domain rules into the type system</strong> instead of
-                relying on comments and discipline
-              </li>
+              <li>You have <strong>many concepts that share the same primitive</strong> (multiple IDs, currencies, units, etc.)</li>
+              <li>You work in a <strong>medium or large codebase</strong> with many contributors</li>
+              <li>You want to <strong>encode domain rules into the type system</strong> instead of relying on comments and discipline</li>
             </ul>
             <p class="mt-0 mb-6">They are less critical when:</p>
             <ul class="mt-0 mb-6">
@@ -1169,239 +632,53 @@
               <li>There are only one or two ID types</li>
               <li>You rarely pass raw strings or numbers around</li>
             </ul>
-            <p class="mt-0 mb-6">
-              For most serious TypeScript backends or larger frontends, the safety and clarity
-              benefits often outweigh the small amount of extra type complexity.
-            </p>
+            <p class="mt-0 mb-6">For most serious TypeScript backends or larger frontends, the safety and clarity benefits often outweigh the small amount of extra type complexity.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="bringing-it-all-together"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Bringing It All Together
-            </h2>
-            <p class="mt-0 mb-6">
-              With a small amount of setup, you can get an end‑to‑end safety net:
-            </p>
+            <h2 id="bringing-it-all-together" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Bringing It All Together</h2>
+            <p class="mt-0 mb-6">With a small amount of setup, you can get an end‑to‑end safety net:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Branded types in TypeScript</strong>
-                to distinguish concepts like
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >UserId</code
-                >,
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >InvoiceId</code
-                >,
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >SaleId</code
-                >,
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >Seconds</code
-                >,
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >Milliseconds</code
-                >
-              </li>
-              <li>
-                <strong
-                  >Drizzle ORM with
-                  <code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >$type&lt;Brand&lt;...&gt;&gt;()</code
-                  ></strong
-                >
-                so your database results carry the right brands automatically
-              </li>
-              <li>
-                <strong
-                  >Zod with
-                  <code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >.transform()</code
-                  ></strong
-                >
-                so validated input is branded consistently
-              </li>
-              <li>
-                <strong>Type guards and assertion functions</strong>
-                to convert untrusted primitives at the boundaries
-              </li>
+              <li><strong>Branded types in TypeScript</strong> to distinguish concepts like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">UserId</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">InvoiceId</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">SaleId</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Seconds</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Milliseconds</code></li>
+              <li><strong>Drizzle ORM with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">$type&lt;Brand&lt;...&gt;&gt;()</code></strong> so your database results carry the right brands automatically</li>
+              <li><strong>Zod with <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.transform()</code></strong> so validated input is branded consistently</li>
+              <li><strong>Type guards and assertion functions</strong> to convert untrusted primitives at the boundaries</li>
             </ul>
-            <p class="mt-0 mb-6">
-              Over time, this dramatically reduces accidental mix‑ups, clarifies your APIs, and
-              pushes domain rules into the type system where the compiler can enforce them.
-            </p>
-            <p class="mt-0 mb-6">
-              For a deeper dive into the theory and additional patterns, see Josh Goldberg’s article
-              “<a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://www.learningtypescript.com/articles/branded-types"
-                >Branded Types</a
-              >”.
-            </p>
+            <p class="mt-0 mb-6">Over time, this dramatically reduces accidental mix‑ups, clarifies your APIs, and pushes domain rules into the type system where the compiler can enforce them.</p>
+            <p class="mt-0 mb-6">For a deeper dive into the theory and additional patterns, see Josh Goldberg’s article “<a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.learningtypescript.com/articles/branded-types">Branded Types</a>”.</p>
             <hr class="mx-0 my-10 border-0 border-t border-line" />
-            <h2
-              id="credits-and-further-watching"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Credits and Further Watching
-            </h2>
-            <div
-              class="relative aspect-[16/9] w-full overflow-hidden rounded-[12px] border-2 border-[#fff]/30 h-[200px] sm:h-[400px]"
-              data-testid="youtube-embed"
-              data-youtube-embed
-              data-video-id="aP6w2OzidYM"
-              data-title="Branded Types in TypeScript"
-              data-frame-class="absolute inset-0 size-full border-0"
-            >
-              <button
-                type="button"
-                class="relative block size-full cursor-pointer overflow-hidden border-0 bg-transparent p-0"
-                aria-label="Play Branded Types in TypeScript"
-                data-youtube-play
-              >
-                <img
-                  src="https://img.youtube.com/vi/aP6w2OzidYM/maxresdefault.jpg"
-                  alt="Thumbnail for Branded Types in TypeScript"
-                  width="1280"
-                  height="720"
-                  decoding="async"
-                  class="block h-auto w-full max-w-full object-cover transition-transform duration-300"
-                /><span class="absolute inset-0 bg-linear-to-t from-[#000]/70 to-[#000]/10"></span
-                ><span class="absolute inset-0 flex flex-col items-center justify-center gap-3"
-                  ><span
-                    class="flex items-center justify-center rounded-full bg-[#10b981] p-3 text-[#fff] shadow-[0_20px_25px_-5px_rgb(0_0_0/0.1),0_8px_10px_-6px_rgb(0_0_0/0.1)] transition-transform duration-300 hover:bg-[#34d399] sm:p-4"
-                    ><svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="size-6 sm:size-8"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"
-                      />
-                    </svg></span
-                  ></span
-                >
+            <h2 id="credits-and-further-watching" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Credits and Further Watching</h2>
+            <div class="relative aspect-[16/9] w-full overflow-hidden rounded-[12px] border-2 border-[#fff]/30 h-[200px] sm:h-[400px]" data-testid="youtube-embed" data-youtube-embed data-video-id="aP6w2OzidYM" data-title="Branded Types in TypeScript" data-frame-class="absolute inset-0 size-full border-0">
+              <button type="button" class="relative block size-full cursor-pointer overflow-hidden border-0 bg-transparent p-0" aria-label="Play Branded Types in TypeScript" data-youtube-play>
+                <img src="https://img.youtube.com/vi/aP6w2OzidYM/maxresdefault.jpg" alt="Thumbnail for Branded Types in TypeScript" width="1280" height="720" decoding="async" class="block h-auto w-full max-w-full object-cover transition-transform duration-300" />
+                <span class="absolute inset-0 bg-linear-to-t from-[#000]/70 to-[#000]/10"></span><span class="absolute inset-0 flex flex-col items-center justify-center gap-3"><span class="flex items-center justify-center rounded-full bg-[#10b981] p-3 text-[#fff] shadow-[0_20px_25px_-5px_rgb(0_0_0/0.1),0_8px_10px_-6px_rgb(0_0_0/0.1)] transition-transform duration-300 hover:bg-[#34d399] sm:p-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 sm:size-8" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span></span>
               </button>
-              <div
-                class="group absolute right-3 bottom-3 left-3 flex items-center justify-between rounded-[8px] border border-[#fff]/25 bg-[#000]/80 px-3 py-2 backdrop-blur-[8px] sm:right-4 sm:bottom-4 sm:left-4 sm:px-4 sm:py-3"
-                data-youtube-bar
-              >
-                <a
-                  href="https://youtu.be/aP6w2OzidYM"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Open Branded Types in TypeScript on YouTube"
-                  class="line-clamp-1 text-left font-medium text-[#fff] text-xs no-underline leading-[1.33] group-hover:text-[#34d399] sm:text-[14px] sm:leading-[1.43] min-[48rem]:text-base min-[48rem]:leading-[1.5]"
-                  >Branded Types in TypeScript</a
-                ><a
-                  href="https://youtu.be/aP6w2OzidYM"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="ml-2 flex size-6 shrink-0 items-center justify-center rounded-full bg-[#000]/80 text-[#fff] transition-colors duration-300 hover:bg-[#000]/90 sm:size-8"
-                  ><span class="sr-only">Open Branded Types in TypeScript on YouTube</span
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="size-3 text-[#fff] group-hover:text-[#34d399] sm:size-4"
-                    aria-hidden="true"
-                  >
-                    <path d="M15 3h6v6" />
-                    <path d="M10 14 21 3" />
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  </svg></a
-                >
+              <div class="group absolute right-3 bottom-3 left-3 flex items-center justify-between rounded-[8px] border border-[#fff]/25 bg-[#000]/80 px-3 py-2 backdrop-blur-[8px] sm:right-4 sm:bottom-4 sm:left-4 sm:px-4 sm:py-3" data-youtube-bar>
+                <a href="https://youtu.be/aP6w2OzidYM" target="_blank" rel="noopener noreferrer" aria-label="Open Branded Types in TypeScript on YouTube" class="line-clamp-1 text-left font-medium text-[#fff] text-xs no-underline leading-[1.33] group-hover:text-[#34d399] sm:text-[14px] sm:leading-[1.43] min-[48rem]:text-base min-[48rem]:leading-[1.5]">Branded Types in TypeScript</a>
+                <a href="https://youtu.be/aP6w2OzidYM" target="_blank" rel="noopener noreferrer" class="ml-2 flex size-6 shrink-0 items-center justify-center rounded-full bg-[#000]/80 text-[#fff] transition-colors duration-300 hover:bg-[#000]/90 sm:size-8">
+                  <span class="sr-only">Open Branded Types in TypeScript on YouTube</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3 text-[#fff] group-hover:text-[#34d399] sm:size-4" aria-hidden="true"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
+                </a>
               </div>
             </div>
-            <p class="mt-0 mb-6">
-              This post was inspired by the YouTube video
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://www.youtube.com/watch?v=aP6w2OzidYM"
-                >“Branded Types in TypeScript”</a
-              >; all credit to
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://x.com/DevSimplified"
-                >the creator</a
-              >
-              for the clear explanation and examples.
-            </p>
+            <p class="mt-0 mb-6">This post was inspired by the YouTube video <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.youtube.com/watch?v=aP6w2OzidYM">“Branded Types in TypeScript”</a>; all credit to <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://x.com/DevSimplified">the creator</a> for the clear explanation and examples.</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/cron-jobs-with-bullmq/"
-                >BullMQ Cron Jobs with Redis in Node.js</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/kaksha/"
-                >Kaksha: The App I Built for My Mother</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/prisma-with-postgresql/"
-                >Prisma ORM with PostgreSQL</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/cron-jobs-with-bullmq/">BullMQ Cron Jobs with Redis in Node.js</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/kaksha/">Kaksha: The App I Built for My Mother</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/prisma-with-postgresql/">Prisma ORM with PostgreSQL</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/branded-types-in-typescript.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/branded-types-in-typescript.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>

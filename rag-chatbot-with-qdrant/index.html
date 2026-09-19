@@ -1,46 +1,30 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants."
-    />
+    <meta name="description" content="Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants." />
     <link rel="canonical" href="https://pulkit.blog/rag-chatbot-with-qdrant/" />
-    <link
-      rel="alternate"
-      type="text/markdown"
-      href="https://pulkit.blog/rag-chatbot-with-qdrant.md"
-    />
+    <link rel="alternate" type="text/markdown" href="https://pulkit.blog/rag-chatbot-with-qdrant.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="RAG Chatbot with Qdrant | pulkit.blog" />
-    <meta
-      property="og:description"
-      content="Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants."
-    />
+    <meta property="og:description" content="Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants." />
     <meta property="og:url" content="https://pulkit.blog/rag-chatbot-with-qdrant/" />
     <meta property="og:image" content="https://pulkit.blog/og/rag-chatbot-with-qdrant/card.png" />
-    <meta
-      property="og:image:secure_url"
-      content="https://pulkit.blog/og/rag-chatbot-with-qdrant/card.png"
-    />
+    <meta property="og:image:secure_url" content="https://pulkit.blog/og/rag-chatbot-with-qdrant/card.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -49,118 +33,150 @@
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="RAG Chatbot with Qdrant | pulkit.blog" />
-    <meta
-      name="twitter:description"
-      content="Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants."
-    />
+    <meta name="twitter:description" content="Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants." />
     <meta name="twitter:image" content="https://pulkit.blog/og/rag-chatbot-with-qdrant/card.png" />
     <meta name="twitter:image:alt" content="RAG Chatbot with Qdrant" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#image","contentUrl":"https://pulkit.blog/og/rag-chatbot-with-qdrant/card.png","width":1200,"height":630,"caption":"RAG Chatbot with Qdrant"},{"@type":"BlogPosting","@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#article","headline":"RAG Chatbot with Qdrant","description":"Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants.","datePublished":"2025-12-11","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#image"},"url":"https://pulkit.blog/rag-chatbot-with-qdrant/","inLanguage":"en","keywords":["RAG","Qdrant","AI","Chatbot","OpenAI","Vector Database"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"RAG Chatbot with Qdrant","item":"https://pulkit.blog/rag-chatbot-with-qdrant/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#webpage","url":"https://pulkit.blog/rag-chatbot-with-qdrant/","name":"RAG Chatbot with Qdrant","description":"Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#article"},"breadcrumb":{"@id":"https://pulkit.blog/rag-chatbot-with-qdrant/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#image",
+            "contentUrl": "https://pulkit.blog/og/rag-chatbot-with-qdrant/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "RAG Chatbot with Qdrant"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#article",
+            "headline": "RAG Chatbot with Qdrant",
+            "description": "Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants.",
+            "datePublished": "2025-12-11",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#image"
+            },
+            "url": "https://pulkit.blog/rag-chatbot-with-qdrant/",
+            "inLanguage": "en",
+            "keywords": [
+              "RAG",
+              "Qdrant",
+              "AI",
+              "Chatbot",
+              "OpenAI",
+              "Vector Database"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "RAG Chatbot with Qdrant",
+                "item": "https://pulkit.blog/rag-chatbot-with-qdrant/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#webpage",
+            "url": "https://pulkit.blog/rag-chatbot-with-qdrant/",
+            "name": "RAG Chatbot with Qdrant",
+            "description": "Learn how to build an intelligent chatbot using Retrieval-Augmented Generation (RAG) with Qdrant vector database, OpenAI embeddings, and Next.js. A complete guide to creating context-aware AI assistants.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/rag-chatbot-with-qdrant/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>RAG Chatbot with Qdrant | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              RAG Chatbot with Qdrant
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2025-12-11">December 11, 2025</time>
-              · 6 min read
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>RAG Chatbot with Qdrant</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2025-12-11">December 11, 2025</time> · 6 min read</p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
-            <p class="mt-0 mb-6">
-              When I first added a chatbot to my portfolio, I wanted it to actually know about my
-              work, not just give generic responses. A standard LLM prompt won&#39;t cut it when you
-              need answers about specific projects, blog posts, or experiences. That&#39;s where
-              Retrieval-Augmented Generation, or RAG, comes in.
-            </p>
-            <p class="mt-0 mb-6">
-              RAG solves a fundamental problem: language models are trained on general knowledge,
-              but they don&#39;t know about your specific content. Instead of hoping the model
-              remembers your work from its training data, RAG lets you inject relevant context at
-              query time. The model retrieves the most relevant pieces of your content, then
-              generates a response grounded in that information.
-            </p>
-            <p class="mt-0 mb-6">
-              In this post, I&#39;ll walk through how I built PukBot, the chatbot on my portfolio,
-              using
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://qdrant.tech"
-                >Qdrant</a
-              >
-              for vector storage and Next.js for the API. We&#39;ll focus on the core mechanics: how
-              to create embeddings, store them in Qdrant, and retrieve context when users ask
-              questions.
-            </p>
-            <h2
-              id="the-architecture"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The Architecture
-            </h2>
-            <p class="mt-0 mb-6">
-              At a high level, the chatbot works in two phases: an offline indexing phase and a
-              real-time query phase.
-            </p>
-            <h3 id="offline-indexing" class="mt-8 text-lg leading-tight tracking-tight">
-              Offline Indexing
-            </h3>
-            <p class="mt-0 mb-6">
-              Your content gets processed, chunked into smaller pieces, converted to embeddings
-              (vectors), and stored in Qdrant. This happens once or whenever your content changes.
-            </p>
-            <h3 id="real-time-querying" class="mt-8 text-lg leading-tight tracking-tight">
-              Real-Time Querying
-            </h3>
+            <p class="mt-0 mb-6">When I first added a chatbot to my portfolio, I wanted it to actually know about my work, not just give generic responses. A standard LLM prompt won&#39;t cut it when you need answers about specific projects, blog posts, or experiences. That&#39;s where Retrieval-Augmented Generation, or RAG, comes in.</p>
+            <p class="mt-0 mb-6">RAG solves a fundamental problem: language models are trained on general knowledge, but they don&#39;t know about your specific content. Instead of hoping the model remembers your work from its training data, RAG lets you inject relevant context at query time. The model retrieves the most relevant pieces of your content, then generates a response grounded in that information.</p>
+            <p class="mt-0 mb-6">In this post, I&#39;ll walk through how I built PukBot, the chatbot on my portfolio, using <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://qdrant.tech">Qdrant</a> for vector storage and Next.js for the API. We&#39;ll focus on the core mechanics: how to create embeddings, store them in Qdrant, and retrieve context when users ask questions.</p>
+            <h2 id="the-architecture" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Architecture</h2>
+            <p class="mt-0 mb-6">At a high level, the chatbot works in two phases: an offline indexing phase and a real-time query phase.</p>
+            <h3 id="offline-indexing" class="mt-8 text-lg leading-tight tracking-tight">Offline Indexing</h3>
+            <p class="mt-0 mb-6">Your content gets processed, chunked into smaller pieces, converted to embeddings (vectors), and stored in Qdrant. This happens once or whenever your content changes.</p>
+            <h3 id="real-time-querying" class="mt-8 text-lg leading-tight tracking-tight">Real-Time Querying</h3>
             <p class="mt-0 mb-6">When a user asks a question, the system:</p>
             <ol class="mt-0 mb-6">
               <li>Converts the question into an embedding</li>
@@ -168,387 +184,272 @@
               <li>Builds a system prompt with that context</li>
               <li>Sends everything to the LLM, which generates a response</li>
             </ol>
-            <p class="mt-0 mb-6">
-              The frontend is a simple chat interface that streams responses back to the user. The
-              backend is a Next.js API route that orchestrates the retrieval and generation.
-            </p>
-            <h2
-              id="building-the-indexing-pipeline"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Building the Indexing Pipeline
-            </h2>
-            <p class="mt-0 mb-6">
-              The offline indexing process converts your content into searchable vectors. Let&#39;s
-              break it down step by step.
-            </p>
-            <h3 id="preparing-your-content" class="mt-8 text-lg leading-tight tracking-tight">
-              Preparing Your Content
-            </h3>
-            <p class="mt-0 mb-6">
-              Before we can search through content, we need to break it down into manageable pieces.
-              Large documents don&#39;t work well for retrieval, you want chunks that are
-              semantically meaningful but not too long.
-            </p>
-            <p class="mt-0 mb-6">
-              The chunking strategy depends on your content type. You might split by paragraphs,
-              sections, or other semantic boundaries. The goal is to create pieces that are:
-            </p>
+            <p class="mt-0 mb-6">The frontend is a simple chat interface that streams responses back to the user. The backend is a Next.js API route that orchestrates the retrieval and generation.</p>
+            <h2 id="building-the-indexing-pipeline" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Building the Indexing Pipeline</h2>
+            <p class="mt-0 mb-6">The offline indexing process converts your content into searchable vectors. Let&#39;s break it down step by step.</p>
+            <h3 id="preparing-your-content" class="mt-8 text-lg leading-tight tracking-tight">Preparing Your Content</h3>
+            <p class="mt-0 mb-6">Before we can search through content, we need to break it down into manageable pieces. Large documents don&#39;t work well for retrieval, you want chunks that are semantically meaningful but not too long.</p>
+            <p class="mt-0 mb-6">The chunking strategy depends on your content type. You might split by paragraphs, sections, or other semantic boundaries. The goal is to create pieces that are:</p>
             <ul class="mt-0 mb-6">
               <li>Small enough to fit multiple chunks in the LLM&#39;s context window</li>
               <li>Large enough to contain complete thoughts or concepts</li>
               <li>Tagged with metadata for better organization</li>
             </ul>
             <p class="mt-0 mb-6">Here&#39;s a simplified example:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">interface</span> <span class="text-syn-t">ContentChunk</span> <span class="text-syn-u">{</span>
-  id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-  title<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-  text<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-  sourceId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-  metadata<span class="text-syn-o">?:</span> <span class="text-syn-t">Record</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-t">string</span><span class="text-syn-u">&gt;;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">chunkContent</span><span class="text-syn-u">(</span>documents<span class="text-syn-o">:</span> <span class="text-syn-t">Document</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[]</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span>
-
-  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> doc <span class="text-syn-o">of</span> documents<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-<span class="text-syn-c italic">    // Split document into smaller sections</span>
-<span class="text-syn-c italic">    // This could split by paragraphs, headings, or fixed character limits</span>
-    <span class="text-syn-k">const</span> sections <span class="text-syn-o">=</span> <span class="text-syn-f">splitIntoSections</span><span class="text-syn-u">(</span>doc<span class="text-syn-u">.</span><span class="text-syn-p">content</span><span class="text-syn-u">);</span>
-
-    <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> section <span class="text-syn-o">of</span> sections<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-      chunks<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span>
-        <span class="text-syn-p">id:</span> <span class="text-syn-f">generateId</span><span class="text-syn-u">(),</span>
-        <span class="text-syn-p">title:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">title</span><span class="text-syn-u">,</span>
-        <span class="text-syn-p">text:</span> section<span class="text-syn-u">,</span>
-        <span class="text-syn-p">sourceId:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span>
-        <span class="text-syn-p">metadata:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">url:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">url</span> <span class="text-syn-u">},</span>
-      <span class="text-syn-u">});</span>
-    <span class="text-syn-u">}</span>
-  <span class="text-syn-u">}</span>
-
-  <span class="text-syn-k">return</span> chunks<span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-c italic">// Example implementation: split by double newlines (paragraphs)</span>
-<span class="text-syn-k">function</span> <span class="text-syn-f">splitIntoSections</span><span class="text-syn-u">(</span>content<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">[]</span> <span class="text-syn-u">{</span>
-<span class="text-syn-c italic">  // Split by double newlines to get paragraphs</span>
-<span class="text-syn-c italic">  // You could also split by headings, fixed sizes, or semantic boundaries</span>
-  <span class="text-syn-k">return</span> content<span class="text-syn-u">.</span><span class="text-syn-f">split</span><span class="text-syn-u">(</span><span class="text-syn-s">/\n\n+/</span><span class="text-syn-u">).</span><span class="text-syn-f">filter</span><span class="text-syn-u">((</span>section<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> section<span class="text-syn-u">.</span><span class="text-syn-f">trim</span><span class="text-syn-u">().</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The exact chunking logic depends on your content structure. You might split by:
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">ContentChunk</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  id<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  title<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  text<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  sourceId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  metadata<span class="text-syn-o">?:</span> <span class="text-syn-t">Record</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-t">string</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">chunkContent</span><span class="text-syn-u">(</span>documents<span class="text-syn-o">:</span> <span class="text-syn-t">Document</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[]</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> doc <span class="text-syn-o">of</span> documents<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">    // Split document into smaller sections</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">    // This could split by paragraphs, headings, or fixed character limits</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> sections <span class="text-syn-o">=</span> <span class="text-syn-f">splitIntoSections</span><span class="text-syn-u">(</span>doc<span class="text-syn-u">.</span><span class="text-syn-p">content</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> section <span class="text-syn-o">of</span> sections<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      chunks<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">id:</span> <span class="text-syn-f">generateId</span><span class="text-syn-u">(),</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">title:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">title</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">text:</span> section<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">sourceId:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">id</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">metadata:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">url:</span> doc<span class="text-syn-u">.</span><span class="text-syn-p">url</span> <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> chunks<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Example implementation: split by double newlines (paragraphs)</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">splitIntoSections</span><span class="text-syn-u">(</span>content<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">[]</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Split by double newlines to get paragraphs</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // You could also split by headings, fixed sizes, or semantic boundaries</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> content<span class="text-syn-u">.</span><span class="text-syn-f">split</span><span class="text-syn-u">(</span><span class="text-syn-s">/\n\n+/</span><span class="text-syn-u">).</span><span class="text-syn-f">filter</span><span class="text-syn-u">((</span>section<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> section<span class="text-syn-u">.</span><span class="text-syn-f">trim</span><span class="text-syn-u">().</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The exact chunking logic depends on your content structure. You might split by:</p>
             <ul class="mt-0 mb-6">
               <li>Paragraphs (double newlines)</li>
-              <li>
-                Headings (markdown
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >#</code
-                >
-                or HTML
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >&lt;h1&gt;</code
-                >
-                tags)
-              </li>
+              <li>Headings (markdown <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">#</code> or HTML <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;h1&gt;</code> tags)</li>
               <li>Fixed character limits (e.g., 500 characters with overlap)</li>
               <li>Semantic boundaries (using NLP libraries)</li>
             </ul>
-            <p class="mt-0 mb-6">
-              The key is consistency and meaningful boundaries that preserve context, like keeping
-              paragraphs intact, maintaining code blocks as single units, or ensuring a heading
-              stays with its content.
-            </p>
-            <h3 id="generating-embeddings" class="mt-8 text-lg leading-tight tracking-tight">
-              Generating Embeddings
-            </h3>
-            <p class="mt-0 mb-6">
-              Once you have chunks, you need to convert them into vectors, numerical representations
-              that capture semantic meaning. This is where embedding models come in. They take text
-              and return a high-dimensional vector (often 1536 or 3072 dimensions) where similar
-              texts have similar vectors.
-            </p>
-            <details class="mt-0 mb-6 rounded-lg border border-line p-4 [&>*:last-child]:mb-0">
+            <p class="mt-0 mb-6">The key is consistency and meaningful boundaries that preserve context, like keeping paragraphs intact, maintaining code blocks as single units, or ensuring a heading stays with its content.</p>
+            <h3 id="generating-embeddings" class="mt-8 text-lg leading-tight tracking-tight">Generating Embeddings</h3>
+            <p class="mt-0 mb-6">Once you have chunks, you need to convert them into vectors, numerical representations that capture semantic meaning. This is where embedding models come in. They take text and return a high-dimensional vector (often 1536 or 3072 dimensions) where similar texts have similar vectors.</p>
+            <details class="mt-0 mb-6 rounded-lg border border-line p-4 [&amp;>*:last-child]:mb-0">
               <summary class="cursor-pointer font-bold">Sample embedding</summary>
               <br />
               <p class="mt-0 mb-6"><strong>JSON input</strong></p>
-              <pre
-                tabindex="0"
-                class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-              ><code class="language-json rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">{</span>
-    text<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;Hi there&quot;</span><span class="text-syn-u">,</span>
-  <span class="text-syn-u">}</span>;
-</code></pre>
+              <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">    text<span class="text-syn-u">:</span> <span class="text-syn-s">&quot;Hi there&quot;</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span>;</span>
+                </code>
+              </pre>
               <p class="mt-0 mb-6"><strong>Output shape</strong></p>
-              <pre
-                tabindex="0"
-                class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-              ><code class="language-json rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">{</span>
-  <span class="text-syn-p">&quot;dimensions&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">3072</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">&quot;embedding&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">[</span><span class="text-syn-n">-0.0006984524079598486</span><span class="text-syn-u">,</span><span class="text-syn-n">-0.019356805831193924</span><span class="text-syn-u">,</span><span class="text-syn-n">-0.03219897672533989</span><span class="text-syn-u">,</span><span class="text-syn-n">0.012672074139118195</span><span class="text-syn-u">,</span>............<span class="text-syn-u">]</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-              <p class="mt-0 mb-6">
-                In practice, you would repeat this for every chunk and store the resulting vectors
-                in your vector database.
-              </p>
+              <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+                <code class="language-json block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">{</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;dimensions&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-n">3072</span><span class="text-syn-u">,</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">&quot;embedding&quot;</span><span class="text-syn-u">:</span> <span class="text-syn-u">[</span><span class="text-syn-n">-0.0006984524079598486</span><span class="text-syn-u">,</span><span class="text-syn-n">-0.019356805831193924</span><span class="text-syn-u">,</span><span class="text-syn-n">-0.03219897672533989</span><span class="text-syn-u">,</span><span class="text-syn-n">0.012672074139118195</span><span class="text-syn-u">,</span>............<span class="text-syn-u">]</span></span>
+                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                </code>
+              </pre>
+              <p class="mt-0 mb-6">In practice, you would repeat this for every chunk and store the resulting vectors in your vector database.</p>
             </details>
             <br />
-            <p class="mt-0 mb-6">
-              For PukBot, I use OpenAI&#39;s text-embedding-3-large model, which produces
-              3072-dimensional vectors. The embedding API is straightforward:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>text<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> openai<span class="text-syn-u">.</span>embeddings<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span>
-    <span class="text-syn-p">model:</span> <span class="text-syn-s">&quot;text-embedding-3-large&quot;</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">input:</span> text<span class="text-syn-u">,</span>
-  <span class="text-syn-u">});</span>
-
-  <span class="text-syn-k">return</span> response<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-p">embedding</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              When processing many chunks, you&#39;ll want to batch requests and handle rate limits.
-              You also want to avoid regenerating embeddings for unchanged content. A common
-              approach is to hash each chunk&#39;s text and cache the embeddings:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">interface</span> <span class="text-syn-t">ChunkWithVector</span> <span class="text-syn-k">extends</span> ContentChunk <span class="text-syn-u">{</span>
-  vector<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">[];</span>
-  hash<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">processChunks</span><span class="text-syn-u">(</span>chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> processed<span class="text-syn-o">:</span> <span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span>
-  <span class="text-syn-k">const</span> cache <span class="text-syn-o">=</span> <span class="text-syn-f">loadEmbeddingCache</span><span class="text-syn-u">();</span> <span class="text-syn-c italic">// Load from disk or database</span>
-
-  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> chunk <span class="text-syn-o">of</span> chunks<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashText</span><span class="text-syn-u">(</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">);</span>
-    <span class="text-syn-k">const</span> cached <span class="text-syn-o">=</span> cache<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>hash<span class="text-syn-u">);</span>
-
-    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>cached<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-      processed<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span> <span class="text-syn-o">...</span>chunk<span class="text-syn-u">,</span> <span class="text-syn-p">vector:</span> cached<span class="text-syn-u">.</span><span class="text-syn-p">vector</span><span class="text-syn-u">,</span> hash <span class="text-syn-u">});</span>
-    <span class="text-syn-u">}</span> <span class="text-syn-k">else</span> <span class="text-syn-u">{</span>
-      <span class="text-syn-k">const</span> vector <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">);</span>
-      processed<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span> <span class="text-syn-o">...</span>chunk<span class="text-syn-u">,</span> vector<span class="text-syn-u">,</span> hash <span class="text-syn-u">});</span>
-      cache<span class="text-syn-u">.</span><span class="text-syn-f">set</span><span class="text-syn-u">(</span>hash<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> vector<span class="text-syn-u">,</span> <span class="text-syn-p">timestamp:</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">()</span> <span class="text-syn-u">});</span>
-    <span class="text-syn-u">}</span>
-  <span class="text-syn-u">}</span>
-
-  <span class="text-syn-f">saveEmbeddingCache</span><span class="text-syn-u">(</span>cache<span class="text-syn-u">);</span>
-  <span class="text-syn-k">return</span> processed<span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              This way, you only pay for embeddings when content actually changes. The hash-based
-              approach is simple and effective for most use cases.
-            </p>
-            <h3 id="storing-vectors-in-qdrant" class="mt-8 text-lg leading-tight tracking-tight">
-              Storing Vectors in Qdrant
-            </h3>
-            <p class="mt-0 mb-6">
-              Qdrant is a vector database designed for similarity search. It stores your embeddings
-              along with metadata (payloads) and lets you search for similar vectors efficiently.
-            </p>
+            <p class="mt-0 mb-6">For PukBot, I use OpenAI&#39;s text-embedding-3-large model, which produces 3072-dimensional vectors. The embedding API is straightforward:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>text<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">number</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> openai<span class="text-syn-u">.</span>embeddings<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">model:</span> <span class="text-syn-s">&quot;text-embedding-3-large&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">input:</span> text<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> response<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">].</span><span class="text-syn-p">embedding</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">When processing many chunks, you&#39;ll want to batch requests and handle rate limits. You also want to avoid regenerating embeddings for unchanged content. A common approach is to hash each chunk&#39;s text and cache the embeddings:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">ChunkWithVector</span> <span class="text-syn-k">extends</span> ContentChunk <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  vector<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">[];</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  hash<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">processChunks</span><span class="text-syn-u">(</span>chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContentChunk</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> processed<span class="text-syn-o">:</span> <span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[]</span> <span class="text-syn-o">=</span> <span class="text-syn-u">[];</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> cache <span class="text-syn-o">=</span> <span class="text-syn-f">loadEmbeddingCache</span><span class="text-syn-u">();</span> <span class="text-syn-c italic">// Load from disk or database</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> chunk <span class="text-syn-o">of</span> chunks<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashText</span><span class="text-syn-u">(</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> cached <span class="text-syn-o">=</span> cache<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>hash<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>cached<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      processed<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span> <span class="text-syn-o">...</span>chunk<span class="text-syn-u">,</span> <span class="text-syn-p">vector:</span> cached<span class="text-syn-u">.</span><span class="text-syn-p">vector</span><span class="text-syn-u">,</span> hash <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span> <span class="text-syn-k">else</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">const</span> vector <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      processed<span class="text-syn-u">.</span><span class="text-syn-f">push</span><span class="text-syn-u">({</span> <span class="text-syn-o">...</span>chunk<span class="text-syn-u">,</span> vector<span class="text-syn-u">,</span> hash <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      cache<span class="text-syn-u">.</span><span class="text-syn-f">set</span><span class="text-syn-u">(</span>hash<span class="text-syn-u">,</span> <span class="text-syn-u">{</span> vector<span class="text-syn-u">,</span> <span class="text-syn-p">timestamp:</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">()</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">saveEmbeddingCache</span><span class="text-syn-u">(</span>cache<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> processed<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">This way, you only pay for embeddings when content actually changes. The hash-based approach is simple and effective for most use cases.</p>
+            <h3 id="storing-vectors-in-qdrant" class="mt-8 text-lg leading-tight tracking-tight">Storing Vectors in Qdrant</h3>
+            <p class="mt-0 mb-6">Qdrant is a vector database designed for similarity search. It stores your embeddings along with metadata (payloads) and lets you search for similar vectors efficiently.</p>
             <p class="mt-0 mb-6">Setting up a collection is straightforward:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> QdrantClient <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@qdrant/js-client-rest&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">const</span> client <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">QdrantClient</span><span class="text-syn-u">({</span>
-  <span class="text-syn-p">url:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>QDRANT_URL<span class="text-syn-u">,</span>
-  <span class="text-syn-p">apiKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>QDRANT_API_KEY<span class="text-syn-u">,</span>
-<span class="text-syn-u">});</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">initializeCollection</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> collectionName <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;content_vectors&quot;</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">const</span> vectorSize <span class="text-syn-o">=</span> <span class="text-syn-n">3072</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// Must match your embedding model</span>
-
-  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">getCollection</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">);</span>
-    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Collection already exists&quot;</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">createCollection</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
-      <span class="text-syn-p">vectors:</span> <span class="text-syn-u">{</span>
-        <span class="text-syn-p">size:</span> vectorSize<span class="text-syn-u">,</span>
-        <span class="text-syn-p">distance:</span> <span class="text-syn-s">&quot;Cosine&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Cosine similarity for semantic search</span>
-      <span class="text-syn-u">},</span>
-    <span class="text-syn-u">});</span>
-    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Collection created&quot;</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">}</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Once the collection exists, you can upload your chunks. Qdrant stores each chunk as a
-              &quot;point&quot; with an ID, a vector, and a payload (your metadata):
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">uploadChunks</span><span class="text-syn-u">(</span>chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[])</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> points <span class="text-syn-o">=</span> chunks<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>chunk<span class="text-syn-u">,</span> index<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span>
-    <span class="text-syn-p">id:</span> index<span class="text-syn-u">,</span>
-    <span class="text-syn-p">vector:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">vector</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">payload:</span> <span class="text-syn-u">{</span>
-      <span class="text-syn-p">text:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">,</span>
-      <span class="text-syn-p">title:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">title</span><span class="text-syn-u">,</span>
-      <span class="text-syn-p">sourceId:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">sourceId</span><span class="text-syn-u">,</span>
-      <span class="text-syn-p">hash:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">hash</span><span class="text-syn-u">,</span>
-      <span class="text-syn-o">...</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">metadata</span><span class="text-syn-u">,</span>
-    <span class="text-syn-u">},</span>
-  <span class="text-syn-u">}));</span>
-
-  <span class="text-syn-k">const</span> batchSize <span class="text-syn-o">=</span> <span class="text-syn-n">100</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">let</span> i <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span> i <span class="text-syn-o">&lt;</span> points<span class="text-syn-u">.</span>length<span class="text-syn-u">;</span> i <span class="text-syn-o">+=</span> batchSize<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">const</span> batch <span class="text-syn-o">=</span> points<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span>i<span class="text-syn-u">,</span> i <span class="text-syn-o">+</span> batchSize<span class="text-syn-u">);</span>
-    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">upsert</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
-      <span class="text-syn-p">points:</span> batch<span class="text-syn-u">,</span>
-      <span class="text-syn-p">wait:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span>
-    <span class="text-syn-u">});</span>
-  <span class="text-syn-u">}</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The payload is crucial, it stores the actual text and metadata you&#39;ll retrieve
-              later. The vector is what enables fast similarity search.
-            </p>
-            <h2
-              id="building-the-query-pipeline"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Building the Query Pipeline
-            </h2>
-            <p class="mt-0 mb-6">
-              When a user asks a question, the system needs to retrieve relevant context and
-              generate a response. Here&#39;s how the real-time query process works.
-            </p>
-            <h3
-              id="retrieving-context-at-query-time"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Retrieving Context at Query Time
-            </h3>
-            <p class="mt-0 mb-6">
-              When a user asks a question, you need to find the most relevant chunks. The process
-              mirrors what you did during indexing:
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> QdrantClient <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;@qdrant/js-client-rest&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> client <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">QdrantClient</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">url:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>QDRANT_URL<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">apiKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>QDRANT_API_KEY<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">initializeCollection</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> collectionName <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;content_vectors&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> vectorSize <span class="text-syn-o">=</span> <span class="text-syn-n">3072</span><span class="text-syn-u">;</span> <span class="text-syn-c italic">// Must match your embedding model</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">getCollection</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Collection already exists&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">createCollection</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">vectors:</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">size:</span> vectorSize<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">distance:</span> <span class="text-syn-s">&quot;Cosine&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Cosine similarity for semantic search</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Collection created&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Once the collection exists, you can upload your chunks. Qdrant stores each chunk as a &quot;point&quot; with an ID, a vector, and a payload (your metadata):</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">uploadChunks</span><span class="text-syn-u">(</span>chunks<span class="text-syn-o">:</span> <span class="text-syn-t">ChunkWithVector</span><span class="text-syn-u">[])</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> points <span class="text-syn-o">=</span> chunks<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>chunk<span class="text-syn-u">,</span> index<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">id:</span> index<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">vector:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">vector</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">payload:</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">text:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">text</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">title:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">title</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sourceId:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">sourceId</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">hash:</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">hash</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">...</span>chunk<span class="text-syn-u">.</span><span class="text-syn-p">metadata</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}));</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> batchSize <span class="text-syn-o">=</span> <span class="text-syn-n">100</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">for</span> <span class="text-syn-u">(</span><span class="text-syn-k">let</span> i <span class="text-syn-o">=</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span> i <span class="text-syn-o">&lt;</span> points<span class="text-syn-u">.</span>length<span class="text-syn-u">;</span> i <span class="text-syn-o">+=</span> batchSize<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> batch <span class="text-syn-o">=</span> points<span class="text-syn-u">.</span><span class="text-syn-f">slice</span><span class="text-syn-u">(</span>i<span class="text-syn-u">,</span> i <span class="text-syn-o">+</span> batchSize<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">upsert</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">points:</span> batch<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">wait:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The payload is crucial, it stores the actual text and metadata you&#39;ll retrieve later. The vector is what enables fast similarity search.</p>
+            <h2 id="building-the-query-pipeline" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Building the Query Pipeline</h2>
+            <p class="mt-0 mb-6">When a user asks a question, the system needs to retrieve relevant context and generate a response. Here&#39;s how the real-time query process works.</p>
+            <h3 id="retrieving-context-at-query-time" class="mt-8 text-lg leading-tight tracking-tight">Retrieving Context at Query Time</h3>
+            <p class="mt-0 mb-6">When a user asks a question, you need to find the most relevant chunks. The process mirrors what you did during indexing:</p>
             <ol class="mt-0 mb-6">
               <li>Convert the question to an embedding</li>
               <li>Search Qdrant for similar vectors</li>
               <li>Extract the top-k results (usually 3-5 chunks)</li>
             </ol>
             <p class="mt-0 mb-6">Here&#39;s how that looks:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getRelevantContext</span><span class="text-syn-u">(</span>
-  question<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span>
-  limit<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> <span class="text-syn-n">5</span><span class="text-syn-u">,</span>
-  filters<span class="text-syn-o">?:</span> <span class="text-syn-t">Record</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-t">any</span><span class="text-syn-u">&gt;,</span>
-<span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ContextChunk</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span>
-<span class="text-syn-c italic">  // Generate embedding for the question</span>
-  <span class="text-syn-k">const</span> queryEmbedding <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>question<span class="text-syn-u">);</span>
-
-<span class="text-syn-c italic">  // Search Qdrant</span>
-  <span class="text-syn-k">const</span> results <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">search</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-p">vector:</span> queryEmbedding<span class="text-syn-u">,</span>
-    limit<span class="text-syn-u">,</span>
-    <span class="text-syn-p">with_payload:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Include the text and metadata</span>
-    <span class="text-syn-p">filter:</span> filters
-      <span class="text-syn-o">?</span> <span class="text-syn-u">{</span>
-          <span class="text-syn-p">must:</span> Object<span class="text-syn-u">.</span><span class="text-syn-f">entries</span><span class="text-syn-u">(</span>filters<span class="text-syn-u">).</span><span class="text-syn-f">map</span><span class="text-syn-u">(([</span>key<span class="text-syn-u">,</span> value<span class="text-syn-u">])</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span>
-            <span class="text-syn-p">key:</span> key<span class="text-syn-u">,</span>
-            <span class="text-syn-p">match:</span> <span class="text-syn-u">{</span> value <span class="text-syn-u">},</span>
-          <span class="text-syn-u">})),</span>
-        <span class="text-syn-u">}</span>
-      <span class="text-syn-o">:</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">,</span>
-  <span class="text-syn-u">});</span>
-
-<span class="text-syn-c italic">  // Map results to a simpler format</span>
-  <span class="text-syn-k">return</span> results<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>result<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span>
-    <span class="text-syn-p">text:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">text</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">title:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">title</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">sourceId:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">sourceId</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">score:</span> result<span class="text-syn-u">.</span><span class="text-syn-p">score</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Similarity score (0-1)</span>
-  <span class="text-syn-u">}));</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >score</code
-              >
-              tells you how similar the chunk is to the query. Higher scores mean better matches.
-              You can use this to filter out low-confidence results or adjust how many chunks you
-              include.
-            </p>
-            <p class="mt-0 mb-6">
-              Optional filters let you narrow results by metadata. For example, if the user is on a
-              specific page, you might filter by
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >sourceId</code
-              >
-              to prioritize content from that source.
-            </p>
-            <h3 id="building-the-system-prompt" class="mt-8 text-lg leading-tight tracking-tight">
-              Building the System Prompt
-            </h3>
-            <p class="mt-0 mb-6">
-              Once you have relevant chunks, you need to format them into a prompt that guides the
-              LLM. The system prompt should:
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">getRelevantContext</span><span class="text-syn-u">(</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  question<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  limit<span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-o">=</span> <span class="text-syn-n">5</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  filters<span class="text-syn-o">?:</span> <span class="text-syn-t">Record</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">string</span><span class="text-syn-u">,</span> <span class="text-syn-t">any</span><span class="text-syn-u">&gt;,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">ContextChunk</span><span class="text-syn-u">[]&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Generate embedding for the question</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> queryEmbedding <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">generateEmbedding</span><span class="text-syn-u">(</span>question<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Search Qdrant</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> results <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">search</span><span class="text-syn-u">(</span>collectionName<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">vector:</span> queryEmbedding<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    limit<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">with_payload:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Include the text and metadata</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">filter:</span> filters</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">?</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">must:</span> Object<span class="text-syn-u">.</span><span class="text-syn-f">entries</span><span class="text-syn-u">(</span>filters<span class="text-syn-u">).</span><span class="text-syn-f">map</span><span class="text-syn-u">(([</span>key<span class="text-syn-u">,</span> value<span class="text-syn-u">])</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">key:</span> key<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">match:</span> <span class="text-syn-u">{</span> value <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">})),</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-o">:</span> <span class="text-syn-k">undefined</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Map results to a simpler format</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> results<span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>result<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">text:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">text</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">title:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">title</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">sourceId:</span> result<span class="text-syn-u">.</span>payload<span class="text-syn-u">.</span><span class="text-syn-p">sourceId</span> <span class="text-syn-k">as</span> <span class="text-syn-t">string</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">score:</span> result<span class="text-syn-u">.</span><span class="text-syn-p">score</span><span class="text-syn-u">,</span> <span class="text-syn-c italic">// Similarity score (0-1)</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}));</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">score</code> tells you how similar the chunk is to the query. Higher scores mean better matches. You can use this to filter out low-confidence results or adjust how many chunks you include.</p>
+            <p class="mt-0 mb-6">Optional filters let you narrow results by metadata. For example, if the user is on a specific page, you might filter by <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">sourceId</code> to prioritize content from that source.</p>
+            <h3 id="building-the-system-prompt" class="mt-8 text-lg leading-tight tracking-tight">Building the System Prompt</h3>
+            <p class="mt-0 mb-6">Once you have relevant chunks, you need to format them into a prompt that guides the LLM. The system prompt should:</p>
             <ul class="mt-0 mb-6">
               <li>Explain the assistant&#39;s role</li>
               <li>Provide the retrieved context</li>
               <li>Set response guidelines</li>
             </ul>
             <p class="mt-0 mb-6">Here&#39;s a simplified version:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">function</span> <span class="text-syn-f">buildSystemPrompt</span><span class="text-syn-u">(</span>contextChunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContextChunk</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> contextText <span class="text-syn-o">=</span> contextChunks
-    <span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>chunk<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-s">`${chunk.</span><span class="text-syn-p">title</span><span class="text-syn-s">}:\n${chunk.</span><span class="text-syn-p">text</span><span class="text-syn-s">}`</span><span class="text-syn-u">)</span>
-    <span class="text-syn-u">.</span><span class="text-syn-f">join</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;\n\n---\n\n&quot;</span><span class="text-syn-u">);</span>
-
-  <span class="text-syn-k">return</span> <span class="text-syn-s">`You are an AI assistant helping answer questions based on the provided context.</span>
-
-<span class="text-syn-s">Here is relevant context:</span>
-<span class="text-syn-s">${contextText}</span>
-
-<span class="text-syn-s">Guidelines:</span>
-<span class="text-syn-s">- Answer based only on the provided context</span>
-<span class="text-syn-s">- Be concise and direct</span>
-<span class="text-syn-s">- If you don&#39;t know something, say so</span>
-<span class="text-syn-s">- Use natural language, avoid phrases like &quot;according to the context&quot;`</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The key is making the context easy for the model to parse and reference. Clear
-              formatting and explicit instructions help the model stay grounded in your content.
-            </p>
-            <h3 id="wiring-it-into-next-js" class="mt-8 text-lg leading-tight tracking-tight">
-              Wiring It Into Next.js
-            </h3>
-            <p class="mt-0 mb-6">
-              The chat API route ties everything together. It&#39;s a standard Next.js API route (or
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://hono.dev/docs/getting-started/nextjs"
-                >Hono handler</a
-              >) that:
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">buildSystemPrompt</span><span class="text-syn-u">(</span>contextChunks<span class="text-syn-o">:</span> <span class="text-syn-t">ContextChunk</span><span class="text-syn-u">[])</span><span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> contextText <span class="text-syn-o">=</span> contextChunks</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">map</span><span class="text-syn-u">((</span>chunk<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-s">`${chunk.</span><span class="text-syn-p">title</span><span class="text-syn-s">}:\n${chunk.</span><span class="text-syn-p">text</span><span class="text-syn-s">}`</span><span class="text-syn-u">)</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">join</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;\n\n---\n\n&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-s">`You are an AI assistant helping answer questions based on the provided context.</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">Here is relevant context:</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">${contextText}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">Guidelines:</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Answer based only on the provided context</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Be concise and direct</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- If you don&#39;t know something, say so</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">- Use natural language, avoid phrases like &quot;according to the context&quot;`</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The key is making the context easy for the model to parse and reference. Clear formatting and explicit instructions help the model stay grounded in your content.</p>
+            <h3 id="wiring-it-into-next-js" class="mt-8 text-lg leading-tight tracking-tight">Wiring It Into Next.js</h3>
+            <p class="mt-0 mb-6">The chat API route ties everything together. It&#39;s a standard Next.js API route (or <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://hono.dev/docs/getting-started/nextjs">Hono handler</a>) that:</p>
             <ol class="mt-0 mb-6">
               <li>Validates the incoming request</li>
               <li>Retrieves context from Qdrant</li>
@@ -556,187 +457,87 @@
               <li>Calls the LLM with streaming</li>
               <li>Returns the response</li>
             </ol>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">POST</span><span class="text-syn-u">(</span>req<span class="text-syn-o">:</span> <span class="text-syn-t">Request</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> messages <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> req<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span>
-
-  <span class="text-syn-k">const</span> lastMessage <span class="text-syn-o">=</span> messages<span class="text-syn-u">[</span>messages<span class="text-syn-u">.</span>length <span class="text-syn-o">-</span> <span class="text-syn-n">1</span><span class="text-syn-u">];</span>
-
-<span class="text-syn-c italic">  // Get relevant context from Qdrant</span>
-  <span class="text-syn-k">const</span> context <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getRelevantContext</span><span class="text-syn-u">(</span>lastMessage<span class="text-syn-u">.</span><span class="text-syn-p">content</span><span class="text-syn-u">,</span> <span class="text-syn-n">5</span><span class="text-syn-u">);</span>
-
-<span class="text-syn-c italic">  // Build system prompt with context</span>
-  <span class="text-syn-k">const</span> systemPrompt <span class="text-syn-o">=</span> <span class="text-syn-f">buildSystemPrompt</span><span class="text-syn-u">(</span>context<span class="text-syn-u">);</span>
-
-<span class="text-syn-c italic">  // Call LLM with streaming</span>
-  <span class="text-syn-k">const</span> openai <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">OpenAI</span><span class="text-syn-u">({</span> <span class="text-syn-p">apiKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>OPENAI_API_KEY <span class="text-syn-u">});</span>
-  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> openai<span class="text-syn-u">.</span>chat<span class="text-syn-u">.</span>completions<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span>
-    <span class="text-syn-p">model:</span> <span class="text-syn-s">&quot;gpt-4&quot;</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">messages:</span> <span class="text-syn-u">[{</span> <span class="text-syn-p">role:</span> <span class="text-syn-s">&quot;system&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">content:</span> systemPrompt <span class="text-syn-u">},</span> <span class="text-syn-o">...</span>messages<span class="text-syn-u">],</span>
-    <span class="text-syn-p">stream:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">temperature:</span> <span class="text-syn-n">0.7</span><span class="text-syn-u">,</span>
-  <span class="text-syn-u">});</span>
-
-<span class="text-syn-c italic">  // Stream response back to client</span>
-  <span class="text-syn-k">const</span> stream <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">ReadableStream</span><span class="text-syn-u">({</span>
-    <span class="text-syn-k">async</span> <span class="text-syn-f">start</span><span class="text-syn-u">(</span>controller<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-      <span class="text-syn-k">for</span> <span class="text-syn-k">await</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> chunk <span class="text-syn-o">of</span> response<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-        <span class="text-syn-k">const</span> content <span class="text-syn-o">=</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">choices</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]?.</span>delta<span class="text-syn-u">?.</span><span class="text-syn-p">content</span> <span class="text-syn-o">||</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">;</span>
-        <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>content<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-          controller<span class="text-syn-u">.</span><span class="text-syn-f">enqueue</span><span class="text-syn-u">(</span><span class="text-syn-o">new</span> <span class="text-syn-f">TextEncoder</span><span class="text-syn-u">().</span><span class="text-syn-f">encode</span><span class="text-syn-u">(</span>content<span class="text-syn-u">));</span>
-        <span class="text-syn-u">}</span>
-      <span class="text-syn-u">}</span>
-      controller<span class="text-syn-u">.</span><span class="text-syn-f">close</span><span class="text-syn-u">();</span>
-    <span class="text-syn-u">},</span>
-  <span class="text-syn-u">});</span>
-
-  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Response</span><span class="text-syn-u">(</span>stream<span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;text/plain; charset=utf-8&quot;</span> <span class="text-syn-u">},</span>
-  <span class="text-syn-u">});</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The frontend sends messages to this endpoint, and streaming gives users immediate
-              feedback instead of waiting for the full response.
-            </p>
-            <h2
-              id="frontend-experience"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Frontend Experience
-            </h2>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">POST</span><span class="text-syn-u">(</span>req<span class="text-syn-o">:</span> <span class="text-syn-t">Request</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> messages <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> req<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> lastMessage <span class="text-syn-o">=</span> messages<span class="text-syn-u">[</span>messages<span class="text-syn-u">.</span>length <span class="text-syn-o">-</span> <span class="text-syn-n">1</span><span class="text-syn-u">];</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Get relevant context from Qdrant</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> context <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">getRelevantContext</span><span class="text-syn-u">(</span>lastMessage<span class="text-syn-u">.</span><span class="text-syn-p">content</span><span class="text-syn-u">,</span> <span class="text-syn-n">5</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Build system prompt with context</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> systemPrompt <span class="text-syn-o">=</span> <span class="text-syn-f">buildSystemPrompt</span><span class="text-syn-u">(</span>context<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Call LLM with streaming</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> openai <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">OpenAI</span><span class="text-syn-u">({</span> <span class="text-syn-p">apiKey:</span> process<span class="text-syn-u">.</span>env<span class="text-syn-u">.</span>OPENAI_API_KEY <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> openai<span class="text-syn-u">.</span>chat<span class="text-syn-u">.</span>completions<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">model:</span> <span class="text-syn-s">&quot;gpt-4&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">messages:</span> <span class="text-syn-u">[{</span> <span class="text-syn-p">role:</span> <span class="text-syn-s">&quot;system&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">content:</span> systemPrompt <span class="text-syn-u">},</span> <span class="text-syn-o">...</span>messages<span class="text-syn-u">],</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">stream:</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">temperature:</span> <span class="text-syn-n">0.7</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Stream response back to client</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> stream <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">ReadableStream</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">async</span> <span class="text-syn-f">start</span><span class="text-syn-u">(</span>controller<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">for</span> <span class="text-syn-k">await</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> chunk <span class="text-syn-o">of</span> response<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-k">const</span> content <span class="text-syn-o">=</span> chunk<span class="text-syn-u">.</span><span class="text-syn-p">choices</span><span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">]?.</span>delta<span class="text-syn-u">?.</span><span class="text-syn-p">content</span> <span class="text-syn-o">||</span> <span class="text-syn-s">&quot;&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-k">if</span> <span class="text-syn-u">(</span>content<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          controller<span class="text-syn-u">.</span><span class="text-syn-f">enqueue</span><span class="text-syn-u">(</span><span class="text-syn-o">new</span> <span class="text-syn-f">TextEncoder</span><span class="text-syn-u">().</span><span class="text-syn-f">encode</span><span class="text-syn-u">(</span>content<span class="text-syn-u">));</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      controller<span class="text-syn-u">.</span><span class="text-syn-f">close</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Response</span><span class="text-syn-u">(</span>stream<span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;text/plain; charset=utf-8&quot;</span> <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The frontend sends messages to this endpoint, and streaming gives users immediate feedback instead of waiting for the full response.</p>
+            <h2 id="frontend-experience" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Frontend Experience</h2>
             <p class="mt-0 mb-6">The frontend is a standard chat UI with a few enhancements:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Streaming responses</strong>: Display tokens as they arrive for a responsive
-                feel
-              </li>
-              <li>
-                <strong>Message history</strong>: Maintain conversation context across multiple
-                turns
-              </li>
+              <li><strong>Streaming responses</strong>: Display tokens as they arrive for a responsive feel</li>
+              <li><strong>Message history</strong>: Maintain conversation context across multiple turns</li>
               <li><strong>Error handling</strong>: Gracefully handle API errors and rate limits</li>
             </ul>
-            <h2
-              id="lessons-learned"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Lessons Learned
-            </h2>
+            <h2 id="lessons-learned" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Lessons Learned</h2>
             <p class="mt-0 mb-6">Building PukBot taught me a few practical lessons:</p>
-            <p class="mt-0 mb-6">
-              <strong>Chunk size matters</strong>: Too small, and you lose context. Too large, and
-              retrieval becomes less precise. Aim for 200-500 words per chunk, adjusted for your
-              content.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Top-k tuning</strong>: Start with 3-5 chunks. More isn&#39;t always better,
-              too much context can confuse the model or hit token limits. Monitor what gets
-              retrieved and adjust based on response quality.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Caching embeddings</strong>: Regenerating embeddings for unchanged content is
-              wasteful. Hash-based caching saves time and money, especially as your content grows.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Similarity thresholds</strong>: Not all retrieved chunks are equally relevant.
-              Consider filtering by score (e.g., only include chunks with score &gt; 0.7) to improve
-              response quality.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Metadata is your friend</strong>: Store rich metadata in Qdrant payloads. It
-              helps with filtering, debugging, and understanding what the model is referencing.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Monitor and iterate</strong>: Log queries, retrieved chunks, and responses (in
-              development). This helps you understand what&#39;s working and what needs improvement.
-            </p>
-            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              Wrapping Up
-            </h2>
-            <p class="mt-0 mb-6">
-              RAG transforms a generic chatbot into one that actually knows your content. The
-              combination of Qdrant for fast vector search and Next.js for the API makes it
-              straightforward to build and deploy.
-            </p>
-            <p class="mt-0 mb-6">
-              The core pattern is simple: index your content offline, retrieve relevant chunks at
-              query time, and let the LLM generate grounded responses. The implementation details,
-              chunking strategies, embedding models, prompt engineering, are where you fine-tune for
-              your specific use case.
-            </p>
-            <p class="mt-0 mb-6">
-              If you&#39;re building a portfolio chatbot, documentation assistant, or any
-              application where context matters, RAG with Qdrant is a solid foundation. Start with
-              the basics, iterate based on real usage, and you&#39;ll have a chatbot that feels
-              genuinely helpful.
-            </p>
-            <p class="mt-0 mb-6">
-              You can see PukBot in action on my portfolio, and I&#39;m happy to answer questions
-              about the implementation. The patterns here apply to any RAG system, whether
-              you&#39;re using Qdrant, Pinecone, Weaviate, or another vector database.
-            </p>
+            <p class="mt-0 mb-6"><strong>Chunk size matters</strong>: Too small, and you lose context. Too large, and retrieval becomes less precise. Aim for 200-500 words per chunk, adjusted for your content.</p>
+            <p class="mt-0 mb-6"><strong>Top-k tuning</strong>: Start with 3-5 chunks. More isn&#39;t always better, too much context can confuse the model or hit token limits. Monitor what gets retrieved and adjust based on response quality.</p>
+            <p class="mt-0 mb-6"><strong>Caching embeddings</strong>: Regenerating embeddings for unchanged content is wasteful. Hash-based caching saves time and money, especially as your content grows.</p>
+            <p class="mt-0 mb-6"><strong>Similarity thresholds</strong>: Not all retrieved chunks are equally relevant. Consider filtering by score (e.g., only include chunks with score &gt; 0.7) to improve response quality.</p>
+            <p class="mt-0 mb-6"><strong>Metadata is your friend</strong>: Store rich metadata in Qdrant payloads. It helps with filtering, debugging, and understanding what the model is referencing.</p>
+            <p class="mt-0 mb-6"><strong>Monitor and iterate</strong>: Log queries, retrieved chunks, and responses (in development). This helps you understand what&#39;s working and what needs improvement.</p>
+            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Wrapping Up</h2>
+            <p class="mt-0 mb-6">RAG transforms a generic chatbot into one that actually knows your content. The combination of Qdrant for fast vector search and Next.js for the API makes it straightforward to build and deploy.</p>
+            <p class="mt-0 mb-6">The core pattern is simple: index your content offline, retrieve relevant chunks at query time, and let the LLM generate grounded responses. The implementation details, chunking strategies, embedding models, prompt engineering, are where you fine-tune for your specific use case.</p>
+            <p class="mt-0 mb-6">If you&#39;re building a portfolio chatbot, documentation assistant, or any application where context matters, RAG with Qdrant is a solid foundation. Start with the basics, iterate based on real usage, and you&#39;ll have a chatbot that feels genuinely helpful.</p>
+            <p class="mt-0 mb-6">You can see PukBot in action on my portfolio, and I&#39;m happy to answer questions about the implementation. The patterns here apply to any RAG system, whether you&#39;re using Qdrant, Pinecone, Weaviate, or another vector database.</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/git-worktrees/"
-                >Git Worktrees</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/how-i-use-cursor/"
-                >How I Use Cursor to Build at 1000x Speed</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/mcp-server-that-writes-itself/"
-                >An MCP Server That Writes Itself</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/git-worktrees/">Git Worktrees</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/mcp-server-that-writes-itself/">An MCP Server That Writes Itself</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/rag-chatbot-with-qdrant.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/rag-chatbot-with-qdrant.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>
