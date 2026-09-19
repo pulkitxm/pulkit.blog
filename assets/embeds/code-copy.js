@@ -1,2 +1,2 @@
-for(let e of document.querySelectorAll("[data-code-copy]")){let d=e.closest("[data-code-block]").querySelector("code").children,t=e.querySelector("[data-copy-idle]"),o=e.querySelector("[data-copy-done]"),a;e.addEventListener("click",async()=>{await navigator.clipboard.writeText([...d].map((c)=>c.textContent).join(`
-`)),e.setAttribute("aria-label","Copied"),t.classList.add("hidden"),o.classList.remove("hidden"),clearTimeout(a),a=setTimeout(()=>{e.setAttribute("aria-label","Copy to clipboard"),t.classList.remove("hidden"),o.classList.add("hidden")},1500)})}
+import{n}from"./youtube-embed-mac7n5b7.js";import{t}from"./youtube-embed-cdn8x95f.js";function c(o){let e=o.closest("[data-code-block]")?.querySelector("code");if(!e)return;let r=e.children;n(o,()=>[...r].map((p)=>p.textContent).join(`
+`))}t("[data-code-copy]",HTMLElement,c);
