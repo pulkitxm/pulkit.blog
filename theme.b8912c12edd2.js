@@ -55,14 +55,10 @@ function entryTransition(event, otherUrl) {
   }
   const current = new URL(window.location.href);
   const other = new URL(otherUrl);
-  const collection = /^\/[^/]+\//.exec(current.pathname)?.[0];
   const titles = [...document.querySelectorAll("[data-title]")];
   const title =
     titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
-    (collection &&
-    current.pathname !== collection &&
-    (other.pathname === "/" ||
-      (other.pathname.startsWith(collection) && current.pathname.startsWith(other.pathname)))
+    (current.pathname.startsWith(other.pathname)
       ? titles.find((candidate) => candidate.tagName === "H1")
       : null);
   if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
