@@ -1,45 +1,30 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="A deep dive into git&#39;s three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file."
-    />
+    <meta name="description" content="A deep dive into git&#39;s three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file." />
     <link rel="canonical" href="https://pulkit.blog/git-partial-clones/" />
     <link rel="alternate" type="text/markdown" href="https://pulkit.blog/git-partial-clones.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
-    <meta
-      property="og:title"
-      content="Partial Clones, Shallow Clones, and Sparse Checkout | pulkit.blog"
-    />
-    <meta
-      property="og:description"
-      content="A deep dive into git&#39;s three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file."
-    />
+    <meta property="og:title" content="Partial Clones, Shallow Clones, and Sparse Checkout | pulkit.blog" />
+    <meta property="og:description" content="A deep dive into git&#39;s three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file." />
     <meta property="og:url" content="https://pulkit.blog/git-partial-clones/" />
     <meta property="og:image" content="https://pulkit.blog/og/git-partial-clones/card.png" />
-    <meta
-      property="og:image:secure_url"
-      content="https://pulkit.blog/og/git-partial-clones/card.png"
-    />
+    <meta property="og:image:secure_url" content="https://pulkit.blog/og/git-partial-clones/card.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -47,1012 +32,423 @@
     <meta property="article:published_time" content="2026-08-03" />
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Partial Clones, Shallow Clones, and Sparse Checkout | pulkit.blog"
-    />
-    <meta
-      name="twitter:description"
-      content="A deep dive into git&#39;s three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file."
-    />
+    <meta name="twitter:title" content="Partial Clones, Shallow Clones, and Sparse Checkout | pulkit.blog" />
+    <meta name="twitter:description" content="A deep dive into git&#39;s three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file." />
     <meta name="twitter:image" content="https://pulkit.blog/og/git-partial-clones/card.png" />
     <meta name="twitter:image:alt" content="Partial Clones, Shallow Clones, and Sparse Checkout" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/git-partial-clones/#image","contentUrl":"https://pulkit.blog/og/git-partial-clones/card.png","width":1200,"height":630,"caption":"Partial Clones, Shallow Clones, and Sparse Checkout"},{"@type":"BlogPosting","@id":"https://pulkit.blog/git-partial-clones/#article","headline":"Partial Clones, Shallow Clones, and Sparse Checkout","description":"A deep dive into git's three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file.","datePublished":"2026-08-03","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/git-partial-clones/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/git-partial-clones/#image"},"url":"https://pulkit.blog/git-partial-clones/","inLanguage":"en","keywords":["Git","Partial Clone","Shallow Clone","Sparse Checkout","Monorepo","Performance","Developer Tools","Workflow"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/git-partial-clones/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Partial Clones, Shallow Clones, and Sparse Checkout","item":"https://pulkit.blog/git-partial-clones/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/git-partial-clones/#webpage","url":"https://pulkit.blog/git-partial-clones/","name":"Partial Clones, Shallow Clones, and Sparse Checkout","description":"A deep dive into git's three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/git-partial-clones/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/git-partial-clones/#article"},"breadcrumb":{"@id":"https://pulkit.blog/git-partial-clones/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/git-partial-clones/#image",
+            "contentUrl": "https://pulkit.blog/og/git-partial-clones/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Partial Clones, Shallow Clones, and Sparse Checkout"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/git-partial-clones/#article",
+            "headline": "Partial Clones, Shallow Clones, and Sparse Checkout",
+            "description": "A deep dive into git's three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file.",
+            "datePublished": "2026-08-03",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/git-partial-clones/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/git-partial-clones/#image"
+            },
+            "url": "https://pulkit.blog/git-partial-clones/",
+            "inLanguage": "en",
+            "keywords": [
+              "Git",
+              "Partial Clone",
+              "Shallow Clone",
+              "Sparse Checkout",
+              "Monorepo",
+              "Performance",
+              "Developer Tools",
+              "Workflow"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/git-partial-clones/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Partial Clones, Shallow Clones, and Sparse Checkout",
+                "item": "https://pulkit.blog/git-partial-clones/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/git-partial-clones/#webpage",
+            "url": "https://pulkit.blog/git-partial-clones/",
+            "name": "Partial Clones, Shallow Clones, and Sparse Checkout",
+            "description": "A deep dive into git's three cloning knobs: how partial clone, shallow clone, and sparse checkout actually work under the hood, and the exact recipe that turns a multi-gigabyte clone into a few seconds of download when you only need to touch one file.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/git-partial-clones/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/git-partial-clones/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/git-partial-clones/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>Partial Clones, Shallow Clones, and Sparse Checkout | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              Partial Clones, Shallow Clones, and Sparse Checkout
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2026-08-03">August 3, 2026</time>
-              · 13 min read
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>Partial Clones, Shallow Clones, and Sparse Checkout</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-08-03">August 3, 2026</time> · 13 min read</p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
-            <p class="mt-0 mb-6">
-              The other day I had to change exactly one file in a repo that had grown enormous:
-              years of history and hundreds of committed videos and images, the kind of repo where
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git clone</code
-              >
-              sits at
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >Receiving objects: 4%</code
-              >
-              long enough for you to make tea, drink it, and start questioning your choices.
-            </p>
+            <p class="mt-0 mb-6">The other day I had to change exactly one file in a repo that had grown enormous: years of history and hundreds of committed videos and images, the kind of repo where <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code> sits at <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Receiving objects: 4%</code> long enough for you to make tea, drink it, and start questioning your choices.</p>
             <p class="mt-0 mb-6">And the change I needed? A few lines in a single markdown file.</p>
-            <p class="mt-0 mb-6">
-              So I did what I do with tedious work now: I handed it to
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://code.claude.com"
-                >Claude Code</a
-              >
-              while my own
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git clone</code
-              >
-              kept crawling in another terminal. A few seconds later it was done. File edited,
-              committed, pushed. My clone was still downloading.
-            </p>
-            <p class="mt-0 mb-6">
-              That gap nagged at me. Same repo, same network, same machine, and the agent had
-              shipped the fix before my clone finished counting objects. So I asked it what exactly
-              it had done, and the answer was four git flags composed in exactly the right order,
-              with a total download of a couple of megabytes instead of multiple gigabytes. Nothing
-              about it was a hack: every piece is a first-class git feature, most people have just
-              never had a reason to compose them. I went down the rabbit hole to understand every
-              flag, and it was too good not to share with y&#39;all.
-            </p>
-            <p class="mt-0 mb-6">
-              So this is that rabbit hole, written up properly. We&#39;re going deep: what git
-              actually downloads when you clone, the three independent knobs that control it (<strong
-                >shallow clone</strong
-              >, <strong>partial clone</strong>, <strong>sparse checkout</strong>), why the order
-              you apply them matters, and how a repository that&#39;s missing 99% of its own data
-              can still commit and push like nothing&#39;s wrong.
-            </p>
-            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              TL;DR
-            </h2>
+            <p class="mt-0 mb-6">So I did what I do with tedious work now: I handed it to <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://code.claude.com">Claude Code</a> while my own <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code> kept crawling in another terminal. A few seconds later it was done. File edited, committed, pushed. My clone was still downloading.</p>
+            <p class="mt-0 mb-6">That gap nagged at me. Same repo, same network, same machine, and the agent had shipped the fix before my clone finished counting objects. So I asked it what exactly it had done, and the answer was four git flags composed in exactly the right order, with a total download of a couple of megabytes instead of multiple gigabytes. Nothing about it was a hack: every piece is a first-class git feature, most people have just never had a reason to compose them. I went down the rabbit hole to understand every flag, and it was too good not to share with y&#39;all.</p>
+            <p class="mt-0 mb-6">So this is that rabbit hole, written up properly. We&#39;re going deep: what git actually downloads when you clone, the three independent knobs that control it (<strong>shallow clone</strong>, <strong>partial clone</strong>, <strong>sparse checkout</strong>), why the order you apply them matters, and how a repository that&#39;s missing 99% of its own data can still commit and push like nothing&#39;s wrong.</p>
+            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">TL;DR</h2>
             <p class="mt-0 mb-6">The whole trick is these four commands:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-s">--no-checkout</span> <span class="text-syn-s">--branch</span> <span class="text-syn-s">main</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span> <span class="text-syn-s">repo</span>
-<span class="text-syn-f">cd</span> <span class="text-syn-s">repo</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">checkout</span> <span class="text-syn-s">main</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-s">--no-checkout</span> <span class="text-syn-s">--branch</span> <span class="text-syn-s">main</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span> <span class="text-syn-s">repo</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">cd</span> <span class="text-syn-s">repo</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">checkout</span> <span class="text-syn-s">main</span></span>
+              </code>
+            </pre>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong
-                  ><code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >--filter=blob:none</code
-                  ></strong
-                >
-                (partial clone) downloads commits and trees but <strong>zero file contents</strong>.
-                Missing blobs get fetched from the server later, on demand, the moment something
-                needs them.
-              </li>
-              <li>
-                <strong
-                  ><code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >--depth 1</code
-                  ></strong
-                >
-                (shallow clone) downloads only the <strong>tip commit</strong>, no history.
-              </li>
-              <li>
-                <strong
-                  ><code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >--no-checkout</code
-                  ></strong
-                >
-                stops git from materializing the working tree, which is what stops it from
-                immediately re-downloading everything you just filtered out.
-              </li>
-              <li>
-                <strong
-                  ><code
-                    class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                    >git sparse-checkout set</code
-                  ></strong
-                >
-                shrinks the working tree to only the paths you list, so the final
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git checkout</code
-                >
-                fetches exactly the blobs for those paths. One file listed, one blob downloaded.
-              </li>
-              <li>
-                Commit and push work normally: push only sends the <strong>new</strong> objects you
-                created, and the server never asks you for anything it already has.
-              </li>
-              <li>
-                Each knob cuts a different axis: shallow cuts <strong>history</strong>, partial cuts
-                <strong>content</strong>, sparse cuts the <strong>working tree</strong>. They
-                compose because they&#39;re independent.
-              </li>
+              <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter=blob:none</code></strong> (partial clone) downloads commits and trees but <strong>zero file contents</strong>. Missing blobs get fetched from the server later, on demand, the moment something needs them.</li>
+              <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code></strong> (shallow clone) downloads only the <strong>tip commit</strong>, no history.</li>
+              <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--no-checkout</code></strong> stops git from materializing the working tree, which is what stops it from immediately re-downloading everything you just filtered out.</li>
+              <li><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git sparse-checkout set</code></strong> shrinks the working tree to only the paths you list, so the final <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git checkout</code> fetches exactly the blobs for those paths. One file listed, one blob downloaded.</li>
+              <li>Commit and push work normally: push only sends the <strong>new</strong> objects you created, and the server never asks you for anything it already has.</li>
+              <li>Each knob cuts a different axis: shallow cuts <strong>history</strong>, partial cuts <strong>content</strong>, sparse cuts the <strong>working tree</strong>. They compose because they&#39;re independent.</li>
             </ul>
-            <h2
-              id="first-what-a-clone-actually-downloads"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              First, what a clone actually downloads
-            </h2>
-            <p class="mt-0 mb-6">
-              To see why each flag works, you need the object model in your head. It&#39;s small,
-              and it&#39;s the best mental model in all of git.
-            </p>
-            <p class="mt-0 mb-6">
-              A repository is a content-addressed database of four object types, but three matter
-              here:
-            </p>
+            <h2 id="first-what-a-clone-actually-downloads" class="mt-12 text-xl font-semibold leading-tight tracking-tight">First, what a clone actually downloads</h2>
+            <p class="mt-0 mb-6">To see why each flag works, you need the object model in your head. It&#39;s small, and it&#39;s the best mental model in all of git.</p>
+            <p class="mt-0 mb-6">A repository is a content-addressed database of four object types, but three matter here:</p>
             <ol class="mt-0 mb-6">
               <li><strong>Blobs</strong>: file contents. Just the bytes, no filename, no path.</li>
-              <li>
-                <strong>Trees</strong>: directory listings. A tree maps names to blobs (files) and
-                other trees (subdirectories).
-              </li>
-              <li>
-                <strong>Commits</strong>: a pointer to one root tree, plus parent commit(s), author,
-                and message.
-              </li>
+              <li><strong>Trees</strong>: directory listings. A tree maps names to blobs (files) and other trees (subdirectories).</li>
+              <li><strong>Commits</strong>: a pointer to one root tree, plus parent commit(s), author, and message.</li>
             </ol>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">   commit ──► root tree ──► blob        README.md
-                 │
-                 ├────────► tree        src/
-                 │            ├───────► blob   index.ts
-                 │            └───────► blob   utils.ts
-                 │
-                 └────────► tree        assets/
-                              ├───────► blob   demo.mp4   (30 MB)
-                              └───────► blob   hero.png   (2 MB)
-</code></pre>
-            <p class="mt-0 mb-6">
-              Every commit in history points at a full snapshot like this. A normal
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git clone</code
-              >
-              downloads <strong>all of it</strong>: every commit ever made, every version of every
-              tree, and every version of every blob. Then it checks out the tip into your working
-              directory.
-            </p>
-            <p class="mt-0 mb-6">
-              Here&#39;s the part that matters:
-              <strong>the weight is almost entirely in the blobs.</strong>
-              Commits and trees are tiny text-like records that compress brilliantly. Blobs are your
-              actual files, and in any repo with media, build fixtures, or just a lot of code and
-              years of churn, historical blob versions are where the gigabytes live. You are
-              downloading every version of every video that was ever committed, including the ones
-              deleted years ago.
-            </p>
-            <p class="mt-0 mb-6">
-              So the game is: how much of this can we <em>not</em> download? Git gives you three
-              independent knobs, and each one cuts along a different axis.
-            </p>
-            <h2
-              id="knob-1-shallow-clone-cutting-history"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Knob 1: shallow clone, cutting history
-            </h2>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">   commit ──► root tree ──► blob        README.md</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                 │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                 ├────────► tree        src/</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                 │            ├───────► blob   index.ts</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                 │            └───────► blob   utils.ts</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                 │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                 └────────► tree        assets/</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                              ├───────► blob   demo.mp4   (30 MB)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                              └───────► blob   hero.png   (2 MB)</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Every commit in history points at a full snapshot like this. A normal <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code> downloads <strong>all of it</strong>: every commit ever made, every version of every tree, and every version of every blob. Then it checks out the tip into your working directory.</p>
+            <p class="mt-0 mb-6">Here&#39;s the part that matters: <strong>the weight is almost entirely in the blobs.</strong> Commits and trees are tiny text-like records that compress brilliantly. Blobs are your actual files, and in any repo with media, build fixtures, or just a lot of code and years of churn, historical blob versions are where the gigabytes live. You are downloading every version of every video that was ever committed, including the ones deleted years ago.</p>
+            <p class="mt-0 mb-6">So the game is: how much of this can we <em>not</em> download? Git gives you three independent knobs, and each one cuts along a different axis.</p>
+            <h2 id="knob-1-shallow-clone-cutting-history" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Knob 1: shallow clone, cutting history</h2>
             <p class="mt-0 mb-6">The oldest and best-known knob:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--depth 1</code
-              >
-              says: give me the <strong>tip commit only</strong>, none of its ancestors. Git records
-              the cut point in
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git/shallow</code
-              >, and the bottom commit becomes a &quot;grafted&quot; commit that pretends to have no
-              parents. (<code
-                class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--depth</code
-              >
-              also implies
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--single-branch</code
-              >, so you&#39;re only getting one branch&#39;s tip unless you say otherwise.)
-            </p>
-            <p class="mt-0 mb-6">
-              You still get the <em>full snapshot</em> at the tip: all trees and all blobs for the
-              current state of the project. What you lose is the past: no old versions, no
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git log</code
-              >
-              beyond the tip, no blame history.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code> says: give me the <strong>tip commit only</strong>, none of its ancestors. Git records the cut point in <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git/shallow</code>, and the bottom commit becomes a &quot;grafted&quot; commit that pretends to have no parents. (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth</code> also implies <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--single-branch</code>, so you&#39;re only getting one branch&#39;s tip unless you say otherwise.)</p>
+            <p class="mt-0 mb-6">You still get the <em>full snapshot</em> at the tip: all trees and all blobs for the current state of the project. What you lose is the past: no old versions, no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git log</code> beyond the tip, no blame history.</p>
             <p class="mt-0 mb-6">You can change your mind later:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--deepen=50</span>      <span class="text-syn-c italic"># pull in 50 more commits of history</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--unshallow</span>      <span class="text-syn-c italic"># give up, download everything</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Shallow clones are why CI checkouts are fast, and for a one-shot &quot;build this and
-              throw it away&quot; they&#39;re perfect. But for a repo whose weight is media at the
-              tip,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--depth 1</code
-              >
-              barely helps: the current snapshot is still huge. That&#39;s the axis it can&#39;t
-              touch, which brings us to the interesting knob.
-            </p>
-            <h2
-              id="knob-2-partial-clone-cutting-content"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Knob 2: partial clone, cutting content
-            </h2>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--deepen=50</span>      <span class="text-syn-c italic"># pull in 50 more commits of history</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">fetch</span> <span class="text-syn-s">--unshallow</span>      <span class="text-syn-c italic"># give up, download everything</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Shallow clones are why CI checkouts are fast, and for a one-shot &quot;build this and throw it away&quot; they&#39;re perfect. But for a repo whose weight is media at the tip, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code> barely helps: the current snapshot is still huge. That&#39;s the axis it can&#39;t touch, which brings us to the interesting knob.</p>
+            <h2 id="knob-2-partial-clone-cutting-content" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Knob 2: partial clone, cutting content</h2>
             <p class="mt-0 mb-6">This is the modern one, and the one that changes everything:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--filter</code
-              >
-              tells the server: send me the commits and the trees, but
-              <strong>no blobs at all</strong>. The full shape of history arrives; none of the file
-              contents do.
-            </p>
-            <p class="mt-0 mb-6">
-              Which immediately raises the question: how can a repository even function with no file
-              contents? The answer is the clever part. A partial clone registers its origin as a
-              <strong>promisor remote</strong>: git records that this remote has
-              <em>promised</em>
-              it can supply any missing object later. From then on, any time a git command actually
-              needs a blob that isn&#39;t there, git pauses, fetches exactly that object from the
-              server, and carries on. Lazily, on demand, invisible when it works well.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter</code> tells the server: send me the commits and the trees, but <strong>no blobs at all</strong>. The full shape of history arrives; none of the file contents do.</p>
+            <p class="mt-0 mb-6">Which immediately raises the question: how can a repository even function with no file contents? The answer is the clever part. A partial clone registers its origin as a <strong>promisor remote</strong>: git records that this remote has <em>promised</em> it can supply any missing object later. From then on, any time a git command actually needs a blob that isn&#39;t there, git pauses, fetches exactly that object from the server, and carries on. Lazily, on demand, invisible when it works well.</p>
             <p class="mt-0 mb-6">You can watch it happen. In a fresh blobless clone:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">log</span> <span class="text-syn-s">--oneline</span> <span class="text-syn-s">-20</span>        <span class="text-syn-c italic"># instant, commits are local</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">ls-tree</span> <span class="text-syn-s">HEAD</span>             <span class="text-syn-c italic"># instant, trees are local</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">show</span> <span class="text-syn-s">HEAD:package.json</span>   <span class="text-syn-c italic"># pauses briefly... fetches ONE blob, prints it</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              That last command is the whole feature in miniature: the repository is a skeleton, and
-              flesh gets attached one bone at a time, only where you actually touch it.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">log</span> <span class="text-syn-s">--oneline</span> <span class="text-syn-s">-20</span>        <span class="text-syn-c italic"># instant, commits are local</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">ls-tree</span> <span class="text-syn-s">HEAD</span>             <span class="text-syn-c italic"># instant, trees are local</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">show</span> <span class="text-syn-s">HEAD:package.json</span>   <span class="text-syn-c italic"># pauses briefly... fetches ONE blob, prints it</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">That last command is the whole feature in miniature: the repository is a skeleton, and flesh gets attached one bone at a time, only where you actually touch it.</p>
             <p class="mt-0 mb-6">There are other filters worth knowing:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">--filter<span class="text-syn-o">=</span><span class="text-syn-s">blob:none</span>        <span class="text-syn-c italic"># no blobs (the one you want 95% of the time)</span>
---filter<span class="text-syn-o">=</span><span class="text-syn-s">blob:</span>limit<span class="text-syn-o">=</span><span class="text-syn-s">1m</span>    <span class="text-syn-c italic"># blobs over 1 MB stay behind, small ones come along</span>
---filter<span class="text-syn-o">=</span><span class="text-syn-s">tree:0</span>           <span class="text-syn-c italic"># not even trees, just commits (extreme, see gotchas)</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Two caveats before you fall in love. First, the server has to support filtering (<code
-                class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >uploadpack.allowFilter</code
-              >); GitHub, GitLab, and the other big hosts all do, but a random bare server might
-              not, in which case git quietly warns and sends everything. Second, that on-demand
-              fetching has sharp edges we&#39;ll get to in the gotchas, because a repo that needs
-              the network to read old files is a different animal.
-            </p>
-            <h2
-              id="knob-3-sparse-checkout-cutting-the-working-tree"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Knob 3: sparse checkout, cutting the working tree
-            </h2>
-            <p class="mt-0 mb-6">
-              The first two knobs control what&#39;s in your
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git</code
-              >
-              object database. The third controls something else entirely:
-              <strong>which files git materializes into your working directory.</strong>
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">apps/web</span> <span class="text-syn-s">shared/ui</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              After this, your working directory contains only those directories (plus files at the
-              repo root). Everything else is still <em>in the repository</em>, committed and safe,
-              just not written to disk.
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git status</code
-              >
-              is clean; git knows the missing files are intentionally absent, not deleted.
-            </p>
-            <p class="mt-0 mb-6">
-              By default
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >sparse-checkout set</code
-              >
-              works in <strong>cone mode</strong>: you give it directories, and it includes
-              everything under them. Cone mode is fast because git can match paths with simple
-              prefix checks. But cone mode <em>only</em> does directories. If you want to pin the
-              working tree down to individual files, you need patterns:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--no-cone</code
-              >
-              mode takes
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.gitignore</code
-              >-style patterns, so
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >/README.md</code
-              >
-              means &quot;exactly this one file at the root&quot;. It&#39;s slower at scale and the
-              docs nudge you toward cone mode, but for surgical work on a handful of files it&#39;s
-              exactly the right tool.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">blob:none</span>        <span class="text-syn-c italic"># no blobs (the one you want 95% of the time)</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">blob:</span>limit<span class="text-syn-o">=</span><span class="text-syn-s">1m</span>    <span class="text-syn-c italic"># blobs over 1 MB stay behind, small ones come along</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">--filter<span class="text-syn-o">=</span><span class="text-syn-s">tree:0</span>           <span class="text-syn-c italic"># not even trees, just commits (extreme, see gotchas)</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Two caveats before you fall in love. First, the server has to support filtering (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">uploadpack.allowFilter</code>); GitHub, GitLab, and the other big hosts all do, but a random bare server might not, in which case git quietly warns and sends everything. Second, that on-demand fetching has sharp edges we&#39;ll get to in the gotchas, because a repo that needs the network to read old files is a different animal.</p>
+            <h2 id="knob-3-sparse-checkout-cutting-the-working-tree" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Knob 3: sparse checkout, cutting the working tree</h2>
+            <p class="mt-0 mb-6">The first two knobs control what&#39;s in your <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> object database. The third controls something else entirely: <strong>which files git materializes into your working directory.</strong></p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">apps/web</span> <span class="text-syn-s">shared/ui</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">After this, your working directory contains only those directories (plus files at the repo root). Everything else is still <em>in the repository</em>, committed and safe, just not written to disk. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git status</code> is clean; git knows the missing files are intentionally absent, not deleted.</p>
+            <p class="mt-0 mb-6">By default <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">sparse-checkout set</code> works in <strong>cone mode</strong>: you give it directories, and it includes everything under them. Cone mode is fast because git can match paths with simple prefix checks. But cone mode <em>only</em> does directories. If you want to pin the working tree down to individual files, you need patterns:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--no-cone</code> mode takes <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.gitignore</code>-style patterns, so <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/README.md</code> means &quot;exactly this one file at the root&quot;. It&#39;s slower at scale and the docs nudge you toward cone mode, but for surgical work on a handful of files it&#39;s exactly the right tool.</p>
             <p class="mt-0 mb-6">The rest of the surface is small:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">list</span>           <span class="text-syn-c italic"># show current patterns</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">add</span> <span class="text-syn-s">docs/</span>      <span class="text-syn-c italic"># widen the checkout</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">disable</span>        <span class="text-syn-c italic"># materialize everything again</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              On its own, sparse checkout saves disk and makes tools faster (your editor, file
-              watcher, and grep stop seeing a million files). But notice what it does
-              <strong>in combination with a partial clone</strong>: if checkout is what triggers
-              blob fetches, and sparse checkout shrinks what gets checked out... you control exactly
-              which blobs ever get downloaded. That&#39;s the combination lock, and it&#39;s why the
-              recipe works.
-            </p>
-            <h2
-              id="the-recipe-line-by-line"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The recipe, line by line
-            </h2>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">list</span>           <span class="text-syn-c italic"># show current patterns</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">add</span> <span class="text-syn-s">docs/</span>      <span class="text-syn-c italic"># widen the checkout</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">disable</span>        <span class="text-syn-c italic"># materialize everything again</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">On its own, sparse checkout saves disk and makes tools faster (your editor, file watcher, and grep stop seeing a million files). But notice what it does <strong>in combination with a partial clone</strong>: if checkout is what triggers blob fetches, and sparse checkout shrinks what gets checked out... you control exactly which blobs ever get downloaded. That&#39;s the combination lock, and it&#39;s why the recipe works.</p>
+            <h2 id="the-recipe-line-by-line" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The recipe, line by line</h2>
             <p class="mt-0 mb-6">Here it is again, the whole thing:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-s">--no-checkout</span> <span class="text-syn-s">--branch</span> <span class="text-syn-s">main</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span> <span class="text-syn-s">repo</span>
-<span class="text-syn-f">cd</span> <span class="text-syn-s">repo</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">checkout</span> <span class="text-syn-s">main</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              <strong>Line 1</strong>
-              creates the skeleton.
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--filter=blob:none</code
-              >
-              keeps every blob on the server.
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--depth 1</code
-              >
-              keeps every historical commit and tree on the server too, so even the metadata
-              download is tiny.
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--branch main</code
-              >
-              picks the branch. And
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--no-checkout</code
-              >
-              is the quiet hero: it tells git to stop after writing
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git</code
-              >
-              and <strong>not</strong> populate the working directory.
-            </p>
-            <p class="mt-0 mb-6">
-              Why does that matter so much? Because of <em>when</em> blobs get fetched. Checkout is
-              the step that writes files to disk, and writing files needs their contents. If you let
-              the clone check out normally, git would immediately demand every blob in the tip
-              snapshot, and your &quot;partial&quot; clone would re-download the entire current
-              state of the repo file by file. The classic partial-clone footgun: you filtered the
-              blobs out, then instantly invited them all back in.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Line 3</strong>
-              sets the trap before springing it: with the working tree still empty, we pin the
-              sparse patterns down to one file.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Line 4</strong>
-              springs it.
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git checkout main</code
-              >
-              materializes the working tree, which by now means: exactly the paths matching the
-              sparse patterns. Git walks the tip tree, finds one matching path, notices its blob is
-              missing, fetches that single object from the promisor remote, and writes the file.
-              (When multiple blobs are missing, git batches them into one request rather than making
-              a round trip per file.)
-            </p>
-            <p class="mt-0 mb-6">
-              Total transfer: one commit object, the trees for one snapshot, and one blob. On the
-              repo that started this post, the multi-gigabyte clone became a download small enough
-              that the sparse-checkout step was the part I noticed.
-            </p>
-            <p class="mt-0 mb-6">
-              Need more of the repo later? Widen it, and git fetches just the difference:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">add</span> <span class="text-syn-s">scripts/</span>     <span class="text-syn-c italic"># fetches only the blobs under scripts/</span>
-</code></pre>
-            <h2
-              id="the-part-that-feels-illegal-committing-from-a-skeleton"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The part that feels illegal: committing from a skeleton
-            </h2>
-            <p class="mt-0 mb-6">
-              So you have a repository that&#39;s missing nearly all of its history&#39;s content.
-              Surely git objects to you <em>writing</em> to it?
-            </p>
-            <p class="mt-0 mb-6">
-              It doesn&#39;t, and understanding why is the best part of the whole exercise.
-            </p>
-            <p class="mt-0 mb-6">
-              When you edit the file and run
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git commit</code
-              >, git creates exactly three kinds of new things, all locally:
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">clone</span> <span class="text-syn-s">--filter=blob:none</span> <span class="text-syn-s">--depth</span> <span class="text-syn-s">1</span> <span class="text-syn-s">--no-checkout</span> <span class="text-syn-s">--branch</span> <span class="text-syn-s">main</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span> <span class="text-syn-s">repo</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">cd</span> <span class="text-syn-s">repo</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">set</span> <span class="text-syn-s">--no-cone</span> <span class="text-syn-s">/README.md</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">checkout</span> <span class="text-syn-s">main</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6"><strong>Line 1</strong> creates the skeleton. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter=blob:none</code> keeps every blob on the server. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code> keeps every historical commit and tree on the server too, so even the metadata download is tiny. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--branch main</code> picks the branch. And <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--no-checkout</code> is the quiet hero: it tells git to stop after writing <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code> and <strong>not</strong> populate the working directory.</p>
+            <p class="mt-0 mb-6">Why does that matter so much? Because of <em>when</em> blobs get fetched. Checkout is the step that writes files to disk, and writing files needs their contents. If you let the clone check out normally, git would immediately demand every blob in the tip snapshot, and your &quot;partial&quot; clone would re-download the entire current state of the repo file by file. The classic partial-clone footgun: you filtered the blobs out, then instantly invited them all back in.</p>
+            <p class="mt-0 mb-6"><strong>Line 3</strong> sets the trap before springing it: with the working tree still empty, we pin the sparse patterns down to one file.</p>
+            <p class="mt-0 mb-6"><strong>Line 4</strong> springs it. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git checkout main</code> materializes the working tree, which by now means: exactly the paths matching the sparse patterns. Git walks the tip tree, finds one matching path, notices its blob is missing, fetches that single object from the promisor remote, and writes the file. (When multiple blobs are missing, git batches them into one request rather than making a round trip per file.)</p>
+            <p class="mt-0 mb-6">Total transfer: one commit object, the trees for one snapshot, and one blob. On the repo that started this post, the multi-gigabyte clone became a download small enough that the sparse-checkout step was the part I noticed.</p>
+            <p class="mt-0 mb-6">Need more of the repo later? Widen it, and git fetches just the difference:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">sparse-checkout</span> <span class="text-syn-s">add</span> <span class="text-syn-s">scripts/</span>     <span class="text-syn-c italic"># fetches only the blobs under scripts/</span></span>
+              </code>
+            </pre>
+            <h2 id="the-part-that-feels-illegal-committing-from-a-skeleton" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The part that feels illegal: committing from a skeleton</h2>
+            <p class="mt-0 mb-6">So you have a repository that&#39;s missing nearly all of its history&#39;s content. Surely git objects to you <em>writing</em> to it?</p>
+            <p class="mt-0 mb-6">It doesn&#39;t, and understanding why is the best part of the whole exercise.</p>
+            <p class="mt-0 mb-6">When you edit the file and run <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git commit</code>, git creates exactly three kinds of new things, all locally:</p>
             <ol class="mt-0 mb-6">
               <li>A new <strong>blob</strong> for the edited file&#39;s contents.</li>
-              <li>
-                New <strong>trees</strong>: one for each directory on the path from the file up to
-                the root (their listings changed, because one entry now points at the new blob).
-              </li>
-              <li>
-                A new <strong>commit</strong> pointing at the new root tree, with the old tip as
-                parent.
-              </li>
+              <li>New <strong>trees</strong>: one for each directory on the path from the file up to the root (their listings changed, because one entry now points at the new blob).</li>
+              <li>A new <strong>commit</strong> pointing at the new root tree, with the old tip as parent.</li>
             </ol>
-            <p class="mt-0 mb-6">
-              None of that requires reading the objects you don&#39;t have. Committing is pure
-              addition to a content-addressed store.
-            </p>
+            <p class="mt-0 mb-6">None of that requires reading the objects you don&#39;t have. Committing is pure addition to a content-addressed store.</p>
             <p class="mt-0 mb-6">Then push:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">push</span> <span class="text-syn-s">origin</span> <span class="text-syn-s">main</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Push is a negotiation, and it&#39;s beautifully minimal. Your git and the server
-              compare refs: &quot;you&#39;re at
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >f5a0be6</code
-              >, I have
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >4c9f1b9</code
-              >
-              which descends from it.&quot; Then your side computes which objects the server could
-              possibly be missing: just the new blob, the few new trees, and the commit. That
-              handful of objects goes over the wire, a few kilobytes, and the server updates the
-              ref. The thousands of blobs you never downloaded are never mentioned by either side.
-              The server doesn&#39;t care what your local copy is missing; it only cares that the
-              objects <em>you&#39;re sending</em> connect to history <em>it already has</em>.
-            </p>
-            <p class="mt-0 mb-6">
-              Shallow doesn&#39;t break this either: your new commit&#39;s parent is the
-              remote&#39;s own tip, so the connection check trivially passes. Clone in seconds,
-              edit, commit, push, and the remote ends up byte-identical to what a full clone would
-              have produced.
-            </p>
-            <h2
-              id="the-gotchas-that-will-bite-you"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The gotchas that will bite you
-            </h2>
-            <p class="mt-0 mb-6">
-              Every one of these is a lesson I&#39;d rather you learn here than in production.
-            </p>
-            <h3
-              id="history-walking-commands-phone-home"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              History-walking commands phone home
-            </h3>
-            <p class="mt-0 mb-6">
-              This is the big one for partial clones. Commands that only read <em>metadata</em> stay
-              fast forever:
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git log --oneline</code
-              >,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git ls-tree</code
-              >, branch and merge operations. But commands that read historical
-              <em>contents</em>
-              need historical blobs, and those live on the server:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">git</span> <span class="text-syn-s">log</span> <span class="text-syn-s">-p</span>            <span class="text-syn-c italic"># fetches blobs for EVERY commit it displays, one batch at a time</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">blame</span> <span class="text-syn-s">src/app.ts</span>  <span class="text-syn-c italic"># fetches every historical version of that file</span>
-<span class="text-syn-f">git</span> <span class="text-syn-s">bisect</span>            <span class="text-syn-c italic"># fetches each checkout as you go</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              On a blobless clone these work, but they crawl, and they need the network. A partial
-              clone is a repo with a dependency on its server baked in. On a plane,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git show HEAD~40:src/app.ts</code
-              >
-              doesn&#39;t say &quot;slow&quot;, it says no. If your daily work is archaeology
-              (blame, bisect, spelunking), take the full clone; that&#39;s what it&#39;s for.
-            </p>
-            <h3 id="the-checkout-stampede" class="mt-8 text-lg leading-tight tracking-tight">
-              The checkout stampede
-            </h3>
-            <p class="mt-0 mb-6">
-              Covered above but worth repeating, because it&#39;s <em>the</em> classic mistake:
-              doing
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git clone --filter=blob:none</code
-              >
-              <strong>without</strong>
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--no-checkout</code
-              >
-              + sparse checkout means the clone ends by fetching the entire tip snapshot anyway.
-              Blobless clones only skip what you never touch, and a full checkout touches
-              everything. Decide what you&#39;ll touch <em>before</em> the first checkout.
-            </p>
-            <h3
-              id="shallow-history-is-weird-at-the-edges"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Shallow history is weird at the edges
-            </h3>
-            <p class="mt-0 mb-6">
-              A shallow clone&#39;s bottom commit lies about having no parents, and anything that
-              walks ancestry can hit the wall:
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git merge-base</code
-              >
-              can&#39;t find a fork point that&#39;s below the cut,
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git describe</code
-              >
-              can&#39;t reach a tag, and CI diff jobs (&quot;what changed vs main?&quot;) fail in
-              confusing ways when the merge base is missing. This is exactly why CI systems that
-              compute diffs use full-depth fetches, and why
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--deepen</code
-              >
-              exists as the escape hatch. Shallow is great when the job is &quot;the code as of
-              now&quot;; it&#39;s wrong when the job involves <em>comparing</em> points in history.
-            </p>
-            <p class="mt-0 mb-6">
-              Also know that shallow and partial solve overlapping problems, and if you&#39;re using
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--filter=blob:none</code
-              >
-              anyway, you often don&#39;t need
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--depth 1</code
-              >
-              at all: commits and trees are cheap, and keeping full (blobless) history makes the
-              repo behave much more normally. I add
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--depth 1</code
-              >
-              when I truly want one snapshot and nothing else; I skip it when the clone will live
-              for a while.
-            </p>
-            <h3
-              id="tree-0-is-a-trap-for-anything-long-lived"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >tree:0</code
-              >
-              is a trap for anything long-lived
-            </h3>
-            <p class="mt-0 mb-6">
-              A treeless clone (<code
-                class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >--filter=tree:0</code
-              >) downloads commits only, and it feels amazing for about a minute. Then any operation
-              that needs to know what&#39;s <em>in</em> a commit starts fetching trees on demand,
-              and trees are needed constantly, for far more operations than blobs. Treeless clones
-              are for one-shot jobs (clone, build, discard). Never hand one to a human for daily
-              work.
-            </p>
-            <h3
-              id="sparse-checkout-hides-files-and-tools-get-confused"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Sparse checkout hides files, and tools get confused
-            </h3>
-            <p class="mt-0 mb-6">
-              The files excluded by sparse checkout genuinely aren&#39;t on disk. Global search
-              finds nothing in them; a codemod won&#39;t touch them; a build that imports from an
-              excluded directory just fails. Git itself is never confused (<code
-                class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git sparse-checkout list</code
-              >
-              always tells the truth), but your <em>tools</em> trust the filesystem. When something
-              behaves impossibly, check whether you&#39;re standing in a sparse checkout; my earlier
-              confused self can confirm that &quot;the file is tracked but doesn&#39;t exist&quot;
-              is a very disorienting first symptom.
-            </p>
-            <h3
-              id="one-command-to-rule-them-all-scalar"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              One command to rule them all:
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >scalar</code
-              >
-            </h3>
-            <p class="mt-0 mb-6">
-              If this whole post sounds like configuration you&#39;d rather not remember, git ships
-              a tool that bundles the recommended setup:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">scalar</span> <span class="text-syn-s">clone</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >scalar</code
-              >
-              (included with git since 2.38) does a blobless partial clone, enables cone-mode sparse
-              checkout starting from the root directory only, and turns on background maintenance.
-              It&#39;s the &quot;monorepo defaults&quot; button, and for daily work on a huge repo
-              it&#39;s honestly the right starting point; the manual flags are for when you want
-              surgical control (or you want to understand what scalar is doing for you, which, after
-              this post, you do).
-            </p>
-            <h2
-              id="the-comparison-in-one-table"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The comparison, in one table
-            </h2>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">push</span> <span class="text-syn-s">origin</span> <span class="text-syn-s">main</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Push is a negotiation, and it&#39;s beautifully minimal. Your git and the server compare refs: &quot;you&#39;re at <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">f5a0be6</code>, I have <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">4c9f1b9</code> which descends from it.&quot; Then your side computes which objects the server could possibly be missing: just the new blob, the few new trees, and the commit. That handful of objects goes over the wire, a few kilobytes, and the server updates the ref. The thousands of blobs you never downloaded are never mentioned by either side. The server doesn&#39;t care what your local copy is missing; it only cares that the objects <em>you&#39;re sending</em> connect to history <em>it already has</em>.</p>
+            <p class="mt-0 mb-6">Shallow doesn&#39;t break this either: your new commit&#39;s parent is the remote&#39;s own tip, so the connection check trivially passes. Clone in seconds, edit, commit, push, and the remote ends up byte-identical to what a full clone would have produced.</p>
+            <h2 id="the-gotchas-that-will-bite-you" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The gotchas that will bite you</h2>
+            <p class="mt-0 mb-6">Every one of these is a lesson I&#39;d rather you learn here than in production.</p>
+            <h3 id="history-walking-commands-phone-home" class="mt-8 text-lg leading-tight tracking-tight">History-walking commands phone home</h3>
+            <p class="mt-0 mb-6">This is the big one for partial clones. Commands that only read <em>metadata</em> stay fast forever: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git log --oneline</code>, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git ls-tree</code>, branch and merge operations. But commands that read historical <em>contents</em> need historical blobs, and those live on the server:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">log</span> <span class="text-syn-s">-p</span>            <span class="text-syn-c italic"># fetches blobs for EVERY commit it displays, one batch at a time</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">blame</span> <span class="text-syn-s">src/app.ts</span>  <span class="text-syn-c italic"># fetches every historical version of that file</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">git</span> <span class="text-syn-s">bisect</span>            <span class="text-syn-c italic"># fetches each checkout as you go</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">On a blobless clone these work, but they crawl, and they need the network. A partial clone is a repo with a dependency on its server baked in. On a plane, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git show HEAD~40:src/app.ts</code> doesn&#39;t say &quot;slow&quot;, it says no. If your daily work is archaeology (blame, bisect, spelunking), take the full clone; that&#39;s what it&#39;s for.</p>
+            <h3 id="the-checkout-stampede" class="mt-8 text-lg leading-tight tracking-tight">The checkout stampede</h3>
+            <p class="mt-0 mb-6">Covered above but worth repeating, because it&#39;s <em>the</em> classic mistake: doing <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone --filter=blob:none</code> <strong>without</strong> <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--no-checkout</code> + sparse checkout means the clone ends by fetching the entire tip snapshot anyway. Blobless clones only skip what you never touch, and a full checkout touches everything. Decide what you&#39;ll touch <em>before</em> the first checkout.</p>
+            <h3 id="shallow-history-is-weird-at-the-edges" class="mt-8 text-lg leading-tight tracking-tight">Shallow history is weird at the edges</h3>
+            <p class="mt-0 mb-6">A shallow clone&#39;s bottom commit lies about having no parents, and anything that walks ancestry can hit the wall: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git merge-base</code> can&#39;t find a fork point that&#39;s below the cut, <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git describe</code> can&#39;t reach a tag, and CI diff jobs (&quot;what changed vs main?&quot;) fail in confusing ways when the merge base is missing. This is exactly why CI systems that compute diffs use full-depth fetches, and why <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--deepen</code> exists as the escape hatch. Shallow is great when the job is &quot;the code as of now&quot;; it&#39;s wrong when the job involves <em>comparing</em> points in history.</p>
+            <p class="mt-0 mb-6">Also know that shallow and partial solve overlapping problems, and if you&#39;re using <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter=blob:none</code> anyway, you often don&#39;t need <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code> at all: commits and trees are cheap, and keeping full (blobless) history makes the repo behave much more normally. I add <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code> when I truly want one snapshot and nothing else; I skip it when the clone will live for a while.</p>
+            <h3 id="tree-0-is-a-trap-for-anything-long-lived" class="mt-8 text-lg leading-tight tracking-tight"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">tree:0</code> is a trap for anything long-lived</h3>
+            <p class="mt-0 mb-6">A treeless clone (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter=tree:0</code>) downloads commits only, and it feels amazing for about a minute. Then any operation that needs to know what&#39;s <em>in</em> a commit starts fetching trees on demand, and trees are needed constantly, for far more operations than blobs. Treeless clones are for one-shot jobs (clone, build, discard). Never hand one to a human for daily work.</p>
+            <h3 id="sparse-checkout-hides-files-and-tools-get-confused" class="mt-8 text-lg leading-tight tracking-tight">Sparse checkout hides files, and tools get confused</h3>
+            <p class="mt-0 mb-6">The files excluded by sparse checkout genuinely aren&#39;t on disk. Global search finds nothing in them; a codemod won&#39;t touch them; a build that imports from an excluded directory just fails. Git itself is never confused (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git sparse-checkout list</code> always tells the truth), but your <em>tools</em> trust the filesystem. When something behaves impossibly, check whether you&#39;re standing in a sparse checkout; my earlier confused self can confirm that &quot;the file is tracked but doesn&#39;t exist&quot; is a very disorienting first symptom.</p>
+            <h3 id="one-command-to-rule-them-all-scalar" class="mt-8 text-lg leading-tight tracking-tight">One command to rule them all: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">scalar</code></h3>
+            <p class="mt-0 mb-6">If this whole post sounds like configuration you&#39;d rather not remember, git ships a tool that bundles the recommended setup:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">scalar</span> <span class="text-syn-s">clone</span> <span class="text-syn-o">&lt;</span><span class="text-syn-s">ur</span>l<span class="text-syn-o">&gt;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">scalar</code> (included with git since 2.38) does a blobless partial clone, enables cone-mode sparse checkout starting from the root directory only, and turns on background maintenance. It&#39;s the &quot;monorepo defaults&quot; button, and for daily work on a huge repo it&#39;s honestly the right starting point; the manual flags are for when you want surgical control (or you want to understand what scalar is doing for you, which, after this post, you do).</p>
+            <h2 id="the-comparison-in-one-table" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The comparison, in one table</h2>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
                 <tr>
                   <th class="border-b border-line px-3.5 py-2.5 text-left">Clone command</th>
                   <th class="border-b border-line px-3.5 py-2.5 text-left">History (commits)</th>
                   <th class="border-b border-line px-3.5 py-2.5 text-left">Trees</th>
-                  <th class="border-b border-line px-3.5 py-2.5 text-left">
-                    File contents (blobs)
-                  </th>
+                  <th class="border-b border-line px-3.5 py-2.5 text-left">File contents (blobs)</th>
                   <th class="border-b border-line px-3.5 py-2.5 text-left">Best for</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >git clone</code
-                    >
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code></td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">All</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">All</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">All</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Daily work, archaeology, offline
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Daily work, archaeology, offline</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >git clone --depth 1</code
-                    >
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone --depth 1</code></td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Tip only</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Tip only</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Tip only (full snapshot)
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Tip only (full snapshot)</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">One-shot CI builds</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >git clone --filter=blob:none</code
-                    >
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone --filter=blob:none</code></td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">All</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">All</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">On demand</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Big repos, monorepo daily work
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Big repos, monorepo daily work</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    <code
-                      class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                      >git clone --filter=tree:0</code
-                    >
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone --filter=tree:0</code></td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">All</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">On demand</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">On demand</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">One-shot jobs only</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    The full recipe (all three)
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">The full recipe (all three)</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Tip only</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Tip only</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Only sparse paths</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Surgical edits in huge repos
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Surgical edits in huge repos</td>
                 </tr>
               </tbody>
             </table>
             <p class="mt-0 mb-6">And the axes, because this is the picture to keep:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">                 history (commits)
-                       ▲
-                       │   ← --depth cuts here
-                       │
-   working tree ◄──────┼──────► content (blobs)
-   (files on disk)     │        ← --filter cuts here
-   ← sparse-checkout   │
-     cuts here         ▼
-</code></pre>
-            <p class="mt-0 mb-6">
-              Three axes, three independent knobs. Any combination is valid, and each one only pays
-              for what it uses.
-            </p>
-            <h2
-              id="when-i-actually-reach-for-each"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              When I actually reach for each
-            </h2>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">                 history (commits)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                       ▲</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                       │   ← --depth cuts here</span>
+                <span class="block leading-(--pre-line) whitespace-pre">                       │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   working tree ◄──────┼──────► content (blobs)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   (files on disk)     │        ← --filter cuts here</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   ← sparse-checkout   │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">     cuts here         ▼</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Three axes, three independent knobs. Any combination is valid, and each one only pays for what it uses.</p>
+            <h2 id="when-i-actually-reach-for-each" class="mt-12 text-xl font-semibold leading-tight tracking-tight">When I actually reach for each</h2>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Quick surgical edit in a huge repo</strong>
-                (the use case that started this post): the full recipe. Seconds of download, full
-                push capability.
-              </li>
-              <li>
-                <strong>Daily work in a big monorepo</strong>:
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >--filter=blob:none</code
-                >
-                plus cone-mode sparse checkout of the directories I own, or just
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >scalar clone</code
-                >. Full history for
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git log</code
-                >, contents on demand, working tree sized to my slice.
-              </li>
-              <li>
-                <strong>CI, build-and-discard</strong>:
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >--depth 1</code
-                >, adding
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >--filter=blob:none</code
-                >
-                when the tree is media-heavy. If the job diffs against a base branch, deepen or skip
-                shallow entirely.
-              </li>
-              <li>
-                <strong>Archaeology</strong>
-                (blame, bisect, &quot;when did this break&quot;): a boring full clone. The right
-                tool for reading history is having the history.
-              </li>
+              <li><strong>Quick surgical edit in a huge repo</strong> (the use case that started this post): the full recipe. Seconds of download, full push capability.</li>
+              <li><strong>Daily work in a big monorepo</strong>: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter=blob:none</code> plus cone-mode sparse checkout of the directories I own, or just <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">scalar clone</code>. Full history for <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git log</code>, contents on demand, working tree sized to my slice.</li>
+              <li><strong>CI, build-and-discard</strong>: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--depth 1</code>, adding <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">--filter=blob:none</code> when the tree is media-heavy. If the job diffs against a base branch, deepen or skip shallow entirely.</li>
+              <li><strong>Archaeology</strong> (blame, bisect, &quot;when did this break&quot;): a boring full clone. The right tool for reading history is having the history.</li>
             </ul>
-            <p class="mt-0 mb-6">
-              One more connection worth making: if you read my
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/git-worktrees/"
-                >git worktrees</a
-              >
-              post, you&#39;ll recognize the philosophy. Worktrees stop you from paying twice for
-              the same
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.git</code
-              >; partial and sparse stop you from paying for parts of the repo you&#39;ll never
-              touch. Both come from the same realization:
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >git clone</code
-              >&#39;s defaults assume you want <em>everything</em>, and on modern repo sizes, you
-              usually don&#39;t. They compose, too: a blobless clone with several sparse worktrees
-              is a genuinely great setup for parallel work on a monorepo.
-            </p>
-            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              Wrapping up
-            </h2>
-            <p class="mt-0 mb-6">
-              The thing I love about this corner of git is that nothing here is a workaround. The
-              object model was always three cleanly separated layers (history, content, working
-              tree), and these three features are just the honest admission that you should be able
-              to pay for each layer separately. Once you&#39;ve seen the model, the flags stop being
-              incantations and become obvious: of course you can skip blobs, they&#39;re leaves; of
-              course push still works, it only ever sends what&#39;s new; of course checkout order
-              matters, checkout is what spends the money.
-            </p>
-            <p class="mt-0 mb-6">
-              Next time a giant repo stands between you and a one-file fix, don&#39;t watch the
-              progress bar. Skeleton-clone it, check out the one file, do the surgery, push, and be
-              done before the full clone would have hit double digits.
-            </p>
-            <p class="mt-0 mb-6">
-              If you want to go deeper: the
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://git-scm.com/docs/partial-clone"
-                >official partial clone docs</a
-              >, the
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://git-scm.com/docs/git-sparse-checkout"
-                ><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >git sparse-checkout</code
-                >
-                reference</a
-              >, and GitHub&#39;s excellent
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://github.blog/open-source/git/get-up-to-speed-with-partial-clone-and-shallow-clone/"
-                >partial vs shallow clone write-up</a
-              >
-              are all worth your time. And if you set this up and hit something weird, reach out,
-              you can find all my socials and a
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://pulkit.page/contact/"
-                >contact form</a
-              >.
-            </p>
+            <p class="mt-0 mb-6">One more connection worth making: if you read my <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/git-worktrees/">git worktrees</a> post, you&#39;ll recognize the philosophy. Worktrees stop you from paying twice for the same <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.git</code>; partial and sparse stop you from paying for parts of the repo you&#39;ll never touch. Both come from the same realization: <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git clone</code>&#39;s defaults assume you want <em>everything</em>, and on modern repo sizes, you usually don&#39;t. They compose, too: a blobless clone with several sparse worktrees is a genuinely great setup for parallel work on a monorepo.</p>
+            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Wrapping up</h2>
+            <p class="mt-0 mb-6">The thing I love about this corner of git is that nothing here is a workaround. The object model was always three cleanly separated layers (history, content, working tree), and these three features are just the honest admission that you should be able to pay for each layer separately. Once you&#39;ve seen the model, the flags stop being incantations and become obvious: of course you can skip blobs, they&#39;re leaves; of course push still works, it only ever sends what&#39;s new; of course checkout order matters, checkout is what spends the money.</p>
+            <p class="mt-0 mb-6">Next time a giant repo stands between you and a one-file fix, don&#39;t watch the progress bar. Skeleton-clone it, check out the one file, do the surgery, push, and be done before the full clone would have hit double digits.</p>
+            <p class="mt-0 mb-6">If you want to go deeper: the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://git-scm.com/docs/partial-clone">official partial clone docs</a>, the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://git-scm.com/docs/git-sparse-checkout"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">git sparse-checkout</code> reference</a>, and GitHub&#39;s excellent <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.blog/open-source/git/get-up-to-speed-with-partial-clone-and-shallow-clone/">partial vs shallow clone write-up</a> are all worth your time. And if you set this up and hit something weird, reach out, you can find all my socials and a <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://pulkit.page/contact/">contact form</a>.</p>
             <p class="mt-0 mb-6">Happy (skeleton) shipping!</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/git-worktrees/"
-                >Git Worktrees</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/how-i-use-cursor/"
-                >How I Use Cursor to Build at 1000x Speed</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/cookie-sync-pattern/"
-                >The Cookie Sync Pattern</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/git-worktrees/">Git Worktrees</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/cookie-sync-pattern/">The Cookie Sync Pattern</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/git-partial-clones.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/git-partial-clones.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>

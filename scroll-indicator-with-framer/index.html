@@ -1,52 +1,30 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React."
-    />
+    <meta name="description" content="Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React." />
     <link rel="canonical" href="https://pulkit.blog/scroll-indicator-with-framer/" />
-    <link
-      rel="alternate"
-      type="text/markdown"
-      href="https://pulkit.blog/scroll-indicator-with-framer.md"
-    />
+    <link rel="alternate" type="text/markdown" href="https://pulkit.blog/scroll-indicator-with-framer.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
-    <meta
-      property="og:title"
-      content="Scroll Indicator with Framer Motion useScroll | pulkit.blog"
-    />
-    <meta
-      property="og:description"
-      content="Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React."
-    />
+    <meta property="og:title" content="Scroll Indicator with Framer Motion useScroll | pulkit.blog" />
+    <meta property="og:description" content="Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React." />
     <meta property="og:url" content="https://pulkit.blog/scroll-indicator-with-framer/" />
-    <meta
-      property="og:image"
-      content="https://pulkit.blog/og/scroll-indicator-with-framer/card.png"
-    />
-    <meta
-      property="og:image:secure_url"
-      content="https://pulkit.blog/og/scroll-indicator-with-framer/card.png"
-    />
+    <meta property="og:image" content="https://pulkit.blog/og/scroll-indicator-with-framer/card.png" />
+    <meta property="og:image:secure_url" content="https://pulkit.blog/og/scroll-indicator-with-framer/card.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -54,354 +32,283 @@
     <meta property="article:published_time" content="2024-07-24" />
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Scroll Indicator with Framer Motion useScroll | pulkit.blog"
-    />
-    <meta
-      name="twitter:description"
-      content="Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pulkit.blog/og/scroll-indicator-with-framer/card.png"
-    />
+    <meta name="twitter:title" content="Scroll Indicator with Framer Motion useScroll | pulkit.blog" />
+    <meta name="twitter:description" content="Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React." />
+    <meta name="twitter:image" content="https://pulkit.blog/og/scroll-indicator-with-framer/card.png" />
     <meta name="twitter:image:alt" content="Scroll Indicator with Framer Motion useScroll" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/scroll-indicator-with-framer/#image","contentUrl":"https://pulkit.blog/og/scroll-indicator-with-framer/card.png","width":1200,"height":630,"caption":"Scroll Indicator with Framer Motion useScroll"},{"@type":"BlogPosting","@id":"https://pulkit.blog/scroll-indicator-with-framer/#article","headline":"Scroll Indicator with Framer Motion useScroll","description":"Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React.","datePublished":"2024-07-24","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/scroll-indicator-with-framer/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/scroll-indicator-with-framer/#image"},"url":"https://pulkit.blog/scroll-indicator-with-framer/","inLanguage":"en","keywords":["React","Framer Motion","Scroll Indicator","useScroll","useTransform","UI Components","Frontend"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/scroll-indicator-with-framer/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"Scroll Indicator with Framer Motion useScroll","item":"https://pulkit.blog/scroll-indicator-with-framer/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/scroll-indicator-with-framer/#webpage","url":"https://pulkit.blog/scroll-indicator-with-framer/","name":"Scroll Indicator with Framer Motion useScroll","description":"Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/scroll-indicator-with-framer/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/scroll-indicator-with-framer/#article"},"breadcrumb":{"@id":"https://pulkit.blog/scroll-indicator-with-framer/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/scroll-indicator-with-framer/#image",
+            "contentUrl": "https://pulkit.blog/og/scroll-indicator-with-framer/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Scroll Indicator with Framer Motion useScroll"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/scroll-indicator-with-framer/#article",
+            "headline": "Scroll Indicator with Framer Motion useScroll",
+            "description": "Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React.",
+            "datePublished": "2024-07-24",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/scroll-indicator-with-framer/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/scroll-indicator-with-framer/#image"
+            },
+            "url": "https://pulkit.blog/scroll-indicator-with-framer/",
+            "inLanguage": "en",
+            "keywords": [
+              "React",
+              "Framer Motion",
+              "Scroll Indicator",
+              "useScroll",
+              "useTransform",
+              "UI Components",
+              "Frontend"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/scroll-indicator-with-framer/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Scroll Indicator with Framer Motion useScroll",
+                "item": "https://pulkit.blog/scroll-indicator-with-framer/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/scroll-indicator-with-framer/#webpage",
+            "url": "https://pulkit.blog/scroll-indicator-with-framer/",
+            "name": "Scroll Indicator with Framer Motion useScroll",
+            "description": "Build a horizontal scroll indicator with Framer Motion using the useScroll and useTransform hooks to track scroll progress in React.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/scroll-indicator-with-framer/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/scroll-indicator-with-framer/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/scroll-indicator-with-framer/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>Scroll Indicator with Framer Motion useScroll | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              Scroll Indicator with Framer Motion useScroll
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2024-07-24">July 24, 2024</time>
-              · 2 min read
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>Scroll Indicator with Framer Motion useScroll</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-07-24">July 24, 2024</time> · 2 min read</p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
             <h3 id="the-idea" class="mt-8 text-lg leading-tight tracking-tight">The Idea</h3>
-            <p class="mt-0 mb-6">
-              Creating a visually appealing and functional portfolio website is essential for
-              showcasing your skills and projects. I recently explored website designs from popular
-              examples for my portfolio (<a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://pulkitxm.com"
-                >pulkitxm.com</a
-              >) and found one animation that really excites me: the horizontal scroll percentage
-              indicator. It is useful for tracking how much of the webpage you have scrolled.
-            </p>
+            <p class="mt-0 mb-6">Creating a visually appealing and functional portfolio website is essential for showcasing your skills and projects. I recently explored website designs from popular examples for my portfolio (<a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://pulkitxm.com">pulkitxm.com</a>) and found one animation that really excites me: the horizontal scroll percentage indicator. It is useful for tracking how much of the webpage you have scrolled.</p>
             <h3 id="the-concept" class="mt-8 text-lg leading-tight tracking-tight">The concept</h3>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp"
-                class="block"
-                data-media-zoom
-                data-width="1836"
-                data-height="937"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp"
-                  alt="Horizontal scroll indicator at top of webpage"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp" class="block" data-media-zoom data-width="1836" data-height="937">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp" alt="Horizontal scroll indicator at top of webpage" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              As you can see here, it basically sits at the top of the webpage, and yes, it is as
-              minimalist as it looks.
-            </p>
-            <h3 id="the-implementation" class="mt-8 text-lg leading-tight tracking-tight">
-              The Implementation
-            </h3>
-            <p class="mt-0 mb-6">
-              In this article, we&#39;ll implement this using React and Framer Motion.
-            </p>
+            <p class="mt-0 mb-6">As you can see here, it basically sits at the top of the webpage, and yes, it is as minimalist as it looks.</p>
+            <h3 id="the-implementation" class="mt-8 text-lg leading-tight tracking-tight">The Implementation</h3>
+            <p class="mt-0 mb-6">In this article, we&#39;ll implement this using React and Framer Motion.</p>
             <p class="mt-0 mb-6">I have my react project bootstrapped, starting by installing</p>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/ba462a68-961b-4df5-b230-3011f8297166.webp"
-                class="block"
-                data-media-zoom
-                data-width="1171"
-                data-height="376"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/ba462a68-961b-4df5-b230-3011f8297166.webp"
-                  alt="Terminal showing framer-motion installation"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/ba462a68-961b-4df5-b230-3011f8297166.webp" class="block" data-media-zoom data-width="1171" data-height="376">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/ba462a68-961b-4df5-b230-3011f8297166.webp" alt="Terminal showing framer-motion installation" loading="lazy" />
+              </a>
             </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">framer-motion</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              To get a good viewport to observe the scroll effect, I am adding a test height.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
-    <span class="text-syn-u">&lt;</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span>
-        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;300vh&quot;</span><span class="text-syn-u">,</span>
-        <span class="text-syn-u">}}</span>
-      <span class="text-syn-u">/&gt;</span>
-    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Now let&#39;s add the main div that&#39;s gonna act like the scroll indicator
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> motion <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;framer-motion&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
-    <span class="text-syn-u">&lt;</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">motion.div</span>
-        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-          <span class="text-syn-p">position:</span> <span class="text-syn-s">&quot;fixed&quot;</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">top:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">left:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;20vw&quot;</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;10px&quot;</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">backgroundColor:</span> <span class="text-syn-s">&quot;black&quot;</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">borderRadius:</span> <span class="text-syn-s">&quot;0 10px 10px 0&quot;</span><span class="text-syn-u">,</span>
-        <span class="text-syn-u">}}</span>
-      <span class="text-syn-u">/&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span>
-        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;300vh&quot;</span><span class="text-syn-u">,</span>
-        <span class="text-syn-u">}}</span>
-      <span class="text-syn-u">/&gt;</span>
-    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              You can read more about
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://www.framer.com/motion/introduction/#:~:text=%23-,The%20%3Cmotion%20/%3E%20component,-The%20core%20of"
-                ><strong>The &lt;motion /&gt; component</strong></a
-              >, but in a nutshell, it is a component from Framer Motion that allows you to animate
-              elements in a simple and declarative way.
-            </p>
-            <p class="mt-0 mb-6">
-              And the styles are simple. The element is fixed at the top left of the screen, with a
-              width of 0 (the main property that will act like a slider) and a height of 10 pixels.
-              It has a black background and rounded corners on the right side.
-            </p>
-            <p class="mt-0 mb-6">
-              Now let&#39;s animate it to move when we scroll. We&#39;ll use the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >useScroll()</code
-              >
-              hook from framer-motion.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useScroll <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;framer-motion&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">const</span> <span class="text-syn-u">{</span> scrollYProgress <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useScroll</span><span class="text-syn-u">();</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Now, to animate the changing values received from
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >scrollYProgress</code
-              >, we will use the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >useTransform</code
-              >
-              hook from framer-motion.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> width <span class="text-syn-o">=</span> <span class="text-syn-f">useTransform</span><span class="text-syn-u">(</span>scrollYProgress<span class="text-syn-u">,</span> <span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">],</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;0%&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;100%&quot;</span><span class="text-syn-u">]);</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Here, the width will provide an animated value based on
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >scrollYProgress</code
-              >. As you scroll from the top to the bottom of the page, the width changes from
-              &quot;0%&quot; to &quot;100%&quot;. This is done by mapping the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >scrollYProgress</code
-              >
-              values (which range from 0 to 1) to the corresponding width values.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> motion<span class="text-syn-u">,</span> useScroll<span class="text-syn-u">,</span> useTransform <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;framer-motion&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> scrollYProgress <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useScroll</span><span class="text-syn-u">();</span>
-  <span class="text-syn-k">const</span> width <span class="text-syn-o">=</span> <span class="text-syn-f">useTransform</span><span class="text-syn-u">(</span>scrollYProgress<span class="text-syn-u">,</span> <span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">],</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;0%&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;102%&quot;</span><span class="text-syn-u">]);</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
-    <span class="text-syn-u">&lt;</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">motion.div</span>
-        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-          <span class="text-syn-p">position:</span> <span class="text-syn-s">&quot;fixed&quot;</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">top:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">left:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;10px&quot;</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">backgroundColor:</span> <span class="text-syn-s">&quot;black&quot;</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">borderRadius:</span> <span class="text-syn-s">&quot;0 10px 10px 0&quot;</span><span class="text-syn-u">,</span>
-          width<span class="text-syn-u">,</span>
-        <span class="text-syn-u">}}</span>
-      <span class="text-syn-u">/&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span>
-        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;300vh&quot;</span><span class="text-syn-u">,</span>
-        <span class="text-syn-u">}}</span>
-      <span class="text-syn-u">/&gt;</span>
-    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              So, we use the width as a style prop for the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >motion.div</code
-              >. And that&#39;s pretty much it for animating the scroll indicator.
-            </p>
-            <h2 id="the-output" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              The Output
-            </h2>
-            <iframe
-              class="mt-0 mb-6 block h-[500px] w-full overflow-hidden rounded border-0"
-              src="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx"
-              title="Scroll indicator demo with Framer Motion"
-              sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-              loading="lazy"
-            ></iframe>
-            <p class="mt-0 mb-6">
-              And there you have it! You&#39;ve just created a sleek horizontal scroll percentage
-              indicator with React and Framer Motion. Now your portfolio site is not only functional
-              but also has that extra touch of interactivity. Happy coding, and may your scrolls
-              always be smooth! 🚀✨
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">framer-motion</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">To get a good viewport to observe the scroll effect, I am adding a test height.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-jsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;300vh&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Now let&#39;s add the main div that&#39;s gonna act like the scroll indicator</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-jsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> motion <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;framer-motion&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">motion.div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">position:</span> <span class="text-syn-s">&quot;fixed&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">top:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">left:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;20vw&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;10px&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">backgroundColor:</span> <span class="text-syn-s">&quot;black&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">borderRadius:</span> <span class="text-syn-s">&quot;0 10px 10px 0&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;300vh&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">You can read more about <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.framer.com/motion/introduction/#:~:text=%23-,The%20%3Cmotion%20/%3E%20component,-The%20core%20of"><strong>The &lt;motion /&gt; component</strong></a>, but in a nutshell, it is a component from Framer Motion that allows you to animate elements in a simple and declarative way.</p>
+            <p class="mt-0 mb-6">And the styles are simple. The element is fixed at the top left of the screen, with a width of 0 (the main property that will act like a slider) and a height of 10 pixels. It has a black background and rounded corners on the right side.</p>
+            <p class="mt-0 mb-6">Now let&#39;s animate it to move when we scroll. We&#39;ll use the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">useScroll()</code> hook from framer-motion.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-jsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useScroll <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;framer-motion&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">{</span> scrollYProgress <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useScroll</span><span class="text-syn-u">();</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Now, to animate the changing values received from <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">scrollYProgress</code>, we will use the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">useTransform</code> hook from framer-motion.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-jsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> width <span class="text-syn-o">=</span> <span class="text-syn-f">useTransform</span><span class="text-syn-u">(</span>scrollYProgress<span class="text-syn-u">,</span> <span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">],</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;0%&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;100%&quot;</span><span class="text-syn-u">]);</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Here, the width will provide an animated value based on <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">scrollYProgress</code>. As you scroll from the top to the bottom of the page, the width changes from &quot;0%&quot; to &quot;100%&quot;. This is done by mapping the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">scrollYProgress</code> values (which range from 0 to 1) to the corresponding width values.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-jsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> motion<span class="text-syn-u">,</span> useScroll<span class="text-syn-u">,</span> useTransform <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;framer-motion&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> scrollYProgress <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useScroll</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> width <span class="text-syn-o">=</span> <span class="text-syn-f">useTransform</span><span class="text-syn-u">(</span>scrollYProgress<span class="text-syn-u">,</span> <span class="text-syn-u">[</span><span class="text-syn-n">0</span><span class="text-syn-u">,</span> <span class="text-syn-n">1</span><span class="text-syn-u">],</span> <span class="text-syn-u">[</span><span class="text-syn-s">&quot;0%&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;102%&quot;</span><span class="text-syn-u">]);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">motion.div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">position:</span> <span class="text-syn-s">&quot;fixed&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">top:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">left:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;10px&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">backgroundColor:</span> <span class="text-syn-s">&quot;black&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">borderRadius:</span> <span class="text-syn-s">&quot;0 10px 10px 0&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          width<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;300vh&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">main</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">So, we use the width as a style prop for the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">motion.div</code>. And that&#39;s pretty much it for animating the scroll indicator.</p>
+            <h2 id="the-output" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Output</h2>
+            <iframe class="mt-0 mb-6 block h-[500px] w-full overflow-hidden rounded border-0" src="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" title="Scroll indicator demo with Framer Motion" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts" loading="lazy"></iframe>
+            <p class="mt-0 mb-6">And there you have it! You&#39;ve just created a sleek horizontal scroll percentage indicator with React and Framer Motion. Now your portfolio site is not only functional but also has that extra touch of interactivity. Happy coding, and may your scrolls always be smooth! 🚀✨</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/context-menu-in-react/"
-                >React Context Menu with react-contexify</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/image-gallery-with-photoswipe/"
-                >React Image Gallery with PhotoSwipe</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/typewriter-effect-in-react/"
-                >Typewriter Effect in React</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/context-menu-in-react/">React Context Menu with react-contexify</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/image-gallery-with-photoswipe/">React Image Gallery with PhotoSwipe</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/typewriter-effect-in-react/">Typewriter Effect in React</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/scroll-indicator-with-framer.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/scroll-indicator-with-framer.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>

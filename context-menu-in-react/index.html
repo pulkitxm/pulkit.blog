@@ -1,46 +1,30 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions."
-    />
+    <meta name="description" content="Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions." />
     <link rel="canonical" href="https://pulkit.blog/context-menu-in-react/" />
-    <link
-      rel="alternate"
-      type="text/markdown"
-      href="https://pulkit.blog/context-menu-in-react.md"
-    />
+    <link rel="alternate" type="text/markdown" href="https://pulkit.blog/context-menu-in-react.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="React Context Menu with react-contexify | pulkit.blog" />
-    <meta
-      property="og:description"
-      content="Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions."
-    />
+    <meta property="og:description" content="Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions." />
     <meta property="og:url" content="https://pulkit.blog/context-menu-in-react/" />
     <meta property="og:image" content="https://pulkit.blog/og/context-menu-in-react/card.png" />
-    <meta
-      property="og:image:secure_url"
-      content="https://pulkit.blog/og/context-menu-in-react/card.png"
-    />
+    <meta property="og:image:secure_url" content="https://pulkit.blog/og/context-menu-in-react/card.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -49,456 +33,382 @@
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="React Context Menu with react-contexify | pulkit.blog" />
-    <meta
-      name="twitter:description"
-      content="Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions."
-    />
+    <meta name="twitter:description" content="Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions." />
     <meta name="twitter:image" content="https://pulkit.blog/og/context-menu-in-react/card.png" />
     <meta name="twitter:image:alt" content="React Context Menu with react-contexify" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/context-menu-in-react/#image","contentUrl":"https://pulkit.blog/og/context-menu-in-react/card.png","width":1200,"height":630,"caption":"React Context Menu with react-contexify"},{"@type":"BlogPosting","@id":"https://pulkit.blog/context-menu-in-react/#article","headline":"React Context Menu with react-contexify","description":"Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions.","datePublished":"2024-08-10","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/context-menu-in-react/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/#webpage"},"image":{"@id":"https://pulkit.blog/context-menu-in-react/#image"},"url":"https://pulkit.blog/context-menu-in-react/","inLanguage":"en","keywords":["React","Context Menu","react-contexify","UI Components","Frontend"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/context-menu-in-react/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"React Context Menu with react-contexify","item":"https://pulkit.blog/context-menu-in-react/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/context-menu-in-react/#webpage","url":"https://pulkit.blog/context-menu-in-react/","name":"React Context Menu with react-contexify","description":"Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/context-menu-in-react/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/context-menu-in-react/#article"},"breadcrumb":{"@id":"https://pulkit.blog/context-menu-in-react/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/context-menu-in-react/#image",
+            "contentUrl": "https://pulkit.blog/og/context-menu-in-react/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "React Context Menu with react-contexify"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/context-menu-in-react/#article",
+            "headline": "React Context Menu with react-contexify",
+            "description": "Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions.",
+            "datePublished": "2024-08-10",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/context-menu-in-react/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/context-menu-in-react/#image"
+            },
+            "url": "https://pulkit.blog/context-menu-in-react/",
+            "inLanguage": "en",
+            "keywords": [
+              "React",
+              "Context Menu",
+              "react-contexify",
+              "UI Components",
+              "Frontend"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/context-menu-in-react/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "React Context Menu with react-contexify",
+                "item": "https://pulkit.blog/context-menu-in-react/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/context-menu-in-react/#webpage",
+            "url": "https://pulkit.blog/context-menu-in-react/",
+            "name": "React Context Menu with react-contexify",
+            "description": "Build a custom React context menu with react-contexify, adding items, separators, submenus, and right-click triggers for fast in-app actions.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/context-menu-in-react/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/context-menu-in-react/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/context-menu-in-react/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>React Context Menu with react-contexify | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              React Context Menu with react-contexify
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2024-08-10">August 10, 2024</time>
-              · 2 min read
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>React Context Menu with react-contexify</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-08-10">August 10, 2024</time> · 2 min read</p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
-            <p class="mt-0 mb-6">
-              Creating a custom context menu in React can significantly enhance the user experience
-              by providing quick access to relevant actions. With the help of the
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://www.npmjs.com/package/react-contexify"
-                >react-contexify</a
-              >
-              library, you can easily implement a sleek and functional context menu tailored to your
-              application&#39;s needs. In this guide, we&#39;ll walk you through the steps to create
-              a custom context menu in React, ensuring your users have a seamless and intuitive
-              interaction with your app. Let&#39;s dive in and unlock the potential of context menus
-              in your React projects!
-            </p>
-            <p class="mt-0 mb-6">
-              I have bootstrapped a new React TypeScript project for this walkthrough.
-            </p>
-            <h3
-              id="adding-react-contexify-as-a-dependency"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Adding react-contexify as a Dependency
-            </h3>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">react-contexify</span>
-</code></pre>
+            <p class="mt-0 mb-6">Creating a custom context menu in React can significantly enhance the user experience by providing quick access to relevant actions. With the help of the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.npmjs.com/package/react-contexify">react-contexify</a> library, you can easily implement a sleek and functional context menu tailored to your application&#39;s needs. In this guide, we&#39;ll walk you through the steps to create a custom context menu in React, ensuring your users have a seamless and intuitive interaction with your app. Let&#39;s dive in and unlock the potential of context menus in your React projects!</p>
+            <p class="mt-0 mb-6">I have bootstrapped a new React TypeScript project for this walkthrough.</p>
+            <h3 id="adding-react-contexify-as-a-dependency" class="mt-8 text-lg leading-tight tracking-tight">Adding react-contexify as a Dependency</h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">pnpm</span> <span class="text-syn-s">add</span> <span class="text-syn-s">react-contexify</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Add the default css in the main.jsx</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-jsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-s">&quot;react-contexify/ReactContexify.css&quot;</span><span class="text-syn-u">;</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-jsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-s">&quot;react-contexify/ReactContexify.css&quot;</span><span class="text-syn-u">;</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Add basic styles in the index.css</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-css rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-g">body</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-p">margin</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span>
-  <span class="text-syn-p">padding</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <h3 id="business-logic" class="mt-8 text-lg leading-tight tracking-tight">
-              Business Logic
-            </h3>
-            <p class="mt-0 mb-6">
-              I am creating a div that spans the full height and width of the screen.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
-    <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span>
-      <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-        <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span>
-        <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span>
-      <span class="text-syn-u">}}</span>
-    <span class="text-syn-u">/&gt;</span>
-  <span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Next, I will add the context menu to this div. This means that whenever a right-click
-              event is triggered, a custom menu will appear.
-            </p>
-            <p class="mt-0 mb-6">
-              Start of by adding a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >/src/components/ContextMenu.tsx</code
-              >
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Menu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContextMenu</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              We can incorporate multiple
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >&lt;Items /&gt;</code
-              >
-              into the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >Menu</code
-              >
-              component.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>Item1<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>Item2<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              However, merely adding an item will not be sufficient. Each item should perform a
-              specific action when clicked. We could do that:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span>
-  <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-f">alert</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">}}</span>
-<span class="text-syn-u">&gt;</span>
-  Hello
-<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Additionally, to separate two sections, we can add a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >&lt;Separator /&gt;</code
-              >.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span>
-    <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-      console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span>
-    <span class="text-syn-u">}}</span>
-  <span class="text-syn-u">&gt;</span>
-    Hello
-  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span>
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>World<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-css block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-g">body</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">margin</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">padding</span><span class="text-syn-u">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <h3 id="business-logic" class="mt-8 text-lg leading-tight tracking-tight">Business Logic</h3>
+            <p class="mt-0 mb-6">I am creating a div that spans the full height and width of the screen.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Next, I will add the context menu to this div. This means that whenever a right-click event is triggered, a custom menu will appear.</p>
+            <p class="mt-0 mb-6">Start of by adding a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/src/components/ContextMenu.tsx</code></p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Menu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContextMenu</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">We can incorporate multiple <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;Items /&gt;</code> into the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Menu</code> component.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>Item1<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>Item2<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">However, merely adding an item will not be sufficient. Each item should perform a specific action when clicked. We could do that:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">alert</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Hello</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Additionally, to separate two sections, we can add a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;Separator /&gt;</code>.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    Hello</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>World<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Additionally, we can incorporate submenus.</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span>
-  //above code
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span>
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Submenu</span> <span class="text-syn-p">label</span><span class="text-syn-o">=</span><span class="text-syn-u">{&lt;&gt;</span>Hover me<span class="text-syn-u">&lt;/&gt;}&gt;</span>
-    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>Another<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>One<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Submenu</span><span class="text-syn-u">&gt;</span>
-<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Now that we have created our Menu, you can experiment with it and add as many Items as
-              necessary. Let&#39;s integrate it and observe it in action.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  //above code</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">Submenu</span> <span class="text-syn-p">label</span><span class="text-syn-o">=</span><span class="text-syn-u">{&lt;&gt;</span>Hover me<span class="text-syn-u">&lt;/&gt;}&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>Another<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>One<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Submenu</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;;</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Now that we have created our Menu, you can experiment with it and add as many Items as necessary. Let&#39;s integrate it and observe it in action.</p>
             <p class="mt-0 mb-6">Additionally, you may notice this error</p>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/react-contexify-context-menu/4824af70-c43f-4ee9-832d-7edcabcb9cac.webp"
-                class="block"
-                data-media-zoom
-                data-width="1123"
-                data-height="278"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/react-contexify-context-menu/4824af70-c43f-4ee9-832d-7edcabcb9cac.webp"
-                  alt="Console error showing missing Menu ID"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/react-contexify-context-menu/4824af70-c43f-4ee9-832d-7edcabcb9cac.webp" class="block" data-media-zoom data-width="1123" data-height="278">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-contexify-context-menu/4824af70-c43f-4ee9-832d-7edcabcb9cac.webp" alt="Console error showing missing Menu ID" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              Let&#39;s fix both! Add an ID to the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >&lt;ContextMenu/&gt;</code
-              >
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;context-menu&quot;</span><span class="text-syn-u">&gt;</span>
-</code></pre>
+            <p class="mt-0 mb-6">Let&#39;s fix both! Add an ID to the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;ContextMenu/&gt;</code></p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;context-menu&quot;</span><span class="text-syn-u">&gt;</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Add the ContextMenu in the App Component</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Fragment <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">import</span> ContextMenu <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./ContextMenu&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-u">&lt;</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span>
-    <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-      <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span>
-      <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span>
-    <span class="text-syn-u">}}</span>
-  <span class="text-syn-u">/&gt;</span>
-  <span class="text-syn-u">&lt;</span><span class="text-syn-g">ContextMenu</span> <span class="text-syn-u">/&gt;</span>
-<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;;</span>
-</code></pre>
-            <h3 id="final-integrations" class="mt-8 text-lg leading-tight tracking-tight">
-              Final Integrations
-            </h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Fragment <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> ContextMenu <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./ContextMenu&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">ContextMenu</span> <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;/</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;;</span></span>
+              </code>
+            </pre>
+            <h3 id="final-integrations" class="mt-8 text-lg leading-tight tracking-tight">Final Integrations</h3>
             <p class="mt-0 mb-6">Now, to enable the menu to trigger on a right-click event</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useContextMenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">const</span> <span class="text-syn-u">{</span> show <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useContextMenu</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;context-menu&quot;</span> <span class="text-syn-u">});</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              <strong>Note: The ID mentioned here and the one in the</strong>
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >&lt;ContextMenu /&gt;</code
-              >
-              <strong>should be the same.</strong>
-            </p>
-            <p class="mt-0 mb-6">
-              Now the last step add the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >onContextMenu</code
-              >
-              event in the
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >&lt;div/&gt;</code
-              >
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span>
-  <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-    <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span>
-  <span class="text-syn-u">}}</span>
-  <span class="text-syn-p">onContextMenu</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-f">show</span><span class="text-syn-u">({</span>
-      <span class="text-syn-p">event:</span> e<span class="text-syn-u">,</span>
-    <span class="text-syn-u">});</span>
-  <span class="text-syn-u">}}</span>
-<span class="text-syn-u">/&gt;;</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useContextMenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">{</span> show <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useContextMenu</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;context-menu&quot;</span> <span class="text-syn-u">});</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6"><strong>Note: The ID mentioned here and the one in the</strong> <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;ContextMenu /&gt;</code> <strong>should be the same.</strong></p>
+            <p class="mt-0 mb-6">Now the last step add the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">onContextMenu</code> event in the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;div/&gt;</code></p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">onContextMenu</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">show</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">event:</span> e<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">/&gt;;</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Voilà! You can now see the menu in action.</p>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp"
-                class="block"
-                data-media-zoom
-                data-width="1901"
-                data-height="975"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp"
-                  alt="Context menu displayed on right-click with multiple options"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp" class="block" data-media-zoom data-width="1901" data-height="975">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp" alt="Context menu displayed on right-click with multiple options" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6">Final Code:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// App.tsx</span>
-<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Fragment <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">import</span> <span class="text-syn-s">&quot;./index.css&quot;</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">import</span> ContextMenu <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./ContextMenu&quot;</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useContextMenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> show <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useContextMenu</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;context-menu&quot;</span> <span class="text-syn-u">});</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
-    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span>
-        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span>
-          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span>
-          <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span>
-        <span class="text-syn-u">}}</span>
-        <span class="text-syn-p">onContextMenu</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-          <span class="text-syn-f">show</span><span class="text-syn-u">({</span>
-            <span class="text-syn-p">event:</span> e<span class="text-syn-u">,</span>
-          <span class="text-syn-u">});</span>
-        <span class="text-syn-u">}}</span>
-      <span class="text-syn-u">/&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">ContextMenu</span> <span class="text-syn-u">/&gt;</span>
-    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-tsx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// ContextMenu.tsx</span>
-<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Item<span class="text-syn-u">,</span> Menu<span class="text-syn-u">,</span> Separator<span class="text-syn-u">,</span> Submenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContextMenu</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span>
-    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;context-menu&quot;</span><span class="text-syn-u">&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span>
-        <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-          console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span>
-        <span class="text-syn-u">}}</span>
-      <span class="text-syn-u">&gt;</span>
-        Hello
-      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>World<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span>
-      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Submenu</span> <span class="text-syn-p">label</span><span class="text-syn-o">=</span><span class="text-syn-u">{&lt;&gt;</span>Hover me<span class="text-syn-u">&lt;/&gt;}&gt;</span>
-        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>Another<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>One<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>
-      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Submenu</span><span class="text-syn-u">&gt;</span>
-    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span>
-  <span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              In conclusion, creating a custom context menu in React using the react-contexify
-              library can greatly enhance the user experience by providing quick and easy access to
-              relevant actions. By following the steps outlined in this guide, you can implement a
-              sleek and functional context menu tailored to your application&#39;s needs. Experiment
-              with different items and configurations to best suit your users&#39; needs. Happy
-              coding!
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// App.tsx</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Fragment <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-s">&quot;./index.css&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> ContextMenu <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;./ContextMenu&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useContextMenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">App</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> show <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useContextMenu</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;context-menu&quot;</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">height:</span> <span class="text-syn-s">&quot;100vh&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-p">width:</span> <span class="text-syn-s">&quot;100vw&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">onContextMenu</span><span class="text-syn-o">=</span><span class="text-syn-u">{(</span>e<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-f">show</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">            <span class="text-syn-p">event:</span> e<span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">ContextMenu</span> <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Fragment</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// ContextMenu.tsx</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> Item<span class="text-syn-u">,</span> Menu<span class="text-syn-u">,</span> Separator<span class="text-syn-u">,</span> Submenu <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react-contexify&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">function</span> <span class="text-syn-f">ContextMenu</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">Menu</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;context-menu&quot;</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">          console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Hello&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">}}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        Hello</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span>World<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Separator</span> <span class="text-syn-u">/&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">Submenu</span> <span class="text-syn-p">label</span><span class="text-syn-o">=</span><span class="text-syn-u">{&lt;&gt;</span>Hover me<span class="text-syn-u">&lt;/&gt;}&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>Another<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Item</span> <span class="text-syn-p">onClick</span><span class="text-syn-o">=</span><span class="text-syn-u">{()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{}}&gt;</span>One<span class="text-syn-u">&lt;/</span><span class="text-syn-g">Item</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Submenu</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Menu</span><span class="text-syn-u">&gt;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">In conclusion, creating a custom context menu in React using the react-contexify library can greatly enhance the user experience by providing quick and easy access to relevant actions. By following the steps outlined in this guide, you can implement a sleek and functional context menu tailored to your application&#39;s needs. Experiment with different items and configurations to best suit your users&#39; needs. Happy coding!</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/image-gallery-with-photoswipe/"
-                >React Image Gallery with PhotoSwipe</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/scroll-indicator-with-framer/"
-                >Scroll Indicator with Framer Motion useScroll</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/typewriter-effect-in-react/"
-                >Typewriter Effect in React</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/image-gallery-with-photoswipe/">React Image Gallery with PhotoSwipe</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/scroll-indicator-with-framer/">Scroll Indicator with Framer Motion useScroll</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/typewriter-effect-in-react/">Typewriter Effect in React</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/context-menu-in-react.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/context-menu-in-react.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>

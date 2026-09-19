@@ -1,49 +1,30 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems."
-    />
+    <meta name="description" content="Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems." />
     <link rel="canonical" href="https://pulkit.blog/system-design/load-balancers/" />
-    <link
-      rel="alternate"
-      type="text/markdown"
-      href="https://pulkit.blog/system-design/load-balancers.md"
-    />
+    <link rel="alternate" type="text/markdown" href="https://pulkit.blog/system-design/load-balancers.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="Load Balancers | pulkit.blog" />
-    <meta
-      property="og:description"
-      content="Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems."
-    />
+    <meta property="og:description" content="Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems." />
     <meta property="og:url" content="https://pulkit.blog/system-design/load-balancers/" />
-    <meta
-      property="og:image"
-      content="https://pulkit.blog/og/system-design/load-balancers/card.png"
-    />
-    <meta
-      property="og:image:secure_url"
-      content="https://pulkit.blog/og/system-design/load-balancers/card.png"
-    />
+    <meta property="og:image" content="https://pulkit.blog/og/system-design/load-balancers/card.png" />
+    <meta property="og:image:secure_url" content="https://pulkit.blog/og/system-design/load-balancers/card.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -52,226 +33,197 @@
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Load Balancers | pulkit.blog" />
-    <meta
-      name="twitter:description"
-      content="Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pulkit.blog/og/system-design/load-balancers/card.png"
-    />
+    <meta name="twitter:description" content="Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems." />
+    <meta name="twitter:image" content="https://pulkit.blog/og/system-design/load-balancers/card.png" />
     <meta name="twitter:image:alt" content="Load Balancers" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/system-design/load-balancers/#image","contentUrl":"https://pulkit.blog/og/system-design/load-balancers/card.png","width":1200,"height":630,"caption":"Load Balancers"},{"@type":"BlogPosting","@id":"https://pulkit.blog/system-design/load-balancers/#article","headline":"Load Balancers","description":"Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems.","datePublished":"2026-01-11","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/system-design/load-balancers/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/system-design/#webpage"},"image":{"@id":"https://pulkit.blog/system-design/load-balancers/#image"},"url":"https://pulkit.blog/system-design/load-balancers/","inLanguage":"en","keywords":["System Design","Load Balancing","Scalability","Networking","Infrastructure"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/system-design/load-balancers/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"System Design","item":"https://pulkit.blog/system-design/"},{"@type":"ListItem","position":3,"name":"Load Balancers","item":"https://pulkit.blog/system-design/load-balancers/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/system-design/load-balancers/#webpage","url":"https://pulkit.blog/system-design/load-balancers/","name":"Load Balancers","description":"Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/system-design/load-balancers/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/system-design/load-balancers/#article"},"breadcrumb":{"@id":"https://pulkit.blog/system-design/load-balancers/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/system-design/load-balancers/#image",
+            "contentUrl": "https://pulkit.blog/og/system-design/load-balancers/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Load Balancers"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/system-design/load-balancers/#article",
+            "headline": "Load Balancers",
+            "description": "Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems.",
+            "datePublished": "2026-01-11",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/system-design/load-balancers/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/system-design/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/system-design/load-balancers/#image"
+            },
+            "url": "https://pulkit.blog/system-design/load-balancers/",
+            "inLanguage": "en",
+            "keywords": [
+              "System Design",
+              "Load Balancing",
+              "Scalability",
+              "Networking",
+              "Infrastructure"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/system-design/load-balancers/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "System Design",
+                "item": "https://pulkit.blog/system-design/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Load Balancers",
+                "item": "https://pulkit.blog/system-design/load-balancers/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/system-design/load-balancers/#webpage",
+            "url": "https://pulkit.blog/system-design/load-balancers/",
+            "name": "Load Balancers",
+            "description": "Learn how load balancers enable horizontal scalability by distributing traffic across multiple servers. Understand load balancing algorithms, request flow, and key advantages for building resilient systems.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/system-design/load-balancers/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/system-design/load-balancers/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/system-design/load-balancers/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>Load Balancers | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              Load Balancers
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2026-01-11">January 11, 2026</time>
-              · 9 min read ·
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/"
-                >System Design</a
-              >
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>Load Balancers</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-11">January 11, 2026</time> · 9 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
-            <p class="mt-0 mb-6">
-              You&#39;ve built an API server. It&#39;s handling 100 requests per second just fine.
-              Then your app goes viral. Traffic spikes to 500 requests per second. Your single
-              server can&#39;t keep up. Requests are timing out. Users are complaining.
-            </p>
-            <p class="mt-0 mb-6">
-              The obvious solution? Add more servers. But here&#39;s the problem: how do clients
-              know which server to connect to? Do they pick randomly? What if one server goes down?
-              What if one server is overloaded while others sit idle?
-            </p>
-            <p class="mt-0 mb-6">
-              This is exactly what load balancers solve. They&#39;re the infrastructure that makes
-              horizontal scaling actually work.
-            </p>
-            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              TL;DR
-            </h2>
+            <p class="mt-0 mb-6">You&#39;ve built an API server. It&#39;s handling 100 requests per second just fine. Then your app goes viral. Traffic spikes to 500 requests per second. Your single server can&#39;t keep up. Requests are timing out. Users are complaining.</p>
+            <p class="mt-0 mb-6">The obvious solution? Add more servers. But here&#39;s the problem: how do clients know which server to connect to? Do they pick randomly? What if one server goes down? What if one server is overloaded while others sit idle?</p>
+            <p class="mt-0 mb-6">This is exactly what load balancers solve. They&#39;re the infrastructure that makes horizontal scaling actually work.</p>
+            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">TL;DR</h2>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Load balancers</strong>
-                are the single point of contact between clients and your backend servers
-              </li>
-              <li>
-                They abstract away the complexity of multiple servers, making your system appear as
-                one unified service
-              </li>
-              <li>
-                <strong>Static IP or DNS</strong>: Clients only need to know the load balancer&#39;s
-                address, not individual server IPs
-              </li>
-              <li>
-                <strong>Horizontal scalability</strong>: Add or remove backend servers without
-                clients knowing
-              </li>
-              <li>
-                <strong>Request flow</strong>: Client → Load Balancer → Backend Server → Load
-                Balancer → Client
-              </li>
-              <li>
-                <strong>Load balancing algorithms</strong>: Round Robin, Weighted Round Robin, Least
-                Connections, Hash-based routing
-              </li>
-              <li>
-                <strong>Key advantages</strong>: Scalability (add servers seamlessly) and
-                Availability (route around failures)
-              </li>
-              <li>
-                <strong>Configuration is key</strong>: Choose the right algorithm based on your
-                infrastructure and traffic patterns
-              </li>
+              <li><strong>Load balancers</strong> are the single point of contact between clients and your backend servers</li>
+              <li>They abstract away the complexity of multiple servers, making your system appear as one unified service</li>
+              <li><strong>Static IP or DNS</strong>: Clients only need to know the load balancer&#39;s address, not individual server IPs</li>
+              <li><strong>Horizontal scalability</strong>: Add or remove backend servers without clients knowing</li>
+              <li><strong>Request flow</strong>: Client → Load Balancer → Backend Server → Load Balancer → Client</li>
+              <li><strong>Load balancing algorithms</strong>: Round Robin, Weighted Round Robin, Least Connections, Hash-based routing</li>
+              <li><strong>Key advantages</strong>: Scalability (add servers seamlessly) and Availability (route around failures)</li>
+              <li><strong>Configuration is key</strong>: Choose the right algorithm based on your infrastructure and traffic patterns</li>
             </ul>
-            <h2
-              id="what-is-a-load-balancer"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              What is a Load Balancer?
-            </h2>
+            <h2 id="what-is-a-load-balancer" class="mt-12 text-xl font-semibold leading-tight tracking-tight">What is a Load Balancer?</h2>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/overview.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/overview.webp"
-                  alt="Load balancer sits between clients and backend servers, distributing traffic"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/load-balancers/overview.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/overview.webp" alt="Load balancer sits between clients and backend servers, distributing traffic" loading="lazy" />
+              </a>
             </p>
+            <p class="mt-0 mb-6">A load balancer is infrastructure that sits between your clients and your backend servers. It&#39;s the only point of contact for any client trying to reach your application.</p>
+            <p class="mt-0 mb-6">Think about what happens without a load balancer. If you have three API servers, clients would need to know the IP address of each server. Which one should they connect to? What if one goes down? How do they know which server has capacity?</p>
+            <p class="mt-0 mb-6">This is messy. Load balancers solve this by providing a single, stable endpoint.</p>
+            <h3 id="the-single-point-of-contact" class="mt-8 text-lg leading-tight tracking-tight">The Single Point of Contact</h3>
             <p class="mt-0 mb-6">
-              A load balancer is infrastructure that sits between your clients and your backend
-              servers. It&#39;s the only point of contact for any client trying to reach your
-              application.
-            </p>
-            <p class="mt-0 mb-6">
-              Think about what happens without a load balancer. If you have three API servers,
-              clients would need to know the IP address of each server. Which one should they
-              connect to? What if one goes down? How do they know which server has capacity?
-            </p>
-            <p class="mt-0 mb-6">
-              This is messy. Load balancers solve this by providing a single, stable endpoint.
-            </p>
-            <h3 id="the-single-point-of-contact" class="mt-8 text-lg leading-tight tracking-tight">
-              The Single Point of Contact
-            </h3>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/single-point-of-contact.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/single-point-of-contact.webp"
-                  alt="Clients connect to load balancer&#39;s static IP or DNS name"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/load-balancers/single-point-of-contact.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/single-point-of-contact.webp" alt="Clients connect to load balancer&#39;s static IP or DNS name" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6">Every load balancer has either:</p>
             <ul class="mt-0 mb-6">
               <li><strong>Static IP address</strong>: A fixed IP that never changes</li>
-              <li>
-                <strong>Static DNS name</strong>: A domain name like
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >api.pulkitxm.com</code
-                >
-              </li>
+              <li><strong>Static DNS name</strong>: A domain name like <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">api.pulkitxm.com</code></li>
             </ul>
-            <p class="mt-0 mb-6">
-              Clients only need to know this one address. They don&#39;t care how many servers are
-              behind it. They don&#39;t need to track which servers are healthy or which have
-              capacity.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> API_BASE <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;https://api.pulkitxm.com&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">fetchUserProfile</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">User</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">`${API_BASE}/users/${userId}`</span><span class="text-syn-u">);</span>
-  <span class="text-syn-k">return</span> response<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              The client makes a request to
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >api.pulkitxm.com</code
-              >. Behind the scenes, the load balancer decides which of your backend servers should
-              handle it. The client never knows the difference.
-            </p>
-            <h3 id="abstracting-distributedness" class="mt-8 text-lg leading-tight tracking-tight">
-              Abstracting Distributedness
-            </h3>
-            <p class="mt-0 mb-6">
-              This abstraction is powerful. Your system might have one server, five servers, or five
-              hundred servers. From the client&#39;s perspective, it&#39;s all the same. They talk
-              to the load balancer, and the load balancer handles the rest.
-            </p>
+            <p class="mt-0 mb-6">Clients only need to know this one address. They don&#39;t care how many servers are behind it. They don&#39;t need to track which servers are healthy or which have capacity.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> API_BASE <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;https://api.pulkitxm.com&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">fetchUserProfile</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Promise</span><span class="text-syn-u">&lt;</span><span class="text-syn-t">User</span><span class="text-syn-u">&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">`${API_BASE}/users/${userId}`</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> response<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The client makes a request to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">api.pulkitxm.com</code>. Behind the scenes, the load balancer decides which of your backend servers should handle it. The client never knows the difference.</p>
+            <h3 id="abstracting-distributedness" class="mt-8 text-lg leading-tight tracking-tight">Abstracting Distributedness</h3>
+            <p class="mt-0 mb-6">This abstraction is powerful. Your system might have one server, five servers, or five hundred servers. From the client&#39;s perspective, it&#39;s all the same. They talk to the load balancer, and the load balancer handles the rest.</p>
             <p class="mt-0 mb-6">This means you can:</p>
             <ul class="mt-0 mb-6">
               <li>Add servers during traffic spikes</li>
@@ -279,157 +231,77 @@
               <li>Replace failing servers without downtime</li>
               <li>Scale horizontally without changing client code</li>
             </ul>
+            <p class="mt-0 mb-6">The load balancer hides the distributed nature of your system, making it appear as a single, unified service.</p>
+            <h2 id="how-load-balancers-work" class="mt-12 text-xl font-semibold leading-tight tracking-tight">How Load Balancers Work</h2>
             <p class="mt-0 mb-6">
-              The load balancer hides the distributed nature of your system, making it appear as a
-              single, unified service.
-            </p>
-            <h2
-              id="how-load-balancers-work"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              How Load Balancers Work
-            </h2>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/request-flow.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/request-flow.webp"
-                  alt="Request flow through a load balancer"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/load-balancers/request-flow.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/request-flow.webp" alt="Request flow through a load balancer" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6">Let&#39;s trace through a typical request:</p>
-            <p class="mt-0 mb-6">
-              <strong>Step 1: Client has the load balancer&#39;s address</strong>
-            </p>
-            <p class="mt-0 mb-6">
-              Your authentication service is available at
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >auth.pulkitxm.com</code
-              >. This DNS name resolves to your load balancer&#39;s IP address.
-            </p>
+            <p class="mt-0 mb-6"><strong>Step 1: Client has the load balancer&#39;s address</strong></p>
+            <p class="mt-0 mb-6">Your authentication service is available at <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">auth.pulkitxm.com</code>. This DNS name resolves to your load balancer&#39;s IP address.</p>
             <p class="mt-0 mb-6"><strong>Step 2: Client makes a request</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">GET</span> <span class="text-syn-s">https://auth.pulkitxm.com/login</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">GET</span> <span class="text-syn-s">https://auth.pulkitxm.com/login</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">The request arrives at the load balancer.</p>
             <p class="mt-0 mb-6"><strong>Step 3: Load balancer picks a backend server</strong></p>
             <p class="mt-0 mb-6">The load balancer has three backend servers registered:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Server 1: 10.0.1.10:8080
-Server 2: 10.0.1.11:8080
-Server 3: 10.0.1.12:8080
-</code></pre>
-            <p class="mt-0 mb-6">
-              Using its configured algorithm (<a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="#load-balancing-algorithms"
-                >more on this soon</a
-              >), it picks Server 2.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Server 1: 10.0.1.10:8080</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 2: 10.0.1.11:8080</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 3: 10.0.1.12:8080</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Using its configured algorithm (<a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="#load-balancing-algorithms">more on this soon</a>), it picks Server 2.</p>
             <p class="mt-0 mb-6"><strong>Step 4: Load balancer forwards the request</strong></p>
             <p class="mt-0 mb-6">The load balancer makes the exact same request to Server 2:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">GET</span> <span class="text-syn-s">http://10.0.1.11:8080/login</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">GET</span> <span class="text-syn-s">http://10.0.1.11:8080/login</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Step 5: Server responds</strong></p>
             <p class="mt-0 mb-6">Server 2 processes the request and sends back a response.</p>
             <p class="mt-0 mb-6"><strong>Step 6: Load balancer returns the response</strong></p>
-            <p class="mt-0 mb-6">
-              The load balancer receives the response from Server 2 and forwards it back to the
-              client.
-            </p>
-            <p class="mt-0 mb-6">
-              From the client&#39;s perspective, they made one request to
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >auth.pulkitxm.com</code
-              >
-              and got a response. They have no idea which backend server handled it.
-            </p>
-            <h3
-              id="service-to-service-communication"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              Service-to-Service Communication
-            </h3>
-            <p class="mt-0 mb-6">
-              When I draw a user icon in these diagrams, it doesn&#39;t just mean human users. It
-              represents any client making a request.
-            </p>
-            <p class="mt-0 mb-6">
-              In a microservices architecture, services talk to each other through load balancers:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Order Service → Payment Service Load Balancer → Payment Service Servers
-</code></pre>
-            <p class="mt-0 mb-6">
-              The order service doesn&#39;t need to know which payment service server to connect to.
-              It talks to the load balancer, and the load balancer routes the request appropriately.
-            </p>
-            <p class="mt-0 mb-6">
-              This is what makes distributed systems manageable. Every service exposes a single
-              endpoint (its load balancer), and other services connect to that endpoint.
-            </p>
-            <h2
-              id="load-balancing-algorithms"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Load Balancing Algorithms
-            </h2>
-            <p class="mt-0 mb-6">
-              The core job of a load balancer is to pick which backend server should handle each
-              request. This decision is made using a <strong>load balancing algorithm</strong>.
-            </p>
-            <p class="mt-0 mb-6">
-              Different algorithms optimize for different scenarios. Let&#39;s look at the most
-              common ones.
-            </p>
+            <p class="mt-0 mb-6">The load balancer receives the response from Server 2 and forwards it back to the client.</p>
+            <p class="mt-0 mb-6">From the client&#39;s perspective, they made one request to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">auth.pulkitxm.com</code> and got a response. They have no idea which backend server handled it.</p>
+            <h3 id="service-to-service-communication" class="mt-8 text-lg leading-tight tracking-tight">Service-to-Service Communication</h3>
+            <p class="mt-0 mb-6">When I draw a user icon in these diagrams, it doesn&#39;t just mean human users. It represents any client making a request.</p>
+            <p class="mt-0 mb-6">In a microservices architecture, services talk to each other through load balancers:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Order Service → Payment Service Load Balancer → Payment Service Servers</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The order service doesn&#39;t need to know which payment service server to connect to. It talks to the load balancer, and the load balancer routes the request appropriately.</p>
+            <p class="mt-0 mb-6">This is what makes distributed systems manageable. Every service exposes a single endpoint (its load balancer), and other services connect to that endpoint.</p>
+            <h2 id="load-balancing-algorithms" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Load Balancing Algorithms</h2>
+            <p class="mt-0 mb-6">The core job of a load balancer is to pick which backend server should handle each request. This decision is made using a <strong>load balancing algorithm</strong>.</p>
+            <p class="mt-0 mb-6">Different algorithms optimize for different scenarios. Let&#39;s look at the most common ones.</p>
             <h3 id="round-robin" class="mt-8 text-lg leading-tight tracking-tight">Round Robin</h3>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/round-robin.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/round-robin.webp"
-                  alt="Round robin distributes requests sequentially across servers"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/load-balancers/round-robin.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/round-robin.webp" alt="Round robin distributes requests sequentially across servers" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6">The simplest algorithm. Requests are distributed in order:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Request 1 → Server 1
-Request 2 → Server 2
-Request 3 → Server 3
-Request 4 → Server 1
-Request 5 → Server 2
-Request 6 → Server 3
-...
-</code></pre>
-            <p class="mt-0 mb-6">
-              Each server gets an equal share of requests. If you have three servers, each handles
-              roughly 33% of the traffic.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Request 1 → Server 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 2 → Server 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 3 → Server 3</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 4 → Server 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 5 → Server 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 6 → Server 3</span>
+                <span class="block leading-(--pre-line) whitespace-pre">...</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Each server gets an equal share of requests. If you have three servers, each handles roughly 33% of the traffic.</p>
             <p class="mt-0 mb-6"><strong>When to use it:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Your infrastructure is uniform (all servers have the same specs)</li>
@@ -437,70 +309,46 @@ Request 6 → Server 3
               <li>You want simple, predictable distribution</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Example:</strong></p>
+            <p class="mt-0 mb-6">You&#39;re running a stateless REST API. Each server is identical: 4 CPU cores, 16GB RAM. Every request takes roughly the same time to process (50-100ms). Round robin works perfectly here.</p>
+            <p class="mt-0 mb-6">This is the default algorithm for most load balancers, and it works well for the majority of use cases.</p>
+            <h3 id="weighted-round-robin" class="mt-8 text-lg leading-tight tracking-tight">Weighted Round Robin</h3>
             <p class="mt-0 mb-6">
-              You&#39;re running a stateless REST API. Each server is identical: 4 CPU cores, 16GB
-              RAM. Every request takes roughly the same time to process (50-100ms). Round robin
-              works perfectly here.
-            </p>
-            <p class="mt-0 mb-6">
-              This is the default algorithm for most load balancers, and it works well for the
-              majority of use cases.
-            </p>
-            <h3 id="weighted-round-robin" class="mt-8 text-lg leading-tight tracking-tight">
-              Weighted Round Robin
-            </h3>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/weighted-round-robin.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/weighted-round-robin.webp"
-                  alt="Weighted round robin distributes requests based on server capacity"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/load-balancers/weighted-round-robin.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/weighted-round-robin.webp" alt="Weighted round robin distributes requests based on server capacity" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6">What if your servers aren&#39;t identical? Maybe you have:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Server 1: 4GB RAM
-Server 2: 8GB RAM
-Server 3: 4GB RAM
-</code></pre>
-            <p class="mt-0 mb-6">
-              Server 2 has twice the capacity. With regular round robin, it would only get 33% of
-              requests, leaving capacity unused.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Server 1: 4GB RAM</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 2: 8GB RAM</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 3: 4GB RAM</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Server 2 has twice the capacity. With regular round robin, it would only get 33% of requests, leaving capacity unused.</p>
             <p class="mt-0 mb-6">Weighted round robin lets you assign weights:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Server 1: weight = 1
-Server 2: weight = 2
-Server 3: weight = 1
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Server 1: weight = 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 2: weight = 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 3: weight = 1</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Now requests are distributed in a 1:2:1 ratio:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Request 1 → Server 1
-Request 2 → Server 2
-Request 3 → Server 2
-Request 4 → Server 3
-Request 5 → Server 1
-Request 6 → Server 2
-Request 7 → Server 2
-Request 8 → Server 3
-...
-</code></pre>
-            <p class="mt-0 mb-6">
-              Server 2 gets twice as many requests because it has twice the capacity.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Request 1 → Server 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 2 → Server 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 3 → Server 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 4 → Server 3</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 5 → Server 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 6 → Server 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 7 → Server 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 8 → Server 3</span>
+                <span class="block leading-(--pre-line) whitespace-pre">...</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Server 2 gets twice as many requests because it has twice the capacity.</p>
             <p class="mt-0 mb-6"><strong>When to use it:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Your infrastructure is non-uniform (different server specs)</li>
@@ -508,51 +356,31 @@ Request 8 → Server 3
               <li>Some servers are more powerful than others</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Configuration example:</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> servers <span class="text-syn-o">=</span> <span class="text-syn-u">[</span>
-  <span class="text-syn-u">{</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;10.0.1.10&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">port:</span> <span class="text-syn-n">8080</span><span class="text-syn-u">,</span> <span class="text-syn-p">weight:</span> <span class="text-syn-n">1</span> <span class="text-syn-u">},</span>
-  <span class="text-syn-u">{</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;10.0.1.11&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">port:</span> <span class="text-syn-n">8080</span><span class="text-syn-u">,</span> <span class="text-syn-p">weight:</span> <span class="text-syn-n">2</span> <span class="text-syn-u">},</span>
-  <span class="text-syn-u">{</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;10.0.1.12&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">port:</span> <span class="text-syn-n">8080</span><span class="text-syn-u">,</span> <span class="text-syn-p">weight:</span> <span class="text-syn-n">1</span> <span class="text-syn-u">},</span>
-<span class="text-syn-u">];</span>
-</code></pre>
-            <h3 id="least-connections" class="mt-8 text-lg leading-tight tracking-tight">
-              Least Connections
-            </h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> servers <span class="text-syn-o">=</span> <span class="text-syn-u">[</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;10.0.1.10&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">port:</span> <span class="text-syn-n">8080</span><span class="text-syn-u">,</span> <span class="text-syn-p">weight:</span> <span class="text-syn-n">1</span> <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;10.0.1.11&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">port:</span> <span class="text-syn-n">8080</span><span class="text-syn-u">,</span> <span class="text-syn-p">weight:</span> <span class="text-syn-n">2</span> <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">{</span> <span class="text-syn-p">host:</span> <span class="text-syn-s">&quot;10.0.1.12&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-p">port:</span> <span class="text-syn-n">8080</span><span class="text-syn-u">,</span> <span class="text-syn-p">weight:</span> <span class="text-syn-n">1</span> <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">];</span></span>
+              </code>
+            </pre>
+            <h3 id="least-connections" class="mt-8 text-lg leading-tight tracking-tight">Least Connections</h3>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/least-connections.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/least-connections.webp"
-                  alt="Least connections picks the server with fewest active connections"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/load-balancers/least-connections.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/least-connections.webp" alt="Least connections picks the server with fewest active connections" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              Every time a load balancer forwards a request to a backend server, it creates a
-              connection. When the server responds, the connection closes.
-            </p>
-            <p class="mt-0 mb-6">
-              The number of active connections to a server indicates how busy it is. A server with
-              10 active connections is busier than one with 2 active connections.
-            </p>
-            <p class="mt-0 mb-6">
-              Least connections algorithm picks the server with the fewest active connections:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Server 1: 5 connections
-Server 2: 2 connections  ← Pick this one
-Server 3: 8 connections
-</code></pre>
+            <p class="mt-0 mb-6">Every time a load balancer forwards a request to a backend server, it creates a connection. When the server responds, the connection closes.</p>
+            <p class="mt-0 mb-6">The number of active connections to a server indicates how busy it is. A server with 10 active connections is busier than one with 2 active connections.</p>
+            <p class="mt-0 mb-6">Least connections algorithm picks the server with the fewest active connections:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Server 1: 5 connections</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 2: 2 connections  ← Pick this one</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 3: 8 connections</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>When to use it:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Your requests have highly variable processing times</li>
@@ -560,71 +388,38 @@ Server 3: 8 connections
               <li>You want to avoid overloading busy servers</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Example:</strong></p>
-            <p class="mt-0 mb-6">
-              You&#39;re running a video processing service. Some videos take 2 seconds to process,
-              others take 5 minutes. If you use round robin, you might send three long-running
-              requests to Server 1 while Server 2 sits idle.
-            </p>
-            <p class="mt-0 mb-6">
-              With least connections, the load balancer sees that Server 1 is busy (3 active
-              connections) and routes new requests to Server 2 (0 active connections). This keeps
-              response times more consistent.
-            </p>
+            <p class="mt-0 mb-6">You&#39;re running a video processing service. Some videos take 2 seconds to process, others take 5 minutes. If you use round robin, you might send three long-running requests to Server 1 while Server 2 sits idle.</p>
+            <p class="mt-0 mb-6">With least connections, the load balancer sees that Server 1 is busy (3 active connections) and routes new requests to Server 2 (0 active connections). This keeps response times more consistent.</p>
             <p class="mt-0 mb-6"><strong>The key insight:</strong></p>
+            <p class="mt-0 mb-6">When response times vary significantly, you want to send new requests to servers that are relatively free. Least connections achieves this by tracking active connections as a proxy for server load.</p>
+            <h3 id="hash-based-routing" class="mt-8 text-lg leading-tight tracking-tight">Hash-Based Routing</h3>
             <p class="mt-0 mb-6">
-              When response times vary significantly, you want to send new requests to servers that
-              are relatively free. Least connections achieves this by tracking active connections as
-              a proxy for server load.
+              <a href="/assets/content/blogs/load-balancers/hash-based.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/hash-based.webp" alt="Hash-based routing ensures requests from the same user go to the same server" loading="lazy" />
+              </a>
             </p>
-            <h3 id="hash-based-routing" class="mt-8 text-lg leading-tight tracking-tight">
-              Hash-Based Routing
-            </h3>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/hash-based.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/hash-based.webp"
-                  alt="Hash-based routing ensures requests from the same user go to the same server"
-                  loading="lazy"
-                /></a
-              >
-            </p>
-            <p class="mt-0 mb-6">
-              Sometimes you need <strong>stickiness</strong>: requests from the same user should
-              always go to the same server.
-            </p>
-            <p class="mt-0 mb-6">
-              Hash-based routing picks a parameter (user ID, IP address, session token) and hashes
-              it:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">function</span> <span class="text-syn-f">getServer</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Server</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashFunction</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span>
-  <span class="text-syn-k">const</span> serverIndex <span class="text-syn-o">=</span> hash <span class="text-syn-o">%</span> servers<span class="text-syn-u">.</span>length<span class="text-syn-u">;</span>
-  <span class="text-syn-k">return</span> servers<span class="text-syn-u">[</span>serverIndex<span class="text-syn-u">];</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Because hash functions are deterministic, the same input always produces the same
-              output. This means:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">User 123 → hash(123) % 3 = 1 → Server 2
-User 456 → hash(456) % 3 = 0 → Server 1
-User 789 → hash(789) % 3 = 2 → Server 3
-
-// Later...
-User 123 → hash(123) % 3 = 1 → Server 2 (same server!)
-</code></pre>
+            <p class="mt-0 mb-6">Sometimes you need <strong>stickiness</strong>: requests from the same user should always go to the same server.</p>
+            <p class="mt-0 mb-6">Hash-based routing picks a parameter (user ID, IP address, session token) and hashes it:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">getServer</span><span class="text-syn-u">(</span>userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">Server</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> hash <span class="text-syn-o">=</span> <span class="text-syn-f">hashFunction</span><span class="text-syn-u">(</span>userId<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> serverIndex <span class="text-syn-o">=</span> hash <span class="text-syn-o">%</span> servers<span class="text-syn-u">.</span>length<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> servers<span class="text-syn-u">[</span>serverIndex<span class="text-syn-u">];</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Because hash functions are deterministic, the same input always produces the same output. This means:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">User 123 → hash(123) % 3 = 1 → Server 2</span>
+                <span class="block leading-(--pre-line) whitespace-pre">User 456 → hash(456) % 3 = 0 → Server 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">User 789 → hash(789) % 3 = 2 → Server 3</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">// Later...</span>
+                <span class="block leading-(--pre-line) whitespace-pre">User 123 → hash(123) % 3 = 1 → Server 2 (same server!)</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>When to use it:</strong></p>
             <ul class="mt-0 mb-6">
               <li>You need session affinity (sticky sessions)</li>
@@ -632,172 +427,102 @@ User 123 → hash(123) % 3 = 1 → Server 2 (same server!)
               <li>You want consistent routing for the same user</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Example:</strong></p>
-            <p class="mt-0 mb-6">
-              You&#39;re building a chat application. Each server maintains WebSocket connections
-              and caches recent messages in memory. If a user&#39;s requests bounce between servers,
-              they&#39;d have to re-establish connections and re-fetch cached data.
-            </p>
-            <p class="mt-0 mb-6">
-              With hash-based routing on user ID, all requests from the same user go to the same
-              server. The server can maintain the WebSocket connection and keep the cache warm.
-            </p>
+            <p class="mt-0 mb-6">You&#39;re building a chat application. Each server maintains WebSocket connections and caches recent messages in memory. If a user&#39;s requests bounce between servers, they&#39;d have to re-establish connections and re-fetch cached data.</p>
+            <p class="mt-0 mb-6">With hash-based routing on user ID, all requests from the same user go to the same server. The server can maintain the WebSocket connection and keep the cache warm.</p>
             <p class="mt-0 mb-6"><strong>Trade-off:</strong></p>
-            <p class="mt-0 mb-6">
-              Hash-based routing gives you stickiness but sacrifices even distribution. If one user
-              generates 50% of your traffic, one server will handle 50% of the load. Use it only
-              when you need the stickiness it provides.
-            </p>
-            <h2
-              id="key-advantages-of-load-balancers"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Key Advantages of Load Balancers
-            </h2>
+            <p class="mt-0 mb-6">Hash-based routing gives you stickiness but sacrifices even distribution. If one user generates 50% of your traffic, one server will handle 50% of the load. Use it only when you need the stickiness it provides.</p>
+            <h2 id="key-advantages-of-load-balancers" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Key Advantages of Load Balancers</h2>
             <h3 id="scalability" class="mt-8 text-lg leading-tight tracking-tight">Scalability</h3>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/scalability.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/scalability.webp"
-                  alt="Adding servers behind a load balancer scales capacity"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/load-balancers/scalability.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/scalability.webp" alt="Adding servers behind a load balancer scales capacity" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              This is the big one. Load balancers enable horizontal scalability.
-            </p>
+            <p class="mt-0 mb-6">This is the big one. Load balancers enable horizontal scalability.</p>
             <p class="mt-0 mb-6"><strong>Without load balancer:</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Single server: 100 requests/second capacity
-Traffic: 150 requests/second
-Result: Server overloaded, requests timing out
-</code></pre>
-            <p class="mt-0 mb-6">
-              You&#39;re stuck. You can&#39;t add another server because clients don&#39;t know how
-              to connect to it.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Single server: 100 requests/second capacity</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Traffic: 150 requests/second</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Result: Server overloaded, requests timing out</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">You&#39;re stuck. You can&#39;t add another server because clients don&#39;t know how to connect to it.</p>
             <p class="mt-0 mb-6"><strong>With load balancer:</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Server 1: 100 requests/second
-Server 2: 100 requests/second
-Total capacity: 200 requests/second
-Traffic: 150 requests/second
-Result: Handled easily
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Server 1: 100 requests/second</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 2: 100 requests/second</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Total capacity: 200 requests/second</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Traffic: 150 requests/second</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Result: Handled easily</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">And when traffic grows to 250 requests/second? Add a third server:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Server 1: 100 requests/second</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 2: 100 requests/second</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 3: 100 requests/second</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Total capacity: 300 requests/second</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The load balancer automatically starts routing requests to the new server. No client changes needed. No downtime. Just more capacity.</p>
+            <p class="mt-0 mb-6">This is why load balancers are essential for horizontal scalability. They let you add capacity by adding servers, not by upgrading existing ones.</p>
+            <h3 id="availability" class="mt-8 text-lg leading-tight tracking-tight">Availability</h3>
             <p class="mt-0 mb-6">
-              And when traffic grows to 250 requests/second? Add a third server:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Server 1: 100 requests/second
-Server 2: 100 requests/second
-Server 3: 100 requests/second
-Total capacity: 300 requests/second
-</code></pre>
-            <p class="mt-0 mb-6">
-              The load balancer automatically starts routing requests to the new server. No client
-              changes needed. No downtime. Just more capacity.
-            </p>
-            <p class="mt-0 mb-6">
-              This is why load balancers are essential for horizontal scalability. They let you add
-              capacity by adding servers, not by upgrading existing ones.
-            </p>
-            <h3 id="availability" class="mt-8 text-lg leading-tight tracking-tight">
-              Availability
-            </h3>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/load-balancers/availability.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/load-balancers/availability.webp"
-                  alt="Load balancer routes around failed servers"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/load-balancers/availability.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/load-balancers/availability.webp" alt="Load balancer routes around failed servers" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6">Even if one server crashes, your system stays up.</p>
             <p class="mt-0 mb-6"><strong>Scenario:</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Server 1: Running
-Server 2: Crashed
-Server 3: Running
-</code></pre>
-            <p class="mt-0 mb-6">
-              The load balancer detects that Server 2 isn&#39;t responding (via health checks) and
-              stops sending requests to it:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Request 1 → Server 1
-Request 2 → Server 3
-Request 3 → Server 1
-Request 4 → Server 3
-</code></pre>
-            <p class="mt-0 mb-6">
-              Server 2 is down, but your users don&#39;t notice. The load balancer seamlessly routes
-              traffic to healthy servers.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Server 1: Running</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 2: Crashed</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server 3: Running</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The load balancer detects that Server 2 isn&#39;t responding (via health checks) and stops sending requests to it:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Request 1 → Server 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 2 → Server 3</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 3 → Server 1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Request 4 → Server 3</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Server 2 is down, but your users don&#39;t notice. The load balancer seamlessly routes traffic to healthy servers.</p>
             <p class="mt-0 mb-6"><strong>Health checks:</strong></p>
             <p class="mt-0 mb-6">Load balancers periodically ping each backend server:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-bash rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">GET</span> <span class="text-syn-s">http://10.0.1.11:8080/health</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              If a server doesn&#39;t respond or returns an error, the load balancer marks it as
-              unhealthy and stops routing traffic to it. When the server recovers and starts
-              responding to health checks again, the load balancer adds it back to the pool.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">interface</span> <span class="text-syn-t">HealthCheck</span> <span class="text-syn-u">{</span>
-  path<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span>
-  interval<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
-  timeout<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
-  unhealthyThreshold<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
-  healthyThreshold<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-
-<span class="text-syn-k">const</span> healthCheck<span class="text-syn-o">:</span> <span class="text-syn-t">HealthCheck</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-p">path:</span> <span class="text-syn-s">&quot;/health&quot;</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">interval:</span> <span class="text-syn-n">10000</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">timeout:</span> <span class="text-syn-n">2000</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">unhealthyThreshold:</span> <span class="text-syn-n">3</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">healthyThreshold:</span> <span class="text-syn-n">2</span><span class="text-syn-u">,</span>
-<span class="text-syn-u">};</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              This configuration checks
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >/health</code
-              >
-              every 10 seconds. If a server fails 3 consecutive checks, it&#39;s marked unhealthy.
-              Once it passes 2 consecutive checks, it&#39;s marked healthy again.
-            </p>
-            <h3 id="the-combined-power" class="mt-8 text-lg leading-tight tracking-tight">
-              The Combined Power
-            </h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">GET</span> <span class="text-syn-s">http://10.0.1.11:8080/health</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">If a server doesn&#39;t respond or returns an error, the load balancer marks it as unhealthy and stops routing traffic to it. When the server recovers and starts responding to health checks again, the load balancer adds it back to the pool.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">HealthCheck</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  path<span class="text-syn-o">:</span> <span class="text-syn-t">string</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  interval<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  timeout<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  unhealthyThreshold<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  healthyThreshold<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> healthCheck<span class="text-syn-o">:</span> <span class="text-syn-t">HealthCheck</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">path:</span> <span class="text-syn-s">&quot;/health&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">interval:</span> <span class="text-syn-n">10000</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">timeout:</span> <span class="text-syn-n">2000</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">unhealthyThreshold:</span> <span class="text-syn-n">3</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">healthyThreshold:</span> <span class="text-syn-n">2</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">This configuration checks <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/health</code> every 10 seconds. If a server fails 3 consecutive checks, it&#39;s marked unhealthy. Once it passes 2 consecutive checks, it&#39;s marked healthy again.</p>
+            <h3 id="the-combined-power" class="mt-8 text-lg leading-tight tracking-tight">The Combined Power</h3>
             <p class="mt-0 mb-6">Scalability + Availability = Resilient systems that can grow.</p>
             <p class="mt-0 mb-6">You can:</p>
             <ul class="mt-0 mb-6">
@@ -807,26 +532,11 @@ Request 4 → Server 3
               <li>Deploy new versions with zero downtime (blue-green deployments)</li>
               <li>Perform maintenance without taking your system offline</li>
             </ul>
-            <p class="mt-0 mb-6">
-              All of this is possible because the load balancer abstracts away the complexity of
-              multiple servers.
-            </p>
-            <h2
-              id="load-balancer-types"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Load Balancer Types
-            </h2>
-            <p class="mt-0 mb-6">
-              There are different types of load balancers operating at different layers of the
-              network stack:
-            </p>
-            <h3 id="layer-4-transport-layer" class="mt-8 text-lg leading-tight tracking-tight">
-              Layer 4 (Transport Layer)
-            </h3>
-            <p class="mt-0 mb-6">
-              Operates at the TCP/UDP level. Makes routing decisions based on:
-            </p>
+            <p class="mt-0 mb-6">All of this is possible because the load balancer abstracts away the complexity of multiple servers.</p>
+            <h2 id="load-balancer-types" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Load Balancer Types</h2>
+            <p class="mt-0 mb-6">There are different types of load balancers operating at different layers of the network stack:</p>
+            <h3 id="layer-4-transport-layer" class="mt-8 text-lg leading-tight tracking-tight">Layer 4 (Transport Layer)</h3>
+            <p class="mt-0 mb-6">Operates at the TCP/UDP level. Makes routing decisions based on:</p>
             <ul class="mt-0 mb-6">
               <li>Source IP address</li>
               <li>Destination IP address</li>
@@ -840,12 +550,8 @@ Request 4 → Server 3
               <li>Can&#39;t make decisions based on HTTP headers or URLs</li>
             </ul>
             <p class="mt-0 mb-6"><strong>Use case:</strong></p>
-            <p class="mt-0 mb-6">
-              You need raw performance and don&#39;t need HTTP-specific features.
-            </p>
-            <h3 id="layer-7-application-layer" class="mt-8 text-lg leading-tight tracking-tight">
-              Layer 7 (Application Layer)
-            </h3>
+            <p class="mt-0 mb-6">You need raw performance and don&#39;t need HTTP-specific features.</p>
+            <h3 id="layer-7-application-layer" class="mt-8 text-lg leading-tight tracking-tight">Layer 7 (Application Layer)</h3>
             <p class="mt-0 mb-6">Operates at the HTTP level. Makes routing decisions based on:</p>
             <ul class="mt-0 mb-6">
               <li>URL path</li>
@@ -862,29 +568,16 @@ Request 4 → Server 3
             <p class="mt-0 mb-6"><strong>Use case:</strong></p>
             <p class="mt-0 mb-6">You need intelligent routing based on request content.</p>
             <p class="mt-0 mb-6"><strong>Example:</strong></p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">/api/users/*    → User Service
-/api/orders/*   → Order Service
-/api/products/* → Product Service
-</code></pre>
-            <p class="mt-0 mb-6">
-              A Layer 7 load balancer can route requests to different backend services based on the
-              URL path.
-            </p>
-            <h2
-              id="real-world-load-balancers"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Real-World Load Balancers
-            </h2>
-            <h3
-              id="aws-elastic-load-balancer-elb"
-              class="mt-8 text-lg leading-tight tracking-tight"
-            >
-              AWS Elastic Load Balancer (ELB)
-            </h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">/api/users/*    → User Service</span>
+                <span class="block leading-(--pre-line) whitespace-pre">/api/orders/*   → Order Service</span>
+                <span class="block leading-(--pre-line) whitespace-pre">/api/products/* → Product Service</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">A Layer 7 load balancer can route requests to different backend services based on the URL path.</p>
+            <h2 id="real-world-load-balancers" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Real-World Load Balancers</h2>
+            <h3 id="aws-elastic-load-balancer-elb" class="mt-8 text-lg leading-tight tracking-tight">AWS Elastic Load Balancer (ELB)</h3>
             <p class="mt-0 mb-6">AWS offers three types:</p>
             <p class="mt-0 mb-6"><strong>Application Load Balancer (ALB):</strong></p>
             <ul class="mt-0 mb-6">
@@ -908,27 +601,27 @@ Request 4 → Server 3
             </ul>
             <h3 id="nginx" class="mt-8 text-lg leading-tight tracking-tight">NGINX</h3>
             <p class="mt-0 mb-6">Open-source web server that also functions as a load balancer.</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-nginx rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">upstream</span> backend {
-    <span class="text-syn-k">least_conn</span><span class="text-syn-u">;</span>  <span class="text-syn-c italic"># or: ip_hash, round_robin (default)</span>
-    <span class="text-syn-k">server</span> 10.0.1.10:8080 weight<span class="text-syn-o">=</span><span class="text-syn-n">1</span>;
-    server 10.0.1.11:8080 weight<span class="text-syn-o">=</span><span class="text-syn-n">2</span>;
-    server 10.0.1.12:8080 weight<span class="text-syn-o">=</span><span class="text-syn-n">1</span>;
-}
-
-server {
-    listen <span class="text-syn-n">80</span>;
-   <span class="text-syn-k"> server_name </span>api.pulkitxm.com<span class="text-syn-u">;</span>
-
-    <span class="text-syn-k">location</span> / {
-       <span class="text-syn-k"> proxy_pass </span>http://backend<span class="text-syn-u">;</span>
-       <span class="text-syn-k"> proxy_set_header </span>Host <span class="text-syn-u">$</span>host<span class="text-syn-u">;</span>
-       <span class="text-syn-k"> proxy_set_header </span>X-Real-IP <span class="text-syn-u">$</span>remote_addr<span class="text-syn-u">;</span>
-    }
-}
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-nginx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">upstream</span> backend {</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">least_conn</span><span class="text-syn-u">;</span>  <span class="text-syn-c italic"># or: ip_hash, round_robin (default)</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">server</span> 10.0.1.10:8080 weight<span class="text-syn-o">=</span><span class="text-syn-n">1</span>;</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    server 10.0.1.11:8080 weight<span class="text-syn-o">=</span><span class="text-syn-n">2</span>;</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    server 10.0.1.12:8080 weight<span class="text-syn-o">=</span><span class="text-syn-n">1</span>;</span>
+                <span class="block leading-(--pre-line) whitespace-pre">}</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">server {</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    listen <span class="text-syn-n">80</span>;</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   <span class="text-syn-k"> server_name </span>api.pulkitxm.com<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">location</span> / {</span>
+                <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_pass </span>http://backend<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_set_header </span>Host <span class="text-syn-u">$</span>host<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">       <span class="text-syn-k"> proxy_set_header </span>X-Real-IP <span class="text-syn-u">$</span>remote_addr<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    }</span>
+                <span class="block leading-(--pre-line) whitespace-pre">}</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Features:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Highly configurable</li>
@@ -938,19 +631,19 @@ server {
             </ul>
             <h3 id="haproxy" class="mt-8 text-lg leading-tight tracking-tight">HAProxy</h3>
             <p class="mt-0 mb-6">Another popular open-source load balancer.</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">frontend http_front
-    bind *:80
-    default_backend http_back
-
-backend http_back
-    balance roundrobin
-    server server1 10.0.1.10:8080 check
-    server server2 10.0.1.11:8080 check
-    server server3 10.0.1.12:8080 check
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">frontend http_front</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    bind *:80</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    default_backend http_back</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">backend http_back</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    balance roundrobin</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    server server1 10.0.1.10:8080 check</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    server server2 10.0.1.11:8080 check</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    server server3 10.0.1.12:8080 check</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Features:</strong></p>
             <ul class="mt-0 mb-6">
               <li>High performance</li>
@@ -958,104 +651,38 @@ backend http_back
               <li>Detailed statistics</li>
               <li>Both Layer 4 and Layer 7</li>
             </ul>
-            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              Conclusion
-            </h2>
-            <p class="mt-0 mb-6">
-              Load balancers are the glue that makes distributed systems work. They provide a single
-              point of contact, abstract away the complexity of multiple servers, and enable
-              horizontal scalability.
-            </p>
+            <h2 id="conclusion" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Conclusion</h2>
+            <p class="mt-0 mb-6">Load balancers are the glue that makes distributed systems work. They provide a single point of contact, abstract away the complexity of multiple servers, and enable horizontal scalability.</p>
             <p class="mt-0 mb-6">The key takeaways:</p>
             <ol class="mt-0 mb-6">
-              <li>
-                <strong>Single endpoint</strong>: Clients only need to know the load balancer&#39;s
-                address
-              </li>
-              <li>
-                <strong>Horizontal scaling</strong>: Add servers seamlessly without client changes
-              </li>
+              <li><strong>Single endpoint</strong>: Clients only need to know the load balancer&#39;s address</li>
+              <li><strong>Horizontal scaling</strong>: Add servers seamlessly without client changes</li>
               <li><strong>High availability</strong>: Route around failures automatically</li>
-              <li>
-                <strong>Algorithm matters</strong>: Choose based on your infrastructure and traffic
-                patterns
-              </li>
+              <li><strong>Algorithm matters</strong>: Choose based on your infrastructure and traffic patterns</li>
               <li><strong>Health checks</strong>: Ensure traffic only goes to healthy servers</li>
             </ol>
-            <p class="mt-0 mb-6">
-              When you&#39;re building a system that needs to scale, load balancers are essential.
-              They&#39;re not just nice to have, they&#39;re fundamental infrastructure that enables
-              everything else.
-            </p>
-            <p class="mt-0 mb-6">
-              As an exercise, explore AWS Load Balancer documentation or set up NGINX as a load
-              balancer locally. Understanding the configuration options and seeing it work firsthand
-              will solidify these concepts.
-            </p>
-            <p class="mt-0 mb-6">
-              Load balancers have become so ubiquitous that we barely think about them. But
-              understanding how they work, why they matter, and how to configure them properly is
-              crucial for building scalable, resilient systems.
-            </p>
+            <p class="mt-0 mb-6">When you&#39;re building a system that needs to scale, load balancers are essential. They&#39;re not just nice to have, they&#39;re fundamental infrastructure that enables everything else.</p>
+            <p class="mt-0 mb-6">As an exercise, explore AWS Load Balancer documentation or set up NGINX as a load balancer locally. Understanding the configuration options and seeing it work firsthand will solidify these concepts.</p>
+            <p class="mt-0 mb-6">Load balancers have become so ubiquitous that we barely think about them. But understanding how they work, why they matter, and how to configure them properly is crucial for building scalable, resilient systems.</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/communication-protocols/"
-                >Communication Protocols</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/consistent-hashing/"
-                >Consistent Hashing</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/rate-limiting/"
-                >Rate Limiting</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/communication-protocols/">Communication Protocols</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/consistent-hashing/">Consistent Hashing</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/rate-limiting/">Rate Limiting</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/system-design/load-balancers.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/system-design/load-balancers.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>

@@ -1,49 +1,30 @@
 <!doctype html>
-<html
-  lang="en"
-  class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light"
->
+<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-    @view-transition {
-      navigation: auto;
-    }
-    @media (prefers-reduced-motion: reduce) {
       @view-transition {
-        navigation: none;
+        navigation: auto;
       }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
     </style>
-    <meta
-      name="description"
-      content="Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC."
-    />
+    <meta name="description" content="Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC." />
     <link rel="canonical" href="https://pulkit.blog/system-design/communication-protocols/" />
-    <link
-      rel="alternate"
-      type="text/markdown"
-      href="https://pulkit.blog/system-design/communication-protocols.md"
-    />
+    <link rel="alternate" type="text/markdown" href="https://pulkit.blog/system-design/communication-protocols.md" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="pulkit.blog" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="Communication Protocols | pulkit.blog" />
-    <meta
-      property="og:description"
-      content="Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC."
-    />
+    <meta property="og:description" content="Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC." />
     <meta property="og:url" content="https://pulkit.blog/system-design/communication-protocols/" />
-    <meta
-      property="og:image"
-      content="https://pulkit.blog/og/system-design/communication-protocols/card.png"
-    />
-    <meta
-      property="og:image:secure_url"
-      content="https://pulkit.blog/og/system-design/communication-protocols/card.png"
-    />
+    <meta property="og:image" content="https://pulkit.blog/og/system-design/communication-protocols/card.png" />
+    <meta property="og:image:secure_url" content="https://pulkit.blog/og/system-design/communication-protocols/card.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -52,366 +33,264 @@
     <meta property="article:author" content="https://pulkit.page/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Communication Protocols | pulkit.blog" />
-    <meta
-      name="twitter:description"
-      content="Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pulkit.blog/og/system-design/communication-protocols/card.png"
-    />
+    <meta name="twitter:description" content="Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC." />
+    <meta name="twitter:image" content="https://pulkit.blog/og/system-design/communication-protocols/card.png" />
     <meta name="twitter:image:alt" content="Communication Protocols" />
-    <script
-      type="application/ld+json"
-    >{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pulkit.blog/#person","name":"Pulkit","url":"https://pulkit.page/","sameAs":["https://github.com/Pulkitxm","https://x.com/_pulkitxm","https://www.linkedin.com/in/pulkitxm","/feed.xml"]},{"@type":"WebSite","@id":"https://pulkit.blog/#website","url":"https://pulkit.blog/","name":"pulkit.blog","description":"Notes by Pulkit on building software, system design, and the craft of interfaces.","publisher":{"@id":"https://pulkit.blog/#person"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://pulkit.blog/system-design/communication-protocols/#image","contentUrl":"https://pulkit.blog/og/system-design/communication-protocols/card.png","width":1200,"height":630,"caption":"Communication Protocols"},{"@type":"BlogPosting","@id":"https://pulkit.blog/system-design/communication-protocols/#article","headline":"Communication Protocols","description":"Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC.","datePublished":"2026-01-23","author":{"@id":"https://pulkit.blog/#person"},"publisher":{"@id":"https://pulkit.blog/#person"},"mainEntityOfPage":{"@id":"https://pulkit.blog/system-design/communication-protocols/#webpage"},"isPartOf":{"@id":"https://pulkit.blog/system-design/#webpage"},"image":{"@id":"https://pulkit.blog/system-design/communication-protocols/#image"},"url":"https://pulkit.blog/system-design/communication-protocols/","inLanguage":"en","keywords":["System Design","Networking","HTTP","WebSockets","REST","GraphQL","gRPC"]},{"@type":"BreadcrumbList","@id":"https://pulkit.blog/system-design/communication-protocols/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pulkit.blog/"},{"@type":"ListItem","position":2,"name":"System Design","item":"https://pulkit.blog/system-design/"},{"@type":"ListItem","position":3,"name":"Communication Protocols","item":"https://pulkit.blog/system-design/communication-protocols/"}]},{"@type":"WebPage","@id":"https://pulkit.blog/system-design/communication-protocols/#webpage","url":"https://pulkit.blog/system-design/communication-protocols/","name":"Communication Protocols","description":"Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC.","isPartOf":{"@id":"https://pulkit.blog/#website"},"primaryImageOfPage":{"@id":"https://pulkit.blog/system-design/communication-protocols/#image"},"inLanguage":"en","mainEntity":{"@id":"https://pulkit.blog/system-design/communication-protocols/#article"},"breadcrumb":{"@id":"https://pulkit.blog/system-design/communication-protocols/#breadcrumbs"}}]}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://pulkit.blog/#person",
+            "name": "Pulkit",
+            "url": "https://pulkit.page/",
+            "sameAs": [
+              "https://github.com/Pulkitxm",
+              "https://x.com/_pulkitxm",
+              "https://www.linkedin.com/in/pulkitxm",
+              "/feed.xml"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://pulkit.blog/#website",
+            "url": "https://pulkit.blog/",
+            "name": "pulkit.blog",
+            "description": "Notes by Pulkit on building software, system design, and the craft of interfaces.",
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://pulkit.blog/system-design/communication-protocols/#image",
+            "contentUrl": "https://pulkit.blog/og/system-design/communication-protocols/card.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Communication Protocols"
+          },
+          {
+            "@type": "BlogPosting",
+            "@id": "https://pulkit.blog/system-design/communication-protocols/#article",
+            "headline": "Communication Protocols",
+            "description": "Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC.",
+            "datePublished": "2026-01-23",
+            "author": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "publisher": {
+              "@id": "https://pulkit.blog/#person"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://pulkit.blog/system-design/communication-protocols/#webpage"
+            },
+            "isPartOf": {
+              "@id": "https://pulkit.blog/system-design/#webpage"
+            },
+            "image": {
+              "@id": "https://pulkit.blog/system-design/communication-protocols/#image"
+            },
+            "url": "https://pulkit.blog/system-design/communication-protocols/",
+            "inLanguage": "en",
+            "keywords": [
+              "System Design",
+              "Networking",
+              "HTTP",
+              "WebSockets",
+              "REST",
+              "GraphQL",
+              "gRPC"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://pulkit.blog/system-design/communication-protocols/#breadcrumbs",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://pulkit.blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "System Design",
+                "item": "https://pulkit.blog/system-design/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Communication Protocols",
+                "item": "https://pulkit.blog/system-design/communication-protocols/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://pulkit.blog/system-design/communication-protocols/#webpage",
+            "url": "https://pulkit.blog/system-design/communication-protocols/",
+            "name": "Communication Protocols",
+            "description": "Understand how clients and servers communicate over the network. TCP fundamentals, HTTP, WebSockets, Server-Sent Events, and API paradigms like REST, GraphQL, gRPC, and tRPC.",
+            "isPartOf": {
+              "@id": "https://pulkit.blog/#website"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://pulkit.blog/system-design/communication-protocols/#image"
+            },
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://pulkit.blog/system-design/communication-protocols/#article"
+            },
+            "breadcrumb": {
+              "@id": "https://pulkit.blog/system-design/communication-protocols/#breadcrumbs"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <script src="/theme.b8912c12edd2.js"></script>
+    <script src="/theme.1f54da5ee178.js"></script>
     <title>Communication Protocols | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.e69059adef8b.css" />
+    <link rel="stylesheet" href="/styles.92bfbbdebae1.css" />
   </head>
-
-  <body
-    class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg"
-  >
-    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main"
-      >Skip to content</a
-    >
+  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-4 **:focus-visible:outline-fg">
+    <a class="absolute -top-25 left-4 bg-bg px-2 py-1 text-inherit focus:top-2" href="#main">Skip to content</a>
     <div class="mx-auto max-w-170 px-6 max-sm:px-4">
-      <header
-        class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3"
-      >
+      <header class="flex items-baseline justify-between gap-6 border-b border-line py-6 max-sm:flex-col max-sm:gap-3">
         <a class="font-mono text-sm font-medium text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav
-          class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4"
-          aria-label="Main navigation"
-        >
-          <a
-            class="text-inherit no-underline aria-[current=page]:text-fg"
-            href="https://pulkit.page/"
-            >About</a
-          >
+        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4" aria-label="Main navigation">
+          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-
       <main id="main" class="min-h-[60vh] pt-14 pb-20 max-sm:pt-8">
         <article>
-          <header class="mb-10 [&>p]:m-0 [&>p]:font-mono [&>p]:text-xs">
-            <h1
-              class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance"
-              data-title
-            >
-              Communication Protocols
-            </h1>
-            <a
-              class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline"
-              href="https://pulkit.page/"
-              ><img
-                class="m-0 size-7 rounded-full object-cover"
-                src="/assets/content/pulkit-portrait.webp"
-                alt=""
-                width="28"
-                height="28"
-              />Pulkit</a
-            >
-            <p class="mt-0 mb-6 text-sm text-muted">
-              <time datetime="2026-01-23">January 23, 2026</time>
-              · 12 min read ·
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/"
-                >System Design</a
-              >
-            </p>
+          <header class="mb-10 [&amp;>p]:m-0 [&amp;>p]:font-mono [&amp;>p]:text-xs">
+            <h1 class="mt-0 mb-4 w-fit text-[clamp(28px,5vw,36px)] font-semibold leading-tight tracking-tight text-balance" data-title>Communication Protocols</h1>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline decoration-line underline-offset-3 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-23">January 23, 2026</time> · 12 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="text-[17px]/[1.75] wrap-anywhere">
-            <p class="mt-0 mb-6">
-              Two machines need to talk to each other. One machine (the client) wants something
-              done. The other machine (the server) does the heavy lifting. This is the
-              <u>client-server model</u>, and it&#39;s how almost everything on the internet works.
-            </p>
-            <p class="mt-0 mb-6">
-              Your browser asks a server for a webpage. Your phone asks a server for your messages.
-              Your laptop asks a server to spin up an EC2 instance. The pattern is always the same:
-              client demands, server delivers.
-            </p>
-            <p class="mt-0 mb-6">
-              But how do they actually communicate? What format do they use? What happens at the
-              network level? Understanding this is fundamental to building any distributed system.
-            </p>
-            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              TL;DR
-            </h2>
+            <p class="mt-0 mb-6">Two machines need to talk to each other. One machine (the client) wants something done. The other machine (the server) does the heavy lifting. This is the <u>client-server model</u>, and it&#39;s how almost everything on the internet works.</p>
+            <p class="mt-0 mb-6">Your browser asks a server for a webpage. Your phone asks a server for your messages. Your laptop asks a server to spin up an EC2 instance. The pattern is always the same: client demands, server delivers.</p>
+            <p class="mt-0 mb-6">But how do they actually communicate? What format do they use? What happens at the network level? Understanding this is fundamental to building any distributed system.</p>
+            <h2 id="tl-dr" class="mt-12 text-xl font-semibold leading-tight tracking-tight">TL;DR</h2>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>TCP</strong>: Reliable transport with 3-way handshake. Connections stay open
-                until explicitly closed
-              </li>
-              <li>
-                <strong>HTTP</strong>: Text format over TCP. Request-response model. Keep-alive
-                reuses connections
-              </li>
-              <li>
-                <strong>WebSockets</strong>: Bidirectional real-time. Single persistent connection
-                for chat, gaming, collaboration
-              </li>
-              <li>
-                <strong>SSE</strong>: Server-to-client push over HTTP. Simpler than WebSockets with
-                auto-reconnection
-              </li>
-              <li>
-                <strong>REST</strong>: Resource URLs + HTTP verbs. Universal standard for APIs
-              </li>
-              <li>
-                <strong>GraphQL</strong>: Single endpoint, client requests exactly what it needs
-              </li>
-              <li>
-                <strong>gRPC</strong>: Binary protocol with Protocol Buffers. High-performance
-                service-to-service
-              </li>
-              <li>
-                <strong>tRPC</strong>: End-to-end TypeScript type safety with zero schema
-                duplication
-              </li>
+              <li><strong>TCP</strong>: Reliable transport with 3-way handshake. Connections stay open until explicitly closed</li>
+              <li><strong>HTTP</strong>: Text format over TCP. Request-response model. Keep-alive reuses connections</li>
+              <li><strong>WebSockets</strong>: Bidirectional real-time. Single persistent connection for chat, gaming, collaboration</li>
+              <li><strong>SSE</strong>: Server-to-client push over HTTP. Simpler than WebSockets with auto-reconnection</li>
+              <li><strong>REST</strong>: Resource URLs + HTTP verbs. Universal standard for APIs</li>
+              <li><strong>GraphQL</strong>: Single endpoint, client requests exactly what it needs</li>
+              <li><strong>gRPC</strong>: Binary protocol with Protocol Buffers. High-performance service-to-service</li>
+              <li><strong>tRPC</strong>: End-to-end TypeScript type safety with zero schema duplication</li>
             </ul>
-            <h2
-              id="the-client-server-model"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              The Client-Server Model
-            </h2>
-            <p class="mt-0 mb-6">
-              The client-server model is straightforward. One machine (client) sends requests.
-              Another machine (server) processes them and sends responses.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Client                          Server
-  │                                │
-  │──── &quot;Give me profile #123&quot; ───→│
-  │                                │ (looks up profile)
-  │←─── &quot;Here&#39;s profile #123&quot; ─────│
-  │                                │
-</code></pre>
-            <p class="mt-0 mb-6">
-              The client could be anything: a mobile app, a web browser, a CLI tool, another server.
-              The server could be your API, a database, a file storage service. The model is
-              universal.
-            </p>
-            <p class="mt-0 mb-6">
-              But here&#39;s the key question: how do these bytes actually travel from one machine
-              to another?
-            </p>
+            <h2 id="the-client-server-model" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Client-Server Model</h2>
+            <p class="mt-0 mb-6">The client-server model is straightforward. One machine (client) sends requests. Another machine (server) processes them and sends responses.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Client                          Server</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  │                                │</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  │──── &quot;Give me profile #123&quot; ───→│</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  │                                │ (looks up profile)</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  │←─── &quot;Here&#39;s profile #123&quot; ─────│</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  │                                │</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The client could be anything: a mobile app, a web browser, a CLI tool, another server. The server could be your API, a database, a file storage service. The model is universal.</p>
+            <p class="mt-0 mb-6">But here&#39;s the key question: how do these bytes actually travel from one machine to another?</p>
             <h2 id="tcp" class="mt-12 text-xl font-semibold leading-tight tracking-tight">TCP</h2>
-            <p class="mt-0 mb-6">
-              When two machines communicate over the internet, they need a common network connecting
-              them. The two main protocols for this are
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol"
-                >TCP</a
-              >
-              and
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://en.wikipedia.org/wiki/User_Datagram_Protocol"
-                >UDP</a
-              >. For 99% of web applications, you&#39;re using TCP.
-            </p>
+            <p class="mt-0 mb-6">When two machines communicate over the internet, they need a common network connecting them. The two main protocols for this are <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol">TCP</a> and <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a>. For 99% of web applications, you&#39;re using TCP.</p>
             <p class="mt-0 mb-6">Why TCP? It&#39;s reliable. TCP guarantees:</p>
             <ul class="mt-0 mb-6">
               <li><strong>Ordered delivery</strong>: Packets arrive in the order they were sent</li>
               <li><strong>No data loss</strong>: Missing packets get retransmitted</li>
               <li><strong>Error checking</strong>: Corrupted data is detected and fixed</li>
             </ul>
+            <p class="mt-0 mb-6">UDP is faster but unreliable. Good for video streaming where a dropped frame doesn&#39;t matter. Bad for bank transactions where a dropped packet means lost money.</p>
+            <h3 id="the-3-way-handshake" class="mt-8 text-lg leading-tight tracking-tight">The 3-Way Handshake</h3>
+            <p class="mt-0 mb-6">Before any data flows, TCP requires a handshake to establish the connection.</p>
             <p class="mt-0 mb-6">
-              UDP is faster but unreliable. Good for video streaming where a dropped frame
-              doesn&#39;t matter. Bad for bank transactions where a dropped packet means lost money.
+              <a href="/assets/content/blogs/communication-protocols/tcp-3-way-handshake.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/tcp-3-way-handshake.webp" alt="TCP 3-way handshake showing SYN, SYN-ACK, ACK packet exchange" loading="lazy" />
+              </a>
             </p>
-            <h3 id="the-3-way-handshake" class="mt-8 text-lg leading-tight tracking-tight">
-              The 3-Way Handshake
-            </h3>
-            <p class="mt-0 mb-6">
-              Before any data flows, TCP requires a handshake to establish the connection.
-            </p>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/communication-protocols/tcp-3-way-handshake.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/communication-protocols/tcp-3-way-handshake.webp"
-                  alt="TCP 3-way handshake showing SYN, SYN-ACK, ACK packet exchange"
-                  loading="lazy"
-                /></a
-              >
-            </p>
-            <p class="mt-0 mb-6">
-              Three packets cross the network before you can send a single byte of actual data. If
-              your client is in India and your server is in the US, each packet takes ~150ms.
-              That&#39;s 450ms just to establish the connection.
-            </p>
+            <p class="mt-0 mb-6">Three packets cross the network before you can send a single byte of actual data. If your client is in India and your server is in the US, each packet takes ~150ms. That&#39;s 450ms just to establish the connection.</p>
             <p class="mt-0 mb-6">This is expensive. But TCP requires it for reliability.</p>
-            <h3 id="the-2-way-teardown" class="mt-8 text-lg leading-tight tracking-tight">
-              The 2-Way Teardown
-            </h3>
+            <h3 id="the-2-way-teardown" class="mt-8 text-lg leading-tight tracking-tight">The 2-Way Teardown</h3>
+            <p class="mt-0 mb-6">When the job is done and either party wants to close the connection:</p>
             <p class="mt-0 mb-6">
-              When the job is done and either party wants to close the connection:
-            </p>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/communication-protocols/tcp-2-way-teardown.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/communication-protocols/tcp-2-way-teardown.webp"
-                  alt="TCP 2-way teardown showing FIN and ACK packet exchange"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/communication-protocols/tcp-2-way-teardown.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/tcp-2-way-teardown.webp" alt="TCP 2-way teardown showing FIN and ACK packet exchange" loading="lazy" />
+              </a>
             </p>
             <p class="mt-0 mb-6">Two more packets. More latency.</p>
-            <h3 id="connections-stay-open" class="mt-8 text-lg leading-tight tracking-tight">
-              Connections Stay Open
-            </h3>
-            <p class="mt-0 mb-6">
-              Here&#39;s something many developers get wrong:
-              <strong>TCP connections don&#39;t automatically close after data exchange</strong>.
-            </p>
-            <p class="mt-0 mb-6">
-              The TCP specification doesn&#39;t say &quot;send data, get response, connection
-              dies.&quot; The connection stays open until:
-            </p>
+            <h3 id="connections-stay-open" class="mt-8 text-lg leading-tight tracking-tight">Connections Stay Open</h3>
+            <p class="mt-0 mb-6">Here&#39;s something many developers get wrong: <strong>TCP connections don&#39;t automatically close after data exchange</strong>.</p>
+            <p class="mt-0 mb-6">The TCP specification doesn&#39;t say &quot;send data, get response, connection dies.&quot; The connection stays open until:</p>
             <ol class="mt-0 mb-6">
-              <li>
-                <strong>Network interruption</strong>: A router reboots, a cable gets unplugged
-              </li>
+              <li><strong>Network interruption</strong>: A router reboots, a cable gets unplugged</li>
               <li><strong>Explicit termination</strong>: Either party sends a FIN packet</li>
             </ol>
-            <p class="mt-0 mb-6">
-              This matters. If you establish a TCP connection and neither party closes it, that
-              connection remains open. Forever. This is the foundation for persistent connections
-              and connection pooling.
-            </p>
+            <p class="mt-0 mb-6">This matters. If you establish a TCP connection and neither party closes it, that connection remains open. Forever. This is the foundation for persistent connections and connection pooling.</p>
             <h2 id="http" class="mt-12 text-xl font-semibold leading-tight tracking-tight">HTTP</h2>
+            <p class="mt-0 mb-6">TCP handles moving bytes. But what bytes should you send? In what format? This is where protocols come in.</p>
             <p class="mt-0 mb-6">
-              TCP handles moving bytes. But what bytes should you send? In what format? This is
-              where protocols come in.
+              <a href="/assets/content/blogs/communication-protocols/protocol-layer-stack.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/protocol-layer-stack.webp" alt="Protocol layers showing how HTTP sits on top of TCP" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/communication-protocols/protocol-layer-stack.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/communication-protocols/protocol-layer-stack.webp"
-                  alt="Protocol layers showing how HTTP sits on top of TCP"
-                  loading="lazy"
-                /></a
-              >
-            </p>
-            <p class="mt-0 mb-6">
-              A protocol is an agreed-upon format. Like human languages: if I speak Hindi and you
-              speak Japanese, we can&#39;t communicate. We need a common language.
-            </p>
-            <p class="mt-0 mb-6">
-              HTTP (Hypertext Transfer Protocol) is that common language for web communication. Your
-              client sends an HTTP request. Your server parses it, understands what to do, and sends
-              back an HTTP response.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Client sends:
-  GET /profile/123 HTTP/1.1
-  Host: api.example.com
-  Accept: application/json
-
-Server responds:
-  HTTP/1.1 200 OK
-  Content-Type: application/json
-
-  {&quot;id&quot;: 123, &quot;name&quot;: &quot;Alice&quot;}
-</code></pre>
-            <p class="mt-0 mb-6">
-              Both parties understand this format. That&#39;s it. HTTP is just text structured in a
-              specific way.
-            </p>
-            <h3 id="custom-protocols-are-valid" class="mt-8 text-lg leading-tight tracking-tight">
-              Custom Protocols Are Valid
-            </h3>
-            <p class="mt-0 mb-6">
-              HTTP is common, but it&#39;s not mandatory. TCP doesn&#39;t care what data you send.
-              You can define your own protocol.
-            </p>
-            <p class="mt-0 mb-6">
-              Let&#39;s say you&#39;re building a key-value store. You could define a custom format:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Format: COMMAND KEY\n
-
-Examples:
-  GET mykey\n        → retrieve value for &quot;mykey&quot;
-  SET mykey value\n  → store &quot;value&quot; under &quot;mykey&quot;
-  DEL mykey\n        → delete &quot;mykey&quot;
-</code></pre>
-            <p class="mt-0 mb-6">
-              As long as your server understands this format, it works. Redis does exactly this. It
-              doesn&#39;t use HTTP. It has a custom protocol (<a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://redis.io/docs/latest/develop/reference/protocol-spec"
-                >RESP</a
-              >) optimized for its use case.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Redis protocol (RESP):
-  *3\r\n$3\r\nSET\r\n$5\r\nmykey\r\n$7\r\nmyvalue\r\n
-
-Translates to: SET mykey myvalue
-</code></pre>
-            <p class="mt-0 mb-6">
-              The tradeoff: custom protocols are more efficient but require custom clients. HTTP
-              works everywhere because browsers and libraries already support it.
-            </p>
-            <p class="mt-0 mb-6">
-              Want to build your own? I&#39;ve created a
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="https://github.com/pulkitxm/systems/tree/main/networking/custom-protocol"
-                >hands-on demo</a
-              >
-              showing how to implement a custom key-value store protocol over TCP with TypeScript.
-              You&#39;ll see exactly how to define command formats, parse requests, and compare the
-              efficiency against HTTP.
-            </p>
-            <h2 id="http-1-1" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              HTTP 1.1
-            </h2>
-            <p class="mt-0 mb-6">
-              HTTP has multiple versions: HTTP/1.1, HTTP/2, HTTP/3. Despite newer versions existing,
-              HTTP/1.1 is still the most widely deployed. Understanding it is essential.
-            </p>
-            <h3 id="request-response-cycle" class="mt-8 text-lg leading-tight tracking-tight">
-              Request-Response Cycle
-            </h3>
+            <p class="mt-0 mb-6">A protocol is an agreed-upon format. Like human languages: if I speak Hindi and you speak Japanese, we can&#39;t communicate. We need a common language.</p>
+            <p class="mt-0 mb-6">HTTP (Hypertext Transfer Protocol) is that common language for web communication. Your client sends an HTTP request. Your server parses it, understands what to do, and sends back an HTTP response.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Client sends:</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  GET /profile/123 HTTP/1.1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Host: api.example.com</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Accept: application/json</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">Server responds:</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  HTTP/1.1 200 OK</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Content-Type: application/json</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  {&quot;id&quot;: 123, &quot;name&quot;: &quot;Alice&quot;}</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Both parties understand this format. That&#39;s it. HTTP is just text structured in a specific way.</p>
+            <h3 id="custom-protocols-are-valid" class="mt-8 text-lg leading-tight tracking-tight">Custom Protocols Are Valid</h3>
+            <p class="mt-0 mb-6">HTTP is common, but it&#39;s not mandatory. TCP doesn&#39;t care what data you send. You can define your own protocol.</p>
+            <p class="mt-0 mb-6">Let&#39;s say you&#39;re building a key-value store. You could define a custom format:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Format: COMMAND KEY\n</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">Examples:</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  GET mykey\n        → retrieve value for &quot;mykey&quot;</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  SET mykey value\n  → store &quot;value&quot; under &quot;mykey&quot;</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  DEL mykey\n        → delete &quot;mykey&quot;</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">As long as your server understands this format, it works. Redis does exactly this. It doesn&#39;t use HTTP. It has a custom protocol (<a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://redis.io/docs/latest/develop/reference/protocol-spec">RESP</a>) optimized for its use case.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Redis protocol (RESP):</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  *3\r\n$3\r\nSET\r\n$5\r\nmykey\r\n$7\r\nmyvalue\r\n</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">Translates to: SET mykey myvalue</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The tradeoff: custom protocols are more efficient but require custom clients. HTTP works everywhere because browsers and libraries already support it.</p>
+            <p class="mt-0 mb-6">Want to build your own? I&#39;ve created a <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/systems/tree/main/networking/custom-protocol">hands-on demo</a> showing how to implement a custom key-value store protocol over TCP with TypeScript. You&#39;ll see exactly how to define command formats, parse requests, and compare the efficiency against HTTP.</p>
+            <h2 id="http-1-1" class="mt-12 text-xl font-semibold leading-tight tracking-tight">HTTP 1.1</h2>
+            <p class="mt-0 mb-6">HTTP has multiple versions: HTTP/1.1, HTTP/2, HTTP/3. Despite newer versions existing, HTTP/1.1 is still the most widely deployed. Understanding it is essential.</p>
+            <h3 id="request-response-cycle" class="mt-8 text-lg leading-tight tracking-tight">Request-Response Cycle</h3>
             <p class="mt-0 mb-6">In HTTP 1.1, communication is strictly request-response:</p>
             <ol class="mt-0 mb-6">
               <li>Client establishes TCP connection (3-way handshake)</li>
@@ -421,220 +300,107 @@ Translates to: SET mykey myvalue
               <li>Connection typically terminates</li>
             </ol>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/communication-protocols/http-1-1-flow.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/communication-protocols/http-1-1-flow.webp"
-                  alt="HTTP 1.1 flow showing request-response cycle with overhead"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/communication-protocols/http-1-1-flow.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/http-1-1-flow.webp" alt="HTTP 1.1 flow showing request-response cycle with overhead" loading="lazy" />
+              </a>
             </p>
-            <h3 id="the-connection-problem" class="mt-8 text-lg leading-tight tracking-tight">
-              The Connection Problem
-            </h3>
-            <p class="mt-0 mb-6">
-              HTTP 1.1 servers typically terminate the connection after sending a response. This
-              means every request requires:
-            </p>
+            <h3 id="the-connection-problem" class="mt-8 text-lg leading-tight tracking-tight">The Connection Problem</h3>
+            <p class="mt-0 mb-6">HTTP 1.1 servers typically terminate the connection after sending a response. This means every request requires:</p>
             <ul class="mt-0 mb-6">
               <li>3 packets for TCP setup</li>
               <li>Request data</li>
               <li>Response data</li>
               <li>2 packets for TCP teardown</li>
             </ul>
-            <p class="mt-0 mb-6">
-              For a page that loads 50 resources (HTML, CSS, JS, images), that&#39;s 50 separate TCP
-              connections. 250+ packets just for handshakes and teardowns.
-            </p>
+            <p class="mt-0 mb-6">For a page that loads 50 resources (HTML, CSS, JS, images), that&#39;s 50 separate TCP connections. 250+ packets just for handshakes and teardowns.</p>
             <h3 id="keep-alive" class="mt-8 text-lg leading-tight tracking-tight">Keep-Alive</h3>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/communication-protocols/connection-keep-alive.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/communication-protocols/connection-keep-alive.webp"
-                  alt="Connection keep-alive reduces overhead by reusing TCP connections"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/communication-protocols/connection-keep-alive.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/connection-keep-alive.webp" alt="Connection keep-alive reduces overhead by reusing TCP connections" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              The
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >Connection: keep-alive</code
-              >
-              header tells the server: &quot;Don&#39;t close this connection. I&#39;ll reuse
-              it.&quot;
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">GET /resource HTTP/1.1
-Host: example.com
-Connection: keep-alive
-</code></pre>
-            <p class="mt-0 mb-6">
-              If the server supports this (most modern servers do), the connection stays open.
-              Subsequent requests reuse the same TCP connection.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">Without keep-alive:
-  Request 1: [handshake] [request] [response] [teardown]
-  Request 2: [handshake] [request] [response] [teardown]
-  Request 3: [handshake] [request] [response] [teardown]
-
-With keep-alive:
-  [handshake]
-  Request 1: [request] [response]
-  Request 2: [request] [response]
-  Request 3: [request] [response]
-  [teardown]
-</code></pre>
-            <p class="mt-0 mb-6">
-              Massive reduction in overhead. This is why connection pooling exists in HTTP clients.
-            </p>
-            <h3 id="http-1-1-limitations" class="mt-8 text-lg leading-tight tracking-tight">
-              HTTP 1.1 Limitations
-            </h3>
+            <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Connection: keep-alive</code> header tells the server: &quot;Don&#39;t close this connection. I&#39;ll reuse it.&quot;</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">GET /resource HTTP/1.1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Host: example.com</span>
+                <span class="block leading-(--pre-line) whitespace-pre">Connection: keep-alive</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">If the server supports this (most modern servers do), the connection stays open. Subsequent requests reuse the same TCP connection.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">Without keep-alive:</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Request 1: [handshake] [request] [response] [teardown]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Request 2: [handshake] [request] [response] [teardown]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Request 3: [handshake] [request] [response] [teardown]</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">With keep-alive:</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  [handshake]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Request 1: [request] [response]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Request 2: [request] [response]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  Request 3: [request] [response]</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  [teardown]</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Massive reduction in overhead. This is why connection pooling exists in HTTP clients.</p>
+            <h3 id="http-1-1-limitations" class="mt-8 text-lg leading-tight tracking-tight">HTTP 1.1 Limitations</h3>
             <p class="mt-0 mb-6">Even with keep-alive, HTTP 1.1 has fundamental limitations:</p>
-            <p class="mt-0 mb-6">
-              <strong>Head-of-line blocking</strong>: One connection, one request at a time. If the
-              first request takes 5 seconds, all subsequent requests wait.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>No server push</strong>: The server can only respond to requests. It can&#39;t
-              proactively send data.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Verbose headers</strong>: Headers are sent in plain text with every request,
-              even if identical.
-            </p>
-            <p class="mt-0 mb-6">
-              HTTP/2 and HTTP/3 address some of these issues with multiplexing and header
-              compression. But they&#39;re still fundamentally request-response models.
-            </p>
-            <h2 id="websockets" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              WebSockets
-            </h2>
-            <p class="mt-0 mb-6">
-              HTTP is unidirectional. Client asks, server responds. But what if the server needs to
-              send data without the client asking?
-            </p>
+            <p class="mt-0 mb-6"><strong>Head-of-line blocking</strong>: One connection, one request at a time. If the first request takes 5 seconds, all subsequent requests wait.</p>
+            <p class="mt-0 mb-6"><strong>No server push</strong>: The server can only respond to requests. It can&#39;t proactively send data.</p>
+            <p class="mt-0 mb-6"><strong>Verbose headers</strong>: Headers are sent in plain text with every request, even if identical.</p>
+            <p class="mt-0 mb-6">HTTP/2 and HTTP/3 address some of these issues with multiplexing and header compression. But they&#39;re still fundamentally request-response models.</p>
+            <h2 id="websockets" class="mt-12 text-xl font-semibold leading-tight tracking-tight">WebSockets</h2>
+            <p class="mt-0 mb-6">HTTP is unidirectional. Client asks, server responds. But what if the server needs to send data without the client asking?</p>
             <p class="mt-0 mb-6">Think about:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Chat applications</strong>: You need to receive messages as soon as someone
-                sends them
-              </li>
-              <li>
-                <strong>Live notifications</strong>: Instagram likes appearing in real-time on a
-                live stream
-              </li>
+              <li><strong>Chat applications</strong>: You need to receive messages as soon as someone sends them</li>
+              <li><strong>Live notifications</strong>: Instagram likes appearing in real-time on a live stream</li>
               <li><strong>Stock tickers</strong>: Price updates every millisecond</li>
             </ul>
+            <p class="mt-0 mb-6">With HTTP, you&#39;d have to poll: client asks &quot;any new messages?&quot; every few seconds. Wasteful and not truly real-time.</p>
+            <p class="mt-0 mb-6">WebSockets solve this. They enable <strong>bidirectional communication</strong>: the server can push data to the client anytime, without the client requesting it.</p>
+            <h3 id="how-websockets-work" class="mt-8 text-lg leading-tight tracking-tight">How WebSockets Work</h3>
+            <p class="mt-0 mb-6">WebSockets start as an HTTP request (the upgrade handshake) and then switch to a persistent TCP connection.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">1. Client sends HTTP upgrade request:</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   GET /chat HTTP/1.1</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   Host: server.example.com</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   Upgrade: websocket</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   Connection: Upgrade</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">2. Server accepts:</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   HTTP/1.1 101 Switching Protocols</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   Upgrade: websocket</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   Connection: Upgrade</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">3. Connection is now a WebSocket:</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   - Bidirectional</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   - Persistent</span>
+                <span class="block leading-(--pre-line) whitespace-pre">   - Low overhead</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">After the upgrade, both parties can send messages at any time. No request-response. No handshakes. Just data.</p>
+            <h3 id="why-websockets-are-fast" class="mt-8 text-lg leading-tight tracking-tight">Why WebSockets Are Fast</h3>
             <p class="mt-0 mb-6">
-              With HTTP, you&#39;d have to poll: client asks &quot;any new messages?&quot; every few
-              seconds. Wasteful and not truly real-time.
+              <a href="/assets/content/blogs/communication-protocols/https-vs-ws.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/https-vs-ws.webp" alt="HTTP vs WebSocket connection overhead comparison" loading="lazy" />
+              </a>
             </p>
-            <p class="mt-0 mb-6">
-              WebSockets solve this. They enable <strong>bidirectional communication</strong>: the
-              server can push data to the client anytime, without the client requesting it.
-            </p>
-            <h3 id="how-websockets-work" class="mt-8 text-lg leading-tight tracking-tight">
-              How WebSockets Work
-            </h3>
-            <p class="mt-0 mb-6">
-              WebSockets start as an HTTP request (the upgrade handshake) and then switch to a
-              persistent TCP connection.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">1. Client sends HTTP upgrade request:
-   GET /chat HTTP/1.1
-   Host: server.example.com
-   Upgrade: websocket
-   Connection: Upgrade
-
-2. Server accepts:
-   HTTP/1.1 101 Switching Protocols
-   Upgrade: websocket
-   Connection: Upgrade
-
-3. Connection is now a WebSocket:
-   - Bidirectional
-   - Persistent
-   - Low overhead
-</code></pre>
-            <p class="mt-0 mb-6">
-              After the upgrade, both parties can send messages at any time. No request-response. No
-              handshakes. Just data.
-            </p>
-            <h3 id="why-websockets-are-fast" class="mt-8 text-lg leading-tight tracking-tight">
-              Why WebSockets Are Fast
-            </h3>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/communication-protocols/https-vs-ws.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/communication-protocols/https-vs-ws.webp"
-                  alt="HTTP vs WebSocket connection overhead comparison"
-                  loading="lazy"
-                /></a
-              >
-            </p>
-            <p class="mt-0 mb-6">
-              With WebSockets, you pay the connection cost once. Every subsequent message is pure
-              data transfer. For real-time applications, this is transformative.
-            </p>
-            <h3 id="when-to-use-websockets" class="mt-8 text-lg leading-tight tracking-tight">
-              When to Use WebSockets
-            </h3>
+            <p class="mt-0 mb-6">With WebSockets, you pay the connection cost once. Every subsequent message is pure data transfer. For real-time applications, this is transformative.</p>
+            <h3 id="when-to-use-websockets" class="mt-8 text-lg leading-tight tracking-tight">When to Use WebSockets</h3>
             <p class="mt-0 mb-6">WebSockets aren&#39;t always the answer. They add complexity:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <strong>Connection management</strong>: You need to handle reconnection, heartbeats,
-                timeouts
-              </li>
-              <li>
-                <strong>Scaling challenges</strong>: Persistent connections consume server resources
-              </li>
-              <li>
-                <strong>Infrastructure requirements</strong>: Load balancers need WebSocket support
-              </li>
+              <li><strong>Connection management</strong>: You need to handle reconnection, heartbeats, timeouts</li>
+              <li><strong>Scaling challenges</strong>: Persistent connections consume server resources</li>
+              <li><strong>Infrastructure requirements</strong>: Load balancers need WebSocket support</li>
             </ul>
             <p class="mt-0 mb-6">Use WebSockets when you need:</p>
             <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/communication-protocols/real-time-use-case.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/communication-protocols/real-time-use-case.webp"
-                  alt="Real-time use cases for WebSockets"
-                  loading="lazy"
-                /></a
-              >
+              <a href="/assets/content/blogs/communication-protocols/real-time-use-case.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/real-time-use-case.webp" alt="Real-time use cases for WebSockets" loading="lazy" />
+              </a>
             </p>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
@@ -646,41 +412,27 @@ With keep-alive:
               <tbody>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Chat applications</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Real-time message delivery
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Real-time message delivery</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Live notifications</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Server-initiated updates
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Server-initiated updates</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Stock tickers</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Millisecond price updates
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Millisecond price updates</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Collaborative editing
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Multiple users editing simultaneously
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Collaborative editing</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Multiple users editing simultaneously</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Gaming</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Real-time player interactions
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Real-time player interactions</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Live dashboards</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Streaming metrics and data
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Streaming metrics and data</td>
                 </tr>
               </tbody>
             </table>
@@ -690,176 +442,106 @@ With keep-alive:
               <li>Infrequent updates (use polling or long polling)</li>
               <li>Simple request-response patterns</li>
             </ul>
-            <h3 id="the-polling-alternative" class="mt-8 text-lg leading-tight tracking-tight">
-              The Polling Alternative
-            </h3>
+            <h3 id="the-polling-alternative" class="mt-8 text-lg leading-tight tracking-tight">The Polling Alternative</h3>
             <p class="mt-0 mb-6">Before WebSockets, real-time was achieved through polling:</p>
-            <p class="mt-0 mb-6">
-              <strong>Short polling</strong>: Client asks repeatedly at fixed intervals.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-f">setInterval</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> messages <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/messages&quot;</span><span class="text-syn-u">);</span>
-  <span class="text-syn-f">updateUI</span><span class="text-syn-u">(</span>messages<span class="text-syn-u">);</span>
-<span class="text-syn-u">},</span> <span class="text-syn-n">5000</span><span class="text-syn-u">);</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Simple but wasteful. You&#39;re making requests even when there&#39;s nothing new.
-            </p>
-            <p class="mt-0 mb-6">
-              <strong>Long polling</strong>: Client asks, server holds the connection until
-              there&#39;s data.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">longPoll</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/messages?wait=true&quot;</span><span class="text-syn-u">);</span>
-  <span class="text-syn-f">updateUI</span><span class="text-syn-u">(</span>response<span class="text-syn-u">);</span>
-  <span class="text-syn-f">longPoll</span><span class="text-syn-u">();</span>
-<span class="text-syn-u">}</span>
-</code></pre>
+            <p class="mt-0 mb-6"><strong>Short polling</strong>: Client asks repeatedly at fixed intervals.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">setInterval</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> messages <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/messages&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateUI</span><span class="text-syn-u">(</span>messages<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-n">5000</span><span class="text-syn-u">);</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Simple but wasteful. You&#39;re making requests even when there&#39;s nothing new.</p>
+            <p class="mt-0 mb-6"><strong>Long polling</strong>: Client asks, server holds the connection until there&#39;s data.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">longPoll</span><span class="text-syn-u">()</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/messages?wait=true&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateUI</span><span class="text-syn-u">(</span>response<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">longPoll</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Better, but still has connection overhead on each response.</p>
+            <p class="mt-0 mb-6">WebSockets eliminate this overhead entirely. One connection, continuous data flow.</p>
+            <h2 id="server-sent-events-sse" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Server-Sent Events (SSE)</h2>
+            <p class="mt-0 mb-6">WebSockets are powerful but sometimes overkill. What if you only need the server to push data to the client, not the other way around?</p>
+            <p class="mt-0 mb-6">Server-Sent Events (SSE) is a simpler alternative. It&#39;s unidirectional: server pushes to client over a standard HTTP connection.</p>
+            <h3 id="how-sse-works" class="mt-8 text-lg leading-tight tracking-tight">How SSE Works</h3>
+            <p class="mt-0 mb-6">SSE uses a long-lived HTTP connection. The server keeps the connection open and sends events as they occur.</p>
             <p class="mt-0 mb-6">
-              WebSockets eliminate this overhead entirely. One connection, continuous data flow.
+              <a href="/assets/content/blogs/communication-protocols/sse-flow.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/sse-flow.webp" alt="SSE flow showing server pushing events to client over HTTP" loading="lazy" />
+              </a>
             </p>
-            <h2
-              id="server-sent-events-sse"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Server-Sent Events (SSE)
-            </h2>
-            <p class="mt-0 mb-6">
-              WebSockets are powerful but sometimes overkill. What if you only need the server to
-              push data to the client, not the other way around?
-            </p>
-            <p class="mt-0 mb-6">
-              Server-Sent Events (SSE) is a simpler alternative. It&#39;s unidirectional: server
-              pushes to client over a standard HTTP connection.
-            </p>
-            <h3 id="how-sse-works" class="mt-8 text-lg leading-tight tracking-tight">
-              How SSE Works
-            </h3>
-            <p class="mt-0 mb-6">
-              SSE uses a long-lived HTTP connection. The server keeps the connection open and sends
-              events as they occur.
-            </p>
-            <p class="mt-0 mb-6">
-              <a
-                href="/assets/content/blogs/communication-protocols/sse-flow.webp"
-                class="block"
-                data-media-zoom
-                data-width="1536"
-                data-height="1024"
-                ><img
-                  class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md"
-                  src="/assets/content/blogs/communication-protocols/sse-flow.webp"
-                  alt="SSE flow showing server pushing events to client over HTTP"
-                  loading="lazy"
-                /></a
-              >
-            </p>
-            <p class="mt-0 mb-6">
-              The connection stays open. Server sends data whenever it wants. Client receives it
-              instantly.
-            </p>
-            <h3 id="sse-event-format" class="mt-8 text-lg leading-tight tracking-tight">
-              SSE Event Format
-            </h3>
+            <p class="mt-0 mb-6">The connection stays open. Server sends data whenever it wants. Client receives it instantly.</p>
+            <h3 id="sse-event-format" class="mt-8 text-lg leading-tight tracking-tight">SSE Event Format</h3>
             <p class="mt-0 mb-6">SSE has a simple text-based format:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">event: stock-update
-data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 150.25}
-id: 1001
-
-event: stock-update
-data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 150.30}
-id: 1002
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">event: stock-update</span>
+                <span class="block leading-(--pre-line) whitespace-pre">data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 150.25}</span>
+                <span class="block leading-(--pre-line) whitespace-pre">id: 1001</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">event: stock-update</span>
+                <span class="block leading-(--pre-line) whitespace-pre">data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 150.30}</span>
+                <span class="block leading-(--pre-line) whitespace-pre">id: 1002</span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Each event can have:</p>
             <ul class="mt-0 mb-6">
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >event</code
-                >: Event type (optional, defaults to &quot;message&quot;)
-              </li>
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >data</code
-                >: The payload (can span multiple lines)
-              </li>
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >id</code
-                >: Event ID for reconnection
-              </li>
-              <li>
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >retry</code
-                >: Reconnection timeout in milliseconds
-              </li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">event</code>: Event type (optional, defaults to &quot;message&quot;)</li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">data</code>: The payload (can span multiple lines)</li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">id</code>: Event ID for reconnection</li>
+              <li><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">retry</code>: Reconnection timeout in milliseconds</li>
             </ul>
-            <h3 id="client-side-implementation" class="mt-8 text-lg leading-tight tracking-tight">
-              Client-Side Implementation
-            </h3>
-            <p class="mt-0 mb-6">
-              The browser provides a native
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >EventSource</code
-              >
-              API:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> eventSource <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">EventSource</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/stock-updates&quot;</span><span class="text-syn-u">);</span>
-
-eventSource<span class="text-syn-u">.</span><span class="text-syn-f">onmessage</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>event<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>event<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span>
-  <span class="text-syn-f">updateStockPrice</span><span class="text-syn-u">(</span>data<span class="text-syn-u">);</span>
-<span class="text-syn-u">};</span>
-
-eventSource<span class="text-syn-u">.</span><span class="text-syn-f">onerror</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>error<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-  console<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SSE connection failed:&quot;</span><span class="text-syn-u">,</span> error<span class="text-syn-u">);</span>
-<span class="text-syn-u">};</span>
-
-eventSource<span class="text-syn-u">.</span><span class="text-syn-f">addEventListener</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;stock-update&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>event<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>event<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span>
-  <span class="text-syn-f">handleStockUpdate</span><span class="text-syn-u">(</span>data<span class="text-syn-u">);</span>
-<span class="text-syn-u">});</span>
-</code></pre>
-            <h3 id="server-side-implementation" class="mt-8 text-lg leading-tight tracking-tight">
-              Server-Side Implementation
-            </h3>
+            <h3 id="client-side-implementation" class="mt-8 text-lg leading-tight tracking-tight">Client-Side Implementation</h3>
+            <p class="mt-0 mb-6">The browser provides a native <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">EventSource</code> API:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> eventSource <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">EventSource</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/stock-updates&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">onmessage</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>event<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>event<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">updateStockPrice</span><span class="text-syn-u">(</span>data<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">onerror</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>error<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">error</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;SSE connection failed:&quot;</span><span class="text-syn-u">,</span> error<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">eventSource<span class="text-syn-u">.</span><span class="text-syn-f">addEventListener</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;stock-update&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>event<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> data <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>event<span class="text-syn-u">.</span><span class="text-syn-p">data</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">handleStockUpdate</span><span class="text-syn-u">(</span>data<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+              </code>
+            </pre>
+            <h3 id="server-side-implementation" class="mt-8 text-lg leading-tight tracking-tight">Server-Side Implementation</h3>
             <p class="mt-0 mb-6">Here&#39;s a simple SSE endpoint in Node.js:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">app<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/events&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>req<span class="text-syn-u">,</span> res<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Content-Type&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;text/event-stream&quot;</span><span class="text-syn-u">);</span>
-  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Cache-Control&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;no-cache&quot;</span><span class="text-syn-u">);</span>
-  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Connection&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;keep-alive&quot;</span><span class="text-syn-u">);</span>
-
-  <span class="text-syn-k">const</span> <span class="text-syn-f">sendEvent</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>data<span class="text-syn-o">:</span> <span class="text-syn-t">object</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-    res<span class="text-syn-u">.</span><span class="text-syn-f">write</span><span class="text-syn-u">(</span><span class="text-syn-s">`data: ${JSON.stringify(data)}\n\n`</span><span class="text-syn-u">);</span>
-  <span class="text-syn-u">};</span>
-
-  <span class="text-syn-k">const</span> interval <span class="text-syn-o">=</span> <span class="text-syn-f">setInterval</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-f">sendEvent</span><span class="text-syn-u">({</span> <span class="text-syn-p">timestamp:</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">(),</span> <span class="text-syn-p">value:</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">random</span><span class="text-syn-u">()</span> <span class="text-syn-u">});</span>
-  <span class="text-syn-u">},</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span>
-
-  req<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;close&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-f">clearInterval</span><span class="text-syn-u">(</span>interval<span class="text-syn-u">);</span>
-  <span class="text-syn-u">});</span>
-<span class="text-syn-u">});</span>
-</code></pre>
-            <h3 id="sse-vs-websockets" class="mt-8 text-lg leading-tight tracking-tight">
-              SSE vs WebSockets
-            </h3>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">app<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/api/events&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">(</span>req<span class="text-syn-u">,</span> res<span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Content-Type&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;text/event-stream&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Cache-Control&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;no-cache&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  res<span class="text-syn-u">.</span><span class="text-syn-f">setHeader</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;Connection&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-s">&quot;keep-alive&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-f">sendEvent</span> <span class="text-syn-o">=</span> <span class="text-syn-u">(</span>data<span class="text-syn-o">:</span> <span class="text-syn-t">object</span><span class="text-syn-u">)</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    res<span class="text-syn-u">.</span><span class="text-syn-f">write</span><span class="text-syn-u">(</span><span class="text-syn-s">`data: ${JSON.stringify(data)}\n\n`</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">};</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> interval <span class="text-syn-o">=</span> <span class="text-syn-f">setInterval</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">sendEvent</span><span class="text-syn-u">({</span> <span class="text-syn-p">timestamp:</span> Date<span class="text-syn-u">.</span><span class="text-syn-f">now</span><span class="text-syn-u">(),</span> <span class="text-syn-p">value:</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">random</span><span class="text-syn-u">()</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span> <span class="text-syn-n">1000</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  req<span class="text-syn-u">.</span><span class="text-syn-f">on</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;close&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">clearInterval</span><span class="text-syn-u">(</span>interval<span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+              </code>
+            </pre>
+            <h3 id="sse-vs-websockets" class="mt-8 text-lg leading-tight tracking-tight">SSE vs WebSockets</h3>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
                 <tr>
@@ -881,37 +563,23 @@ eventSource<span class="text-syn-u">.</span><span class="text-syn-f">addEventLis
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Reconnection</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Automatic with last event ID
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Manual implementation
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Automatic with last event ID</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Manual implementation</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Binary data</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Text only (Base64 for binary)
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Native binary support
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Text only (Base64 for binary)</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Native binary support</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Browser support</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Native EventSource API
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Native EventSource API</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Native WebSocket API</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Infrastructure</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Works with standard HTTP
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Needs WebSocket support
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Works with standard HTTP</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Needs WebSocket support</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Complexity</td>
@@ -920,9 +588,7 @@ eventSource<span class="text-syn-u">.</span><span class="text-syn-f">addEventLis
                 </tr>
               </tbody>
             </table>
-            <h3 id="when-to-use-sse" class="mt-8 text-lg leading-tight tracking-tight">
-              When to Use SSE
-            </h3>
+            <h3 id="when-to-use-sse" class="mt-8 text-lg leading-tight tracking-tight">When to Use SSE</h3>
             <p class="mt-0 mb-6">SSE is ideal when:</p>
             <ul class="mt-0 mb-6">
               <li>Server needs to push updates, but client doesn&#39;t send data back</li>
@@ -944,51 +610,35 @@ eventSource<span class="text-syn-u">.</span><span class="text-syn-f">addEventLis
               <li>You need binary data transfer</li>
               <li>Bidirectional communication is essential (chat, gaming)</li>
             </ul>
-            <h2
-              id="api-design-paradigms"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              API Design Paradigms
-            </h2>
-            <p class="mt-0 mb-6">
-              We&#39;ve covered how data travels over the network. But how do you structure your
-              API? What format should requests and responses follow?
-            </p>
-            <p class="mt-0 mb-6">
-              This is where API paradigms come in. They&#39;re patterns for organizing your
-              endpoints, defining data shapes, and handling client-server contracts.
-            </p>
+            <h2 id="api-design-paradigms" class="mt-12 text-xl font-semibold leading-tight tracking-tight">API Design Paradigms</h2>
+            <p class="mt-0 mb-6">We&#39;ve covered how data travels over the network. But how do you structure your API? What format should requests and responses follow?</p>
+            <p class="mt-0 mb-6">This is where API paradigms come in. They&#39;re patterns for organizing your endpoints, defining data shapes, and handling client-server contracts.</p>
             <h3 id="rest" class="mt-8 text-lg leading-tight tracking-tight">REST</h3>
-            <p class="mt-0 mb-6">
-              REST (Representational State Transfer) is the most widely used API paradigm. It maps
-              HTTP methods to CRUD operations on resources.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-text rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">GET    /users          → List all users
-GET    /users/123      → Get user 123
-POST   /users          → Create a user
-PUT    /users/123      → Update user 123
-DELETE /users/123      → Delete user 123
-</code></pre>
-            <p class="mt-0 mb-6">
-              Resources are nouns. HTTP methods are verbs. URLs are hierarchical.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// Fetching a user&#39;s orders</span>
-<span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/users/123/orders&quot;</span><span class="text-syn-u">);</span>
-<span class="text-syn-k">const</span> orders <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> response<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span>
-
-<span class="text-syn-c italic">// Creating an order</span>
-<span class="text-syn-k">const</span> newOrder <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/users/123/orders&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-p">method:</span> <span class="text-syn-s">&quot;POST&quot;</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span> <span class="text-syn-u">},</span>
-  <span class="text-syn-p">body:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span> <span class="text-syn-p">product_id:</span> <span class="text-syn-n">456</span><span class="text-syn-u">,</span> <span class="text-syn-p">quantity:</span> <span class="text-syn-n">2</span> <span class="text-syn-u">}),</span>
-<span class="text-syn-u">});</span>
-</code></pre>
+            <p class="mt-0 mb-6">REST (Representational State Transfer) is the most widely used API paradigm. It maps HTTP methods to CRUD operations on resources.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre">GET    /users          → List all users</span>
+                <span class="block leading-(--pre-line) whitespace-pre">GET    /users/123      → Get user 123</span>
+                <span class="block leading-(--pre-line) whitespace-pre">POST   /users          → Create a user</span>
+                <span class="block leading-(--pre-line) whitespace-pre">PUT    /users/123      → Update user 123</span>
+                <span class="block leading-(--pre-line) whitespace-pre">DELETE /users/123      → Delete user 123</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Resources are nouns. HTTP methods are verbs. URLs are hierarchical.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Fetching a user&#39;s orders</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/users/123/orders&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> orders <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> response<span class="text-syn-u">.</span><span class="text-syn-f">json</span><span class="text-syn-u">();</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Creating an order</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> newOrder <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/users/123/orders&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">method:</span> <span class="text-syn-s">&quot;POST&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span> <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">body:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span> <span class="text-syn-p">product_id:</span> <span class="text-syn-n">456</span><span class="text-syn-u">,</span> <span class="text-syn-p">quantity:</span> <span class="text-syn-n">2</span> <span class="text-syn-u">}),</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Strengths:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Universal understanding. Every developer knows REST</li>
@@ -998,65 +648,56 @@ DELETE /users/123      → Delete user 123
             </ul>
             <p class="mt-0 mb-6"><strong>Weaknesses:</strong></p>
             <ul class="mt-0 mb-6">
-              <li>
-                Over-fetching: GET
-                <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                  >/users/123</code
-                >
-                returns everything, even if you only need the name
-              </li>
+              <li>Over-fetching: GET <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/users/123</code> returns everything, even if you only need the name</li>
               <li>Under-fetching: Need user + orders + reviews? That&#39;s 3 requests</li>
               <li>Rigid structure: Adding fields requires API versioning</li>
             </ul>
             <h3 id="graphql" class="mt-8 text-lg leading-tight tracking-tight">GraphQL</h3>
-            <p class="mt-0 mb-6">
-              GraphQL flips the model. Instead of multiple endpoints, you have one. The client
-              specifies exactly what data it wants.
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-graphql rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic"># Single request for user, their orders, and reviews</span>
-<span class="text-syn-k">query</span> <span class="text-syn-u">{</span>
-  user<span class="text-syn-u">(</span>id<span class="text-syn-u">:</span> <span class="text-syn-n">123</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-    name
-    email
-    orders<span class="text-syn-u">(</span>last<span class="text-syn-u">:</span> <span class="text-syn-n">5</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-      id
-      total
-      items <span class="text-syn-u">{</span>
-        productName
-        quantity
-      <span class="text-syn-u">}</span>
-    <span class="text-syn-u">}</span>
-    reviews <span class="text-syn-u">{</span>
-      rating
-      comment
-    <span class="text-syn-u">}</span>
-  <span class="text-syn-u">}</span>
-<span class="text-syn-u">}</span>
-</code></pre>
+            <p class="mt-0 mb-6">GraphQL flips the model. Instead of multiple endpoints, you have one. The client specifies exactly what data it wants.</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-graphql block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic"># Single request for user, their orders, and reviews</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">query</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  user<span class="text-syn-u">(</span>id<span class="text-syn-u">:</span> <span class="text-syn-n">123</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    name</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    email</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    orders<span class="text-syn-u">(</span>last<span class="text-syn-u">:</span> <span class="text-syn-n">5</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      id</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      total</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      items <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">        productName</span>
+                <span class="block leading-(--pre-line) whitespace-pre">        quantity</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    reviews <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      rating</span>
+                <span class="block leading-(--pre-line) whitespace-pre">      comment</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">One request. Exactly the data you need. No more, no less.</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/graphql&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-p">method:</span> <span class="text-syn-s">&quot;POST&quot;</span><span class="text-syn-u">,</span>
-  <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span> <span class="text-syn-u">},</span>
-  <span class="text-syn-p">body:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span>
-    <span class="text-syn-p">query:</span> <span class="text-syn-s">`</span>
-<span class="text-syn-s">      query GetUser($id: ID!) {</span>
-<span class="text-syn-s">        user(id: $id) {</span>
-<span class="text-syn-s">          name</span>
-<span class="text-syn-s">          email</span>
-<span class="text-syn-s">          orders { id total }</span>
-<span class="text-syn-s">        }</span>
-<span class="text-syn-s">      }</span>
-<span class="text-syn-s">    `</span><span class="text-syn-u">,</span>
-    <span class="text-syn-p">variables:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">},</span>
-  <span class="text-syn-u">}),</span>
-<span class="text-syn-u">});</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> response <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">fetch</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;/graphql&quot;</span><span class="text-syn-u">,</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">method:</span> <span class="text-syn-s">&quot;POST&quot;</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">headers:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">&quot;Content-Type&quot;:</span> <span class="text-syn-s">&quot;application/json&quot;</span> <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">body:</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">query:</span> <span class="text-syn-s">`</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">      query GetUser($id: ID!) {</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">        user(id: $id) {</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          name</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          email</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">          orders { id total }</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">        }</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">      }</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">    `</span><span class="text-syn-u">,</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">variables:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">},</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Strengths:</strong></p>
             <ul class="mt-0 mb-6">
               <li>No over-fetching or under-fetching</li>
@@ -1073,57 +714,46 @@ DELETE /users/123      → Delete user 123
               <li>Security: Malicious queries can request deeply nested data</li>
             </ul>
             <h3 id="grpc" class="mt-8 text-lg leading-tight tracking-tight">gRPC</h3>
-            <p class="mt-0 mb-6">
-              gRPC uses Protocol Buffers (protobuf) for serialization. It&#39;s binary, strongly
-              typed, and designed for service-to-service communication.
-            </p>
-            <p class="mt-0 mb-6">
-              First, you define your service in a
-              <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]"
-                >.proto</code
-              >
-              file:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-protobuf rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-k">syntax</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;proto3&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">service</span> <span class="text-syn-t">UserService</span> {
-  <span class="text-syn-k">rpc</span> <span class="text-syn-f">GetUser</span>(<span class="text-syn-t">GetUserRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-t">User</span>)<span class="text-syn-u">;</span>
-  <span class="text-syn-k">rpc</span> <span class="text-syn-f">ListUsers</span>(<span class="text-syn-t">ListUsersRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-k">stream</span> <span class="text-syn-t">User</span>)<span class="text-syn-u">;</span>
-  <span class="text-syn-k">rpc</span> <span class="text-syn-f">CreateUser</span>(<span class="text-syn-t">CreateUserRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-t">User</span>)<span class="text-syn-u">;</span>
-}
-
-<span class="text-syn-k">message</span> <span class="text-syn-t">GetUserRequest</span> {
-  <span class="text-syn-k">string</span> id <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
-}
-
-<span class="text-syn-k">message</span> <span class="text-syn-t">User</span> {
-  <span class="text-syn-k">string</span> id <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">string</span> name <span class="text-syn-o">=</span> <span class="text-syn-n">2</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">string</span> email <span class="text-syn-o">=</span> <span class="text-syn-n">3</span><span class="text-syn-u">;</span>
-  <span class="text-syn-k">int32</span> age <span class="text-syn-o">=</span> <span class="text-syn-n">4</span><span class="text-syn-u">;</span>
-}
-</code></pre>
-            <p class="mt-0 mb-6">
-              The protobuf compiler generates client and server code in your language:
-            </p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// Generated client usage</span>
-<span class="text-syn-k">const</span> client <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">UserServiceClient</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;localhost:50051&quot;</span><span class="text-syn-u">);</span>
-
-<span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">getUser</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span>
-console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">);</span>
-
-<span class="text-syn-c italic">// Streaming: server sends multiple users</span>
-<span class="text-syn-k">const</span> stream <span class="text-syn-o">=</span> client<span class="text-syn-u">.</span><span class="text-syn-f">listUsers</span><span class="text-syn-u">({</span> <span class="text-syn-p">limit:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">});</span>
-<span class="text-syn-k">for</span> <span class="text-syn-k">await</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> user <span class="text-syn-o">of</span> stream<span class="text-syn-u">)</span> <span class="text-syn-u">{</span>
-  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">);</span>
-<span class="text-syn-u">}</span>
-</code></pre>
+            <p class="mt-0 mb-6">gRPC uses Protocol Buffers (protobuf) for serialization. It&#39;s binary, strongly typed, and designed for service-to-service communication.</p>
+            <p class="mt-0 mb-6">First, you define your service in a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">.proto</code> file:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-protobuf block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">syntax</span> <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;proto3&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">service</span> <span class="text-syn-t">UserService</span> {</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">GetUser</span>(<span class="text-syn-t">GetUserRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">ListUsers</span>(<span class="text-syn-t">ListUsersRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-k">stream</span> <span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">rpc</span> <span class="text-syn-f">CreateUser</span>(<span class="text-syn-t">CreateUserRequest</span>) <span class="text-syn-k">returns</span> (<span class="text-syn-t">User</span>)<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">}</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">message</span> <span class="text-syn-t">GetUserRequest</span> {</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> id <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">}</span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">message</span> <span class="text-syn-t">User</span> {</span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> id <span class="text-syn-o">=</span> <span class="text-syn-n">1</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> name <span class="text-syn-o">=</span> <span class="text-syn-n">2</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">string</span> email <span class="text-syn-o">=</span> <span class="text-syn-n">3</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">int32</span> age <span class="text-syn-o">=</span> <span class="text-syn-n">4</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">}</span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">The protobuf compiler generates client and server code in your language:</p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Generated client usage</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> client <span class="text-syn-o">=</span> <span class="text-syn-o">new</span> <span class="text-syn-f">UserServiceClient</span><span class="text-syn-u">(</span><span class="text-syn-s">&quot;localhost:50051&quot;</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> client<span class="text-syn-u">.</span><span class="text-syn-f">getUser</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> <span class="text-syn-s">&quot;123&quot;</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// Streaming: server sends multiple users</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> stream <span class="text-syn-o">=</span> client<span class="text-syn-u">.</span><span class="text-syn-f">listUsers</span><span class="text-syn-u">({</span> <span class="text-syn-p">limit:</span> <span class="text-syn-n">100</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">for</span> <span class="text-syn-k">await</span> <span class="text-syn-u">(</span><span class="text-syn-k">const</span> user <span class="text-syn-o">of</span> stream<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span class="text-syn-u">(</span>user<span class="text-syn-u">.</span><span class="text-syn-p">name</span><span class="text-syn-u">);</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6"><strong>Strengths:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Performance: Binary serialization is 5-10x faster than JSON</li>
@@ -1139,54 +769,46 @@ console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span
               <li>Learning curve: Protobuf syntax, tooling setup</li>
               <li>Overkill for simple APIs</li>
             </ul>
-            <p class="mt-0 mb-6">
-              <strong>Best for:</strong>
-              Microservices communication, high-throughput internal APIs, polyglot environments.
-            </p>
+            <p class="mt-0 mb-6"><strong>Best for:</strong> Microservices communication, high-throughput internal APIs, polyglot environments.</p>
             <h3 id="trpc" class="mt-8 text-lg leading-tight tracking-tight">tRPC</h3>
-            <p class="mt-0 mb-6">
-              tRPC is TypeScript-specific. It shares types between your server and client with zero
-              code generation.
-            </p>
+            <p class="mt-0 mb-6">tRPC is TypeScript-specific. It shares types between your server and client with zero code generation.</p>
             <p class="mt-0 mb-6">Define your API on the server:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// server/routers/user.ts</span>
-<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> router<span class="text-syn-u">,</span> publicProcedure <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;../trpc&quot;</span><span class="text-syn-u">;</span>
-<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">export</span> <span class="text-syn-k">const</span> userRouter <span class="text-syn-o">=</span> <span class="text-syn-f">router</span><span class="text-syn-u">({</span>
-  <span class="text-syn-p">getUser:</span> publicProcedure<span class="text-syn-u">.</span><span class="text-syn-f">input</span><span class="text-syn-u">(</span>z<span class="text-syn-u">.</span><span class="text-syn-f">object</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">()</span> <span class="text-syn-u">})).</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">({</span> input <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-    <span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">findUnique</span><span class="text-syn-u">({</span> <span class="text-syn-p">where:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">id:</span> input<span class="text-syn-u">.</span><span class="text-syn-p">id</span> <span class="text-syn-u">}</span> <span class="text-syn-u">});</span>
-    <span class="text-syn-k">return</span> user<span class="text-syn-u">;</span>
-  <span class="text-syn-u">}),</span>
-
-  <span class="text-syn-p">createUser:</span> publicProcedure
-    <span class="text-syn-u">.</span><span class="text-syn-f">input</span><span class="text-syn-u">(</span>z<span class="text-syn-u">.</span><span class="text-syn-f">object</span><span class="text-syn-u">({</span> <span class="text-syn-p">name:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">(),</span> <span class="text-syn-p">email:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">email</span><span class="text-syn-u">()</span> <span class="text-syn-u">}))</span>
-    <span class="text-syn-u">.</span><span class="text-syn-f">mutation</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">({</span> input <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span>
-      <span class="text-syn-k">return</span> db<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span> <span class="text-syn-p">data:</span> input <span class="text-syn-u">});</span>
-    <span class="text-syn-u">}),</span>
-<span class="text-syn-u">});</span>
-</code></pre>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// server/routers/user.ts</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> router<span class="text-syn-u">,</span> publicProcedure <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;../trpc&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> z <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;zod&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> userRouter <span class="text-syn-o">=</span> <span class="text-syn-f">router</span><span class="text-syn-u">({</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">getUser:</span> publicProcedure<span class="text-syn-u">.</span><span class="text-syn-f">input</span><span class="text-syn-u">(</span>z<span class="text-syn-u">.</span><span class="text-syn-f">object</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">()</span> <span class="text-syn-u">})).</span><span class="text-syn-f">query</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">({</span> input <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> user <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> db<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">findUnique</span><span class="text-syn-u">({</span> <span class="text-syn-p">where:</span> <span class="text-syn-u">{</span> <span class="text-syn-p">id:</span> input<span class="text-syn-u">.</span><span class="text-syn-p">id</span> <span class="text-syn-u">}</span> <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> user<span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}),</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">createUser:</span> publicProcedure</span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">input</span><span class="text-syn-u">(</span>z<span class="text-syn-u">.</span><span class="text-syn-f">object</span><span class="text-syn-u">({</span> <span class="text-syn-p">name:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">(),</span> <span class="text-syn-p">email:</span> z<span class="text-syn-u">.</span><span class="text-syn-f">string</span><span class="text-syn-u">().</span><span class="text-syn-f">email</span><span class="text-syn-u">()</span> <span class="text-syn-u">}))</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">.</span><span class="text-syn-f">mutation</span><span class="text-syn-u">(</span><span class="text-syn-k">async</span> <span class="text-syn-u">({</span> input <span class="text-syn-u">})</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-k">return</span> db<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span><span class="text-syn-f">create</span><span class="text-syn-u">({</span> <span class="text-syn-p">data:</span> input <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}),</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">});</span></span>
+              </code>
+            </pre>
             <p class="mt-0 mb-6">Use it on the client with full type inference:</p>
-            <pre
-              tabindex="0"
-              class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5"
-            ><code class="language-typescript rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]"><span class="text-syn-c italic">// client/pages/user.tsx</span>
-<span class="text-syn-k">import</span> <span class="text-syn-u">{</span> trpc <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;../utils/trpc&quot;</span><span class="text-syn-u">;</span>
-
-<span class="text-syn-k">function</span> <span class="text-syn-f">UserProfile</span><span class="text-syn-u">({</span> userId <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span>
-  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> data<span class="text-syn-u">:</span> user <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> trpc<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span>getUser<span class="text-syn-u">.</span><span class="text-syn-f">useQuery</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> userId <span class="text-syn-u">});</span>
-
-<span class="text-syn-c italic">  // TypeScript knows user.name, user.email exist</span>
-<span class="text-syn-c italic">  // Autocomplete works. Typos are caught at compile time.</span>
-  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;{</span>user?.name<span class="text-syn-u">}</span><span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span><span class="text-syn-u">;</span>
-<span class="text-syn-u">}</span>
-</code></pre>
-            <p class="mt-0 mb-6">
-              Change the server response? TypeScript immediately shows errors in all clients.
-            </p>
+            <pre tabindex="0" class="mt-0 mb-6 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
+              <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">// client/pages/user.tsx</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> trpc <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;../utils/trpc&quot;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">UserProfile</span><span class="text-syn-u">({</span> userId <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> userId<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">{</span> data<span class="text-syn-u">:</span> user <span class="text-syn-u">}</span> <span class="text-syn-o">=</span> trpc<span class="text-syn-u">.</span>user<span class="text-syn-u">.</span>getUser<span class="text-syn-u">.</span><span class="text-syn-f">useQuery</span><span class="text-syn-u">({</span> <span class="text-syn-p">id:</span> userId <span class="text-syn-u">});</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // TypeScript knows user.name, user.email exist</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-c italic">  // Autocomplete works. Typos are caught at compile time.</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-t">div</span><span class="text-syn-u">&gt;{</span>user?.name<span class="text-syn-u">}</span><span class="text-syn-o">&lt;/</span>div<span class="text-syn-o">&gt;</span><span class="text-syn-u">;</span></span>
+                <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+              </code>
+            </pre>
+            <p class="mt-0 mb-6">Change the server response? TypeScript immediately shows errors in all clients.</p>
             <p class="mt-0 mb-6"><strong>Strengths:</strong></p>
             <ul class="mt-0 mb-6">
               <li>Zero schema duplication: Types flow from server to client</li>
@@ -1200,13 +822,8 @@ console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span
               <li>Monorepo friendly: Works best when client and server share code</li>
               <li>Less suitable for public APIs: No language-agnostic schema</li>
             </ul>
-            <p class="mt-0 mb-6">
-              <strong>Best for:</strong>
-              Full-stack TypeScript apps, Next.js projects, internal tools.
-            </p>
-            <h3 id="choosing-an-api-paradigm" class="mt-8 text-lg leading-tight tracking-tight">
-              Choosing an API Paradigm
-            </h3>
+            <p class="mt-0 mb-6"><strong>Best for:</strong> Full-stack TypeScript apps, Next.js projects, internal tools.</p>
+            <h3 id="choosing-an-api-paradigm" class="mt-8 text-lg leading-tight tracking-tight">Choosing an API Paradigm</h3>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
                 <tr>
@@ -1218,54 +835,28 @@ console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span
               <tbody>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">REST</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Public APIs, simple CRUD, broad compatibility
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Complex nested data needs
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Public APIs, simple CRUD, broad compatibility</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Complex nested data needs</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">GraphQL</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Mobile apps, complex data requirements, multiple clients
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Simple APIs, caching critical
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Mobile apps, complex data requirements, multiple clients</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Simple APIs, caching critical</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">gRPC</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Microservices, high-performance internal APIs
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Browser clients, simple needs
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Microservices, high-performance internal APIs</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Browser clients, simple needs</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">tRPC</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Full-stack TypeScript, rapid development
-                  </td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Multi-language environments
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Full-stack TypeScript, rapid development</td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Multi-language environments</td>
                 </tr>
               </tbody>
             </table>
-            <p class="mt-0 mb-6">
-              Most teams should start with REST. It&#39;s simple, well-understood, and works
-              everywhere. Move to GraphQL when over-fetching becomes painful. Use gRPC for internal
-              service communication where performance matters. Choose tRPC for TypeScript-only
-              full-stack applications.
-            </p>
-            <h2
-              id="choosing-the-right-protocol"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Choosing the Right Protocol
-            </h2>
+            <p class="mt-0 mb-6">Most teams should start with REST. It&#39;s simple, well-understood, and works everywhere. Move to GraphQL when over-fetching becomes painful. Use gRPC for internal service communication where performance matters. Choose tRPC for TypeScript-only full-stack applications.</p>
+            <h2 id="choosing-the-right-protocol" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Choosing the Right Protocol</h2>
             <table class="mt-0 mb-6 block overflow-x-auto border-collapse text-md">
               <thead>
                 <tr>
@@ -1285,9 +876,7 @@ console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Low</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    HTTP 1.1 + Keep-Alive
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">HTTP 1.1 + Keep-Alive</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">High-frequency APIs</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Lower</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Low</td>
@@ -1295,205 +884,90 @@ console<span class="text-syn-u">.</span><span class="text-syn-f">log</span><span
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">SSE</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Server push, live feeds
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Server push, live feeds</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Low</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Low</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Medium</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">WebSockets</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Real-time bidirectional
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Real-time bidirectional</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Lowest</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">High</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">High</td>
                 </tr>
                 <tr>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">gRPC</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">
-                    Service-to-service, streaming
-                  </td>
+                  <td class="border-b border-line px-3.5 py-2.5 text-left">Service-to-service, streaming</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Lowest</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Medium</td>
                   <td class="border-b border-line px-3.5 py-2.5 text-left">Medium</td>
                 </tr>
               </tbody>
             </table>
-            <p class="mt-0 mb-6">
-              Most applications should start with REST over HTTP. It&#39;s simple, well-understood,
-              and works everywhere. Add SSE when you need server push without client responses. Use
-              WebSockets for bidirectional real-time communication. Consider gRPC for
-              high-performance internal services.
-            </p>
-            <h2
-              id="hands-on-practice"
-              class="mt-12 text-xl font-semibold leading-tight tracking-tight"
-            >
-              Hands-on Practice
-            </h2>
+            <p class="mt-0 mb-6">Most applications should start with REST over HTTP. It&#39;s simple, well-understood, and works everywhere. Add SSE when you need server push without client responses. Use WebSockets for bidirectional real-time communication. Consider gRPC for high-performance internal services.</p>
+            <h2 id="hands-on-practice" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Hands-on Practice</h2>
             <p class="mt-0 mb-6">I&#39;ve created hands-on demos you can run locally:</p>
             <ul class="mt-0 mb-6">
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <a
-                    class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                    href="https://github.com/pulkitxm/websocket-chat"
-                    >websocket-chat</a
-                  >: A real-time chat application built with Socket.IO. See WebSocket bidirectional
-                  communication in action. Send messages between multiple clients and watch
-                  server-initiated pushes work in real-time.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/websocket-chat">websocket-chat</a>: A real-time chat application built with Socket.IO. See WebSocket bidirectional communication in action. Send messages between multiple clients and watch server-initiated pushes work in real-time.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <a
-                    class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                    href="https://github.com/pulkitxm/systems/tree/main/networking/custom-protocol"
-                    >custom-protocol</a
-                  >: Build your own protocol over TCP like Redis. This TypeScript implementation
-                  shows how to define a custom key-value store protocol, parse commands, and format
-                  responses. Compare its efficiency against HTTP and understand why databases use
-                  custom protocols.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/pulkitxm/systems/tree/main/networking/custom-protocol">custom-protocol</a>: Build your own protocol over TCP like Redis. This TypeScript implementation shows how to define a custom key-value store protocol, parse commands, and format responses. Compare its efficiency against HTTP and understand why databases use custom protocols.</p>
               </li>
             </ul>
-            <p class="mt-0 mb-6">
-              When you&#39;ve built these yourself, you&#39;ll understand not just how these
-              protocols work, but why different systems choose different communication patterns.
-              That hands-on experience is invaluable when you&#39;re designing your next distributed
-              system.
-            </p>
-            <h2 id="summary" class="mt-12 text-xl font-semibold leading-tight tracking-tight">
-              Summary
-            </h2>
-            <p class="mt-0 mb-6">
-              Communication protocols are the foundation of distributed systems:
-            </p>
+            <p class="mt-0 mb-6">When you&#39;ve built these yourself, you&#39;ll understand not just how these protocols work, but why different systems choose different communication patterns. That hands-on experience is invaluable when you&#39;re designing your next distributed system.</p>
+            <h2 id="summary" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Summary</h2>
+            <p class="mt-0 mb-6">Communication protocols are the foundation of distributed systems:</p>
             <ol class="mt-0 mb-6">
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>TCP provides reliable transport</strong>: 3-way handshake, ordered
-                  delivery, guaranteed transmission. The cost is latency.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>TCP provides reliable transport</strong>: 3-way handshake, ordered delivery, guaranteed transmission. The cost is latency.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>HTTP is the common language</strong>: A text format both parties
-                  understand. Request-response model. Simple and universal.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>HTTP is the common language</strong>: A text format both parties understand. Request-response model. Simple and universal.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>HTTP 1.1 creates connections per request</strong>: Expensive without
-                  keep-alive. Connection pooling mitigates this.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>HTTP 1.1 creates connections per request</strong>: Expensive without keep-alive. Connection pooling mitigates this.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>WebSockets enable bidirectional flow</strong>: Server can push data to
-                  client and vice versa. Essential for chat, gaming, collaboration.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>WebSockets enable bidirectional flow</strong>: Server can push data to client and vice versa. Essential for chat, gaming, collaboration.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>SSE is simpler for server push</strong>: When you only need
-                  server-to-client updates, SSE is lighter than WebSockets with automatic
-                  reconnection.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>SSE is simpler for server push</strong>: When you only need server-to-client updates, SSE is lighter than WebSockets with automatic reconnection.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>REST is the universal API standard</strong>: Resource-based URLs, HTTP
-                  verbs, stateless. Start here unless you have specific needs.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>REST is the universal API standard</strong>: Resource-based URLs, HTTP verbs, stateless. Start here unless you have specific needs.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>GraphQL solves over/under-fetching</strong>: Client specifies exactly what
-                  data it needs. Great for mobile and complex UIs.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>GraphQL solves over/under-fetching</strong>: Client specifies exactly what data it needs. Great for mobile and complex UIs.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>gRPC excels at service communication</strong>: Binary protocol, streaming
-                  support, code generation. Ideal for microservices.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>gRPC excels at service communication</strong>: Binary protocol, streaming support, code generation. Ideal for microservices.</p>
               </li>
-              <li class="[&>p]:mb-2">
-                <p class="mt-0 mb-6">
-                  <strong>tRPC provides end-to-end type safety</strong>: Zero schema duplication for
-                  TypeScript full-stack apps.
-                </p>
+              <li class="[&amp;>p]:mb-2">
+                <p class="mt-0 mb-6"><strong>tRPC provides end-to-end type safety</strong>: Zero schema duplication for TypeScript full-stack apps.</p>
               </li>
             </ol>
-            <p class="mt-0 mb-6">
-              Everything in computer science is about abstractions. TCP abstracts reliable
-              transmission. HTTP abstracts message format. REST abstracts resource operations. Each
-              layer solves a specific problem. Understanding these layers lets you choose the right
-              abstraction for your use case.
-            </p>
+            <p class="mt-0 mb-6">Everything in computer science is about abstractions. TCP abstracts reliable transmission. HTTP abstracts message format. REST abstracts resource operations. Each layer solves a specific problem. Understanding these layers lets you choose the right abstraction for your use case.</p>
           </div>
         </article>
         <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">
-            Related writing
-          </h2>
+          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
           <ul class="mt-0 mb-6">
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/load-balancers/"
-                >Load Balancers</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/async-processing/"
-                >Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub</a
-              >
-            </li>
-            <li class="my-2">
-              <a
-                class="text-inherit decoration-muted underline-offset-4 hover:decoration-current"
-                href="/system-design/big-data-tools/"
-                >Introduction to Big Data Tools</a
-              >
-            </li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/load-balancers/">Load Balancers</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/async-processing/">Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub</a></li>
+            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/big-data-tools/">Introduction to Big Data Tools</a></li>
           </ul>
         </nav>
       </main>
-      <footer
-        class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start"
-      >
+      <footer class="flex items-center justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted max-sm:flex-col max-sm:items-start">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <small class="text-inherit">© 2026 Pulkit</small
-          ><span
-            ><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a>
-            · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> ·
-            <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm"
-              >LinkedIn</a
-            >
-            · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span
-          >
+          <small class="text-inherit">© 2026 Pulkit</small>
+          <span><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></span>
         </div>
         <div class="flex items-center gap-4">
-          <a
-            class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current"
-            href="/system-design/communication-protocols.md"
-            type="text/markdown"
-            >View as Markdown</a
-          ><button
-            class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg"
-            type="button"
-            data-theme-toggle
-            aria-label="Switch color theme"
-          >
-            Theme
-          </button>
+          <a class="text-inherit decoration-muted underline-offset-4 hover:text-fg hover:decoration-current" href="/system-design/communication-protocols.md" type="text/markdown">View as Markdown</a>
+          <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-inherit [font:inherit] hover:text-fg" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
         </div>
       </footer>
     </div>
