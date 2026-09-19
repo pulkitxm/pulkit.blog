@@ -11,7 +11,7 @@ import{i,I,A,g}from"./index.js";var o="Click the button to simulate heavy JavaSc
             }
           </style>
         </div>
-        <span class="text-neutral-500 text-xs">Using left (layout)</span>
+        <span class="text-neutral-600 dark:text-neutral-400 text-xs">Using left (layout)</span>
       </div>
       <div class="flex flex-col items-center gap-3">
         <div class="relative h-20 w-48 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-800">
@@ -23,7 +23,7 @@ import{i,I,A,g}from"./index.js";var o="Click the button to simulate heavy JavaSc
             }
           </style>
         </div>
-        <span class="text-neutral-500 text-xs">Using transform (GPU)</span>
+        <span class="text-neutral-600 dark:text-neutral-400 text-xs">Using transform (GPU)</span>
       </div>
     </div>
     <p data-ref="text" class="max-w-sm text-center text-neutral-500 text-xs dark:text-neutral-400">${o}</p>

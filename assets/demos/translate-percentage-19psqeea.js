@@ -1,4 +1,4 @@
-import{F}from"./index-hzxb7kan.js";import{A,g}from"./index.js";function i(t){let e=!1;t.innerHTML=A`<div class="flex size-full flex-col items-center justify-center gap-6 p-6">
+import{F}from"./index-a6mktay0.js";import{A,g}from"./index.js";function i(t){let e=!1;t.innerHTML=A`<div class="flex size-full flex-col items-center justify-center gap-6 p-6">
     <div class="flex flex-col gap-6 sm:flex-row sm:gap-12">
       <div class="flex flex-col items-center gap-3">
         <p class="font-medium text-neutral-700 text-sm dark:text-neutral-300">Small box (40px)</p>
