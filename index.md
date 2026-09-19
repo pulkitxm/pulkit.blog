@@ -8,6 +8,7 @@ Series: [System design](https://pulkit.blog/system-design.md) · [Design enginee
 
 ## 2026
 
+- [Tailwind Obfuscation](https://pulkit.blog/tailwind-obfuscation.md): September 20, 2026
 - [Kaksha: The App I Built for My Mother](https://pulkit.blog/kaksha.md): August 9, 2026
 - [Partial Clones, Shallow Clones, and Sparse Checkout](https://pulkit.blog/git-partial-clones.md): August 3, 2026
 - [My First Talk: Claude Directory](https://pulkit.blog/my-first-talk.md): June 13, 2026
