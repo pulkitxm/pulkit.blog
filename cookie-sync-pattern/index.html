@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="scheme-light-dark data-[theme=dark]:scheme-dark data-[theme=light]:scheme-light">
+<html lang="en" class="ca xc yc">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -217,473 +217,473 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.dffed1eb4e62.css" />
+    <link rel="stylesheet" href="/styles.26191842cd41.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
-    <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
-      <header class="flex items-center justify-between gap-6 py-9 max-sm:flex-col max-sm:items-start max-sm:gap-3.5 max-sm:py-6.5">
-        <a class="font-bold text-inherit no-underline" href="/">pulkit.blog</a>
-        <nav class="flex flex-wrap gap-5 text-sm text-muted max-sm:gap-4.5" aria-label="Main navigation">
-          <a class="text-inherit no-underline aria-[current=page]:text-fg" href="https://pulkit.page/">About</a>
+  <body class="v w5 s7 t7 d9 ba bb nc oc pc">
+    <div class="x r2 v6 md">
+      <header class="c1 a4 c4 n4 e7 hd id kd nd">
+        <a class="o8 h9 v9" href="/">pulkit.blog</a>
+        <nav class="c1 y3 m4 d8 i9 ld" aria-label="Main navigation">
+          <a class="h9 v9 wc" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="min-h-[56vh] pt-12 pb-18 max-sm:pt-7">
-        <nav class="mb-8 text-[0.8rem]" aria-label="Breadcrumb">
-          <ol class="mt-0 mb-6 flex list-none flex-wrap gap-2 p-0 [&amp;>li+li]:before:mr-2 [&amp;>li+li]:before:opacity-50 [&amp;>li+li]:before:content-[&#39;/&#39;] [&amp;_a]:text-inherit [&amp;_a]:decoration-muted [&amp;_a]:underline-offset-4 [&amp;_a:hover]:decoration-current">
+      <main id="main" class="f2 i7 l7 od">
+        <nav class="u0 u7" aria-label="Breadcrumb">
+          <ol class="f0 s0 c1 r3 y3 i4 j6 lf mf nf cf df ef ff">
             <li><a href="/">Home</a></li>
             <li aria-current="page">The Cookie Sync Pattern</li>
           </ol>
         </nav>
         <article>
-          <header class="mb-7">
-            <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>The Cookie Sync Pattern</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-05-04">May 4, 2026</time> · 6 min read</p>
+          <header class="t0">
+            <h1 class="f0 r0 o2 z7 q8 n8 s8" data-title>The Cookie Sync Pattern</h1>
+            <a class="p0 c1 o2 a4 j4 d8 h9 v9 aa zb" href="https://pulkit.page/"><img class="v n1 a5 g6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="f0 s0 d8 i9"><time datetime="2026-05-04">May 4, 2026</time> · 6 min read</p>
           </header>
-          <div class="wrap-break-word">
-            <p class="mt-0 mb-6">You&#39;ve seen this before. You persist something to localStorage (a theme preference, a sidebar width, a collapsed panel state), and it works great. Until you refresh the page.</p>
-            <p class="mt-0 mb-6">For a split second, the page renders with the wrong state. Light mode flashes before dark mode kicks in. The sidebar snaps from its default width to wherever you left it. A panel expands, then collapses. The server rendered one thing, the client hydrated with another, and React had to patch the difference.</p>
-            <p class="mt-0 mb-6">This is the localStorage + SSR problem. And it&#39;s not a bug in your code or your state library. It&#39;s a fundamental mismatch between what the server knows and what the client knows.</p>
-            <p class="mt-0 mb-6">Here&#39;s the pattern I use to fix it.</p>
-            <h2 id="the-problem" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Problem</h2>
-            <p class="mt-0 mb-6">localStorage is client-only. The server has no access to it. So when you use <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">atomWithStorage</code> (Jotai), <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">persist</code> middleware (Zustand), or any localStorage-based persistence, you&#39;re creating a gap:</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────┐</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                         SERVER (Node.js)                        │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────┤</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  • No access to localStorage                                    │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  • State initializes with defaults:                             │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│      theme = &quot;light&quot;                                            │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│      sidebarWidth = 224                                         │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│      panelCollapsed = false                                     │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  • Renders HTML with default state                              │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────┘</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                              ↓</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                         HTML sent to browser</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                              ↓</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────┐</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                         CLIENT (Browser)                        │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────┤</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  • State library reads localStorage immediately                 │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  • Finds persisted values:                                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│      theme = &quot;dark&quot;                                             │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│      sidebarWidth = 300                                         │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│      panelCollapsed = true                                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  • First render uses these values → MISMATCH                    │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  • React patches DOM → visible &quot;flash&quot;                          │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────┘</span>
+          <div class="v8">
+            <p class="f0 s0">You&#39;ve seen this before. You persist something to localStorage (a theme preference, a sidebar width, a collapsed panel state), and it works great. Until you refresh the page.</p>
+            <p class="f0 s0">For a split second, the page renders with the wrong state. Light mode flashes before dark mode kicks in. The sidebar snaps from its default width to wherever you left it. A panel expands, then collapses. The server rendered one thing, the client hydrated with another, and React had to patch the difference.</p>
+            <p class="f0 s0">This is the localStorage + SSR problem. And it&#39;s not a bug in your code or your state library. It&#39;s a fundamental mismatch between what the server knows and what the client knows.</p>
+            <p class="f0 s0">Here&#39;s the pattern I use to fix it.</p>
+            <h2 id="the-problem" class="m0 e8 q8 n8 s8">The Problem</h2>
+            <p class="f0 s0">localStorage is client-only. The server has no access to it. So when you use <code class="d5 z5 p6 w6 za">atomWithStorage</code> (Jotai), <code class="d5 z5 p6 w6 za">persist</code> middleware (Zustand), or any localStorage-based persistence, you&#39;re creating a gap:</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-text block q2 a3 d5 za a9">
+                  <span class="block g8 z8">┌─────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block g8 z8">│                         SERVER (Node.js)                        │</span>
+                  <span class="block g8 z8">├─────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block g8 z8">│  • No access to localStorage                                    │</span>
+                  <span class="block g8 z8">│  • State initializes with defaults:                             │</span>
+                  <span class="block g8 z8">│      theme = &quot;light&quot;                                            │</span>
+                  <span class="block g8 z8">│      sidebarWidth = 224                                         │</span>
+                  <span class="block g8 z8">│      panelCollapsed = false                                     │</span>
+                  <span class="block g8 z8">│  • Renders HTML with default state                              │</span>
+                  <span class="block g8 z8">└─────────────────────────────────────────────────────────────────┘</span>
+                  <span class="block g8 z8">                              ↓</span>
+                  <span class="block g8 z8">                         HTML sent to browser</span>
+                  <span class="block g8 z8">                              ↓</span>
+                  <span class="block g8 z8">┌─────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block g8 z8">│                         CLIENT (Browser)                        │</span>
+                  <span class="block g8 z8">├─────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block g8 z8">│  • State library reads localStorage immediately                 │</span>
+                  <span class="block g8 z8">│  • Finds persisted values:                                      │</span>
+                  <span class="block g8 z8">│      theme = &quot;dark&quot;                                             │</span>
+                  <span class="block g8 z8">│      sidebarWidth = 300                                         │</span>
+                  <span class="block g8 z8">│      panelCollapsed = true                                      │</span>
+                  <span class="block g8 z8">│  • First render uses these values → MISMATCH                    │</span>
+                  <span class="block g8 z8">│  • React patches DOM → visible &quot;flash&quot;                          │</span>
+                  <span class="block g8 z8">└─────────────────────────────────────────────────────────────────┘</span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">Two things happen:</p>
-            <ol class="mt-0 mb-6">
+            <p class="f0 s0">Two things happen:</p>
+            <ol class="f0 s0">
               <li><strong>Hydration mismatch warning</strong>: React complains that server HTML doesn&#39;t match client markup</li>
               <li><strong>Visual flash</strong>: The UI renders with defaults, then snaps to the persisted state</li>
             </ol>
-            <p class="mt-0 mb-6">The root cause is simple: the server can&#39;t read localStorage. So server and client start with different state, and React has to reconcile the difference visibly.</p>
-            <h2 id="the-solutions" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Solutions</h2>
-            <p class="mt-0 mb-6">There are a few ways to handle this. Let me walk through each one.</p>
-            <h3 id="option-1-accept-the-flash" class="mt-8 text-lg leading-tight tracking-tight">Option 1: Accept the Flash</h3>
-            <p class="mt-0 mb-6">The simplest approach is to do nothing. Zero complexity. But the UX is jarring and React throws hydration warnings into your console. For a portfolio site, maybe acceptable. For a product, not great.</p>
-            <h3 id="option-2-css-transition-gate" class="mt-8 text-lg leading-tight tracking-tight">Option 2: CSS Transition Gate</h3>
-            <p class="mt-0 mb-6">Hide or fade the affected component until the client has resolved the correct state:</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">[</span>mounted<span class="text-syn-u">,</span> setMounted<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">setMounted</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-u">[]);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;</span><span class="text-syn-g">div</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">opacity:</span> mounted <span class="text-syn-o">?</span> <span class="text-syn-n">1</span> <span class="text-syn-o">:</span> <span class="text-syn-n">0</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">transition:</span> <span class="text-syn-s">&quot;opacity 200ms ease&quot;</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">}}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">{</span><span class="text-syn-c italic">/* content that depends on localStorage state */</span><span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">&lt;/</span><span class="text-syn-g">div</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">);</span></span>
+            <p class="f0 s0">The root cause is simple: the server can&#39;t read localStorage. So server and client start with different state, and React has to reconcile the difference visibly.</p>
+            <h2 id="the-solutions" class="m0 e8 q8 n8 s8">The Solutions</h2>
+            <p class="f0 s0">There are a few ways to handle this. Let me walk through each one.</p>
+            <h3 id="option-1-accept-the-flash" class="k0 b8 n8 s8">Option 1: Accept the Flash</h3>
+            <p class="f0 s0">The simplest approach is to do nothing. Zero complexity. But the UX is jarring and React throws hydration warnings into your console. For a portfolio site, maybe acceptable. For a product, not great.</p>
+            <h3 id="option-2-css-transition-gate" class="k0 b8 n8 s8">Option 2: CSS Transition Gate</h3>
+            <p class="f0 s0">Hide or fade the affected component until the client has resolved the correct state:</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-tsx block q2 a3 d5 za a9">
+                  <span class="block g8 z8"><span class="m9">const</span> <span class="s9">[</span>mounted<span class="s9">,</span> setMounted<span class="s9">]</span> <span class="o9">=</span> <span class="k9">useState</span><span class="s9">(</span><span class="m9">false</span><span class="s9">);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="k9">useEffect</span><span class="s9">(()</span> <span class="m9">=&gt;</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="k9">setMounted</span><span class="s9">(</span><span class="m9">true</span><span class="s9">);</span></span>
+                  <span class="block g8 z8"><span class="s9">},</span> <span class="s9">[]);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">return</span> <span class="s9">(</span></span>
+                  <span class="block g8 z8">  <span class="s9">&lt;</span><span class="l9">div</span></span>
+                  <span class="block g8 z8">    <span class="p9">style</span><span class="o9">=</span><span class="s9">{{</span></span>
+                  <span class="block g8 z8">      <span class="p9">opacity:</span> mounted <span class="o9">?</span> <span class="n9">1</span> <span class="o9">:</span> <span class="n9">0</span><span class="s9">,</span></span>
+                  <span class="block g8 z8">      <span class="p9">transition:</span> <span class="q9">&quot;opacity 200ms ease&quot;</span><span class="s9">,</span></span>
+                  <span class="block g8 z8">    <span class="s9">}}</span></span>
+                  <span class="block g8 z8">  <span class="s9">&gt;</span></span>
+                  <span class="block g8 z8">    <span class="s9">{</span><span class="j9 t9">/* content that depends on localStorage state */</span><span class="s9">}</span></span>
+                  <span class="block g8 z8">  <span class="s9">&lt;/</span><span class="l9">div</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8"><span class="s9">);</span></span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">This masks the problem with a fade. It works, but you&#39;re still rendering the wrong state briefly; you&#39;re just hiding it. And if the fade is too slow, users notice. If it&#39;s too fast, you might still catch the shift.</p>
-            <h3 id="option-3-loading-skeleton-state" class="mt-8 text-lg leading-tight tracking-tight">Option 3: Loading/Skeleton State</h3>
-            <p class="mt-0 mb-6">Render a placeholder until the client has the real values:</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">const</span> <span class="text-syn-u">[</span>ready<span class="text-syn-u">,</span> setReady<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useState</span><span class="text-syn-u">(</span><span class="text-syn-k">false</span><span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">setReady</span><span class="text-syn-u">(</span><span class="text-syn-k">true</span><span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">},</span> <span class="text-syn-u">[]);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>ready<span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">Skeleton</span> <span class="text-syn-u">/&gt;;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">return</span> <span class="text-syn-u">&lt;</span><span class="text-syn-g">ActualComponent</span> <span class="text-syn-u">/&gt;;</span></span>
+            <p class="f0 s0">This masks the problem with a fade. It works, but you&#39;re still rendering the wrong state briefly; you&#39;re just hiding it. And if the fade is too slow, users notice. If it&#39;s too fast, you might still catch the shift.</p>
+            <h3 id="option-3-loading-skeleton-state" class="k0 b8 n8 s8">Option 3: Loading/Skeleton State</h3>
+            <p class="f0 s0">Render a placeholder until the client has the real values:</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-tsx block q2 a3 d5 za a9">
+                  <span class="block g8 z8"><span class="m9">const</span> <span class="s9">[</span>ready<span class="s9">,</span> setReady<span class="s9">]</span> <span class="o9">=</span> <span class="k9">useState</span><span class="s9">(</span><span class="m9">false</span><span class="s9">);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="k9">useEffect</span><span class="s9">(()</span> <span class="m9">=&gt;</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="k9">setReady</span><span class="s9">(</span><span class="m9">true</span><span class="s9">);</span></span>
+                  <span class="block g8 z8"><span class="s9">},</span> <span class="s9">[]);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">if</span> <span class="s9">(</span><span class="o9">!</span>ready<span class="s9">)</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="m9">return</span> <span class="s9">&lt;</span><span class="l9">Skeleton</span> <span class="s9">/&gt;;</span></span>
+                  <span class="block g8 z8"><span class="s9">}</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">return</span> <span class="s9">&lt;</span><span class="l9">ActualComponent</span> <span class="s9">/&gt;;</span></span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">This is explicit about the loading state, which can be good UX for data-fetching scenarios. But for simple preferences like &quot;is this panel collapsed?&quot; or &quot;what theme did they pick?&quot;, adding a skeleton feels heavy-handed. You&#39;re not fetching anything, you just need to read a value that already exists locally.</p>
-            <h3 id="option-4-cookie-sync-the-clean-one" class="mt-8 text-lg leading-tight tracking-tight">Option 4: Cookie Sync (The Clean One)</h3>
-            <p class="mt-0 mb-6">The idea: sync localStorage to a cookie so the server can read it. On subsequent requests, the server knows the user&#39;s preferences and renders the correct state from the start. No mismatch, no flash.</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre">┌──────────────────────────────────────────────────────────────────────────┐</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                            REQUEST LIFECYCLE                              │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">├──────────────────────────────────────────────────────────────────────────┤</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  1. BOOTSTRAP SCRIPT (runs before React hydrates)                        │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ Reads localStorage → writes preferences to cookie                 │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  2. SSR (server receives next request with cookie)                       │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ Reads cookie → renders HTML with correct state                    │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  3. HYDRATION (client takes over)                                        │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ State library initializes with cookie values                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ Matches server HTML → no mismatch, no flash                       │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  4. USER INTERACTION                                                     │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│     └─ Changes update state + localStorage + cookie                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                                                                          │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">└──────────────────────────────────────────────────────────────────────────┘</span>
+            <p class="f0 s0">This is explicit about the loading state, which can be good UX for data-fetching scenarios. But for simple preferences like &quot;is this panel collapsed?&quot; or &quot;what theme did they pick?&quot;, adding a skeleton feels heavy-handed. You&#39;re not fetching anything, you just need to read a value that already exists locally.</p>
+            <h3 id="option-4-cookie-sync-the-clean-one" class="k0 b8 n8 s8">Option 4: Cookie Sync (The Clean One)</h3>
+            <p class="f0 s0">The idea: sync localStorage to a cookie so the server can read it. On subsequent requests, the server knows the user&#39;s preferences and renders the correct state from the start. No mismatch, no flash.</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-text block q2 a3 d5 za a9">
+                  <span class="block g8 z8">┌──────────────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block g8 z8">│                            REQUEST LIFECYCLE                              │</span>
+                  <span class="block g8 z8">├──────────────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block g8 z8">│                                                                          │</span>
+                  <span class="block g8 z8">│  1. BOOTSTRAP SCRIPT (runs before React hydrates)                        │</span>
+                  <span class="block g8 z8">│     └─ Reads localStorage → writes preferences to cookie                 │</span>
+                  <span class="block g8 z8">│                                                                          │</span>
+                  <span class="block g8 z8">│  2. SSR (server receives next request with cookie)                       │</span>
+                  <span class="block g8 z8">│     └─ Reads cookie → renders HTML with correct state                    │</span>
+                  <span class="block g8 z8">│                                                                          │</span>
+                  <span class="block g8 z8">│  3. HYDRATION (client takes over)                                        │</span>
+                  <span class="block g8 z8">│     └─ State library initializes with cookie values                      │</span>
+                  <span class="block g8 z8">│     └─ Matches server HTML → no mismatch, no flash                       │</span>
+                  <span class="block g8 z8">│                                                                          │</span>
+                  <span class="block g8 z8">│  4. USER INTERACTION                                                     │</span>
+                  <span class="block g8 z8">│     └─ Changes update state + localStorage + cookie                      │</span>
+                  <span class="block g8 z8">│                                                                          │</span>
+                  <span class="block g8 z8">└──────────────────────────────────────────────────────────────────────────┘</span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">The first visit still uses defaults (no cookie exists yet). But every visit after that renders correctly from the server. Let me show you the implementation.</p>
-            <h2 id="the-implementation" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Implementation</h2>
-            <p class="mt-0 mb-6">I&#39;ll use a resizable sidebar as the example, but this pattern works for any localStorage state: themes, collapsed panels, sort preferences, table column widths, whatever.</p>
-            <h3 id="step-1-define-your-preferences" class="mt-8 text-lg leading-tight tracking-tight">Step 1: Define Your Preferences</h3>
-            <p class="mt-0 mb-6">First, define what you&#39;re persisting and create utilities to parse and persist the cookie:</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> PREFS_COOKIE <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;ui_prefs&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">interface</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  sidebarCollapsed<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  sidebarWidth<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> DEFAULT_PREFS<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-o">=</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">sidebarCollapsed:</span> <span class="text-syn-k">false</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-p">sidebarWidth:</span> <span class="text-syn-n">224</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">};</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">parsePrefs</span><span class="text-syn-u">(</span>cookieValue<span class="text-syn-o">:</span> <span class="text-syn-t">string</span> <span class="text-syn-o">|</span> <span class="text-syn-t">undefined</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>cookieValue<span class="text-syn-u">)</span> <span class="text-syn-k">return</span> DEFAULT_PREFS<span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">try</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> decoded <span class="text-syn-o">=</span> <span class="text-syn-f">decodeURIComponent</span><span class="text-syn-u">(</span>cookieValue<span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">const</span> parsed <span class="text-syn-o">=</span> JSON<span class="text-syn-u">.</span><span class="text-syn-f">parse</span><span class="text-syn-u">(</span>decoded<span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sidebarCollapsed:</span> parsed<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span> <span class="text-syn-o">===</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-p">sidebarWidth:</span> <span class="text-syn-f">clamp</span><span class="text-syn-u">(</span><span class="text-syn-f">Number</span><span class="text-syn-u">(</span>parsed<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">),</span> <span class="text-syn-n">192</span><span class="text-syn-u">,</span> <span class="text-syn-n">384</span><span class="text-syn-u">),</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">};</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span> <span class="text-syn-k">catch</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-k">return</span> DEFAULT_PREFS<span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">persistPrefs</span><span class="text-syn-u">(</span>prefs<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">void</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> value <span class="text-syn-o">=</span> <span class="text-syn-f">encodeURIComponent</span><span class="text-syn-u">(</span>JSON<span class="text-syn-u">.</span><span class="text-syn-f">stringify</span><span class="text-syn-u">(</span>prefs<span class="text-syn-u">));</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  document<span class="text-syn-u">.</span><span class="text-syn-p">cookie</span> <span class="text-syn-o">=</span> <span class="text-syn-s">`${PREFS_COOKIE}=${value}; Path=/; Max-Age=31536000; SameSite=Lax`</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">function</span> <span class="text-syn-f">clamp</span><span class="text-syn-u">(</span>n<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">,</span> min<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">,</span> max<span class="text-syn-o">:</span> <span class="text-syn-t">number</span><span class="text-syn-u">)</span><span class="text-syn-o">:</span> <span class="text-syn-t">number</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">if</span> <span class="text-syn-u">(</span><span class="text-syn-o">!</span>Number<span class="text-syn-u">.</span><span class="text-syn-f">isFinite</span><span class="text-syn-u">(</span>n<span class="text-syn-u">))</span> <span class="text-syn-k">return</span> min<span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">min</span><span class="text-syn-u">(</span>max<span class="text-syn-u">,</span> Math<span class="text-syn-u">.</span><span class="text-syn-f">max</span><span class="text-syn-u">(</span>min<span class="text-syn-u">,</span> n<span class="text-syn-u">));</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+            <p class="f0 s0">The first visit still uses defaults (no cookie exists yet). But every visit after that renders correctly from the server. Let me show you the implementation.</p>
+            <h2 id="the-implementation" class="m0 e8 q8 n8 s8">The Implementation</h2>
+            <p class="f0 s0">I&#39;ll use a resizable sidebar as the example, but this pattern works for any localStorage state: themes, collapsed panels, sort preferences, table column widths, whatever.</p>
+            <h3 id="step-1-define-your-preferences" class="k0 b8 n8 s8">Step 1: Define Your Preferences</h3>
+            <p class="f0 s0">First, define what you&#39;re persisting and create utilities to parse and persist the cookie:</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-typescript block q2 a3 d5 za a9">
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">const</span> PREFS_COOKIE <span class="o9">=</span> <span class="q9">&quot;ui_prefs&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">interface</span> <span class="r9">UIPrefs</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  sidebarCollapsed<span class="o9">:</span> <span class="r9">boolean</span><span class="s9">;</span></span>
+                  <span class="block g8 z8">  sidebarWidth<span class="o9">:</span> <span class="r9">number</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><span class="s9">}</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">const</span> DEFAULT_PREFS<span class="o9">:</span> <span class="r9">UIPrefs</span> <span class="o9">=</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="p9">sidebarCollapsed:</span> <span class="m9">false</span><span class="s9">,</span></span>
+                  <span class="block g8 z8">  <span class="p9">sidebarWidth:</span> <span class="n9">224</span><span class="s9">,</span></span>
+                  <span class="block g8 z8"><span class="s9">};</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">function</span> <span class="k9">parsePrefs</span><span class="s9">(</span>cookieValue<span class="o9">:</span> <span class="r9">string</span> <span class="o9">|</span> <span class="r9">undefined</span><span class="s9">)</span><span class="o9">:</span> <span class="r9">UIPrefs</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="m9">if</span> <span class="s9">(</span><span class="o9">!</span>cookieValue<span class="s9">)</span> <span class="m9">return</span> DEFAULT_PREFS<span class="s9">;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="m9">try</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">    <span class="m9">const</span> decoded <span class="o9">=</span> <span class="k9">decodeURIComponent</span><span class="s9">(</span>cookieValue<span class="s9">);</span></span>
+                  <span class="block g8 z8">    <span class="m9">const</span> parsed <span class="o9">=</span> JSON<span class="s9">.</span><span class="k9">parse</span><span class="s9">(</span>decoded<span class="s9">);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">    <span class="m9">return</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">      <span class="p9">sidebarCollapsed:</span> parsed<span class="s9">.</span><span class="p9">sidebarCollapsed</span> <span class="o9">===</span> <span class="m9">true</span><span class="s9">,</span></span>
+                  <span class="block g8 z8">      <span class="p9">sidebarWidth:</span> <span class="k9">clamp</span><span class="s9">(</span><span class="k9">Number</span><span class="s9">(</span>parsed<span class="s9">.</span><span class="p9">sidebarWidth</span><span class="s9">),</span> <span class="n9">192</span><span class="s9">,</span> <span class="n9">384</span><span class="s9">),</span></span>
+                  <span class="block g8 z8">    <span class="s9">};</span></span>
+                  <span class="block g8 z8">  <span class="s9">}</span> <span class="m9">catch</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">    <span class="m9">return</span> DEFAULT_PREFS<span class="s9">;</span></span>
+                  <span class="block g8 z8">  <span class="s9">}</span></span>
+                  <span class="block g8 z8"><span class="s9">}</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">function</span> <span class="k9">persistPrefs</span><span class="s9">(</span>prefs<span class="o9">:</span> <span class="r9">UIPrefs</span><span class="s9">)</span><span class="o9">:</span> <span class="r9">void</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> value <span class="o9">=</span> <span class="k9">encodeURIComponent</span><span class="s9">(</span>JSON<span class="s9">.</span><span class="k9">stringify</span><span class="s9">(</span>prefs<span class="s9">));</span></span>
+                  <span class="block g8 z8">  document<span class="s9">.</span><span class="p9">cookie</span> <span class="o9">=</span> <span class="q9">`${PREFS_COOKIE}=${value}; Path=/; Max-Age=31536000; SameSite=Lax`</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><span class="s9">}</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">function</span> <span class="k9">clamp</span><span class="s9">(</span>n<span class="o9">:</span> <span class="r9">number</span><span class="s9">,</span> min<span class="o9">:</span> <span class="r9">number</span><span class="s9">,</span> max<span class="o9">:</span> <span class="r9">number</span><span class="s9">)</span><span class="o9">:</span> <span class="r9">number</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="m9">if</span> <span class="s9">(</span><span class="o9">!</span>Number<span class="s9">.</span><span class="k9">isFinite</span><span class="s9">(</span>n<span class="s9">))</span> <span class="m9">return</span> min<span class="s9">;</span></span>
+                  <span class="block g8 z8">  <span class="m9">return</span> Math<span class="s9">.</span><span class="k9">min</span><span class="s9">(</span>max<span class="s9">,</span> Math<span class="s9">.</span><span class="k9">max</span><span class="s9">(</span>min<span class="s9">,</span> n<span class="s9">));</span></span>
+                  <span class="block g8 z8"><span class="s9">}</span></span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="step-2-the-bootstrap-script" class="mt-8 text-lg leading-tight tracking-tight">Step 2: The Bootstrap Script</h3>
-            <p class="mt-0 mb-6">This is the key piece. An inline script that runs <strong>before React hydrates</strong>, reading localStorage and writing to a cookie:</p>
-            <p class="mt-0 mb-6">Use <strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">JSON.parse</code> for both keys.</strong> Your React code should persist the <strong>same shapes</strong> jotai-style (<code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">JSON.stringify</code> per value), otherwise the bootstrap and your client get out of sync.</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-typescript block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> SIDEBAR_LS_COLLAPSED <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;sidebar-collapsed&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> SIDEBAR_LS_WIDTH <span class="text-syn-o">=</span> <span class="text-syn-s">&quot;sidebar-width&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">const</span> BOOTSTRAP_SCRIPT <span class="text-syn-o">=</span> <span class="text-syn-s">`(function(){try{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var c = JSON.parse(localStorage.getItem(${JSON.stringify(</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">    SIDEBAR_LS_COLLAPSED,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  )}) || &quot;false&quot;) === true;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var wRaw = JSON.parse(localStorage.getItem(${JSON.stringify(SIDEBAR_LS_WIDTH)}) || &quot;224&quot;);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var w = Math.min(384, Math.max(192, Number(wRaw) || 224));</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  var prefs = JSON.stringify({ sidebarCollapsed: c, sidebarWidth: w });</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">  document.cookie = &quot;ui_prefs=&quot; + encodeURIComponent(prefs) + &quot;; Path=/; Max-Age=31536000; SameSite=Lax&quot;;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">}catch(e){}})();`</span><span class="text-syn-u">;</span></span>
+            <h3 id="step-2-the-bootstrap-script" class="k0 b8 n8 s8">Step 2: The Bootstrap Script</h3>
+            <p class="f0 s0">This is the key piece. An inline script that runs <strong>before React hydrates</strong>, reading localStorage and writing to a cookie:</p>
+            <p class="f0 s0">Use <strong><code class="d5 z5 p6 w6 za">JSON.parse</code> for both keys.</strong> Your React code should persist the <strong>same shapes</strong> jotai-style (<code class="d5 z5 p6 w6 za">JSON.stringify</code> per value), otherwise the bootstrap and your client get out of sync.</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-typescript block q2 a3 d5 za a9">
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">const</span> SIDEBAR_LS_COLLAPSED <span class="o9">=</span> <span class="q9">&quot;sidebar-collapsed&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">const</span> SIDEBAR_LS_WIDTH <span class="o9">=</span> <span class="q9">&quot;sidebar-width&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">const</span> BOOTSTRAP_SCRIPT <span class="o9">=</span> <span class="q9">`(function(){try{</span></span>
+                  <span class="block g8 z8"><span class="q9">  var c = JSON.parse(localStorage.getItem(${JSON.stringify(</span></span>
+                  <span class="block g8 z8"><span class="q9">    SIDEBAR_LS_COLLAPSED,</span></span>
+                  <span class="block g8 z8"><span class="q9">  )}) || &quot;false&quot;) === true;</span></span>
+                  <span class="block g8 z8"><span class="q9">  var wRaw = JSON.parse(localStorage.getItem(${JSON.stringify(SIDEBAR_LS_WIDTH)}) || &quot;224&quot;);</span></span>
+                  <span class="block g8 z8"><span class="q9">  var w = Math.min(384, Math.max(192, Number(wRaw) || 224));</span></span>
+                  <span class="block g8 z8"><span class="q9">  var prefs = JSON.stringify({ sidebarCollapsed: c, sidebarWidth: w });</span></span>
+                  <span class="block g8 z8"><span class="q9">  document.cookie = &quot;ui_prefs=&quot; + encodeURIComponent(prefs) + &quot;; Path=/; Max-Age=31536000; SameSite=Lax&quot;;</span></span>
+                  <span class="block g8 z8"><span class="q9">}catch(e){}})();`</span><span class="s9">;</span></span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">This runs synchronously before React. On the user&#39;s <strong>next navigation or refresh</strong>, the server receives this cookie and renders HTML that matches what localStorage will provide.</p>
-            <h3 id="step-3-server-layout" class="mt-8 text-lg leading-tight tracking-tight">Step 3: Server Layout</h3>
-            <p class="mt-0 mb-6">Read the cookie and pass the preferences down:</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> cookies <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;next/headers&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> Script <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;next/script&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">default</span> <span class="text-syn-k">async</span> <span class="text-syn-k">function</span> <span class="text-syn-f">RootLayout</span><span class="text-syn-u">({</span> children <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-u">{</span> children<span class="text-syn-o">:</span> <span class="text-syn-t">React</span><span class="text-syn-u">.</span><span class="text-syn-t">ReactNode</span> <span class="text-syn-u">})</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> cookieStore <span class="text-syn-o">=</span> <span class="text-syn-k">await</span> <span class="text-syn-f">cookies</span><span class="text-syn-u">();</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefsCookie <span class="text-syn-o">=</span> cookieStore<span class="text-syn-u">.</span><span class="text-syn-f">get</span><span class="text-syn-u">(</span>PREFS_COOKIE<span class="text-syn-u">)?.</span><span class="text-syn-p">value</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefsTrusted <span class="text-syn-o">=</span> <span class="text-syn-o">typeof</span> prefsCookie <span class="text-syn-o">===</span> <span class="text-syn-s">&quot;string&quot;</span> <span class="text-syn-o">&amp;&amp;</span> prefsCookie<span class="text-syn-u">.</span>length <span class="text-syn-o">&gt;</span> <span class="text-syn-n">0</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> prefs <span class="text-syn-o">=</span> <span class="text-syn-f">parsePrefs</span><span class="text-syn-u">(</span>prefsCookie<span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">html</span> <span class="text-syn-p">suppressHydrationWarning</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;</span><span class="text-syn-g">body</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">Script</span> <span class="text-syn-p">id</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;prefs-bootstrap&quot;</span> <span class="text-syn-p">strategy</span><span class="text-syn-o">=</span><span class="text-syn-s">&quot;beforeInteractive&quot;</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">{</span>BOOTSTRAP_SCRIPT<span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">Script</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;</span><span class="text-syn-g">AppShell</span> <span class="text-syn-p">prefsTrusted</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>prefsTrusted<span class="text-syn-u">}</span> <span class="text-syn-p">prefs</span><span class="text-syn-o">=</span><span class="text-syn-u">{</span>prefs<span class="text-syn-u">}&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">          <span class="text-syn-u">{</span>children<span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">&lt;/</span><span class="text-syn-g">AppShell</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">&lt;/</span><span class="text-syn-g">body</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;/</span><span class="text-syn-g">html</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+            <p class="f0 s0">This runs synchronously before React. On the user&#39;s <strong>next navigation or refresh</strong>, the server receives this cookie and renders HTML that matches what localStorage will provide.</p>
+            <h3 id="step-3-server-layout" class="k0 b8 n8 s8">Step 3: Server Layout</h3>
+            <p class="f0 s0">Read the cookie and pass the preferences down:</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-tsx block q2 a3 d5 za a9">
+                  <span class="block g8 z8"><span class="m9">import</span> <span class="s9">{</span> cookies <span class="s9">}</span> <span class="m9">from</span> <span class="q9">&quot;next/headers&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><span class="m9">import</span> Script <span class="m9">from</span> <span class="q9">&quot;next/script&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">default</span> <span class="m9">async</span> <span class="m9">function</span> <span class="k9">RootLayout</span><span class="s9">({</span> children <span class="s9">}</span><span class="o9">:</span> <span class="s9">{</span> children<span class="o9">:</span> <span class="r9">React</span><span class="s9">.</span><span class="r9">ReactNode</span> <span class="s9">})</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> cookieStore <span class="o9">=</span> <span class="m9">await</span> <span class="k9">cookies</span><span class="s9">();</span></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> prefsCookie <span class="o9">=</span> cookieStore<span class="s9">.</span><span class="k9">get</span><span class="s9">(</span>PREFS_COOKIE<span class="s9">)?.</span><span class="p9">value</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> prefsTrusted <span class="o9">=</span> <span class="o9">typeof</span> prefsCookie <span class="o9">===</span> <span class="q9">&quot;string&quot;</span> <span class="o9">&amp;&amp;</span> prefsCookie<span class="s9">.</span>length <span class="o9">&gt;</span> <span class="n9">0</span><span class="s9">;</span></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> prefs <span class="o9">=</span> <span class="k9">parsePrefs</span><span class="s9">(</span>prefsCookie<span class="s9">);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="m9">return</span> <span class="s9">(</span></span>
+                  <span class="block g8 z8">    <span class="s9">&lt;</span><span class="l9">html</span> <span class="p9">suppressHydrationWarning</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8">      <span class="s9">&lt;</span><span class="l9">body</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8">        <span class="s9">&lt;</span><span class="l9">Script</span> <span class="p9">id</span><span class="o9">=</span><span class="q9">&quot;prefs-bootstrap&quot;</span> <span class="p9">strategy</span><span class="o9">=</span><span class="q9">&quot;beforeInteractive&quot;</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8">          <span class="s9">{</span>BOOTSTRAP_SCRIPT<span class="s9">}</span></span>
+                  <span class="block g8 z8">        <span class="s9">&lt;/</span><span class="l9">Script</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">        <span class="s9">&lt;</span><span class="l9">AppShell</span> <span class="p9">prefsTrusted</span><span class="o9">=</span><span class="s9">{</span>prefsTrusted<span class="s9">}</span> <span class="p9">prefs</span><span class="o9">=</span><span class="s9">{</span>prefs<span class="s9">}&gt;</span></span>
+                  <span class="block g8 z8">          <span class="s9">{</span>children<span class="s9">}</span></span>
+                  <span class="block g8 z8">        <span class="s9">&lt;/</span><span class="l9">AppShell</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8">      <span class="s9">&lt;/</span><span class="l9">body</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8">    <span class="s9">&lt;/</span><span class="l9">html</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8">  <span class="s9">);</span></span>
+                  <span class="block g8 z8"><span class="s9">}</span></span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">prefsTrusted</code> flag tells components whether the server had real preferences or used defaults. This matters for handling first visits correctly.</p>
-            <h3 id="step-4-client-component" class="mt-8 text-lg leading-tight tracking-tight">Step 4: Client Component</h3>
-            <p class="mt-0 mb-6">The component that uses these preferences needs to handle three cases: trusted cookie values, first visit, and subsequent user changes.</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-tsx block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-s">&quot;use client&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useAtom <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;jotai&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useHydrateAtoms <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;jotai/utils&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">import</span> <span class="text-syn-u">{</span> useSyncExternalStore<span class="text-syn-u">,</span> useEffect <span class="text-syn-u">}</span> <span class="text-syn-k">from</span> <span class="text-syn-s">&quot;react&quot;</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">interface</span> <span class="text-syn-t">SidebarProps</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  prefsTrusted<span class="text-syn-o">:</span> <span class="text-syn-t">boolean</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  prefs<span class="text-syn-o">:</span> <span class="text-syn-t">UIPrefs</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-k">export</span> <span class="text-syn-k">function</span> <span class="text-syn-f">Sidebar</span><span class="text-syn-u">({</span> prefsTrusted<span class="text-syn-u">,</span> prefs <span class="text-syn-u">}</span><span class="text-syn-o">:</span> <span class="text-syn-t">SidebarProps</span><span class="text-syn-u">)</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> atomsToHydrate <span class="text-syn-o">=</span> prefsTrusted</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">?</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Map</span><span class="text-syn-u">([</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">[</span>sidebarCollapsedAtom<span class="text-syn-u">,</span> prefs<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span><span class="text-syn-u">],</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">        <span class="text-syn-u">[</span>sidebarWidthAtom<span class="text-syn-u">,</span> prefs<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">],</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">      <span class="text-syn-u">])</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-o">:</span> <span class="text-syn-o">new</span> <span class="text-syn-f">Map</span><span class="text-syn-u">();</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">useHydrateAtoms</span><span class="text-syn-u">(</span>atomsToHydrate<span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>collapsed<span class="text-syn-u">,</span> setCollapsed<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useAtom</span><span class="text-syn-u">(</span>sidebarCollapsedAtom<span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> <span class="text-syn-u">[</span>width<span class="text-syn-u">,</span> setWidth<span class="text-syn-u">]</span> <span class="text-syn-o">=</span> <span class="text-syn-f">useAtom</span><span class="text-syn-u">(</span>sidebarWidthAtom<span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> clientReady <span class="text-syn-o">=</span> <span class="text-syn-f">useSyncExternalStore</span><span class="text-syn-u">(</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{},</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-k">true</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-k">false</span><span class="text-syn-u">,</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> layoutKnown <span class="text-syn-o">=</span> prefsTrusted <span class="text-syn-o">||</span> clientReady<span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> displayCollapsed <span class="text-syn-o">=</span> layoutKnown <span class="text-syn-o">?</span> collapsed <span class="text-syn-o">:</span> DEFAULT_PREFS<span class="text-syn-u">.</span><span class="text-syn-p">sidebarCollapsed</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">const</span> displayWidth <span class="text-syn-o">=</span> layoutKnown <span class="text-syn-o">?</span> width <span class="text-syn-o">:</span> DEFAULT_PREFS<span class="text-syn-u">.</span><span class="text-syn-p">sidebarWidth</span><span class="text-syn-u">;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-f">useEffect</span><span class="text-syn-u">(()</span> <span class="text-syn-k">=&gt;</span> <span class="text-syn-u">{</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-f">persistPrefs</span><span class="text-syn-u">({</span> <span class="text-syn-p">sidebarCollapsed:</span> collapsed<span class="text-syn-u">,</span> <span class="text-syn-p">sidebarWidth:</span> width <span class="text-syn-u">});</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">},</span> <span class="text-syn-u">[</span>collapsed<span class="text-syn-u">,</span> width<span class="text-syn-u">]);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><br /></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-k">return</span> <span class="text-syn-u">(</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">    <span class="text-syn-u">&lt;</span><span class="text-syn-g">aside</span> <span class="text-syn-p">style</span><span class="text-syn-o">=</span><span class="text-syn-u">{{</span> <span class="text-syn-p">width:</span> displayCollapsed <span class="text-syn-o">?</span> <span class="text-syn-n">68</span> <span class="text-syn-o">:</span> displayWidth <span class="text-syn-u">}}&gt;{</span><span class="text-syn-c italic">/* sidebar content */</span><span class="text-syn-u">}&lt;/</span><span class="text-syn-g">aside</span><span class="text-syn-u">&gt;</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre">  <span class="text-syn-u">);</span></span>
-                  <span class="block leading-(--pre-line) whitespace-pre"><span class="text-syn-u">}</span></span>
+            <p class="f0 s0">The <code class="d5 z5 p6 w6 za">prefsTrusted</code> flag tells components whether the server had real preferences or used defaults. This matters for handling first visits correctly.</p>
+            <h3 id="step-4-client-component" class="k0 b8 n8 s8">Step 4: Client Component</h3>
+            <p class="f0 s0">The component that uses these preferences needs to handle three cases: trusted cookie values, first visit, and subsequent user changes.</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-tsx block q2 a3 d5 za a9">
+                  <span class="block g8 z8"><span class="q9">&quot;use client&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">import</span> <span class="s9">{</span> useAtom <span class="s9">}</span> <span class="m9">from</span> <span class="q9">&quot;jotai&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><span class="m9">import</span> <span class="s9">{</span> useHydrateAtoms <span class="s9">}</span> <span class="m9">from</span> <span class="q9">&quot;jotai/utils&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><span class="m9">import</span> <span class="s9">{</span> useSyncExternalStore<span class="s9">,</span> useEffect <span class="s9">}</span> <span class="m9">from</span> <span class="q9">&quot;react&quot;</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">interface</span> <span class="r9">SidebarProps</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  prefsTrusted<span class="o9">:</span> <span class="r9">boolean</span><span class="s9">;</span></span>
+                  <span class="block g8 z8">  prefs<span class="o9">:</span> <span class="r9">UIPrefs</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><span class="s9">}</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8"><span class="m9">export</span> <span class="m9">function</span> <span class="k9">Sidebar</span><span class="s9">({</span> prefsTrusted<span class="s9">,</span> prefs <span class="s9">}</span><span class="o9">:</span> <span class="r9">SidebarProps</span><span class="s9">)</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> atomsToHydrate <span class="o9">=</span> prefsTrusted</span>
+                  <span class="block g8 z8">    <span class="o9">?</span> <span class="o9">new</span> <span class="k9">Map</span><span class="s9">([</span></span>
+                  <span class="block g8 z8">        <span class="s9">[</span>sidebarCollapsedAtom<span class="s9">,</span> prefs<span class="s9">.</span><span class="p9">sidebarCollapsed</span><span class="s9">],</span></span>
+                  <span class="block g8 z8">        <span class="s9">[</span>sidebarWidthAtom<span class="s9">,</span> prefs<span class="s9">.</span><span class="p9">sidebarWidth</span><span class="s9">],</span></span>
+                  <span class="block g8 z8">      <span class="s9">])</span></span>
+                  <span class="block g8 z8">    <span class="o9">:</span> <span class="o9">new</span> <span class="k9">Map</span><span class="s9">();</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="k9">useHydrateAtoms</span><span class="s9">(</span>atomsToHydrate<span class="s9">);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> <span class="s9">[</span>collapsed<span class="s9">,</span> setCollapsed<span class="s9">]</span> <span class="o9">=</span> <span class="k9">useAtom</span><span class="s9">(</span>sidebarCollapsedAtom<span class="s9">);</span></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> <span class="s9">[</span>width<span class="s9">,</span> setWidth<span class="s9">]</span> <span class="o9">=</span> <span class="k9">useAtom</span><span class="s9">(</span>sidebarWidthAtom<span class="s9">);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> clientReady <span class="o9">=</span> <span class="k9">useSyncExternalStore</span><span class="s9">(</span></span>
+                  <span class="block g8 z8">    <span class="s9">()</span> <span class="m9">=&gt;</span> <span class="s9">()</span> <span class="m9">=&gt;</span> <span class="s9">{},</span></span>
+                  <span class="block g8 z8">    <span class="s9">()</span> <span class="m9">=&gt;</span> <span class="m9">true</span><span class="s9">,</span></span>
+                  <span class="block g8 z8">    <span class="s9">()</span> <span class="m9">=&gt;</span> <span class="m9">false</span><span class="s9">,</span></span>
+                  <span class="block g8 z8">  <span class="s9">);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> layoutKnown <span class="o9">=</span> prefsTrusted <span class="o9">||</span> clientReady<span class="s9">;</span></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> displayCollapsed <span class="o9">=</span> layoutKnown <span class="o9">?</span> collapsed <span class="o9">:</span> DEFAULT_PREFS<span class="s9">.</span><span class="p9">sidebarCollapsed</span><span class="s9">;</span></span>
+                  <span class="block g8 z8">  <span class="m9">const</span> displayWidth <span class="o9">=</span> layoutKnown <span class="o9">?</span> width <span class="o9">:</span> DEFAULT_PREFS<span class="s9">.</span><span class="p9">sidebarWidth</span><span class="s9">;</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="k9">useEffect</span><span class="s9">(()</span> <span class="m9">=&gt;</span> <span class="s9">{</span></span>
+                  <span class="block g8 z8">    <span class="k9">persistPrefs</span><span class="s9">({</span> <span class="p9">sidebarCollapsed:</span> collapsed<span class="s9">,</span> <span class="p9">sidebarWidth:</span> width <span class="s9">});</span></span>
+                  <span class="block g8 z8">  <span class="s9">},</span> <span class="s9">[</span>collapsed<span class="s9">,</span> width<span class="s9">]);</span></span>
+                  <span class="block g8 z8"><br /></span>
+                  <span class="block g8 z8">  <span class="m9">return</span> <span class="s9">(</span></span>
+                  <span class="block g8 z8">    <span class="s9">&lt;</span><span class="l9">aside</span> <span class="p9">style</span><span class="o9">=</span><span class="s9">{{</span> <span class="p9">width:</span> displayCollapsed <span class="o9">?</span> <span class="n9">68</span> <span class="o9">:</span> displayWidth <span class="s9">}}&gt;{</span><span class="j9 t9">/* sidebar content */</span><span class="s9">}&lt;/</span><span class="l9">aside</span><span class="s9">&gt;</span></span>
+                  <span class="block g8 z8">  <span class="s9">);</span></span>
+                  <span class="block g8 z8"><span class="s9">}</span></span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">Let me break down what&#39;s happening:</p>
-            <p class="mt-0 mb-6"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">useHydrateAtoms</code></strong>: Only hydrate when we have trusted cookie values. This primes Jotai with the server-side values so there&#39;s no mismatch.</p>
-            <p class="mt-0 mb-6"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">useSyncExternalStore</code></strong>: A safe pattern for detecting client-side rendering. Server returns <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">false</code>, client returns <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">true</code>. No hydration mismatch because both snapshots are used correctly. After hydrate, it switches to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">true</code>.</p>
-            <p class="mt-0 mb-6"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">layoutKnown</code></strong>: When <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">prefsTrusted</code> (cookie exists), use real values immediately. When not trusted (first visit), use defaults until <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">clientReady</code> flips. This ensures server HTML always matches the client&#39;s first render.</p>
-            <p class="mt-0 mb-6"><strong><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">useEffect</code> for cookie sync</strong>: Whenever the user changes preferences, persist to the cookie so the next SSR request has the updated values.</p>
-            <h2 id="why-a-cookie" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Why a Cookie?</h2>
-            <p class="mt-0 mb-6">You might wonder if you can just configure Jotai (or Zustand, or Redux) differently to avoid this. The answer is no, because the problem isn&#39;t the state library.</p>
-            <p class="mt-0 mb-6">localStorage doesn&#39;t exist on the server. Node.js has no <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">localStorage</code> API. The only way to get client-side data to the server during a render is via <strong>HTTP headers</strong>, and the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Cookie</code> header is the standard way to do that.</p>
-            <p class="mt-0 mb-6">The bootstrap script approach works because:</p>
-            <ol class="mt-0 mb-6">
+            <p class="f0 s0">Let me break down what&#39;s happening:</p>
+            <p class="f0 s0"><strong><code class="d5 z5 p6 w6 za">useHydrateAtoms</code></strong>: Only hydrate when we have trusted cookie values. This primes Jotai with the server-side values so there&#39;s no mismatch.</p>
+            <p class="f0 s0"><strong><code class="d5 z5 p6 w6 za">useSyncExternalStore</code></strong>: A safe pattern for detecting client-side rendering. Server returns <code class="d5 z5 p6 w6 za">false</code>, client returns <code class="d5 z5 p6 w6 za">true</code>. No hydration mismatch because both snapshots are used correctly. After hydrate, it switches to <code class="d5 z5 p6 w6 za">true</code>.</p>
+            <p class="f0 s0"><strong><code class="d5 z5 p6 w6 za">layoutKnown</code></strong>: When <code class="d5 z5 p6 w6 za">prefsTrusted</code> (cookie exists), use real values immediately. When not trusted (first visit), use defaults until <code class="d5 z5 p6 w6 za">clientReady</code> flips. This ensures server HTML always matches the client&#39;s first render.</p>
+            <p class="f0 s0"><strong><code class="d5 z5 p6 w6 za">useEffect</code> for cookie sync</strong>: Whenever the user changes preferences, persist to the cookie so the next SSR request has the updated values.</p>
+            <h2 id="why-a-cookie" class="m0 e8 q8 n8 s8">Why a Cookie?</h2>
+            <p class="f0 s0">You might wonder if you can just configure Jotai (or Zustand, or Redux) differently to avoid this. The answer is no, because the problem isn&#39;t the state library.</p>
+            <p class="f0 s0">localStorage doesn&#39;t exist on the server. Node.js has no <code class="d5 z5 p6 w6 za">localStorage</code> API. The only way to get client-side data to the server during a render is via <strong>HTTP headers</strong>, and the <code class="d5 z5 p6 w6 za">Cookie</code> header is the standard way to do that.</p>
+            <p class="f0 s0">The bootstrap script approach works because:</p>
+            <ol class="f0 s0">
               <li>It runs synchronously before React hydrates</li>
               <li>It reads localStorage (client-side)</li>
               <li>It writes a cookie (which gets sent with the next request)</li>
               <li>The server can read that cookie during rendering</li>
             </ol>
-            <p class="mt-0 mb-6">You&#39;re not replacing your state library. You&#39;re adding a sync layer that bridges client-only storage to server-readable storage.</p>
-            <h2 id="first-visit-vs-subsequent-visits" class="mt-12 text-xl font-semibold leading-tight tracking-tight">First Visit vs. Subsequent Visits</h2>
-            <p class="mt-0 mb-6">On the first visit, there&#39;s no cookie yet:</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────┐</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│   Request   │ ──► │   Server    │ ──► │ No cookie → use defaults    │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  (no cookie)│     │             │     │                             │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘     └─────────────┘     └─────────────────────────────┘</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────────┐</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                            CLIENT                                    │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────────┤</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  1. Bootstrap script runs → writes cookie from localStorage         │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  2. React hydrates → prefsTrusted = false                           │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  3. useSyncExternalStore → clientReady = false (SSR snapshot)       │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  4. Component uses defaults → matches server HTML                   │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  5. After hydrate: clientReady = true → shows real values           │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  6. Smooth transition if state differs from defaults                │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────────┘</span>
+            <p class="f0 s0">You&#39;re not replacing your state library. You&#39;re adding a sync layer that bridges client-only storage to server-readable storage.</p>
+            <h2 id="first-visit-vs-subsequent-visits" class="m0 e8 q8 n8 s8">First Visit vs. Subsequent Visits</h2>
+            <p class="f0 s0">On the first visit, there&#39;s no cookie yet:</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-text block q2 a3 d5 za a9">
+                  <span class="block g8 z8">┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────┐</span>
+                  <span class="block g8 z8">│   Request   │ ──► │   Server    │ ──► │ No cookie → use defaults    │</span>
+                  <span class="block g8 z8">│  (no cookie)│     │             │     │                             │</span>
+                  <span class="block g8 z8">└─────────────┘     └─────────────┘     └─────────────────────────────┘</span>
+                  <span class="block g8 z8">                                                      │</span>
+                  <span class="block g8 z8">                                                      ▼</span>
+                  <span class="block g8 z8">┌─────────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block g8 z8">│                            CLIENT                                    │</span>
+                  <span class="block g8 z8">├─────────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block g8 z8">│  1. Bootstrap script runs → writes cookie from localStorage         │</span>
+                  <span class="block g8 z8">│  2. React hydrates → prefsTrusted = false                           │</span>
+                  <span class="block g8 z8">│  3. useSyncExternalStore → clientReady = false (SSR snapshot)       │</span>
+                  <span class="block g8 z8">│  4. Component uses defaults → matches server HTML                   │</span>
+                  <span class="block g8 z8">│  5. After hydrate: clientReady = true → shows real values           │</span>
+                  <span class="block g8 z8">│  6. Smooth transition if state differs from defaults                │</span>
+                  <span class="block g8 z8">└─────────────────────────────────────────────────────────────────────┘</span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">On subsequent visits, the cookie exists:</p>
-            <div class="relative mt-0 mb-6" data-code-block>
-              <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
-                <code class="language-text block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
-                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────┐</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│   Request   │ ──► │   Server    │ ──► │ Cookie found → parse prefs  │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│ (with cookie)│    │             │     │ Use actual user values      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────┘     └─────────────┘     └─────────────────────────────┘</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                        ┌─────────────────────────────┐</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                        │ Render HTML with correct    │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                        │ state from the start        │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                        └─────────────────────────────┘</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">                                                      ▼</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">┌─────────────────────────────────────────────────────────────────────┐</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│                            CLIENT                                    │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">├─────────────────────────────────────────────────────────────────────┤</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  1. Bootstrap script runs → refreshes cookie (in case LS changed)   │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  2. React hydrates → prefsTrusted = true                            │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  3. State initialized with cookie values                            │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  4. localStorage has same values → NO MISMATCH                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">│  5. No flash, no React warning                                      │</span>
-                  <span class="block leading-(--pre-line) whitespace-pre">└─────────────────────────────────────────────────────────────────────┘</span>
+            <p class="f0 s0">On subsequent visits, the cookie exists:</p>
+            <div class="e f0 s0" data-code-block>
+              <pre tabindex="0" class="v s4 b5 f5 q5 z5 n6 x8 xa">
+                <code class="language-text block q2 a3 d5 za a9">
+                  <span class="block g8 z8">┌─────────────┐     ┌─────────────┐     ┌─────────────────────────────┐</span>
+                  <span class="block g8 z8">│   Request   │ ──► │   Server    │ ──► │ Cookie found → parse prefs  │</span>
+                  <span class="block g8 z8">│ (with cookie)│    │             │     │ Use actual user values      │</span>
+                  <span class="block g8 z8">└─────────────┘     └─────────────┘     └─────────────────────────────┘</span>
+                  <span class="block g8 z8">                                                      │</span>
+                  <span class="block g8 z8">                                                      ▼</span>
+                  <span class="block g8 z8">                                        ┌─────────────────────────────┐</span>
+                  <span class="block g8 z8">                                        │ Render HTML with correct    │</span>
+                  <span class="block g8 z8">                                        │ state from the start        │</span>
+                  <span class="block g8 z8">                                        └─────────────────────────────┘</span>
+                  <span class="block g8 z8">                                                      │</span>
+                  <span class="block g8 z8">                                                      ▼</span>
+                  <span class="block g8 z8">┌─────────────────────────────────────────────────────────────────────┐</span>
+                  <span class="block g8 z8">│                            CLIENT                                    │</span>
+                  <span class="block g8 z8">├─────────────────────────────────────────────────────────────────────┤</span>
+                  <span class="block g8 z8">│  1. Bootstrap script runs → refreshes cookie (in case LS changed)   │</span>
+                  <span class="block g8 z8">│  2. React hydrates → prefsTrusted = true                            │</span>
+                  <span class="block g8 z8">│  3. State initialized with cookie values                            │</span>
+                  <span class="block g8 z8">│  4. localStorage has same values → NO MISMATCH                      │</span>
+                  <span class="block g8 z8">│  5. No flash, no React warning                                      │</span>
+                  <span class="block g8 z8">└─────────────────────────────────────────────────────────────────────┘</span>
                 </code>
               </pre>
-              <div class="pointer-events-none absolute inset-0 flex items-start justify-end p-3">
-                <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d g c1 b4 e4 l6">
+                <button type="button" class="a f j g1 n1 l3 a4 d4 c5 g5 z5 j6 i9 qa ta tb yb" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="j1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden j1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="mt-0 mb-6">The first visit still has the potential for a flash if the user has existing localStorage values from before you implemented this. But subsequent visits are perfect.</p>
-            <h2 id="trade-offs" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Trade-offs</h2>
-            <table tabindex="0" class="mt-0 mb-6 block overflow-x-auto border-collapse text-md wrap-normal">
+            <p class="f0 s0">The first visit still has the potential for a flash if the user has existing localStorage values from before you implemented this. But subsequent visits are perfect.</p>
+            <h2 id="trade-offs" class="m0 e8 q8 n8 s8">Trade-offs</h2>
+            <table tabindex="0" class="f0 s0 block s4 f3 c8 w8">
               <thead>
                 <tr>
-                  <th class="border-b border-line px-3.5 py-2.5 text-left">Approach</th>
-                  <th class="border-b border-line px-3.5 py-2.5 text-left">Pros</th>
-                  <th class="border-b border-line px-3.5 py-2.5 text-left">Cons</th>
+                  <th class="j5 q5 t6 a7 p7">Approach</th>
+                  <th class="j5 q5 t6 a7 p7">Pros</th>
+                  <th class="j5 q5 t6 a7 p7">Cons</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Cookie sync</strong></td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">SSR matches client, no flash</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">Extra cookie, bootstrap script</td>
+                  <td class="j5 q5 t6 a7 p7"><strong>Cookie sync</strong></td>
+                  <td class="j5 q5 t6 a7 p7">SSR matches client, no flash</td>
+                  <td class="j5 q5 t6 a7 p7">Extra cookie, bootstrap script</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>CSS transition gate</strong></td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">Simple to implement</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">Still renders wrong state, just hides it</td>
+                  <td class="j5 q5 t6 a7 p7"><strong>CSS transition gate</strong></td>
+                  <td class="j5 q5 t6 a7 p7">Simple to implement</td>
+                  <td class="j5 q5 t6 a7 p7">Still renders wrong state, just hides it</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Skeleton/loading</strong></td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">Explicit loading UX</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">Heavy for simple preferences</td>
+                  <td class="j5 q5 t6 a7 p7"><strong>Skeleton/loading</strong></td>
+                  <td class="j5 q5 t6 a7 p7">Explicit loading UX</td>
+                  <td class="j5 q5 t6 a7 p7">Heavy for simple preferences</td>
                 </tr>
                 <tr>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left"><strong>Accept the flash</strong></td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">Zero complexity</td>
-                  <td class="border-b border-line px-3.5 py-2.5 text-left">Poor UX, hydration warnings</td>
+                  <td class="j5 q5 t6 a7 p7"><strong>Accept the flash</strong></td>
+                  <td class="j5 q5 t6 a7 p7">Zero complexity</td>
+                  <td class="j5 q5 t6 a7 p7">Poor UX, hydration warnings</td>
                 </tr>
               </tbody>
             </table>
-            <p class="mt-0 mb-6">Cookie sync is more setup upfront, but it&#39;s a one-time cost. After that, it just works. The cookie adds a few bytes to every request, maybe 50-100 bytes for typical UI preferences. Negligible.</p>
-            <h2 id="works-with-any-state-library" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Works With Any State Library</h2>
-            <p class="mt-0 mb-6">I showed Jotai in the examples, but the pattern is the same for any state library:</p>
-            <p class="mt-0 mb-6"><strong>Zustand</strong>: Create a bootstrap script that reads from Zustand&#39;s <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">persist</code> middleware localStorage key. Parse it, write to cookie, read cookie on server.</p>
-            <p class="mt-0 mb-6"><strong>Redux Persist</strong>: Same idea. The bootstrap script reads from Redux Persist&#39;s localStorage key (usually <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">persist:root</code> or similar), extracts the values you need, writes to cookie.</p>
-            <p class="mt-0 mb-6"><strong>React Context</strong>: If you&#39;re using plain Context with localStorage, create a server component that reads the cookie and passes values to a client provider.</p>
-            <p class="mt-0 mb-6"><strong>No library (just useState + localStorage)</strong>: Works too. The server passes cookie values as props, the client component initializes state with those props, then syncs to localStorage.</p>
-            <p class="mt-0 mb-6">The principle is always the same: localStorage is client-only, cookies are server-readable. The bootstrap script bridges them.</p>
-            <h2 id="real-world-use-cases" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Real-World Use Cases</h2>
-            <p class="mt-0 mb-6">This pattern applies to more than sidebars:</p>
-            <ul class="mt-0 mb-6">
+            <p class="f0 s0">Cookie sync is more setup upfront, but it&#39;s a one-time cost. After that, it just works. The cookie adds a few bytes to every request, maybe 50-100 bytes for typical UI preferences. Negligible.</p>
+            <h2 id="works-with-any-state-library" class="m0 e8 q8 n8 s8">Works With Any State Library</h2>
+            <p class="f0 s0">I showed Jotai in the examples, but the pattern is the same for any state library:</p>
+            <p class="f0 s0"><strong>Zustand</strong>: Create a bootstrap script that reads from Zustand&#39;s <code class="d5 z5 p6 w6 za">persist</code> middleware localStorage key. Parse it, write to cookie, read cookie on server.</p>
+            <p class="f0 s0"><strong>Redux Persist</strong>: Same idea. The bootstrap script reads from Redux Persist&#39;s localStorage key (usually <code class="d5 z5 p6 w6 za">persist:root</code> or similar), extracts the values you need, writes to cookie.</p>
+            <p class="f0 s0"><strong>React Context</strong>: If you&#39;re using plain Context with localStorage, create a server component that reads the cookie and passes values to a client provider.</p>
+            <p class="f0 s0"><strong>No library (just useState + localStorage)</strong>: Works too. The server passes cookie values as props, the client component initializes state with those props, then syncs to localStorage.</p>
+            <p class="f0 s0">The principle is always the same: localStorage is client-only, cookies are server-readable. The bootstrap script bridges them.</p>
+            <h2 id="real-world-use-cases" class="m0 e8 q8 n8 s8">Real-World Use Cases</h2>
+            <p class="f0 s0">This pattern applies to more than sidebars:</p>
+            <ul class="f0 s0">
               <li><strong>Theme preferences</strong>: Dark mode, high contrast, font size</li>
               <li><strong>Layout preferences</strong>: Collapsed panels, split pane ratios, table column widths</li>
               <li><strong>Sort/filter state</strong>: Remembered sort order, active filters</li>
               <li><strong>Onboarding state</strong>: Which tooltips have been dismissed</li>
               <li><strong>Feature flags</strong>: Client-side feature toggles that affect layout</li>
             </ul>
-            <p class="mt-0 mb-6">Anywhere you&#39;re persisting UI state to localStorage and that state affects the initial render, you&#39;ll benefit from cookie sync.</p>
-            <h2 id="wrapping-up" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Wrapping Up</h2>
-            <p class="mt-0 mb-6">The localStorage hydration flash is one of those problems that seems minor until you notice it. Then it&#39;s all you can see. Light mode flashing before dark mode. Sidebars snapping. Panels jumping around.</p>
-            <p class="mt-0 mb-6">Cookie sync solves it cleanly for returning users, and first visits degrade gracefully to defaults. It&#39;s a bit more code upfront, but the result is a page that looks right from the first paint.</p>
-            <p class="mt-0 mb-6">If you have questions or found a better approach, reach out on any of my <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://pulkit.page/contact/">socials</a>. Happy building!</p>
+            <p class="f0 s0">Anywhere you&#39;re persisting UI state to localStorage and that state affects the initial render, you&#39;ll benefit from cookie sync.</p>
+            <h2 id="wrapping-up" class="m0 e8 q8 n8 s8">Wrapping Up</h2>
+            <p class="f0 s0">The localStorage hydration flash is one of those problems that seems minor until you notice it. Then it&#39;s all you can see. Light mode flashing before dark mode. Sidebars snapping. Panels jumping around.</p>
+            <p class="f0 s0">Cookie sync solves it cleanly for returning users, and first visits degrade gracefully to defaults. It&#39;s a bit more code upfront, but the result is a page that looks right from the first paint.</p>
+            <p class="f0 s0">If you have questions or found a better approach, reach out on any of my <a class="h9 y9 aa ac" href="https://pulkit.page/contact/">socials</a>. Happy building!</p>
           </div>
         </article>
-        <nav class="mt-12 text-[0.9rem]" aria-label="Related writing">
-          <h2 class="mt-12 text-[1rem] font-semibold leading-tight tracking-tight">Related writing</h2>
-          <ul class="mt-0 mb-6">
-            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/ssg-in-nextjs/">Next.js Build Output Symbols (● ○ ƒ) and SSG</a></li>
-            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/virtualized-list/">React Virtualized List from Scratch</a></li>
-            <li class="my-2"><a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/contact-form-with-resend/">Build a Contact Form with Resend in Next.js</a></li>
+        <nav class="m0 v7" aria-label="Related writing">
+          <h2 class="m0 w7 q8 n8 s8">Related writing</h2>
+          <ul class="f0 s0">
+            <li class="y"><a class="h9 y9 aa ac" href="/ssg-in-nextjs/">Next.js Build Output Symbols (● ○ ƒ) and SSG</a></li>
+            <li class="y"><a class="h9 y9 aa ac" href="/virtualized-list/">React Virtualized List from Scratch</a></li>
+            <li class="y"><a class="h9 y9 aa ac" href="/contact-form-with-resend/">Build a Contact Form with Resend in Next.js</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="border-t border-line pt-6 pb-10 text-xs text-muted">
-        <div><a class="text-inherit no-underline" href="https://github.com/Pulkitxm">GitHub</a> · <a class="text-inherit no-underline" href="https://x.com/_pulkitxm">X</a> · <a class="text-inherit no-underline" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="text-inherit no-underline" href="/feed.xml">RSS</a></div>
-        <div class="mt-4.5 flex items-center justify-between gap-4">
+      <footer class="i5 q5 h7 k7 f8 i9">
+        <div><a class="h9 v9" href="https://github.com/Pulkitxm">GitHub</a> · <a class="h9 v9" href="https://x.com/_pulkitxm">X</a> · <a class="h9 v9" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="h9 v9" href="/feed.xml">RSS</a></div>
+        <div class="i0 c1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
-          <div class="flex items-center gap-4">
-            <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/cookie-sync-pattern.md" type="text/markdown">View as Markdown</a>
-            <button class="cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1.25 text-inherit [font:inherit]" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+          <div class="c1 a4 l4">
+            <a class="h9 y9 aa ac" href="/cookie-sync-pattern.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 c5 f5 q5 a6 r6 y6 h9 ab" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>
