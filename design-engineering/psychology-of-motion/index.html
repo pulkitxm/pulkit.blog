@@ -161,6 +161,15 @@ try {
 if (selectedTheme === "light" || selectedTheme === "dark") {
   document.documentElement.dataset.theme = selectedTheme;
 }
+try {
+  const arrivedFromOtherSite =
+    document.referrer &&
+    new URL(document.referrer).origin !== globalThis.location.origin &&
+    performance.getEntriesByType("navigation")[0]?.type === "navigate";
+  if (arrivedFromOtherSite) {
+    document.documentElement.dataset.entry = "cross-site";
+  }
+} catch {}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
   button?.addEventListener("click", () => {
@@ -212,7 +221,7 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="stylesheet" href="/styles.dffed1eb4e62.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
