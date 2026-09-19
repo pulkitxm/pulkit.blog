@@ -145,17 +145,74 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
+    <script type="module" src="/assets/embeds/frame-facade.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>React Image Gallery with PhotoSwipe | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -175,14 +232,14 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>React Image Gallery with PhotoSwipe</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-08-12">August 12, 2024</time> · 2 min read</p>
           </header>
           <div class="wrap-break-word">
             <p class="mt-0 mb-6">In one of my recent projects(<a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://github.com/Pulkitxm/image-tweaker">image-tweaker</a>), I provided users with the ability to upload images, which were then displayed in a collection on the dashboard. I was searching for a way to give these images a cool animated view, and that&#39;s when I discovered <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://photoswipe.com">PhotoSwipe</a>!</p>
             <p class="mt-0 mb-6">PhotoSwipe is a powerful, easy-to-use JavaScript library that allows you to create beautiful, animated image galleries. It provides a smooth and responsive experience, making your image collections look stunning on any device.</p>
             <p class="mt-0 mb-6">Let&#39;s make an image gallery in React with the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.npmjs.com/package/react-photoswipe-gallery">react-photoswipe-gallery</a>.</p>
-            <h3 id="let-s-start-by-bootstrapping-a-fresh-react-ts-app" class="mt-8 text-lg leading-tight tracking-tight">Let&#39;s Start by Bootstrapping a Fresh React-TS App</h3>
+            <h2 id="let-s-start-by-bootstrapping-a-fresh-react-ts-app" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Let&#39;s Start by Bootstrapping a Fresh React-TS App</h2>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
                 <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
@@ -199,11 +256,11 @@
             <p class="mt-0 mb-6">And just like that, we have our plain Vite React app ready to go!</p>
             <p class="mt-0 mb-6">This will set up a new React project with TypeScript support. You should see a default Vite React app running at <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="http://localhost:3000"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">http://localhost:3000</code></a>.</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/react-image-gallery-with-photoswipe/40786bd6-5690-47a8-a52c-b7bf7aba230c.webp" class="block" data-media-zoom data-width="1744" data-height="872">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-image-gallery-with-photoswipe/40786bd6-5690-47a8-a52c-b7bf7aba230c.webp" alt="Default Vite React app running in browser" loading="lazy" />
+              <a href="/assets/content/blogs/react-image-gallery-with-photoswipe/40786bd6-5690-47a8-a52c-b7bf7aba230c.webp" class="block" data-media-zoom data-width="1600" data-height="800">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-image-gallery-with-photoswipe/40786bd6-5690-47a8-a52c-b7bf7aba230c.webp" alt="Default Vite React app running in browser" width="1600" height="800" loading="lazy" />
               </a>
             </p>
-            <h3 id="clean-up-the-default-setup" class="mt-8 text-lg leading-tight tracking-tight">Clean Up the Default Setup</h3>
+            <h2 id="clean-up-the-default-setup" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Clean Up the Default Setup</h2>
             <p class="mt-0 mb-6">You can also remove the default CSS in <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">App.css</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">index.css</code>.</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
@@ -217,7 +274,7 @@
                 <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="adding-photoswipe" class="mt-8 text-lg leading-tight tracking-tight">Adding PhotoSwipe</h3>
+            <h2 id="adding-photoswipe" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Adding PhotoSwipe</h2>
             <p class="mt-0 mb-6">Now let&#39;s start adding the dependencies</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
@@ -240,7 +297,7 @@
                 <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="creating-the-image-gallery" class="mt-8 text-lg leading-tight tracking-tight">Creating the Image Gallery</h3>
+            <h2 id="creating-the-image-gallery" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Creating the Image Gallery</h2>
             <p class="mt-0 mb-6">Now, let&#39;s create a simple image gallery using <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">react-photoswipe-gallery</code>. Update <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">App.tsx</code> with the following code:</p>
             <p class="mt-0 mb-6">Add some images and include their links in App.tsx, like this:</p>
             <div class="relative mt-0 mb-6" data-code-block>
@@ -354,8 +411,8 @@
             </div>
             <p class="mt-0 mb-6">Currently, the image appears quite congested.</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/react-image-gallery-with-photoswipe/a8b7da7f-f81c-494c-a15c-44d489fbc207.webp" class="block" data-media-zoom data-width="1744" data-height="872">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-image-gallery-with-photoswipe/a8b7da7f-f81c-494c-a15c-44d489fbc207.webp" alt="Three images displayed without spacing" loading="lazy" />
+              <a href="/assets/content/blogs/react-image-gallery-with-photoswipe/a8b7da7f-f81c-494c-a15c-44d489fbc207.webp" class="block" data-media-zoom data-width="1600" data-height="800">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-image-gallery-with-photoswipe/a8b7da7f-f81c-494c-a15c-44d489fbc207.webp" alt="Three images displayed without spacing" width="1600" height="800" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Just so as to add some breathing space let&#39;s add some styles</p>
@@ -416,8 +473,22 @@
                 <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="here-s-the-final-version" class="mt-8 text-lg leading-tight tracking-tight">Here&#39;s the final version!</h3>
-            <iframe class="mt-0 mb-6 block h-[500px] w-full overflow-hidden rounded border-0" src="https://codesandbox.io/embed/m3x8ct?view=preview&amp;module=%2Fsrc%2FApp.tsx" title="Image gallery demo with PhotoSwipe" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts" loading="lazy"></iframe>
+            <h2 id="here-s-the-final-version" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Here&#39;s the final version!</h2>
+            <div class="relative mt-0 mb-6 block h-[500px] w-full overflow-hidden rounded border border-line bg-surface" data-frame-facade data-frame-src="https://codesandbox.io/embed/m3x8ct?view=preview&amp;module=%2Fsrc%2FApp.tsx" data-frame-title="Image gallery demo with PhotoSwipe" data-frame-class="absolute inset-0 size-full border-0" data-frame-sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts">
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-surface p-6 text-center [&amp;[hidden]]:hidden" data-frame-panel="offer">
+                <button type="button" class="inline-flex cursor-pointer items-center justify-center rounded-md border border-line bg-bg px-4 py-2 font-medium text-fg text-md hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2" data-frame-run aria-describedby="frame-note-1">Run this sandbox</button>
+                <p id="frame-note-1" class="m-0 max-w-[32rem] text-balance text-muted text-sm">Runs codesandbox.io in an embedded frame, which loads third-party code and cookies.</p>
+                <a class="text-muted text-xs underline-offset-4 hover:text-fg" href="https://codesandbox.io/embed/m3x8ct?view=preview&amp;module=%2Fsrc%2FApp.tsx" target="_blank" rel="noopener noreferrer">Open on codesandbox.io</a>
+              </div>
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-surface p-6 text-center [&amp;[hidden]]:hidden" data-frame-panel="loading" hidden>
+                <p class="m-0 max-w-[32rem] text-balance text-muted text-sm" role="status">Loading the sandbox...</p>
+              </div>
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-surface p-6 text-center [&amp;[hidden]]:hidden" data-frame-panel="error" hidden>
+                <p class="m-0 max-w-[32rem] text-balance text-muted text-sm" role="alert">This sandbox could not be loaded.</p>
+                <button type="button" class="inline-flex cursor-pointer items-center justify-center rounded-md border border-line bg-bg px-4 py-2 font-medium text-fg text-md hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2" data-frame-run>Try again</button>
+                <a class="text-muted text-xs underline-offset-4 hover:text-fg" href="https://codesandbox.io/embed/m3x8ct?view=preview&amp;module=%2Fsrc%2FApp.tsx" target="_blank" rel="noopener noreferrer">Open on codesandbox.io</a>
+              </div>
+            </div>
             <p class="mt-0 mb-6">With these changes, your image gallery should now look much cleaner and more user-friendly. The added margin and rounded corners give each image some breathing room and a polished appearance. Enjoy your improved gallery!</p>
           </div>
         </article>

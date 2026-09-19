@@ -1,4 +1,4 @@
-import{D}from"./index-effrd51m.js";import{A,g}from"./index.js";var n=["top","right","bottom","left"];function c(r){let t={bottom:0,left:0,right:0,top:0};r.innerHTML=A`<div class="flex size-full flex-col items-center justify-center gap-5 p-6">
+import{D}from"./index-ed9fey8d.js";import{A,g}from"./index.js";var n=["top","right","bottom","left"];function c(r){let t={bottom:0,left:0,right:0,top:0};r.innerHTML=A`<div class="flex size-full flex-col items-center justify-center gap-5 p-6">
     <div
       class="relative h-44 w-full max-w-xs rounded-xl border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-950"
       aria-hidden="true"

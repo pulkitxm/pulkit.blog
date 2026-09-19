@@ -150,17 +150,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Caching | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -181,7 +237,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Caching</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-08">January 8, 2026</time> · 16 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="wrap-break-word">
@@ -204,7 +260,7 @@
             <h2 id="what-is-caching" class="mt-12 text-xl font-semibold leading-tight tracking-tight">What is Caching?</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/cache-db.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/cache-db.webp" alt="Caching is a technique to avoid expensive operations by storing frequently accessed data in faster storage" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/cache-db.webp" alt="Caching is a technique to avoid expensive operations by storing frequently accessed data in faster storage" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">A cache is anything that helps you avoid an expensive network I/O, disk I/O, or computation. In any computer system, there are only three things that can be expensive:</p>
@@ -266,7 +322,7 @@
             <p class="mt-0 mb-6">The typical caching architecture looks like this:</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/request-flow.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/request-flow.webp" alt="The typical caching architecture looks like this" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/request-flow.webp" alt="The typical caching architecture looks like this" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Here&#39;s the flow:</p>
@@ -523,7 +579,7 @@
             <h3 id="redis" class="mt-8 text-lg leading-tight tracking-tight">Redis</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/redis.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/redis.webp" alt="Redis is the most popular caching solution today" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/redis.webp" alt="Redis is the most popular caching solution today" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Redis is the most popular caching solution today. It&#39;s an in-memory data store that supports:</p>
@@ -565,7 +621,7 @@
             <h3 id="memcached" class="mt-8 text-lg leading-tight tracking-tight">Memcached</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/memcached.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/memcached.webp" alt="Memcached is simpler than Redis. It&#39;s a pure key-value store without the advanced data structures. It&#39;s lightweight and fast, good for simple caching needs" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/memcached.webp" alt="Memcached is simpler than Redis. It&#39;s a pure key-value store without the advanced data structures. It&#39;s lightweight and fast, good for simple caching needs" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Memcached is simpler than Redis. It&#39;s a pure key-value store without the advanced data structures. It&#39;s lightweight and fast, good for simple caching needs.</p>
@@ -668,7 +724,7 @@
             <h2 id="populating-the-cache" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Populating the Cache</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/populating-cache.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/populating-cache.webp" alt="Populating the cache" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/populating-cache.webp" alt="Populating the cache" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Cache typically sits between your API server and your database. Logically, that&#39;s where it belongs. When a request comes in, the API server checks the cache first. If the data exists, return it. If not, query the database, store the result in cache, then return to the user.</p>
@@ -676,7 +732,7 @@
             <h3 id="lazy-population-most-common" class="mt-8 text-lg leading-tight tracking-tight">Lazy Population (Most Common)</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/lazy-update.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/lazy-update.webp" alt="Lazy population means you don&#39;t proactively push data into the cache. Instead, you let requests come in, experience cache misses, and then populate the cache." loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/lazy-update.webp" alt="Lazy population means you don&#39;t proactively push data into the cache. Instead, you let requests come in, experience cache misses, and then populate the cache." width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Lazy population means you don&#39;t proactively push data into the cache. Instead, you let requests come in, experience cache misses, and then populate the cache.</p>
@@ -738,7 +794,7 @@
             <h3 id="eager-population" class="mt-8 text-lg leading-tight tracking-tight">Eager Population</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/eager-update.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/eager-update.webp" alt="Eager population" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/eager-update.webp" alt="Eager population" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Sometimes lazy population isn&#39;t enough. You know certain data will be accessed heavily, so you proactively push it to the cache. This is eager population.</p>
@@ -871,7 +927,7 @@
             <h2 id="scaling-the-cache" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Scaling the Cache</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/scaling.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/scaling.webp" alt="Scaling the cache" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/scaling.webp" alt="Scaling the cache" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Cache is just a faster database. The scaling techniques are identical to how you&#39;d scale any database. I wrote about scaling databases in depth here as well -&gt; &quot;<a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/understanding-database-scaling-sharding/#before-you-scale">Before You Scale</a>&quot;.</p>
@@ -999,7 +1055,7 @@
             <h2 id="caching-at-different-levels" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Caching at Different Levels</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/caching-at-different-levels.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/caching-at-different-levels.webp" alt="Caching at different levels" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/caching-at-different-levels.webp" alt="Caching at different levels" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Redis is the most common cache, but it&#39;s not the only place where you can cache. Literally every component in your infrastructure can cache something. The question is: should it?</p>
@@ -1024,7 +1080,7 @@
             <h3 id="client-side-caching" class="mt-8 text-lg leading-tight tracking-tight">Client-Side Caching</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/client-side-cache.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/client-side-cache.webp" alt="Client-side caching" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/client-side-cache.webp" alt="Client-side caching" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">The closest cache to the user is on the user&#39;s device itself: browser storage, mobile app storage.</p>
@@ -1062,7 +1118,7 @@
             <h3 id="content-delivery-networks-cdn" class="mt-8 text-lg leading-tight tracking-tight">Content Delivery Networks (CDN)</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/cdn.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/cdn.webp" alt="Content Delivery Networks" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/cdn.webp" alt="Content Delivery Networks" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">CDNs are geographically distributed caching servers. They&#39;re designed to serve static content (images, videos, JS bundles) from a location close to the user.</p>
@@ -1133,7 +1189,7 @@
             <h3 id="remote-cache-redis" class="mt-8 text-lg leading-tight tracking-tight">Remote Cache (Redis)</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/caching/remote-cache.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/remote-cache.webp" alt="Remote cache" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/caching/remote-cache.webp" alt="Remote cache" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">This is what we&#39;ve been discussing throughout this article. A centralized cache accessible by all your API servers over the network.</p>

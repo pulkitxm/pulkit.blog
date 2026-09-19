@@ -152,17 +152,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Communication Protocols | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -183,7 +239,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Communication Protocols</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-23">January 23, 2026</time> · 12 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="wrap-break-word">
@@ -233,7 +289,7 @@
             <p class="mt-0 mb-6">Before any data flows, TCP requires a handshake to establish the connection.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/communication-protocols/tcp-3-way-handshake.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/tcp-3-way-handshake.webp" alt="TCP 3-way handshake showing SYN, SYN-ACK, ACK packet exchange" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/tcp-3-way-handshake.webp" alt="TCP 3-way handshake showing SYN, SYN-ACK, ACK packet exchange" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Three packets cross the network before you can send a single byte of actual data. If your client is in India and your server is in the US, each packet takes ~150ms. That&#39;s 450ms just to establish the connection.</p>
@@ -242,7 +298,7 @@
             <p class="mt-0 mb-6">When the job is done and either party wants to close the connection:</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/communication-protocols/tcp-2-way-teardown.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/tcp-2-way-teardown.webp" alt="TCP 2-way teardown showing FIN and ACK packet exchange" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/tcp-2-way-teardown.webp" alt="TCP 2-way teardown showing FIN and ACK packet exchange" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Two more packets. More latency.</p>
@@ -258,7 +314,7 @@
             <p class="mt-0 mb-6">TCP handles moving bytes. But what bytes should you send? In what format? This is where protocols come in.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/communication-protocols/protocol-layer-stack.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/protocol-layer-stack.webp" alt="Protocol layers showing how HTTP sits on top of TCP" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/protocol-layer-stack.webp" alt="Protocol layers showing how HTTP sits on top of TCP" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">A protocol is an agreed-upon format. Like human languages: if I speak Hindi and you speak Japanese, we can&#39;t communicate. We need a common language.</p>
@@ -330,7 +386,7 @@
             </ol>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/communication-protocols/http-1-1-flow.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/http-1-1-flow.webp" alt="HTTP 1.1 flow showing request-response cycle with overhead" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/http-1-1-flow.webp" alt="HTTP 1.1 flow showing request-response cycle with overhead" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <h3 id="the-connection-problem" class="mt-8 text-lg leading-tight tracking-tight">The Connection Problem</h3>
@@ -345,7 +401,7 @@
             <h3 id="keep-alive" class="mt-8 text-lg leading-tight tracking-tight">Keep-Alive</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/communication-protocols/connection-keep-alive.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/connection-keep-alive.webp" alt="Connection keep-alive reduces overhead by reusing TCP connections" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/connection-keep-alive.webp" alt="Connection keep-alive reduces overhead by reusing TCP connections" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Connection: keep-alive</code> header tells the server: &quot;Don&#39;t close this connection. I&#39;ll reuse it.&quot;</p>
@@ -429,7 +485,7 @@
             <h3 id="why-websockets-are-fast" class="mt-8 text-lg leading-tight tracking-tight">Why WebSockets Are Fast</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/communication-protocols/https-vs-ws.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/https-vs-ws.webp" alt="HTTP vs WebSocket connection overhead comparison" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/https-vs-ws.webp" alt="HTTP vs WebSocket connection overhead comparison" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">With WebSockets, you pay the connection cost once. Every subsequent message is pure data transfer. For real-time applications, this is transformative.</p>
@@ -443,7 +499,7 @@
             <p class="mt-0 mb-6">Use WebSockets when you need:</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/communication-protocols/real-time-use-case.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/real-time-use-case.webp" alt="Real-time use cases for WebSockets" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/real-time-use-case.webp" alt="Real-time use cases for WebSockets" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <table tabindex="0" class="mt-0 mb-6 block overflow-x-auto border-collapse text-md wrap-normal">
@@ -527,7 +583,7 @@
             <p class="mt-0 mb-6">SSE uses a long-lived HTTP connection. The server keeps the connection open and sends events as they occur.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/communication-protocols/sse-flow.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/sse-flow.webp" alt="SSE flow showing server pushing events to client over HTTP" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/communication-protocols/sse-flow.webp" alt="SSE flow showing server pushing events to client over HTTP" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">The connection stays open. Server sends data whenever it wants. Client receives it instantly.</p>

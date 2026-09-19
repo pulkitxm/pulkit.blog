@@ -12,7 +12,7 @@ PhotoSwipe is a powerful, easy-to-use JavaScript library that allows you to crea
 
 Let's make an image gallery in React with the [react-photoswipe-gallery](https://www.npmjs.com/package/react-photoswipe-gallery).
 
-### Let's Start by Bootstrapping a Fresh React-TS App
+## Let's Start by Bootstrapping a Fresh React-TS App
 
 ```bash
 pnpm create vite@latest react-app-gallery -- --template react
@@ -27,7 +27,7 @@ This will set up a new React project with TypeScript support. You should see a d
 
 ![Default Vite React app running in browser](https://pulkit.blog/assets/content/blogs/react-image-gallery-with-photoswipe/40786bd6-5690-47a8-a52c-b7bf7aba230c.webp)
 
-### Clean Up the Default Setup
+## Clean Up the Default Setup
 
 You can also remove the default CSS in `App.css` and `index.css`.
 
@@ -37,7 +37,7 @@ export default function App() {
 }
 ```
 
-### Adding PhotoSwipe
+## Adding PhotoSwipe
 
 Now let's start adding the dependencies
 
@@ -51,7 +51,7 @@ Include the CSS file from `photoswipe`. (As a best practice, I typically add the
 import "photoswipe/dist/photoswipe.css";
 ```
 
-### Creating the Image Gallery
+## Creating the Image Gallery
 
 Now, let's create a simple image gallery using `react-photoswipe-gallery`. Update `App.tsx` with the following code:
 
@@ -184,7 +184,7 @@ export default function App() {
 }
 ```
 
-### Here's the final version!
+## Here's the final version!
 
 [Live demo: Image gallery demo with PhotoSwipe](https://codesandbox.io/embed/m3x8ct?view=preview&module=%2Fsrc%2FApp.tsx)
 

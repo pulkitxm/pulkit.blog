@@ -144,17 +144,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>React Context Menu with react-contexify | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -174,13 +230,13 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>React Context Menu with react-contexify</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-08-10">August 10, 2024</time> · 2 min read</p>
           </header>
           <div class="wrap-break-word">
             <p class="mt-0 mb-6">Creating a custom context menu in React can significantly enhance the user experience by providing quick access to relevant actions. With the help of the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.npmjs.com/package/react-contexify">react-contexify</a> library, you can easily implement a sleek and functional context menu tailored to your application&#39;s needs. In this guide, we&#39;ll walk you through the steps to create a custom context menu in React, ensuring your users have a seamless and intuitive interaction with your app. Let&#39;s dive in and unlock the potential of context menus in your React projects!</p>
             <p class="mt-0 mb-6">I have bootstrapped a new React TypeScript project for this walkthrough.</p>
-            <h3 id="adding-react-contexify-as-a-dependency" class="mt-8 text-lg leading-tight tracking-tight">Adding react-contexify as a Dependency</h3>
+            <h2 id="adding-react-contexify-as-a-dependency" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Adding react-contexify as a Dependency</h2>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
                 <code class="language-bash block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
@@ -216,7 +272,7 @@
                 <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="business-logic" class="mt-8 text-lg leading-tight tracking-tight">Business Logic</h3>
+            <h2 id="business-logic" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Business Logic</h2>
             <p class="mt-0 mb-6">I am creating a div that spans the full height and width of the screen.</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
@@ -327,7 +383,7 @@
             <p class="mt-0 mb-6">Additionally, you may notice this error</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/react-contexify-context-menu/4824af70-c43f-4ee9-832d-7edcabcb9cac.webp" class="block" data-media-zoom data-width="1123" data-height="278">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-contexify-context-menu/4824af70-c43f-4ee9-832d-7edcabcb9cac.webp" alt="Console error showing missing Menu ID" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-contexify-context-menu/4824af70-c43f-4ee9-832d-7edcabcb9cac.webp" alt="Console error showing missing Menu ID" width="1123" height="278" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Let&#39;s fix both! Add an ID to the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">&lt;ContextMenu/&gt;</code></p>
@@ -363,7 +419,7 @@
                 <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="final-integrations" class="mt-8 text-lg leading-tight tracking-tight">Final Integrations</h3>
+            <h2 id="final-integrations" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Final Integrations</h2>
             <p class="mt-0 mb-6">Now, to enable the menu to trigger on a right-click event</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
@@ -401,8 +457,8 @@
             </div>
             <p class="mt-0 mb-6">Voilà! You can now see the menu in action.</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp" class="block" data-media-zoom data-width="1901" data-height="975">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp" alt="Context menu displayed on right-click with multiple options" loading="lazy" />
+              <a href="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp" class="block" data-media-zoom data-width="1600" data-height="821">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/react-contexify-context-menu/a79f3b33-1b19-42ab-834b-943be2b7275d.webp" alt="Context menu displayed on right-click with multiple options" width="1600" height="821" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Final Code:</p>

@@ -12,7 +12,7 @@ Content: ORM stands for Object-Relational Mapping. It is a technique that allows
 
 Prisma is a modern ORM that works seamlessly with PostgreSQL, among other databases. It provides a type-safe database client, which means you get autocompletion and type-checking in your code editor, reducing the likelihood of runtime errors. Prisma also includes a powerful migration system to manage your database schema changes.
 
-### Starting with a Fresh Node.js Project
+## Starting with a Fresh Node.js Project
 
 To begin, let's set up a new Node.js project. First, initialize a new Node.js project by running the following command in your terminal:
 
@@ -56,7 +56,7 @@ npx prisma init
 
 This command will create a new `prisma` directory with a `schema.prisma` file inside it. The `schema.prisma` file is where you define your database schema.
 
-### Configuring the Database Connection
+## Configuring the Database Connection
 
 Next, let's configure the database connection in the `schema.prisma` file. Open the file and add the following user schema:
 
@@ -89,7 +89,7 @@ docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:54
 DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/postgres"
 ```
 
-### Making a Database Migration
+## Making a Database Migration
 
 To apply this schema to the database, let's create a migration:
 
@@ -99,7 +99,7 @@ npx prisma migrate dev --name init
 
 This command will generate the necessary SQL to create the `User` table in your database and apply the migration. You should see output indicating that the migration was successful.
 
-### Prisma Client
+## Prisma Client
 
 **Prisma Client** is an auto-generated and type-safe query builder for your database. After defining your schema and running a migration, Prisma Client is created to help you interact with your database in a type-safe way. It allows you to perform CRUD operations and more, using a simple and intuitive API. This ensures that your database queries are validated at compile time, reducing runtime errors and improving overall developer productivity.
 
@@ -109,7 +109,7 @@ You can also generate the Prisma Client manually using:
 npx prisma generate
 ```
 
-### Database Operations Using Prisma Client
+## Database Operations Using Prisma Client
 
 Let's start coding by creating a `/src/index.ts` file:
 

@@ -147,17 +147,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Coolify: Self-Host Postgres, Redis &amp; Next.js | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -177,7 +233,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Coolify: Self-Host Postgres, Redis &amp; Next.js</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2025-07-26">July 26, 2025</time> · 5 min read</p>
           </header>
           <div class="wrap-break-word">
@@ -207,8 +263,8 @@
             <p class="mt-0 mb-6">All on a single server with 50GB storage(can be less as well, I added this much because first I have credits so it’s not a pain for me and Second it will not crash the server out of storage issues) and 8GB RAM.</p>
             <p class="mt-0 mb-6">This is my current config(for reference)</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9434ba4b-bc77-4b13-baf3-f60892cb2c76.webp" class="block" data-media-zoom data-width="1920" data-height="1067">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9434ba4b-bc77-4b13-baf3-f60892cb2c76.webp" alt="Azure VM configuration showing 50GB storage and 8GB RAM" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9434ba4b-bc77-4b13-baf3-f60892cb2c76.webp" class="block" data-media-zoom data-width="1600" data-height="889">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9434ba4b-bc77-4b13-baf3-f60892cb2c76.webp" alt="Azure VM configuration showing 50GB storage and 8GB RAM" width="1600" height="889" loading="lazy" />
               </a>
             </p>
             <h2 id="setting-up-a-vm" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Setting up a VM</h2>
@@ -218,31 +274,31 @@
             </ol>
             <p class="mt-0 mb-6">
               <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://portal.azure.com/#create/hub">
-                <img class="mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/57c0ed18-7fe3-4e7a-b3ff-5dac9d8b251a.webp" alt="Azure portal create Ubuntu Server page" loading="lazy" />
+                <img class="mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/57c0ed18-7fe3-4e7a-b3ff-5dac9d8b251a.webp" alt="Azure portal create Ubuntu Server page" width="1600" height="888" loading="lazy" />
               </a>
             </p>
             <ol class="mt-0 mb-6" start="2">
               <li>Fill in the details, and select at least 8 gigs 4 vcpus in “Size”</li>
             </ol>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/1d67e1ef-f3db-4d6d-bf5e-715153039872.webp" class="block" data-media-zoom data-width="1920" data-height="1419">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/1d67e1ef-f3db-4d6d-bf5e-715153039872.webp" alt="Azure VM size selection showing 8GB 4 vCPUs option" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/1d67e1ef-f3db-4d6d-bf5e-715153039872.webp" class="block" data-media-zoom data-width="1600" data-height="1182">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/1d67e1ef-f3db-4d6d-bf5e-715153039872.webp" alt="Azure VM size selection showing 8GB 4 vCPUs option" width="1600" height="1182" loading="lazy" />
               </a>
             </p>
             <ol class="mt-0 mb-6" start="3">
               <li>You can choose whatever size that suits under the Disks section, After creation we can add custom size(maybe choose custom size like 50 gigs from there)</li>
             </ol>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/d0c59bbe-b6ff-4f3a-9be2-c2769508d982.webp" class="block" data-media-zoom data-width="1646" data-height="846">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/d0c59bbe-b6ff-4f3a-9be2-c2769508d982.webp" alt="Azure VM disk configuration page" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/d0c59bbe-b6ff-4f3a-9be2-c2769508d982.webp" class="block" data-media-zoom data-width="1600" data-height="822">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/d0c59bbe-b6ff-4f3a-9be2-c2769508d982.webp" alt="Azure VM disk configuration page" width="1600" height="822" loading="lazy" />
               </a>
             </p>
             <ol class="mt-0 mb-6" start="4">
               <li class="[&amp;>p]:mb-2">
                 <p class="mt-0 mb-6">That’s it, then review and create. And wait for the deployment complete.</p>
                 <p class="mt-0 mb-6">
-                  <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/62fddf51-739b-4866-a2de-14b4dad78d68.webp" class="block" data-media-zoom data-width="1920" data-height="1096">
-                    <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/62fddf51-739b-4866-a2de-14b4dad78d68.webp" alt="Azure deployment complete notification" loading="lazy" />
+                  <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/62fddf51-739b-4866-a2de-14b4dad78d68.webp" class="block" data-media-zoom data-width="1600" data-height="913">
+                    <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/62fddf51-739b-4866-a2de-14b4dad78d68.webp" alt="Azure deployment complete notification" width="1600" height="913" loading="lazy" />
                   </a>
                 </p>
               </li>
@@ -264,8 +320,8 @@
             </div>
             <p class="mt-0 mb-6">You need to ssh into your server and run this command</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/78df5c83-af18-48c2-9505-dfebb08389ed.webp" class="block" data-media-zoom data-width="1920" data-height="1249">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/78df5c83-af18-48c2-9505-dfebb08389ed.webp" alt="Terminal showing Coolify installation script running" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/78df5c83-af18-48c2-9505-dfebb08389ed.webp" class="block" data-media-zoom data-width="1600" data-height="1041">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/78df5c83-af18-48c2-9505-dfebb08389ed.webp" alt="Terminal showing Coolify installation script running" width="1600" height="1041" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">It will take around 4-5 minutes and install all required tools like Docker, Coolify, a database to manage coolify’s state and all the setup to make available a Dashboard just like vercel. And after the complete setup the final screen looks like something this</p>
@@ -332,14 +388,14 @@
             </table>
             <p class="mt-0 mb-6">Since we are deploying Redis and Postgres, if you need to expose them to the internet. You need to add port <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">5432</code> and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">6379</code> as well. After these my Azure Networking section looked like this.</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3095fd2e-c030-4cb3-9d47-eddf13735c6b.webp" class="block" data-media-zoom data-width="1920" data-height="1052">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3095fd2e-c030-4cb3-9d47-eddf13735c6b.webp" alt="Azure networking configuration showing open ports for Coolify" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3095fd2e-c030-4cb3-9d47-eddf13735c6b.webp" class="block" data-media-zoom data-width="1600" data-height="877">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3095fd2e-c030-4cb3-9d47-eddf13735c6b.webp" alt="Azure networking configuration showing open ports for Coolify" width="1600" height="877" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">That’s it now you would be able to see a login page on that url, make an account and Login. After this follow all the onboarding steps and select localhost as the server. And you will be able to see this type of page.</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3dfa3ba5-9def-4254-b0d5-5e898bc38cf2.webp" class="block" data-media-zoom data-width="1920" data-height="1074">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3dfa3ba5-9def-4254-b0d5-5e898bc38cf2.webp" alt="Coolify dashboard showing project overview" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3dfa3ba5-9def-4254-b0d5-5e898bc38cf2.webp" class="block" data-media-zoom data-width="1600" data-height="895">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/3dfa3ba5-9def-4254-b0d5-5e898bc38cf2.webp" alt="Coolify dashboard showing project overview" width="1600" height="895" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Now it’s like a vercel dashboard with superpowers. On this page you would be able to see a lot of options like Postgres, MongoDB, Redis, and what not. A lot of open source projects like Excalidraw, AppWrite are also available.</p>
@@ -347,27 +403,27 @@
             <p class="mt-0 mb-6">But for this walkthrough we will start with a nextjs App. So select public repository(you can also select private repository and make a GitHub app for authentication) and enter a url. In the next step, please select Dockerfile under Build Packs and make sure the repository have a Dockerfile.</p>
             <p class="mt-0 mb-6">The Dockerfile I used for my nextjs App → <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://gist.github.com/Pulkitxm/742a20fb68a4d6031c19a91949b12873">gist.github.com/Pulkitxm/742a20fb....</a></p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9c970786-0745-49c1-8028-6b32912534d9.webp" class="block" data-media-zoom data-width="1754" data-height="826">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9c970786-0745-49c1-8028-6b32912534d9.webp" alt="Coolify repository selection with Dockerfile buildpack option" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9c970786-0745-49c1-8028-6b32912534d9.webp" class="block" data-media-zoom data-width="1600" data-height="753">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/9c970786-0745-49c1-8028-6b32912534d9.webp" alt="Coolify repository selection with Dockerfile buildpack option" width="1600" height="753" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">And click continue. Then on this screen you configure further things like Environment variable, and other things. But for now click on Deploy.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/957441f5-3da3-4609-8955-67517ceda1cb.webp" class="block" data-media-zoom data-width="1496" data-height="846">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/957441f5-3da3-4609-8955-67517ceda1cb.webp" alt="Coolify deployment configuration page with deploy button" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/957441f5-3da3-4609-8955-67517ceda1cb.webp" alt="Coolify deployment configuration page with deploy button" width="1496" height="846" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">After the complete Deployment you would be able to visit your website on the configured domain(if not, there will be an autogenerated domain). For configuring custom domain, you just need to add an <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">A</code> record pointing to the domain of the server and you should be good. For adding multiple domains, you can add comma separated values.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/99bcc776-539b-4e3c-8676-262019add16b.webp" class="block" data-media-zoom data-width="1452" data-height="702">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/99bcc776-539b-4e3c-8676-262019add16b.webp" alt="Coolify domain configuration showing custom domain setup" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/99bcc776-539b-4e3c-8676-262019add16b.webp" alt="Coolify domain configuration showing custom domain setup" width="1452" height="702" loading="lazy" />
               </a>
             </p>
             <h2 id="deploying-postgres-redis" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Deploying Postgres &amp; Redis</h2>
             <p class="mt-0 mb-6">As I already mentioned in the Ports section you need to configure <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">5432</code> port for Postgres and <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">6379</code> for Redis. These two have a very simple and clean setup. Just go to a new Resource page from you Project. For postgres you can choose what configuration you need, but I am going with the default one.</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/4401c7fe-c1df-48fe-bea3-84efa5fb9057.webp" class="block" data-media-zoom data-width="1920" data-height="891">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/4401c7fe-c1df-48fe-bea3-84efa5fb9057.webp" alt="Coolify PostgreSQL database configuration page" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/4401c7fe-c1df-48fe-bea3-84efa5fb9057.webp" class="block" data-media-zoom data-width="1600" data-height="742">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/4401c7fe-c1df-48fe-bea3-84efa5fb9057.webp" alt="Coolify PostgreSQL database configuration page" width="1600" height="742" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">And that’s it after this, click on start and you will see the deployment logs.</p>
@@ -392,7 +448,7 @@
             <p class="mt-0 mb-6">For configuring if the database should be exposed to the internet or not you can edit in on the final dashboard. If you make it external then you will see Internal and external links separately. But if it is internal(as in not exposed to internet) then it can be used in environment variables for our nextjs project and it will work out of the box.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/74bc75e6-73ff-4485-8c21-1e1058fa736f.webp" class="block" data-media-zoom data-width="1594" data-height="1144">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/74bc75e6-73ff-4485-8c21-1e1058fa736f.webp" alt="Coolify database dashboard showing internal and external connection URLs" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-postgres-redis-and-a-nextjs-app-on-coolify/74bc75e6-73ff-4485-8c21-1e1058fa736f.webp" alt="Coolify database dashboard showing internal and external connection URLs" width="1594" height="1144" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">For redis also you can consider the same procedure and make it internal/external based on requirements.</p>

@@ -155,12 +155,68 @@
     <script type="module" src="/assets/demos/index.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>The Physics Behind Natural Motion | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -181,12 +237,12 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>The Physics Behind Natural Motion</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-28">January 28, 2026</time> · 9 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/design-engineering/">Design Engineering</a></p>
           </header>
           <div class="wrap-break-word">
             <p class="mt-0 mb-6">Remember the Vercel conference badge? The 3D lanyard that swung when you dragged it, responding to your movements with satisfying weight and momentum? That wasn&#39;t just a cool demo. It was physics-based animation at its finest, rigid body simulation with damping, gravity, and joint constraints creating motion that feels genuinely real.</p>
-            <demo-showcase data-component="vercel-badge" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
+            <demo-showcase data-component="vercel-badge" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default" data-heavy></demo-showcase>
             <p class="mt-0 mb-6">
               <small class="-mt-4 mb-6 block text-sm text-muted">Based on <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://vercel.com/blog/building-an-interactive-3d-event-badge-with-react-three-fiber">Vercel&#39;s interactive 3D event badge</a></small>
             </p>
@@ -212,7 +268,7 @@
             <p class="mt-0 mb-6">This distinction matters more than you might think. iOS uses spring animations everywhere. It&#39;s why swiping between apps feels fluid. It&#39;s why the Dynamic Island morphs like a living thing. Apple didn&#39;t choose springs because they&#39;re fancy. They chose them because human perception is incredibly sensitive to motion that doesn&#39;t match physical expectations.</p>
             <p class="mt-0 mb-6">
               <!-- [html-validate-disable-next no-autoplay] -->
-              <video class="mt-0 mb-6 block h-auto w-full rounded-lg" src="/assets/content/public/series/design-engineering/the-physics-behind-natural-motion/ios-dynamic-island.mp4" autoplay loop muted playsinline></video>
+              <video class="mt-0 mb-6 block h-auto w-full rounded-lg" src="/assets/content/public/series/design-engineering/the-physics-behind-natural-motion/ios-dynamic-island.mp4" autoplay loop muted playsinline width="1280" height="892"></video>
             </p>
             <h2 id="the-physics-of-springs" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Physics of Springs</h2>
             <p class="mt-0 mb-6">A spring animation simulates an object attached to a spring. Three properties control its behavior:</p>

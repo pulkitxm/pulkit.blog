@@ -149,17 +149,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>High Availability | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -180,7 +236,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>High Availability</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-23">January 23, 2026</time> · 15 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="wrap-break-word">
@@ -248,7 +304,7 @@
             <p class="mt-0 mb-6">When your database disk fails, you can&#39;t just &quot;spin up another one.&quot; There&#39;s no other copy. The data doesn&#39;t exist anywhere else. You&#39;re not debugging a bug. You&#39;re explaining to customers why their accounts vanished.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/stateless-vs-stateful.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/stateless-vs-stateful.webp" alt="API servers are stateless and replaceable, databases are stateful and critical" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/stateless-vs-stateful.webp" alt="API servers are stateless and replaceable, databases are stateful and critical" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">This isn&#39;t theoretical. <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31">GitLab famously lost 6 hours of production data in 2017</a>. A combination of human error and incomplete backups. They had 5 different backup mechanisms. None worked correctly when needed.</p>
@@ -256,7 +312,7 @@
             <h2 id="levels-of-redundancy" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Levels of Redundancy</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/redundancy-levels.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/redundancy-levels.webp" alt="Redundancy can be implemented at different granularities" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/redundancy-levels.webp" alt="Redundancy can be implemented at different granularities" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">When you think about making data redundant, the first question is: at what level?</p>
@@ -335,7 +391,7 @@
             <h2 id="backup-and-restore" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Backup and Restore</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/backup-strategy.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/backup-strategy.webp" alt="Backup strategy with daily incremental and weekly full backups" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/backup-strategy.webp" alt="Backup strategy with daily incremental and weekly full backups" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">The simplest form of redundancy. Take copies of your data regularly. Store them somewhere safe. If disaster strikes, restore from the most recent backup.</p>
@@ -423,7 +479,7 @@
             <h2 id="continuous-redundancy" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Continuous Redundancy</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/continuous-redundancy.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/continuous-redundancy.webp" alt="Primary database with standby replica maintaining real-time sync" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/continuous-redundancy.webp" alt="Primary database with standby replica maintaining real-time sync" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Backups are point-in-time snapshots. Between backups, new data exists only in one place. If that place fails, recent data is lost.</p>
@@ -552,7 +608,7 @@
             <h2 id="disaster-recovery" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Disaster Recovery</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/disaster-recovery.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/disaster-recovery.webp" alt="Cross-region backup for disaster recovery" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/disaster-recovery.webp" alt="Cross-region backup for disaster recovery" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">A standby replica protects against database crashes. But what if the entire data center goes down?</p>
@@ -649,7 +705,7 @@
             <h2 id="automatic-failover" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Automatic Failover</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/automatic-failover.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/automatic-failover.webp" alt="Automatic failover detecting primary failure and promoting replica" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/automatic-failover.webp" alt="Automatic failover detecting primary failure and promoting replica" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Having a replica is useless if nobody promotes it when the primary dies. Manual failover means someone needs to wake up at 3 AM, assess the situation, and execute the promotion. That&#39;s slow and error-prone.</p>
@@ -834,7 +890,7 @@
             <p class="mt-0 mb-6">Enter the <strong>orchestrator</strong>: a component whose job is to monitor your servers. When one goes down, it spins up a new one and puts it behind the load balancer.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/orchestrator-problem.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/orchestrator-problem.webp" alt="Orchestrator monitoring servers and handling failures" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/orchestrator-problem.webp" alt="Orchestrator monitoring servers and handling failures" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">The orchestrator continuously pings servers. If one stops responding, it marks it unhealthy, removes it from the load balancer, provisions a new server, and adds it back. No human intervention needed.</p>
@@ -843,7 +899,7 @@
             <p class="mt-0 mb-6">If the orchestrator crashes, servers can fail without replacement. You need something to monitor the orchestrator. But what monitors that? And what monitors the thing that monitors the orchestrator?</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/recursion-problem.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/recursion-problem.webp" alt="The infinite recursion of orchestrators monitoring orchestrators" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/recursion-problem.webp" alt="The infinite recursion of orchestrators monitoring orchestrators" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">This is infinite recursion. Every monitoring layer needs its own monitor. You could have orchestrators all the way down, but that&#39;s impractical and expensive.</p>
@@ -876,7 +932,7 @@
             <p class="mt-0 mb-6">Instead of a single orchestrator, you run multiple orchestrator nodes in a leader-follower configuration.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/leader-follower-setup.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/leader-follower-setup.webp" alt="Leader-follower orchestrator setup with workers monitoring servers" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/leader-follower-setup.webp" alt="Leader-follower orchestrator setup with workers monitoring servers" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Here&#39;s how the responsibilities break down:</p>
@@ -959,7 +1015,7 @@
             <p class="mt-0 mb-6">No human intervention. The system self-heals.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/high-availability/failure-scenarios.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/failure-scenarios.webp" alt="Failure scenarios and how they are handled with leader election" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/high-availability/failure-scenarios.webp" alt="Failure scenarios and how they are handled with leader election" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <h2 id="leader-election-algorithms" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Leader Election Algorithms</h2>

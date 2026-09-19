@@ -152,17 +152,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -183,7 +239,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-10">January 10, 2026</time> · 13 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="wrap-break-word">
@@ -205,7 +261,7 @@
             <h2 id="sync-vs-async-processing" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Sync vs Async Processing</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/sync.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/sync.webp" alt="User sends request and server handles it immediately - this is synchronous" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/sync.webp" alt="User sends request and server handles it immediately - this is synchronous" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Logging in is synchronous:</p>
@@ -219,7 +275,7 @@
             <p class="mt-0 mb-6">Now imagine ordering food on Zomato. The restaurant takes 30 minutes to prepare your biryani. Should the app freeze for 30 minutes? Should your HTTP connection stay open that long?</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/async.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/async.webp" alt="Long-running tasks shouldn&#39;t block the user" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/async.webp" alt="Long-running tasks shouldn&#39;t block the user" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Instead:</p>
@@ -257,7 +313,7 @@
             <h2 id="how-async-processing-works" class="mt-12 text-xl font-semibold leading-tight tracking-tight">How Async Processing Works</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/async-flow.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/async-flow.webp" alt="Typical async flow with API, broker, and workers" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/async-flow.webp" alt="Typical async flow with API, broker, and workers" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Let&#39;s trace through a food order:</p>
@@ -276,7 +332,7 @@
             <p class="mt-0 mb-6">The key component enabling async is the <strong>message queue</strong> (or message broker). SQS and RabbitMQ are popular examples.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/message-queues.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/message-queues.webp" alt="Message queues help services communicate through messages" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/message-queues.webp" alt="Message queues help services communicate through messages" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">A queue sits between producers (who create tasks) and consumers (who process them). Two services communicate without knowing about each other.</p>
@@ -300,7 +356,7 @@
             <p class="mt-0 mb-6"><strong>2. Load Buffering</strong></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/message-buffering.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/message-buffering.webp" alt="Brokers buffer messages - consumers process at their own pace" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/message-buffering.webp" alt="Brokers buffer messages - consumers process at their own pace" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">IPL final night. Zomato gets 50,000 orders per minute. The SMS gateway handles 1,000 per minute.</p>
@@ -338,7 +394,7 @@
             <p class="mt-0 mb-6">When you read a message, it&#39;s not deleted immediately. You must explicitly delete it after processing.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/message-requque.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/message-requque.webp" alt="If consumer crashes before deleting, message reappears" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/message-requque.webp" alt="If consumer crashes before deleting, message reappears" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Flow:</p>
@@ -535,7 +591,7 @@
             <h2 id="example-image-processing" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Example: Image Processing</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/image-processing.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/image-processing.webp" alt="Image upload triggers async processing for multiple sizes" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/image-processing.webp" alt="Image upload triggers async processing for multiple sizes" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">User uploads a profile picture on your app. You need to create multiple sizes: thumbnail (50x50), medium (200x200), large (800x800). Original might be 5MB, processing takes a few seconds per size.</p>
@@ -632,7 +688,7 @@
             <h3 id="aws-sqs" class="mt-8 text-lg leading-tight tracking-tight">AWS SQS</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/amazon-sqs.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/amazon-sqs.webp" alt="AWS SQS is a managed message queue" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/amazon-sqs.webp" alt="AWS SQS is a managed message queue" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Managed queue. No servers. Auto-scales. Pay per request.</p>
@@ -699,7 +755,7 @@
             <h3 id="rabbitmq" class="mt-8 text-lg leading-tight tracking-tight">RabbitMQ</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/rabbitmq.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/rabbitmq.webp" alt="RabbitMQ is an open-source message broker" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/rabbitmq.webp" alt="RabbitMQ is an open-source message broker" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Open-source. Self-hosted or managed. More features, more control, more ops overhead.</p>
@@ -885,7 +941,7 @@
             <p class="mt-0 mb-6"><strong>Approach 1: One Queue, Consumer Does Everything</strong></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/streams-approach-1.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/streams-approach-1.webp" alt="One broker with consumer doing multiple things" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/streams-approach-1.webp" alt="One broker with consumer doing multiple things" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Single RabbitMQ queue. Consumer handles all three:</p>
@@ -916,7 +972,7 @@
             <p class="mt-0 mb-6"><strong>Approach 2: Multiple Queues</strong></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/streams-approach-2.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/streams-approach-2.webp" alt="Two brokers with two sets of consumers" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/streams-approach-2.webp" alt="Two brokers with two sets of consumers" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Three separate queues. API writes to all three:</p>
@@ -943,7 +999,7 @@
             <h3 id="enter-message-streams" class="mt-8 text-lg leading-tight tracking-tight">Enter Message Streams</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/streams-vs-queues.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/streams-vs-queues.webp" alt="Message streams allow multiple consumer types to read the same message" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/streams-vs-queues.webp" alt="Message streams allow multiple consumer types to read the same message" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Message streams (Kafka, Kinesis) differ from queues in one key way: <strong>multiple consumer types read the same message</strong>.</p>
@@ -963,7 +1019,7 @@
             <p class="mt-0 mb-6"><strong>Approach 3: One Stream, Multiple Consumers</strong></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/streams-approach-3.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/streams-approach-3.webp" alt="Using Kafka with multiple consumer types" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/streams-approach-3.webp" alt="Using Kafka with multiple consumer types" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <div class="relative mt-0 mb-6" data-code-block>
@@ -1039,7 +1095,7 @@
             <h3 id="kafka-basics" class="mt-8 text-lg leading-tight tracking-tight">Kafka Basics</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/kafka.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/kafka.webp" alt="Kafka is a distributed streaming platform" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/kafka.webp" alt="Kafka is a distributed streaming platform" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Kafka is the most popular stream. Core concepts every engineer should know:</p>
@@ -1050,7 +1106,7 @@
             <p class="mt-0 mb-6">A partition is a subset of a topic. It&#39;s an ordered, immutable sequence of messages. Each message in a partition gets a sequential ID called an <strong>offset</strong>.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/topics-partitions.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/topics-partitions.webp" alt="A topic split into multiple partitions, each with sequential offsets" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/topics-partitions.webp" alt="A topic split into multiple partitions, each with sequential offsets" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Key insight: <strong>ordering is guaranteed within a partition, not across partitions</strong>.</p>
@@ -1222,7 +1278,7 @@
             <h3 id="push-vs-pull" class="mt-8 text-lg leading-tight tracking-tight">Push vs Pull</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/async-processing/pubsub.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/pubsub.webp" alt="Pub/Sub pushes messages to subscribers instead of them pulling" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/async-processing/pubsub.webp" alt="Pub/Sub pushes messages to subscribers instead of them pulling" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">In queues and streams:</p>

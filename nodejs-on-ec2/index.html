@@ -146,17 +146,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Node.js on EC2 with PM2 and NGINX | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -176,7 +232,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Node.js on EC2 with PM2 and NGINX</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-08-05">August 5, 2024</time> · 5 min read</p>
           </header>
           <div class="wrap-break-word">
@@ -195,7 +251,7 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/90d8aa96-dad8-4b4e-abaf-14e859a8b118.webp" class="block" data-media-zoom data-width="986" data-height="717">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/90d8aa96-dad8-4b4e-abaf-14e859a8b118.webp" alt="Terminal showing npm init command output" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/90d8aa96-dad8-4b4e-abaf-14e859a8b118.webp" alt="Terminal showing npm init command output" width="986" height="717" loading="lazy" />
               </a>
             </p>
             <h3 id="add-express-as-a-dependency" class="mt-8 text-lg leading-tight tracking-tight">Add express as a dependency</h3>
@@ -244,8 +300,8 @@
             </div>
             <p class="mt-0 mb-6">and you see a / endpoint like this</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e4c258cd-a01a-4dc5-8339-c79f74ac4a04.webp" class="block" data-media-zoom data-width="1920" data-height="1048">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e4c258cd-a01a-4dc5-8339-c79f74ac4a04.webp" alt="Browser showing Hello World JSON response from Express app" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e4c258cd-a01a-4dc5-8339-c79f74ac4a04.webp" class="block" data-media-zoom data-width="1600" data-height="873">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e4c258cd-a01a-4dc5-8339-c79f74ac4a04.webp" alt="Browser showing Hello World JSON response from Express app" width="1600" height="873" loading="lazy" />
               </a>
             </p>
             <h2 id="deploying-the-app-on-aws-ec2" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Deploying the app on AWS EC2</h2>
@@ -253,43 +309,43 @@
             <p class="mt-0 mb-6">You can directly head over to <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances">AWS EC2 create instance page</a></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/ea5f89a4-48a0-4fa0-8e17-ad1b8977ae74.webp" class="block" data-media-zoom data-width="827" data-height="344">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/ea5f89a4-48a0-4fa0-8e17-ad1b8977ae74.webp" alt="AWS EC2 launch instance page" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/ea5f89a4-48a0-4fa0-8e17-ad1b8977ae74.webp" alt="AWS EC2 launch instance page" width="827" height="344" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">You can name the ec2 instance according to you, I am naming it <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">demo-nodejs</code>.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/62d86fd2-805f-4b60-be5b-0d1c81b5fecb.webp" class="block" data-media-zoom data-width="803" data-height="557">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/62d86fd2-805f-4b60-be5b-0d1c81b5fecb.webp" alt="EC2 instance name configuration" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/62d86fd2-805f-4b60-be5b-0d1c81b5fecb.webp" alt="EC2 instance name configuration" width="803" height="557" loading="lazy" />
               </a>
             </p>
-            <p class="mt-0 mb-6">Select any image that suits you best, or you can learn more about these <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://aws.amazon.com/ec2/features/#product-features#ec2-features#operating-systems-and-software">here</a>. I have selected the basic Ubuntu image, as it is widely used and has good support.</p>
+            <p class="mt-0 mb-6">Select any image that suits you best, or you can learn more about the <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://aws.amazon.com/ec2/features/#operating-systems-and-software">operating systems and software EC2 supports</a>. I have selected the basic Ubuntu image, as it is widely used and has good support.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/4fb4dc83-b7e0-43c1-bec9-70c540e271e8.webp" class="block" data-media-zoom data-width="812" data-height="697">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/4fb4dc83-b7e0-43c1-bec9-70c540e271e8.webp" alt="EC2 Ubuntu image selection" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/4fb4dc83-b7e0-43c1-bec9-70c540e271e8.webp" alt="EC2 Ubuntu image selection" width="812" height="697" loading="lazy" />
               </a>
             </p>
-            <p class="mt-0 mb-6">Since I am using this instance for this walkthrough, I have selected a free-tier Instance type, you can choose the instance types according to your need, know more about this <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://repost.aws/knowledge-center/ec2-instance-choose-type-for-workload">here</a></p>
+            <p class="mt-0 mb-6">Since I am using this instance for this walkthrough, I have selected a free-tier Instance type, you can choose the instance types according to your need, know more about <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://repost.aws/knowledge-center/ec2-instance-choose-type-for-workload">how to choose an instance type for your workload</a></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/f97c6597-38ba-4044-86e9-253a725ac5c4.webp" class="block" data-media-zoom data-width="603" data-height="326">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/f97c6597-38ba-4044-86e9-253a725ac5c4.webp" alt="EC2 instance type selection showing free tier option" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/f97c6597-38ba-4044-86e9-253a725ac5c4.webp" alt="EC2 instance type selection showing free tier option" width="603" height="326" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">And finally launch the instance, I am going to access this instance from AWS connect, If you want to ssh into the instance you can create a key-pair and do that</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/1b308264-6a14-4ca7-a363-63c5969f226c.webp" class="block" data-media-zoom data-width="1920" data-height="1071">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/1b308264-6a14-4ca7-a363-63c5969f226c.webp" alt="EC2 instance connect button" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/1b308264-6a14-4ca7-a363-63c5969f226c.webp" class="block" data-media-zoom data-width="1600" data-height="892">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/1b308264-6a14-4ca7-a363-63c5969f226c.webp" alt="EC2 instance connect button" width="1600" height="892" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6"><strong>Click on connect to access your instance and start setting up your environment.</strong></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/caa0cfbf-2bab-468c-8cb2-c5f784a7fc9f.webp" class="block" data-media-zoom data-width="854" data-height="632">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/caa0cfbf-2bab-468c-8cb2-c5f784a7fc9f.webp" alt="AWS EC2 connect interface" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/caa0cfbf-2bab-468c-8cb2-c5f784a7fc9f.webp" alt="AWS EC2 connect interface" width="854" height="632" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Now you have access to you ec2 instance from your brower</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/f8750e50-0ff3-4a07-965f-4879ca537887.webp" class="block" data-media-zoom data-width="1744" data-height="872">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/f8750e50-0ff3-4a07-965f-4879ca537887.webp" alt="Terminal connected to EC2 instance" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/f8750e50-0ff3-4a07-965f-4879ca537887.webp" class="block" data-media-zoom data-width="1600" data-height="800">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/f8750e50-0ff3-4a07-965f-4879ca537887.webp" alt="Terminal connected to EC2 instance" width="1600" height="800" loading="lazy" />
               </a>
             </p>
             <h3 id="setting-up-the-environment-in-the-instance" class="mt-8 text-lg leading-tight tracking-tight">Setting up the Environment in the instance</h3>
@@ -351,14 +407,14 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e2fbe875-ea75-4c8e-863f-0bd37b5509b9.webp" class="block" data-media-zoom data-width="1168" data-height="395">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e2fbe875-ea75-4c8e-863f-0bd37b5509b9.webp" alt="Terminal showing Node.js version check" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/e2fbe875-ea75-4c8e-863f-0bd37b5509b9.webp" alt="Terminal showing Node.js version check" width="1168" height="395" loading="lazy" />
               </a>
             </p>
             <h3 id="starting-the-server-on-ec2" class="mt-8 text-lg leading-tight tracking-tight">Starting the server on EC2</h3>
             <p class="mt-0 mb-6">You can either upload your code on GitHub and then clone it in Ec2 or use any other viable method to get your code on the instance.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/77ce1c50-d9de-48e7-898d-ae795e410d17.webp" class="block" data-media-zoom data-width="959" data-height="380">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/77ce1c50-d9de-48e7-898d-ae795e410d17.webp" alt="Terminal showing Node.js server running on EC2" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/77ce1c50-d9de-48e7-898d-ae795e410d17.webp" alt="Terminal showing Node.js server running on EC2" width="959" height="380" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">If you are able to see this or whatever log you added in the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">app.listen()</code> you are good to go.</p>
@@ -389,25 +445,25 @@
             <p class="mt-0 mb-6">Now we have deployed the app, but it won&#39;t be accessible on the internet yet. To make it accessible, let&#39;s configure the necessary security groups and open the required ports. This will allow external traffic to reach our application.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/5e20e499-617c-40b1-833b-cf2fea46af60.webp" class="block" data-media-zoom data-width="1574" data-height="856">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/5e20e499-617c-40b1-833b-cf2fea46af60.webp" alt="EC2 instance security tab" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/5e20e499-617c-40b1-833b-cf2fea46af60.webp" alt="EC2 instance security tab" width="1574" height="856" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Navigate to the Security tab on the Instance page. and click on the Security group which is <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">sg-09f5337d4845d84fb (launch-wizard-1)</code> here.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8b2d346c-a515-4df3-aee8-7f526afea3c9.webp" class="block" data-media-zoom data-width="1577" data-height="698">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8b2d346c-a515-4df3-aee8-7f526afea3c9.webp" alt="Security group edit inbound rules button" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8b2d346c-a515-4df3-aee8-7f526afea3c9.webp" alt="Security group edit inbound rules button" width="1577" height="698" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Click on <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Edit inbound rules</code></p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8c98a4d5-0b95-499b-9892-21589eac283a.webp" class="block" data-media-zoom data-width="1768" data-height="828">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8c98a4d5-0b95-499b-9892-21589eac283a.webp" alt="Edit inbound rules page" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8c98a4d5-0b95-499b-9892-21589eac283a.webp" class="block" data-media-zoom data-width="1600" data-height="749">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8c98a4d5-0b95-499b-9892-21589eac283a.webp" alt="Edit inbound rules page" width="1600" height="749" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Add a new Inbound rue with Type of <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Custom TCP</code> and PORT <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">3000</code>. To make it accessible add <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">0.0.0.0/0</code> from the CIDR block.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/274c4781-394f-495a-9c05-5d573867df6a.webp" class="block" data-media-zoom data-width="1561" data-height="626">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/274c4781-394f-495a-9c05-5d573867df6a.webp" alt="Adding custom TCP rule for port 3000" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/274c4781-394f-495a-9c05-5d573867df6a.webp" alt="Adding custom TCP rule for port 3000" width="1561" height="626" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Now get the Ip from the home page of your instance</p>
@@ -415,8 +471,8 @@
             <p class="mt-0 mb-6"><code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">http://ec2-54-242-52-243.compute-1.amazonaws.com:3000</code></p>
             <p class="mt-0 mb-6">And voilà! Your application is now accessible on the internet.</p>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/ae71dec0-4c28-4348-b407-8c4a3258477c.webp" class="block" data-media-zoom data-width="1920" data-height="1048">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/ae71dec0-4c28-4348-b407-8c4a3258477c.webp" alt="Browser showing Hello World response from deployed app" loading="lazy" />
+              <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/ae71dec0-4c28-4348-b407-8c4a3258477c.webp" class="block" data-media-zoom data-width="1600" data-height="873">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/ae71dec0-4c28-4348-b407-8c4a3258477c.webp" alt="Browser showing Hello World response from deployed app" width="1600" height="873" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">But wait the url for the application is <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="http://ec2-54-242-52-243.compute-1.amazonaws.com:3000">https://ec2-54-242-52-243.compute-1.amazonaws.com:3000</a>, prettly ugly to add <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">:3000</code> in the url. Have you ever seen we go to <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="http://google.com">http://google.com:5173</a>. No! right, So let&#39;s fix this next</p>
@@ -510,7 +566,7 @@
                     <p class="mt-0 mb-6">If the test is successful, you should see a message indicating that the configuration file is okay.</p>
                     <p class="mt-0 mb-6">
                       <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8f6847e8-3efe-454e-969a-fa65b23e37b0.webp" class="block" data-media-zoom data-width="1201" data-height="360">
-                        <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8f6847e8-3efe-454e-969a-fa65b23e37b0.webp" alt="Terminal showing nginx configuration test success" loading="lazy" />
+                        <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/8f6847e8-3efe-454e-969a-fa65b23e37b0.webp" alt="Terminal showing nginx configuration test success" width="1201" height="360" loading="lazy" />
                       </a>
                     </p>
                   </li>
@@ -549,8 +605,8 @@
                   </li>
                 </ol>
                 <p class="mt-0 mb-6">
-                  <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/c162d6ac-1631-4780-b34e-b90301392655.webp" class="block" data-media-zoom data-width="1920" data-height="1048">
-                    <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/c162d6ac-1631-4780-b34e-b90301392655.webp" alt="Browser showing app accessible without port number" loading="lazy" />
+                  <a href="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/c162d6ac-1631-4780-b34e-b90301392655.webp" class="block" data-media-zoom data-width="1600" data-height="873">
+                    <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/deploying-nodejs-applications-on-ec2-with-pm2-and-nginx/c162d6ac-1631-4780-b34e-b90301392655.webp" alt="Browser showing app accessible without port number" width="1600" height="873" loading="lazy" />
                   </a>
                 </p>
               </li>

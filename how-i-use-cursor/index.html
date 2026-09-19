@@ -145,17 +145,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <script type="module" src="/assets/embeds/blog-media.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>How I Use Cursor to Build at 1000x Speed | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -175,7 +231,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>How I Use Cursor to Build at 1000x Speed</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-02-26">February 26, 2026</time> · 10 min read</p>
           </header>
           <div class="wrap-break-word">
@@ -188,10 +244,10 @@
                       <div class="-ml-4 flex">
                         <section aria-roledescription="slide" aria-label="1 of 3" class="min-w-0 shrink-0 grow-0 basis-full pl-4" data-carousel-slide>
                           <div class="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
-                            <img src="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp" alt="" aria-hidden="true" width="1920" height="913" class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50" loading="lazy" decoding="async" />
+                            <img src="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp" alt="" aria-hidden="true" width="1600" height="761" class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50" loading="eager" fetchpriority="high" decoding="async" />
                             <div class="absolute inset-0 flex items-center justify-center">
-                              <a href="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp" class="block h-full w-full cursor-zoom-in" data-media-zoom data-width="1920" data-height="913">
-                                <img src="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp" alt="Slide 1" width="1920" height="913" class="block h-full w-full select-none object-contain" loading="lazy" decoding="async" />
+                              <a href="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp" class="block h-full w-full cursor-zoom-in" data-media-zoom data-width="1600" data-height="761">
+                                <img src="/assets/content/blogs/how-i-use-cursor/cursor-top-11-perc.webp" alt="Slide 1" width="1600" height="761" class="block h-full w-full select-none object-contain" loading="eager" fetchpriority="high" decoding="async" />
                               </a>
                             </div>
                           </div>
@@ -208,10 +264,10 @@
                         </section>
                         <section aria-roledescription="slide" aria-label="3 of 3" class="min-w-0 shrink-0 grow-0 basis-full pl-4" data-carousel-slide>
                           <div class="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
-                            <img src="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp" alt="" aria-hidden="true" width="1728" height="1000" class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50" loading="lazy" decoding="async" />
+                            <img src="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp" alt="" aria-hidden="true" width="1600" height="926" class="absolute inset-0 h-full w-full scale-110 select-none object-cover object-[top_left] blur-[12px] brightness-50" loading="lazy" decoding="async" />
                             <div class="absolute inset-0 flex items-center justify-center">
-                              <a href="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp" class="block h-full w-full cursor-zoom-in" data-media-zoom data-width="1728" data-height="1000">
-                                <img src="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp" alt="Slide 3" width="1728" height="1000" class="block h-full w-full select-none object-contain" loading="lazy" decoding="async" />
+                              <a href="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp" class="block h-full w-full cursor-zoom-in" data-media-zoom data-width="1600" data-height="926">
+                                <img src="/assets/content/blogs/how-i-use-cursor/cursor-2025-models.webp" alt="Slide 3" width="1600" height="926" class="block h-full w-full select-none object-contain" loading="lazy" decoding="async" />
                               </a>
                             </div>
                           </div>
@@ -240,7 +296,7 @@
             <p class="mt-0 mb-6">I work at <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://noveum.ai">Noveum AI</a>, a 7-engineer startup where customers regularly assume we&#39;re a 50-person team. Recently, our CEO <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.linkedin.com/posts/shashankagarwal2_were-a-7-engineer-startup-customers-regularly-activity-7427177147267633153-PeFv">Shashank&#39;s post</a> about how we operate went viral on LinkedIn. The core idea: every developer gets a company credit card with $50-200/month to spend on any AI tool they want. No approval needed.</p>
             <div class="mt-0 mb-6 text-center [&amp;_img]:mx-auto">
               <a href="/assets/content/blogs/how-i-use-cursor/pricing.webp" class="block" data-media-zoom data-width="1321" data-height="632">
-                <img class="mx-auto my-7 block cursor-zoom-in rounded-lg w-auto h-auto max-w-full" src="/assets/content/blogs/how-i-use-cursor/pricing.webp" alt="Cursor individual plans pricing - Hobby (Free), Pro ($20/mo), Pro+ ($60/mo), Ultra ($200/mo)" loading="lazy" decoding="async" />
+                <img class="mx-auto my-7 block cursor-zoom-in rounded-lg w-auto h-auto max-w-full" src="/assets/content/blogs/how-i-use-cursor/pricing.webp" alt="Cursor individual plans pricing - Hobby (Free), Pro ($20/mo), Pro+ ($60/mo), Ultra ($200/mo)" width="1321" height="632" loading="lazy" decoding="async" />
               </a>
             </div>
             <br />
@@ -275,8 +331,8 @@
             <p class="mt-0 mb-6">This is way more effective than saying &quot;add rate limiting&quot;. The specificity of the prompt directly correlates with the quality of the output.</p>
             <h3 id="section-2-plan-mode-first" class="mt-8 text-lg leading-tight tracking-tight">2. Plan Mode First</h3>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/how-i-use-cursor/plan-mode.webp" class="block" data-media-zoom data-width="1605" data-height="919">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/how-i-use-cursor/plan-mode.webp" alt="" loading="lazy" />
+              <a href="/assets/content/blogs/how-i-use-cursor/plan-mode.webp" class="block" data-media-zoom data-width="1600" data-height="916">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/how-i-use-cursor/plan-mode.webp" alt="" width="1600" height="916" loading="lazy" />
                 <span class="sr-only">Open image</span>
               </a>
             </p>
@@ -309,21 +365,21 @@
             <p class="mt-0 mb-6">I use source control, for the longest time ever I&#39;ve been that guys who used to enjoy writing git commands, but with the adoption to these AI tools like cursor, claude code etc. I have started leaning towards using source control. It just gives me better and faster visualization of the changes I&#39;m making with agents.</p>
             <p class="mt-0 mb-6">So let&#39;s say I am doing a task with cursor/or whatever agent and I keep iterating with it on and on. So how do I keep track of the changes I&#39;m making? I use source control. Even while writing this blog I am using source control.</p>
             <div class="mt-0 mb-6 text-center [&amp;_img]:mx-auto">
-              <a href="/assets/content/blogs/how-i-use-cursor/using-source-control.webp" class="block" data-media-zoom data-width="1800" data-height="919">
-                <img class="mx-auto my-7 block cursor-zoom-in rounded-lg w-auto h-auto max-w-full" src="/assets/content/blogs/how-i-use-cursor/using-source-control.webp" alt="Using source control to track agent changes" loading="lazy" decoding="async" />
+              <a href="/assets/content/blogs/how-i-use-cursor/using-source-control.webp" class="block" data-media-zoom data-width="1600" data-height="817">
+                <img class="mx-auto my-7 block cursor-zoom-in rounded-lg w-auto h-auto max-w-full" src="/assets/content/blogs/how-i-use-cursor/using-source-control.webp" alt="Using source control to track agent changes" width="1600" height="817" loading="lazy" decoding="async" />
               </a>
             </div>
             <p class="mt-0 mb-6">I keep staging/commiting changes regularly, so that I can always go back to a previous version if I need to. This also helps me to understand the changes agent is making and why it made them. This also helps in faster rollbacks, I know cursor have a better way to do this.</p>
             <div class="mt-0 mb-6 text-center [&amp;_img]:mx-auto">
-              <a href="/assets/content/blogs/how-i-use-cursor/rollback.webp" class="block" data-media-zoom data-width="1630" data-height="850">
-                <img class="mx-auto my-7 block cursor-zoom-in rounded-lg w-auto h-auto max-w-full" src="/assets/content/blogs/how-i-use-cursor/rollback.webp" alt="Cursor rollback UI for reverting agent changes" loading="lazy" decoding="async" />
+              <a href="/assets/content/blogs/how-i-use-cursor/rollback.webp" class="block" data-media-zoom data-width="1600" data-height="834">
+                <img class="mx-auto my-7 block cursor-zoom-in rounded-lg w-auto h-auto max-w-full" src="/assets/content/blogs/how-i-use-cursor/rollback.webp" alt="Cursor rollback UI for reverting agent changes" width="1600" height="834" loading="lazy" decoding="async" />
               </a>
             </div>
             <p class="mt-0 mb-6">I usually run around &gt;4-5 agents and keeping track of the changes I&#39;m making with all of them :) <br /> Good luck doing that without source control!!</p>
             <p class="mt-0 mb-6">You can also try using different mcp servers, recently they caused me a hell lot of issues in cursor so I refrain from using them!! But If they work out for you, go for it!!</p>
             <div class="mt-0 mb-6 text-center [&amp;_img]:mx-auto">
-              <a href="/assets/content/blogs/how-i-use-cursor/mail.webp" class="block" data-media-zoom data-width="1765" data-height="708">
-                <img class="mx-auto my-7 block cursor-zoom-in rounded-lg w-auto h-auto max-w-full" src="/assets/content/blogs/how-i-use-cursor/mail.webp" alt="Cursor mail or notification UI" loading="lazy" decoding="async" />
+              <a href="/assets/content/blogs/how-i-use-cursor/mail.webp" class="block" data-media-zoom data-width="1600" data-height="642">
+                <img class="mx-auto my-7 block cursor-zoom-in rounded-lg w-auto h-auto max-w-full" src="/assets/content/blogs/how-i-use-cursor/mail.webp" alt="Cursor mail or notification UI" width="1600" height="642" loading="lazy" decoding="async" />
               </a>
             </div>
             <h3 id="section-7-don-t-accept-blindly" class="mt-8 text-lg leading-tight tracking-tight">7. Don&#39;t Accept Blindly</h3>

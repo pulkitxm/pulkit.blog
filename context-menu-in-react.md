@@ -10,7 +10,7 @@ Creating a custom context menu in React can significantly enhance the user exper
 
 I have bootstrapped a new React TypeScript project for this walkthrough.
 
-### Adding react-contexify as a Dependency
+## Adding react-contexify as a Dependency
 
 ```bash
 pnpm add react-contexify
@@ -31,7 +31,7 @@ body {
 }
 ```
 
-### Business Logic
+## Business Logic
 
 I am creating a div that spans the full height and width of the screen.
 
@@ -139,7 +139,7 @@ import ContextMenu from "./ContextMenu";
 </Fragment>;
 ```
 
-### Final Integrations
+## Final Integrations
 
 Now, to enable the menu to trigger on a right-click event
 

@@ -156,12 +156,68 @@
     <script type="module" src="/assets/demos/index.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Moving Things Without Moving Them | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -182,7 +238,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Moving Things Without Moving Them</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-02-24">February 24, 2026</time> · 7 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/design-engineering/">Design Engineering</a></p>
           </header>
           <div class="wrap-break-word">
@@ -418,7 +474,7 @@
             </table>
             <p class="mt-0 mb-6">For tooltip animations, setting the origin to the side closest to the trigger makes the animation feel connected. A tooltip above a button should scale from its bottom edge, as if it&#39;s growing out of the button.</p>
             <h2 id="thinking-in-3d" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Thinking in 3D</h2>
-            <p class="mt-0 mb-6">CSS can do 3D transforms too. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rotateX()</code> rotates around the horizontal axis (think of a <button type="button" class="cursor-help border-0 border-b border-dashed border-fg/40 bg-transparent p-0 [font:inherit] text-inherit hover:border-fg/60" popovertarget="image-popup-1" data-image-popup>garage door opening</button><span id="image-popup-1" popover class="m-0 w-auto max-w-[min(280px,90vw)] scale-95 overflow-hidden rounded-md border border-line bg-surface p-0 opacity-0 shadow-md transition-[opacity,scale,display,overlay] transition-discrete duration-150 ease-out open:scale-100 open:opacity-100 motion-reduce:transition-none starting:open:scale-95 starting:open:opacity-0"><img class="block h-auto max-h-[50vh] w-full object-cover" src="/assets/content/blogs/moving-things-without-moving-them/garage-door.gif" alt="Garage door opening" width="280" height="200" loading="lazy" /></span>). <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rotateY()</code> rotates around the vertical axis (think of a <button type="button" class="cursor-help border-0 border-b border-dashed border-fg/40 bg-transparent p-0 [font:inherit] text-inherit hover:border-fg/60" popovertarget="image-popup-2" data-image-popup>revolving door</button><span id="image-popup-2" popover class="m-0 w-auto max-w-[min(280px,90vw)] scale-95 overflow-hidden rounded-md border border-line bg-surface p-0 opacity-0 shadow-md transition-[opacity,scale,display,overlay] transition-discrete duration-150 ease-out open:scale-100 open:opacity-100 motion-reduce:transition-none starting:open:scale-95 starting:open:opacity-0"><img class="block h-auto max-h-[50vh] w-full object-cover" src="/assets/content/blogs/moving-things-without-moving-them/revolving-door.gif" alt="Revolving door" width="280" height="200" loading="lazy" /></span>). <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rotateZ()</code> is the same as regular <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rotate()</code>.</p>
+            <p class="mt-0 mb-6">CSS can do 3D transforms too. <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rotateX()</code> rotates around the horizontal axis (think of a <button type="button" class="cursor-help border-0 border-b border-dashed border-fg/40 bg-transparent p-0 [font:inherit] text-inherit hover:border-fg/60" popovertarget="image-popup-1" data-image-popup>garage door opening</button><span id="image-popup-1" popover class="m-0 w-auto max-w-[min(280px,90vw)] scale-95 overflow-hidden rounded-md border border-line bg-surface p-0 opacity-0 shadow-md transition-[opacity,scale,display,overlay] transition-discrete duration-150 ease-out open:scale-100 open:opacity-100 motion-reduce:transition-none starting:open:scale-95 starting:open:opacity-0"><img class="block h-auto max-h-[50vh] w-full object-cover" src="/assets/content/blogs/moving-things-without-moving-them/garage-door.gif" alt="Garage door opening" width="480" height="368" loading="lazy" /></span>). <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rotateY()</code> rotates around the vertical axis (think of a <button type="button" class="cursor-help border-0 border-b border-dashed border-fg/40 bg-transparent p-0 [font:inherit] text-inherit hover:border-fg/60" popovertarget="image-popup-2" data-image-popup>revolving door</button><span id="image-popup-2" popover class="m-0 w-auto max-w-[min(280px,90vw)] scale-95 overflow-hidden rounded-md border border-line bg-surface p-0 opacity-0 shadow-md transition-[opacity,scale,display,overlay] transition-discrete duration-150 ease-out open:scale-100 open:opacity-100 motion-reduce:transition-none starting:open:scale-95 starting:open:opacity-0"><img class="block h-auto max-h-[50vh] w-full object-cover" src="/assets/content/blogs/moving-things-without-moving-them/revolving-door.gif" alt="Revolving door" width="540" height="540" loading="lazy" /></span>). <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rotateZ()</code> is the same as regular <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">rotate()</code>.</p>
             <p class="mt-0 mb-6">But there&#39;s a catch. Without perspective, 3D rotations look flat.</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">

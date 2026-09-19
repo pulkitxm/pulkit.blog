@@ -146,17 +146,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Build a Contact Form with Resend in Next.js | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -176,7 +232,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Build a Contact Form with Resend in Next.js</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-12-13">December 13, 2024</time> · 4 min read</p>
           </header>
           <div class="wrap-break-word">
@@ -188,7 +244,7 @@
             <p class="mt-0 mb-6">I&#39;m quite particular about my portfolio, and while browsing through some developer portfolios online, I noticed that most of them had a contact section with a form in addition to contact links. This led me to research some good email solutions. Initially, I tried <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://www.emailjs.com">emailjs</a>, but its free tier was pretty basic. That&#39;s how I eventually discovered Resend.</p>
             <p class="mt-0 mb-6">
               <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://pulkitxm.com/contact">
-                <img class="mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/emails-with-resend/fb91fd24-5e0d-463d-90c9-223671d3db5c.webp" alt="Contact form on portfolio website" loading="lazy" />
+                <img class="mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/emails-with-resend/fb91fd24-5e0d-463d-90c9-223671d3db5c.webp" alt="Contact form on portfolio website" width="723" height="670" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">So let me show you how you can easily integrate an awesome contact form into your Next.js project!</p>
@@ -262,13 +318,13 @@
                   <li>
                     Click on <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">Create API key</code> to generate a new key.
                     <a href="/assets/content/blogs/emails-with-resend/957f2ab3-d003-4467-900a-03c6abbd3d7b.webp" class="block" data-media-zoom data-width="574" data-height="457">
-                      <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/emails-with-resend/957f2ab3-d003-4467-900a-03c6abbd3d7b.webp" alt="Resend API keys page with create button" loading="lazy" />
+                      <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/emails-with-resend/957f2ab3-d003-4467-900a-03c6abbd3d7b.webp" alt="Resend API keys page with create button" width="574" height="457" loading="lazy" />
                     </a>
                     <ul class="mt-0 mb-6">
                       <li>
                         Copy the generated API key for later use.
                         <a href="/assets/content/blogs/emails-with-resend/faf1f878-5818-441e-a6b1-1b8c9527e1bf.webp" class="block" data-media-zoom data-width="566" data-height="405">
-                          <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/emails-with-resend/faf1f878-5818-441e-a6b1-1b8c9527e1bf.webp" alt="Generated API key displayed on Resend dashboard" loading="lazy" />
+                          <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/emails-with-resend/faf1f878-5818-441e-a6b1-1b8c9527e1bf.webp" alt="Generated API key displayed on Resend dashboard" width="566" height="405" loading="lazy" />
                         </a>
                       </li>
                       <li>
@@ -572,7 +628,7 @@
             <p class="mt-0 mb-6">Now we can test the contact form and find all the emails in the resend dashboard.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/emails-with-resend/c42f0db8-a864-4d0a-8c43-018b179f3742.webp" class="block" data-media-zoom data-width="1011" data-height="279">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/emails-with-resend/c42f0db8-a864-4d0a-8c43-018b179f3742.webp" alt="Resend dashboard showing sent emails" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/emails-with-resend/c42f0db8-a864-4d0a-8c43-018b179f3742.webp" alt="Resend dashboard showing sent emails" width="1011" height="279" loading="lazy" />
               </a>
             </p>
             <h2 id="adding-a-verified-domain" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Adding a Verified Domain</h2>

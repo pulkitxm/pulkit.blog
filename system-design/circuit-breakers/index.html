@@ -150,17 +150,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Circuit Breakers | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -181,7 +237,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Circuit Breakers</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-13">January 13, 2026</time> · 7 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="wrap-break-word">
@@ -202,7 +258,7 @@
             <h2 id="the-problem-cascading-failures" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Problem: Cascading Failures</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/circuit-breakers/service-architecture.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/service-architecture.webp" alt="A ride-sharing system architecture showing multiple interconnected services" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/service-architecture.webp" alt="A ride-sharing system architecture showing multiple interconnected services" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Imagine you&#39;re building a ride-sharing app like Uber or Ola. When a user opens the app to book a ride, several things happen:</p>
@@ -243,7 +299,7 @@
             <p class="mt-0 mb-6">Your perfectly healthy Driver Service and Maps Service can&#39;t get connections. Everything fails. Users see &quot;Something went wrong&quot; screens. Nobody can book a ride.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/circuit-breakers/cascading-failure.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/cascading-failure.webp" alt="Cascading failure spreading from a slow database through multiple services" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/cascading-failure.webp" alt="Cascading failure spreading from a slow database through multiple services" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">All because one analytics database got slow.</p>
@@ -264,7 +320,7 @@
             <h3 id="the-three-states" class="mt-8 text-lg leading-tight tracking-tight">The Three States</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/circuit-breakers/three-states.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/three-states.webp" alt="Circuit breaker state machine showing Closed, Open, and Half-Open states with transitions" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/three-states.webp" alt="Circuit breaker state machine showing Closed, Open, and Half-Open states with transitions" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Circuit breakers operate in three states:</p>
@@ -310,7 +366,7 @@
             <h3 id="how-it-prevents-cascading-failures" class="mt-8 text-lg leading-tight tracking-tight">How It Prevents Cascading Failures</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/circuit-breakers/with-without-comparison.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/with-without-comparison.webp" alt="Comparison showing system behavior with and without circuit breaker" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/with-without-comparison.webp" alt="Comparison showing system behavior with and without circuit breaker" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Without circuit breaker:</p>
@@ -346,7 +402,7 @@
             <h2 id="implementing-a-circuit-breaker" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Implementing a Circuit Breaker</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/circuit-breakers/implementation.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/implementation.webp" alt="Services checking a central circuit breaker database before making calls" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/implementation.webp" alt="Services checking a central circuit breaker database before making calls" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">There are sophisticated circuit breaker libraries (Hystrix, resilience4j, Polly), but understanding the core concept is more important than any specific implementation.</p>
@@ -707,7 +763,7 @@
             <h2 id="the-config-query-problem" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Config Query Problem</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/circuit-breakers/config-bottleneck.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/config-bottleneck.webp" alt="Multiple API servers querying circuit breaker database creating a bottleneck" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/config-bottleneck.webp" alt="Multiple API servers querying circuit breaker database creating a bottleneck" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">There&#39;s an obvious issue with the implementation so far. Every request to every service queries the circuit breaker database:</p>
@@ -766,7 +822,7 @@
             <h3 id="solution-push-updates-with-pub-sub" class="mt-8 text-lg leading-tight tracking-tight">Solution: Push Updates with Pub/Sub</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/circuit-breakers/pubsub-updates.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/pubsub-updates.webp" alt="Redis Pub/Sub pushing circuit breaker updates to all API servers instantly" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/circuit-breakers/pubsub-updates.webp" alt="Redis Pub/Sub pushing circuit breaker updates to all API servers instantly" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Use Redis Pub/Sub to push circuit state changes to all servers immediately:</p>

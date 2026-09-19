@@ -1,4 +1,4 @@
-import{D}from"./index-effrd51m.js";import{I,A,g}from"./index.js";var i="rounded-md bg-neutral-200 px-3 py-1.5 text-neutral-800 text-xs transition-colors hover:bg-neutral-300 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600",u=[0,45,90,180];function x(a){let e=0;a.innerHTML=A`<div class="flex size-full flex-col items-center justify-center gap-8 p-6">
+import{D}from"./index-ed9fey8d.js";import{I,A,g}from"./index.js";var i="rounded-md bg-neutral-200 px-3 py-1.5 text-neutral-800 text-xs transition-colors hover:bg-neutral-300 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600",u=[0,45,90,180];function x(a){let e=0;a.innerHTML=A`<div class="flex size-full flex-col items-center justify-center gap-8 p-6">
     <div class="relative flex h-40 w-40 items-center justify-center">
       <div class="absolute inset-0 rounded-lg border-2 border-neutral-300 border-dashed dark:border-neutral-700"></div>
       <div data-ref="box" class="flex size-20 items-center justify-center rounded-lg bg-linear-to-br from-violet-500 to-purple-600 font-mono text-sm text-white shadow-lg transition-transform duration-200"></div>

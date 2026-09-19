@@ -148,17 +148,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>FastAPI SSE: Server-Sent Events in Python | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -178,28 +234,28 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>FastAPI SSE: Server-Sent Events in Python</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-07-26">July 26, 2024</time> · 2 min read</p>
           </header>
           <div class="wrap-break-word">
             <p class="mt-0 mb-6">During my recent internship, I faced a task where the server needed to run a long-running process. This couldn&#39;t be done with just a POST request because the task could take up to 15 minutes to complete. So, we needed an alternative for this use case. And yes, you guessed it right, the solution is server-sent events.</p>
-            <h3 id="what-exactly-is-the-server-sent-event" class="mt-8 text-lg leading-tight tracking-tight">What exactly is the server-sent event?</h3>
+            <h2 id="what-exactly-is-the-server-sent-event" class="mt-12 text-xl font-semibold leading-tight tracking-tight">What exactly is the server-sent event?</h2>
             <p class="mt-0 mb-6">It is a standard allowing servers to push updates to the client over a single HTTP connection. This is useful for tasks that take a long time to complete, as it keeps the client informed about the progress without needing to constantly poll the server.</p>
             <p class="mt-0 mb-6">SSEs (Server-Sent Events) are essentially a subset of a WebSocket connection. While WebSockets provide a two-way communication channel, SSEs offer a one-way connection from the server to the client. This allows the server to send updates to the client without the client needing to request them repeatedly.</p>
             <p class="mt-0 mb-6">Since the client of our app doesn&#39;t need to push any updates to the server for this task, it fits well with the use case.</p>
             <p class="mt-0 mb-6">
-              <a href="https://miro.medium.com/v2/resize:fit:1400/1*_y_9SbfC1hFniWc1wrebfA.png" class="block" data-media-zoom>
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="https://miro.medium.com/v2/resize:fit:1400/1*_y_9SbfC1hFniWc1wrebfA.png" alt="Server-Sent Events diagram showing client-server communication" loading="lazy" />
+              <a href="/assets/content/blogs/server-sent-events-with-fastapi/987f4d84-ef91-44d1-89e0-e35ad93742ec.webp" class="block" data-media-zoom data-width="1400" data-height="788">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/987f4d84-ef91-44d1-89e0-e35ad93742ec.webp" alt="Server-Sent Events diagram showing client-server communication" width="1400" height="788" loading="lazy" />
               </a>
             </p>
-            <h3 id="use-cases-for-a-server-sent-events-sse-server" class="mt-8 text-lg leading-tight tracking-tight">Use Cases for a Server-Sent Events (SSE) Server</h3>
+            <h2 id="use-cases-for-a-server-sent-events-sse-server" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Use Cases for a Server-Sent Events (SSE) Server</h2>
             <p class="mt-0 mb-6">Server-Sent Events (SSE) provide a way for servers to push real-time updates to clients over a single HTTP connection. This is particularly useful for applications that require live data updates without the need for constant polling.</p>
             <ol class="mt-0 mb-6">
               <li><strong>Real-Time Notifications</strong>: SSE is perfect for sending instant notifications to users, such as updates on social media platforms, email alerts, or system notifications in web applications.</li>
               <li><strong>Live Sports Scores</strong>: Applications that provide live sports updates can use SSE to push real-time scores and game updates to users, ensuring they receive the latest information without delay.</li>
               <li><strong>Stock Market Updates</strong>: Financial applications can leverage SSE to deliver real-time stock market data, keeping users informed about the latest market trends and changes as they happen.</li>
             </ol>
-            <h3 id="basic-fastapi-server-initialization" class="mt-8 text-lg leading-tight tracking-tight"><strong>Basic FastAPI Server Initialization</strong></h3>
+            <h2 id="basic-fastapi-server-initialization" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Basic FastAPI Server Initialization</h2>
             <p class="mt-0 mb-6">Follow these steps to create an SSE endpoint, and watch your server push updates to the client with lightning speed and efficiency!</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
@@ -214,7 +270,7 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/server-sent-events-with-fastapi/bc758d6d-c914-4c4a-bf5d-8dfbf2ce3183.webp" class="block" data-media-zoom data-width="1036" data-height="475">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/bc758d6d-c914-4c4a-bf5d-8dfbf2ce3183.webp" alt="Terminal showing Python virtual environment activation" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/bc758d6d-c914-4c4a-bf5d-8dfbf2ce3183.webp" alt="Terminal showing Python virtual environment activation" width="1036" height="475" loading="lazy" />
               </a>
             </p>
             <div class="relative mt-0 mb-6" data-code-block>
@@ -229,7 +285,7 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/server-sent-events-with-fastapi/2c5d09d7-fa01-46f2-9f38-21ebc2587012.webp" class="block" data-media-zoom data-width="1424" data-height="659">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/2c5d09d7-fa01-46f2-9f38-21ebc2587012.webp" alt="Terminal showing FastAPI dependencies installation" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/2c5d09d7-fa01-46f2-9f38-21ebc2587012.webp" alt="Terminal showing FastAPI dependencies installation" width="1424" height="659" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Let&#39;s set up a basic FastAPI server.</p>
@@ -251,7 +307,7 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/server-sent-events-with-fastapi/6c00af74-1de9-46c1-b6e3-eee5ff533c99.webp" class="block" data-media-zoom data-width="1312" data-height="442">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/6c00af74-1de9-46c1-b6e3-eee5ff533c99.webp" alt="Terminal showing FastAPI server running" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/6c00af74-1de9-46c1-b6e3-eee5ff533c99.webp" alt="Terminal showing FastAPI server running" width="1312" height="442" loading="lazy" />
               </a>
             </p>
             <div class="relative mt-0 mb-6" data-code-block>
@@ -265,7 +321,7 @@
               </div>
             </div>
             <p class="mt-0 mb-6">And the server runs as expected.</p>
-            <h3 id="adding-the-sse-server-sent-events" class="mt-8 text-lg leading-tight tracking-tight">Adding the SSE (Server-Sent Events)</h3>
+            <h2 id="adding-the-sse-server-sent-events" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Adding the SSE (Server-Sent Events)</h2>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
                 <code class="language-python block w-max min-w-full rounded-sm [font:0.84em/1.65_var(--font-mono)] [tab-size:2]">
@@ -331,13 +387,13 @@
             <p class="mt-0 mb-6">Now if we send a GET request to <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">http://127.0.0.1:8000/sse</code></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/server-sent-events-with-fastapi/99b548a0-2158-4379-9306-8f6175079f12.webp" class="block" data-media-zoom data-width="1377" data-height="757">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/99b548a0-2158-4379-9306-8f6175079f12.webp" alt="Browser showing SSE stream response" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/99b548a0-2158-4379-9306-8f6175079f12.webp" alt="Browser showing SSE stream response" width="1377" height="757" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">You can even see the same response in the developer tools.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/server-sent-events-with-fastapi/215331ad-97a2-4797-b0cb-647eea17584f.webp" class="block" data-media-zoom data-width="1079" data-height="878">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/215331ad-97a2-4797-b0cb-647eea17584f.webp" alt="Browser developer tools showing SSE events" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/server-sent-events-with-fastapi/215331ad-97a2-4797-b0cb-647eea17584f.webp" alt="Browser developer tools showing SSE events" width="1079" height="878" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Now if we send a GET request to <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="http://127.0.0.1:8000/sse">http://127.0.0.1:8000/sse</a>, you will see a stream of updates being sent from the server to the client in real-time, which you can also observe in the developer tools, providing a seamless and efficient way to handle real-time data updates in your application.</p>
