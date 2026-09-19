@@ -157,18 +157,19 @@
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
     <script>const themeKey = "portfolio-theme";
-let selectedTheme;
+let selectedTheme = null;
 try {
   selectedTheme = localStorage.getItem(themeKey);
 } catch {}
 if (selectedTheme === "light" || selectedTheme === "dark") {
   document.documentElement.dataset.theme = selectedTheme;
 }
+function navigationType() {
+  const [entry] = performance.getEntriesByType("navigation");
+  return entry instanceof PerformanceNavigationTiming ? entry.type : undefined;
+}
 try {
-  const arrivedFromOtherSite =
-    document.referrer &&
-    new URL(document.referrer).origin !== globalThis.location.origin &&
-    performance.getEntriesByType("navigation")[0]?.type === "navigate";
+  const arrivedFromOtherSite = document.referrer && new URL(document.referrer).origin !== globalThis.location.origin && navigationType() === "navigate";
   if (arrivedFromOtherSite) {
     document.documentElement.dataset.entry = "cross-site";
   }
@@ -176,9 +177,7 @@ try {
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
   button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme
-      ? document.documentElement.dataset.theme === "dark"
-      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
     const theme = dark ? "light" : "dark";
     document.documentElement.dataset.theme = theme;
     try {
@@ -186,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch {}
   });
 });
-
 function entryTransition(event, otherUrl) {
   const transition = event.viewTransition;
   if (!transition) {
@@ -199,11 +197,7 @@ function entryTransition(event, otherUrl) {
   const current = new URL(globalThis.location.href);
   const other = new URL(otherUrl);
   const titles = [...document.querySelectorAll("[data-title]")];
-  const title =
-    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
-    (current.pathname.startsWith(other.pathname)
-      ? titles.find((candidate) => candidate.tagName === "H1")
-      : null);
+  const title = titles.find((candidate) => candidate.closest("a")?.href === other.href) ?? (current.pathname.startsWith(other.pathname) ? titles.find((candidate) => candidate.tagName === "H1") : null);
   if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
     transition.skipTransition();
     return;
@@ -213,7 +207,6 @@ function entryTransition(event, otherUrl) {
   const captured = event.type === "pageswap" ? transition.finished : transition.ready;
   captured.then(clear, clear);
 }
-
 globalThis.addEventListener("pageswap", (event) => {
   entryTransition(event, event.activation?.entry?.url);
 });

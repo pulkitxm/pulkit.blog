@@ -1,0 +1,1 @@
+import{g}from"./index.js";var r=(t)=>{t.innerHTML=`<div class="flex size-full items-center justify-center p-6">${g({className:"bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-neutral-200 dark:text-neutral-900 dark:hover:bg-neutral-300",label:"Press me",attrs:'style="transition: transform 150ms ease-out"'})}</div>`};export{r as mount};

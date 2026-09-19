@@ -1,0 +1,15 @@
+import{s,e,I,C}from"./index.js";import{B}from"./index-apf7fdxr.js";var f=[{icon:"M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",label:"Home"},{icon:"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z",label:"Search"},{icon:"M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",label:"Settings"},{icon:"M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",label:"Profile"}],k=(o)=>{let d=!1,l=!0,n,i=C(),c=i.slot();o.innerHTML=I`<div class="flex size-full flex-col items-center justify-center gap-6 p-4">
+    <div class="flex gap-1 rounded-lg border border-neutral-300 bg-neutral-100 p-1 dark:border-neutral-700 dark:bg-neutral-800">
+      ${f.map((t,r)=>I`<div data-slot="${r}" class="relative">
+          <button type="button" data-index="${r}" class="${e({size:"icon",variant:"ghost"})}" aria-label="${t.label}">
+            <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="${t.icon}" />
+            </svg>
+          </button>
+        </div>`)}
+    </div>
+    <div class="flex flex-col items-center gap-2">
+      <p class="text-center text-neutral-600 text-sm dark:text-neutral-400">Hover over each icon</p>
+      <p class="max-w-xs text-center text-neutral-600 text-xs dark:text-neutral-400">First tooltip waits 400ms. After that, moving between icons shows tooltips instantly.</p>
+    </div>
+  </div>`;let v=s(o,"[data-slot]",HTMLDivElement);function u(t){if(n?.index===t)return;m();let r=f[t],p=v[t];if(!(r&&p))return;let a=document.createElement("div");if(a.className="absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-neutral-900 px-2 py-1 text-white text-xs dark:bg-neutral-100 dark:text-neutral-900",a.innerHTML=`${r.label}<div class="absolute -top-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-b-neutral-900 dark:border-b-neutral-100"></div>`,p.append(a),n={element:a,index:t},l)B(a,{opacity:0,y:4},{duration:0}),B(a,{opacity:1,y:0},{duration:0.15})}function m(){if(!n)return;let{element:t}=n;n=void 0,B(t,{opacity:0,y:4},{duration:l?0.15:0}).then(()=>t.remove())}function b(t){if(c.cancel(),d)u(t);else c.later(()=>{u(t),i.frame(()=>{d=!0,l=!1})},400)}function x(){c.cancel(),m()}for(let t of s(o,"[data-index]",HTMLButtonElement))t.addEventListener("mouseenter",()=>b(Number(t.dataset.index))),t.addEventListener("mouseleave",x);return{destroy:i.dispose}};export{k as mount};

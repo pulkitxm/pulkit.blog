@@ -1,0 +1,11 @@
+import{l,A,E,g,t,I}from"./index.js";import{B}from"./index-apf7fdxr.js";var p=[["path",{d:"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"}],["circle",{cx:"12",cy:"12",r:"3"}]];var v=[["path",{d:"M18 6 6 18"}],["path",{d:"m6 6 12 12"}]];var d={damping:25,stiffness:300,type:"spring"},a=(i)=>`<div data-slot="skeleton" class="${E("animate-pulse rounded-md bg-accent",i)}"></div>`,L=(i)=>{let s=!1,e,o;i.innerHTML=I`<div data-ref="container" class="relative flex h-full min-h-48 w-full items-center justify-center overflow-hidden">
+    ${g({label:t(p,"size-4"),attrs:'data-ref="toggle"'})}
+  </div>`;let h=A(i,"container",HTMLDivElement),c=A(i,"toggle",HTMLButtonElement),m=document.createTextNode("Open ");c.append(m,document.createTextNode("Settings"));function b(){let n=document.createElement("div");return n.className="absolute top-0 right-0 flex h-full w-52 flex-col border-neutral-300 border-l bg-white dark:border-neutral-700 dark:bg-neutral-900",n.innerHTML=I`<div class="flex items-center justify-between border-neutral-300 border-b p-3 dark:border-neutral-700">
+        <span class="font-medium text-sm">Settings</span>
+        ${g({variant:"ghost",size:"icon",className:"size-7",label:t(v,"size-4"),attrs:"data-close"})}
+      </div>
+      <div class="flex flex-col gap-4 p-4">
+        <div class="space-y-2">${a("h-3 w-16 animate-none")}${a("h-8 w-full animate-none")}</div>
+        <div class="space-y-2">${a("h-3 w-20 animate-none")}${a("h-8 w-full animate-none")}</div>
+        <div class="space-y-2">${a("h-3 w-14 animate-none")}${a("h-8 w-full animate-none")}</div>
+      </div>`,l(n,"[data-close]",HTMLButtonElement).addEventListener("click",()=>f(!1)),n}function f(n){if(s=n,m.textContent=`${s?"Close":"Open"} `,s){if(e&&o){o=void 0,B(e,{x:0},d);return}e=b(),h.append(e),B(e,{x:"100%"},{duration:0}),B(e,{x:0},d)}else if(e){let u=e,r=B(u,{x:"100%"},d);o=r,r.then(()=>{if(o===r)o=void 0,e=void 0,u.remove()})}}c.addEventListener("click",()=>f(!s))};export{L as mount};

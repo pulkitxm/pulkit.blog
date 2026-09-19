@@ -1,0 +1,2 @@
+function b(r,n,t){let e=1-r;return 3*e*e*r*n+3*e*r*r*t+r*r*r}function a(r,n,t){let e=r;for(let o=0;o<8;o++){let u=b(e,n,t)-r;if(Math.abs(u)<0.000001)break;let i=3*(1-e)*(1-e)*n+6*(1-e)*e*(t-n)+3*e*e*(1-t);if(Math.abs(i)<0.000001)break;e-=u/i,e=Math.max(0,Math.min(1,e))}return e}function oA(r,[n,t,e,o]){return b(a(r,n,e),t,o)}function sA(r,{duration:n,onUpdate:t,onComplete:e}){let o=performance.now(),u=(i)=>{let m=Math.min((i-o)/n,1);if(m<1)r.frame(u);if(t(m),m>=1)e?.()};r.frame(u)}
+export{oA,sA};
