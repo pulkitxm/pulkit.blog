@@ -155,12 +155,68 @@
     <script type="module" src="/assets/demos/index.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>When to Animate and When to Skip | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -181,7 +237,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>When to Animate and When to Skip</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-28">January 28, 2026</time> · 7 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/design-engineering/">Design Engineering</a></p>
           </header>
           <div class="wrap-break-word">

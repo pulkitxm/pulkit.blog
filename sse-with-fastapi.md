@@ -8,7 +8,7 @@
 
 During my recent internship, I faced a task where the server needed to run a long-running process. This couldn't be done with just a POST request because the task could take up to 15 minutes to complete. So, we needed an alternative for this use case. And yes, you guessed it right, the solution is server-sent events.
 
-### What exactly is the server-sent event?
+## What exactly is the server-sent event?
 
 It is a standard allowing servers to push updates to the client over a single HTTP connection. This is useful for tasks that take a long time to complete, as it keeps the client informed about the progress without needing to constantly poll the server.
 
@@ -16,9 +16,9 @@ SSEs (Server-Sent Events) are essentially a subset of a WebSocket connection. Wh
 
 Since the client of our app doesn't need to push any updates to the server for this task, it fits well with the use case.
 
-![Server-Sent Events diagram showing client-server communication](https://miro.medium.com/v2/resize:fit:1400/1*_y_9SbfC1hFniWc1wrebfA.png)
+![Server-Sent Events diagram showing client-server communication](https://pulkit.blog/assets/content/blogs/server-sent-events-with-fastapi/987f4d84-ef91-44d1-89e0-e35ad93742ec.webp)
 
-### Use Cases for a Server-Sent Events (SSE) Server
+## Use Cases for a Server-Sent Events (SSE) Server
 
 Server-Sent Events (SSE) provide a way for servers to push real-time updates to clients over a single HTTP connection. This is particularly useful for applications that require live data updates without the need for constant polling.
 
@@ -26,7 +26,7 @@ Server-Sent Events (SSE) provide a way for servers to push real-time updates to 
 2. **Live Sports Scores**: Applications that provide live sports updates can use SSE to push real-time scores and game updates to users, ensuring they receive the latest information without delay.
 3. **Stock Market Updates**: Financial applications can leverage SSE to deliver real-time stock market data, keeping users informed about the latest market trends and changes as they happen.
 
-### **Basic FastAPI Server Initialization**
+## Basic FastAPI Server Initialization
 
 Follow these steps to create an SSE endpoint, and watch your server push updates to the client with lightning speed and efficiency!
 
@@ -63,7 +63,7 @@ uvicorn main:app --reload
 
 And the server runs as expected.
 
-### Adding the SSE (Server-Sent Events)
+## Adding the SSE (Server-Sent Events)
 
 ```python
 from sse_starlette.sse import EventSourceResponse

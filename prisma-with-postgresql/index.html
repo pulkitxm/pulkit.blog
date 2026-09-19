@@ -150,12 +150,68 @@
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Prisma ORM with PostgreSQL | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -175,14 +231,14 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Prisma ORM with PostgreSQL</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-08-17">August 17, 2024</time> · 2 min read</p>
           </header>
           <div class="wrap-break-word">
             <p class="mt-0 mb-6">Title: Setting Up Prisma ORM with PostgreSQL</p>
             <p class="mt-0 mb-6">Content: ORM stands for Object-Relational Mapping. It is a technique that allows developers to interact with a database using an object-oriented approach. Instead of writing raw SQL queries, you can use an ORM to work with database records as if they were regular objects in your programming language. This simplifies database operations and makes the code more maintainable.</p>
             <p class="mt-0 mb-6">Prisma is a modern ORM that works seamlessly with PostgreSQL, among other databases. It provides a type-safe database client, which means you get autocompletion and type-checking in your code editor, reducing the likelihood of runtime errors. Prisma also includes a powerful migration system to manage your database schema changes.</p>
-            <h3 id="starting-with-a-fresh-node-js-project" class="mt-8 text-lg leading-tight tracking-tight">Starting with a Fresh Node.js Project</h3>
+            <h2 id="starting-with-a-fresh-node-js-project" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Starting with a Fresh Node.js Project</h2>
             <p class="mt-0 mb-6">To begin, let&#39;s set up a new Node.js project. First, initialize a new Node.js project by running the following command in your terminal:</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
@@ -249,7 +305,7 @@
               </div>
             </div>
             <p class="mt-0 mb-6">This command will create a new <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">prisma</code> directory with a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">schema.prisma</code> file inside it. The <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">schema.prisma</code> file is where you define your database schema.</p>
-            <h3 id="configuring-the-database-connection" class="mt-8 text-lg leading-tight tracking-tight">Configuring the Database Connection</h3>
+            <h2 id="configuring-the-database-connection" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Configuring the Database Connection</h2>
             <p class="mt-0 mb-6">Next, let&#39;s configure the database connection in the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">schema.prisma</code> file. Open the file and add the following user schema:</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
@@ -296,7 +352,7 @@
                 <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="making-a-database-migration" class="mt-8 text-lg leading-tight tracking-tight">Making a Database Migration</h3>
+            <h2 id="making-a-database-migration" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Making a Database Migration</h2>
             <p class="mt-0 mb-6">To apply this schema to the database, let&#39;s create a migration:</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">
@@ -309,7 +365,7 @@
               </div>
             </div>
             <p class="mt-0 mb-6">This command will generate the necessary SQL to create the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">User</code> table in your database and apply the migration. You should see output indicating that the migration was successful.</p>
-            <h3 id="prisma-client" class="mt-8 text-lg leading-tight tracking-tight">Prisma Client</h3>
+            <h2 id="prisma-client" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Prisma Client</h2>
             <p class="mt-0 mb-6"><strong>Prisma Client</strong> is an auto-generated and type-safe query builder for your database. After defining your schema and running a migration, Prisma Client is created to help you interact with your database in a type-safe way. It allows you to perform CRUD operations and more, using a simple and intuitive API. This ensures that your database queries are validated at compile time, reducing runtime errors and improving overall developer productivity.</p>
             <p class="mt-0 mb-6">You can also generate the Prisma Client manually using:</p>
             <div class="relative mt-0 mb-6" data-code-block>
@@ -322,7 +378,7 @@
                 <button type="button" class="pointer-events-auto sticky top-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-md border-0 bg-surface p-0 text-muted transition-colors duration-150 hover:bg-line hover:text-fg" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-3.5" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden size-3.5" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="database-operations-using-prisma-client" class="mt-8 text-lg leading-tight tracking-tight">Database Operations Using Prisma Client</h3>
+            <h2 id="database-operations-using-prisma-client" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Database Operations Using Prisma Client</h2>
             <p class="mt-0 mb-6">Let&#39;s start coding by creating a <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">/src/index.ts</code> file:</p>
             <div class="relative mt-0 mb-6" data-code-block>
               <pre tabindex="0" class="m-0 overflow-x-auto rounded-lg border border-line bg-surface p-5 whitespace-normal [--pre-line:1lh]">

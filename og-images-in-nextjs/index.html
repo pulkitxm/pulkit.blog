@@ -148,12 +148,68 @@
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Open Graph Images in Next.js | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -173,7 +229,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Open Graph Images in Next.js</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-11-15">November 15, 2024</time> · 8 min read</p>
           </header>
           <div class="wrap-break-word">
@@ -281,7 +337,7 @@
             <p class="mt-0 mb-6">To demonstrate the process, let&#39;s look at how I added an Open Graph image to my portfolio website. For the image, I used <strong>Canva</strong> (which is super easy and fun, by the way) to create a banner that best represents my portfolio. Once I designed the image, I uploaded it to my Next.js project and placed it in the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">public</code> folder.</p>
             <p class="mt-0 mb-6">
               <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://x.com/devpulkitt/status/1856714029466608116">
-                <img class="mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/open-graph-images-in-nextjs/bc65d989-c82d-4ae3-a834-1fb6aa9b642e.webp" alt="Portfolio website preview with Open Graph image" loading="lazy" />
+                <img class="mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/open-graph-images-in-nextjs/bc65d989-c82d-4ae3-a834-1fb6aa9b642e.webp" alt="Portfolio website preview with Open Graph image" width="588" height="463" loading="lazy" />
               </a>
             </p>
             <h3 id="why-the-public-folder" class="mt-8 text-lg leading-tight tracking-tight"><strong>Why the</strong> <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">public</code> folder?</h3>

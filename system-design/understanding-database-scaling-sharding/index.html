@@ -150,17 +150,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Understanding Database Scaling and Sharding Patterns | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -181,7 +237,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Understanding Database Scaling and Sharding Patterns</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-07">January 7, 2026</time> · 14 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="wrap-break-word">
@@ -235,7 +291,7 @@
             <p class="mt-0 mb-6">The simplest approach to scaling is vertical scaling, making your existing database server more powerful.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/database-scaling/vertical-scaling.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/vertical-scaling.webp" alt="Diagram showing vertical scaling by adding more CPU, RAM, and disk to a single server" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/vertical-scaling.webp" alt="Diagram showing vertical scaling by adding more CPU, RAM, and disk to a single server" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6"><strong>What it means:</strong></p>
@@ -263,7 +319,7 @@
             <p class="mt-0 mb-6">Instead of making one server bigger, horizontal scaling means adding more servers to distribute the load.</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/database-scaling/horizontal-scaling.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/horizontal-scaling.webp" alt="Diagram showing horizontal scaling by adding multiple servers to distribute load" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/horizontal-scaling.webp" alt="Diagram showing horizontal scaling by adding multiple servers to distribute load" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6"><strong>What it means:</strong></p>
@@ -293,7 +349,7 @@
             <p class="mt-0 mb-6"><strong>How it works:</strong></p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/database-scaling/read-replicas.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/read-replicas.webp" alt="Diagram showing primary database with multiple read replicas for scaling read operations" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/read-replicas.webp" alt="Diagram showing primary database with multiple read replicas for scaling read operations" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <ol class="mt-0 mb-6">
@@ -448,7 +504,7 @@
             <h3 id="sharding" class="mt-8 text-lg leading-tight tracking-tight">Sharding</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/database-scaling/sharding.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/sharding.webp" alt="Diagram showing data distributed across multiple database shards" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/sharding.webp" alt="Diagram showing data distributed across multiple database shards" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">When one node cannot handle all your data or load, you split the data into multiple exclusive subsets called <strong>shards</strong>.</p>
@@ -509,7 +565,7 @@
             <h2 id="sharding-vs-partitioning" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Sharding vs Partitioning</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/database-scaling/sharding-vs-partioning.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/sharding-vs-partioning.webp" alt="Diagram comparing sharding across servers vs partitioning within a single server" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/sharding-vs-partioning.webp" alt="Diagram comparing sharding across servers vs partitioning within a single server" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">These terms are often mixed up. Here’s the clean way to think about them:</p>
@@ -612,7 +668,7 @@
             <h3 id="horizontal-partitioning-row-based-split" class="mt-8 text-lg leading-tight tracking-tight">Horizontal Partitioning (Row-based Split)</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/database-scaling/horizontal-partitioning.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/horizontal-partitioning.webp" alt="Diagram showing horizontal partitioning splitting data by rows" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/horizontal-partitioning.webp" alt="Diagram showing horizontal partitioning splitting data by rows" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">This is the most common approach. You split data by <strong>rows</strong> based on some criteria.</p>
@@ -696,7 +752,7 @@
             <h3 id="vertical-partitioning-column-based-split" class="mt-8 text-lg leading-tight tracking-tight">Vertical Partitioning (Column-based Split)</h3>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/database-scaling/vertical-partitioning.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/vertical-partitioning.webp" alt="Diagram showing vertical partitioning splitting data by columns" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/database-scaling/vertical-partitioning.webp" alt="Diagram showing vertical partitioning splitting data by columns" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Split data by <strong>columns</strong>, keeping frequently accessed columns together and separating rarely used ones.</p>

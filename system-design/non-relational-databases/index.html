@@ -150,17 +150,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Non-Relational Databases | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -181,13 +237,13 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Non-Relational Databases</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2026-01-08">January 8, 2026</time> · 6 min read · <a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="/system-design/">System Design</a></p>
           </header>
           <div class="wrap-break-word">
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/non-relational-databases/types.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/non-relational-databases/types.webp" alt="Non-Relational Databases" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/non-relational-databases/types.webp" alt="Non-Relational Databases" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Non-relational databases, often called NoSQL databases, represent a broad category of databases that differ from traditional relational databases like MySQL, PostgreSQL, or Oracle. But here&#39;s the catch: while all relational databases share similar characteristics (SQL queries, rows and columns, ACID transactions), non-relational databases are not all alike. Each type has its own query language, storage mechanism, and set of guarantees.</p>
@@ -209,7 +265,7 @@
             <h2 id="document-databases" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Document Databases</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/non-relational-databases/document-db.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/non-relational-databases/document-db.webp" alt="Document DB" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/non-relational-databases/document-db.webp" alt="Document DB" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Document databases are the closest to relational databases in the NoSQL world. They&#39;re mostly JSON-based and support complex queries including aggregations, filters, and sorting.</p>
@@ -312,7 +368,7 @@
             <h2 id="key-value-stores" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Key-Value Stores</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/non-relational-databases/key-value-db.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/non-relational-databases/key-value-db.webp" alt="Key-Value DB" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/non-relational-databases/key-value-db.webp" alt="Key-Value DB" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Key-value stores are the simplest databases. They restrict access to basic operations: GET a key, PUT a key, DELETE a key. That&#39;s it.</p>
@@ -480,7 +536,7 @@
             <h2 id="graph-databases" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Graph Databases</h2>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/non-relational-databases/graph-db.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/non-relational-databases/graph-db.webp" alt="Graph DB" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/non-relational-databases/graph-db.webp" alt="Graph DB" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Graph databases are for when you actually need graph algorithms. They store data as nodes, edges, and relationships, just like the graph data structures you studied in algorithms class.</p>

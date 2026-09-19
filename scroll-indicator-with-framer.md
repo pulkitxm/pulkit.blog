@@ -6,17 +6,17 @@
 - Published: July 24, 2024
 - Tags: React, Framer Motion, Scroll Indicator, useScroll, useTransform, UI Components, Frontend
 
-### The Idea
+## The Idea
 
 Creating a visually appealing and functional portfolio website is essential for showcasing your skills and projects. I recently explored website designs from popular examples for my portfolio ([pulkitxm.com](https://pulkitxm.com)) and found one animation that really excites me: the horizontal scroll percentage indicator. It is useful for tracking how much of the webpage you have scrolled.
 
-### The concept
+## The concept
 
 ![Horizontal scroll indicator at top of webpage](https://pulkit.blog/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp)
 
 As you can see here, it basically sits at the top of the webpage, and yes, it is as minimalist as it looks.
 
-### The Implementation
+## The Implementation
 
 In this article, we'll implement this using React and Framer Motion.
 

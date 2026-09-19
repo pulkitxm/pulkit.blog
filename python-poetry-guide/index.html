@@ -144,17 +144,73 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/code-copy.js"></script>
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Python Dependency Management with Poetry | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -174,7 +230,7 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Python Dependency Management with Poetry</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-07-13">July 13, 2024</time> · 1 min read</p>
           </header>
           <div class="wrap-break-word">
@@ -199,7 +255,7 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/c573a7c1-fe3f-4d92-996d-d00a14ca3002.webp" class="block" data-media-zoom data-width="889" data-height="653">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/c573a7c1-fe3f-4d92-996d-d00a14ca3002.webp" alt="Terminal showing Poetry installation" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/c573a7c1-fe3f-4d92-996d-d00a14ca3002.webp" alt="Terminal showing Poetry installation" width="889" height="653" loading="lazy" />
               </a>
             </p>
             <h2 id="create-a-new-poetry-project" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Create a new Poetry Project</h2>
@@ -216,7 +272,7 @@
             <p class="mt-0 mb-6">This will create a fresh poetry project with a directory structure like this</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/a24a1098-6c0e-436a-b6d3-baf7e2f21a61.webp" class="block" data-media-zoom data-width="516" data-height="231">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/a24a1098-6c0e-436a-b6d3-baf7e2f21a61.webp" alt="Poetry project directory structure" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/a24a1098-6c0e-436a-b6d3-baf7e2f21a61.webp" alt="Poetry project directory structure" width="516" height="231" loading="lazy" />
               </a>
             </p>
             <h3 id="pyproject-toml" class="mt-8 text-lg leading-tight tracking-tight">Pyproject.toml</h3>
@@ -258,7 +314,7 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/e4b5b000-b3fb-40ce-8a69-f448b49400c8.webp" class="block" data-media-zoom data-width="1335" data-height="322">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/e4b5b000-b3fb-40ce-8a69-f448b49400c8.webp" alt="Terminal showing Poetry shell activation" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/e4b5b000-b3fb-40ce-8a69-f448b49400c8.webp" alt="Terminal showing Poetry shell activation" width="1335" height="322" loading="lazy" />
               </a>
             </p>
             <h2 id="let-s-make-a-simple-hello-world-fastapi-server" class="mt-12 text-xl font-semibold leading-tight tracking-tight">Let&#39;s make a simple hello world FastAPI Server</h2>
@@ -275,13 +331,13 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/ec031e29-236e-4e62-8795-9fb7c0e0ee6b.webp" class="block" data-media-zoom data-width="888" data-height="870">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/ec031e29-236e-4e62-8795-9fb7c0e0ee6b.webp" alt="Terminal showing FastAPI and Uvicorn installation with Poetry" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/ec031e29-236e-4e62-8795-9fb7c0e0ee6b.webp" alt="Terminal showing FastAPI and Uvicorn installation with Poetry" width="888" height="870" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Now if you check the pyproject.toml, fastapi and uvicorn are added as dependencies</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/fdfbc518-fe35-464e-9829-089b274f21d6.webp" class="block" data-media-zoom data-width="854" data-height="410">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/fdfbc518-fe35-464e-9829-089b274f21d6.webp" alt="pyproject.toml file showing added dependencies" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/fdfbc518-fe35-464e-9829-089b274f21d6.webp" alt="pyproject.toml file showing added dependencies" width="854" height="410" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">Write a basic fastapi server</p>
@@ -303,7 +359,7 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/8ea0f089-8cb2-4137-9159-cfe657b51cbd.webp" class="block" data-media-zoom data-width="1026" data-height="525">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/8ea0f089-8cb2-4137-9159-cfe657b51cbd.webp" alt="FastAPI server code in editor" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/8ea0f089-8cb2-4137-9159-cfe657b51cbd.webp" alt="FastAPI server code in editor" width="1026" height="525" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">To run the server lets start by using the following command</p>
@@ -319,13 +375,13 @@
             </div>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/19097be8-be04-4232-b5ff-98ad69a394e2.webp" class="block" data-media-zoom data-width="1298" data-height="249">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/19097be8-be04-4232-b5ff-98ad69a394e2.webp" alt="Terminal showing FastAPI server starting with Poetry" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/19097be8-be04-4232-b5ff-98ad69a394e2.webp" alt="Terminal showing FastAPI server starting with Poetry" width="1298" height="249" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">And as expected the server is in a good condition</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/f076b941-a257-47ad-ad15-eb4665e8808f.webp" class="block" data-media-zoom data-width="944" data-height="231">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/f076b941-a257-47ad-ad15-eb4665e8808f.webp" alt="Browser showing Hello World response from FastAPI server" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/f076b941-a257-47ad-ad15-eb4665e8808f.webp" alt="Browser showing Hello World response from FastAPI server" width="944" height="231" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">By following the steps outlined in this article, you can effectively manage your Python dependencies using Poetry. This powerful tool not only simplifies dependency management but also enhances your workflow, ensuring that your projects remain clean, efficient, and free from conflicts. Whether you&#39;re starting a new project or maintaining an existing one, Poetry provides the structure and reliability needed to keep your development process smooth and hassle-free. Happy coding!</p>

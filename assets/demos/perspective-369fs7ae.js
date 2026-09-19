@@ -1,4 +1,4 @@
-import{D}from"./index-effrd51m.js";import{A,g}from"./index.js";function v(l){let e=45,t=800;l.innerHTML=A`<div class="flex size-full flex-col items-center justify-center gap-6 p-6">
+import{D}from"./index-ed9fey8d.js";import{A,g}from"./index.js";function v(l){let e=45,t=800;l.innerHTML=A`<div class="flex size-full flex-col items-center justify-center gap-6 p-6">
     <div class="flex flex-col gap-8 sm:flex-row sm:gap-12">
       <div class="flex flex-col items-center gap-3">
         <p class="font-medium text-neutral-700 text-sm dark:text-neutral-300">Without perspective</p>

@@ -146,17 +146,74 @@
       }
     </script>
     <link rel="alternate" type="application/atom+xml" title="pulkit.blog" href="/feed.xml" />
-    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" />
+    <link rel="stylesheet" href="/assets/embeds/photoswipe.css" media="print" data-lightbox-style />
     <script type="module" src="/assets/embeds/lightbox.js"></script>
     <script type="module" src="/assets/embeds/code-copy.js"></script>
+    <script type="module" src="/assets/embeds/frame-facade.js"></script>
     <meta name="theme-color" content="#faebd7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#181916" media="(prefers-color-scheme: dark)" />
-    <script src="/theme.fa2a27cfd83d.js"></script>
+    <script>const themeKey = "portfolio-theme";
+let selectedTheme;
+try {
+  selectedTheme = localStorage.getItem(themeKey);
+} catch {}
+if (selectedTheme === "light" || selectedTheme === "dark") {
+  document.documentElement.dataset.theme = selectedTheme;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch {}
+  });
+});
+
+function entryTransition(event, otherUrl) {
+  const transition = event.viewTransition;
+  if (!transition) {
+    return;
+  }
+  if (!otherUrl || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transition.skipTransition();
+    return;
+  }
+  const current = new URL(globalThis.location.href);
+  const other = new URL(otherUrl);
+  const titles = [...document.querySelectorAll("[data-title]")];
+  const title =
+    titles.find((candidate) => candidate.closest("a")?.href === other.href) ??
+    (current.pathname.startsWith(other.pathname)
+      ? titles.find((candidate) => candidate.tagName === "H1")
+      : null);
+  if (current.origin !== other.origin || current.pathname === other.pathname || !title) {
+    transition.skipTransition();
+    return;
+  }
+  title.style.viewTransitionName = "entry-title";
+  const clear = () => title.style.removeProperty("view-transition-name");
+  const captured = event.type === "pageswap" ? transition.finished : transition.ready;
+  captured.then(clear, clear);
+}
+
+globalThis.addEventListener("pageswap", (event) => {
+  entryTransition(event, event.activation?.entry?.url);
+});
+globalThis.addEventListener("pagereveal", (event) => {
+  entryTransition(event, globalThis.navigation?.activation?.from?.url);
+});</script>
     <title>Scroll Indicator with Framer Motion useScroll | pulkit.blog</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.547051738e7f.css" />
+    <link rel="stylesheet" href="/styles.0d9cec5c44fe.css" />
+    <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class="m-0 bg-bg font-sans text-base/relaxed text-fg antialiased **:box-border **:focus-visible:outline-2 **:focus-visible:outline-offset-5 **:focus-visible:outline-fg">
     <div class="mx-auto max-w-190 px-7 max-sm:px-5.5">
@@ -176,25 +233,25 @@
         <article>
           <header class="mb-7">
             <h1 class="mt-0 mb-5 w-fit text-[clamp(30px,5vw,40px)] font-semibold leading-tight tracking-tight" data-title>Scroll Indicator with Framer Motion useScroll</h1>
-            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait.webp" alt="" width="28" height="28" />Pulkit</a>
+            <a class="mb-3 flex w-fit items-center gap-2.5 text-sm text-inherit no-underline underline-offset-4 hover:underline" href="https://pulkit.page/"><img class="m-0 size-7 rounded-full object-cover" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
             <p class="mt-0 mb-6 text-sm text-muted"><time datetime="2024-07-24">July 24, 2024</time> · 2 min read</p>
           </header>
           <div class="wrap-break-word">
-            <h3 id="the-idea" class="mt-8 text-lg leading-tight tracking-tight">The Idea</h3>
+            <h2 id="the-idea" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Idea</h2>
             <p class="mt-0 mb-6">Creating a visually appealing and functional portfolio website is essential for showcasing your skills and projects. I recently explored website designs from popular examples for my portfolio (<a class="text-inherit decoration-muted underline-offset-4 hover:decoration-current" href="https://pulkitxm.com">pulkitxm.com</a>) and found one animation that really excites me: the horizontal scroll percentage indicator. It is useful for tracking how much of the webpage you have scrolled.</p>
-            <h3 id="the-concept" class="mt-8 text-lg leading-tight tracking-tight">The concept</h3>
+            <h2 id="the-concept" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The concept</h2>
             <p class="mt-0 mb-6">
-              <a href="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp" class="block" data-media-zoom data-width="1836" data-height="937">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp" alt="Horizontal scroll indicator at top of webpage" loading="lazy" />
+              <a href="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp" class="block" data-media-zoom data-width="1600" data-height="817">
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp" alt="Horizontal scroll indicator at top of webpage" width="1600" height="817" loading="lazy" />
               </a>
             </p>
             <p class="mt-0 mb-6">As you can see here, it basically sits at the top of the webpage, and yes, it is as minimalist as it looks.</p>
-            <h3 id="the-implementation" class="mt-8 text-lg leading-tight tracking-tight">The Implementation</h3>
+            <h2 id="the-implementation" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Implementation</h2>
             <p class="mt-0 mb-6">In this article, we&#39;ll implement this using React and Framer Motion.</p>
             <p class="mt-0 mb-6">I have my react project bootstrapped, starting by installing</p>
             <p class="mt-0 mb-6">
               <a href="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/ba462a68-961b-4df5-b230-3011f8297166.webp" class="block" data-media-zoom data-width="1171" data-height="376">
-                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/ba462a68-961b-4df5-b230-3011f8297166.webp" alt="Terminal showing framer-motion installation" loading="lazy" />
+                <img class="cursor-zoom-in mx-auto my-7 block h-auto max-w-full rounded-md" src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/ba462a68-961b-4df5-b230-3011f8297166.webp" alt="Terminal showing framer-motion installation" width="1171" height="376" loading="lazy" />
               </a>
             </p>
             <div class="relative mt-0 mb-6" data-code-block>
@@ -326,7 +383,21 @@
             </div>
             <p class="mt-0 mb-6">So, we use the width as a style prop for the <code class="rounded-sm bg-surface px-1 py-0.5 [font:0.84em/1.65_var(--font-mono)]">motion.div</code>. And that&#39;s pretty much it for animating the scroll indicator.</p>
             <h2 id="the-output" class="mt-12 text-xl font-semibold leading-tight tracking-tight">The Output</h2>
-            <iframe class="mt-0 mb-6 block h-[500px] w-full overflow-hidden rounded border-0" src="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" title="Scroll indicator demo with Framer Motion" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts" loading="lazy"></iframe>
+            <div class="relative mt-0 mb-6 block h-[500px] w-full overflow-hidden rounded border border-line bg-surface" data-frame-facade data-frame-src="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" data-frame-title="Scroll indicator demo with Framer Motion" data-frame-class="absolute inset-0 size-full border-0" data-frame-sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts">
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-surface p-6 text-center [&amp;[hidden]]:hidden" data-frame-panel="offer">
+                <button type="button" class="inline-flex cursor-pointer items-center justify-center rounded-md border border-line bg-bg px-4 py-2 font-medium text-fg text-md hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2" data-frame-run aria-describedby="frame-note-2">Run this sandbox</button>
+                <p id="frame-note-2" class="m-0 max-w-[32rem] text-balance text-muted text-sm">Runs codesandbox.io in an embedded frame, which loads third-party code and cookies.</p>
+                <a class="text-muted text-xs underline-offset-4 hover:text-fg" href="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" target="_blank" rel="noopener noreferrer">Open on codesandbox.io</a>
+              </div>
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-surface p-6 text-center [&amp;[hidden]]:hidden" data-frame-panel="loading" hidden>
+                <p class="m-0 max-w-[32rem] text-balance text-muted text-sm" role="status">Loading the sandbox...</p>
+              </div>
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-surface p-6 text-center [&amp;[hidden]]:hidden" data-frame-panel="error" hidden>
+                <p class="m-0 max-w-[32rem] text-balance text-muted text-sm" role="alert">This sandbox could not be loaded.</p>
+                <button type="button" class="inline-flex cursor-pointer items-center justify-center rounded-md border border-line bg-bg px-4 py-2 font-medium text-fg text-md hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2" data-frame-run>Try again</button>
+                <a class="text-muted text-xs underline-offset-4 hover:text-fg" href="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" target="_blank" rel="noopener noreferrer">Open on codesandbox.io</a>
+              </div>
+            </div>
             <p class="mt-0 mb-6">And there you have it! You&#39;ve just created a sleek horizontal scroll percentage indicator with React and Framer Motion. Now your portfolio site is not only functional but also has that extra touch of interactivity. Happy coding, and may your scrolls always be smooth! 🚀✨</p>
           </div>
         </article>
