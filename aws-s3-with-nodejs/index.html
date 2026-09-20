@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -170,15 +170,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -217,44 +246,44 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">AWS S3 with Node.js: Upload Files with SDK v3</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>AWS S3 with Node.js: Upload Files with SDK v3</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2024-08-08">August 8, 2024</time> · 3 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>AWS S3 with Node.js: Upload Files with SDK v3</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2024-08-08">August 8, 2024</time> · 3 min read</p>
           </header>
-          <div class="c9">
-            <p class="g0 u0">I was recently working on a project(<a class="o9 ga ia ic" href="https://github.com/Pulkitxm/image-tweaker">image-tweaker</a>) that required an image upload feature. I needed a reliable storage system to store the images. After researching various options, I decided to use a cloud storage service for its scalability and ease of integration. This choice allowed me to focus more on the core functionality of the project rather than worrying about storage limitations.</p>
+          <div class="d9">
+            <p class="g0 u0">I was recently working on a project(<a class="p9 ha ja oc" href="https://github.com/Pulkitxm/image-tweaker">image-tweaker</a>) that required an image upload feature. I needed a reliable storage system to store the images. After researching various options, I decided to use a cloud storage service for its scalability and ease of integration. This choice allowed me to focus more on the core functionality of the project rather than worrying about storage limitations.</p>
             <p class="g0 u0">Among the available cloud storage services, AWS S3 stood out due to its features, reliability, and widespread adoption in the industry. AWS S3 provides a highly durable, scalable, and secure solution for storing and retrieving any amount of data from anywhere on the web. Its seamless integration with Node.js made it an ideal choice for my project, enabling efficient image uploads and management. In this article, I will walk you through the process of integrating AWS S3 with a Node.js application, simplifying the steps to help you get started quickly.</p>
             <p class="g0 u0"><strong>Let&#39;s Start</strong></p>
-            <p class="g0 u0">To integrate S3 with Node.js, you will need an <code class="i5 d6 t6 a7 hb">Access key</code> and a <code class="i5 d6 t6 a7 hb">Secret access key</code>. So let&#39;s start by creating one.</p>
-            <h2 id="creating-access-key-and-secret-access-key" class="n0 k8 w8 t8 z8">Creating <code class="i5 d6 t6 a7 hb">Access key</code> and <code class="i5 d6 t6 a7 hb">Secret access key</code></h2>
-            <p class="g0 u0">Head over to your <a class="o9 ga ia ic" href="https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users">AWS IAM dashboard</a></p>
+            <p class="g0 u0">To integrate S3 with Node.js, you will need an <code class="i5 e6 u6 b7 lb">Access key</code> and a <code class="i5 e6 u6 b7 lb">Secret access key</code>. So let&#39;s start by creating one.</p>
+            <h2 id="creating-access-key-and-secret-access-key" class="n0 l8 x8 u8 a9">Creating <code class="i5 e6 u6 b7 lb">Access key</code> and <code class="i5 e6 u6 b7 lb">Secret access key</code></h2>
+            <p class="g0 u0">Head over to your <a class="p9 ha ja oc" href="https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users">AWS IAM dashboard</a></p>
             <p class="g0 u0">
               <a href="/assets/content/blogs/nodejs-s3-integration/fb2fbc95-712e-4ec4-a20a-3b404bf5c186.webp" class="block" data-media-zoom data-width="1556" data-height="823">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/nodejs-s3-integration/fb2fbc95-712e-4ec4-a20a-3b404bf5c186.webp" alt="AWS IAM dashboard showing users list" width="1556" height="823" loading="lazy" />
               </a>
             </p>
-            <p class="g0 u0">Go to your IAM user, and click on the <code class="i5 d6 t6 a7 hb">Security credentials</code> tab.</p>
+            <p class="g0 u0">Go to your IAM user, and click on the <code class="i5 e6 u6 b7 lb">Security credentials</code> tab.</p>
             <p class="g0 u0"><strong>Note: You can also create a new user with the necessary permissions for S3 only.</strong></p>
             <p class="g0 u0">
               <a href="/assets/content/blogs/nodejs-s3-integration/6850b022-9690-4d09-8d0b-28a6af0e5052.webp" class="block" data-media-zoom data-width="1556" data-height="823">
@@ -273,93 +302,93 @@ globalThis.addEventListener("pagereveal", (event) => {
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/nodejs-s3-integration/9e1bb99e-246f-49c3-9f2a-7e061c6c0b0a.webp" alt="Select local code use case for access key" width="1171" height="756" loading="lazy" />
               </a>
             </p>
-            <p class="g0 u0">Now you have you both <code class="i5 d6 t6 a7 hb">Access key</code> and <code class="i5 d6 t6 a7 hb">Secret access key</code></p>
+            <p class="g0 u0">Now you have you both <code class="i5 e6 u6 b7 lb">Access key</code> and <code class="i5 e6 u6 b7 lb">Secret access key</code></p>
             <p class="g0 u0">
               <a href="/assets/content/blogs/nodejs-s3-integration/95d9f416-5220-44ac-8db4-5205f59c2fb5.webp" class="block" data-media-zoom data-width="1182" data-height="561">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/nodejs-s3-integration/95d9f416-5220-44ac-8db4-5205f59c2fb5.webp" alt="Access key and secret access key generated successfully" width="1182" height="561" loading="lazy" />
               </a>
             </p>
-            <p class="g0 u0">Note: Please save both the keys carefully, you won&#39;t be showed the <code class="i5 d6 t6 a7 hb">Secret access key</code> again on your dashboard.</p>
-            <h2 id="initialize-a-new-node-js-project" class="n0 k8 w8 t8 z8">Initialize a new Node.js Project</h2>
+            <p class="g0 u0">Note: Please save both the keys carefully, you won&#39;t be showed the <code class="i5 e6 u6 b7 lb">Secret access key</code> again on your dashboard.</p>
+            <h2 id="initialize-a-new-node-js-project" class="n0 l8 x8 u8 a9">Initialize a new Node.js Project</h2>
             <p class="g0 u0">So let&#39;s kick things off by initializing a new Node.js project!</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">pnpm</span> <span class="x9">init</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">pnpm</span> <span class="y9">init</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Next up, add <code class="i5 d6 t6 a7 hb">@aws-sdk/client-s3</code> and <code class="i5 d6 t6 a7 hb">dotenv</code> as dependencies in your project!</p>
+            <p class="g0 u0">Next up, add <code class="i5 e6 u6 b7 lb">@aws-sdk/client-s3</code> and <code class="i5 e6 u6 b7 lb">dotenv</code> as dependencies in your project!</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">pnpm</span> <span class="x9">add</span> <span class="x9">@aws-sdk/client-s3</span> <span class="x9">dotenv</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">pnpm</span> <span class="y9">add</span> <span class="y9">@aws-sdk/client-s3</span> <span class="y9">dotenv</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h2 id="starting-with-the-s3-client" class="n0 k8 w8 t8 z8">Starting with the S3 client</h2>
+            <h2 id="starting-with-the-s3-client" class="n0 l8 x8 u8 a9">Starting with the S3 client</h2>
             <p class="g0 u0">Starting with the S3 client is super exciting! Let&#39;s dive right in and get our hands dirty with some code!</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// client.js</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="z9">{</span> S3Client <span class="z9">}</span> <span class="v9">=</span> <span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;@aws-sdk/client-s3&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> s3 <span class="v9">=</span> <span class="v9">new</span> <span class="r9">S3Client</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">  <span class="w9">region:</span> <span class="x9">&quot;us-east-1&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">credentials:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">accessKeyId:</span> process<span class="z9">.</span>env<span class="z9">.</span>AWS_ACCESS_KEY_ID<span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">secretAccessKey:</span> process<span class="z9">.</span>env<span class="z9">.</span>AWS_SECRET_ACCESS_KEY<span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="y9">module</span><span class="z9">.</span><span class="y9">exports</span> <span class="v9">=</span> s3<span class="z9">;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// client.js</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="aa">{</span> S3Client <span class="aa">}</span> <span class="w9">=</span> <span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;@aws-sdk/client-s3&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> s3 <span class="w9">=</span> <span class="w9">new</span> <span class="s9">S3Client</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">  <span class="x9">region:</span> <span class="y9">&quot;us-east-1&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">credentials:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">accessKeyId:</span> process<span class="aa">.</span>env<span class="aa">.</span>AWS_ACCESS_KEY_ID<span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">secretAccessKey:</span> process<span class="aa">.</span>env<span class="aa">.</span>AWS_SECRET_ACCESS_KEY<span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="z9">module</span><span class="aa">.</span><span class="z9">exports</span> <span class="w9">=</span> s3<span class="aa">;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Make sure to save both the AWS keys in the .env file in the following format</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-plaintext block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">AWS_ACCESS_KEY_ID=</span>
-                  <span class="block m8 g9">AWS_SECRET_ACCESS_KEY=</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-plaintext block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">AWS_ACCESS_KEY_ID=</span>
+                  <span class="block n8 h9">AWS_SECRET_ACCESS_KEY=</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h2 id="listing-s3-buckets" class="n0 k8 w8 t8 z8">Listing S3 buckets</h2>
+            <h2 id="listing-s3-buckets" class="n0 l8 x8 u8 a9">Listing S3 buckets</h2>
             <p class="g0 u0">Listing S3 buckets is a great way to verify that our setup is working correctly. Let&#39;s write some code to list all the S3 buckets in our account.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// index.js</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;dotenv&quot;</span><span class="z9">).</span><span class="r9">config</span><span class="z9">();</span></span>
-                  <span class="block m8 g9"><span class="t9">const</span> s3 <span class="v9">=</span> <span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;./client.js&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="z9">{</span> ListBucketsCommand <span class="z9">}</span> <span class="v9">=</span> <span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;@aws-sdk/client-s3&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="r9">listBuckets</span> <span class="v9">=</span> <span class="t9">async</span> <span class="z9">()</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> data <span class="v9">=</span> <span class="t9">await</span> s3<span class="z9">.</span><span class="r9">send</span><span class="z9">(</span><span class="v9">new</span> <span class="r9">ListBucketsCommand</span><span class="z9">({}));</span></span>
-                  <span class="block m8 g9">  console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span><span class="x9">&quot;Success&quot;</span><span class="z9">,</span> data<span class="z9">.</span><span class="w9">Buckets</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">};</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">listBuckets</span><span class="z9">();</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// index.js</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;dotenv&quot;</span><span class="aa">).</span><span class="s9">config</span><span class="aa">();</span></span>
+                  <span class="block n8 h9"><span class="u9">const</span> s3 <span class="w9">=</span> <span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;./client.js&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="aa">{</span> ListBucketsCommand <span class="aa">}</span> <span class="w9">=</span> <span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;@aws-sdk/client-s3&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="s9">listBuckets</span> <span class="w9">=</span> <span class="u9">async</span> <span class="aa">()</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> data <span class="w9">=</span> <span class="u9">await</span> s3<span class="aa">.</span><span class="s9">send</span><span class="aa">(</span><span class="w9">new</span> <span class="s9">ListBucketsCommand</span><span class="aa">({}));</span></span>
+                  <span class="block n8 h9">  console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span><span class="y9">&quot;Success&quot;</span><span class="aa">,</span> data<span class="aa">.</span><span class="x9">Buckets</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">};</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">listBuckets</span><span class="aa">();</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">And guess what? We get an empty array because I don&#39;t have any S3 buckets in my account yet!</p>
@@ -370,20 +399,20 @@ globalThis.addEventListener("pagereveal", (event) => {
             </p>
             <p class="g0 u0">Let&#39;s create a new method to add a bucket.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="z9">{</span> CreateBucketCommand <span class="z9">}</span> <span class="v9">=</span> <span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;@aws-sdk/client-s3&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="r9">createBucket</span> <span class="v9">=</span> <span class="t9">async</span> <span class="z9">(</span>bucketName<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> data <span class="v9">=</span> <span class="t9">await</span> s3<span class="z9">.</span><span class="r9">send</span><span class="z9">(</span><span class="v9">new</span> <span class="r9">CreateBucketCommand</span><span class="z9">({</span> <span class="w9">Bucket:</span> bucketName <span class="z9">}));</span></span>
-                  <span class="block m8 g9">  console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span><span class="x9">&quot;Bucket created successfully&quot;</span><span class="z9">,</span> data<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">};</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">createBucket</span><span class="z9">(</span><span class="x9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="aa">{</span> CreateBucketCommand <span class="aa">}</span> <span class="w9">=</span> <span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;@aws-sdk/client-s3&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="s9">createBucket</span> <span class="w9">=</span> <span class="u9">async</span> <span class="aa">(</span>bucketName<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> data <span class="w9">=</span> <span class="u9">await</span> s3<span class="aa">.</span><span class="s9">send</span><span class="aa">(</span><span class="w9">new</span> <span class="s9">CreateBucketCommand</span><span class="aa">({</span> <span class="x9">Bucket:</span> bucketName <span class="aa">}));</span></span>
+                  <span class="block n8 h9">  console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span><span class="y9">&quot;Bucket created successfully&quot;</span><span class="aa">,</span> data<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">};</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">createBucket</span><span class="aa">(</span><span class="y9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -397,22 +426,22 @@ globalThis.addEventListener("pagereveal", (event) => {
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/nodejs-s3-integration/5ad4671f-dfe7-4c58-8fd8-fb00526603a9.webp" alt="AWS S3 console showing newly created bucket" width="1534" height="505" loading="lazy" />
               </a>
             </p>
-            <p class="g0 u0">If we have a <code class="i5 d6 t6 a7 hb">createBucket</code> method, why not have a <code class="i5 d6 t6 a7 hb">deleteBucket</code> method too?</p>
+            <p class="g0 u0">If we have a <code class="i5 e6 u6 b7 lb">createBucket</code> method, why not have a <code class="i5 e6 u6 b7 lb">deleteBucket</code> method too?</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="z9">{</span> DeleteBucketCommand <span class="z9">}</span> <span class="v9">=</span> <span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;@aws-sdk/client-s3&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="r9">deleteBucket</span> <span class="v9">=</span> <span class="t9">async</span> <span class="z9">(</span>bucketName<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> data <span class="v9">=</span> <span class="t9">await</span> s3<span class="z9">.</span><span class="r9">send</span><span class="z9">(</span><span class="v9">new</span> <span class="r9">DeleteBucketCommand</span><span class="z9">({</span> <span class="w9">Bucket:</span> bucketName <span class="z9">}));</span></span>
-                  <span class="block m8 g9">  console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span><span class="x9">&quot;Bucket deleted successfully&quot;</span><span class="z9">,</span> data<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">};</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">deleteBucket</span><span class="z9">(</span><span class="x9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="aa">{</span> DeleteBucketCommand <span class="aa">}</span> <span class="w9">=</span> <span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;@aws-sdk/client-s3&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="s9">deleteBucket</span> <span class="w9">=</span> <span class="u9">async</span> <span class="aa">(</span>bucketName<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> data <span class="w9">=</span> <span class="u9">await</span> s3<span class="aa">.</span><span class="s9">send</span><span class="aa">(</span><span class="w9">new</span> <span class="s9">DeleteBucketCommand</span><span class="aa">({</span> <span class="x9">Bucket:</span> bucketName <span class="aa">}));</span></span>
+                  <span class="block n8 h9">  console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span><span class="y9">&quot;Bucket deleted successfully&quot;</span><span class="aa">,</span> data<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">};</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">deleteBucket</span><span class="aa">(</span><span class="y9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -421,51 +450,51 @@ globalThis.addEventListener("pagereveal", (event) => {
               </a>
             </p>
             <p class="g0 u0">Okay so the basic create and delete is done with the SDK, now let&#39;s hop on to a specific bucket and play around some objects within that.</p>
-            <p class="g0 u0">Before that let&#39;s move the final code to a separate file: <code class="i5 d6 t6 a7 hb">bucket.js</code></p>
-            <h2 id="uploading-objects-on-s3" class="n0 k8 w8 t8 z8">Uploading Objects on S3</h2>
-            <p class="g0 u0">To upload an object to S3, we need a <code class="i5 d6 t6 a7 hb">PutObjectCommand</code> method provided by the AWS SDK. Here&#39;s how you can use it:</p>
+            <p class="g0 u0">Before that let&#39;s move the final code to a separate file: <code class="i5 e6 u6 b7 lb">bucket.js</code></p>
+            <h2 id="uploading-objects-on-s3" class="n0 l8 x8 u8 a9">Uploading Objects on S3</h2>
+            <p class="g0 u0">To upload an object to S3, we need a <code class="i5 e6 u6 b7 lb">PutObjectCommand</code> method provided by the AWS SDK. Here&#39;s how you can use it:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="z9">{</span> PutObjectCommand <span class="z9">}</span> <span class="v9">=</span> <span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;@aws-sdk/client-s3&quot;</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="aa">{</span> PutObjectCommand <span class="aa">}</span> <span class="w9">=</span> <span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;@aws-sdk/client-s3&quot;</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">To read the object in JavaScript for uploading, we need the <code class="i5 d6 t6 a7 hb">fs</code> module. Here&#39;s how you can use it:</p>
+            <p class="g0 u0">To read the object in JavaScript for uploading, we need the <code class="i5 e6 u6 b7 lb">fs</code> module. Here&#39;s how you can use it:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> fs <span class="v9">=</span> <span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;fs&quot;</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> fs <span class="w9">=</span> <span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;fs&quot;</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">finally the <code class="i5 d6 t6 a7 hb">uploadObject</code> method would look like</p>
+            <p class="g0 u0">finally the <code class="i5 e6 u6 b7 lb">uploadObject</code> method would look like</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">uploadObject</span><span class="z9">(</span>pathToFile<span class="z9">,</span> key<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> uploadParams <span class="v9">=</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">Bucket:</span> <span class="x9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">Key:</span> key<span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">Body:</span> fs<span class="z9">.</span><span class="r9">createReadStream</span><span class="z9">(</span>pathToFile<span class="z9">),</span></span>
-                  <span class="block m8 g9">  <span class="z9">};</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> command <span class="v9">=</span> <span class="v9">new</span> <span class="r9">PutObjectCommand</span><span class="z9">(</span>uploadParams<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> response <span class="v9">=</span> <span class="t9">await</span> s3<span class="z9">.</span><span class="r9">send</span><span class="z9">(</span>command<span class="z9">);</span></span>
-                  <span class="block m8 g9">  console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span>response<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">uploadObject</span><span class="z9">(</span><span class="x9">&quot;./test.txt&quot;</span><span class="z9">,</span> <span class="x9">&quot;test.txt&quot;</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">uploadObject</span><span class="aa">(</span>pathToFile<span class="aa">,</span> key<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> uploadParams <span class="w9">=</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">Bucket:</span> <span class="y9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">Key:</span> key<span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">Body:</span> fs<span class="aa">.</span><span class="s9">createReadStream</span><span class="aa">(</span>pathToFile<span class="aa">),</span></span>
+                  <span class="block n8 h9">  <span class="aa">};</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> command <span class="w9">=</span> <span class="w9">new</span> <span class="s9">PutObjectCommand</span><span class="aa">(</span>uploadParams<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> response <span class="w9">=</span> <span class="u9">await</span> s3<span class="aa">.</span><span class="s9">send</span><span class="aa">(</span>command<span class="aa">);</span></span>
+                  <span class="block n8 h9">  console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span>response<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">uploadObject</span><span class="aa">(</span><span class="y9">&quot;./test.txt&quot;</span><span class="aa">,</span> <span class="y9">&quot;test.txt&quot;</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -474,55 +503,55 @@ globalThis.addEventListener("pagereveal", (event) => {
               </a>
             </p>
             <p class="g0 u0"><strong>One interesting observation: if we upload an object with the same key, it will overwrite the existing object in the S3 bucket. This can be useful for updating files but be cautious as it will replace the old content.</strong></p>
-            <p class="g0 u0">And yet, to delete an object from S3, we need the <code class="i5 d6 t6 a7 hb">DeleteObjectCommand</code> method provided by the AWS SDK. Here&#39;s how you can use it:</p>
+            <p class="g0 u0">And yet, to delete an object from S3, we need the <code class="i5 e6 u6 b7 lb">DeleteObjectCommand</code> method provided by the AWS SDK. Here&#39;s how you can use it:</p>
             <p class="g0 u0">
               <a href="/assets/content/blogs/nodejs-s3-integration/5b6ea3fe-1b1f-4b50-bd84-92356ee98ff1.webp" class="block" data-media-zoom data-width="1508" data-height="690">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/nodejs-s3-integration/5b6ea3fe-1b1f-4b50-bd84-92356ee98ff1.webp" alt="AWS S3 console showing uploaded file in bucket" width="1508" height="690" loading="lazy" />
               </a>
             </p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">deleteObject</span><span class="z9">(</span>key<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> deleteParams <span class="v9">=</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">Bucket:</span> <span class="x9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">Key:</span> key<span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">};</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> command <span class="v9">=</span> <span class="v9">new</span> <span class="r9">DeleteObjectCommand</span><span class="z9">(</span>deleteParams<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> response <span class="v9">=</span> <span class="t9">await</span> s3<span class="z9">.</span><span class="r9">send</span><span class="z9">(</span>command<span class="z9">);</span></span>
-                  <span class="block m8 g9">  console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span>response<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">deleteObject</span><span class="z9">(</span><span class="x9">&quot;test.txt&quot;</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">deleteObject</span><span class="aa">(</span>key<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> deleteParams <span class="w9">=</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">Bucket:</span> <span class="y9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">Key:</span> key<span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">};</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> command <span class="w9">=</span> <span class="w9">new</span> <span class="s9">DeleteObjectCommand</span><span class="aa">(</span>deleteParams<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> response <span class="w9">=</span> <span class="u9">await</span> s3<span class="aa">.</span><span class="s9">send</span><span class="aa">(</span>command<span class="aa">);</span></span>
+                  <span class="block n8 h9">  console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span>response<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">deleteObject</span><span class="aa">(</span><span class="y9">&quot;test.txt&quot;</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h2 id="upload-objects-in-a-s3-bucket" class="n0 k8 w8 t8 z8">Upload Objects in a S3 bucket</h2>
-            <p class="g0 u0">To list objects in a bucket, we need the <code class="i5 d6 t6 a7 hb">ListObjectsCommand</code> method provided by the AWS SDK. Here&#39;s how you can use it:</p>
+            <h2 id="upload-objects-in-a-s3-bucket" class="n0 l8 x8 u8 a9">Upload Objects in a S3 bucket</h2>
+            <p class="g0 u0">To list objects in a bucket, we need the <code class="i5 e6 u6 b7 lb">ListObjectsCommand</code> method provided by the AWS SDK. Here&#39;s how you can use it:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="z9">{</span> ListObjectsCommand <span class="z9">}</span> <span class="v9">=</span> <span class="r9">require</span><span class="z9">(</span><span class="x9">&quot;@aws-sdk/client-s3&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">listObjects</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> listParams <span class="v9">=</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">Bucket:</span> <span class="x9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">};</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> command <span class="v9">=</span> <span class="v9">new</span> <span class="r9">ListObjectsCommand</span><span class="z9">(</span>listParams<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> response <span class="v9">=</span> <span class="t9">await</span> s3<span class="z9">.</span><span class="r9">send</span><span class="z9">(</span>command<span class="z9">);</span></span>
-                  <span class="block m8 g9">  console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span>response<span class="z9">.</span><span class="w9">Contents</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">listObjects</span><span class="z9">();</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="aa">{</span> ListObjectsCommand <span class="aa">}</span> <span class="w9">=</span> <span class="s9">require</span><span class="aa">(</span><span class="y9">&quot;@aws-sdk/client-s3&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">listObjects</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> listParams <span class="w9">=</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">Bucket:</span> <span class="y9">&quot;pulkit-walkthrouh-s3&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">};</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> command <span class="w9">=</span> <span class="w9">new</span> <span class="s9">ListObjectsCommand</span><span class="aa">(</span>listParams<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> response <span class="w9">=</span> <span class="u9">await</span> s3<span class="aa">.</span><span class="s9">send</span><span class="aa">(</span>command<span class="aa">);</span></span>
+                  <span class="block n8 h9">  console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span>response<span class="aa">.</span><span class="x9">Contents</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">listObjects</span><span class="aa">();</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -533,22 +562,22 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0">I hope this guide helps you seamlessly integrate AWS S3 with your Node.js application, making your uploads feature robust and efficient. Happy coding!</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/creating-npx-command/">Creating Your Own npx Command</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/cron-jobs-with-bullmq/">BullMQ Cron Jobs with Redis in Node.js</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/nodejs-on-ec2/">Node.js on EC2 with PM2 and NGINX</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/creating-npx-command/">Creating Your Own npx Command</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/cron-jobs-with-bullmq/">BullMQ Cron Jobs with Redis in Node.js</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/nodejs-on-ec2/">Node.js on EC2 with PM2 and NGINX</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/aws-s3-with-nodejs.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/aws-s3-with-nodejs.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

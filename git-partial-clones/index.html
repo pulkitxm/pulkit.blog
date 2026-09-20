@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -168,15 +168,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -215,61 +244,61 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">Partial Clones, Shallow Clones, and Sparse Checkout</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Partial Clones, Shallow Clones, and Sparse Checkout</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-08-03">August 3, 2026</time> · 13 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Partial Clones, Shallow Clones, and Sparse Checkout</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-08-03">August 3, 2026</time> · 13 min read</p>
           </header>
-          <div class="c9">
-            <p class="g0 u0">The other day I had to change exactly one file in a repo that had grown enormous: years of history and hundreds of committed videos and images, the kind of repo where <code class="i5 d6 t6 a7 hb">git clone</code> sits at <code class="i5 d6 t6 a7 hb">Receiving objects: 4%</code> long enough for you to make tea, drink it, and start questioning your choices.</p>
+          <div class="d9">
+            <p class="g0 u0">The other day I had to change exactly one file in a repo that had grown enormous: years of history and hundreds of committed videos and images, the kind of repo where <code class="i5 e6 u6 b7 lb">git clone</code> sits at <code class="i5 e6 u6 b7 lb">Receiving objects: 4%</code> long enough for you to make tea, drink it, and start questioning your choices.</p>
             <p class="g0 u0">And the change I needed? A few lines in a single markdown file.</p>
-            <p class="g0 u0">So I did what I do with tedious work now: I handed it to <a class="o9 ga ia ic" href="https://code.claude.com">Claude Code</a> while my own <code class="i5 d6 t6 a7 hb">git clone</code> kept crawling in another terminal. A few seconds later it was done. File edited, committed, pushed. My clone was still downloading.</p>
+            <p class="g0 u0">So I did what I do with tedious work now: I handed it to <a class="p9 ha ja oc" href="https://code.claude.com">Claude Code</a> while my own <code class="i5 e6 u6 b7 lb">git clone</code> kept crawling in another terminal. A few seconds later it was done. File edited, committed, pushed. My clone was still downloading.</p>
             <p class="g0 u0">That gap nagged at me. Same repo, same network, same machine, and the agent had shipped the fix before my clone finished counting objects. So I asked it what exactly it had done, and the answer was four git flags composed in exactly the right order, with a total download of a couple of megabytes instead of multiple gigabytes. Nothing about it was a hack: every piece is a first-class git feature, most people have just never had a reason to compose them. I went down the rabbit hole to understand every flag, and it was too good not to share with y&#39;all.</p>
             <p class="g0 u0">So this is that rabbit hole, written up properly. We&#39;re going deep: what git actually downloads when you clone, the three independent knobs that control it (<strong>shallow clone</strong>, <strong>partial clone</strong>, <strong>sparse checkout</strong>), why the order you apply them matters, and how a repository that&#39;s missing 99% of its own data can still commit and push like nothing&#39;s wrong.</p>
-            <h2 id="tl-dr" class="n0 k8 w8 t8 z8">TL;DR</h2>
+            <h2 id="tl-dr" class="n0 l8 x8 u8 a9">TL;DR</h2>
             <p class="g0 u0">The whole trick is these four commands:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">clone</span> <span class="x9">--filter=blob:none</span> <span class="x9">--depth</span> <span class="x9">1</span> <span class="x9">--no-checkout</span> <span class="x9">--branch</span> <span class="x9">main</span> <span class="v9">&lt;</span><span class="x9">ur</span>l<span class="v9">&gt;</span> <span class="x9">repo</span></span>
-                  <span class="block m8 g9"><span class="r9">cd</span> <span class="x9">repo</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">sparse-checkout</span> <span class="x9">set</span> <span class="x9">--no-cone</span> <span class="x9">/README.md</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">checkout</span> <span class="x9">main</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">clone</span> <span class="y9">--filter=blob:none</span> <span class="y9">--depth</span> <span class="y9">1</span> <span class="y9">--no-checkout</span> <span class="y9">--branch</span> <span class="y9">main</span> <span class="w9">&lt;</span><span class="y9">ur</span>l<span class="w9">&gt;</span> <span class="y9">repo</span></span>
+                  <span class="block n8 h9"><span class="s9">cd</span> <span class="y9">repo</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">sparse-checkout</span> <span class="y9">set</span> <span class="y9">--no-cone</span> <span class="y9">/README.md</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">checkout</span> <span class="y9">main</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <ul class="g0 u0">
-              <li><strong><code class="i5 d6 t6 a7 hb">--filter=blob:none</code></strong> (partial clone) downloads commits and trees but <strong>zero file contents</strong>. Missing blobs get fetched from the server later, on demand, the moment something needs them.</li>
-              <li><strong><code class="i5 d6 t6 a7 hb">--depth 1</code></strong> (shallow clone) downloads only the <strong>tip commit</strong>, no history.</li>
-              <li><strong><code class="i5 d6 t6 a7 hb">--no-checkout</code></strong> stops git from materializing the working tree, which is what stops it from immediately re-downloading everything you just filtered out.</li>
-              <li><strong><code class="i5 d6 t6 a7 hb">git sparse-checkout set</code></strong> shrinks the working tree to only the paths you list, so the final <code class="i5 d6 t6 a7 hb">git checkout</code> fetches exactly the blobs for those paths. One file listed, one blob downloaded.</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">--filter=blob:none</code></strong> (partial clone) downloads commits and trees but <strong>zero file contents</strong>. Missing blobs get fetched from the server later, on demand, the moment something needs them.</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">--depth 1</code></strong> (shallow clone) downloads only the <strong>tip commit</strong>, no history.</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">--no-checkout</code></strong> stops git from materializing the working tree, which is what stops it from immediately re-downloading everything you just filtered out.</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">git sparse-checkout set</code></strong> shrinks the working tree to only the paths you list, so the final <code class="i5 e6 u6 b7 lb">git checkout</code> fetches exactly the blobs for those paths. One file listed, one blob downloaded.</li>
               <li>Commit and push work normally: push only sends the <strong>new</strong> objects you created, and the server never asks you for anything it already has.</li>
               <li>Each knob cuts a different axis: shallow cuts <strong>history</strong>, partial cuts <strong>content</strong>, sparse cuts the <strong>working tree</strong>. They compose because they&#39;re independent.</li>
             </ul>
-            <h2 id="first-what-a-clone-actually-downloads" class="n0 k8 w8 t8 z8">First, what a clone actually downloads</h2>
+            <h2 id="first-what-a-clone-actually-downloads" class="n0 l8 x8 u8 a9">First, what a clone actually downloads</h2>
             <p class="g0 u0">To see why each flag works, you need the object model in your head. It&#39;s small, and it&#39;s the best mental model in all of git.</p>
             <p class="g0 u0">A repository is a content-addressed database of four object types, but three matter here:</p>
             <ol class="g0 u0">
@@ -278,169 +307,169 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li><strong>Commits</strong>: a pointer to one root tree, plus parent commit(s), author, and message.</li>
             </ol>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">   commit ──► root tree ──► blob        README.md</span>
-                  <span class="block m8 g9">                 │</span>
-                  <span class="block m8 g9">                 ├────────► tree        src/</span>
-                  <span class="block m8 g9">                 │            ├───────► blob   index.ts</span>
-                  <span class="block m8 g9">                 │            └───────► blob   utils.ts</span>
-                  <span class="block m8 g9">                 │</span>
-                  <span class="block m8 g9">                 └────────► tree        assets/</span>
-                  <span class="block m8 g9">                              ├───────► blob   demo.mp4   (30 MB)</span>
-                  <span class="block m8 g9">                              └───────► blob   hero.png   (2 MB)</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">   commit ──► root tree ──► blob        README.md</span>
+                  <span class="block n8 h9">                 │</span>
+                  <span class="block n8 h9">                 ├────────► tree        src/</span>
+                  <span class="block n8 h9">                 │            ├───────► blob   index.ts</span>
+                  <span class="block n8 h9">                 │            └───────► blob   utils.ts</span>
+                  <span class="block n8 h9">                 │</span>
+                  <span class="block n8 h9">                 └────────► tree        assets/</span>
+                  <span class="block n8 h9">                              ├───────► blob   demo.mp4   (30 MB)</span>
+                  <span class="block n8 h9">                              └───────► blob   hero.png   (2 MB)</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Every commit in history points at a full snapshot like this. A normal <code class="i5 d6 t6 a7 hb">git clone</code> downloads <strong>all of it</strong>: every commit ever made, every version of every tree, and every version of every blob. Then it checks out the tip into your working directory.</p>
+            <p class="g0 u0">Every commit in history points at a full snapshot like this. A normal <code class="i5 e6 u6 b7 lb">git clone</code> downloads <strong>all of it</strong>: every commit ever made, every version of every tree, and every version of every blob. Then it checks out the tip into your working directory.</p>
             <p class="g0 u0">Here&#39;s the part that matters: <strong>the weight is almost entirely in the blobs.</strong> Commits and trees are tiny text-like records that compress brilliantly. Blobs are your actual files, and in any repo with media, build fixtures, or just a lot of code and years of churn, historical blob versions are where the gigabytes live. You are downloading every version of every video that was ever committed, including the ones deleted years ago.</p>
             <p class="g0 u0">So the game is: how much of this can we <em>not</em> download? Git gives you three independent knobs, and each one cuts along a different axis.</p>
-            <h2 id="knob-1-shallow-clone-cutting-history" class="n0 k8 w8 t8 z8">Knob 1: shallow clone, cutting history</h2>
+            <h2 id="knob-1-shallow-clone-cutting-history" class="n0 l8 x8 u8 a9">Knob 1: shallow clone, cutting history</h2>
             <p class="g0 u0">The oldest and best-known knob:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">clone</span> <span class="x9">--depth</span> <span class="x9">1</span> <span class="v9">&lt;</span><span class="x9">ur</span>l<span class="v9">&gt;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">clone</span> <span class="y9">--depth</span> <span class="y9">1</span> <span class="w9">&lt;</span><span class="y9">ur</span>l<span class="w9">&gt;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0"><code class="i5 d6 t6 a7 hb">--depth 1</code> says: give me the <strong>tip commit only</strong>, none of its ancestors. Git records the cut point in <code class="i5 d6 t6 a7 hb">.git/shallow</code>, and the bottom commit becomes a &quot;grafted&quot; commit that pretends to have no parents. (<code class="i5 d6 t6 a7 hb">--depth</code> also implies <code class="i5 d6 t6 a7 hb">--single-branch</code>, so you&#39;re only getting one branch&#39;s tip unless you say otherwise.)</p>
-            <p class="g0 u0">You still get the <em>full snapshot</em> at the tip: all trees and all blobs for the current state of the project. What you lose is the past: no old versions, no <code class="i5 d6 t6 a7 hb">git log</code> beyond the tip, no blame history.</p>
+            <p class="g0 u0"><code class="i5 e6 u6 b7 lb">--depth 1</code> says: give me the <strong>tip commit only</strong>, none of its ancestors. Git records the cut point in <code class="i5 e6 u6 b7 lb">.git/shallow</code>, and the bottom commit becomes a &quot;grafted&quot; commit that pretends to have no parents. (<code class="i5 e6 u6 b7 lb">--depth</code> also implies <code class="i5 e6 u6 b7 lb">--single-branch</code>, so you&#39;re only getting one branch&#39;s tip unless you say otherwise.)</p>
+            <p class="g0 u0">You still get the <em>full snapshot</em> at the tip: all trees and all blobs for the current state of the project. What you lose is the past: no old versions, no <code class="i5 e6 u6 b7 lb">git log</code> beyond the tip, no blame history.</p>
             <p class="g0 u0">You can change your mind later:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">fetch</span> <span class="x9">--deepen=50</span>      <span class="q9 ba"># pull in 50 more commits of history</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">fetch</span> <span class="x9">--unshallow</span>      <span class="q9 ba"># give up, download everything</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">fetch</span> <span class="y9">--deepen=50</span>      <span class="r9 ca"># pull in 50 more commits of history</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">fetch</span> <span class="y9">--unshallow</span>      <span class="r9 ca"># give up, download everything</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Shallow clones are why CI checkouts are fast, and for a one-shot &quot;build this and throw it away&quot; they&#39;re perfect. But for a repo whose weight is media at the tip, <code class="i5 d6 t6 a7 hb">--depth 1</code> barely helps: the current snapshot is still huge. That&#39;s the axis it can&#39;t touch, which brings us to the interesting knob.</p>
-            <h2 id="knob-2-partial-clone-cutting-content" class="n0 k8 w8 t8 z8">Knob 2: partial clone, cutting content</h2>
+            <p class="g0 u0">Shallow clones are why CI checkouts are fast, and for a one-shot &quot;build this and throw it away&quot; they&#39;re perfect. But for a repo whose weight is media at the tip, <code class="i5 e6 u6 b7 lb">--depth 1</code> barely helps: the current snapshot is still huge. That&#39;s the axis it can&#39;t touch, which brings us to the interesting knob.</p>
+            <h2 id="knob-2-partial-clone-cutting-content" class="n0 l8 x8 u8 a9">Knob 2: partial clone, cutting content</h2>
             <p class="g0 u0">This is the modern one, and the one that changes everything:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">clone</span> <span class="x9">--filter=blob:none</span> <span class="v9">&lt;</span><span class="x9">ur</span>l<span class="v9">&gt;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">clone</span> <span class="y9">--filter=blob:none</span> <span class="w9">&lt;</span><span class="y9">ur</span>l<span class="w9">&gt;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">The <code class="i5 d6 t6 a7 hb">--filter</code> tells the server: send me the commits and the trees, but <strong>no blobs at all</strong>. The full shape of history arrives; none of the file contents do.</p>
+            <p class="g0 u0">The <code class="i5 e6 u6 b7 lb">--filter</code> tells the server: send me the commits and the trees, but <strong>no blobs at all</strong>. The full shape of history arrives; none of the file contents do.</p>
             <p class="g0 u0">Which immediately raises the question: how can a repository even function with no file contents? The answer is the clever part. A partial clone registers its origin as a <strong>promisor remote</strong>: git records that this remote has <em>promised</em> it can supply any missing object later. From then on, any time a git command actually needs a blob that isn&#39;t there, git pauses, fetches exactly that object from the server, and carries on. Lazily, on demand, invisible when it works well.</p>
             <p class="g0 u0">You can watch it happen. In a fresh blobless clone:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">log</span> <span class="x9">--oneline</span> <span class="x9">-20</span>        <span class="q9 ba"># instant, commits are local</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">ls-tree</span> <span class="x9">HEAD</span>             <span class="q9 ba"># instant, trees are local</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">show</span> <span class="x9">HEAD:package.json</span>   <span class="q9 ba"># pauses briefly... fetches ONE blob, prints it</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">log</span> <span class="y9">--oneline</span> <span class="y9">-20</span>        <span class="r9 ca"># instant, commits are local</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">ls-tree</span> <span class="y9">HEAD</span>             <span class="r9 ca"># instant, trees are local</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">show</span> <span class="y9">HEAD:package.json</span>   <span class="r9 ca"># pauses briefly... fetches ONE blob, prints it</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">That last command is the whole feature in miniature: the repository is a skeleton, and flesh gets attached one bone at a time, only where you actually touch it.</p>
             <p class="g0 u0">There are other filters worth knowing:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">--filter<span class="v9">=</span><span class="x9">blob:none</span>        <span class="q9 ba"># no blobs (the one you want 95% of the time)</span></span>
-                  <span class="block m8 g9">--filter<span class="v9">=</span><span class="x9">blob:</span>limit<span class="v9">=</span><span class="x9">1m</span>    <span class="q9 ba"># blobs over 1 MB stay behind, small ones come along</span></span>
-                  <span class="block m8 g9">--filter<span class="v9">=</span><span class="x9">tree:0</span>           <span class="q9 ba"># not even trees, just commits (extreme, see gotchas)</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">--filter<span class="w9">=</span><span class="y9">blob:none</span>        <span class="r9 ca"># no blobs (the one you want 95% of the time)</span></span>
+                  <span class="block n8 h9">--filter<span class="w9">=</span><span class="y9">blob:</span>limit<span class="w9">=</span><span class="y9">1m</span>    <span class="r9 ca"># blobs over 1 MB stay behind, small ones come along</span></span>
+                  <span class="block n8 h9">--filter<span class="w9">=</span><span class="y9">tree:0</span>           <span class="r9 ca"># not even trees, just commits (extreme, see gotchas)</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Two caveats before you fall in love. First, the server has to support filtering (<code class="i5 d6 t6 a7 hb">uploadpack.allowFilter</code>); GitHub, GitLab, and the other big hosts all do, but a random bare server might not, in which case git quietly warns and sends everything. Second, that on-demand fetching has sharp edges we&#39;ll get to in the gotchas, because a repo that needs the network to read old files is a different animal.</p>
-            <h2 id="knob-3-sparse-checkout-cutting-the-working-tree" class="n0 k8 w8 t8 z8">Knob 3: sparse checkout, cutting the working tree</h2>
-            <p class="g0 u0">The first two knobs control what&#39;s in your <code class="i5 d6 t6 a7 hb">.git</code> object database. The third controls something else entirely: <strong>which files git materializes into your working directory.</strong></p>
+            <p class="g0 u0">Two caveats before you fall in love. First, the server has to support filtering (<code class="i5 e6 u6 b7 lb">uploadpack.allowFilter</code>); GitHub, GitLab, and the other big hosts all do, but a random bare server might not, in which case git quietly warns and sends everything. Second, that on-demand fetching has sharp edges we&#39;ll get to in the gotchas, because a repo that needs the network to read old files is a different animal.</p>
+            <h2 id="knob-3-sparse-checkout-cutting-the-working-tree" class="n0 l8 x8 u8 a9">Knob 3: sparse checkout, cutting the working tree</h2>
+            <p class="g0 u0">The first two knobs control what&#39;s in your <code class="i5 e6 u6 b7 lb">.git</code> object database. The third controls something else entirely: <strong>which files git materializes into your working directory.</strong></p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">sparse-checkout</span> <span class="x9">set</span> <span class="x9">apps/web</span> <span class="x9">shared/ui</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">sparse-checkout</span> <span class="y9">set</span> <span class="y9">apps/web</span> <span class="y9">shared/ui</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">After this, your working directory contains only those directories (plus files at the repo root). Everything else is still <em>in the repository</em>, committed and safe, just not written to disk. <code class="i5 d6 t6 a7 hb">git status</code> is clean; git knows the missing files are intentionally absent, not deleted.</p>
-            <p class="g0 u0">By default <code class="i5 d6 t6 a7 hb">sparse-checkout set</code> works in <strong>cone mode</strong>: you give it directories, and it includes everything under them. Cone mode is fast because git can match paths with simple prefix checks. But cone mode <em>only</em> does directories. If you want to pin the working tree down to individual files, you need patterns:</p>
+            <p class="g0 u0">After this, your working directory contains only those directories (plus files at the repo root). Everything else is still <em>in the repository</em>, committed and safe, just not written to disk. <code class="i5 e6 u6 b7 lb">git status</code> is clean; git knows the missing files are intentionally absent, not deleted.</p>
+            <p class="g0 u0">By default <code class="i5 e6 u6 b7 lb">sparse-checkout set</code> works in <strong>cone mode</strong>: you give it directories, and it includes everything under them. Cone mode is fast because git can match paths with simple prefix checks. But cone mode <em>only</em> does directories. If you want to pin the working tree down to individual files, you need patterns:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">sparse-checkout</span> <span class="x9">set</span> <span class="x9">--no-cone</span> <span class="x9">/README.md</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">sparse-checkout</span> <span class="y9">set</span> <span class="y9">--no-cone</span> <span class="y9">/README.md</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0"><code class="i5 d6 t6 a7 hb">--no-cone</code> mode takes <code class="i5 d6 t6 a7 hb">.gitignore</code>-style patterns, so <code class="i5 d6 t6 a7 hb">/README.md</code> means &quot;exactly this one file at the root&quot;. It&#39;s slower at scale and the docs nudge you toward cone mode, but for surgical work on a handful of files it&#39;s exactly the right tool.</p>
+            <p class="g0 u0"><code class="i5 e6 u6 b7 lb">--no-cone</code> mode takes <code class="i5 e6 u6 b7 lb">.gitignore</code>-style patterns, so <code class="i5 e6 u6 b7 lb">/README.md</code> means &quot;exactly this one file at the root&quot;. It&#39;s slower at scale and the docs nudge you toward cone mode, but for surgical work on a handful of files it&#39;s exactly the right tool.</p>
             <p class="g0 u0">The rest of the surface is small:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">sparse-checkout</span> <span class="x9">list</span>           <span class="q9 ba"># show current patterns</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">sparse-checkout</span> <span class="x9">add</span> <span class="x9">docs/</span>      <span class="q9 ba"># widen the checkout</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">sparse-checkout</span> <span class="x9">disable</span>        <span class="q9 ba"># materialize everything again</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">sparse-checkout</span> <span class="y9">list</span>           <span class="r9 ca"># show current patterns</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">sparse-checkout</span> <span class="y9">add</span> <span class="y9">docs/</span>      <span class="r9 ca"># widen the checkout</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">sparse-checkout</span> <span class="y9">disable</span>        <span class="r9 ca"># materialize everything again</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">On its own, sparse checkout saves disk and makes tools faster (your editor, file watcher, and grep stop seeing a million files). But notice what it does <strong>in combination with a partial clone</strong>: if checkout is what triggers blob fetches, and sparse checkout shrinks what gets checked out... you control exactly which blobs ever get downloaded. That&#39;s the combination lock, and it&#39;s why the recipe works.</p>
-            <h2 id="the-recipe-line-by-line" class="n0 k8 w8 t8 z8">The recipe, line by line</h2>
+            <h2 id="the-recipe-line-by-line" class="n0 l8 x8 u8 a9">The recipe, line by line</h2>
             <p class="g0 u0">Here it is again, the whole thing:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">clone</span> <span class="x9">--filter=blob:none</span> <span class="x9">--depth</span> <span class="x9">1</span> <span class="x9">--no-checkout</span> <span class="x9">--branch</span> <span class="x9">main</span> <span class="v9">&lt;</span><span class="x9">ur</span>l<span class="v9">&gt;</span> <span class="x9">repo</span></span>
-                  <span class="block m8 g9"><span class="r9">cd</span> <span class="x9">repo</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">sparse-checkout</span> <span class="x9">set</span> <span class="x9">--no-cone</span> <span class="x9">/README.md</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">checkout</span> <span class="x9">main</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">clone</span> <span class="y9">--filter=blob:none</span> <span class="y9">--depth</span> <span class="y9">1</span> <span class="y9">--no-checkout</span> <span class="y9">--branch</span> <span class="y9">main</span> <span class="w9">&lt;</span><span class="y9">ur</span>l<span class="w9">&gt;</span> <span class="y9">repo</span></span>
+                  <span class="block n8 h9"><span class="s9">cd</span> <span class="y9">repo</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">sparse-checkout</span> <span class="y9">set</span> <span class="y9">--no-cone</span> <span class="y9">/README.md</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">checkout</span> <span class="y9">main</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0"><strong>Line 1</strong> creates the skeleton. <code class="i5 d6 t6 a7 hb">--filter=blob:none</code> keeps every blob on the server. <code class="i5 d6 t6 a7 hb">--depth 1</code> keeps every historical commit and tree on the server too, so even the metadata download is tiny. <code class="i5 d6 t6 a7 hb">--branch main</code> picks the branch. And <code class="i5 d6 t6 a7 hb">--no-checkout</code> is the quiet hero: it tells git to stop after writing <code class="i5 d6 t6 a7 hb">.git</code> and <strong>not</strong> populate the working directory.</p>
+            <p class="g0 u0"><strong>Line 1</strong> creates the skeleton. <code class="i5 e6 u6 b7 lb">--filter=blob:none</code> keeps every blob on the server. <code class="i5 e6 u6 b7 lb">--depth 1</code> keeps every historical commit and tree on the server too, so even the metadata download is tiny. <code class="i5 e6 u6 b7 lb">--branch main</code> picks the branch. And <code class="i5 e6 u6 b7 lb">--no-checkout</code> is the quiet hero: it tells git to stop after writing <code class="i5 e6 u6 b7 lb">.git</code> and <strong>not</strong> populate the working directory.</p>
             <p class="g0 u0">Why does that matter so much? Because of <em>when</em> blobs get fetched. Checkout is the step that writes files to disk, and writing files needs their contents. If you let the clone check out normally, git would immediately demand every blob in the tip snapshot, and your &quot;partial&quot; clone would re-download the entire current state of the repo file by file. The classic partial-clone footgun: you filtered the blobs out, then instantly invited them all back in.</p>
             <p class="g0 u0"><strong>Line 3</strong> sets the trap before springing it: with the working tree still empty, we pin the sparse patterns down to one file.</p>
-            <p class="g0 u0"><strong>Line 4</strong> springs it. <code class="i5 d6 t6 a7 hb">git checkout main</code> materializes the working tree, which by now means: exactly the paths matching the sparse patterns. Git walks the tip tree, finds one matching path, notices its blob is missing, fetches that single object from the promisor remote, and writes the file. (When multiple blobs are missing, git batches them into one request rather than making a round trip per file.)</p>
+            <p class="g0 u0"><strong>Line 4</strong> springs it. <code class="i5 e6 u6 b7 lb">git checkout main</code> materializes the working tree, which by now means: exactly the paths matching the sparse patterns. Git walks the tip tree, finds one matching path, notices its blob is missing, fetches that single object from the promisor remote, and writes the file. (When multiple blobs are missing, git batches them into one request rather than making a round trip per file.)</p>
             <p class="g0 u0">Total transfer: one commit object, the trees for one snapshot, and one blob. On the repo that started this post, the multi-gigabyte clone became a download small enough that the sparse-checkout step was the part I noticed.</p>
             <p class="g0 u0">Need more of the repo later? Widen it, and git fetches just the difference:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">sparse-checkout</span> <span class="x9">add</span> <span class="x9">scripts/</span>     <span class="q9 ba"># fetches only the blobs under scripts/</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">sparse-checkout</span> <span class="y9">add</span> <span class="y9">scripts/</span>     <span class="r9 ca"># fetches only the blobs under scripts/</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h2 id="the-part-that-feels-illegal-committing-from-a-skeleton" class="n0 k8 w8 t8 z8">The part that feels illegal: committing from a skeleton</h2>
+            <h2 id="the-part-that-feels-illegal-committing-from-a-skeleton" class="n0 l8 x8 u8 a9">The part that feels illegal: committing from a skeleton</h2>
             <p class="g0 u0">So you have a repository that&#39;s missing nearly all of its history&#39;s content. Surely git objects to you <em>writing</em> to it?</p>
             <p class="g0 u0">It doesn&#39;t, and understanding why is the best part of the whole exercise.</p>
-            <p class="g0 u0">When you edit the file and run <code class="i5 d6 t6 a7 hb">git commit</code>, git creates exactly three kinds of new things, all locally:</p>
+            <p class="g0 u0">When you edit the file and run <code class="i5 e6 u6 b7 lb">git commit</code>, git creates exactly three kinds of new things, all locally:</p>
             <ol class="g0 u0">
               <li>A new <strong>blob</strong> for the edited file&#39;s contents.</li>
               <li>New <strong>trees</strong>: one for each directory on the path from the file up to the root (their listings changed, because one entry now points at the new blob).</li>
@@ -449,155 +478,155 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0">None of that requires reading the objects you don&#39;t have. Committing is pure addition to a content-addressed store.</p>
             <p class="g0 u0">Then push:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">push</span> <span class="x9">origin</span> <span class="x9">main</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">push</span> <span class="y9">origin</span> <span class="y9">main</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Push is a negotiation, and it&#39;s beautifully minimal. Your git and the server compare refs: &quot;you&#39;re at <code class="i5 d6 t6 a7 hb">f5a0be6</code>, I have <code class="i5 d6 t6 a7 hb">4c9f1b9</code> which descends from it.&quot; Then your side computes which objects the server could possibly be missing: just the new blob, the few new trees, and the commit. That handful of objects goes over the wire, a few kilobytes, and the server updates the ref. The thousands of blobs you never downloaded are never mentioned by either side. The server doesn&#39;t care what your local copy is missing; it only cares that the objects <em>you&#39;re sending</em> connect to history <em>it already has</em>.</p>
+            <p class="g0 u0">Push is a negotiation, and it&#39;s beautifully minimal. Your git and the server compare refs: &quot;you&#39;re at <code class="i5 e6 u6 b7 lb">f5a0be6</code>, I have <code class="i5 e6 u6 b7 lb">4c9f1b9</code> which descends from it.&quot; Then your side computes which objects the server could possibly be missing: just the new blob, the few new trees, and the commit. That handful of objects goes over the wire, a few kilobytes, and the server updates the ref. The thousands of blobs you never downloaded are never mentioned by either side. The server doesn&#39;t care what your local copy is missing; it only cares that the objects <em>you&#39;re sending</em> connect to history <em>it already has</em>.</p>
             <p class="g0 u0">Shallow doesn&#39;t break this either: your new commit&#39;s parent is the remote&#39;s own tip, so the connection check trivially passes. Clone in seconds, edit, commit, push, and the remote ends up byte-identical to what a full clone would have produced.</p>
-            <h2 id="the-gotchas-that-will-bite-you" class="n0 k8 w8 t8 z8">The gotchas that will bite you</h2>
+            <h2 id="the-gotchas-that-will-bite-you" class="n0 l8 x8 u8 a9">The gotchas that will bite you</h2>
             <p class="g0 u0">Every one of these is a lesson I&#39;d rather you learn here than in production.</p>
-            <h3 id="history-walking-commands-phone-home" class="l0 h8 t8 z8">History-walking commands phone home</h3>
-            <p class="g0 u0">This is the big one for partial clones. Commands that only read <em>metadata</em> stay fast forever: <code class="i5 d6 t6 a7 hb">git log --oneline</code>, <code class="i5 d6 t6 a7 hb">git ls-tree</code>, branch and merge operations. But commands that read historical <em>contents</em> need historical blobs, and those live on the server:</p>
+            <h3 id="history-walking-commands-phone-home" class="l0 i8 u8 a9">History-walking commands phone home</h3>
+            <p class="g0 u0">This is the big one for partial clones. Commands that only read <em>metadata</em> stay fast forever: <code class="i5 e6 u6 b7 lb">git log --oneline</code>, <code class="i5 e6 u6 b7 lb">git ls-tree</code>, branch and merge operations. But commands that read historical <em>contents</em> need historical blobs, and those live on the server:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">log</span> <span class="x9">-p</span>            <span class="q9 ba"># fetches blobs for EVERY commit it displays, one batch at a time</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">blame</span> <span class="x9">src/app.ts</span>  <span class="q9 ba"># fetches every historical version of that file</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">bisect</span>            <span class="q9 ba"># fetches each checkout as you go</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">log</span> <span class="y9">-p</span>            <span class="r9 ca"># fetches blobs for EVERY commit it displays, one batch at a time</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">blame</span> <span class="y9">src/app.ts</span>  <span class="r9 ca"># fetches every historical version of that file</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">bisect</span>            <span class="r9 ca"># fetches each checkout as you go</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">On a blobless clone these work, but they crawl, and they need the network. A partial clone is a repo with a dependency on its server baked in. On a plane, <code class="i5 d6 t6 a7 hb">git show HEAD~40:src/app.ts</code> doesn&#39;t say &quot;slow&quot;, it says no. If your daily work is archaeology (blame, bisect, spelunking), take the full clone; that&#39;s what it&#39;s for.</p>
-            <h3 id="the-checkout-stampede" class="l0 h8 t8 z8">The checkout stampede</h3>
-            <p class="g0 u0">Covered above but worth repeating, because it&#39;s <em>the</em> classic mistake: doing <code class="i5 d6 t6 a7 hb">git clone --filter=blob:none</code> <strong>without</strong> <code class="i5 d6 t6 a7 hb">--no-checkout</code> + sparse checkout means the clone ends by fetching the entire tip snapshot anyway. Blobless clones only skip what you never touch, and a full checkout touches everything. Decide what you&#39;ll touch <em>before</em> the first checkout.</p>
-            <h3 id="shallow-history-is-weird-at-the-edges" class="l0 h8 t8 z8">Shallow history is weird at the edges</h3>
-            <p class="g0 u0">A shallow clone&#39;s bottom commit lies about having no parents, and anything that walks ancestry can hit the wall: <code class="i5 d6 t6 a7 hb">git merge-base</code> can&#39;t find a fork point that&#39;s below the cut, <code class="i5 d6 t6 a7 hb">git describe</code> can&#39;t reach a tag, and CI diff jobs (&quot;what changed vs main?&quot;) fail in confusing ways when the merge base is missing. This is exactly why CI systems that compute diffs use full-depth fetches, and why <code class="i5 d6 t6 a7 hb">--deepen</code> exists as the escape hatch. Shallow is great when the job is &quot;the code as of now&quot;; it&#39;s wrong when the job involves <em>comparing</em> points in history.</p>
-            <p class="g0 u0">Also know that shallow and partial solve overlapping problems, and if you&#39;re using <code class="i5 d6 t6 a7 hb">--filter=blob:none</code> anyway, you often don&#39;t need <code class="i5 d6 t6 a7 hb">--depth 1</code> at all: commits and trees are cheap, and keeping full (blobless) history makes the repo behave much more normally. I add <code class="i5 d6 t6 a7 hb">--depth 1</code> when I truly want one snapshot and nothing else; I skip it when the clone will live for a while.</p>
-            <h3 id="tree-0-is-a-trap-for-anything-long-lived" class="l0 h8 t8 z8"><code class="i5 d6 t6 a7 hb">tree:0</code> is a trap for anything long-lived</h3>
-            <p class="g0 u0">A treeless clone (<code class="i5 d6 t6 a7 hb">--filter=tree:0</code>) downloads commits only, and it feels amazing for about a minute. Then any operation that needs to know what&#39;s <em>in</em> a commit starts fetching trees on demand, and trees are needed constantly, for far more operations than blobs. Treeless clones are for one-shot jobs (clone, build, discard). Never hand one to a human for daily work.</p>
-            <h3 id="sparse-checkout-hides-files-and-tools-get-confused" class="l0 h8 t8 z8">Sparse checkout hides files, and tools get confused</h3>
-            <p class="g0 u0">The files excluded by sparse checkout genuinely aren&#39;t on disk. Global search finds nothing in them; a codemod won&#39;t touch them; a build that imports from an excluded directory just fails. Git itself is never confused (<code class="i5 d6 t6 a7 hb">git sparse-checkout list</code> always tells the truth), but your <em>tools</em> trust the filesystem. When something behaves impossibly, check whether you&#39;re standing in a sparse checkout; my earlier confused self can confirm that &quot;the file is tracked but doesn&#39;t exist&quot; is a very disorienting first symptom.</p>
-            <h3 id="one-command-to-rule-them-all-scalar" class="l0 h8 t8 z8">One command to rule them all: <code class="i5 d6 t6 a7 hb">scalar</code></h3>
+            <p class="g0 u0">On a blobless clone these work, but they crawl, and they need the network. A partial clone is a repo with a dependency on its server baked in. On a plane, <code class="i5 e6 u6 b7 lb">git show HEAD~40:src/app.ts</code> doesn&#39;t say &quot;slow&quot;, it says no. If your daily work is archaeology (blame, bisect, spelunking), take the full clone; that&#39;s what it&#39;s for.</p>
+            <h3 id="the-checkout-stampede" class="l0 i8 u8 a9">The checkout stampede</h3>
+            <p class="g0 u0">Covered above but worth repeating, because it&#39;s <em>the</em> classic mistake: doing <code class="i5 e6 u6 b7 lb">git clone --filter=blob:none</code> <strong>without</strong> <code class="i5 e6 u6 b7 lb">--no-checkout</code> + sparse checkout means the clone ends by fetching the entire tip snapshot anyway. Blobless clones only skip what you never touch, and a full checkout touches everything. Decide what you&#39;ll touch <em>before</em> the first checkout.</p>
+            <h3 id="shallow-history-is-weird-at-the-edges" class="l0 i8 u8 a9">Shallow history is weird at the edges</h3>
+            <p class="g0 u0">A shallow clone&#39;s bottom commit lies about having no parents, and anything that walks ancestry can hit the wall: <code class="i5 e6 u6 b7 lb">git merge-base</code> can&#39;t find a fork point that&#39;s below the cut, <code class="i5 e6 u6 b7 lb">git describe</code> can&#39;t reach a tag, and CI diff jobs (&quot;what changed vs main?&quot;) fail in confusing ways when the merge base is missing. This is exactly why CI systems that compute diffs use full-depth fetches, and why <code class="i5 e6 u6 b7 lb">--deepen</code> exists as the escape hatch. Shallow is great when the job is &quot;the code as of now&quot;; it&#39;s wrong when the job involves <em>comparing</em> points in history.</p>
+            <p class="g0 u0">Also know that shallow and partial solve overlapping problems, and if you&#39;re using <code class="i5 e6 u6 b7 lb">--filter=blob:none</code> anyway, you often don&#39;t need <code class="i5 e6 u6 b7 lb">--depth 1</code> at all: commits and trees are cheap, and keeping full (blobless) history makes the repo behave much more normally. I add <code class="i5 e6 u6 b7 lb">--depth 1</code> when I truly want one snapshot and nothing else; I skip it when the clone will live for a while.</p>
+            <h3 id="tree-0-is-a-trap-for-anything-long-lived" class="l0 i8 u8 a9"><code class="i5 e6 u6 b7 lb">tree:0</code> is a trap for anything long-lived</h3>
+            <p class="g0 u0">A treeless clone (<code class="i5 e6 u6 b7 lb">--filter=tree:0</code>) downloads commits only, and it feels amazing for about a minute. Then any operation that needs to know what&#39;s <em>in</em> a commit starts fetching trees on demand, and trees are needed constantly, for far more operations than blobs. Treeless clones are for one-shot jobs (clone, build, discard). Never hand one to a human for daily work.</p>
+            <h3 id="sparse-checkout-hides-files-and-tools-get-confused" class="l0 i8 u8 a9">Sparse checkout hides files, and tools get confused</h3>
+            <p class="g0 u0">The files excluded by sparse checkout genuinely aren&#39;t on disk. Global search finds nothing in them; a codemod won&#39;t touch them; a build that imports from an excluded directory just fails. Git itself is never confused (<code class="i5 e6 u6 b7 lb">git sparse-checkout list</code> always tells the truth), but your <em>tools</em> trust the filesystem. When something behaves impossibly, check whether you&#39;re standing in a sparse checkout; my earlier confused self can confirm that &quot;the file is tracked but doesn&#39;t exist&quot; is a very disorienting first symptom.</p>
+            <h3 id="one-command-to-rule-them-all-scalar" class="l0 i8 u8 a9">One command to rule them all: <code class="i5 e6 u6 b7 lb">scalar</code></h3>
             <p class="g0 u0">If this whole post sounds like configuration you&#39;d rather not remember, git ships a tool that bundles the recommended setup:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">scalar</span> <span class="x9">clone</span> <span class="v9">&lt;</span><span class="x9">ur</span>l<span class="v9">&gt;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">scalar</span> <span class="y9">clone</span> <span class="w9">&lt;</span><span class="y9">ur</span>l<span class="w9">&gt;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0"><code class="i5 d6 t6 a7 hb">scalar</code> (included with git since 2.38) does a blobless partial clone, enables cone-mode sparse checkout starting from the root directory only, and turns on background maintenance. It&#39;s the &quot;monorepo defaults&quot; button, and for daily work on a huge repo it&#39;s honestly the right starting point; the manual flags are for when you want surgical control (or you want to understand what scalar is doing for you, which, after this post, you do).</p>
-            <h2 id="the-comparison-in-one-table" class="n0 k8 w8 t8 z8">The comparison, in one table</h2>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <p class="g0 u0"><code class="i5 e6 u6 b7 lb">scalar</code> (included with git since 2.38) does a blobless partial clone, enables cone-mode sparse checkout starting from the root directory only, and turns on background maintenance. It&#39;s the &quot;monorepo defaults&quot; button, and for daily work on a huge repo it&#39;s honestly the right starting point; the manual flags are for when you want surgical control (or you want to understand what scalar is doing for you, which, after this post, you do).</p>
+            <h2 id="the-comparison-in-one-table" class="n0 l8 x8 u8 a9">The comparison, in one table</h2>
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Clone command</th>
-                  <th class="p5 v5 x6 e7 u7">History (commits)</th>
-                  <th class="p5 v5 x6 e7 u7">Trees</th>
-                  <th class="p5 v5 x6 e7 u7">File contents (blobs)</th>
-                  <th class="p5 v5 x6 e7 u7">Best for</th>
+                  <th class="p5 w5 y6 f7 v7">Clone command</th>
+                  <th class="p5 w5 y6 f7 v7">History (commits)</th>
+                  <th class="p5 w5 y6 f7 v7">Trees</th>
+                  <th class="p5 w5 y6 f7 v7">File contents (blobs)</th>
+                  <th class="p5 w5 y6 f7 v7">Best for</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">git clone</code></td>
-                  <td class="p5 v5 x6 e7 u7">All</td>
-                  <td class="p5 v5 x6 e7 u7">All</td>
-                  <td class="p5 v5 x6 e7 u7">All</td>
-                  <td class="p5 v5 x6 e7 u7">Daily work, archaeology, offline</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">git clone</code></td>
+                  <td class="p5 w5 y6 f7 v7">All</td>
+                  <td class="p5 w5 y6 f7 v7">All</td>
+                  <td class="p5 w5 y6 f7 v7">All</td>
+                  <td class="p5 w5 y6 f7 v7">Daily work, archaeology, offline</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">git clone --depth 1</code></td>
-                  <td class="p5 v5 x6 e7 u7">Tip only</td>
-                  <td class="p5 v5 x6 e7 u7">Tip only</td>
-                  <td class="p5 v5 x6 e7 u7">Tip only (full snapshot)</td>
-                  <td class="p5 v5 x6 e7 u7">One-shot CI builds</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">git clone --depth 1</code></td>
+                  <td class="p5 w5 y6 f7 v7">Tip only</td>
+                  <td class="p5 w5 y6 f7 v7">Tip only</td>
+                  <td class="p5 w5 y6 f7 v7">Tip only (full snapshot)</td>
+                  <td class="p5 w5 y6 f7 v7">One-shot CI builds</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">git clone --filter=blob:none</code></td>
-                  <td class="p5 v5 x6 e7 u7">All</td>
-                  <td class="p5 v5 x6 e7 u7">All</td>
-                  <td class="p5 v5 x6 e7 u7">On demand</td>
-                  <td class="p5 v5 x6 e7 u7">Big repos, monorepo daily work</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">git clone --filter=blob:none</code></td>
+                  <td class="p5 w5 y6 f7 v7">All</td>
+                  <td class="p5 w5 y6 f7 v7">All</td>
+                  <td class="p5 w5 y6 f7 v7">On demand</td>
+                  <td class="p5 w5 y6 f7 v7">Big repos, monorepo daily work</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">git clone --filter=tree:0</code></td>
-                  <td class="p5 v5 x6 e7 u7">All</td>
-                  <td class="p5 v5 x6 e7 u7">On demand</td>
-                  <td class="p5 v5 x6 e7 u7">On demand</td>
-                  <td class="p5 v5 x6 e7 u7">One-shot jobs only</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">git clone --filter=tree:0</code></td>
+                  <td class="p5 w5 y6 f7 v7">All</td>
+                  <td class="p5 w5 y6 f7 v7">On demand</td>
+                  <td class="p5 w5 y6 f7 v7">On demand</td>
+                  <td class="p5 w5 y6 f7 v7">One-shot jobs only</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">The full recipe (all three)</td>
-                  <td class="p5 v5 x6 e7 u7">Tip only</td>
-                  <td class="p5 v5 x6 e7 u7">Tip only</td>
-                  <td class="p5 v5 x6 e7 u7">Only sparse paths</td>
-                  <td class="p5 v5 x6 e7 u7">Surgical edits in huge repos</td>
+                  <td class="p5 w5 y6 f7 v7">The full recipe (all three)</td>
+                  <td class="p5 w5 y6 f7 v7">Tip only</td>
+                  <td class="p5 w5 y6 f7 v7">Tip only</td>
+                  <td class="p5 w5 y6 f7 v7">Only sparse paths</td>
+                  <td class="p5 w5 y6 f7 v7">Surgical edits in huge repos</td>
                 </tr>
               </tbody>
             </table>
             <p class="g0 u0">And the axes, because this is the picture to keep:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">                 history (commits)</span>
-                  <span class="block m8 g9">                       ▲</span>
-                  <span class="block m8 g9">                       │   ← --depth cuts here</span>
-                  <span class="block m8 g9">                       │</span>
-                  <span class="block m8 g9">   working tree ◄──────┼──────► content (blobs)</span>
-                  <span class="block m8 g9">   (files on disk)     │        ← --filter cuts here</span>
-                  <span class="block m8 g9">   ← sparse-checkout   │</span>
-                  <span class="block m8 g9">     cuts here         ▼</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">                 history (commits)</span>
+                  <span class="block n8 h9">                       ▲</span>
+                  <span class="block n8 h9">                       │   ← --depth cuts here</span>
+                  <span class="block n8 h9">                       │</span>
+                  <span class="block n8 h9">   working tree ◄──────┼──────► content (blobs)</span>
+                  <span class="block n8 h9">   (files on disk)     │        ← --filter cuts here</span>
+                  <span class="block n8 h9">   ← sparse-checkout   │</span>
+                  <span class="block n8 h9">     cuts here         ▼</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Three axes, three independent knobs. Any combination is valid, and each one only pays for what it uses.</p>
-            <h2 id="when-i-actually-reach-for-each" class="n0 k8 w8 t8 z8">When I actually reach for each</h2>
+            <h2 id="when-i-actually-reach-for-each" class="n0 l8 x8 u8 a9">When I actually reach for each</h2>
             <ul class="g0 u0">
               <li><strong>Quick surgical edit in a huge repo</strong> (the use case that started this post): the full recipe. Seconds of download, full push capability.</li>
-              <li><strong>Daily work in a big monorepo</strong>: <code class="i5 d6 t6 a7 hb">--filter=blob:none</code> plus cone-mode sparse checkout of the directories I own, or just <code class="i5 d6 t6 a7 hb">scalar clone</code>. Full history for <code class="i5 d6 t6 a7 hb">git log</code>, contents on demand, working tree sized to my slice.</li>
-              <li><strong>CI, build-and-discard</strong>: <code class="i5 d6 t6 a7 hb">--depth 1</code>, adding <code class="i5 d6 t6 a7 hb">--filter=blob:none</code> when the tree is media-heavy. If the job diffs against a base branch, deepen or skip shallow entirely.</li>
+              <li><strong>Daily work in a big monorepo</strong>: <code class="i5 e6 u6 b7 lb">--filter=blob:none</code> plus cone-mode sparse checkout of the directories I own, or just <code class="i5 e6 u6 b7 lb">scalar clone</code>. Full history for <code class="i5 e6 u6 b7 lb">git log</code>, contents on demand, working tree sized to my slice.</li>
+              <li><strong>CI, build-and-discard</strong>: <code class="i5 e6 u6 b7 lb">--depth 1</code>, adding <code class="i5 e6 u6 b7 lb">--filter=blob:none</code> when the tree is media-heavy. If the job diffs against a base branch, deepen or skip shallow entirely.</li>
               <li><strong>Archaeology</strong> (blame, bisect, &quot;when did this break&quot;): a boring full clone. The right tool for reading history is having the history.</li>
             </ul>
-            <p class="g0 u0">One more connection worth making: if you read my <a class="o9 ga ia ic" href="/git-worktrees/">git worktrees</a> post, you&#39;ll recognize the philosophy. Worktrees stop you from paying twice for the same <code class="i5 d6 t6 a7 hb">.git</code>; partial and sparse stop you from paying for parts of the repo you&#39;ll never touch. Both come from the same realization: <code class="i5 d6 t6 a7 hb">git clone</code>&#39;s defaults assume you want <em>everything</em>, and on modern repo sizes, you usually don&#39;t. They compose, too: a blobless clone with several sparse worktrees is a genuinely great setup for parallel work on a monorepo.</p>
-            <h2 id="wrapping-up" class="n0 k8 w8 t8 z8">Wrapping up</h2>
+            <p class="g0 u0">One more connection worth making: if you read my <a class="p9 ha ja oc" href="/git-worktrees/">git worktrees</a> post, you&#39;ll recognize the philosophy. Worktrees stop you from paying twice for the same <code class="i5 e6 u6 b7 lb">.git</code>; partial and sparse stop you from paying for parts of the repo you&#39;ll never touch. Both come from the same realization: <code class="i5 e6 u6 b7 lb">git clone</code>&#39;s defaults assume you want <em>everything</em>, and on modern repo sizes, you usually don&#39;t. They compose, too: a blobless clone with several sparse worktrees is a genuinely great setup for parallel work on a monorepo.</p>
+            <h2 id="wrapping-up" class="n0 l8 x8 u8 a9">Wrapping up</h2>
             <p class="g0 u0">The thing I love about this corner of git is that nothing here is a workaround. The object model was always three cleanly separated layers (history, content, working tree), and these three features are just the honest admission that you should be able to pay for each layer separately. Once you&#39;ve seen the model, the flags stop being incantations and become obvious: of course you can skip blobs, they&#39;re leaves; of course push still works, it only ever sends what&#39;s new; of course checkout order matters, checkout is what spends the money.</p>
             <p class="g0 u0">Next time a giant repo stands between you and a one-file fix, don&#39;t watch the progress bar. Skeleton-clone it, check out the one file, do the surgery, push, and be done before the full clone would have hit double digits.</p>
-            <p class="g0 u0">If you want to go deeper: the <a class="o9 ga ia ic" href="https://git-scm.com/docs/partial-clone">official partial clone docs</a>, the <a class="o9 ga ia ic" href="https://git-scm.com/docs/git-sparse-checkout"><code class="i5 d6 t6 a7 hb">git sparse-checkout</code> reference</a>, and GitHub&#39;s excellent <a class="o9 ga ia ic" href="https://github.blog/open-source/git/get-up-to-speed-with-partial-clone-and-shallow-clone/">partial vs shallow clone write-up</a> are all worth your time. And if you set this up and hit something weird, reach out, you can find all my socials and a <a class="o9 ga ia ic" href="https://pulkit.page/contact/">contact form</a>.</p>
+            <p class="g0 u0">If you want to go deeper: the <a class="p9 ha ja oc" href="https://git-scm.com/docs/partial-clone">official partial clone docs</a>, the <a class="p9 ha ja oc" href="https://git-scm.com/docs/git-sparse-checkout"><code class="i5 e6 u6 b7 lb">git sparse-checkout</code> reference</a>, and GitHub&#39;s excellent <a class="p9 ha ja oc" href="https://github.blog/open-source/git/get-up-to-speed-with-partial-clone-and-shallow-clone/">partial vs shallow clone write-up</a> are all worth your time. And if you set this up and hit something weird, reach out, you can find all my socials and a <a class="p9 ha ja oc" href="https://pulkit.page/contact/">contact form</a>.</p>
             <p class="g0 u0">Happy (skeleton) shipping!</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/git-worktrees/">Git Worktrees</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/cookie-sync-pattern/">The Cookie Sync Pattern</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/git-worktrees/">Git Worktrees</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/cookie-sync-pattern/">The Cookie Sync Pattern</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/git-partial-clones.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/git-partial-clones.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

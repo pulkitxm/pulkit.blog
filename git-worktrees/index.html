@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -168,15 +168,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -215,528 +244,528 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">Git Worktrees</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Git Worktrees</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-05-29">May 29, 2026</time> · 17 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Git Worktrees</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-05-29">May 29, 2026</time> · 17 min read</p>
           </header>
-          <div class="c9">
-            <p class="g0 u0">I work at <a class="o9 ga ia ic" href="https://noveum.ai">Noveum.ai</a>, a small, fast-moving startup. On a normal day I&#39;ll be deep in a new feature, an agent grinding through a refactor in the background, and then it happens: something breaks in prod. Or a customer hits a bug we need fixed in the next hour. Or a tiny config change has to ship <em>right now</em>.</p>
+          <div class="d9">
+            <p class="g0 u0">I work at <a class="p9 ha ja oc" href="https://noveum.ai">Noveum.ai</a>, a small, fast-moving startup. On a normal day I&#39;ll be deep in a new feature, an agent grinding through a refactor in the background, and then it happens: something breaks in prod. Or a customer hits a bug we need fixed in the next hour. Or a tiny config change has to ship <em>right now</em>.</p>
             <p class="g0 u0">So I have to drop everything and context switch. And for the longest time, the way I handled that switch was bad. Really bad.</p>
             <p class="g0 u0">I&#39;d either:</p>
             <ol class="g0 u0">
-              <li><strong>Stash my work</strong>, switch branches, fix the thing, switch back, <code class="i5 d6 t6 a7 hb">git stash pop</code>, and pray nothing got mangled, or</li>
+              <li><strong>Stash my work</strong>, switch branches, fix the thing, switch back, <code class="i5 e6 u6 b7 lb">git stash pop</code>, and pray nothing got mangled, or</li>
               <li><strong>Sit and wait</strong> for my long-running agent task to finish before I touched anything, or</li>
-              <li><strong>Clone the whole repo into a second folder</strong>, then hand-copy over all the <code class="i5 d6 t6 a7 hb">.env</code> and config files that aren&#39;t tracked by git, just to have a clean place to do the hotfix.</li>
+              <li><strong>Clone the whole repo into a second folder</strong>, then hand-copy over all the <code class="i5 e6 u6 b7 lb">.env</code> and config files that aren&#39;t tracked by git, just to have a clean place to do the hotfix.</li>
             </ol>
-            <p class="g0 u0">All three are bad in their own way. Stashing throws away your dev server, your build cache, and your train of thought. Waiting is just... waiting. And cloning the repo twice means a second multi-gigabyte download, a second <code class="i5 d6 t6 a7 hb">node_modules</code>, a second set of remotes to fetch, manually copying every untracked <code class="i5 d6 t6 a7 hb">.env</code> and config file across, and two copies of history that drift apart.</p>
-            <p class="g0 u0">Then I properly learned <strong>git worktrees</strong>, and the whole problem dissolved. Now I keep my feature work exactly where it is, agent and all, and spin up a separate, clean checkout for the hotfix in seconds, sharing the same <code class="i5 d6 t6 a7 hb">.git</code>. No stashing. No waiting. No second clone.</p>
-            <p class="g0 u0">I genuinely think this is one of the biggest unlocks for anyone working with AI agents today, and almost nobody I talk to uses it. So this is the post I wish I&#39;d read. We&#39;re going to go deep: what a worktree actually <em>is</em> on disk, the full command surface, the gotchas, and the exact workflow I use to run multiple <a class="o9 ga ia ic" href="https://code.claude.com">Claude Code</a> sessions in parallel.</p>
-            <h2 id="tl-dr" class="n0 k8 w8 t8 z8">TL;DR</h2>
+            <p class="g0 u0">All three are bad in their own way. Stashing throws away your dev server, your build cache, and your train of thought. Waiting is just... waiting. And cloning the repo twice means a second multi-gigabyte download, a second <code class="i5 e6 u6 b7 lb">node_modules</code>, a second set of remotes to fetch, manually copying every untracked <code class="i5 e6 u6 b7 lb">.env</code> and config file across, and two copies of history that drift apart.</p>
+            <p class="g0 u0">Then I properly learned <strong>git worktrees</strong>, and the whole problem dissolved. Now I keep my feature work exactly where it is, agent and all, and spin up a separate, clean checkout for the hotfix in seconds, sharing the same <code class="i5 e6 u6 b7 lb">.git</code>. No stashing. No waiting. No second clone.</p>
+            <p class="g0 u0">I genuinely think this is one of the biggest unlocks for anyone working with AI agents today, and almost nobody I talk to uses it. So this is the post I wish I&#39;d read. We&#39;re going to go deep: what a worktree actually <em>is</em> on disk, the full command surface, the gotchas, and the exact workflow I use to run multiple <a class="p9 ha ja oc" href="https://code.claude.com">Claude Code</a> sessions in parallel.</p>
+            <h2 id="tl-dr" class="n0 l8 x8 u8 a9">TL;DR</h2>
             <ul class="g0 u0">
-              <li>A <strong>git worktree</strong> lets you check out multiple branches into multiple directories at the same time, all backed by <strong>one</strong> shared <code class="i5 d6 t6 a7 hb">.git</code>. One clone, many working directories.</li>
-              <li>It&#39;s not a second clone. The object database, refs, and config are shared. You <code class="i5 d6 t6 a7 hb">git fetch</code> once and every worktree sees it. The only extra cost is the checked-out files.</li>
-              <li>The core command is <code class="i5 d6 t6 a7 hb">git worktree add ../some-dir -b some-branch</code>. Then <code class="i5 d6 t6 a7 hb">cd</code> into it and it behaves like a normal repo.</li>
+              <li>A <strong>git worktree</strong> lets you check out multiple branches into multiple directories at the same time, all backed by <strong>one</strong> shared <code class="i5 e6 u6 b7 lb">.git</code>. One clone, many working directories.</li>
+              <li>It&#39;s not a second clone. The object database, refs, and config are shared. You <code class="i5 e6 u6 b7 lb">git fetch</code> once and every worktree sees it. The only extra cost is the checked-out files.</li>
+              <li>The core command is <code class="i5 e6 u6 b7 lb">git worktree add ../some-dir -b some-branch</code>. Then <code class="i5 e6 u6 b7 lb">cd</code> into it and it behaves like a normal repo.</li>
               <li>This is the perfect substrate for AI agents: each agent gets its <strong>own</strong> working directory and branch, so they never clobber each other&#39;s files. One agent can refactor for 20 minutes in worktree A while you ship a hotfix in worktree B.</li>
-              <li><strong>Claude Code has this built in</strong>: <code class="i5 d6 t6 a7 hb">claude --worktree &lt;name&gt;</code> spins up an isolated worktree per session, and subagents can run with <code class="i5 d6 t6 a7 hb">isolation: worktree</code> so parallel agents stay sandboxed.</li>
-              <li>The two things that bite everyone: a fresh worktree has <strong>no <code class="i5 d6 t6 a7 hb">node_modules</code> and no <code class="i5 d6 t6 a7 hb">.env</code></strong> (they aren&#39;t in git), and <strong>you can&#39;t check out the same branch in two worktrees</strong>. We&#39;ll handle both.</li>
+              <li><strong>Claude Code has this built in</strong>: <code class="i5 e6 u6 b7 lb">claude --worktree &lt;name&gt;</code> spins up an isolated worktree per session, and subagents can run with <code class="i5 e6 u6 b7 lb">isolation: worktree</code> so parallel agents stay sandboxed.</li>
+              <li>The two things that bite everyone: a fresh worktree has <strong>no <code class="i5 e6 u6 b7 lb">node_modules</code> and no <code class="i5 e6 u6 b7 lb">.env</code></strong> (they aren&#39;t in git), and <strong>you can&#39;t check out the same branch in two worktrees</strong>. We&#39;ll handle both.</li>
             </ul>
-            <h2 id="first-the-mental-model" class="n0 k8 w8 t8 z8">First, the mental model</h2>
+            <h2 id="first-the-mental-model" class="n0 l8 x8 u8 a9">First, the mental model</h2>
             <p class="g0 u0">Before any commands, you need the right picture in your head, because once you have it, every quirk of worktrees makes sense.</p>
             <p class="g0 u0">A normal Git repository has two parts that we usually think of as one thing:</p>
             <ol class="g0 u0">
-              <li><strong>The repository</strong> itself, the <code class="i5 d6 t6 a7 hb">.git</code> directory: the object database (every commit, tree, and blob), your refs (branches, tags, remotes), and config.</li>
-              <li><strong>The working tree</strong>: the actual checked-out files you edit, plus a <code class="i5 d6 t6 a7 hb">HEAD</code> (what&#39;s checked out) and an <code class="i5 d6 t6 a7 hb">index</code> (the staging area).</li>
+              <li><strong>The repository</strong> itself, the <code class="i5 e6 u6 b7 lb">.git</code> directory: the object database (every commit, tree, and blob), your refs (branches, tags, remotes), and config.</li>
+              <li><strong>The working tree</strong>: the actual checked-out files you edit, plus a <code class="i5 e6 u6 b7 lb">HEAD</code> (what&#39;s checked out) and an <code class="i5 e6 u6 b7 lb">index</code> (the staging area).</li>
             </ol>
-            <p class="g0 u0">When you <code class="i5 d6 t6 a7 hb">git clone</code>, you get exactly one of each, glued together. The mental leap with worktrees is realizing <strong>a single repository can have many working trees attached to it at once.</strong></p>
+            <p class="g0 u0">When you <code class="i5 e6 u6 b7 lb">git clone</code>, you get exactly one of each, glued together. The mental leap with worktrees is realizing <strong>a single repository can have many working trees attached to it at once.</strong></p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">        ┌──────────────────────────────────────────┐</span>
-                  <span class="block m8 g9">        │   ONE repository (.git)                  │</span>
-                  <span class="block m8 g9">        │   objects, refs, config (shared)         │</span>
-                  <span class="block m8 g9">        └──────────────────────────────────────────┘</span>
-                  <span class="block m8 g9">            ▲                ▲                 ▲</span>
-                  <span class="block m8 g9">            │                │                 │</span>
-                  <span class="block m8 g9">   ┌────────┴───────┐ ┌──────┴────────┐ ┌──────┴─────────┐</span>
-                  <span class="block m8 g9">   │  main checkout │ │  worktree A   │ │  worktree B    │</span>
-                  <span class="block m8 g9">   │  branch: main  │ │ branch: feat  │ │ branch: hotfix │</span>
-                  <span class="block m8 g9">   │  own HEAD+index│ │ own HEAD+index│ │ own HEAD+index │</span>
-                  <span class="block m8 g9">   │  own files     │ │ own files     │ │ own files      │</span>
-                  <span class="block m8 g9">   └────────────────┘ └───────────────┘ └────────────────┘</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">        ┌──────────────────────────────────────────┐</span>
+                  <span class="block n8 h9">        │   ONE repository (.git)                  │</span>
+                  <span class="block n8 h9">        │   objects, refs, config (shared)         │</span>
+                  <span class="block n8 h9">        └──────────────────────────────────────────┘</span>
+                  <span class="block n8 h9">            ▲                ▲                 ▲</span>
+                  <span class="block n8 h9">            │                │                 │</span>
+                  <span class="block n8 h9">   ┌────────┴───────┐ ┌──────┴────────┐ ┌──────┴─────────┐</span>
+                  <span class="block n8 h9">   │  main checkout │ │  worktree A   │ │  worktree B    │</span>
+                  <span class="block n8 h9">   │  branch: main  │ │ branch: feat  │ │ branch: hotfix │</span>
+                  <span class="block n8 h9">   │  own HEAD+index│ │ own HEAD+index│ │ own HEAD+index │</span>
+                  <span class="block n8 h9">   │  own files     │ │ own files     │ │ own files      │</span>
+                  <span class="block n8 h9">   └────────────────┘ └───────────────┘ └────────────────┘</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">The directory you created with <code class="i5 d6 t6 a7 hb">git clone</code> is the <strong>main working tree</strong>. Every directory you add later with <code class="i5 d6 t6 a7 hb">git worktree add</code> is a <strong>linked working tree</strong>. They all share the same underlying repository, but each has its own checked-out files, its own <code class="i5 d6 t6 a7 hb">HEAD</code>, and its own index.</p>
-            <p class="g0 u0">The single most important consequence: <strong>fetch once, use everywhere.</strong> A <code class="i5 d6 t6 a7 hb">git fetch</code> in any worktree updates the shared object store and remote-tracking refs, and every other worktree immediately sees those new commits. You are not re-downloading anything. That&#39;s the fundamental difference from cloning the repo a second time.</p>
-            <h2 id="what-s-actually-happening-on-disk" class="n0 k8 w8 t8 z8">What&#39;s actually happening on disk</h2>
-            <p class="g0 u0">This is the part most tutorials skip, and it&#39;s the part that makes you <em>trust</em> worktrees instead of treating them as magic. Let&#39;s say your main repo is at <code class="i5 d6 t6 a7 hb">~/code/myapp</code> and you run:</p>
+            <p class="g0 u0">The directory you created with <code class="i5 e6 u6 b7 lb">git clone</code> is the <strong>main working tree</strong>. Every directory you add later with <code class="i5 e6 u6 b7 lb">git worktree add</code> is a <strong>linked working tree</strong>. They all share the same underlying repository, but each has its own checked-out files, its own <code class="i5 e6 u6 b7 lb">HEAD</code>, and its own index.</p>
+            <p class="g0 u0">The single most important consequence: <strong>fetch once, use everywhere.</strong> A <code class="i5 e6 u6 b7 lb">git fetch</code> in any worktree updates the shared object store and remote-tracking refs, and every other worktree immediately sees those new commits. You are not re-downloading anything. That&#39;s the fundamental difference from cloning the repo a second time.</p>
+            <h2 id="what-s-actually-happening-on-disk" class="n0 l8 x8 u8 a9">What&#39;s actually happening on disk</h2>
+            <p class="g0 u0">This is the part most tutorials skip, and it&#39;s the part that makes you <em>trust</em> worktrees instead of treating them as magic. Let&#39;s say your main repo is at <code class="i5 e6 u6 b7 lb">~/code/myapp</code> and you run:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">add</span> <span class="x9">../myapp-worktrees/feat-auth</span> <span class="x9">-b</span> <span class="x9">feat-auth</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">add</span> <span class="y9">../myapp-worktrees/feat-auth</span> <span class="y9">-b</span> <span class="y9">feat-auth</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Let&#39;s read that command left to right, because every piece matters:</p>
             <ul class="g0 u0">
-              <li><strong><code class="i5 d6 t6 a7 hb">git worktree add</code></strong> is the subcommand that creates a new linked working tree.</li>
-              <li><strong><code class="i5 d6 t6 a7 hb">../myapp-worktrees/feat-auth</code></strong> is <em>where</em> to create it, the path to the new directory. The <code class="i5 d6 t6 a7 hb">../</code> means &quot;go up one level out of my current repo, into a sibling folder,&quot; so if your repo is <code class="i5 d6 t6 a7 hb">~/code/myapp</code>, this makes <code class="i5 d6 t6 a7 hb">~/code/myapp-worktrees/feat-auth</code>. The directory must not already exist, Git creates it for you. (The path can be anywhere you like; this sibling layout is just the convention I&#39;ll recommend later.)</li>
-              <li><strong><code class="i5 d6 t6 a7 hb">-b feat-auth</code></strong> means &quot;create a new branch called <code class="i5 d6 t6 a7 hb">feat-auth</code> and check it out here.&quot; It&#39;s the exact same <code class="i5 d6 t6 a7 hb">-b</code> you know from <code class="i5 d6 t6 a7 hb">git checkout -b</code> / <code class="i5 d6 t6 a7 hb">git switch -c</code>, just aimed at the new directory instead of the one you&#39;re standing in.</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">git worktree add</code></strong> is the subcommand that creates a new linked working tree.</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">../myapp-worktrees/feat-auth</code></strong> is <em>where</em> to create it, the path to the new directory. The <code class="i5 e6 u6 b7 lb">../</code> means &quot;go up one level out of my current repo, into a sibling folder,&quot; so if your repo is <code class="i5 e6 u6 b7 lb">~/code/myapp</code>, this makes <code class="i5 e6 u6 b7 lb">~/code/myapp-worktrees/feat-auth</code>. The directory must not already exist, Git creates it for you. (The path can be anywhere you like; this sibling layout is just the convention I&#39;ll recommend later.)</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">-b feat-auth</code></strong> means &quot;create a new branch called <code class="i5 e6 u6 b7 lb">feat-auth</code> and check it out here.&quot; It&#39;s the exact same <code class="i5 e6 u6 b7 lb">-b</code> you know from <code class="i5 e6 u6 b7 lb">git checkout -b</code> / <code class="i5 e6 u6 b7 lb">git switch -c</code>, just aimed at the new directory instead of the one you&#39;re standing in.</li>
             </ul>
-            <p class="g0 u0">Put together, that one line creates a new folder, makes a fresh <code class="i5 d6 t6 a7 hb">feat-auth</code> branch, and checks it out <em>into that folder</em>, all without touching your main checkout or the branch you currently have open. You now have two branches checked out at once, in two directories, backed by one repo. (If you wanted to check out a branch that <em>already exists</em> instead of making one, you&#39;d just drop the <code class="i5 d6 t6 a7 hb">-b</code>, more on the variations later.)</p>
-            <p class="g0 u0">Go look inside the new directory and you&#39;ll find something surprising. In a normal repo, <code class="i5 d6 t6 a7 hb">.git</code> is a <strong>directory</strong>. In a linked worktree, <code class="i5 d6 t6 a7 hb">.git</code> is a <strong>plain text file</strong>. Its entire contents are a single line:</p>
+            <p class="g0 u0">Put together, that one line creates a new folder, makes a fresh <code class="i5 e6 u6 b7 lb">feat-auth</code> branch, and checks it out <em>into that folder</em>, all without touching your main checkout or the branch you currently have open. You now have two branches checked out at once, in two directories, backed by one repo. (If you wanted to check out a branch that <em>already exists</em> instead of making one, you&#39;d just drop the <code class="i5 e6 u6 b7 lb">-b</code>, more on the variations later.)</p>
+            <p class="g0 u0">Go look inside the new directory and you&#39;ll find something surprising. In a normal repo, <code class="i5 e6 u6 b7 lb">.git</code> is a <strong>directory</strong>. In a linked worktree, <code class="i5 e6 u6 b7 lb">.git</code> is a <strong>plain text file</strong>. Its entire contents are a single line:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">gitdir: /Users/you/code/myapp/.git/worktrees/feat-auth</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">gitdir: /Users/you/code/myapp/.git/worktrees/feat-auth</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">That&#39;s it. It&#39;s a pointer. When Git runs inside the linked worktree, it follows that pointer to a small per-worktree admin directory that lives <em>inside the main repo&#39;s</em> <code class="i5 d6 t6 a7 hb">.git</code>. So the real <code class="i5 d6 t6 a7 hb">.git</code> data never gets duplicated, the linked worktree just points back to it.</p>
-            <p class="g0 u0">Inside that admin directory git keeps this worktree&#39;s own <code class="i5 d6 t6 a7 hb">HEAD</code>, its own index, and small pointer files back to the shared repo. The takeaway: <strong>the repository itself, all your commits and branches, lives once and is shared</strong>; each worktree just adds its own checked-out files on top. Your git config is shared too, so your remotes and aliases work everywhere without re-setting anything.</p>
-            <blockquote class="x g0 u0 q5 v5 s7 p9">
-              <p class="g0 u0">One habit worth keeping: don&#39;t hand-edit the files <em>inside</em> <code class="i5 d6 t6 a7 hb">.git</code>. Read them to understand what&#39;s going on, but change them with git commands, not a text editor.</p>
+            <p class="g0 u0">That&#39;s it. It&#39;s a pointer. When Git runs inside the linked worktree, it follows that pointer to a small per-worktree admin directory that lives <em>inside the main repo&#39;s</em> <code class="i5 e6 u6 b7 lb">.git</code>. So the real <code class="i5 e6 u6 b7 lb">.git</code> data never gets duplicated, the linked worktree just points back to it.</p>
+            <p class="g0 u0">Inside that admin directory git keeps this worktree&#39;s own <code class="i5 e6 u6 b7 lb">HEAD</code>, its own index, and small pointer files back to the shared repo. The takeaway: <strong>the repository itself, all your commits and branches, lives once and is shared</strong>; each worktree just adds its own checked-out files on top. Your git config is shared too, so your remotes and aliases work everywhere without re-setting anything.</p>
+            <blockquote class="x g0 u0 q5 w5 t7 q9">
+              <p class="g0 u0">One habit worth keeping: don&#39;t hand-edit the files <em>inside</em> <code class="i5 e6 u6 b7 lb">.git</code>. Read them to understand what&#39;s going on, but change them with git commands, not a text editor.</p>
             </blockquote>
-            <h2 id="the-command-surface" class="n0 k8 w8 t8 z8">The command surface</h2>
+            <h2 id="the-command-surface" class="n0 l8 x8 u8 a9">The command surface</h2>
             <p class="g0 u0">There are really only a handful of subcommands. Here&#39;s the whole thing.</p>
-            <h3 id="git-worktree-add-create-one" class="l0 h8 t8 z8"><code class="i5 d6 t6 a7 hb">git worktree add</code>: create one</h3>
+            <h3 id="git-worktree-add-create-one" class="l0 i8 u8 a9"><code class="i5 e6 u6 b7 lb">git worktree add</code>: create one</h3>
             <p class="g0 u0">This is the command you&#39;ll use 95% of the time.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba"># Create a NEW branch and check it out in a new directory (most common)</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">add</span> <span class="x9">../myapp-worktrees/feat-auth</span> <span class="x9">-b</span> <span class="x9">feat-auth</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba"># Check out an EXISTING branch into a new directory</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">add</span> <span class="x9">../myapp-worktrees/hotfix</span> <span class="x9">hotfix</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba"># Branch from a specific start point</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">add</span> <span class="x9">../myapp-worktrees/feat-auth</span> <span class="x9">-b</span> <span class="x9">feat-auth</span> <span class="x9">origin/main</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca"># Create a NEW branch and check it out in a new directory (most common)</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">add</span> <span class="y9">../myapp-worktrees/feat-auth</span> <span class="y9">-b</span> <span class="y9">feat-auth</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca"># Check out an EXISTING branch into a new directory</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">add</span> <span class="y9">../myapp-worktrees/hotfix</span> <span class="y9">hotfix</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca"># Branch from a specific start point</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">add</span> <span class="y9">../myapp-worktrees/feat-auth</span> <span class="y9">-b</span> <span class="y9">feat-auth</span> <span class="y9">origin/main</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="git-worktree-list-see-what-you-ve-got" class="l0 h8 t8 z8"><code class="i5 d6 t6 a7 hb">git worktree list</code>: see what you&#39;ve got</h3>
+            <h3 id="git-worktree-list-see-what-you-ve-got" class="l0 i8 u8 a9"><code class="i5 e6 u6 b7 lb">git worktree list</code>: see what you&#39;ve got</h3>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">list</span></span>
-                  <span class="block m8 g9"><span class="q9 ba"># /Users/you/code/myapp                  abcd123 [main]</span></span>
-                  <span class="block m8 g9"><span class="q9 ba"># /Users/you/code/myapp-worktrees/feat   ef45678 [feat-auth]</span></span>
-                  <span class="block m8 g9"><span class="q9 ba"># /Users/you/code/inspect                9988776 (detached HEAD)</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">list</span> <span class="x9">--porcelain</span>   <span class="q9 ba"># stable, machine-readable; parse this, not the human format</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">list</span></span>
+                  <span class="block n8 h9"><span class="r9 ca"># /Users/you/code/myapp                  abcd123 [main]</span></span>
+                  <span class="block n8 h9"><span class="r9 ca"># /Users/you/code/myapp-worktrees/feat   ef45678 [feat-auth]</span></span>
+                  <span class="block n8 h9"><span class="r9 ca"># /Users/you/code/inspect                9988776 (detached HEAD)</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">list</span> <span class="y9">--porcelain</span>   <span class="r9 ca"># stable, machine-readable; parse this, not the human format</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="git-worktree-remove-clean-one-up" class="l0 h8 t8 z8"><code class="i5 d6 t6 a7 hb">git worktree remove</code>: clean one up</h3>
+            <h3 id="git-worktree-remove-clean-one-up" class="l0 i8 u8 a9"><code class="i5 e6 u6 b7 lb">git worktree remove</code>: clean one up</h3>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">remove</span> <span class="x9">../myapp-worktrees/feat-auth</span>        <span class="q9 ba"># refuses if there are uncommitted changes</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">remove</span> <span class="x9">--force</span> <span class="x9">../myapp-worktrees/feat-auth</span> <span class="q9 ba"># remove anyway</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">remove</span> <span class="y9">../myapp-worktrees/feat-auth</span>        <span class="r9 ca"># refuses if there are uncommitted changes</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">remove</span> <span class="y9">--force</span> <span class="y9">../myapp-worktrees/feat-auth</span> <span class="r9 ca"># remove anyway</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Always prefer this over <code class="i5 d6 t6 a7 hb">rm -rf</code>-ing the directory. If you delete the folder manually, Git doesn&#39;t know it&#39;s gone, and the admin directory hangs around as a ghost (which can later trigger confusing &quot;already checked out&quot; errors). If you <em>do</em> delete a worktree folder by hand, run <code class="i5 d6 t6 a7 hb">git worktree prune</code> to clear the stale entry.</p>
-            <h3 id="git-worktree-prune-sweep-the-ghosts" class="l0 h8 t8 z8"><code class="i5 d6 t6 a7 hb">git worktree prune</code>: sweep the ghosts</h3>
+            <p class="g0 u0">Always prefer this over <code class="i5 e6 u6 b7 lb">rm -rf</code>-ing the directory. If you delete the folder manually, Git doesn&#39;t know it&#39;s gone, and the admin directory hangs around as a ghost (which can later trigger confusing &quot;already checked out&quot; errors). If you <em>do</em> delete a worktree folder by hand, run <code class="i5 e6 u6 b7 lb">git worktree prune</code> to clear the stale entry.</p>
+            <h3 id="git-worktree-prune-sweep-the-ghosts" class="l0 i8 u8 a9"><code class="i5 e6 u6 b7 lb">git worktree prune</code>: sweep the ghosts</h3>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">prune</span> <span class="x9">-n</span>              <span class="q9 ba"># dry run: show what would be pruned</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">prune</span> <span class="x9">-v</span>              <span class="q9 ba"># verbose: report each removal</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">prune</span> <span class="x9">--expire</span> <span class="x9">3.days.ago</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">prune</span> <span class="y9">-n</span>              <span class="r9 ca"># dry run: show what would be pruned</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">prune</span> <span class="y9">-v</span>              <span class="r9 ca"># verbose: report each removal</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">prune</span> <span class="y9">--expire</span> <span class="y9">3.days.ago</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h2 id="the-gotchas-that-will-bite-you" class="n0 k8 w8 t8 z8">The gotchas that will bite you</h2>
+            <h2 id="the-gotchas-that-will-bite-you" class="n0 l8 x8 u8 a9">The gotchas that will bite you</h2>
             <p class="g0 u0">I hit most of these the hard way, so let me save you the trouble.</p>
-            <h3 id="you-cannot-check-out-the-same-branch-in-two-worktrees" class="l0 h8 t8 z8">You cannot check out the same branch in two worktrees</h3>
+            <h3 id="you-cannot-check-out-the-same-branch-in-two-worktrees" class="l0 i8 u8 a9">You cannot check out the same branch in two worktrees</h3>
             <p class="g0 u0">This is the cardinal rule and it confuses everyone the first time:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">$</span> <span class="x9">git</span> <span class="x9">worktree</span> <span class="x9">add</span> <span class="x9">../second</span> <span class="x9">main</span></span>
-                  <span class="block m8 g9"><span class="r9">fatal:</span> <span class="x9">&#39;main&#39;</span> <span class="x9">is</span> <span class="x9">already</span> <span class="x9">checked</span> <span class="x9">out</span> <span class="x9">at</span> <span class="x9">&#39;/Users/you/code/myapp&#39;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">$</span> <span class="y9">git</span> <span class="y9">worktree</span> <span class="y9">add</span> <span class="y9">../second</span> <span class="y9">main</span></span>
+                  <span class="block n8 h9"><span class="s9">fatal:</span> <span class="y9">&#39;main&#39;</span> <span class="y9">is</span> <span class="y9">already</span> <span class="y9">checked</span> <span class="y9">out</span> <span class="y9">at</span> <span class="y9">&#39;/Users/you/code/myapp&#39;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Why? Each worktree has its own <code class="i5 d6 t6 a7 hb">HEAD</code> and <code class="i5 d6 t6 a7 hb">index</code>, but a branch ref is <strong>shared</strong>. If two worktrees were both &quot;on&quot; <code class="i5 d6 t6 a7 hb">main</code>, a commit in one would move the shared ref out from under the other, and the second worktree would silently think a bunch of files were modified or deleted. Git refuses to let you create that footgun.</p>
-            <p class="g0 u0">There&#39;s a <code class="i5 d6 t6 a7 hb">--force</code> to override it, but don&#39;t, unless you genuinely want a throwaway read-only checkout and understand exactly what you&#39;re doing. The right move is: one branch, one worktree. If you want to look at <code class="i5 d6 t6 a7 hb">main</code>&#39;s code while you&#39;re on <code class="i5 d6 t6 a7 hb">main</code>, just use the main checkout you already have.</p>
-            <h3 id="a-fresh-worktree-has-no-node-modules-and-no-env" class="l0 h8 t8 z8">A fresh worktree has no <code class="i5 d6 t6 a7 hb">node_modules</code> and no <code class="i5 d6 t6 a7 hb">.env</code></h3>
-            <p class="g0 u0">This is the big one for any real project, and it trips up agents constantly. A worktree is a <strong>fresh checkout of tracked files only.</strong> Anything in your <code class="i5 d6 t6 a7 hb">.gitignore</code>, <code class="i5 d6 t6 a7 hb">node_modules/</code>, <code class="i5 d6 t6 a7 hb">.venv/</code>, <code class="i5 d6 t6 a7 hb">.next/</code>, build caches, and crucially your <code class="i5 d6 t6 a7 hb">.env</code> files, does <strong>not</strong> exist in a new worktree. Your agent will cheerfully run <code class="i5 d6 t6 a7 hb">bun run dev</code> and immediately fail with &quot;module not found.&quot;</p>
+            <p class="g0 u0">Why? Each worktree has its own <code class="i5 e6 u6 b7 lb">HEAD</code> and <code class="i5 e6 u6 b7 lb">index</code>, but a branch ref is <strong>shared</strong>. If two worktrees were both &quot;on&quot; <code class="i5 e6 u6 b7 lb">main</code>, a commit in one would move the shared ref out from under the other, and the second worktree would silently think a bunch of files were modified or deleted. Git refuses to let you create that footgun.</p>
+            <p class="g0 u0">There&#39;s a <code class="i5 e6 u6 b7 lb">--force</code> to override it, but don&#39;t, unless you genuinely want a throwaway read-only checkout and understand exactly what you&#39;re doing. The right move is: one branch, one worktree. If you want to look at <code class="i5 e6 u6 b7 lb">main</code>&#39;s code while you&#39;re on <code class="i5 e6 u6 b7 lb">main</code>, just use the main checkout you already have.</p>
+            <h3 id="a-fresh-worktree-has-no-node-modules-and-no-env" class="l0 i8 u8 a9">A fresh worktree has no <code class="i5 e6 u6 b7 lb">node_modules</code> and no <code class="i5 e6 u6 b7 lb">.env</code></h3>
+            <p class="g0 u0">This is the big one for any real project, and it trips up agents constantly. A worktree is a <strong>fresh checkout of tracked files only.</strong> Anything in your <code class="i5 e6 u6 b7 lb">.gitignore</code>, <code class="i5 e6 u6 b7 lb">node_modules/</code>, <code class="i5 e6 u6 b7 lb">.venv/</code>, <code class="i5 e6 u6 b7 lb">.next/</code>, build caches, and crucially your <code class="i5 e6 u6 b7 lb">.env</code> files, does <strong>not</strong> exist in a new worktree. Your agent will cheerfully run <code class="i5 e6 u6 b7 lb">bun run dev</code> and immediately fail with &quot;module not found.&quot;</p>
             <p class="g0 u0">We&#39;ll solve this properly in the next section. Just know it&#39;s expected, not a bug.</p>
-            <h3 id="stash-is-global-not-per-worktree" class="l0 h8 t8 z8">Stash is global, not per-worktree</h3>
-            <p class="g0 u0"><code class="i5 d6 t6 a7 hb">git stash</code> is stored on a shared ref, so a stash you make in worktree A is visible (and poppable) from worktree B. This surprises people. Honestly, though, the beauty of worktrees is that you rarely <em>need</em> to stash anymore. Instead of stashing to switch context, you just walk to a different directory.</p>
-            <h3 id="manually-deleting-a-worktree-directory-leaves-a-ghost" class="l0 h8 t8 z8">Manually deleting a worktree directory leaves a ghost</h3>
-            <p class="g0 u0">Covered above, but worth repeating because it&#39;s the most common mess: use <code class="i5 d6 t6 a7 hb">git worktree remove</code>, not <code class="i5 d6 t6 a7 hb">rm -rf</code>. If you forget, <code class="i5 d6 t6 a7 hb">git worktree prune</code> cleans up.</p>
-            <h2 id="how-worktrees-compare-to-the-alternatives" class="n0 k8 w8 t8 z8">How worktrees compare to the alternatives</h2>
+            <h3 id="stash-is-global-not-per-worktree" class="l0 i8 u8 a9">Stash is global, not per-worktree</h3>
+            <p class="g0 u0"><code class="i5 e6 u6 b7 lb">git stash</code> is stored on a shared ref, so a stash you make in worktree A is visible (and poppable) from worktree B. This surprises people. Honestly, though, the beauty of worktrees is that you rarely <em>need</em> to stash anymore. Instead of stashing to switch context, you just walk to a different directory.</p>
+            <h3 id="manually-deleting-a-worktree-directory-leaves-a-ghost" class="l0 i8 u8 a9">Manually deleting a worktree directory leaves a ghost</h3>
+            <p class="g0 u0">Covered above, but worth repeating because it&#39;s the most common mess: use <code class="i5 e6 u6 b7 lb">git worktree remove</code>, not <code class="i5 e6 u6 b7 lb">rm -rf</code>. If you forget, <code class="i5 e6 u6 b7 lb">git worktree prune</code> cleans up.</p>
+            <h2 id="how-worktrees-compare-to-the-alternatives" class="n0 l8 x8 u8 a9">How worktrees compare to the alternatives</h2>
             <p class="g0 u0">This table is the whole argument in one place:</p>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Approach</th>
-                  <th class="p5 v5 x6 e7 u7">Object DB</th>
-                  <th class="p5 v5 x6 e7 u7">Disk cost</th>
-                  <th class="p5 v5 x6 e7 u7">Fetch</th>
-                  <th class="p5 v5 x6 e7 u7">Parallel work?</th>
+                  <th class="p5 w5 y6 f7 v7">Approach</th>
+                  <th class="p5 w5 y6 f7 v7">Object DB</th>
+                  <th class="p5 w5 y6 f7 v7">Disk cost</th>
+                  <th class="p5 w5 y6 f7 v7">Fetch</th>
+                  <th class="p5 w5 y6 f7 v7">Parallel work?</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><strong><code class="i5 d6 t6 a7 hb">git worktree add</code></strong></td>
-                  <td class="p5 v5 x6 e7 u7"><strong>Shared</strong></td>
-                  <td class="p5 v5 x6 e7 u7">Just the extra checked-out files</td>
-                  <td class="p5 v5 x6 e7 u7"><strong>Once</strong></td>
-                  <td class="p5 v5 x6 e7 u7"><strong>Yes</strong></td>
+                  <td class="p5 w5 y6 f7 v7"><strong><code class="i5 e6 u6 b7 lb">git worktree add</code></strong></td>
+                  <td class="p5 w5 y6 f7 v7"><strong>Shared</strong></td>
+                  <td class="p5 w5 y6 f7 v7">Just the extra checked-out files</td>
+                  <td class="p5 w5 y6 f7 v7"><strong>Once</strong></td>
+                  <td class="p5 w5 y6 f7 v7"><strong>Yes</strong></td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">git clone</code> a 2nd copy</td>
-                  <td class="p5 v5 x6 e7 u7">Duplicated</td>
-                  <td class="p5 v5 x6 e7 u7">Full second copy of history + files</td>
-                  <td class="p5 v5 x6 e7 u7">Per clone</td>
-                  <td class="p5 v5 x6 e7 u7">Yes</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">git clone</code> a 2nd copy</td>
+                  <td class="p5 w5 y6 f7 v7">Duplicated</td>
+                  <td class="p5 w5 y6 f7 v7">Full second copy of history + files</td>
+                  <td class="p5 w5 y6 f7 v7">Per clone</td>
+                  <td class="p5 w5 y6 f7 v7">Yes</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">git stash</code> + switch</td>
-                  <td class="p5 v5 x6 e7 u7">Shared</td>
-                  <td class="p5 v5 x6 e7 u7">Zero extra</td>
-                  <td class="p5 v5 x6 e7 u7">n/a</td>
-                  <td class="p5 v5 x6 e7 u7">No (one dir)</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">git stash</code> + switch</td>
+                  <td class="p5 w5 y6 f7 v7">Shared</td>
+                  <td class="p5 w5 y6 f7 v7">Zero extra</td>
+                  <td class="p5 w5 y6 f7 v7">n/a</td>
+                  <td class="p5 w5 y6 f7 v7">No (one dir)</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Just switching branches</td>
-                  <td class="p5 v5 x6 e7 u7">Shared</td>
-                  <td class="p5 v5 x6 e7 u7">Zero extra</td>
-                  <td class="p5 v5 x6 e7 u7">n/a</td>
-                  <td class="p5 v5 x6 e7 u7">No (one dir)</td>
+                  <td class="p5 w5 y6 f7 v7">Just switching branches</td>
+                  <td class="p5 w5 y6 f7 v7">Shared</td>
+                  <td class="p5 w5 y6 f7 v7">Zero extra</td>
+                  <td class="p5 w5 y6 f7 v7">n/a</td>
+                  <td class="p5 w5 y6 f7 v7">No (one dir)</td>
                 </tr>
               </tbody>
             </table>
             <p class="g0 u0">Worktrees give you clone-level isolation of your <em>working files</em> with single-clone disk and fetch costs. A second clone only wins when you need <em>fully</em> independent state (different config, a sandbox you can corrupt safely). Stash and branch-switching keep you stuck in a single directory, which is exactly the bottleneck we&#39;re trying to escape.</p>
-            <h2 id="the-convention-i-settled-on" class="n0 k8 w8 t8 z8">The convention I settled on</h2>
+            <h2 id="the-convention-i-settled-on" class="n0 l8 x8 u8 a9">The convention I settled on</h2>
             <p class="g0 u0">After trying a few layouts, here&#39;s what I recommend, and what I now use everywhere.</p>
-            <p class="g0 u0"><strong>Keep worktrees in a sibling folder named after the repo:</strong> <code class="i5 d6 t6 a7 hb">../&lt;repo&gt;-worktrees/&lt;branch&gt;</code>.</p>
+            <p class="g0 u0"><strong>Keep worktrees in a sibling folder named after the repo:</strong> <code class="i5 e6 u6 b7 lb">../&lt;repo&gt;-worktrees/&lt;branch&gt;</code>.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">~/code/myapp/                 # main checkout (your normal clone)</span>
-                  <span class="block m8 g9">~/code/myapp-worktrees/</span>
-                  <span class="block m8 g9">  ├── feat-auth/              # branch: feat-auth</span>
-                  <span class="block m8 g9">  ├── hotfix-billing/         # branch: hotfix-billing</span>
-                  <span class="block m8 g9">  └── pr-1234/                # a PR you&#39;re reviewing</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">~/code/myapp/                 # main checkout (your normal clone)</span>
+                  <span class="block n8 h9">~/code/myapp-worktrees/</span>
+                  <span class="block n8 h9">  ├── feat-auth/              # branch: feat-auth</span>
+                  <span class="block n8 h9">  ├── hotfix-billing/         # branch: hotfix-billing</span>
+                  <span class="block n8 h9">  └── pr-1234/                # a PR you&#39;re reviewing</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">The alternative is putting worktrees <em>inside</em> the repo (like <code class="i5 d6 t6 a7 hb">./.worktrees/feat-auth</code>), and Claude Code&#39;s default actually does a version of this under <code class="i5 d6 t6 a7 hb">.claude/worktrees/</code>. The problem with in-repo worktrees when <em>you&#39;re</em> driving manually is <strong>recursion</strong>: file watchers, <code class="i5 d6 t6 a7 hb">ripgrep</code>, your test runner, your bundler, and the agent itself can all descend into the worktree folder and suddenly see N copies of your codebase. Keeping worktrees as siblings, physically outside the repo, sidesteps that entire class of problem. So: siblings when you manage them by hand; in-repo is fine when the agent owns the lifecycle and handles the ignores for you.</p>
-            <h3 id="a-one-command-helper" class="l0 h8 t8 z8">A one-command helper</h3>
-            <p class="g0 u0">Creating a worktree <em>and</em> getting it ready to run is a few steps every time, so I wrapped it. This simple version creates the worktree, copies the common gitignored config a fresh checkout is missing (<code class="i5 d6 t6 a7 hb">.env</code> and friends), and installs dependencies; the fuller version further down copies whatever else you list. Drop it in your <code class="i5 d6 t6 a7 hb">~/.zshrc</code> or <code class="i5 d6 t6 a7 hb">~/.bashrc</code>:</p>
+            <p class="g0 u0">The alternative is putting worktrees <em>inside</em> the repo (like <code class="i5 e6 u6 b7 lb">./.worktrees/feat-auth</code>), and Claude Code&#39;s default actually does a version of this under <code class="i5 e6 u6 b7 lb">.claude/worktrees/</code>. The problem with in-repo worktrees when <em>you&#39;re</em> driving manually is <strong>recursion</strong>: file watchers, <code class="i5 e6 u6 b7 lb">ripgrep</code>, your test runner, your bundler, and the agent itself can all descend into the worktree folder and suddenly see N copies of your codebase. Keeping worktrees as siblings, physically outside the repo, sidesteps that entire class of problem. So: siblings when you manage them by hand; in-repo is fine when the agent owns the lifecycle and handles the ignores for you.</p>
+            <h3 id="a-one-command-helper" class="l0 i8 u8 a9">A one-command helper</h3>
+            <p class="g0 u0">Creating a worktree <em>and</em> getting it ready to run is a few steps every time, so I wrapped it. This simple version creates the worktree, copies the common gitignored config a fresh checkout is missing (<code class="i5 e6 u6 b7 lb">.env</code> and friends), and installs dependencies; the fuller version further down copies whatever else you list. Drop it in your <code class="i5 e6 u6 b7 lb">~/.zshrc</code> or <code class="i5 e6 u6 b7 lb">~/.bashrc</code>:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba"># wt &lt;branch&gt; [base]: create a worktree, copy common config, install deps</span></span>
-                  <span class="block m8 g9"><span class="r9">wt</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">local</span> branch<span class="v9">=</span><span class="x9">&quot;$1&quot;</span></span>
-                  <span class="block m8 g9">  <span class="t9">local</span> base<span class="v9">=</span><span class="x9">&quot;${2:-origin/HEAD}&quot;</span></span>
-                  <span class="block m8 g9">  <span class="z9">[</span> <span class="v9">-z</span> <span class="x9">&quot;$branch&quot;</span> <span class="z9">]</span> <span class="z9">&amp;&amp;</span> <span class="z9">{</span> <span class="r9">echo</span> <span class="x9">&quot;usage: wt &lt;branch&gt; [base]&quot;</span><span class="z9">;</span> <span class="r9">return</span> <span class="x9">1</span><span class="z9">;</span> <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">local</span> root<span class="z9">;</span> root<span class="v9">=</span><span class="x9">&quot;$(git rev-parse --show-toplevel)&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                  <span class="block m8 g9">  <span class="t9">local</span> repo<span class="z9">;</span> repo<span class="v9">=</span><span class="x9">&quot;$(basename &quot;$root&quot;)&quot;</span></span>
-                  <span class="block m8 g9">  <span class="t9">local</span> wtdir<span class="v9">=</span><span class="x9">&quot;$(dirname &quot;$root&quot;)/${repo}-worktrees/${branch//\//-}&quot;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="r9">git</span> <span class="x9">-C</span> <span class="x9">&quot;$root&quot;</span> <span class="x9">fetch</span> <span class="x9">--quiet</span> <span class="x9">origin</span></span>
-                  <span class="block m8 g9">  <span class="r9">git</span> <span class="x9">-C</span> <span class="x9">&quot;$root&quot;</span> <span class="x9">worktree</span> <span class="x9">add</span> <span class="x9">&quot;$wtdir&quot;</span> <span class="x9">-b</span> <span class="x9">&quot;$branch&quot;</span> <span class="x9">&quot;$base&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="q9 ba"># copy the common gitignored config a fresh checkout is missing</span></span>
-                  <span class="block m8 g9">  <span class="t9">for</span> f <span class="t9">in</span> <span class="x9">.env</span> <span class="x9">.env.local</span> <span class="x9">.npmrc</span><span class="z9">;</span> <span class="t9">do</span></span>
-                  <span class="block m8 g9">    <span class="z9">[</span> <span class="v9">-f</span> <span class="x9">&quot;$root/$f&quot;</span> <span class="z9">]</span> <span class="z9">&amp;&amp;</span> <span class="r9">cp</span> <span class="x9">&quot;$root/$f&quot;</span> <span class="x9">&quot;$wtdir/$f&quot;</span></span>
-                  <span class="block m8 g9">  <span class="t9">done</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="q9 ba"># install deps</span></span>
-                  <span class="block m8 g9">  <span class="r9">cd</span> <span class="x9">&quot;$wtdir&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                  <span class="block m8 g9">  <span class="r9">bun</span> <span class="x9">install</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="r9">echo</span> <span class="x9">&quot;✅ worktree ready: $wtdir&quot;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba"># wtrm: tear down the current worktree + its branch, run from inside it</span></span>
-                  <span class="block m8 g9"><span class="r9">wtrm</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">local</span> wt<span class="z9">;</span> wt<span class="v9">=</span><span class="x9">&quot;$(git rev-parse --show-toplevel)&quot;</span></span>
-                  <span class="block m8 g9">  <span class="t9">local</span> branch<span class="z9">;</span> branch<span class="v9">=</span><span class="x9">&quot;$(git symbolic-ref --short HEAD)&quot;</span></span>
-                  <span class="block m8 g9">  <span class="t9">local</span> main<span class="z9">;</span> main<span class="v9">=</span><span class="x9">&quot;$(git worktree list --porcelain | awk &#39;NR==1{print $2}&#39;)&quot;</span></span>
-                  <span class="block m8 g9">  <span class="r9">cd</span> <span class="x9">&quot;$main&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                  <span class="block m8 g9">  <span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">remove</span> <span class="x9">&quot;$wt&quot;</span> <span class="z9">&amp;&amp;</span> <span class="r9">git</span> <span class="x9">branch</span> <span class="x9">-D</span> <span class="x9">&quot;$branch&quot;</span> <span class="z9">&amp;&amp;</span> <span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">prune</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca"># wt &lt;branch&gt; [base]: create a worktree, copy common config, install deps</span></span>
+                  <span class="block n8 h9"><span class="s9">wt</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">local</span> branch<span class="w9">=</span><span class="y9">&quot;$1&quot;</span></span>
+                  <span class="block n8 h9">  <span class="u9">local</span> base<span class="w9">=</span><span class="y9">&quot;${2:-origin/HEAD}&quot;</span></span>
+                  <span class="block n8 h9">  <span class="aa">[</span> <span class="w9">-z</span> <span class="y9">&quot;$branch&quot;</span> <span class="aa">]</span> <span class="aa">&amp;&amp;</span> <span class="aa">{</span> <span class="s9">echo</span> <span class="y9">&quot;usage: wt &lt;branch&gt; [base]&quot;</span><span class="aa">;</span> <span class="s9">return</span> <span class="y9">1</span><span class="aa">;</span> <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">local</span> root<span class="aa">;</span> root<span class="w9">=</span><span class="y9">&quot;$(git rev-parse --show-toplevel)&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                  <span class="block n8 h9">  <span class="u9">local</span> repo<span class="aa">;</span> repo<span class="w9">=</span><span class="y9">&quot;$(basename &quot;$root&quot;)&quot;</span></span>
+                  <span class="block n8 h9">  <span class="u9">local</span> wtdir<span class="w9">=</span><span class="y9">&quot;$(dirname &quot;$root&quot;)/${repo}-worktrees/${branch//\//-}&quot;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="s9">git</span> <span class="y9">-C</span> <span class="y9">&quot;$root&quot;</span> <span class="y9">fetch</span> <span class="y9">--quiet</span> <span class="y9">origin</span></span>
+                  <span class="block n8 h9">  <span class="s9">git</span> <span class="y9">-C</span> <span class="y9">&quot;$root&quot;</span> <span class="y9">worktree</span> <span class="y9">add</span> <span class="y9">&quot;$wtdir&quot;</span> <span class="y9">-b</span> <span class="y9">&quot;$branch&quot;</span> <span class="y9">&quot;$base&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="r9 ca"># copy the common gitignored config a fresh checkout is missing</span></span>
+                  <span class="block n8 h9">  <span class="u9">for</span> f <span class="u9">in</span> <span class="y9">.env</span> <span class="y9">.env.local</span> <span class="y9">.npmrc</span><span class="aa">;</span> <span class="u9">do</span></span>
+                  <span class="block n8 h9">    <span class="aa">[</span> <span class="w9">-f</span> <span class="y9">&quot;$root/$f&quot;</span> <span class="aa">]</span> <span class="aa">&amp;&amp;</span> <span class="s9">cp</span> <span class="y9">&quot;$root/$f&quot;</span> <span class="y9">&quot;$wtdir/$f&quot;</span></span>
+                  <span class="block n8 h9">  <span class="u9">done</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="r9 ca"># install deps</span></span>
+                  <span class="block n8 h9">  <span class="s9">cd</span> <span class="y9">&quot;$wtdir&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                  <span class="block n8 h9">  <span class="s9">bun</span> <span class="y9">install</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="s9">echo</span> <span class="y9">&quot;✅ worktree ready: $wtdir&quot;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca"># wtrm: tear down the current worktree + its branch, run from inside it</span></span>
+                  <span class="block n8 h9"><span class="s9">wtrm</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">local</span> wt<span class="aa">;</span> wt<span class="w9">=</span><span class="y9">&quot;$(git rev-parse --show-toplevel)&quot;</span></span>
+                  <span class="block n8 h9">  <span class="u9">local</span> branch<span class="aa">;</span> branch<span class="w9">=</span><span class="y9">&quot;$(git symbolic-ref --short HEAD)&quot;</span></span>
+                  <span class="block n8 h9">  <span class="u9">local</span> main<span class="aa">;</span> main<span class="w9">=</span><span class="y9">&quot;$(git worktree list --porcelain | awk &#39;NR==1{print $2}&#39;)&quot;</span></span>
+                  <span class="block n8 h9">  <span class="s9">cd</span> <span class="y9">&quot;$main&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                  <span class="block n8 h9">  <span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">remove</span> <span class="y9">&quot;$wt&quot;</span> <span class="aa">&amp;&amp;</span> <span class="s9">git</span> <span class="y9">branch</span> <span class="y9">-D</span> <span class="y9">&quot;$branch&quot;</span> <span class="aa">&amp;&amp;</span> <span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">prune</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <details class="g0 u0 g5 k5 v5 q6 xf">
-              <summary class="l3 u8">The full version I actually use in my workflow</summary>
-              <p class="g0 u0">This is the real one. It does a fair bit more than the simple version above: it reads a <code class="i5 d6 t6 a7 hb">.worktreeinclude</code> (or falls back to a default list) and copies nested config like <code class="i5 d6 t6 a7 hb">config/secrets.json</code> across with a portable tar-pipe, it attaches to a branch that already exists instead of erroring, and it detects Bun.</p>
+            <details class="g0 u0 g5 k5 w5 r6 fg">
+              <summary class="l3 v8">The full version I actually use in my workflow</summary>
+              <p class="g0 u0">This is the real one. It does a fair bit more than the simple version above: it reads a <code class="i5 e6 u6 b7 lb">.worktreeinclude</code> (or falls back to a default list) and copies nested config like <code class="i5 e6 u6 b7 lb">config/secrets.json</code> across with a portable tar-pipe, it attaches to a branch that already exists instead of erroring, and it detects Bun.</p>
               <div class="e g0 u0" data-code-block>
-                <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                  <code class="language-bash block q2 a3 i5 hb h9">
-                    <span class="block m8 g9"><span class="r9">wt</span><span class="z9">()</span> <span class="z9">{</span></span>
-                    <span class="block m8 g9">  <span class="r9">emulate</span> <span class="x9">-L</span> <span class="x9">bash</span> <span class="v9">2&gt;</span><span class="x9">/dev/null</span> <span class="v9">||</span> <span class="r9">true</span></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> branch<span class="v9">=</span><span class="x9">&quot;$1&quot;</span></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> base<span class="v9">=</span><span class="x9">&quot;${2:-origin/HEAD}&quot;</span></span>
-                    <span class="block m8 g9">  <span class="z9">[</span> <span class="v9">-z</span> <span class="x9">&quot;$branch&quot;</span> <span class="z9">]</span> <span class="z9">&amp;&amp;</span> <span class="z9">{</span> <span class="r9">echo</span> <span class="x9">&quot;usage: wt &lt;branch&gt; [base]&quot;</span><span class="z9">;</span> <span class="r9">return</span> <span class="x9">1</span><span class="z9">;</span> <span class="z9">}</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> root<span class="z9">;</span> root<span class="v9">=</span><span class="x9">&quot;$(git rev-parse --show-toplevel)&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> repo<span class="z9">;</span> repo<span class="v9">=</span><span class="x9">&quot;$(basename &quot;$root&quot;)&quot;</span></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> wtdir<span class="v9">=</span><span class="x9">&quot;$(dirname &quot;$root&quot;)/${repo}-worktrees/${branch//\//-}&quot;</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">  <span class="r9">git</span> <span class="x9">-C</span> <span class="x9">&quot;$root&quot;</span> <span class="x9">fetch</span> <span class="x9">--quiet</span> <span class="x9">origin</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">  <span class="t9">if</span> <span class="r9">git</span> <span class="x9">-C</span> <span class="x9">&quot;$root&quot;</span> <span class="x9">show-ref</span> <span class="x9">--verify</span> <span class="x9">--quiet</span> <span class="x9">&quot;refs/heads/$branch&quot;</span><span class="z9">;</span> <span class="t9">then</span></span>
-                    <span class="block m8 g9">    <span class="r9">echo</span> <span class="x9">&quot;branch &#39;$branch&#39; already exists, attaching a worktree to it&quot;</span></span>
-                    <span class="block m8 g9">    <span class="r9">git</span> <span class="x9">-C</span> <span class="x9">&quot;$root&quot;</span> <span class="x9">worktree</span> <span class="x9">add</span> <span class="x9">&quot;$wtdir&quot;</span> <span class="x9">&quot;$branch&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                    <span class="block m8 g9">  <span class="t9">else</span></span>
-                    <span class="block m8 g9">    <span class="r9">git</span> <span class="x9">-C</span> <span class="x9">&quot;$root&quot;</span> <span class="x9">worktree</span> <span class="x9">add</span> <span class="x9">&quot;$wtdir&quot;</span> <span class="x9">-b</span> <span class="x9">&quot;$branch&quot;</span> <span class="x9">&quot;$base&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                    <span class="block m8 g9">  <span class="t9">fi</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">  wtdir<span class="v9">=</span><span class="x9">&quot;$(cd &quot;$wtdir&quot; &amp;&amp; pwd)&quot;</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> <span class="x9">-a</span> include</span>
-                    <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">[</span> <span class="v9">-f</span> <span class="x9">&quot;$root/.worktreeinclude&quot;</span> <span class="z9">];</span> <span class="t9">then</span></span>
-                    <span class="block m8 g9">    <span class="t9">while</span> IFS<span class="v9">=</span> <span class="r9">read</span> <span class="x9">-r</span> <span class="x9">line</span><span class="z9">;</span> <span class="t9">do</span></span>
-                    <span class="block m8 g9">      <span class="t9">case</span> <span class="x9">&quot;$line&quot;</span> <span class="t9">in</span> <span class="x9">&#39;&#39;</span><span class="v9">|</span><span class="x9">&#39;#&#39;</span><span class="v9">*)</span> <span class="r9">continue</span> <span class="z9">;;</span> <span class="t9">esac</span></span>
-                    <span class="block m8 g9">      include<span class="v9">+=</span><span class="z9">(</span><span class="x9">&quot;$line&quot;</span><span class="z9">)</span></span>
-                    <span class="block m8 g9">    <span class="t9">done</span> <span class="v9">&lt;</span> <span class="x9">&quot;$root/.worktreeinclude&quot;</span></span>
-                    <span class="block m8 g9">  <span class="t9">else</span></span>
-                    <span class="block m8 g9">    include<span class="v9">=</span><span class="z9">(</span><span class="x9">.env</span> <span class="x9">.env.local</span> <span class="x9">.env.development</span> <span class="x9">.env.production</span> <span class="x9">.env.test</span></span>
-                    <span class="block m8 g9">             <span class="x9">.npmrc</span> <span class="x9">.tool-versions</span> <span class="x9">.nvmrc</span></span>
-                    <span class="block m8 g9">             <span class="x9">config/secrets.json</span> <span class="x9">certs/localhost.pem</span> <span class="x9">certs/localhost-key.pem</span><span class="z9">)</span></span>
-                    <span class="block m8 g9">  <span class="t9">fi</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">  <span class="z9">(</span> <span class="r9">cd</span> <span class="x9">&quot;$root&quot;</span></span>
-                    <span class="block m8 g9">    <span class="t9">for</span> pat <span class="t9">in</span> <span class="x9">&quot;${include[@]}&quot;</span><span class="z9">;</span> <span class="t9">do</span></span>
-                    <span class="block m8 g9">      <span class="t9">for</span> f <span class="t9">in</span> <span class="z9">$</span>pat<span class="z9">;</span> <span class="t9">do</span> <span class="z9">[</span> <span class="v9">-e</span> <span class="x9">&quot;$f&quot;</span> <span class="z9">]</span> <span class="z9">&amp;&amp;</span> <span class="r9">printf</span> <span class="x9">&#39;%s\0&#39;</span> <span class="x9">&quot;$f&quot;</span><span class="z9">;</span> <span class="t9">done</span></span>
-                    <span class="block m8 g9">    <span class="t9">done</span></span>
-                    <span class="block m8 g9">  <span class="z9">)</span> <span class="v9">|</span> <span class="r9">tar</span> <span class="x9">-C</span> <span class="x9">&quot;$root&quot;</span> <span class="x9">--null</span> <span class="x9">-T</span> <span class="x9">-</span> <span class="x9">-cf</span> <span class="x9">-</span> <span class="v9">|</span> <span class="r9">tar</span> <span class="x9">-C</span> <span class="x9">&quot;$wtdir&quot;</span> <span class="x9">-xf</span> <span class="x9">-</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">  <span class="r9">cd</span> <span class="x9">&quot;$wtdir&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                    <span class="block m8 g9">  <span class="t9">if</span>   <span class="z9">[</span> <span class="v9">-f</span> pnpm-lock.yaml <span class="z9">];</span>               <span class="t9">then</span> <span class="r9">pnpm</span> <span class="x9">install</span></span>
-                    <span class="block m8 g9">  <span class="t9">elif</span> <span class="z9">[</span> <span class="v9">-f</span> bun.lockb <span class="z9">]</span> <span class="v9">||</span> <span class="z9">[</span> <span class="v9">-f</span> bun.lock <span class="z9">];</span> <span class="t9">then</span> <span class="r9">bun</span> <span class="x9">install</span></span>
-                    <span class="block m8 g9">  <span class="t9">elif</span> <span class="z9">[</span> <span class="v9">-f</span> yarn.lock <span class="z9">];</span>                    <span class="t9">then</span> <span class="r9">yarn</span> <span class="x9">install</span></span>
-                    <span class="block m8 g9">  <span class="t9">elif</span> <span class="z9">[</span> <span class="v9">-f</span> package-lock.json <span class="z9">];</span>            <span class="t9">then</span> <span class="r9">npm</span> <span class="x9">ci</span></span>
-                    <span class="block m8 g9">  <span class="t9">fi</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">  <span class="r9">echo</span> <span class="x9">&quot;✅ worktree ready: $wtdir (branch: $branch, config seeded from $repo)&quot;</span></span>
-                    <span class="block m8 g9"><span class="z9">}</span></span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9"><span class="r9">wtrm</span><span class="z9">()</span> <span class="z9">{</span></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> wt<span class="z9">;</span> wt<span class="v9">=</span><span class="x9">&quot;$(git rev-parse --show-toplevel)&quot;</span></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> branch<span class="z9">;</span> branch<span class="v9">=</span><span class="x9">&quot;$(git symbolic-ref --short HEAD)&quot;</span></span>
-                    <span class="block m8 g9">  <span class="t9">local</span> main<span class="z9">;</span> main<span class="v9">=</span><span class="x9">&quot;$(git worktree list --porcelain | awk &#39;NR==1{print $2}&#39;)&quot;</span></span>
-                    <span class="block m8 g9">  <span class="r9">cd</span> <span class="x9">&quot;$main&quot;</span> <span class="v9">||</span> <span class="r9">return</span> <span class="x9">1</span></span>
-                    <span class="block m8 g9">  <span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">remove</span> <span class="x9">&quot;$wt&quot;</span> <span class="z9">&amp;&amp;</span> <span class="r9">git</span> <span class="x9">branch</span> <span class="x9">-D</span> <span class="x9">&quot;$branch&quot;</span> <span class="z9">&amp;&amp;</span> <span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">prune</span></span>
-                    <span class="block m8 g9"><span class="z9">}</span></span>
+                <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                  <code class="language-bash block q2 a3 i5 lb i9">
+                    <span class="block n8 h9"><span class="s9">wt</span><span class="aa">()</span> <span class="aa">{</span></span>
+                    <span class="block n8 h9">  <span class="s9">emulate</span> <span class="y9">-L</span> <span class="y9">bash</span> <span class="w9">2&gt;</span><span class="y9">/dev/null</span> <span class="w9">||</span> <span class="s9">true</span></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> branch<span class="w9">=</span><span class="y9">&quot;$1&quot;</span></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> base<span class="w9">=</span><span class="y9">&quot;${2:-origin/HEAD}&quot;</span></span>
+                    <span class="block n8 h9">  <span class="aa">[</span> <span class="w9">-z</span> <span class="y9">&quot;$branch&quot;</span> <span class="aa">]</span> <span class="aa">&amp;&amp;</span> <span class="aa">{</span> <span class="s9">echo</span> <span class="y9">&quot;usage: wt &lt;branch&gt; [base]&quot;</span><span class="aa">;</span> <span class="s9">return</span> <span class="y9">1</span><span class="aa">;</span> <span class="aa">}</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> root<span class="aa">;</span> root<span class="w9">=</span><span class="y9">&quot;$(git rev-parse --show-toplevel)&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> repo<span class="aa">;</span> repo<span class="w9">=</span><span class="y9">&quot;$(basename &quot;$root&quot;)&quot;</span></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> wtdir<span class="w9">=</span><span class="y9">&quot;$(dirname &quot;$root&quot;)/${repo}-worktrees/${branch//\//-}&quot;</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">  <span class="s9">git</span> <span class="y9">-C</span> <span class="y9">&quot;$root&quot;</span> <span class="y9">fetch</span> <span class="y9">--quiet</span> <span class="y9">origin</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">  <span class="u9">if</span> <span class="s9">git</span> <span class="y9">-C</span> <span class="y9">&quot;$root&quot;</span> <span class="y9">show-ref</span> <span class="y9">--verify</span> <span class="y9">--quiet</span> <span class="y9">&quot;refs/heads/$branch&quot;</span><span class="aa">;</span> <span class="u9">then</span></span>
+                    <span class="block n8 h9">    <span class="s9">echo</span> <span class="y9">&quot;branch &#39;$branch&#39; already exists, attaching a worktree to it&quot;</span></span>
+                    <span class="block n8 h9">    <span class="s9">git</span> <span class="y9">-C</span> <span class="y9">&quot;$root&quot;</span> <span class="y9">worktree</span> <span class="y9">add</span> <span class="y9">&quot;$wtdir&quot;</span> <span class="y9">&quot;$branch&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                    <span class="block n8 h9">  <span class="u9">else</span></span>
+                    <span class="block n8 h9">    <span class="s9">git</span> <span class="y9">-C</span> <span class="y9">&quot;$root&quot;</span> <span class="y9">worktree</span> <span class="y9">add</span> <span class="y9">&quot;$wtdir&quot;</span> <span class="y9">-b</span> <span class="y9">&quot;$branch&quot;</span> <span class="y9">&quot;$base&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                    <span class="block n8 h9">  <span class="u9">fi</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">  wtdir<span class="w9">=</span><span class="y9">&quot;$(cd &quot;$wtdir&quot; &amp;&amp; pwd)&quot;</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> <span class="y9">-a</span> include</span>
+                    <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">[</span> <span class="w9">-f</span> <span class="y9">&quot;$root/.worktreeinclude&quot;</span> <span class="aa">];</span> <span class="u9">then</span></span>
+                    <span class="block n8 h9">    <span class="u9">while</span> IFS<span class="w9">=</span> <span class="s9">read</span> <span class="y9">-r</span> <span class="y9">line</span><span class="aa">;</span> <span class="u9">do</span></span>
+                    <span class="block n8 h9">      <span class="u9">case</span> <span class="y9">&quot;$line&quot;</span> <span class="u9">in</span> <span class="y9">&#39;&#39;</span><span class="w9">|</span><span class="y9">&#39;#&#39;</span><span class="w9">*)</span> <span class="s9">continue</span> <span class="aa">;;</span> <span class="u9">esac</span></span>
+                    <span class="block n8 h9">      include<span class="w9">+=</span><span class="aa">(</span><span class="y9">&quot;$line&quot;</span><span class="aa">)</span></span>
+                    <span class="block n8 h9">    <span class="u9">done</span> <span class="w9">&lt;</span> <span class="y9">&quot;$root/.worktreeinclude&quot;</span></span>
+                    <span class="block n8 h9">  <span class="u9">else</span></span>
+                    <span class="block n8 h9">    include<span class="w9">=</span><span class="aa">(</span><span class="y9">.env</span> <span class="y9">.env.local</span> <span class="y9">.env.development</span> <span class="y9">.env.production</span> <span class="y9">.env.test</span></span>
+                    <span class="block n8 h9">             <span class="y9">.npmrc</span> <span class="y9">.tool-versions</span> <span class="y9">.nvmrc</span></span>
+                    <span class="block n8 h9">             <span class="y9">config/secrets.json</span> <span class="y9">certs/localhost.pem</span> <span class="y9">certs/localhost-key.pem</span><span class="aa">)</span></span>
+                    <span class="block n8 h9">  <span class="u9">fi</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">  <span class="aa">(</span> <span class="s9">cd</span> <span class="y9">&quot;$root&quot;</span></span>
+                    <span class="block n8 h9">    <span class="u9">for</span> pat <span class="u9">in</span> <span class="y9">&quot;${include[@]}&quot;</span><span class="aa">;</span> <span class="u9">do</span></span>
+                    <span class="block n8 h9">      <span class="u9">for</span> f <span class="u9">in</span> <span class="aa">$</span>pat<span class="aa">;</span> <span class="u9">do</span> <span class="aa">[</span> <span class="w9">-e</span> <span class="y9">&quot;$f&quot;</span> <span class="aa">]</span> <span class="aa">&amp;&amp;</span> <span class="s9">printf</span> <span class="y9">&#39;%s\0&#39;</span> <span class="y9">&quot;$f&quot;</span><span class="aa">;</span> <span class="u9">done</span></span>
+                    <span class="block n8 h9">    <span class="u9">done</span></span>
+                    <span class="block n8 h9">  <span class="aa">)</span> <span class="w9">|</span> <span class="s9">tar</span> <span class="y9">-C</span> <span class="y9">&quot;$root&quot;</span> <span class="y9">--null</span> <span class="y9">-T</span> <span class="y9">-</span> <span class="y9">-cf</span> <span class="y9">-</span> <span class="w9">|</span> <span class="s9">tar</span> <span class="y9">-C</span> <span class="y9">&quot;$wtdir&quot;</span> <span class="y9">-xf</span> <span class="y9">-</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">  <span class="s9">cd</span> <span class="y9">&quot;$wtdir&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                    <span class="block n8 h9">  <span class="u9">if</span>   <span class="aa">[</span> <span class="w9">-f</span> pnpm-lock.yaml <span class="aa">];</span>               <span class="u9">then</span> <span class="s9">pnpm</span> <span class="y9">install</span></span>
+                    <span class="block n8 h9">  <span class="u9">elif</span> <span class="aa">[</span> <span class="w9">-f</span> bun.lockb <span class="aa">]</span> <span class="w9">||</span> <span class="aa">[</span> <span class="w9">-f</span> bun.lock <span class="aa">];</span> <span class="u9">then</span> <span class="s9">bun</span> <span class="y9">install</span></span>
+                    <span class="block n8 h9">  <span class="u9">elif</span> <span class="aa">[</span> <span class="w9">-f</span> yarn.lock <span class="aa">];</span>                    <span class="u9">then</span> <span class="s9">yarn</span> <span class="y9">install</span></span>
+                    <span class="block n8 h9">  <span class="u9">elif</span> <span class="aa">[</span> <span class="w9">-f</span> package-lock.json <span class="aa">];</span>            <span class="u9">then</span> <span class="s9">npm</span> <span class="y9">ci</span></span>
+                    <span class="block n8 h9">  <span class="u9">fi</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">  <span class="s9">echo</span> <span class="y9">&quot;✅ worktree ready: $wtdir (branch: $branch, config seeded from $repo)&quot;</span></span>
+                    <span class="block n8 h9"><span class="aa">}</span></span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9"><span class="s9">wtrm</span><span class="aa">()</span> <span class="aa">{</span></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> wt<span class="aa">;</span> wt<span class="w9">=</span><span class="y9">&quot;$(git rev-parse --show-toplevel)&quot;</span></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> branch<span class="aa">;</span> branch<span class="w9">=</span><span class="y9">&quot;$(git symbolic-ref --short HEAD)&quot;</span></span>
+                    <span class="block n8 h9">  <span class="u9">local</span> main<span class="aa">;</span> main<span class="w9">=</span><span class="y9">&quot;$(git worktree list --porcelain | awk &#39;NR==1{print $2}&#39;)&quot;</span></span>
+                    <span class="block n8 h9">  <span class="s9">cd</span> <span class="y9">&quot;$main&quot;</span> <span class="w9">||</span> <span class="s9">return</span> <span class="y9">1</span></span>
+                    <span class="block n8 h9">  <span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">remove</span> <span class="y9">&quot;$wt&quot;</span> <span class="aa">&amp;&amp;</span> <span class="s9">git</span> <span class="y9">branch</span> <span class="y9">-D</span> <span class="y9">&quot;$branch&quot;</span> <span class="aa">&amp;&amp;</span> <span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">prune</span></span>
+                    <span class="block n8 h9"><span class="aa">}</span></span>
                   </code>
                 </pre>
-                <div class="b d f e1 b4 e4 p6">
-                  <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                <div class="b d f e1 b4 e4 q6">
+                  <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
                 </div>
               </div>
             </details>
-            <p class="g0 u0">Now <code class="i5 d6 t6 a7 hb">wt feat-auth</code> gives me a working worktree in seconds: branched, config seeded, dependencies installed, ready for an agent. <code class="i5 d6 t6 a7 hb">wtrm</code> from inside one tears it down cleanly.</p>
-            <p class="g0 u0">It copies a <strong>curated</strong> (hand-picked) list on purpose, not every gitignored file. The full version above reads that list from a <code class="i5 d6 t6 a7 hb">.worktreeinclude</code> if you have one (same idea as Claude Code&#39;s, more on that below), otherwise a sensible default. Blanket-copying everything would drag in junk you never meant to duplicate, a multi-gigabyte local SQLite database, a stray <code class="i5 d6 t6 a7 hb">.pem</code>, build caches.</p>
-            <h2 id="solving-the-dependency-secrets-and-port-problems" class="n0 k8 w8 t8 z8">Solving the dependency, secrets, and port problems</h2>
+            <p class="g0 u0">Now <code class="i5 e6 u6 b7 lb">wt feat-auth</code> gives me a working worktree in seconds: branched, config seeded, dependencies installed, ready for an agent. <code class="i5 e6 u6 b7 lb">wtrm</code> from inside one tears it down cleanly.</p>
+            <p class="g0 u0">It copies a <strong>curated</strong> (hand-picked) list on purpose, not every gitignored file. The full version above reads that list from a <code class="i5 e6 u6 b7 lb">.worktreeinclude</code> if you have one (same idea as Claude Code&#39;s, more on that below), otherwise a sensible default. Blanket-copying everything would drag in junk you never meant to duplicate, a multi-gigabyte local SQLite database, a stray <code class="i5 e6 u6 b7 lb">.pem</code>, build caches.</p>
+            <h2 id="solving-the-dependency-secrets-and-port-problems" class="n0 l8 x8 u8 a9">Solving the dependency, secrets, and port problems</h2>
             <p class="g0 u0">These three are what separate &quot;I tried worktrees once and it was annoying&quot; from &quot;I live in worktrees now.&quot;</p>
-            <p class="g0 u0"><strong>Dependencies.</strong> A fresh worktree has no <code class="i5 d6 t6 a7 hb">node_modules</code>. The always-correct option is just to reinstall (<code class="i5 d6 t6 a7 hb">bun install</code>), which the helper above does. If your <code class="i5 d6 t6 a7 hb">node_modules</code> is huge and reinstalling per worktree hurts, this is where <strong>bun</strong> shines: it keeps every package version once in a global cache (<code class="i5 d6 t6 a7 hb">~/.bun/install/cache</code>) and links it into each project, so a second worktree&#39;s install is nearly instant and costs almost no extra disk. You get that behavior by default, with no special config.</p>
-            <p class="g0 u0">One thing <em>not</em> to do: symlink a single <code class="i5 d6 t6 a7 hb">node_modules</code> across worktrees. The whole point is that different branches can have different dependencies, and a shared <code class="i5 d6 t6 a7 hb">node_modules</code> is then wrong for at least one of them. Native modules and postinstall scripts assume a real per-project tree. Let bun share file <em>content</em> safely through its global cache instead.</p>
-            <p class="g0 u0"><strong>Secrets and config.</strong> Your <code class="i5 d6 t6 a7 hb">.env</code> and friends aren&#39;t in git, so a fresh worktree won&#39;t have them, the <code class="i5 d6 t6 a7 hb">wt</code> helper copies them in for you (and Claude Code does the same via <code class="i5 d6 t6 a7 hb">.worktreeinclude</code>, covered below). Don&#39;t copy everything blindly though, local databases and build caches should <em>not</em> be carried over, which brings us to the next point.</p>
-            <p class="g0 u0"><strong>Ports and databases.</strong> If two worktrees both run <code class="i5 d6 t6 a7 hb">bun run dev</code>, they&#39;ll fight over port 3000. Give each one its own port via its (gitignored, therefore per-worktree) <code class="i5 d6 t6 a7 hb">.env.local</code>:</p>
+            <p class="g0 u0"><strong>Dependencies.</strong> A fresh worktree has no <code class="i5 e6 u6 b7 lb">node_modules</code>. The always-correct option is just to reinstall (<code class="i5 e6 u6 b7 lb">bun install</code>), which the helper above does. If your <code class="i5 e6 u6 b7 lb">node_modules</code> is huge and reinstalling per worktree hurts, this is where <strong>bun</strong> shines: it keeps every package version once in a global cache (<code class="i5 e6 u6 b7 lb">~/.bun/install/cache</code>) and links it into each project, so a second worktree&#39;s install is nearly instant and costs almost no extra disk. You get that behavior by default, with no special config.</p>
+            <p class="g0 u0">One thing <em>not</em> to do: symlink a single <code class="i5 e6 u6 b7 lb">node_modules</code> across worktrees. The whole point is that different branches can have different dependencies, and a shared <code class="i5 e6 u6 b7 lb">node_modules</code> is then wrong for at least one of them. Native modules and postinstall scripts assume a real per-project tree. Let bun share file <em>content</em> safely through its global cache instead.</p>
+            <p class="g0 u0"><strong>Secrets and config.</strong> Your <code class="i5 e6 u6 b7 lb">.env</code> and friends aren&#39;t in git, so a fresh worktree won&#39;t have them, the <code class="i5 e6 u6 b7 lb">wt</code> helper copies them in for you (and Claude Code does the same via <code class="i5 e6 u6 b7 lb">.worktreeinclude</code>, covered below). Don&#39;t copy everything blindly though, local databases and build caches should <em>not</em> be carried over, which brings us to the next point.</p>
+            <p class="g0 u0"><strong>Ports and databases.</strong> If two worktrees both run <code class="i5 e6 u6 b7 lb">bun run dev</code>, they&#39;ll fight over port 3000. Give each one its own port via its (gitignored, therefore per-worktree) <code class="i5 e6 u6 b7 lb">.env.local</code>:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba"># in each worktree</span></span>
-                  <span class="block m8 g9"><span class="r9">echo</span> <span class="x9">&quot;PORT=3001&quot;</span> <span class="v9">&gt;&gt;</span> <span class="x9">.env.local</span>        <span class="q9 ba"># 3002, 3003, ... per worktree</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca"># in each worktree</span></span>
+                  <span class="block n8 h9"><span class="s9">echo</span> <span class="y9">&quot;PORT=3001&quot;</span> <span class="w9">&gt;&gt;</span> <span class="y9">.env.local</span>        <span class="r9 ca"># 3002, 3003, ... per worktree</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">The bigger hazard is shared external state. If two worktrees point at the <strong>same</strong> database and an agent runs a destructive <code class="i5 d6 t6 a7 hb">migrate</code> or <code class="i5 d6 t6 a7 hb">db push</code> in one, it can wreck the other&#39;s runtime. Give each agent&#39;s worktree its own database, or at least its own schema.</p>
+            <p class="g0 u0">The bigger hazard is shared external state. If two worktrees point at the <strong>same</strong> database and an agent runs a destructive <code class="i5 e6 u6 b7 lb">migrate</code> or <code class="i5 e6 u6 b7 lb">db push</code> in one, it can wreck the other&#39;s runtime. Give each agent&#39;s worktree its own database, or at least its own schema.</p>
             <p class="g0 u0">The rule of thumb: <strong>git shares your history and objects, not your runtime.</strong> Ports, databases, caches, secrets, and uncommitted work are all per-worktree by design. Plan for that and the friction disappears.</p>
-            <h2 id="the-part-you-came-for-running-ai-agents-in-parallel" class="n0 k8 w8 t8 z8">The part you came for: running AI agents in parallel</h2>
+            <h2 id="the-part-you-came-for-running-ai-agents-in-parallel" class="n0 l8 x8 u8 a9">The part you came for: running AI agents in parallel</h2>
             <p class="g0 u0">Here&#39;s where worktrees stop being a nice git trick and become a genuinely different way to work.</p>
             <p class="g0 u0">The core insight is simple: <strong>an AI agent editing your code needs its own working directory.</strong> If you run two agents in the same checkout, they&#39;ll overwrite each other&#39;s files, fight over the dev server, and generally create chaos. Give each agent its own worktree and the problem vanishes, each one has an isolated copy of the files and its own branch, and they&#39;re completely invisible to each other until you commit.</p>
-            <p class="g0 u0">That maps perfectly onto my Noveum day. The feature I&#39;m building lives in one worktree with its own agent. When prod breaks, I open a second worktree off <code class="i5 d6 t6 a7 hb">main</code>, point an agent at the hotfix, and ship it, all while the first agent keeps grinding, untouched. No stash, no wait, no second clone.</p>
-            <h3 id="the-pattern-one-long-task-one-foreground" class="l0 h8 t8 z8">The pattern: one long task, one foreground</h3>
-            <p class="g0 u0">This is my bread and butter: I kick off a slow, autonomous task in worktree A, a big refactor, a flaky-test fix, a dependency bump, and let the agent churn. Then I switch to worktree B and do focused work, pairing with a second agent or hand-editing the hotfix. Because the worktrees are isolated checkouts, the background agent can rewrite half the codebase and never touch what I&#39;m doing. I check back on A when it&#39;s done; it has its own branch ready to become a PR. (If you&#39;ve read <a class="o9 ga ia ic" href="/how-i-use-cursor/">how I use Cursor</a>, you know I run a few of these at once, worktrees are what keep it sane.)</p>
-            <p class="g0 u0">Practically, run each worktree in its own terminal tab or <code class="i5 d6 t6 a7 hb">tmux</code> window, each with its own agent. One tip that saves a lot of confusion: <strong>name the worktree directory exactly the same as its branch</strong> (<code class="i5 d6 t6 a7 hb">feat-auth/</code> on branch <code class="i5 d6 t6 a7 hb">feat-auth</code>), and put the branch in your shell prompt, so you always know which world you&#39;re typing in.</p>
-            <h3 id="claude-code-has-worktrees-built-in" class="l0 h8 t8 z8">Claude Code has worktrees built in</h3>
-            <p class="g0 u0">Here&#39;s the part that genuinely surprised me, and it&#39;s why I wanted to write this with current, accurate detail rather than describing worktrees as a purely manual thing: <strong>Claude Code treats worktrees as a first-class feature.</strong> Anthropic has a <a class="o9 ga ia ic" href="https://code.claude.com/docs/en/worktrees">dedicated docs page on running parallel sessions with worktrees</a>. The manual <code class="i5 d6 t6 a7 hb">git worktree</code> ceremony I described above is great to understand, but for the agent workflow specifically, a lot of it is handled for you.</p>
+            <p class="g0 u0">That maps perfectly onto my Noveum day. The feature I&#39;m building lives in one worktree with its own agent. When prod breaks, I open a second worktree off <code class="i5 e6 u6 b7 lb">main</code>, point an agent at the hotfix, and ship it, all while the first agent keeps grinding, untouched. No stash, no wait, no second clone.</p>
+            <h3 id="the-pattern-one-long-task-one-foreground" class="l0 i8 u8 a9">The pattern: one long task, one foreground</h3>
+            <p class="g0 u0">This is my bread and butter: I kick off a slow, autonomous task in worktree A, a big refactor, a flaky-test fix, a dependency bump, and let the agent churn. Then I switch to worktree B and do focused work, pairing with a second agent or hand-editing the hotfix. Because the worktrees are isolated checkouts, the background agent can rewrite half the codebase and never touch what I&#39;m doing. I check back on A when it&#39;s done; it has its own branch ready to become a PR. (If you&#39;ve read <a class="p9 ha ja oc" href="/how-i-use-cursor/">how I use Cursor</a>, you know I run a few of these at once, worktrees are what keep it sane.)</p>
+            <p class="g0 u0">Practically, run each worktree in its own terminal tab or <code class="i5 e6 u6 b7 lb">tmux</code> window, each with its own agent. One tip that saves a lot of confusion: <strong>name the worktree directory exactly the same as its branch</strong> (<code class="i5 e6 u6 b7 lb">feat-auth/</code> on branch <code class="i5 e6 u6 b7 lb">feat-auth</code>), and put the branch in your shell prompt, so you always know which world you&#39;re typing in.</p>
+            <h3 id="claude-code-has-worktrees-built-in" class="l0 i8 u8 a9">Claude Code has worktrees built in</h3>
+            <p class="g0 u0">Here&#39;s the part that genuinely surprised me, and it&#39;s why I wanted to write this with current, accurate detail rather than describing worktrees as a purely manual thing: <strong>Claude Code treats worktrees as a first-class feature.</strong> Anthropic has a <a class="p9 ha ja oc" href="https://code.claude.com/docs/en/worktrees">dedicated docs page on running parallel sessions with worktrees</a>. The manual <code class="i5 e6 u6 b7 lb">git worktree</code> ceremony I described above is great to understand, but for the agent workflow specifically, a lot of it is handled for you.</p>
             <p class="g0 u0">The pieces that matter:</p>
-            <p class="g0 u0"><strong>The <code class="i5 d6 t6 a7 hb">--worktree</code> flag.</strong> Start an isolated session in one command:</p>
+            <p class="g0 u0"><strong>The <code class="i5 e6 u6 b7 lb">--worktree</code> flag.</strong> Start an isolated session in one command:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">claude</span> <span class="x9">--worktree</span> <span class="x9">feat-auth</span>      <span class="q9 ba"># creates an isolated worktree + branch, starts Claude in it</span></span>
-                  <span class="block m8 g9"><span class="r9">claude</span> <span class="x9">-w</span> <span class="x9">bugfix-123</span>             <span class="q9 ba"># second isolated session, its own branch</span></span>
-                  <span class="block m8 g9"><span class="r9">claude</span> <span class="x9">--worktree</span> <span class="x9">&quot;#1234&quot;</span>        <span class="q9 ba"># check out a PR (fetches pull/1234/head) into its own worktree</span></span>
-                  <span class="block m8 g9"><span class="r9">claude</span> <span class="x9">--worktree</span>                <span class="q9 ba"># no name -&gt; auto-generates one like &quot;bright-running-fox&quot;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">claude</span> <span class="y9">--worktree</span> <span class="y9">feat-auth</span>      <span class="r9 ca"># creates an isolated worktree + branch, starts Claude in it</span></span>
+                  <span class="block n8 h9"><span class="s9">claude</span> <span class="y9">-w</span> <span class="y9">bugfix-123</span>             <span class="r9 ca"># second isolated session, its own branch</span></span>
+                  <span class="block n8 h9"><span class="s9">claude</span> <span class="y9">--worktree</span> <span class="y9">&quot;#1234&quot;</span>        <span class="r9 ca"># check out a PR (fetches pull/1234/head) into its own worktree</span></span>
+                  <span class="block n8 h9"><span class="s9">claude</span> <span class="y9">--worktree</span>                <span class="r9 ca"># no name -&gt; auto-generates one like &quot;bright-running-fox&quot;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">By default it creates the worktree under <code class="i5 d6 t6 a7 hb">.claude/worktrees/&lt;name&gt;/</code> on a new branch, and branches from <code class="i5 d6 t6 a7 hb">origin/HEAD</code> so you start clean and matching the remote. You can change that to branch from your local <code class="i5 d6 t6 a7 hb">HEAD</code> (carrying unpushed work) with the <code class="i5 d6 t6 a7 hb">worktree.baseRef</code> setting. Add <code class="i5 d6 t6 a7 hb">.claude/worktrees/</code> to your <code class="i5 d6 t6 a7 hb">.gitignore</code> so the worktree contents don&#39;t show up as untracked noise in your main checkout.</p>
+            <p class="g0 u0">By default it creates the worktree under <code class="i5 e6 u6 b7 lb">.claude/worktrees/&lt;name&gt;/</code> on a new branch, and branches from <code class="i5 e6 u6 b7 lb">origin/HEAD</code> so you start clean and matching the remote. You can change that to branch from your local <code class="i5 e6 u6 b7 lb">HEAD</code> (carrying unpushed work) with the <code class="i5 e6 u6 b7 lb">worktree.baseRef</code> setting. Add <code class="i5 e6 u6 b7 lb">.claude/worktrees/</code> to your <code class="i5 e6 u6 b7 lb">.gitignore</code> so the worktree contents don&#39;t show up as untracked noise in your main checkout.</p>
             <p class="g0 u0">Run that in two terminals with two different names and you&#39;ve got two fully isolated Claude Code sessions, one building a feature, one fixing a bug, neither able to touch the other&#39;s files. That&#39;s the entire workflow, packaged.</p>
-            <p class="g0 u0"><strong><code class="i5 d6 t6 a7 hb">EnterWorktree</code> / <code class="i5 d6 t6 a7 hb">ExitWorktree</code>.</strong> You don&#39;t even need the flag. Mid-session you can just tell Claude to &quot;work in a worktree&quot; and it will create one and switch into it, then return when you&#39;re done.</p>
-            <p class="g0 u0"><strong>Subagent isolation.</strong> When Claude fans out to subagents, you can have each one run in its own temporary worktree by setting <code class="i5 d6 t6 a7 hb">isolation: worktree</code> in the subagent&#39;s config (or just asking it to &quot;use worktrees for your agents&quot;). Each subagent gets an isolated copy of the repo and the worktree is cleaned up automatically if it didn&#39;t make changes. This is how you safely run several subagents editing files <em>in parallel</em>, they&#39;re not fighting over one working directory.</p>
-            <p class="g0 u0"><strong><code class="i5 d6 t6 a7 hb">.worktreeinclude</code>.</strong> Remember the &quot;fresh worktree has no <code class="i5 d6 t6 a7 hb">.env</code>&quot; problem? This is Claude Code&#39;s built-in answer, and it&#39;s the same idea as the <code class="i5 d6 t6 a7 hb">wt</code> helper above. Drop a <code class="i5 d6 t6 a7 hb">.worktreeinclude</code> file at your project root (it uses <code class="i5 d6 t6 a7 hb">.gitignore</code> syntax), and Claude copies the matching files into every worktree it creates, for <code class="i5 d6 t6 a7 hb">--worktree</code>, for subagents running with <code class="i5 d6 t6 a7 hb">isolation: worktree</code>, and for the desktop app&#39;s parallel sessions. The one rule to internalize: it only copies files that match a pattern <em>and</em> are gitignored, tracked files are already in the checkout, so they&#39;re never duplicated. Keep the patterns narrow (env, secrets, certs); don&#39;t write broad globs that would sweep in <code class="i5 d6 t6 a7 hb">node_modules</code>.</p>
+            <p class="g0 u0"><strong><code class="i5 e6 u6 b7 lb">EnterWorktree</code> / <code class="i5 e6 u6 b7 lb">ExitWorktree</code>.</strong> You don&#39;t even need the flag. Mid-session you can just tell Claude to &quot;work in a worktree&quot; and it will create one and switch into it, then return when you&#39;re done.</p>
+            <p class="g0 u0"><strong>Subagent isolation.</strong> When Claude fans out to subagents, you can have each one run in its own temporary worktree by setting <code class="i5 e6 u6 b7 lb">isolation: worktree</code> in the subagent&#39;s config (or just asking it to &quot;use worktrees for your agents&quot;). Each subagent gets an isolated copy of the repo and the worktree is cleaned up automatically if it didn&#39;t make changes. This is how you safely run several subagents editing files <em>in parallel</em>, they&#39;re not fighting over one working directory.</p>
+            <p class="g0 u0"><strong><code class="i5 e6 u6 b7 lb">.worktreeinclude</code>.</strong> Remember the &quot;fresh worktree has no <code class="i5 e6 u6 b7 lb">.env</code>&quot; problem? This is Claude Code&#39;s built-in answer, and it&#39;s the same idea as the <code class="i5 e6 u6 b7 lb">wt</code> helper above. Drop a <code class="i5 e6 u6 b7 lb">.worktreeinclude</code> file at your project root (it uses <code class="i5 e6 u6 b7 lb">.gitignore</code> syntax), and Claude copies the matching files into every worktree it creates, for <code class="i5 e6 u6 b7 lb">--worktree</code>, for subagents running with <code class="i5 e6 u6 b7 lb">isolation: worktree</code>, and for the desktop app&#39;s parallel sessions. The one rule to internalize: it only copies files that match a pattern <em>and</em> are gitignored, tracked files are already in the checkout, so they&#39;re never duplicated. Keep the patterns narrow (env, secrets, certs); don&#39;t write broad globs that would sweep in <code class="i5 e6 u6 b7 lb">node_modules</code>.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"># .worktreeinclude  (project root, .gitignore syntax)</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"># Local secrets and env (gitignored, so they get copied)</span>
-                  <span class="block m8 g9">.env</span>
-                  <span class="block m8 g9">.env.local</span>
-                  <span class="block m8 g9">.env.*.local</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"># Service credentials and local TLS certs</span>
-                  <span class="block m8 g9">config/secrets.json</span>
-                  <span class="block m8 g9">.npmrc</span>
-                  <span class="block m8 g9">certs/localhost.pem</span>
-                  <span class="block m8 g9">certs/localhost-key.pem</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"># .worktreeinclude  (project root, .gitignore syntax)</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"># Local secrets and env (gitignored, so they get copied)</span>
+                  <span class="block n8 h9">.env</span>
+                  <span class="block n8 h9">.env.local</span>
+                  <span class="block n8 h9">.env.*.local</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"># Service credentials and local TLS certs</span>
+                  <span class="block n8 h9">config/secrets.json</span>
+                  <span class="block n8 h9">.npmrc</span>
+                  <span class="block n8 h9">certs/localhost.pem</span>
+                  <span class="block n8 h9">certs/localhost-key.pem</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">If you need full control over how worktrees get created and cleaned up, or you&#39;re on a non-git VCS like SVN or Mercurial, there are <code class="i5 d6 t6 a7 hb">WorktreeCreate</code> and <code class="i5 d6 t6 a7 hb">WorktreeRemove</code> hooks. One sharp edge worth knowing: a <code class="i5 d6 t6 a7 hb">WorktreeCreate</code> hook <em>replaces</em> git&#39;s default logic entirely, so <code class="i5 d6 t6 a7 hb">.worktreeinclude</code> is <strong>not</strong> processed when that hook is set, you copy local config inside the hook script yourself (which is also the natural place to run <code class="i5 d6 t6 a7 hb">install</code> and <code class="i5 d6 t6 a7 hb">migrate</code>).</p>
+            <p class="g0 u0">If you need full control over how worktrees get created and cleaned up, or you&#39;re on a non-git VCS like SVN or Mercurial, there are <code class="i5 e6 u6 b7 lb">WorktreeCreate</code> and <code class="i5 e6 u6 b7 lb">WorktreeRemove</code> hooks. One sharp edge worth knowing: a <code class="i5 e6 u6 b7 lb">WorktreeCreate</code> hook <em>replaces</em> git&#39;s default logic entirely, so <code class="i5 e6 u6 b7 lb">.worktreeinclude</code> is <strong>not</strong> processed when that hook is set, you copy local config inside the hook script yourself (which is also the natural place to run <code class="i5 e6 u6 b7 lb">install</code> and <code class="i5 e6 u6 b7 lb">migrate</code>).</p>
             <p class="g0 u0"><strong>The desktop app does it automatically.</strong> In the Claude Code desktop app, every session gets its own worktree with no setup, just open a new session and you&#39;re isolated.</p>
             <p class="g0 u0">A couple of honest caveats so you don&#39;t get surprised:</p>
             <ul class="g0 u0">
-              <li><strong>You still have to install dependencies in each worktree.</strong> Creating the worktree doesn&#39;t run your <code class="i5 d6 t6 a7 hb">bun install</code>, the docs are explicit about this. The <code class="i5 d6 t6 a7 hb">.worktreeinclude</code> handles config files, not <code class="i5 d6 t6 a7 hb">node_modules</code>.</li>
+              <li><strong>You still have to install dependencies in each worktree.</strong> Creating the worktree doesn&#39;t run your <code class="i5 e6 u6 b7 lb">bun install</code>, the docs are explicit about this. The <code class="i5 e6 u6 b7 lb">.worktreeinclude</code> handles config files, not <code class="i5 e6 u6 b7 lb">node_modules</code>.</li>
               <li><strong>Running several sessions multiplies your token usage.</strong> Three agents working at once is roughly three times the spend. Worth it for the parallelism, but go in with eyes open.</li>
-              <li>The sandbox is worktree-aware, when a session runs in a linked worktree, the sandbox still lets <code class="i5 d6 t6 a7 hb">git commit</code> update the shared <code class="i5 d6 t6 a7 hb">.git</code>, so commits work normally from inside a worktree.</li>
+              <li>The sandbox is worktree-aware, when a session runs in a linked worktree, the sandbox still lets <code class="i5 e6 u6 b7 lb">git commit</code> update the shared <code class="i5 e6 u6 b7 lb">.git</code>, so commits work normally from inside a worktree.</li>
             </ul>
             <p class="g0 u0">If you take one thing from this section: <strong>one agent, one worktree, one branch.</strong> Everything else is logistics.</p>
-            <h2 id="review-and-merge-flow" class="n0 k8 w8 t8 z8">Review and merge flow</h2>
+            <h2 id="review-and-merge-flow" class="n0 l8 x8 u8 a9">Review and merge flow</h2>
             <p class="g0 u0">Worktrees map one-to-one onto a PR-per-feature flow, which is exactly how you want to work with agents anyway. One worktree, one branch, one PR.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba"># inside the worktree</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">add</span> <span class="x9">-A</span> <span class="z9">&amp;&amp;</span> <span class="r9">git</span> <span class="x9">commit</span> <span class="x9">-m</span> <span class="x9">&quot;feat: add auth flow&quot;</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">push</span> <span class="x9">-u</span> <span class="x9">origin</span> <span class="x9">feat-auth</span></span>
-                  <span class="block m8 g9"><span class="r9">gh</span> <span class="x9">pr</span> <span class="x9">create</span> <span class="x9">--fill</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca"># inside the worktree</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">add</span> <span class="y9">-A</span> <span class="aa">&amp;&amp;</span> <span class="s9">git</span> <span class="y9">commit</span> <span class="y9">-m</span> <span class="y9">&quot;feat: add auth flow&quot;</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">push</span> <span class="y9">-u</span> <span class="y9">origin</span> <span class="y9">feat-auth</span></span>
+                  <span class="block n8 h9"><span class="s9">gh</span> <span class="y9">pr</span> <span class="y9">create</span> <span class="y9">--fill</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">When the PR merges, tear it all down. Note that you can&#39;t remove a worktree from <em>inside</em> it, and you can&#39;t delete a branch that&#39;s still checked out somewhere, so order matters:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">cd</span> <span class="x9">~/code/myapp</span>                                       <span class="q9 ba"># back to the main checkout</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">remove</span> <span class="x9">../myapp-worktrees/feat-auth</span>      <span class="q9 ba"># add --force if there&#39;s leftover junk</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">branch</span> <span class="x9">-d</span> <span class="x9">feat-auth</span>                               <span class="q9 ba"># -d refuses if unmerged; -D forces</span></span>
-                  <span class="block m8 g9"><span class="r9">git</span> <span class="x9">worktree</span> <span class="x9">prune</span>                                    <span class="q9 ba"># drop stale admin entries</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">cd</span> <span class="y9">~/code/myapp</span>                                       <span class="r9 ca"># back to the main checkout</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">remove</span> <span class="y9">../myapp-worktrees/feat-auth</span>      <span class="r9 ca"># add --force if there&#39;s leftover junk</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">branch</span> <span class="y9">-d</span> <span class="y9">feat-auth</span>                               <span class="r9 ca"># -d refuses if unmerged; -D forces</span></span>
+                  <span class="block n8 h9"><span class="s9">git</span> <span class="y9">worktree</span> <span class="y9">prune</span>                                    <span class="r9 ca"># drop stale admin entries</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">If you use Claude Code, it cleans most of this up for you: an unnamed session that made no changes removes its own worktree and branch on exit.</p>
-            <h2 id="when-not-to-use-worktrees" class="n0 k8 w8 t8 z8">When NOT to use worktrees</h2>
+            <h2 id="when-not-to-use-worktrees" class="n0 l8 x8 u8 a9">When NOT to use worktrees</h2>
             <p class="g0 u0">I&#39;m not going to pretend they&#39;re free. Some honest cases where they&#39;re the wrong tool:</p>
             <ul class="g0 u0">
-              <li><strong>Big trees or heavy build artifacts.</strong> Each worktree is a full checkout on disk (only <code class="i5 d6 t6 a7 hb">.git</code> is shared) and a fresh one has no <code class="i5 d6 t6 a7 hb">node_modules</code>. If your tree is multi-gigabyte or your installs are slow and native-heavy, the per-worktree duplication can outweigh the benefit, bun&#39;s global cache helps, but not always.</li>
-              <li><strong>When branch-switching is genuinely cheap.</strong> If your branches share the same dependencies and switching is a one-second <code class="i5 d6 t6 a7 hb">git switch</code>, the worktree overhead may exceed the benefit. Worktrees pay off specifically when you want things running <strong>in parallel</strong>, or when switching is expensive because of dirty state or long rebuilds. The AI-agent case is squarely the former.</li>
+              <li><strong>Big trees or heavy build artifacts.</strong> Each worktree is a full checkout on disk (only <code class="i5 e6 u6 b7 lb">.git</code> is shared) and a fresh one has no <code class="i5 e6 u6 b7 lb">node_modules</code>. If your tree is multi-gigabyte or your installs are slow and native-heavy, the per-worktree duplication can outweigh the benefit, bun&#39;s global cache helps, but not always.</li>
+              <li><strong>When branch-switching is genuinely cheap.</strong> If your branches share the same dependencies and switching is a one-second <code class="i5 e6 u6 b7 lb">git switch</code>, the worktree overhead may exceed the benefit. Worktrees pay off specifically when you want things running <strong>in parallel</strong>, or when switching is expensive because of dirty state or long rebuilds. The AI-agent case is squarely the former.</li>
             </ul>
-            <h2 id="the-top-gotchas-in-one-list" class="n0 k8 w8 t8 z8">The top gotchas, in one list</h2>
+            <h2 id="the-top-gotchas-in-one-list" class="n0 l8 x8 u8 a9">The top gotchas, in one list</h2>
             <p class="g0 u0">Bookmark this:</p>
             <ol class="g0 u0">
-              <li><strong>Fresh worktree has no <code class="i5 d6 t6 a7 hb">node_modules</code> / <code class="i5 d6 t6 a7 hb">.env</code> / build cache.</strong> Always bootstrap (install + copy config). Use <code class="i5 d6 t6 a7 hb">.worktreeinclude</code> with Claude Code.</li>
+              <li><strong>Fresh worktree has no <code class="i5 e6 u6 b7 lb">node_modules</code> / <code class="i5 e6 u6 b7 lb">.env</code> / build cache.</strong> Always bootstrap (install + copy config). Use <code class="i5 e6 u6 b7 lb">.worktreeinclude</code> with Claude Code.</li>
               <li><strong>You can&#39;t check out the same branch in two worktrees.</strong> One branch, one worktree.</li>
-              <li><strong>Port collisions.</strong> Two dev servers on :3000. Assign a deterministic per-worktree port via <code class="i5 d6 t6 a7 hb">.env.local</code>.</li>
+              <li><strong>Port collisions.</strong> Two dev servers on :3000. Assign a deterministic per-worktree port via <code class="i5 e6 u6 b7 lb">.env.local</code>.</li>
               <li><strong>Shared database = cross-worktree corruption.</strong> An agent&#39;s migration in one worktree breaks another&#39;s runtime. Isolate the DB or schema per worktree.</li>
               <li><strong>It&#39;s per-worktree state, not shared.</strong> Git shares objects and history, not your runtime, secrets, ports, or uncommitted work.</li>
             </ol>
-            <h2 id="wrapping-up" class="n0 k8 w8 t8 z8">Wrapping up</h2>
+            <h2 id="wrapping-up" class="n0 l8 x8 u8 a9">Wrapping up</h2>
             <p class="g0 u0">The shift is real, and it fits how we build now: several streams of work at once, a feature here, a refactor there, a hotfix that just landed. Worktrees are what let you run all of it in parallel without it turning into mush, and Claude Code building them in as a first-class feature tells you this is where the workflow is heading.</p>
-            <p class="g0 u0">If you take nothing else away: next time prod breaks while you&#39;re mid-feature, don&#39;t stash and don&#39;t clone. Run <code class="i5 d6 t6 a7 hb">git worktree add ../myapp-worktrees/hotfix -b hotfix</code>, fix the thing, ship it, and walk right back to where you were. Once you feel that, you won&#39;t go back.</p>
-            <p class="g0 u0">If you want to go deeper, the <a class="o9 ga ia ic" href="https://code.claude.com/docs/en/worktrees">Claude Code worktrees docs</a> and the <a class="o9 ga ia ic" href="https://git-scm.com/docs/git-worktree">official <code class="i5 d6 t6 a7 hb">git worktree</code> reference</a> are both excellent. And if you set this up and have questions about wiring it into your own workflow, reach out, you can find all my socials and a <a class="o9 ga ia ic" href="https://pulkit.page/contact/">contact form</a>.</p>
+            <p class="g0 u0">If you take nothing else away: next time prod breaks while you&#39;re mid-feature, don&#39;t stash and don&#39;t clone. Run <code class="i5 e6 u6 b7 lb">git worktree add ../myapp-worktrees/hotfix -b hotfix</code>, fix the thing, ship it, and walk right back to where you were. Once you feel that, you won&#39;t go back.</p>
+            <p class="g0 u0">If you want to go deeper, the <a class="p9 ha ja oc" href="https://code.claude.com/docs/en/worktrees">Claude Code worktrees docs</a> and the <a class="p9 ha ja oc" href="https://git-scm.com/docs/git-worktree">official <code class="i5 e6 u6 b7 lb">git worktree</code> reference</a> are both excellent. And if you set this up and have questions about wiring it into your own workflow, reach out, you can find all my socials and a <a class="p9 ha ja oc" href="https://pulkit.page/contact/">contact form</a>.</p>
             <p class="g0 u0">Happy shipping!</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/git-partial-clones/">Partial Clones, Shallow Clones, and Sparse Checkout</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/mcp-server-that-writes-itself/">An MCP Server That Writes Itself</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/git-partial-clones/">Partial Clones, Shallow Clones, and Sparse Checkout</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/mcp-server-that-writes-itself/">An MCP Server That Writes Itself</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/git-worktrees.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/git-worktrees.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

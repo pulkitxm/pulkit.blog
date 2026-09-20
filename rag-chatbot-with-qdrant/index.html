@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -166,15 +166,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -213,40 +242,40 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">RAG Chatbot with Qdrant</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>RAG Chatbot with Qdrant</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2025-12-11">December 11, 2025</time> · 6 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>RAG Chatbot with Qdrant</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2025-12-11">December 11, 2025</time> · 6 min read</p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">When I first added a chatbot to my portfolio, I wanted it to actually know about my work, not just give generic responses. A standard LLM prompt won&#39;t cut it when you need answers about specific projects, blog posts, or experiences. That&#39;s where Retrieval-Augmented Generation, or RAG, comes in.</p>
             <p class="g0 u0">RAG solves a fundamental problem: language models are trained on general knowledge, but they don&#39;t know about your specific content. Instead of hoping the model remembers your work from its training data, RAG lets you inject relevant context at query time. The model retrieves the most relevant pieces of your content, then generates a response grounded in that information.</p>
-            <p class="g0 u0">In this post, I&#39;ll walk through how I built PukBot, the chatbot on my portfolio, using <a class="o9 ga ia ic" href="https://qdrant.tech">Qdrant</a> for vector storage and Next.js for the API. We&#39;ll focus on the core mechanics: how to create embeddings, store them in Qdrant, and retrieve context when users ask questions.</p>
-            <h2 id="the-architecture" class="n0 k8 w8 t8 z8">The Architecture</h2>
+            <p class="g0 u0">In this post, I&#39;ll walk through how I built PukBot, the chatbot on my portfolio, using <a class="p9 ha ja oc" href="https://qdrant.tech">Qdrant</a> for vector storage and Next.js for the API. We&#39;ll focus on the core mechanics: how to create embeddings, store them in Qdrant, and retrieve context when users ask questions.</p>
+            <h2 id="the-architecture" class="n0 l8 x8 u8 a9">The Architecture</h2>
             <p class="g0 u0">At a high level, the chatbot works in two phases: an offline indexing phase and a real-time query phase.</p>
-            <h3 id="offline-indexing" class="l0 h8 t8 z8">Offline Indexing</h3>
+            <h3 id="offline-indexing" class="l0 i8 u8 a9">Offline Indexing</h3>
             <p class="g0 u0">Your content gets processed, chunked into smaller pieces, converted to embeddings (vectors), and stored in Qdrant. This happens once or whenever your content changes.</p>
-            <h3 id="real-time-querying" class="l0 h8 t8 z8">Real-Time Querying</h3>
+            <h3 id="real-time-querying" class="l0 i8 u8 a9">Real-Time Querying</h3>
             <p class="g0 u0">When a user asks a question, the system:</p>
             <ol class="g0 u0">
               <li>Converts the question into an embedding</li>
@@ -255,9 +284,9 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Sends everything to the LLM, which generates a response</li>
             </ol>
             <p class="g0 u0">The frontend is a simple chat interface that streams responses back to the user. The backend is a Next.js API route that orchestrates the retrieval and generation.</p>
-            <h2 id="building-the-indexing-pipeline" class="n0 k8 w8 t8 z8">Building the Indexing Pipeline</h2>
+            <h2 id="building-the-indexing-pipeline" class="n0 l8 x8 u8 a9">Building the Indexing Pipeline</h2>
             <p class="g0 u0">The offline indexing process converts your content into searchable vectors. Let&#39;s break it down step by step.</p>
-            <h3 id="preparing-your-content" class="l0 h8 t8 z8">Preparing Your Content</h3>
+            <h3 id="preparing-your-content" class="l0 i8 u8 a9">Preparing Your Content</h3>
             <p class="g0 u0">Before we can search through content, we need to break it down into manageable pieces. Large documents don&#39;t work well for retrieval, you want chunks that are semantically meaningful but not too long.</p>
             <p class="g0 u0">The chunking strategy depends on your content type. You might split by paragraphs, sections, or other semantic boundaries. The goal is to create pieces that are:</p>
             <ul class="g0 u0">
@@ -267,88 +296,88 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ul>
             <p class="g0 u0">Here&#39;s a simplified example:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">interface</span> <span class="y9">ContentChunk</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  id<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  title<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  text<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  sourceId<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  metadata<span class="v9">?:</span> <span class="y9">Record</span><span class="z9">&lt;</span><span class="y9">string</span><span class="z9">,</span> <span class="y9">string</span><span class="z9">&gt;;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">chunkContent</span><span class="z9">(</span>documents<span class="v9">:</span> <span class="y9">Document</span><span class="z9">[])</span><span class="v9">:</span> <span class="y9">ContentChunk</span><span class="z9">[]</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> chunks<span class="v9">:</span> <span class="y9">ContentChunk</span><span class="z9">[]</span> <span class="v9">=</span> <span class="z9">[];</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">for</span> <span class="z9">(</span><span class="t9">const</span> doc <span class="v9">of</span> documents<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">    // Split document into smaller sections</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">    // This could split by paragraphs, headings, or fixed character limits</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> sections <span class="v9">=</span> <span class="r9">splitIntoSections</span><span class="z9">(</span>doc<span class="z9">.</span><span class="w9">content</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">    <span class="t9">for</span> <span class="z9">(</span><span class="t9">const</span> section <span class="v9">of</span> sections<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      chunks<span class="z9">.</span><span class="r9">push</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">        <span class="w9">id:</span> <span class="r9">generateId</span><span class="z9">(),</span></span>
-                  <span class="block m8 g9">        <span class="w9">title:</span> doc<span class="z9">.</span><span class="w9">title</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">text:</span> section<span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">sourceId:</span> doc<span class="z9">.</span><span class="w9">id</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">metadata:</span> <span class="z9">{</span> <span class="w9">url:</span> doc<span class="z9">.</span><span class="w9">url</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9">      <span class="z9">});</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> chunks<span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">// Example implementation: split by double newlines (paragraphs)</span></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">splitIntoSections</span><span class="z9">(</span>content<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">string</span><span class="z9">[]</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // Split by double newlines to get paragraphs</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // You could also split by headings, fixed sizes, or semantic boundaries</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> content<span class="z9">.</span><span class="r9">split</span><span class="z9">(</span><span class="x9">/\n\n+/</span><span class="z9">).</span><span class="r9">filter</span><span class="z9">((</span>section<span class="z9">)</span> <span class="t9">=&gt;</span> section<span class="z9">.</span><span class="r9">trim</span><span class="z9">().</span>length <span class="v9">&gt;</span> <span class="u9">0</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">interface</span> <span class="z9">ContentChunk</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  id<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  title<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  text<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  sourceId<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  metadata<span class="w9">?:</span> <span class="z9">Record</span><span class="aa">&lt;</span><span class="z9">string</span><span class="aa">,</span> <span class="z9">string</span><span class="aa">&gt;;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">chunkContent</span><span class="aa">(</span>documents<span class="w9">:</span> <span class="z9">Document</span><span class="aa">[])</span><span class="w9">:</span> <span class="z9">ContentChunk</span><span class="aa">[]</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> chunks<span class="w9">:</span> <span class="z9">ContentChunk</span><span class="aa">[]</span> <span class="w9">=</span> <span class="aa">[];</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">for</span> <span class="aa">(</span><span class="u9">const</span> doc <span class="w9">of</span> documents<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">    // Split document into smaller sections</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">    // This could split by paragraphs, headings, or fixed character limits</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> sections <span class="w9">=</span> <span class="s9">splitIntoSections</span><span class="aa">(</span>doc<span class="aa">.</span><span class="x9">content</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">    <span class="u9">for</span> <span class="aa">(</span><span class="u9">const</span> section <span class="w9">of</span> sections<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      chunks<span class="aa">.</span><span class="s9">push</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">        <span class="x9">id:</span> <span class="s9">generateId</span><span class="aa">(),</span></span>
+                  <span class="block n8 h9">        <span class="x9">title:</span> doc<span class="aa">.</span><span class="x9">title</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">text:</span> section<span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">sourceId:</span> doc<span class="aa">.</span><span class="x9">id</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">metadata:</span> <span class="aa">{</span> <span class="x9">url:</span> doc<span class="aa">.</span><span class="x9">url</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9">      <span class="aa">});</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> chunks<span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">// Example implementation: split by double newlines (paragraphs)</span></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">splitIntoSections</span><span class="aa">(</span>content<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">string</span><span class="aa">[]</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // Split by double newlines to get paragraphs</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // You could also split by headings, fixed sizes, or semantic boundaries</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> content<span class="aa">.</span><span class="s9">split</span><span class="aa">(</span><span class="y9">/\n\n+/</span><span class="aa">).</span><span class="s9">filter</span><span class="aa">((</span>section<span class="aa">)</span> <span class="u9">=&gt;</span> section<span class="aa">.</span><span class="s9">trim</span><span class="aa">().</span>length <span class="w9">&gt;</span> <span class="v9">0</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">The exact chunking logic depends on your content structure. You might split by:</p>
             <ul class="g0 u0">
               <li>Paragraphs (double newlines)</li>
-              <li>Headings (markdown <code class="i5 d6 t6 a7 hb">#</code> or HTML <code class="i5 d6 t6 a7 hb">&lt;h1&gt;</code> tags)</li>
+              <li>Headings (markdown <code class="i5 e6 u6 b7 lb">#</code> or HTML <code class="i5 e6 u6 b7 lb">&lt;h1&gt;</code> tags)</li>
               <li>Fixed character limits (e.g., 500 characters with overlap)</li>
               <li>Semantic boundaries (using NLP libraries)</li>
             </ul>
             <p class="g0 u0">The key is consistency and meaningful boundaries that preserve context, like keeping paragraphs intact, maintaining code blocks as single units, or ensuring a heading stays with its content.</p>
-            <h3 id="generating-embeddings" class="l0 h8 t8 z8">Generating Embeddings</h3>
+            <h3 id="generating-embeddings" class="l0 i8 u8 a9">Generating Embeddings</h3>
             <p class="g0 u0">Once you have chunks, you need to convert them into vectors, numerical representations that capture semantic meaning. This is where embedding models come in. They take text and return a high-dimensional vector (often 1536 or 3072 dimensions) where similar texts have similar vectors.</p>
-            <details class="g0 u0 g5 k5 v5 q6 xf">
-              <summary class="l3 u8">Sample embedding</summary>
+            <details class="g0 u0 g5 k5 w5 r6 fg">
+              <summary class="l3 v8">Sample embedding</summary>
               <br />
               <p class="g0 u0"><strong>JSON input</strong></p>
               <div class="e g0 u0" data-code-block>
-                <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                  <code class="language-json block q2 a3 i5 hb h9">
-                    <span class="block m8 g9"><span class="z9">{</span></span>
-                    <span class="block m8 g9">    text<span class="z9">:</span> <span class="x9">&quot;Hi there&quot;</span><span class="z9">,</span></span>
-                    <span class="block m8 g9">  <span class="z9">}</span>;</span>
+                <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                  <code class="language-json block q2 a3 i5 lb i9">
+                    <span class="block n8 h9"><span class="aa">{</span></span>
+                    <span class="block n8 h9">    text<span class="aa">:</span> <span class="y9">&quot;Hi there&quot;</span><span class="aa">,</span></span>
+                    <span class="block n8 h9">  <span class="aa">}</span>;</span>
                   </code>
                 </pre>
-                <div class="b d f e1 b4 e4 p6">
-                  <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                <div class="b d f e1 b4 e4 q6">
+                  <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
                 </div>
               </div>
               <p class="g0 u0"><strong>Output shape</strong></p>
               <div class="e g0 u0" data-code-block>
-                <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                  <code class="language-json block q2 a3 i5 hb h9">
-                    <span class="block m8 g9"><span class="z9">{</span></span>
-                    <span class="block m8 g9">  <span class="w9">&quot;dimensions&quot;</span><span class="z9">:</span> <span class="u9">3072</span><span class="z9">,</span></span>
-                    <span class="block m8 g9">  <span class="w9">&quot;embedding&quot;</span><span class="z9">:</span> <span class="z9">[</span><span class="u9">-0.0006984524079598486</span><span class="z9">,</span><span class="u9">-0.019356805831193924</span><span class="z9">,</span><span class="u9">-0.03219897672533989</span><span class="z9">,</span><span class="u9">0.012672074139118195</span><span class="z9">,</span>............<span class="z9">]</span></span>
-                    <span class="block m8 g9"><span class="z9">}</span></span>
+                <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                  <code class="language-json block q2 a3 i5 lb i9">
+                    <span class="block n8 h9"><span class="aa">{</span></span>
+                    <span class="block n8 h9">  <span class="x9">&quot;dimensions&quot;</span><span class="aa">:</span> <span class="v9">3072</span><span class="aa">,</span></span>
+                    <span class="block n8 h9">  <span class="x9">&quot;embedding&quot;</span><span class="aa">:</span> <span class="aa">[</span><span class="v9">-0.0006984524079598486</span><span class="aa">,</span><span class="v9">-0.019356805831193924</span><span class="aa">,</span><span class="v9">-0.03219897672533989</span><span class="aa">,</span><span class="v9">0.012672074139118195</span><span class="aa">,</span>............<span class="aa">]</span></span>
+                    <span class="block n8 h9"><span class="aa">}</span></span>
                   </code>
                 </pre>
-                <div class="b d f e1 b4 e4 p6">
-                  <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                <div class="b d f e1 b4 e4 q6">
+                  <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
                 </div>
               </div>
               <p class="g0 u0">In practice, you would repeat this for every chunk and store the resulting vectors in your vector database.</p>
@@ -356,130 +385,130 @@ globalThis.addEventListener("pagereveal", (event) => {
             <br />
             <p class="g0 u0">For PukBot, I use OpenAI&#39;s text-embedding-3-large model, which produces 3072-dimensional vectors. The embedding API is straightforward:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">generateEmbedding</span><span class="z9">(</span>text<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">number</span><span class="z9">[]&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> response <span class="v9">=</span> <span class="t9">await</span> openai<span class="z9">.</span>embeddings<span class="z9">.</span><span class="r9">create</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">model:</span> <span class="x9">&quot;text-embedding-3-large&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">input:</span> text<span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> response<span class="z9">.</span><span class="w9">data</span><span class="z9">[</span><span class="u9">0</span><span class="z9">].</span><span class="w9">embedding</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">generateEmbedding</span><span class="aa">(</span>text<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">number</span><span class="aa">[]&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> response <span class="w9">=</span> <span class="u9">await</span> openai<span class="aa">.</span>embeddings<span class="aa">.</span><span class="s9">create</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">model:</span> <span class="y9">&quot;text-embedding-3-large&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">input:</span> text<span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> response<span class="aa">.</span><span class="x9">data</span><span class="aa">[</span><span class="v9">0</span><span class="aa">].</span><span class="x9">embedding</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">When processing many chunks, you&#39;ll want to batch requests and handle rate limits. You also want to avoid regenerating embeddings for unchanged content. A common approach is to hash each chunk&#39;s text and cache the embeddings:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">interface</span> <span class="y9">ChunkWithVector</span> <span class="t9">extends</span> ContentChunk <span class="z9">{</span></span>
-                  <span class="block m8 g9">  vector<span class="v9">:</span> <span class="y9">number</span><span class="z9">[];</span></span>
-                  <span class="block m8 g9">  hash<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">processChunks</span><span class="z9">(</span>chunks<span class="v9">:</span> <span class="y9">ContentChunk</span><span class="z9">[])</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">ChunkWithVector</span><span class="z9">[]&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> processed<span class="v9">:</span> <span class="y9">ChunkWithVector</span><span class="z9">[]</span> <span class="v9">=</span> <span class="z9">[];</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> cache <span class="v9">=</span> <span class="r9">loadEmbeddingCache</span><span class="z9">();</span> <span class="q9 ba">// Load from disk or database</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">for</span> <span class="z9">(</span><span class="t9">const</span> chunk <span class="v9">of</span> chunks<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> hash <span class="v9">=</span> <span class="r9">hashText</span><span class="z9">(</span>chunk<span class="z9">.</span><span class="w9">text</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> cached <span class="v9">=</span> cache<span class="z9">.</span><span class="r9">get</span><span class="z9">(</span>hash<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">    <span class="t9">if</span> <span class="z9">(</span>cached<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      processed<span class="z9">.</span><span class="r9">push</span><span class="z9">({</span> <span class="v9">...</span>chunk<span class="z9">,</span> <span class="w9">vector:</span> cached<span class="z9">.</span><span class="w9">vector</span><span class="z9">,</span> hash <span class="z9">});</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span> <span class="t9">else</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="t9">const</span> vector <span class="v9">=</span> <span class="t9">await</span> <span class="r9">generateEmbedding</span><span class="z9">(</span>chunk<span class="z9">.</span><span class="w9">text</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">      processed<span class="z9">.</span><span class="r9">push</span><span class="z9">({</span> <span class="v9">...</span>chunk<span class="z9">,</span> vector<span class="z9">,</span> hash <span class="z9">});</span></span>
-                  <span class="block m8 g9">      cache<span class="z9">.</span><span class="r9">set</span><span class="z9">(</span>hash<span class="z9">,</span> <span class="z9">{</span> vector<span class="z9">,</span> <span class="w9">timestamp:</span> Date<span class="z9">.</span><span class="r9">now</span><span class="z9">()</span> <span class="z9">});</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="r9">saveEmbeddingCache</span><span class="z9">(</span>cache<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> processed<span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">interface</span> <span class="z9">ChunkWithVector</span> <span class="u9">extends</span> ContentChunk <span class="aa">{</span></span>
+                  <span class="block n8 h9">  vector<span class="w9">:</span> <span class="z9">number</span><span class="aa">[];</span></span>
+                  <span class="block n8 h9">  hash<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">processChunks</span><span class="aa">(</span>chunks<span class="w9">:</span> <span class="z9">ContentChunk</span><span class="aa">[])</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">ChunkWithVector</span><span class="aa">[]&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> processed<span class="w9">:</span> <span class="z9">ChunkWithVector</span><span class="aa">[]</span> <span class="w9">=</span> <span class="aa">[];</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> cache <span class="w9">=</span> <span class="s9">loadEmbeddingCache</span><span class="aa">();</span> <span class="r9 ca">// Load from disk or database</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">for</span> <span class="aa">(</span><span class="u9">const</span> chunk <span class="w9">of</span> chunks<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> hash <span class="w9">=</span> <span class="s9">hashText</span><span class="aa">(</span>chunk<span class="aa">.</span><span class="x9">text</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> cached <span class="w9">=</span> cache<span class="aa">.</span><span class="s9">get</span><span class="aa">(</span>hash<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">    <span class="u9">if</span> <span class="aa">(</span>cached<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      processed<span class="aa">.</span><span class="s9">push</span><span class="aa">({</span> <span class="w9">...</span>chunk<span class="aa">,</span> <span class="x9">vector:</span> cached<span class="aa">.</span><span class="x9">vector</span><span class="aa">,</span> hash <span class="aa">});</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span> <span class="u9">else</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="u9">const</span> vector <span class="w9">=</span> <span class="u9">await</span> <span class="s9">generateEmbedding</span><span class="aa">(</span>chunk<span class="aa">.</span><span class="x9">text</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">      processed<span class="aa">.</span><span class="s9">push</span><span class="aa">({</span> <span class="w9">...</span>chunk<span class="aa">,</span> vector<span class="aa">,</span> hash <span class="aa">});</span></span>
+                  <span class="block n8 h9">      cache<span class="aa">.</span><span class="s9">set</span><span class="aa">(</span>hash<span class="aa">,</span> <span class="aa">{</span> vector<span class="aa">,</span> <span class="x9">timestamp:</span> Date<span class="aa">.</span><span class="s9">now</span><span class="aa">()</span> <span class="aa">});</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="s9">saveEmbeddingCache</span><span class="aa">(</span>cache<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> processed<span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">This way, you only pay for embeddings when content actually changes. The hash-based approach is simple and effective for most use cases.</p>
-            <h3 id="storing-vectors-in-qdrant" class="l0 h8 t8 z8">Storing Vectors in Qdrant</h3>
+            <h3 id="storing-vectors-in-qdrant" class="l0 i8 u8 a9">Storing Vectors in Qdrant</h3>
             <p class="g0 u0">Qdrant is a vector database designed for similarity search. It stores your embeddings along with metadata (payloads) and lets you search for similar vectors efficiently.</p>
             <p class="g0 u0">Setting up a collection is straightforward:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> QdrantClient <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;@qdrant/js-client-rest&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> client <span class="v9">=</span> <span class="v9">new</span> <span class="r9">QdrantClient</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">  <span class="w9">url:</span> process<span class="z9">.</span>env<span class="z9">.</span>QDRANT_URL<span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">apiKey:</span> process<span class="z9">.</span>env<span class="z9">.</span>QDRANT_API_KEY<span class="z9">,</span></span>
-                  <span class="block m8 g9"><span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">initializeCollection</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> collectionName <span class="v9">=</span> <span class="x9">&quot;content_vectors&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> vectorSize <span class="v9">=</span> <span class="u9">3072</span><span class="z9">;</span> <span class="q9 ba">// Must match your embedding model</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">try</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">await</span> client<span class="z9">.</span><span class="r9">getCollection</span><span class="z9">(</span>collectionName<span class="z9">);</span></span>
-                  <span class="block m8 g9">    console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span><span class="x9">&quot;Collection already exists&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span> <span class="t9">catch</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">await</span> client<span class="z9">.</span><span class="r9">createCollection</span><span class="z9">(</span>collectionName<span class="z9">,</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">vectors:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="w9">size:</span> vectorSize<span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">distance:</span> <span class="x9">&quot;Cosine&quot;</span><span class="z9">,</span> <span class="q9 ba">// Cosine similarity for semantic search</span></span>
-                  <span class="block m8 g9">      <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="z9">});</span></span>
-                  <span class="block m8 g9">    console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span><span class="x9">&quot;Collection created&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> QdrantClient <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;@qdrant/js-client-rest&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> client <span class="w9">=</span> <span class="w9">new</span> <span class="s9">QdrantClient</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">  <span class="x9">url:</span> process<span class="aa">.</span>env<span class="aa">.</span>QDRANT_URL<span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">apiKey:</span> process<span class="aa">.</span>env<span class="aa">.</span>QDRANT_API_KEY<span class="aa">,</span></span>
+                  <span class="block n8 h9"><span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">initializeCollection</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> collectionName <span class="w9">=</span> <span class="y9">&quot;content_vectors&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> vectorSize <span class="w9">=</span> <span class="v9">3072</span><span class="aa">;</span> <span class="r9 ca">// Must match your embedding model</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">try</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">await</span> client<span class="aa">.</span><span class="s9">getCollection</span><span class="aa">(</span>collectionName<span class="aa">);</span></span>
+                  <span class="block n8 h9">    console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span><span class="y9">&quot;Collection already exists&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span> <span class="u9">catch</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">await</span> client<span class="aa">.</span><span class="s9">createCollection</span><span class="aa">(</span>collectionName<span class="aa">,</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">vectors:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="x9">size:</span> vectorSize<span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">distance:</span> <span class="y9">&quot;Cosine&quot;</span><span class="aa">,</span> <span class="r9 ca">// Cosine similarity for semantic search</span></span>
+                  <span class="block n8 h9">      <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="aa">});</span></span>
+                  <span class="block n8 h9">    console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span><span class="y9">&quot;Collection created&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Once the collection exists, you can upload your chunks. Qdrant stores each chunk as a &quot;point&quot; with an ID, a vector, and a payload (your metadata):</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">uploadChunks</span><span class="z9">(</span>chunks<span class="v9">:</span> <span class="y9">ChunkWithVector</span><span class="z9">[])</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> points <span class="v9">=</span> chunks<span class="z9">.</span><span class="r9">map</span><span class="z9">((</span>chunk<span class="z9">,</span> index<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">id:</span> index<span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">vector:</span> chunk<span class="z9">.</span><span class="w9">vector</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">payload:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">text:</span> chunk<span class="z9">.</span><span class="w9">text</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">title:</span> chunk<span class="z9">.</span><span class="w9">title</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">sourceId:</span> chunk<span class="z9">.</span><span class="w9">sourceId</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">hash:</span> chunk<span class="z9">.</span><span class="w9">hash</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="v9">...</span>chunk<span class="z9">.</span><span class="w9">metadata</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">}));</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> batchSize <span class="v9">=</span> <span class="u9">100</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">for</span> <span class="z9">(</span><span class="t9">let</span> i <span class="v9">=</span> <span class="u9">0</span><span class="z9">;</span> i <span class="v9">&lt;</span> points<span class="z9">.</span>length<span class="z9">;</span> i <span class="v9">+=</span> batchSize<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> batch <span class="v9">=</span> points<span class="z9">.</span><span class="r9">slice</span><span class="z9">(</span>i<span class="z9">,</span> i <span class="v9">+</span> batchSize<span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="t9">await</span> client<span class="z9">.</span><span class="r9">upsert</span><span class="z9">(</span>collectionName<span class="z9">,</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">points:</span> batch<span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">wait:</span> <span class="t9">true</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">});</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">uploadChunks</span><span class="aa">(</span>chunks<span class="w9">:</span> <span class="z9">ChunkWithVector</span><span class="aa">[])</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> points <span class="w9">=</span> chunks<span class="aa">.</span><span class="s9">map</span><span class="aa">((</span>chunk<span class="aa">,</span> index<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">id:</span> index<span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">vector:</span> chunk<span class="aa">.</span><span class="x9">vector</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">payload:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">text:</span> chunk<span class="aa">.</span><span class="x9">text</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">title:</span> chunk<span class="aa">.</span><span class="x9">title</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">sourceId:</span> chunk<span class="aa">.</span><span class="x9">sourceId</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">hash:</span> chunk<span class="aa">.</span><span class="x9">hash</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="w9">...</span>chunk<span class="aa">.</span><span class="x9">metadata</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">}));</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> batchSize <span class="w9">=</span> <span class="v9">100</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">for</span> <span class="aa">(</span><span class="u9">let</span> i <span class="w9">=</span> <span class="v9">0</span><span class="aa">;</span> i <span class="w9">&lt;</span> points<span class="aa">.</span>length<span class="aa">;</span> i <span class="w9">+=</span> batchSize<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> batch <span class="w9">=</span> points<span class="aa">.</span><span class="s9">slice</span><span class="aa">(</span>i<span class="aa">,</span> i <span class="w9">+</span> batchSize<span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="u9">await</span> client<span class="aa">.</span><span class="s9">upsert</span><span class="aa">(</span>collectionName<span class="aa">,</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">points:</span> batch<span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">wait:</span> <span class="u9">true</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">});</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">The payload is crucial, it stores the actual text and metadata you&#39;ll retrieve later. The vector is what enables fast similarity search.</p>
-            <h2 id="building-the-query-pipeline" class="n0 k8 w8 t8 z8">Building the Query Pipeline</h2>
+            <h2 id="building-the-query-pipeline" class="n0 l8 x8 u8 a9">Building the Query Pipeline</h2>
             <p class="g0 u0">When a user asks a question, the system needs to retrieve relevant context and generate a response. Here&#39;s how the real-time query process works.</p>
-            <h3 id="retrieving-context-at-query-time" class="l0 h8 t8 z8">Retrieving Context at Query Time</h3>
+            <h3 id="retrieving-context-at-query-time" class="l0 i8 u8 a9">Retrieving Context at Query Time</h3>
             <p class="g0 u0">When a user asks a question, you need to find the most relevant chunks. The process mirrors what you did during indexing:</p>
             <ol class="g0 u0">
               <li>Convert the question to an embedding</li>
@@ -488,48 +517,48 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ol>
             <p class="g0 u0">Here&#39;s how that looks:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">getRelevantContext</span><span class="z9">(</span></span>
-                  <span class="block m8 g9">  question<span class="v9">:</span> <span class="y9">string</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  limit<span class="v9">:</span> <span class="y9">number</span> <span class="v9">=</span> <span class="u9">5</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  filters<span class="v9">?:</span> <span class="y9">Record</span><span class="z9">&lt;</span><span class="y9">string</span><span class="z9">,</span> <span class="y9">any</span><span class="z9">&gt;,</span></span>
-                  <span class="block m8 g9"><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">ContextChunk</span><span class="z9">[]&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // Generate embedding for the question</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> queryEmbedding <span class="v9">=</span> <span class="t9">await</span> <span class="r9">generateEmbedding</span><span class="z9">(</span>question<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // Search Qdrant</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> results <span class="v9">=</span> <span class="t9">await</span> client<span class="z9">.</span><span class="r9">search</span><span class="z9">(</span>collectionName<span class="z9">,</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">vector:</span> queryEmbedding<span class="z9">,</span></span>
-                  <span class="block m8 g9">    limit<span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">with_payload:</span> <span class="t9">true</span><span class="z9">,</span> <span class="q9 ba">// Include the text and metadata</span></span>
-                  <span class="block m8 g9">    <span class="w9">filter:</span> filters</span>
-                  <span class="block m8 g9">      <span class="v9">?</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">          <span class="w9">must:</span> Object<span class="z9">.</span><span class="r9">entries</span><span class="z9">(</span>filters<span class="z9">).</span><span class="r9">map</span><span class="z9">(([</span>key<span class="z9">,</span> value<span class="z9">])</span> <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">            <span class="w9">key:</span> key<span class="z9">,</span></span>
-                  <span class="block m8 g9">            <span class="w9">match:</span> <span class="z9">{</span> value <span class="z9">},</span></span>
-                  <span class="block m8 g9">          <span class="z9">})),</span></span>
-                  <span class="block m8 g9">        <span class="z9">}</span></span>
-                  <span class="block m8 g9">      <span class="v9">:</span> <span class="t9">undefined</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // Map results to a simpler format</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> results<span class="z9">.</span><span class="r9">map</span><span class="z9">((</span>result<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">text:</span> result<span class="z9">.</span>payload<span class="z9">.</span><span class="w9">text</span> <span class="t9">as</span> <span class="y9">string</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">title:</span> result<span class="z9">.</span>payload<span class="z9">.</span><span class="w9">title</span> <span class="t9">as</span> <span class="y9">string</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">sourceId:</span> result<span class="z9">.</span>payload<span class="z9">.</span><span class="w9">sourceId</span> <span class="t9">as</span> <span class="y9">string</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">score:</span> result<span class="z9">.</span><span class="w9">score</span><span class="z9">,</span> <span class="q9 ba">// Similarity score (0-1)</span></span>
-                  <span class="block m8 g9">  <span class="z9">}));</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">getRelevantContext</span><span class="aa">(</span></span>
+                  <span class="block n8 h9">  question<span class="w9">:</span> <span class="z9">string</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  limit<span class="w9">:</span> <span class="z9">number</span> <span class="w9">=</span> <span class="v9">5</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  filters<span class="w9">?:</span> <span class="z9">Record</span><span class="aa">&lt;</span><span class="z9">string</span><span class="aa">,</span> <span class="z9">any</span><span class="aa">&gt;,</span></span>
+                  <span class="block n8 h9"><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">ContextChunk</span><span class="aa">[]&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // Generate embedding for the question</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> queryEmbedding <span class="w9">=</span> <span class="u9">await</span> <span class="s9">generateEmbedding</span><span class="aa">(</span>question<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // Search Qdrant</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> results <span class="w9">=</span> <span class="u9">await</span> client<span class="aa">.</span><span class="s9">search</span><span class="aa">(</span>collectionName<span class="aa">,</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">vector:</span> queryEmbedding<span class="aa">,</span></span>
+                  <span class="block n8 h9">    limit<span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">with_payload:</span> <span class="u9">true</span><span class="aa">,</span> <span class="r9 ca">// Include the text and metadata</span></span>
+                  <span class="block n8 h9">    <span class="x9">filter:</span> filters</span>
+                  <span class="block n8 h9">      <span class="w9">?</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">          <span class="x9">must:</span> Object<span class="aa">.</span><span class="s9">entries</span><span class="aa">(</span>filters<span class="aa">).</span><span class="s9">map</span><span class="aa">(([</span>key<span class="aa">,</span> value<span class="aa">])</span> <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">            <span class="x9">key:</span> key<span class="aa">,</span></span>
+                  <span class="block n8 h9">            <span class="x9">match:</span> <span class="aa">{</span> value <span class="aa">},</span></span>
+                  <span class="block n8 h9">          <span class="aa">})),</span></span>
+                  <span class="block n8 h9">        <span class="aa">}</span></span>
+                  <span class="block n8 h9">      <span class="w9">:</span> <span class="u9">undefined</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // Map results to a simpler format</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> results<span class="aa">.</span><span class="s9">map</span><span class="aa">((</span>result<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">text:</span> result<span class="aa">.</span>payload<span class="aa">.</span><span class="x9">text</span> <span class="u9">as</span> <span class="z9">string</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">title:</span> result<span class="aa">.</span>payload<span class="aa">.</span><span class="x9">title</span> <span class="u9">as</span> <span class="z9">string</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">sourceId:</span> result<span class="aa">.</span>payload<span class="aa">.</span><span class="x9">sourceId</span> <span class="u9">as</span> <span class="z9">string</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">score:</span> result<span class="aa">.</span><span class="x9">score</span><span class="aa">,</span> <span class="r9 ca">// Similarity score (0-1)</span></span>
+                  <span class="block n8 h9">  <span class="aa">}));</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">The <code class="i5 d6 t6 a7 hb">score</code> tells you how similar the chunk is to the query. Higher scores mean better matches. You can use this to filter out low-confidence results or adjust how many chunks you include.</p>
-            <p class="g0 u0">Optional filters let you narrow results by metadata. For example, if the user is on a specific page, you might filter by <code class="i5 d6 t6 a7 hb">sourceId</code> to prioritize content from that source.</p>
-            <h3 id="building-the-system-prompt" class="l0 h8 t8 z8">Building the System Prompt</h3>
+            <p class="g0 u0">The <code class="i5 e6 u6 b7 lb">score</code> tells you how similar the chunk is to the query. Higher scores mean better matches. You can use this to filter out low-confidence results or adjust how many chunks you include.</p>
+            <p class="g0 u0">Optional filters let you narrow results by metadata. For example, if the user is on a specific page, you might filter by <code class="i5 e6 u6 b7 lb">sourceId</code> to prioritize content from that source.</p>
+            <h3 id="building-the-system-prompt" class="l0 i8 u8 a9">Building the System Prompt</h3>
             <p class="g0 u0">Once you have relevant chunks, you need to format them into a prompt that guides the LLM. The system prompt should:</p>
             <ul class="g0 u0">
               <li>Explain the assistant&#39;s role</li>
@@ -538,33 +567,33 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ul>
             <p class="g0 u0">Here&#39;s a simplified version:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">buildSystemPrompt</span><span class="z9">(</span>contextChunks<span class="v9">:</span> <span class="y9">ContextChunk</span><span class="z9">[])</span><span class="v9">:</span> <span class="y9">string</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> contextText <span class="v9">=</span> contextChunks</span>
-                  <span class="block m8 g9">    <span class="z9">.</span><span class="r9">map</span><span class="z9">((</span>chunk<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="x9">`${chunk.</span><span class="w9">title</span><span class="x9">}:\n${chunk.</span><span class="w9">text</span><span class="x9">}`</span><span class="z9">)</span></span>
-                  <span class="block m8 g9">    <span class="z9">.</span><span class="r9">join</span><span class="z9">(</span><span class="x9">&quot;\n\n---\n\n&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="x9">`You are an AI assistant helping answer questions based on the provided context.</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="x9">Here is relevant context:</span></span>
-                  <span class="block m8 g9"><span class="x9">${contextText}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="x9">Guidelines:</span></span>
-                  <span class="block m8 g9"><span class="x9">- Answer based only on the provided context</span></span>
-                  <span class="block m8 g9"><span class="x9">- Be concise and direct</span></span>
-                  <span class="block m8 g9"><span class="x9">- If you don&#39;t know something, say so</span></span>
-                  <span class="block m8 g9"><span class="x9">- Use natural language, avoid phrases like &quot;according to the context&quot;`</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">buildSystemPrompt</span><span class="aa">(</span>contextChunks<span class="w9">:</span> <span class="z9">ContextChunk</span><span class="aa">[])</span><span class="w9">:</span> <span class="z9">string</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> contextText <span class="w9">=</span> contextChunks</span>
+                  <span class="block n8 h9">    <span class="aa">.</span><span class="s9">map</span><span class="aa">((</span>chunk<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="y9">`${chunk.</span><span class="x9">title</span><span class="y9">}:\n${chunk.</span><span class="x9">text</span><span class="y9">}`</span><span class="aa">)</span></span>
+                  <span class="block n8 h9">    <span class="aa">.</span><span class="s9">join</span><span class="aa">(</span><span class="y9">&quot;\n\n---\n\n&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="y9">`You are an AI assistant helping answer questions based on the provided context.</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="y9">Here is relevant context:</span></span>
+                  <span class="block n8 h9"><span class="y9">${contextText}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="y9">Guidelines:</span></span>
+                  <span class="block n8 h9"><span class="y9">- Answer based only on the provided context</span></span>
+                  <span class="block n8 h9"><span class="y9">- Be concise and direct</span></span>
+                  <span class="block n8 h9"><span class="y9">- If you don&#39;t know something, say so</span></span>
+                  <span class="block n8 h9"><span class="y9">- Use natural language, avoid phrases like &quot;according to the context&quot;`</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">The key is making the context easy for the model to parse and reference. Clear formatting and explicit instructions help the model stay grounded in your content.</p>
-            <h3 id="wiring-it-into-next-js" class="l0 h8 t8 z8">Wiring It Into Next.js</h3>
-            <p class="g0 u0">The chat API route ties everything together. It&#39;s a standard Next.js API route (or <a class="o9 ga ia ic" href="https://hono.dev/docs/getting-started/nextjs">Hono handler</a>) that:</p>
+            <h3 id="wiring-it-into-next-js" class="l0 i8 u8 a9">Wiring It Into Next.js</h3>
+            <p class="g0 u0">The chat API route ties everything together. It&#39;s a standard Next.js API route (or <a class="p9 ha ja oc" href="https://hono.dev/docs/getting-started/nextjs">Hono handler</a>) that:</p>
             <ol class="g0 u0">
               <li>Validates the incoming request</li>
               <li>Retrieves context from Qdrant</li>
@@ -573,60 +602,60 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Returns the response</li>
             </ol>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">POST</span><span class="z9">(</span>req<span class="v9">:</span> <span class="y9">Request</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">{</span> messages <span class="z9">}</span> <span class="v9">=</span> <span class="t9">await</span> req<span class="z9">.</span><span class="r9">json</span><span class="z9">();</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> lastMessage <span class="v9">=</span> messages<span class="z9">[</span>messages<span class="z9">.</span>length <span class="v9">-</span> <span class="u9">1</span><span class="z9">];</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // Get relevant context from Qdrant</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> context <span class="v9">=</span> <span class="t9">await</span> <span class="r9">getRelevantContext</span><span class="z9">(</span>lastMessage<span class="z9">.</span><span class="w9">content</span><span class="z9">,</span> <span class="u9">5</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // Build system prompt with context</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> systemPrompt <span class="v9">=</span> <span class="r9">buildSystemPrompt</span><span class="z9">(</span>context<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // Call LLM with streaming</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> openai <span class="v9">=</span> <span class="v9">new</span> <span class="r9">OpenAI</span><span class="z9">({</span> <span class="w9">apiKey:</span> process<span class="z9">.</span>env<span class="z9">.</span>OPENAI_API_KEY <span class="z9">});</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> response <span class="v9">=</span> <span class="t9">await</span> openai<span class="z9">.</span>chat<span class="z9">.</span>completions<span class="z9">.</span><span class="r9">create</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">model:</span> <span class="x9">&quot;gpt-4&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">messages:</span> <span class="z9">[{</span> <span class="w9">role:</span> <span class="x9">&quot;system&quot;</span><span class="z9">,</span> <span class="w9">content:</span> systemPrompt <span class="z9">},</span> <span class="v9">...</span>messages<span class="z9">],</span></span>
-                  <span class="block m8 g9">    <span class="w9">stream:</span> <span class="t9">true</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">temperature:</span> <span class="u9">0.7</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // Stream response back to client</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> stream <span class="v9">=</span> <span class="v9">new</span> <span class="r9">ReadableStream</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="t9">async</span> <span class="r9">start</span><span class="z9">(</span>controller<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="t9">for</span> <span class="t9">await</span> <span class="z9">(</span><span class="t9">const</span> chunk <span class="v9">of</span> response<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="t9">const</span> content <span class="v9">=</span> chunk<span class="z9">.</span><span class="w9">choices</span><span class="z9">[</span><span class="u9">0</span><span class="z9">]?.</span>delta<span class="z9">?.</span><span class="w9">content</span> <span class="v9">||</span> <span class="x9">&quot;&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">        <span class="t9">if</span> <span class="z9">(</span>content<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">          controller<span class="z9">.</span><span class="r9">enqueue</span><span class="z9">(</span><span class="v9">new</span> <span class="r9">TextEncoder</span><span class="z9">().</span><span class="r9">encode</span><span class="z9">(</span>content<span class="z9">));</span></span>
-                  <span class="block m8 g9">        <span class="z9">}</span></span>
-                  <span class="block m8 g9">      <span class="z9">}</span></span>
-                  <span class="block m8 g9">      controller<span class="z9">.</span><span class="r9">close</span><span class="z9">();</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="v9">new</span> <span class="r9">Response</span><span class="z9">(</span>stream<span class="z9">,</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">headers:</span> <span class="z9">{</span> <span class="w9">&quot;Content-Type&quot;:</span> <span class="x9">&quot;text/plain; charset=utf-8&quot;</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">POST</span><span class="aa">(</span>req<span class="w9">:</span> <span class="z9">Request</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">{</span> messages <span class="aa">}</span> <span class="w9">=</span> <span class="u9">await</span> req<span class="aa">.</span><span class="s9">json</span><span class="aa">();</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> lastMessage <span class="w9">=</span> messages<span class="aa">[</span>messages<span class="aa">.</span>length <span class="w9">-</span> <span class="v9">1</span><span class="aa">];</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // Get relevant context from Qdrant</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> context <span class="w9">=</span> <span class="u9">await</span> <span class="s9">getRelevantContext</span><span class="aa">(</span>lastMessage<span class="aa">.</span><span class="x9">content</span><span class="aa">,</span> <span class="v9">5</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // Build system prompt with context</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> systemPrompt <span class="w9">=</span> <span class="s9">buildSystemPrompt</span><span class="aa">(</span>context<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // Call LLM with streaming</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> openai <span class="w9">=</span> <span class="w9">new</span> <span class="s9">OpenAI</span><span class="aa">({</span> <span class="x9">apiKey:</span> process<span class="aa">.</span>env<span class="aa">.</span>OPENAI_API_KEY <span class="aa">});</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> response <span class="w9">=</span> <span class="u9">await</span> openai<span class="aa">.</span>chat<span class="aa">.</span>completions<span class="aa">.</span><span class="s9">create</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">model:</span> <span class="y9">&quot;gpt-4&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">messages:</span> <span class="aa">[{</span> <span class="x9">role:</span> <span class="y9">&quot;system&quot;</span><span class="aa">,</span> <span class="x9">content:</span> systemPrompt <span class="aa">},</span> <span class="w9">...</span>messages<span class="aa">],</span></span>
+                  <span class="block n8 h9">    <span class="x9">stream:</span> <span class="u9">true</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">temperature:</span> <span class="v9">0.7</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // Stream response back to client</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> stream <span class="w9">=</span> <span class="w9">new</span> <span class="s9">ReadableStream</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="u9">async</span> <span class="s9">start</span><span class="aa">(</span>controller<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="u9">for</span> <span class="u9">await</span> <span class="aa">(</span><span class="u9">const</span> chunk <span class="w9">of</span> response<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="u9">const</span> content <span class="w9">=</span> chunk<span class="aa">.</span><span class="x9">choices</span><span class="aa">[</span><span class="v9">0</span><span class="aa">]?.</span>delta<span class="aa">?.</span><span class="x9">content</span> <span class="w9">||</span> <span class="y9">&quot;&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">        <span class="u9">if</span> <span class="aa">(</span>content<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">          controller<span class="aa">.</span><span class="s9">enqueue</span><span class="aa">(</span><span class="w9">new</span> <span class="s9">TextEncoder</span><span class="aa">().</span><span class="s9">encode</span><span class="aa">(</span>content<span class="aa">));</span></span>
+                  <span class="block n8 h9">        <span class="aa">}</span></span>
+                  <span class="block n8 h9">      <span class="aa">}</span></span>
+                  <span class="block n8 h9">      controller<span class="aa">.</span><span class="s9">close</span><span class="aa">();</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="w9">new</span> <span class="s9">Response</span><span class="aa">(</span>stream<span class="aa">,</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">headers:</span> <span class="aa">{</span> <span class="x9">&quot;Content-Type&quot;:</span> <span class="y9">&quot;text/plain; charset=utf-8&quot;</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">The frontend sends messages to this endpoint, and streaming gives users immediate feedback instead of waiting for the full response.</p>
-            <h2 id="frontend-experience" class="n0 k8 w8 t8 z8">Frontend Experience</h2>
+            <h2 id="frontend-experience" class="n0 l8 x8 u8 a9">Frontend Experience</h2>
             <p class="g0 u0">The frontend is a standard chat UI with a few enhancements:</p>
             <ul class="g0 u0">
               <li><strong>Streaming responses</strong>: Display tokens as they arrive for a responsive feel</li>
               <li><strong>Message history</strong>: Maintain conversation context across multiple turns</li>
               <li><strong>Error handling</strong>: Gracefully handle API errors and rate limits</li>
             </ul>
-            <h2 id="lessons-learned" class="n0 k8 w8 t8 z8">Lessons Learned</h2>
+            <h2 id="lessons-learned" class="n0 l8 x8 u8 a9">Lessons Learned</h2>
             <p class="g0 u0">Building PukBot taught me a few practical lessons:</p>
             <p class="g0 u0"><strong>Chunk size matters</strong>: Too small, and you lose context. Too large, and retrieval becomes less precise. Aim for 200-500 words per chunk, adjusted for your content.</p>
             <p class="g0 u0"><strong>Top-k tuning</strong>: Start with 3-5 chunks. More isn&#39;t always better, too much context can confuse the model or hit token limits. Monitor what gets retrieved and adjust based on response quality.</p>
@@ -634,29 +663,29 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0"><strong>Similarity thresholds</strong>: Not all retrieved chunks are equally relevant. Consider filtering by score (e.g., only include chunks with score &gt; 0.7) to improve response quality.</p>
             <p class="g0 u0"><strong>Metadata is your friend</strong>: Store rich metadata in Qdrant payloads. It helps with filtering, debugging, and understanding what the model is referencing.</p>
             <p class="g0 u0"><strong>Monitor and iterate</strong>: Log queries, retrieved chunks, and responses (in development). This helps you understand what&#39;s working and what needs improvement.</p>
-            <h2 id="wrapping-up" class="n0 k8 w8 t8 z8">Wrapping Up</h2>
+            <h2 id="wrapping-up" class="n0 l8 x8 u8 a9">Wrapping Up</h2>
             <p class="g0 u0">RAG transforms a generic chatbot into one that actually knows your content. The combination of Qdrant for fast vector search and Next.js for the API makes it straightforward to build and deploy.</p>
             <p class="g0 u0">The core pattern is simple: index your content offline, retrieve relevant chunks at query time, and let the LLM generate grounded responses. The implementation details, chunking strategies, embedding models, prompt engineering, are where you fine-tune for your specific use case.</p>
             <p class="g0 u0">If you&#39;re building a portfolio chatbot, documentation assistant, or any application where context matters, RAG with Qdrant is a solid foundation. Start with the basics, iterate based on real usage, and you&#39;ll have a chatbot that feels genuinely helpful.</p>
             <p class="g0 u0">You can see PukBot in action on my portfolio, and I&#39;m happy to answer questions about the implementation. The patterns here apply to any RAG system, whether you&#39;re using Qdrant, Pinecone, Weaviate, or another vector database.</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/git-worktrees/">Git Worktrees</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/mcp-server-that-writes-itself/">An MCP Server That Writes Itself</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/git-worktrees/">Git Worktrees</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/mcp-server-that-writes-itself/">An MCP Server That Writes Itself</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/rag-chatbot-with-qdrant.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/rag-chatbot-with-qdrant.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

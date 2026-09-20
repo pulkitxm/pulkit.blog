@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -172,15 +172,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -219,21 +248,21 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li><a href="/design-engineering/">Design Engineering</a></li>
             <li aria-current="page">Choreographing Multi-Step Motion</li>
@@ -241,23 +270,23 @@ globalThis.addEventListener("pagereveal", (event) => {
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Choreographing Multi-Step Motion</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-03-15">March 15, 2026</time> · 5 min read · <a class="o9 ga ia ic" href="/design-engineering/">Design Engineering</a></p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Choreographing Multi-Step Motion</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-03-15">March 15, 2026</time> · 5 min read · <a class="p9 ha ja oc" href="/design-engineering/">Design Engineering</a></p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">CSS transitions get you from A to B. Keyframe animations get you from A to B to C to D and back again, on loop, without anyone clicking anything. They are the tool you reach for when the animation needs to run on its own.</p>
-            <h2 id="tl-dr" class="n0 k8 w8 t8 z8">TL;DR</h2>
+            <h2 id="tl-dr" class="n0 l8 x8 u8 a9">TL;DR</h2>
             <ul class="g0 u0">
               <li><strong>Use keyframes for autonomous motion.</strong> Infinite loops, entry animations, and multi-step sequences are where keyframes shine</li>
               <li><strong>Use transitions for interactive state.</strong> Hover, focus, and anything the user can interrupt mid-flight</li>
-              <li><strong><code class="i5 d6 t6 a7 hb">@keyframes</code> + <code class="i5 d6 t6 a7 hb">animation</code>.</strong> Define named keyframes with percentage stops, then apply them with the <code class="i5 d6 t6 a7 hb">animation</code> shorthand</li>
-              <li><strong>Fill mode matters.</strong> <code class="i5 d6 t6 a7 hb">forwards</code> keeps the end state, <code class="i5 d6 t6 a7 hb">backwards</code> applies the first keyframe before the animation starts, <code class="i5 d6 t6 a7 hb">both</code> does both</li>
-              <li><strong>Pause and resume.</strong> <code class="i5 d6 t6 a7 hb">animation-play-state</code> lets you freeze an animation and pick it back up, something transitions cannot do</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">@keyframes</code> + <code class="i5 e6 u6 b7 lb">animation</code>.</strong> Define named keyframes with percentage stops, then apply them with the <code class="i5 e6 u6 b7 lb">animation</code> shorthand</li>
+              <li><strong>Fill mode matters.</strong> <code class="i5 e6 u6 b7 lb">forwards</code> keeps the end state, <code class="i5 e6 u6 b7 lb">backwards</code> applies the first keyframe before the animation starts, <code class="i5 e6 u6 b7 lb">both</code> does both</li>
+              <li><strong>Pause and resume.</strong> <code class="i5 e6 u6 b7 lb">animation-play-state</code> lets you freeze an animation and pick it back up, something transitions cannot do</li>
               <li><strong>Stack animations.</strong> Comma-separate multiple animations on one element; each runs independently</li>
             </ul>
-            <h2 id="keyframes-vs-transitions" class="n0 k8 w8 t8 z8">Keyframes vs Transitions</h2>
-            <p class="g0 u0">Before reaching for <code class="i5 d6 t6 a7 hb">@keyframes</code>, consider whether a transition would do the job. Here is a simple way to decide.</p>
+            <h2 id="keyframes-vs-transitions" class="n0 l8 x8 u8 a9">Keyframes vs Transitions</h2>
+            <p class="g0 u0">Before reaching for <code class="i5 e6 u6 b7 lb">@keyframes</code>, consider whether a transition would do the job. Here is a simple way to decide.</p>
             <p class="g0 u0"><strong>Use keyframe animations when:</strong></p>
             <ul class="g0 u0">
               <li>You need infinite loops (a spinner, a marquee, a pulsing dot)</li>
@@ -271,167 +300,167 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>You need smooth interruption handling (unhover mid-animation and it reverses)</li>
             </ul>
             <p class="g0 u0">Transitions handle interruption gracefully; unhover mid-animation and the browser smoothly reverses. Keyframes do not reverse mid-flight; they run to completion or you remove them entirely. That is their weakness for interactive state, and their strength for everything else.</p>
-            <h2 id="creating-keyframe-animations" class="n0 k8 w8 t8 z8">Creating Keyframe Animations</h2>
-            <p class="g0 u0">Define a keyframe animation with the <code class="i5 d6 t6 a7 hb">@keyframes</code> <a class="o9 ga ia ic" href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Syntax/At-rules">at-rule</a>. Give it a name and a set of stops expressed as percentages.</p>
+            <h2 id="creating-keyframe-animations" class="n0 l8 x8 u8 a9">Creating Keyframe Animations</h2>
+            <p class="g0 u0">Define a keyframe animation with the <code class="i5 e6 u6 b7 lb">@keyframes</code> <a class="p9 ha ja oc" href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Syntax/At-rules">at-rule</a>. Give it a name and a set of stops expressed as percentages.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> fade-in <span class="z9">{</span></span>
-                  <span class="block m8 g9">  0% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">opacity</span><span class="z9">:</span> <span class="u9">0</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  100% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">opacity</span><span class="z9">:</span> <span class="u9">1</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> fade-in <span class="aa">{</span></span>
+                  <span class="block n8 h9">  0% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">opacity</span><span class="aa">:</span> <span class="v9">0</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  100% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">opacity</span><span class="aa">:</span> <span class="v9">1</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Apply it to an element with the <code class="i5 d6 t6 a7 hb">animation</code> property. The shorthand takes the name, duration, and timing function as its first three values.</p>
+            <p class="g0 u0">Apply it to an element with the <code class="i5 e6 u6 b7 lb">animation</code> property. The shorthand takes the name, duration, and timing function as its first three values.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="w9">.element</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> fade-in <span class="u9">1s</span> <span class="t9">ease</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="x9">.element</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> fade-in <span class="v9">1s</span> <span class="u9">ease</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">That interpolates opacity from 0 to 1 over one second.</p>
             <demo-showcase data-component="fade-in" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:true,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
-            <p class="g0 u0">I use the <code class="i5 d6 t6 a7 hb">animation</code> shorthand only for name, duration, and timing function. I declare everything else (<code class="i5 d6 t6 a7 hb">iteration-count</code>, <code class="i5 d6 t6 a7 hb">fill-mode</code>, <code class="i5 d6 t6 a7 hb">direction</code>, <code class="i5 d6 t6 a7 hb">delay</code>) as separate properties. It keeps things readable when animations get more complex.</p>
-            <h3 id="iteration-count" class="l0 h8 t8 z8">Iteration Count</h3>
-            <p class="g0 u0"><code class="i5 d6 t6 a7 hb">animation-iteration-count</code> controls how many times the animation runs. The default is <code class="i5 d6 t6 a7 hb">1</code>. Set it to <code class="i5 d6 t6 a7 hb">infinite</code> for loops. Values between 1 and infinite exist but I rarely use them; it is usually one-shot or forever.</p>
-            <h2 id="multiple-steps" class="n0 k8 w8 t8 z8">Multiple Steps</h2>
+            <p class="g0 u0">I use the <code class="i5 e6 u6 b7 lb">animation</code> shorthand only for name, duration, and timing function. I declare everything else (<code class="i5 e6 u6 b7 lb">iteration-count</code>, <code class="i5 e6 u6 b7 lb">fill-mode</code>, <code class="i5 e6 u6 b7 lb">direction</code>, <code class="i5 e6 u6 b7 lb">delay</code>) as separate properties. It keeps things readable when animations get more complex.</p>
+            <h3 id="iteration-count" class="l0 i8 u8 a9">Iteration Count</h3>
+            <p class="g0 u0"><code class="i5 e6 u6 b7 lb">animation-iteration-count</code> controls how many times the animation runs. The default is <code class="i5 e6 u6 b7 lb">1</code>. Set it to <code class="i5 e6 u6 b7 lb">infinite</code> for loops. Values between 1 and infinite exist but I rarely use them; it is usually one-shot or forever.</p>
+            <h2 id="multiple-steps" class="n0 l8 x8 u8 a9">Multiple Steps</h2>
             <p class="g0 u0">A keyframe rule is not limited to a start and end. You can add stops at any percentage. A blinking cursor is a clean example: one keyframe at 50% toggles visibility, and CSS fills in 0% and 100% automatically using the element&#39;s existing styles.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> blink <span class="z9">{</span></span>
-                  <span class="block m8 g9">  50% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">visibility</span><span class="z9">:</span> <span class="t9">hidden</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.cursor</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> <span class="t9">blink</span> <span class="u9">1s</span> <span class="t9">step-end</span> <span class="t9">infinite</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> blink <span class="aa">{</span></span>
+                  <span class="block n8 h9">  50% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">visibility</span><span class="aa">:</span> <span class="u9">hidden</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.cursor</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> <span class="u9">blink</span> <span class="v9">1s</span> <span class="u9">step-end</span> <span class="u9">infinite</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Notice the <code class="i5 d6 t6 a7 hb">step-end</code> timing function. For a blink, you want an instant toggle, not a smooth fade. <code class="i5 d6 t6 a7 hb">step-end</code> jumps to each keyframe value at the end of each step interval, giving the classic on-off blink.</p>
+            <p class="g0 u0">Notice the <code class="i5 e6 u6 b7 lb">step-end</code> timing function. For a blink, you want an instant toggle, not a smooth fade. <code class="i5 e6 u6 b7 lb">step-end</code> jumps to each keyframe value at the end of each step interval, giving the classic on-off blink.</p>
             <demo-showcase data-component="blinking-cursor" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="g0 u0">If your multi-step animation has more than three or four stops, or involves coordinated timing across properties, it can get unwieldy in pure CSS. That is usually when I reach for a JavaScript animation library like Motion instead.</p>
-            <h2 id="maintaining-the-end-state" class="n0 k8 w8 t8 z8">Maintaining the End State</h2>
+            <h2 id="maintaining-the-end-state" class="n0 l8 x8 u8 a9">Maintaining the End State</h2>
             <p class="g0 u0">By default, when a keyframe animation finishes, the element snaps back to its pre-animation styles. That is rarely what you want for entrance animations, dialogs, or anything that should stay in its final position.</p>
-            <p class="g0 u0">The <code class="i5 d6 t6 a7 hb">animation-fill-mode</code> property controls this.</p>
+            <p class="g0 u0">The <code class="i5 e6 u6 b7 lb">animation-fill-mode</code> property controls this.</p>
             <ul class="g0 u0">
-              <li><strong><code class="i5 d6 t6 a7 hb">forwards</code></strong> keeps the values from the last keyframe after the animation ends</li>
-              <li><strong><code class="i5 d6 t6 a7 hb">backwards</code></strong> applies the values from the first keyframe before the animation starts (useful with delays)</li>
-              <li><strong><code class="i5 d6 t6 a7 hb">both</code></strong> does both</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">forwards</code></strong> keeps the values from the last keyframe after the animation ends</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">backwards</code></strong> applies the values from the first keyframe before the animation starts (useful with delays)</li>
+              <li><strong><code class="i5 e6 u6 b7 lb">both</code></strong> does both</li>
             </ul>
             <demo-showcase data-component="fill-mode" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
-            <p class="g0 u0"><code class="i5 d6 t6 a7 hb">forwards</code> is by far the most common. Any time you animate an element in and want it to stay, set <code class="i5 d6 t6 a7 hb">animation-fill-mode: forwards</code>.</p>
-            <h3 id="the-backwards-trick" class="l0 h8 t8 z8">The Backwards Trick</h3>
-            <p class="g0 u0"><code class="i5 d6 t6 a7 hb">backwards</code> solves a specific problem with delayed animations. Say you have an entrance animation that fades from opacity 0 to 1, with a 1s delay. Without <code class="i5 d6 t6 a7 hb">backwards</code>, the element is fully visible during the delay, then jumps to opacity 0 when the animation starts. With <code class="i5 d6 t6 a7 hb">backwards</code>, the first keyframe (opacity 0) is applied immediately, so the element is hidden during the delay too.</p>
+            <p class="g0 u0"><code class="i5 e6 u6 b7 lb">forwards</code> is by far the most common. Any time you animate an element in and want it to stay, set <code class="i5 e6 u6 b7 lb">animation-fill-mode: forwards</code>.</p>
+            <h3 id="the-backwards-trick" class="l0 i8 u8 a9">The Backwards Trick</h3>
+            <p class="g0 u0"><code class="i5 e6 u6 b7 lb">backwards</code> solves a specific problem with delayed animations. Say you have an entrance animation that fades from opacity 0 to 1, with a 1s delay. Without <code class="i5 e6 u6 b7 lb">backwards</code>, the element is fully visible during the delay, then jumps to opacity 0 when the animation starts. With <code class="i5 e6 u6 b7 lb">backwards</code>, the first keyframe (opacity 0) is applied immediately, so the element is hidden during the delay too.</p>
             <demo-showcase data-component="backwards-fill" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
-            <p class="g0 u0">When you need both behaviors, use <code class="i5 d6 t6 a7 hb">both</code>. It applies the first keyframe before the animation starts (like <code class="i5 d6 t6 a7 hb">backwards</code>) and retains the last keyframe after it ends (like <code class="i5 d6 t6 a7 hb">forwards</code>).</p>
-            <h2 id="pausing-animations" class="n0 k8 w8 t8 z8">Pausing Animations</h2>
-            <p class="g0 u0">Keyframe animations have a feature transitions lack entirely: you can pause them. Set <code class="i5 d6 t6 a7 hb">animation-play-state</code> to <code class="i5 d6 t6 a7 hb">paused</code> and the element freezes in place. Switch it back to <code class="i5 d6 t6 a7 hb">running</code> and it picks up exactly where it left off.</p>
+            <p class="g0 u0">When you need both behaviors, use <code class="i5 e6 u6 b7 lb">both</code>. It applies the first keyframe before the animation starts (like <code class="i5 e6 u6 b7 lb">backwards</code>) and retains the last keyframe after it ends (like <code class="i5 e6 u6 b7 lb">forwards</code>).</p>
+            <h2 id="pausing-animations" class="n0 l8 x8 u8 a9">Pausing Animations</h2>
+            <p class="g0 u0">Keyframe animations have a feature transitions lack entirely: you can pause them. Set <code class="i5 e6 u6 b7 lb">animation-play-state</code> to <code class="i5 e6 u6 b7 lb">paused</code> and the element freezes in place. Switch it back to <code class="i5 e6 u6 b7 lb">running</code> and it picks up exactly where it left off.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="w9">.box</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> bounce-x <span class="u9">2s</span> <span class="r9">cubic-bezier</span><span class="z9">(</span><span class="u9">0.645</span><span class="z9">,</span> <span class="u9">0.045</span><span class="z9">,</span> <span class="u9">0.355</span><span class="z9">,</span> <span class="u9">1</span><span class="z9">)</span> <span class="t9">infinite</span> <span class="t9">alternate</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation-play-state</span><span class="z9">:</span> <span class="t9">paused</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.box.playing</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation-play-state</span><span class="z9">:</span> <span class="t9">running</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="x9">.box</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> bounce-x <span class="v9">2s</span> <span class="s9">cubic-bezier</span><span class="aa">(</span><span class="v9">0.645</span><span class="aa">,</span> <span class="v9">0.045</span><span class="aa">,</span> <span class="v9">0.355</span><span class="aa">,</span> <span class="v9">1</span><span class="aa">)</span> <span class="u9">infinite</span> <span class="u9">alternate</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation-play-state</span><span class="aa">:</span> <span class="u9">paused</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.box.playing</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation-play-state</span><span class="aa">:</span> <span class="u9">running</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">I am also using <code class="i5 d6 t6 a7 hb">animation-direction: alternate</code> here so the element animates back and forth instead of teleporting to the start on each iteration.</p>
+            <p class="g0 u0">I am also using <code class="i5 e6 u6 b7 lb">animation-direction: alternate</code> here so the element animates back and forth instead of teleporting to the start on each iteration.</p>
             <demo-showcase data-component="play-state" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
-            <p class="g0 u0">I have never needed <code class="i5 d6 t6 a7 hb">animation-play-state</code> in a production project, but it is worth knowing about. If you are choosing between keyframes and transitions and the ability to pause matters, keyframes are the only option.</p>
-            <h2 id="stacking-multiple-animations" class="n0 k8 w8 t8 z8">Stacking Multiple Animations</h2>
+            <p class="g0 u0">I have never needed <code class="i5 e6 u6 b7 lb">animation-play-state</code> in a production project, but it is worth knowing about. If you are choosing between keyframes and transitions and the ability to pause matters, keyframes are the only option.</p>
+            <h2 id="stacking-multiple-animations" class="n0 l8 x8 u8 a9">Stacking Multiple Animations</h2>
             <p class="g0 u0">You can apply more than one animation to the same element by comma-separating them. Each animation runs independently with its own timing, duration, and iteration count.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="w9">.element</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span></span>
-                  <span class="block m8 g9">    spin <span class="u9">3s</span> <span class="t9">linear</span> <span class="t9">infinite</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    pulse <span class="u9">1s</span> <span class="t9">ease-in-out</span> <span class="t9">infinite</span> <span class="t9">alternate</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="x9">.element</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span></span>
+                  <span class="block n8 h9">    spin <span class="v9">3s</span> <span class="u9">linear</span> <span class="u9">infinite</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    pulse <span class="v9">1s</span> <span class="u9">ease-in-out</span> <span class="u9">infinite</span> <span class="u9">alternate</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">This is useful for composing effects. One animation handles rotation while another handles scale, each at different speeds.</p>
             <demo-showcase data-component="stacked-animations" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="g0 u0">Keep stacked animations simple. Two or three is fine; beyond that the behavior gets hard to reason about and you are better off reaching for a JavaScript library with a proper timeline API.</p>
-            <h2 id="a-practical-pattern" class="n0 k8 w8 t8 z8">A Practical Pattern</h2>
+            <h2 id="a-practical-pattern" class="n0 l8 x8 u8 a9">A Practical Pattern</h2>
             <p class="g0 u0">Skeleton loaders are one of the most common uses of infinite keyframe animations. A gradient slides across placeholder shapes, signaling that content is loading.</p>
             <demo-showcase data-component="skeleton-loader" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
-            <p class="g0 u0">The shimmer is a single <code class="i5 d6 t6 a7 hb">@keyframes</code> rule that translates a gradient from left to right, running infinitely. Every placeholder element shares the same animation. Simple, effective, and impossible to build with transitions since there is no state change driving it.</p>
+            <p class="g0 u0">The shimmer is a single <code class="i5 e6 u6 b7 lb">@keyframes</code> rule that translates a gradient from left to right, running infinitely. Every placeholder element shares the same animation. Simple, effective, and impossible to build with transitions since there is no state change driving it.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> shimmer <span class="z9">{</span></span>
-                  <span class="block m8 g9">  0% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">translateX</span><span class="z9">(</span><span class="u9">-100%</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  100% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">translateX</span><span class="z9">(</span><span class="u9">100%</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.skeleton</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> shimmer <span class="u9">1.5s</span> <span class="t9">ease-in-out</span> <span class="t9">infinite</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> shimmer <span class="aa">{</span></span>
+                  <span class="block n8 h9">  0% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">translateX</span><span class="aa">(</span><span class="v9">-100%</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  100% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">translateX</span><span class="aa">(</span><span class="v9">100%</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.skeleton</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> shimmer <span class="v9">1.5s</span> <span class="u9">ease-in-out</span> <span class="u9">infinite</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h2 id="conclusion" class="n0 k8 w8 t8 z8">Conclusion</h2>
+            <h2 id="conclusion" class="n0 l8 x8 u8 a9">Conclusion</h2>
             <p class="g0 u0">Keyframe animations are the right tool when motion needs to happen without user input. Loops, entrance sequences, multi-step choreography, and anything that should pause and resume are all keyframe territory. Transitions remain the better choice for interactive state changes where interruption matters.</p>
-            <p class="g0 u0">The properties you will use most are <code class="i5 d6 t6 a7 hb">animation-fill-mode: forwards</code> (to keep the end state), <code class="i5 d6 t6 a7 hb">animation-iteration-count: infinite</code> (for loops), and <code class="i5 d6 t6 a7 hb">animation-direction: alternate</code> (to animate back and forth). Stack animations by comma-separating them, and reach for a JavaScript library when the choreography outgrows what CSS can express clearly.</p>
+            <p class="g0 u0">The properties you will use most are <code class="i5 e6 u6 b7 lb">animation-fill-mode: forwards</code> (to keep the end state), <code class="i5 e6 u6 b7 lb">animation-iteration-count: infinite</code> (for loops), and <code class="i5 e6 u6 b7 lb">animation-direction: alternate</code> (to animate back and forth). Stack animations by comma-separating them, and reach for a JavaScript library when the choreography outgrows what CSS can express clearly.</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/offloading-motion-to-the-gpu/">Offloading Motion to the GPU</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/clip-path-reveals/">Invisible Scissors</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/css-transitions/">Smooth Operators</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/offloading-motion-to-the-gpu/">Offloading Motion to the GPU</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/clip-path-reveals/">Invisible Scissors</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/css-transitions/">Smooth Operators</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/design-engineering/keyframe-animations.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/design-engineering/keyframe-animations.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

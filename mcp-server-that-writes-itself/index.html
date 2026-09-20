@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -169,15 +169,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -216,363 +245,363 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">An MCP Server That Writes Itself</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>An MCP Server That Writes Itself</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-04-22">April 22, 2026</time> · 11 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>An MCP Server That Writes Itself</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-04-22">April 22, 2026</time> · 11 min read</p>
           </header>
-          <div class="c9">
-            <p class="g0 u0">I was building an MCP server for <a class="o9 ga ia ic" href="https://noveum.ai">Noveum.ai</a>. We already had a <a class="o9 ga ia ic" href="https://hono.dev/docs/getting-started/nextjs#_2-hello-world">Hono on Next.js</a> API with a lot of routes, things like traces, datasets, eval jobs, and more. We wanted tools like Claude Desktop, Cursor, and VS Code to call that API without a separate custom plugin for every editor. We also did not want to copy auth or business logic into a second system.</p>
+          <div class="d9">
+            <p class="g0 u0">I was building an MCP server for <a class="p9 ha ja oc" href="https://noveum.ai">Noveum.ai</a>. We already had a <a class="p9 ha ja oc" href="https://hono.dev/docs/getting-started/nextjs#_2-hello-world">Hono on Next.js</a> API with a lot of routes, things like traces, datasets, eval jobs, and more. We wanted tools like Claude Desktop, Cursor, and VS Code to call that API without a separate custom plugin for every editor. We also did not want to copy auth or business logic into a second system.</p>
             <p class="g0 u0">The Model Context Protocol is built for that. The part people skip over is how you structure the server when you are not greenfield, you are wrapping a REST API. If you get the shape right, new routes show up as new agent tools when you deploy. If you get it wrong, you are stuck hand-maintaining a second list of &quot;tools&quot; forever.</p>
             <p class="g0 u0">This post explains what MCP is in plain terms, how we wired it to Hono and OpenAPI, and how the server can generate most of its own tool list. The code is generic, but the approach is what we use at Noveum.</p>
-            <h2 id="tl-dr" class="n0 k8 w8 t8 z8">TL;DR</h2>
+            <h2 id="tl-dr" class="n0 l8 x8 u8 a9">TL;DR</h2>
             <ul class="g0 u0">
               <li><strong>MCP</strong> is a small standard for how chat apps and agents talk to your backend. It exposes <strong>tools</strong> (things the model can call), <strong>resources</strong> (handy read-only data), and <strong>prompts</strong> (ready-made workflows the user can run).</li>
-              <li>For a product hosted on the internet, the client talks to your server over <strong>normal HTTPS</strong> at a URL like <code class="i5 d6 t6 a7 hb">/api/mcp</code>, not a local subprocess. It sends the same <strong>credential</strong> you already accept on REST, whatever that is, in the <code class="i5 d6 t6 a7 hb">Authorization</code> header as <code class="i5 d6 t6 a7 hb">Bearer &lt;token&gt;</code>. No new password type, no new login flow.</li>
-              <li>If you publish an <strong>OpenAPI</strong> description of your Hono API, you can build <strong>one MCP tool per route</strong> from that file and run each call through your real handlers with <code class="i5 d6 t6 a7 hb">app.request(...)</code>. You do not duplicate your logic or your auth.</li>
+              <li>For a product hosted on the internet, the client talks to your server over <strong>normal HTTPS</strong> at a URL like <code class="i5 e6 u6 b7 lb">/api/mcp</code>, not a local subprocess. It sends the same <strong>credential</strong> you already accept on REST, whatever that is, in the <code class="i5 e6 u6 b7 lb">Authorization</code> header as <code class="i5 e6 u6 b7 lb">Bearer &lt;token&gt;</code>. No new password type, no new login flow.</li>
+              <li>If you publish an <strong>OpenAPI</strong> description of your Hono API, you can build <strong>one MCP tool per route</strong> from that file and run each call through your real handlers with <code class="i5 e6 u6 b7 lb">app.request(...)</code>. You do not duplicate your logic or your auth.</li>
               <li>A short <strong>block list</strong> keeps dangerous routes (logins, admin, webhooks, key management, and the like) out of the list the model can even see.</li>
               <li><strong>Resources</strong> are a few “read this first” API calls. <strong>Prompts</strong> are step-by-step instructions so the model knows to poll for async jobs instead of assuming the first response is the final one.</li>
               <li>You can mount all of it on one <strong>Next.js route</strong> in the same app and process you already run.</li>
             </ul>
-            <h2 id="what-mcp-actually-is" class="n0 k8 w8 t8 z8">What MCP Actually Is</h2>
-            <p class="g0 u0"><a class="o9 ga ia ic" href="https://modelcontextprotocol.io">Model Context Protocol</a> is a shared plug shape for AI tools. You build one server, and Cursor, Claude Desktop, VS Code, and others can all use it the same way. You are not writing a new plugin for every editor.</p>
-            <p class="g0 u0">Under the hood the messages are <a class="o9 ga ia ic" href="https://www.jsonrpc.org/specification">JSON-RPC</a> style, small JSON objects with a <code class="i5 d6 t6 a7 hb">method</code> name and <code class="i5 d6 t6 a7 hb">params</code>. You do not need to memorize the shape to follow the rest of the post.</p>
-            <h3 id="the-three-primitives" class="l0 h8 t8 z8">The Three Primitives</h3>
+            <h2 id="what-mcp-actually-is" class="n0 l8 x8 u8 a9">What MCP Actually Is</h2>
+            <p class="g0 u0"><a class="p9 ha ja oc" href="https://modelcontextprotocol.io">Model Context Protocol</a> is a shared plug shape for AI tools. You build one server, and Cursor, Claude Desktop, VS Code, and others can all use it the same way. You are not writing a new plugin for every editor.</p>
+            <p class="g0 u0">Under the hood the messages are <a class="p9 ha ja oc" href="https://www.jsonrpc.org/specification">JSON-RPC</a> style, small JSON objects with a <code class="i5 e6 u6 b7 lb">method</code> name and <code class="i5 e6 u6 b7 lb">params</code>. You do not need to memorize the shape to follow the rest of the post.</p>
+            <h3 id="the-three-primitives" class="l0 i8 u8 a9">The Three Primitives</h3>
             <p class="g0 u0">Every MCP server offers three kinds of thing. Keeping them straight helps you design a good server.</p>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Primitive</th>
-                  <th class="p5 v5 x6 e7 u7">Who triggers it</th>
-                  <th class="p5 v5 x6 e7 u7">Mental model</th>
-                  <th class="p5 v5 x6 e7 u7">Example</th>
+                  <th class="p5 w5 y6 f7 v7">Primitive</th>
+                  <th class="p5 w5 y6 f7 v7">Who triggers it</th>
+                  <th class="p5 w5 y6 f7 v7">Mental model</th>
+                  <th class="p5 w5 y6 f7 v7">Example</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><strong>Tool</strong></td>
-                  <td class="p5 v5 x6 e7 u7">The model, autonomously</td>
-                  <td class="p5 v5 x6 e7 u7">A function call</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">get_traces</code>, <code class="i5 d6 t6 a7 hb">run_quality_analysis</code></td>
+                  <td class="p5 w5 y6 f7 v7"><strong>Tool</strong></td>
+                  <td class="p5 w5 y6 f7 v7">The model, autonomously</td>
+                  <td class="p5 w5 y6 f7 v7">A function call</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">get_traces</code>, <code class="i5 e6 u6 b7 lb">run_quality_analysis</code></td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><strong>Resource</strong></td>
-                  <td class="p5 v5 x6 e7 u7">The host or user</td>
-                  <td class="p5 v5 x6 e7 u7">A read-only file or URL</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">noveum://projects</code>, <code class="i5 d6 t6 a7 hb">noveum://scorers</code></td>
+                  <td class="p5 w5 y6 f7 v7"><strong>Resource</strong></td>
+                  <td class="p5 w5 y6 f7 v7">The host or user</td>
+                  <td class="p5 w5 y6 f7 v7">A read-only file or URL</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">noveum://projects</code>, <code class="i5 e6 u6 b7 lb">noveum://scorers</code></td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7"><strong>Prompt</strong></td>
-                  <td class="p5 v5 x6 e7 u7">The user (slash command)</td>
-                  <td class="p5 v5 x6 e7 u7">A pre-baked system message</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">/debug_traces</code>, <code class="i5 d6 t6 a7 hb">/run_evaluation</code></td>
+                  <td class="p5 w5 y6 f7 v7"><strong>Prompt</strong></td>
+                  <td class="p5 w5 y6 f7 v7">The user (slash command)</td>
+                  <td class="p5 w5 y6 f7 v7">A pre-baked system message</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">/debug_traces</code>, <code class="i5 e6 u6 b7 lb">/run_evaluation</code></td>
                 </tr>
               </tbody>
             </table>
             <p class="g0 u0">The model chooses <strong>tools</strong> on its own. The app or the user often pulls in <strong>resources</strong> to seed context. The user runs <strong>prompts</strong> as slash commands. If something should load every time the user opens a session, it is probably a resource, not a tool. If something is a fixed multi-step flow, it is often a <strong>prompt</strong>.</p>
-            <h3 id="a-typical-session" class="l0 h8 t8 z8">A Typical Session</h3>
+            <h3 id="a-typical-session" class="l0 i8 u8 a9">A Typical Session</h3>
             <p class="g0 u0">A typical session looks like this:</p>
-            <div class="g0 u0 t7 vf">
+            <div class="g0 u0 u7 dg">
               <a href="/assets/content/blogs/mcp-server-that-writes-itself/typical-session.webp" class="block" data-media-zoom data-width="1122" data-height="1402">
                 <img class="y c0 block m3 g5 n2 z1 x2" src="/assets/content/blogs/mcp-server-that-writes-itself/typical-session.webp" alt="MCP session sequence: Client and Server exchange initialize, serverInfo, notifications/initialized, tools/list, resources/list, prompts/list, and tools/call with JSON-RPC style messages." width="1122" height="1402" loading="lazy" decoding="async" />
               </a>
             </div>
             <br />
-            <p class="g0 u0">The spec allows two ways to connect. <strong>stdio</strong> is for a local process the editor starts on your machine. <strong>HTTP</strong> is for a URL on the public internet, which is what you want for a live product. The client <code class="i5 d6 t6 a7 hb">POST</code>s JSON to something like <code class="i5 d6 t6 a7 hb">https://noveum.ai/api/mcp</code> and sends your bearer token in a header. No install on the user&#39;s laptop. Some setups also use streaming responses for long tasks, but a plain request and response is enough to start.</p>
-            <h3 id="auth" class="l0 h8 t8 z8">Auth</h3>
-            <p class="g0 u0">MCP does not force one login style, so the easiest path is to reuse whatever you already check on your REST API, whether that is an API key, a personal access token, or a session token. Pass it in the <code class="i5 d6 t6 a7 hb">Authorization</code> header as <code class="i5 d6 t6 a7 hb">Authorization: Bearer &lt;token&gt;</code> and let the editor store it in config next to the server URL. If you do not have a token system yet, any opaque string your server knows how to verify works for a first pass. Later you can swap in full OAuth if you outgrow pasted tokens, but you do not need that on day one.</p>
-            <h2 id="why-your-openapi-file-matters" class="n0 k8 w8 t8 z8">Why Your OpenAPI File Matters</h2>
-            <p class="g0 u0">If your API has a real <a class="o9 ga ia ic" href="https://www.openapis.org">OpenAPI</a> document, you can stop hand-writing MCP tools. Each route in the spec already has a name, text for humans, and shapes for inputs. That is almost exactly what an MCP tool needs.</p>
-            <p class="g0 u0">With <a class="o9 ga ia ic" href="https://hono.dev">Hono</a> and something like <a class="o9 ga ia ic" href="https://github.com/rhinobase/hono-openapi"><code class="i5 d6 t6 a7 hb">hono-openapi</code></a>, the same Zod types you use to validate requests also fill the spec. One set of types feeds your docs, your clients, and your generated tools.</p>
+            <p class="g0 u0">The spec allows two ways to connect. <strong>stdio</strong> is for a local process the editor starts on your machine. <strong>HTTP</strong> is for a URL on the public internet, which is what you want for a live product. The client <code class="i5 e6 u6 b7 lb">POST</code>s JSON to something like <code class="i5 e6 u6 b7 lb">https://noveum.ai/api/mcp</code> and sends your bearer token in a header. No install on the user&#39;s laptop. Some setups also use streaming responses for long tasks, but a plain request and response is enough to start.</p>
+            <h3 id="auth" class="l0 i8 u8 a9">Auth</h3>
+            <p class="g0 u0">MCP does not force one login style, so the easiest path is to reuse whatever you already check on your REST API, whether that is an API key, a personal access token, or a session token. Pass it in the <code class="i5 e6 u6 b7 lb">Authorization</code> header as <code class="i5 e6 u6 b7 lb">Authorization: Bearer &lt;token&gt;</code> and let the editor store it in config next to the server URL. If you do not have a token system yet, any opaque string your server knows how to verify works for a first pass. Later you can swap in full OAuth if you outgrow pasted tokens, but you do not need that on day one.</p>
+            <h2 id="why-your-openapi-file-matters" class="n0 l8 x8 u8 a9">Why Your OpenAPI File Matters</h2>
+            <p class="g0 u0">If your API has a real <a class="p9 ha ja oc" href="https://www.openapis.org">OpenAPI</a> document, you can stop hand-writing MCP tools. Each route in the spec already has a name, text for humans, and shapes for inputs. That is almost exactly what an MCP tool needs.</p>
+            <p class="g0 u0">With <a class="p9 ha ja oc" href="https://hono.dev">Hono</a> and something like <a class="p9 ha ja oc" href="https://github.com/rhinobase/hono-openapi"><code class="i5 e6 u6 b7 lb">hono-openapi</code></a>, the same Zod types you use to validate requests also fill the spec. One set of types feeds your docs, your clients, and your generated tools.</p>
             <p class="g0 u0">The catch is that vague docs hurt agents more than they hurt people. A summary that says &quot;Update resource&quot; is useless when the model is picking among dozens of tools. Before I wrote MCP glue at Noveum, I tightened the spec: clear summaries, real descriptions, response examples on the busy routes. The MCP layer only reflects what is in that file. Garbage in, garbage out.</p>
-            <h2 id="the-architecture" class="n0 k8 w8 t8 z8">The Architecture</h2>
+            <h2 id="the-architecture" class="n0 l8 x8 u8 a9">The Architecture</h2>
             <p class="g0 u0">You can run the MCP handler inside the same Next.js app as your API. No second service, no extra port. The flow looks like this:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">┌────────────┐     ┌─────────────┐     ┌────────────────────┐     ┌─────────┐</span>
-                  <span class="block m8 g9">│    IDE     │────▶│  Next.js    │────▶│  withMcpAuth       │────▶│  Hono   │</span>
-                  <span class="block m8 g9">│ (Cursor)   │POST │  /api/mcp   │     │  + McpServer       │     │  app    │</span>
-                  <span class="block m8 g9">└────────────┘     └─────────────┘     └────────────────────┘     └─────────┘</span>
-                  <span class="block m8 g9">                                              │   │   │</span>
-                  <span class="block m8 g9">                                              │   │   └── prompts (hand-written)</span>
-                  <span class="block m8 g9">                                              │   └────── resources (curated GETs)</span>
-                  <span class="block m8 g9">                                              └────────── tools (from OpenAPI)</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">┌────────────┐     ┌─────────────┐     ┌────────────────────┐     ┌─────────┐</span>
+                  <span class="block n8 h9">│    IDE     │────▶│  Next.js    │────▶│  withMcpAuth       │────▶│  Hono   │</span>
+                  <span class="block n8 h9">│ (Cursor)   │POST │  /api/mcp   │     │  + McpServer       │     │  app    │</span>
+                  <span class="block n8 h9">└────────────┘     └─────────────┘     └────────────────────┘     └─────────┘</span>
+                  <span class="block n8 h9">                                              │   │   │</span>
+                  <span class="block n8 h9">                                              │   │   └── prompts (hand-written)</span>
+                  <span class="block n8 h9">                                              │   └────── resources (curated GETs)</span>
+                  <span class="block n8 h9">                                              └────────── tools (from OpenAPI)</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">You need four pieces:</p>
             <ol class="g0 u0">
-              <li>One Next.js route that serves <code class="i5 d6 t6 a7 hb">/api/mcp</code>.</li>
+              <li>One Next.js route that serves <code class="i5 e6 u6 b7 lb">/api/mcp</code>.</li>
               <li>The same auth check you already use for REST.</li>
               <li>A small setup function that registers tools, resources, and prompts.</li>
               <li>A loop over the OpenAPI file that registers one tool per allowed route.</li>
             </ol>
-            <h2 id="the-next-js-entry-point" class="n0 k8 w8 t8 z8">The Next.js Entry Point</h2>
-            <p class="g0 u0">The <code class="i5 d6 t6 a7 hb">mcp-handler</code> package wraps the official MCP SDK so you can expose a handler from a route file. The whole entry can be six lines:</p>
+            <h2 id="the-next-js-entry-point" class="n0 l8 x8 u8 a9">The Next.js Entry Point</h2>
+            <p class="g0 u0">The <code class="i5 e6 u6 b7 lb">mcp-handler</code> package wraps the official MCP SDK so you can expose a handler from a route file. The whole entry can be six lines:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> mcpHandler <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;@repo/api&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">const</span> runtime <span class="v9">=</span> <span class="x9">&quot;nodejs&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">const</span> GET <span class="v9">=</span> mcpHandler<span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">const</span> POST <span class="v9">=</span> mcpHandler<span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">const</span> DELETE <span class="v9">=</span> mcpHandler<span class="z9">;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> mcpHandler <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;@repo/api&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">const</span> runtime <span class="w9">=</span> <span class="y9">&quot;nodejs&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">const</span> GET <span class="w9">=</span> mcpHandler<span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">const</span> POST <span class="w9">=</span> mcpHandler<span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">const</span> DELETE <span class="w9">=</span> mcpHandler<span class="aa">;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Put this at <code class="i5 d6 t6 a7 hb">app/api/mcp/[[...path]]/route.ts</code>. The <code class="i5 d6 t6 a7 hb">[[...path]]</code> folder name lets the library handle extra path segments. Use <code class="i5 d6 t6 a7 hb">runtime = &quot;nodejs&quot;</code> so you can use Prisma, Redis, and other Node-only code. Export <code class="i5 d6 t6 a7 hb">GET</code>, <code class="i5 d6 t6 a7 hb">POST</code>, and <code class="i5 d6 t6 a7 hb">DELETE</code> because the client uses those for session setup and cleanup.</p>
-            <p class="g0 u0">The real logic lives in the imported <code class="i5 d6 t6 a7 hb">mcpHandler</code>.</p>
-            <h2 id="wiring-the-handler-and-auth" class="n0 k8 w8 t8 z8">Wiring the Handler and Auth</h2>
-            <p class="g0 u0"><code class="i5 d6 t6 a7 hb">createMcpHandler</code> sets up the MCP server. <code class="i5 d6 t6 a7 hb">withMcpAuth</code> runs your auth check first and blocks bad requests:</p>
+            <p class="g0 u0">Put this at <code class="i5 e6 u6 b7 lb">app/api/mcp/[[...path]]/route.ts</code>. The <code class="i5 e6 u6 b7 lb">[[...path]]</code> folder name lets the library handle extra path segments. Use <code class="i5 e6 u6 b7 lb">runtime = &quot;nodejs&quot;</code> so you can use Prisma, Redis, and other Node-only code. Export <code class="i5 e6 u6 b7 lb">GET</code>, <code class="i5 e6 u6 b7 lb">POST</code>, and <code class="i5 e6 u6 b7 lb">DELETE</code> because the client uses those for session setup and cleanup.</p>
+            <p class="g0 u0">The real logic lives in the imported <code class="i5 e6 u6 b7 lb">mcpHandler</code>.</p>
+            <h2 id="wiring-the-handler-and-auth" class="n0 l8 x8 u8 a9">Wiring the Handler and Auth</h2>
+            <p class="g0 u0"><code class="i5 e6 u6 b7 lb">createMcpHandler</code> sets up the MCP server. <code class="i5 e6 u6 b7 lb">withMcpAuth</code> runs your auth check first and blocks bad requests:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> createMcpHandler<span class="z9">,</span> withMcpAuth <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;mcp-handler&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="t9">type</span> <span class="z9">{</span> McpServer <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;@modelcontextprotocol/sdk/server/mcp.js&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> innerHandler <span class="v9">=</span> <span class="r9">createMcpHandler</span><span class="z9">(</span></span>
-                  <span class="block m8 g9">  <span class="t9">async</span> <span class="z9">(</span>server<span class="v9">:</span> <span class="y9">McpServer</span><span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">await</span> <span class="r9">initializeMcpServer</span><span class="z9">(</span>server<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">serverInfo:</span> <span class="z9">{</span> <span class="w9">name:</span> <span class="x9">&quot;myapp&quot;</span><span class="z9">,</span> <span class="w9">version:</span> <span class="x9">&quot;1.0.0&quot;</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="w9">instructions:</span></span>
-                  <span class="block m8 g9">      <span class="x9">&quot;Read the projects and filter-values resources first, then query tools with real IDs.&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">basePath:</span> <span class="x9">&quot;/api&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">disableSse:</span> <span class="t9">true</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">const</span> mcpHandler <span class="v9">=</span> <span class="r9">withMcpAuth</span><span class="z9">(</span>innerHandler<span class="z9">,</span> verifyApiKey<span class="z9">,</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">required:</span> <span class="t9">true</span><span class="z9">,</span></span>
-                  <span class="block m8 g9"><span class="z9">});</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> createMcpHandler<span class="aa">,</span> withMcpAuth <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;mcp-handler&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="u9">type</span> <span class="aa">{</span> McpServer <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;@modelcontextprotocol/sdk/server/mcp.js&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> innerHandler <span class="w9">=</span> <span class="s9">createMcpHandler</span><span class="aa">(</span></span>
+                  <span class="block n8 h9">  <span class="u9">async</span> <span class="aa">(</span>server<span class="w9">:</span> <span class="z9">McpServer</span><span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">await</span> <span class="s9">initializeMcpServer</span><span class="aa">(</span>server<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">serverInfo:</span> <span class="aa">{</span> <span class="x9">name:</span> <span class="y9">&quot;myapp&quot;</span><span class="aa">,</span> <span class="x9">version:</span> <span class="y9">&quot;1.0.0&quot;</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="x9">instructions:</span></span>
+                  <span class="block n8 h9">      <span class="y9">&quot;Read the projects and filter-values resources first, then query tools with real IDs.&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">basePath:</span> <span class="y9">&quot;/api&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">disableSse:</span> <span class="u9">true</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">const</span> mcpHandler <span class="w9">=</span> <span class="s9">withMcpAuth</span><span class="aa">(</span>innerHandler<span class="aa">,</span> verifyApiKey<span class="aa">,</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">required:</span> <span class="u9">true</span><span class="aa">,</span></span>
+                  <span class="block n8 h9"><span class="aa">});</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Quick read on the options:</p>
             <ul class="g0 u0">
-              <li><code class="i5 d6 t6 a7 hb">basePath: &quot;/api&quot;</code> lines up with the file path so the public URL is <code class="i5 d6 t6 a7 hb">/api/mcp</code>.</li>
-              <li><code class="i5 d6 t6 a7 hb">disableSse: true</code> turns off streaming responses. Plain JSON is easier on serverless. You can enable streaming later if you need live progress.</li>
-              <li><code class="i5 d6 t6 a7 hb">instructions</code> is optional text some clients add to the system message. Use it for global rules, like which resource to read first.</li>
-              <li><code class="i5 d6 t6 a7 hb">withMcpAuth</code> with <code class="i5 d6 t6 a7 hb">required: true</code> means no token, no response.</li>
+              <li><code class="i5 e6 u6 b7 lb">basePath: &quot;/api&quot;</code> lines up with the file path so the public URL is <code class="i5 e6 u6 b7 lb">/api/mcp</code>.</li>
+              <li><code class="i5 e6 u6 b7 lb">disableSse: true</code> turns off streaming responses. Plain JSON is easier on serverless. You can enable streaming later if you need live progress.</li>
+              <li><code class="i5 e6 u6 b7 lb">instructions</code> is optional text some clients add to the system message. Use it for global rules, like which resource to read first.</li>
+              <li><code class="i5 e6 u6 b7 lb">withMcpAuth</code> with <code class="i5 e6 u6 b7 lb">required: true</code> means no token, no response.</li>
             </ul>
             <p class="g0 u0">The function that verifies the token can be the same one you use for REST, cache and database included. In the example below I happen to be checking an API key record, but swap in whatever your REST middleware does today:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">verifyApiKey</span><span class="z9">(</span></span>
-                  <span class="block m8 g9">  _req<span class="v9">:</span> <span class="y9">Request</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  bearerToken<span class="v9">?:</span> <span class="y9">string</span><span class="z9">,</span></span>
-                  <span class="block m8 g9"><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">AuthInfo</span> <span class="v9">|</span> <span class="y9">undefined</span><span class="z9">&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">(</span><span class="v9">!</span>bearerToken<span class="z9">)</span> <span class="t9">return</span> <span class="t9">undefined</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">let</span> record <span class="v9">=</span> <span class="t9">await</span> apiKeyCache<span class="z9">.</span><span class="r9">get</span><span class="z9">(</span>bearerToken<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">(</span><span class="v9">!</span>record<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    record <span class="v9">=</span> <span class="t9">await</span> db<span class="z9">.</span>apiKey<span class="z9">.</span><span class="r9">findFirst</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">      <span class="w9">where:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="q9 ba">/* hashed lookup */</span></span>
-                  <span class="block m8 g9">      <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="z9">});</span></span>
-                  <span class="block m8 g9">    <span class="t9">if</span> <span class="z9">(</span><span class="v9">!</span>record<span class="z9">)</span> <span class="t9">return</span> <span class="t9">undefined</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="t9">await</span> apiKeyCache<span class="z9">.</span><span class="r9">set</span><span class="z9">(</span>bearerToken<span class="z9">,</span> record<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">token:</span> bearerToken<span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">clientId:</span> <span class="x9">&quot;myapp-api-key&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">scopes:</span> <span class="z9">[</span><span class="x9">&quot;myapp.api&quot;</span><span class="z9">],</span></span>
-                  <span class="block m8 g9">    <span class="w9">extra:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">apiKeyId:</span> record<span class="z9">.</span><span class="w9">id</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">organizationId:</span> record<span class="z9">.</span><span class="w9">organizationId</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">userId:</span> record<span class="z9">.</span><span class="w9">userId</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">};</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">verifyApiKey</span><span class="aa">(</span></span>
+                  <span class="block n8 h9">  _req<span class="w9">:</span> <span class="z9">Request</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  bearerToken<span class="w9">?:</span> <span class="z9">string</span><span class="aa">,</span></span>
+                  <span class="block n8 h9"><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">AuthInfo</span> <span class="w9">|</span> <span class="z9">undefined</span><span class="aa">&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">(</span><span class="w9">!</span>bearerToken<span class="aa">)</span> <span class="u9">return</span> <span class="u9">undefined</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">let</span> record <span class="w9">=</span> <span class="u9">await</span> apiKeyCache<span class="aa">.</span><span class="s9">get</span><span class="aa">(</span>bearerToken<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">(</span><span class="w9">!</span>record<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    record <span class="w9">=</span> <span class="u9">await</span> db<span class="aa">.</span>apiKey<span class="aa">.</span><span class="s9">findFirst</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">      <span class="x9">where:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="r9 ca">/* hashed lookup */</span></span>
+                  <span class="block n8 h9">      <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="aa">});</span></span>
+                  <span class="block n8 h9">    <span class="u9">if</span> <span class="aa">(</span><span class="w9">!</span>record<span class="aa">)</span> <span class="u9">return</span> <span class="u9">undefined</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="u9">await</span> apiKeyCache<span class="aa">.</span><span class="s9">set</span><span class="aa">(</span>bearerToken<span class="aa">,</span> record<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">token:</span> bearerToken<span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">clientId:</span> <span class="y9">&quot;myapp-api-key&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">scopes:</span> <span class="aa">[</span><span class="y9">&quot;myapp.api&quot;</span><span class="aa">],</span></span>
+                  <span class="block n8 h9">    <span class="x9">extra:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">apiKeyId:</span> record<span class="aa">.</span><span class="x9">id</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">organizationId:</span> record<span class="aa">.</span><span class="x9">organizationId</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">userId:</span> record<span class="aa">.</span><span class="x9">userId</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">};</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Same auth check as your REST API means one mental model for users. The SDK also passes the verified token into each tool handler, so when you call Hono you can set <code class="i5 d6 t6 a7 hb">Authorization: Bearer</code> with that same value. The model acts as the user who owns the token.</p>
-            <h2 id="server-initialization" class="n0 k8 w8 t8 z8">Server Initialization</h2>
-            <p class="g0 u0">The <code class="i5 d6 t6 a7 hb">initializeMcpServer</code> function is where the real work lives:</p>
+            <p class="g0 u0">Same auth check as your REST API means one mental model for users. The SDK also passes the verified token into each tool handler, so when you call Hono you can set <code class="i5 e6 u6 b7 lb">Authorization: Bearer</code> with that same value. The model acts as the user who owns the token.</p>
+            <h2 id="server-initialization" class="n0 l8 x8 u8 a9">Server Initialization</h2>
+            <p class="g0 u0">The <code class="i5 e6 u6 b7 lb">initializeMcpServer</code> function is where the real work lives:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">initializeMcpServer</span><span class="z9">(</span>server<span class="v9">:</span> <span class="y9">McpServer</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">void</span><span class="z9">&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> spec <span class="v9">=</span> <span class="t9">await</span> <span class="r9">loadFilteredOpenApi</span><span class="z9">(</span>app<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="r9">registerOpenApiTools</span><span class="z9">(</span>server<span class="z9">,</span> app<span class="z9">,</span> spec<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="r9">registerResources</span><span class="z9">(</span>server<span class="z9">,</span> app<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="r9">registerPrompts</span><span class="z9">(</span>server<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">initializeMcpServer</span><span class="aa">(</span>server<span class="w9">:</span> <span class="z9">McpServer</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">void</span><span class="aa">&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> spec <span class="w9">=</span> <span class="u9">await</span> <span class="s9">loadFilteredOpenApi</span><span class="aa">(</span>app<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="s9">registerOpenApiTools</span><span class="aa">(</span>server<span class="aa">,</span> app<span class="aa">,</span> spec<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="s9">registerResources</span><span class="aa">(</span>server<span class="aa">,</span> app<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="s9">registerPrompts</span><span class="aa">(</span>server<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Three layers, in order: auto-generated tools from the spec, hand-written resources, hand-written prompts. Every fresh <code class="i5 d6 t6 a7 hb">McpServer</code> instance gets populated from this function, which means you can redeploy and new endpoints show up as tools on the next connection without touching any MCP code.</p>
-            <h2 id="auto-generating-tools-from-openapi" class="n0 k8 w8 t8 z8">Auto-Generating Tools From OpenAPI</h2>
-            <p class="g0 u0">This is the core idea. Inside something like <code class="i5 d6 t6 a7 hb">openapi-to-tools.ts</code> you do the following.</p>
-            <h3 id="section-1-load-the-spec-in-process" class="l0 h8 t8 z8">1. Load the spec in-process</h3>
-            <p class="g0 u0">Hono lets you call your own app with <code class="i5 d6 t6 a7 hb">app.request(url)</code> inside the same Node process. No HTTP round trip to yourself. Use that to read the OpenAPI JSON your app already serves:</p>
+            <p class="g0 u0">Three layers, in order: auto-generated tools from the spec, hand-written resources, hand-written prompts. Every fresh <code class="i5 e6 u6 b7 lb">McpServer</code> instance gets populated from this function, which means you can redeploy and new endpoints show up as tools on the next connection without touching any MCP code.</p>
+            <h2 id="auto-generating-tools-from-openapi" class="n0 l8 x8 u8 a9">Auto-Generating Tools From OpenAPI</h2>
+            <p class="g0 u0">This is the core idea. Inside something like <code class="i5 e6 u6 b7 lb">openapi-to-tools.ts</code> you do the following.</p>
+            <h3 id="section-1-load-the-spec-in-process" class="l0 i8 u8 a9">1. Load the spec in-process</h3>
+            <p class="g0 u0">Hono lets you call your own app with <code class="i5 e6 u6 b7 lb">app.request(url)</code> inside the same Node process. No HTTP round trip to yourself. Use that to read the OpenAPI JSON your app already serves:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">loadFilteredOpenApi</span><span class="z9">(</span>app<span class="v9">:</span> <span class="y9">Hono</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> res <span class="v9">=</span> <span class="t9">await</span> app<span class="z9">.</span><span class="r9">request</span><span class="z9">(</span><span class="x9">&quot;http://internal/api/openapi&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">(</span><span class="v9">!</span>res<span class="z9">.</span><span class="w9">ok</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">throw</span> <span class="v9">new</span> <span class="r9">Error</span><span class="z9">(</span><span class="x9">`openapi fetch failed: ${res.</span><span class="w9">status</span><span class="x9">}`</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> spec <span class="v9">=</span> <span class="z9">(</span><span class="t9">await</span> res<span class="z9">.</span><span class="r9">json</span><span class="z9">())</span> <span class="t9">as</span> <span class="y9">OpenApiDoc</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="r9">filterOpenApiSpec</span><span class="z9">(</span>spec<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">loadFilteredOpenApi</span><span class="aa">(</span>app<span class="w9">:</span> <span class="z9">Hono</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> res <span class="w9">=</span> <span class="u9">await</span> app<span class="aa">.</span><span class="s9">request</span><span class="aa">(</span><span class="y9">&quot;http://internal/api/openapi&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">(</span><span class="w9">!</span>res<span class="aa">.</span><span class="x9">ok</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">throw</span> <span class="w9">new</span> <span class="s9">Error</span><span class="aa">(</span><span class="y9">`openapi fetch failed: ${res.</span><span class="x9">status</span><span class="y9">}`</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> spec <span class="w9">=</span> <span class="aa">(</span><span class="u9">await</span> res<span class="aa">.</span><span class="s9">json</span><span class="aa">())</span> <span class="u9">as</span> <span class="z9">OpenApiDoc</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="s9">filterOpenApiSpec</span><span class="aa">(</span>spec<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">If that file powers your docs page, your tool list always matches what humans see in the API reference.</p>
-            <h3 id="section-2-block-dangerous-routes" class="l0 h8 t8 z8">2. Block dangerous routes</h3>
+            <h3 id="section-2-block-dangerous-routes" class="l0 i8 u8 a9">2. Block dangerous routes</h3>
             <p class="g0 u0">Agents should not create API keys, hit admin panels, or touch webhooks. Drop those paths and operation names before you register any tool. A short list of prefixes and substrings is enough to start:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> DENY_PATH_PREFIXES <span class="v9">=</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;/api/auth&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;/api/webhooks&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;/api/payments&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;/api/admin&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;/api/uploads&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;/api/mcp&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9"><span class="z9">]</span> <span class="t9">as</span> <span class="t9">const</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> DENY_PATH_SUBSTRINGS <span class="v9">=</span> <span class="z9">[</span><span class="x9">&quot;/api-keys&quot;</span><span class="z9">,</span> <span class="x9">&quot;/credentials&quot;</span><span class="z9">,</span> <span class="x9">&quot;/signed-upload-url&quot;</span><span class="z9">]</span> <span class="t9">as</span> <span class="t9">const</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> DENY_OPERATION_ID_SUBSTRINGS <span class="v9">=</span> <span class="z9">[</span><span class="x9">&quot;apiKey&quot;</span><span class="z9">,</span> <span class="x9">&quot;credential&quot;</span><span class="z9">,</span> <span class="x9">&quot;signedUpload&quot;</span><span class="z9">];</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> DENY_PATH_PREFIXES <span class="w9">=</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;/api/auth&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;/api/webhooks&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;/api/payments&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;/api/admin&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;/api/uploads&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;/api/mcp&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9"><span class="aa">]</span> <span class="u9">as</span> <span class="u9">const</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> DENY_PATH_SUBSTRINGS <span class="w9">=</span> <span class="aa">[</span><span class="y9">&quot;/api-keys&quot;</span><span class="aa">,</span> <span class="y9">&quot;/credentials&quot;</span><span class="aa">,</span> <span class="y9">&quot;/signed-upload-url&quot;</span><span class="aa">]</span> <span class="u9">as</span> <span class="u9">const</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> DENY_OPERATION_ID_SUBSTRINGS <span class="w9">=</span> <span class="aa">[</span><span class="y9">&quot;apiKey&quot;</span><span class="aa">,</span> <span class="y9">&quot;credential&quot;</span><span class="aa">,</span> <span class="y9">&quot;signedUpload&quot;</span><span class="aa">];</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">If a route matches the list, it never appears in <code class="i5 d6 t6 a7 hb">tools/list</code>, so the model never tries to call it.</p>
-            <h3 id="section-3-turn-every-remaining-operation-into-an-mcp-tool" class="l0 h8 t8 z8">3. Turn every remaining operation into an MCP tool</h3>
-            <p class="g0 u0">For each <code class="i5 d6 t6 a7 hb">(path, method)</code> pair that survives the filter:</p>
+            <p class="g0 u0">If a route matches the list, it never appears in <code class="i5 e6 u6 b7 lb">tools/list</code>, so the model never tries to call it.</p>
+            <h3 id="section-3-turn-every-remaining-operation-into-an-mcp-tool" class="l0 i8 u8 a9">3. Turn every remaining operation into an MCP tool</h3>
+            <p class="g0 u0">For each <code class="i5 e6 u6 b7 lb">(path, method)</code> pair that survives the filter:</p>
             <ul class="g0 u0">
-              <li><strong>Name</strong>: slug of <code class="i5 d6 t6 a7 hb">operationId</code>, falling back to a <code class="i5 d6 t6 a7 hb">method_path_slug</code>. MCP caps tool names at 48 characters, so hash-and-truncate anything longer and keep a <code class="i5 d6 t6 a7 hb">usedNames</code> set to de-dupe collisions.</li>
-              <li><strong>Title</strong>: <code class="i5 d6 t6 a7 hb">summary</code>.</li>
-              <li><strong>Description</strong>: <code class="i5 d6 t6 a7 hb">description</code> plus an auto-generated bulleted list of the path, query, and body parameters. The parameter list matters a lot. Agents pick tools off of descriptions, not schemas.</li>
-              <li><strong>Input schema</strong>: JSON Schema from the spec, converted to a Zod shape on the fly. Path params, query params, and <code class="i5 d6 t6 a7 hb">application/json</code> request body all end up as keys on the same input object, with the body nested under a single <code class="i5 d6 t6 a7 hb">body</code> key.</li>
-              <li><strong>Handler</strong>: rebuild the URL with path-param substitution and query string, forward the incoming Bearer on <code class="i5 d6 t6 a7 hb">Authorization</code>, and call <code class="i5 d6 t6 a7 hb">app.request(...)</code> to run the real REST handler.</li>
+              <li><strong>Name</strong>: slug of <code class="i5 e6 u6 b7 lb">operationId</code>, falling back to a <code class="i5 e6 u6 b7 lb">method_path_slug</code>. MCP caps tool names at 48 characters, so hash-and-truncate anything longer and keep a <code class="i5 e6 u6 b7 lb">usedNames</code> set to de-dupe collisions.</li>
+              <li><strong>Title</strong>: <code class="i5 e6 u6 b7 lb">summary</code>.</li>
+              <li><strong>Description</strong>: <code class="i5 e6 u6 b7 lb">description</code> plus an auto-generated bulleted list of the path, query, and body parameters. The parameter list matters a lot. Agents pick tools off of descriptions, not schemas.</li>
+              <li><strong>Input schema</strong>: JSON Schema from the spec, converted to a Zod shape on the fly. Path params, query params, and <code class="i5 e6 u6 b7 lb">application/json</code> request body all end up as keys on the same input object, with the body nested under a single <code class="i5 e6 u6 b7 lb">body</code> key.</li>
+              <li><strong>Handler</strong>: rebuild the URL with path-param substitution and query string, forward the incoming Bearer on <code class="i5 e6 u6 b7 lb">Authorization</code>, and call <code class="i5 e6 u6 b7 lb">app.request(...)</code> to run the real REST handler.</li>
             </ul>
-            <p class="g0 u0">Tool names in MCP are length-limited, so you may need to trim long <code class="i5 d6 t6 a7 hb">operationId</code> strings and add a short hash to avoid collisions:</p>
+            <p class="g0 u0">Tool names in MCP are length-limited, so you may need to trim long <code class="i5 e6 u6 b7 lb">operationId</code> strings and add a short hash to avoid collisions:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> MCP_TOOL_NAME_MAX_LEN <span class="v9">=</span> <span class="u9">48</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">shortenToMcpToolLimit</span><span class="z9">(</span>fullName<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">string</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">(</span>fullName<span class="z9">.</span>length <span class="v9">&lt;=</span> MCP_TOOL_NAME_MAX_LEN<span class="z9">)</span> <span class="t9">return</span> fullName<span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> hash <span class="v9">=</span> <span class="r9">createHash</span><span class="z9">(</span><span class="x9">&quot;sha256&quot;</span><span class="z9">).</span><span class="r9">update</span><span class="z9">(</span>fullName<span class="z9">).</span><span class="r9">digest</span><span class="z9">(</span><span class="x9">&quot;hex&quot;</span><span class="z9">).</span><span class="r9">slice</span><span class="z9">(</span><span class="u9">0</span><span class="z9">,</span> <span class="u9">6</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> suffix <span class="v9">=</span> <span class="x9">`_${hash}`</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> headLen <span class="v9">=</span> MCP_TOOL_NAME_MAX_LEN <span class="v9">-</span> suffix<span class="z9">.</span>length<span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="x9">`${fullName.slice(0, headLen)}${suffix}`</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> MCP_TOOL_NAME_MAX_LEN <span class="w9">=</span> <span class="v9">48</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">shortenToMcpToolLimit</span><span class="aa">(</span>fullName<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">string</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">(</span>fullName<span class="aa">.</span>length <span class="w9">&lt;=</span> MCP_TOOL_NAME_MAX_LEN<span class="aa">)</span> <span class="u9">return</span> fullName<span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> hash <span class="w9">=</span> <span class="s9">createHash</span><span class="aa">(</span><span class="y9">&quot;sha256&quot;</span><span class="aa">).</span><span class="s9">update</span><span class="aa">(</span>fullName<span class="aa">).</span><span class="s9">digest</span><span class="aa">(</span><span class="y9">&quot;hex&quot;</span><span class="aa">).</span><span class="s9">slice</span><span class="aa">(</span><span class="v9">0</span><span class="aa">,</span> <span class="v9">6</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> suffix <span class="w9">=</span> <span class="y9">`_${hash}`</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> headLen <span class="w9">=</span> MCP_TOOL_NAME_MAX_LEN <span class="w9">-</span> suffix<span class="aa">.</span>length<span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="y9">`${fullName.slice(0, headLen)}${suffix}`</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Converting OpenAPI JSON Schema to Zod is mostly mechanical. One edge case is an <strong>empty enum</strong> in the spec, which can crash <code class="i5 d6 t6 a7 hb">z.enum([])</code>. Map that to <code class="i5 d6 t6 a7 hb">z.never()</code> so a bad spec line does not break every tool at startup:</p>
+            <p class="g0 u0">Converting OpenAPI JSON Schema to Zod is mostly mechanical. One edge case is an <strong>empty enum</strong> in the spec, which can crash <code class="i5 e6 u6 b7 lb">z.enum([])</code>. Map that to <code class="i5 e6 u6 b7 lb">z.never()</code> so a bad spec line does not break every tool at startup:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">jsonSchemaToZod</span><span class="z9">(</span>schema<span class="z9">,</span> root<span class="z9">,</span> required<span class="z9">)</span><span class="v9">:</span> <span class="y9">ZodTypeAny</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // ... type switches, $ref resolution ...</span></span>
-                  <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">(</span>Array<span class="z9">.</span><span class="r9">isArray</span><span class="z9">(</span>schema<span class="z9">.</span><span class="w9">enum</span><span class="z9">)</span> <span class="v9">&amp;&amp;</span> schema<span class="z9">.</span>enum<span class="z9">.</span><span class="r9">every</span><span class="z9">((</span>x<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="v9">typeof</span> x <span class="v9">===</span> <span class="x9">&quot;string&quot;</span><span class="z9">))</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">if</span> <span class="z9">(</span>schema<span class="z9">.</span>enum<span class="z9">.</span>length <span class="v9">===</span> <span class="u9">0</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="t9">return</span> required <span class="v9">?</span> z<span class="z9">.</span><span class="r9">never</span><span class="z9">()</span> <span class="v9">:</span> z<span class="z9">.</span><span class="r9">never</span><span class="z9">().</span><span class="r9">optional</span><span class="z9">();</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> en <span class="v9">=</span> z<span class="z9">.</span><span class="r9">enum</span><span class="z9">(</span>schema<span class="z9">.</span><span class="w9">enum</span> <span class="t9">as</span> <span class="z9">[</span><span class="y9">string</span><span class="z9">,</span> <span class="v9">...</span><span class="y9">string</span><span class="z9">[]]);</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> required <span class="v9">?</span> en <span class="v9">:</span> en<span class="z9">.</span><span class="r9">optional</span><span class="z9">();</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">  // ...</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">jsonSchemaToZod</span><span class="aa">(</span>schema<span class="aa">,</span> root<span class="aa">,</span> required<span class="aa">)</span><span class="w9">:</span> <span class="z9">ZodTypeAny</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // ... type switches, $ref resolution ...</span></span>
+                  <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">(</span>Array<span class="aa">.</span><span class="s9">isArray</span><span class="aa">(</span>schema<span class="aa">.</span><span class="x9">enum</span><span class="aa">)</span> <span class="w9">&amp;&amp;</span> schema<span class="aa">.</span>enum<span class="aa">.</span><span class="s9">every</span><span class="aa">((</span>x<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="w9">typeof</span> x <span class="w9">===</span> <span class="y9">&quot;string&quot;</span><span class="aa">))</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">if</span> <span class="aa">(</span>schema<span class="aa">.</span>enum<span class="aa">.</span>length <span class="w9">===</span> <span class="v9">0</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="u9">return</span> required <span class="w9">?</span> z<span class="aa">.</span><span class="s9">never</span><span class="aa">()</span> <span class="w9">:</span> z<span class="aa">.</span><span class="s9">never</span><span class="aa">().</span><span class="s9">optional</span><span class="aa">();</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> en <span class="w9">=</span> z<span class="aa">.</span><span class="s9">enum</span><span class="aa">(</span>schema<span class="aa">.</span><span class="x9">enum</span> <span class="u9">as</span> <span class="aa">[</span><span class="z9">string</span><span class="aa">,</span> <span class="w9">...</span><span class="z9">string</span><span class="aa">[]]);</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> required <span class="w9">?</span> en <span class="w9">:</span> en<span class="aa">.</span><span class="s9">optional</span><span class="aa">();</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">  // ...</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">For object types, allowing extra fields with <code class="i5 d6 t6 a7 hb">.passthrough()</code> avoids spurious errors when the client sends a bit more than the spec shows.</p>
-            <h3 id="section-4-the-tool-handler" class="l0 h8 t8 z8">4. The tool handler</h3>
+            <p class="g0 u0">For object types, allowing extra fields with <code class="i5 e6 u6 b7 lb">.passthrough()</code> avoids spurious errors when the client sends a bit more than the spec shows.</p>
+            <h3 id="section-4-the-tool-handler" class="l0 i8 u8 a9">4. The tool handler</h3>
             <p class="g0 u0">The tool implementation builds the same URL your REST client would and calls the app:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">server<span class="z9">.</span><span class="r9">registerTool</span><span class="z9">(</span>toolName<span class="z9">,</span> <span class="z9">{</span> title<span class="z9">,</span> description<span class="z9">,</span> inputSchema <span class="z9">},</span> <span class="t9">async</span> <span class="z9">(</span>args<span class="z9">,</span> <span class="z9">{</span> extra <span class="z9">})</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">{</span> url<span class="z9">,</span> method<span class="z9">,</span> body <span class="z9">}</span> <span class="v9">=</span> <span class="r9">buildRequest</span><span class="z9">(</span>path<span class="z9">,</span> httpMethod<span class="z9">,</span> args<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> headers <span class="v9">=</span> <span class="v9">new</span> <span class="r9">Headers</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;content-type&quot;:</span> <span class="x9">&quot;application/json&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">authorization:</span> <span class="x9">`Bearer ${extra.authInfo.</span><span class="w9">token</span><span class="x9">}`</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> res <span class="v9">=</span> <span class="t9">await</span> app<span class="z9">.</span><span class="r9">request</span><span class="z9">(</span>url<span class="z9">,</span> <span class="z9">{</span> method<span class="z9">,</span> headers<span class="z9">,</span> body <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">{</span> payload<span class="z9">,</span> truncatedChars <span class="z9">}</span> <span class="v9">=</span> <span class="t9">await</span> <span class="r9">readResponsePreview</span><span class="z9">(</span>res<span class="z9">,</span> MAX_TOOL_RESPONSE_CHARS<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">isError:</span> <span class="v9">!</span>res<span class="z9">.</span><span class="w9">ok</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">content:</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">      <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="w9">type:</span> <span class="x9">&quot;text&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">text:</span> JSON<span class="z9">.</span><span class="r9">stringify</span><span class="z9">({</span> <span class="w9">status:</span> res<span class="z9">.</span><span class="w9">status</span><span class="z9">,</span> <span class="w9">body:</span> payload<span class="z9">,</span> truncatedChars <span class="z9">},</span> <span class="t9">null</span><span class="z9">,</span> <span class="u9">2</span><span class="z9">),</span></span>
-                  <span class="block m8 g9">      <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="z9">],</span></span>
-                  <span class="block m8 g9">  <span class="z9">};</span></span>
-                  <span class="block m8 g9"><span class="z9">});</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">server<span class="aa">.</span><span class="s9">registerTool</span><span class="aa">(</span>toolName<span class="aa">,</span> <span class="aa">{</span> title<span class="aa">,</span> description<span class="aa">,</span> inputSchema <span class="aa">},</span> <span class="u9">async</span> <span class="aa">(</span>args<span class="aa">,</span> <span class="aa">{</span> extra <span class="aa">})</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">{</span> url<span class="aa">,</span> method<span class="aa">,</span> body <span class="aa">}</span> <span class="w9">=</span> <span class="s9">buildRequest</span><span class="aa">(</span>path<span class="aa">,</span> httpMethod<span class="aa">,</span> args<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> headers <span class="w9">=</span> <span class="w9">new</span> <span class="s9">Headers</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;content-type&quot;:</span> <span class="y9">&quot;application/json&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">authorization:</span> <span class="y9">`Bearer ${extra.authInfo.</span><span class="x9">token</span><span class="y9">}`</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> res <span class="w9">=</span> <span class="u9">await</span> app<span class="aa">.</span><span class="s9">request</span><span class="aa">(</span>url<span class="aa">,</span> <span class="aa">{</span> method<span class="aa">,</span> headers<span class="aa">,</span> body <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">{</span> payload<span class="aa">,</span> truncatedChars <span class="aa">}</span> <span class="w9">=</span> <span class="u9">await</span> <span class="s9">readResponsePreview</span><span class="aa">(</span>res<span class="aa">,</span> MAX_TOOL_RESPONSE_CHARS<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">isError:</span> <span class="w9">!</span>res<span class="aa">.</span><span class="x9">ok</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">content:</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">      <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="x9">type:</span> <span class="y9">&quot;text&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">text:</span> JSON<span class="aa">.</span><span class="s9">stringify</span><span class="aa">({</span> <span class="x9">status:</span> res<span class="aa">.</span><span class="x9">status</span><span class="aa">,</span> <span class="x9">body:</span> payload<span class="aa">,</span> truncatedChars <span class="aa">},</span> <span class="u9">null</span><span class="aa">,</span> <span class="v9">2</span><span class="aa">),</span></span>
+                  <span class="block n8 h9">      <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="aa">],</span></span>
+                  <span class="block n8 h9">  <span class="aa">};</span></span>
+                  <span class="block n8 h9"><span class="aa">});</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Why this matters:</p>
@@ -582,165 +611,165 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Big JSON bodies eat the model’s context. Truncate the response, say around 200KB, and say how much you cut. The model can then ask for a smaller page or a filter.</li>
             </ul>
             <p class="g0 u0">The net effect: a new REST endpoint becomes a new MCP tool on the next deploy. No parallel catalog. No drift.</p>
-            <h2 id="resources" class="n0 k8 w8 t8 z8">Resources</h2>
+            <h2 id="resources" class="n0 l8 x8 u8 a9">Resources</h2>
             <p class="g0 u0"><strong>Tools</strong> are actions. <strong>Resources</strong> are small bundles of data the app can pin into context, like a cheat sheet. They cut down on back and forth, because the model can read a project list or filter options once.</p>
             <p class="g0 u0">Most of mine are just fixed GETs to the same API, with the same bearer token as any other call:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">server<span class="z9">.</span><span class="r9">registerResource</span><span class="z9">(</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;scorers&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;myapp://scorers&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">title:</span> <span class="x9">&quot;Available Scorers&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">description:</span></span>
-                  <span class="block m8 g9">      <span class="x9">&quot;All scorers available for evaluation jobs. Read this before creating an eval job.&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">mimeType:</span> <span class="x9">&quot;application/json&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="t9">async</span> <span class="z9">(</span>uri<span class="z9">,</span> <span class="z9">{</span> extra <span class="z9">})</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> data <span class="v9">=</span> <span class="t9">await</span> <span class="r9">forwardJson</span><span class="z9">(</span>app<span class="z9">,</span> <span class="x9">&quot;/api/v1/scorers&quot;</span><span class="z9">,</span> extra<span class="z9">.</span>authInfo<span class="z9">.</span><span class="w9">token</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">contents:</span> <span class="z9">[{</span> <span class="w9">uri:</span> uri<span class="z9">.</span><span class="w9">href</span><span class="z9">,</span> <span class="w9">text:</span> JSON<span class="z9">.</span><span class="r9">stringify</span><span class="z9">(</span>data<span class="z9">)</span> <span class="z9">}],</span></span>
-                  <span class="block m8 g9">    <span class="z9">};</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">server<span class="aa">.</span><span class="s9">registerResource</span><span class="aa">(</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;scorers&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;myapp://scorers&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">title:</span> <span class="y9">&quot;Available Scorers&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">description:</span></span>
+                  <span class="block n8 h9">      <span class="y9">&quot;All scorers available for evaluation jobs. Read this before creating an eval job.&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">mimeType:</span> <span class="y9">&quot;application/json&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="u9">async</span> <span class="aa">(</span>uri<span class="aa">,</span> <span class="aa">{</span> extra <span class="aa">})</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> data <span class="w9">=</span> <span class="u9">await</span> <span class="s9">forwardJson</span><span class="aa">(</span>app<span class="aa">,</span> <span class="y9">&quot;/api/v1/scorers&quot;</span><span class="aa">,</span> extra<span class="aa">.</span>authInfo<span class="aa">.</span><span class="x9">token</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">contents:</span> <span class="aa">[{</span> <span class="x9">uri:</span> uri<span class="aa">.</span><span class="x9">href</span><span class="aa">,</span> <span class="x9">text:</span> JSON<span class="aa">.</span><span class="s9">stringify</span><span class="aa">(</span>data<span class="aa">)</span> <span class="aa">}],</span></span>
+                  <span class="block n8 h9">    <span class="aa">};</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Practical tips:</p>
             <ul class="g0 u0">
               <li>Expose the data people need first, for example project lists and valid filter values, so the model does not guess bad enums.</li>
-              <li>If a resource needs a <code class="i5 d6 t6 a7 hb">projectId</code> and the call omits it, return a small JSON object with a short <code class="i5 d6 t6 a7 hb">hint</code> instead of a stack trace. The model can fix the call on the next turn.</li>
+              <li>If a resource needs a <code class="i5 e6 u6 b7 lb">projectId</code> and the call omits it, return a small JSON object with a short <code class="i5 e6 u6 b7 lb">hint</code> instead of a stack trace. The model can fix the call on the next turn.</li>
               <li>Keep responses small. Some clients auto-attach resources to every message.</li>
             </ul>
-            <h2 id="prompts" class="n0 k8 w8 t8 z8">Prompts</h2>
+            <h2 id="prompts" class="n0 l8 x8 u8 a9">Prompts</h2>
             <p class="g0 u0"><strong>Prompts</strong> are slash-style shortcuts that fill in a longer instruction for the model. They are the best place to teach ordering, for example &quot;read filter values, then list traces, then open spans for errors.&quot; A tiny example:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">server<span class="z9">.</span><span class="r9">registerPrompt</span><span class="z9">(</span></span>
-                  <span class="block m8 g9">  <span class="x9">&quot;debug_traces&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">description:</span> <span class="x9">&quot;Walk through error traces and summarise root causes&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">argsSchema:</span> <span class="z9">{</span> <span class="w9">project:</span> z<span class="z9">.</span><span class="r9">string</span><span class="z9">().</span><span class="r9">optional</span><span class="z9">()</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">({</span> project <span class="z9">})</span> <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">messages:</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">      <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="w9">role:</span> <span class="x9">&quot;user&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">content:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">          <span class="w9">type:</span> <span class="x9">&quot;text&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">text:</span> <span class="x9">`You are debugging traces in the ${project ?? &quot;user&#39;s&quot;} project.</span></span>
-                  <span class="block m8 g9"><span class="x9">1. Read myapp://filter-values to see environments and statuses.</span></span>
-                  <span class="block m8 g9"><span class="x9">2. Call list_traces with status=error and size=20.</span></span>
-                  <span class="block m8 g9"><span class="x9">3. For each error trace, call get_trace_spans to find the failing span.</span></span>
-                  <span class="block m8 g9"><span class="x9">4. Summarise by failure mode, not by individual trace.</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="x9">${WORKERS_AND_POLLING}`</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="z9">},</span></span>
-                  <span class="block m8 g9">      <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="z9">],</span></span>
-                  <span class="block m8 g9">  <span class="z9">}),</span></span>
-                  <span class="block m8 g9"><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">server<span class="aa">.</span><span class="s9">registerPrompt</span><span class="aa">(</span></span>
+                  <span class="block n8 h9">  <span class="y9">&quot;debug_traces&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">description:</span> <span class="y9">&quot;Walk through error traces and summarise root causes&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">argsSchema:</span> <span class="aa">{</span> <span class="x9">project:</span> z<span class="aa">.</span><span class="s9">string</span><span class="aa">().</span><span class="s9">optional</span><span class="aa">()</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">({</span> project <span class="aa">})</span> <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">messages:</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">      <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="x9">role:</span> <span class="y9">&quot;user&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">content:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">          <span class="x9">type:</span> <span class="y9">&quot;text&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">text:</span> <span class="y9">`You are debugging traces in the ${project ?? &quot;user&#39;s&quot;} project.</span></span>
+                  <span class="block n8 h9"><span class="y9">1. Read myapp://filter-values to see environments and statuses.</span></span>
+                  <span class="block n8 h9"><span class="y9">2. Call list_traces with status=error and size=20.</span></span>
+                  <span class="block n8 h9"><span class="y9">3. For each error trace, call get_trace_spans to find the failing span.</span></span>
+                  <span class="block n8 h9"><span class="y9">4. Summarise by failure mode, not by individual trace.</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="y9">${WORKERS_AND_POLLING}`</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="aa">},</span></span>
+                  <span class="block n8 h9">      <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="aa">],</span></span>
+                  <span class="block n8 h9">  <span class="aa">}),</span></span>
+                  <span class="block n8 h9"><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">If work runs in a queue, the first POST often returns a job id, not a finished result. Models love to call that a success. Append a short shared block to every async prompt that says which GET to poll, how often, and which status values count as done:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> WORKERS_AND_POLLING <span class="v9">=</span> <span class="x9">`</span></span>
-                  <span class="block m8 g9"><span class="x9">---</span></span>
-                  <span class="block m8 g9"><span class="x9">Background work (read this every time):</span></span>
-                  <span class="block m8 g9"><span class="x9">- Heavy work runs in background workers. Kickoff POSTs return immediately with a runId.</span></span>
-                  <span class="block m8 g9"><span class="x9">- Poll the documented GET until status is terminal.</span></span>
-                  <span class="block m8 g9"><span class="x9">- Queue map: ETL → etl-jobs, evaluation → eval-jobs, analysis → synthetic-runs.</span></span>
-                  <span class="block m8 g9"><span class="x9">- Polling cadence: ETL every 3s then 15s; evaluation every 2s (cap ~5min); analysis every 5s.</span></span>
-                  <span class="block m8 g9"><span class="x9">- Terminal statuses: completed | failed | cancelled.</span></span>
-                  <span class="block m8 g9"><span class="x9">`</span><span class="z9">.</span><span class="r9">trim</span><span class="z9">();</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> WORKERS_AND_POLLING <span class="w9">=</span> <span class="y9">`</span></span>
+                  <span class="block n8 h9"><span class="y9">---</span></span>
+                  <span class="block n8 h9"><span class="y9">Background work (read this every time):</span></span>
+                  <span class="block n8 h9"><span class="y9">- Heavy work runs in background workers. Kickoff POSTs return immediately with a runId.</span></span>
+                  <span class="block n8 h9"><span class="y9">- Poll the documented GET until status is terminal.</span></span>
+                  <span class="block n8 h9"><span class="y9">- Queue map: ETL → etl-jobs, evaluation → eval-jobs, analysis → synthetic-runs.</span></span>
+                  <span class="block n8 h9"><span class="y9">- Polling cadence: ETL every 3s then 15s; evaluation every 2s (cap ~5min); analysis every 5s.</span></span>
+                  <span class="block n8 h9"><span class="y9">- Terminal statuses: completed | failed | cancelled.</span></span>
+                  <span class="block n8 h9"><span class="y9">`</span><span class="aa">.</span><span class="s9">trim</span><span class="aa">();</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Reuse that block anywhere a prompt touches background jobs so the model does not treat &quot;accepted&quot; as &quot;finished.&quot;</p>
-            <h2 id="why-this-design-works" class="n0 k8 w8 t8 z8">Why This Design Works</h2>
+            <h2 id="why-this-design-works" class="n0 l8 x8 u8 a9">Why This Design Works</h2>
             <ol class="g0 u0">
               <li>The OpenAPI file stays the single list of routes. Docs, clients, and tools stay aligned.</li>
-              <li><code class="i5 d6 t6 a7 hb">app.request</code> means one implementation of your rules, not two.</li>
-              <li>The same <code class="i5 d6 t6 a7 hb">Bearer</code> token as REST means users already know how to connect.</li>
+              <li><code class="i5 e6 u6 b7 lb">app.request</code> means one implementation of your rules, not two.</li>
+              <li>The same <code class="i5 e6 u6 b7 lb">Bearer</code> token as REST means users already know how to connect.</li>
               <li>Plain JSON and no required streaming keeps hosting simple on serverless.</li>
               <li>Filtering before you register tools means risky endpoints never show up in the model’s menu. Truncation keeps huge responses from blowing the context.</li>
             </ol>
             <p class="g0 u0">The ongoing work is documentation quality. Each new route needs a name and a sentence a model can use to choose it, not just a type signature.</p>
-            <h2 id="trying-it-locally" class="n0 k8 w8 t8 z8">Trying It Locally</h2>
+            <h2 id="trying-it-locally" class="n0 l8 x8 u8 a9">Trying It Locally</h2>
             <p class="g0 u0">Once the route is wired up, the MCP Inspector is the fastest way to smoke-test everything:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">bun</span> <span class="x9">dev</span>   <span class="q9 ba"># starts Next.js on :3000</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> KEY<span class="v9">=</span>nv_xxxxxxxxxxxxxxxxxxxxxx</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">bunx</span> <span class="x9">@modelcontextprotocol/inspector</span> <span class="x9">http://localhost:3000/api/mcp</span> \</span>
-                  <span class="block m8 g9">  <span class="x9">--header</span> <span class="x9">&quot;Authorization: Bearer $KEY&quot;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">bun</span> <span class="y9">dev</span>   <span class="r9 ca"># starts Next.js on :3000</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> KEY<span class="w9">=</span>nv_xxxxxxxxxxxxxxxxxxxxxx</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">bunx</span> <span class="y9">@modelcontextprotocol/inspector</span> <span class="y9">http://localhost:3000/api/mcp</span> \</span>
+                  <span class="block n8 h9">  <span class="y9">--header</span> <span class="y9">&quot;Authorization: Bearer $KEY&quot;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">You can click through tools, try arguments, and read resources. If a tool is missing, check your block list. If the name looks weird, your <code class="i5 d6 t6 a7 hb">operationId</code> may be long or repeated. A 401 usually means the auth check did not return a user.</p>
+            <p class="g0 u0">You can click through tools, try arguments, and read resources. If a tool is missing, check your block list. If the name looks weird, your <code class="i5 e6 u6 b7 lb">operationId</code> may be long or repeated. A 401 usually means the auth check did not return a user.</p>
             <p class="g0 u0">To wire it up to Cursor for real:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-json block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;mcpServers&quot;</span><span class="z9">:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;myapp&quot;</span><span class="z9">:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">&quot;url&quot;</span><span class="z9">:</span> <span class="x9">&quot;http://localhost:3000/api/mcp&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">&quot;headers&quot;</span><span class="z9">:</span> <span class="z9">{</span> <span class="w9">&quot;Authorization&quot;</span><span class="z9">:</span> <span class="x9">&quot;Bearer nv_xxxxxxxxxxxxxxxxxxxxxx&quot;</span> <span class="z9">}</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-json block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;mcpServers&quot;</span><span class="aa">:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;myapp&quot;</span><span class="aa">:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">&quot;url&quot;</span><span class="aa">:</span> <span class="y9">&quot;http://localhost:3000/api/mcp&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">&quot;headers&quot;</span><span class="aa">:</span> <span class="aa">{</span> <span class="x9">&quot;Authorization&quot;</span><span class="aa">:</span> <span class="y9">&quot;Bearer nv_xxxxxxxxxxxxxxxxxxxxxx&quot;</span> <span class="aa">}</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Drop that into <code class="i5 d6 t6 a7 hb">~/.cursor/mcp.json</code>, restart Cursor, and you should see your server in the MCP panel with all of its tools, resources, and prompts listed.</p>
-            <h2 id="wrapping-up" class="n0 k8 w8 t8 z8">Wrapping Up</h2>
+            <p class="g0 u0">Drop that into <code class="i5 e6 u6 b7 lb">~/.cursor/mcp.json</code>, restart Cursor, and you should see your server in the MCP panel with all of its tools, resources, and prompts listed.</p>
+            <h2 id="wrapping-up" class="n0 l8 x8 u8 a9">Wrapping Up</h2>
             <p class="g0 u0">MCP is not a second product. It is a thin front door on top of the API you already have. A route handler, an auth check, code that reads OpenAPI and registers tools, a few resources, a few prompts, and you are in business.</p>
             <p class="g0 u0">Tighten your spec first, then add the route. After that, new endpoints can show up as tools without you maintaining a hand-written list.</p>
-            <p class="g0 u0">If you want to trade notes on large APIs, weird schemas, or prompts for long-running jobs, you can use my <a class="o9 ga ia ic" href="https://pulkit.page/contact/">contact form</a>.</p>
-            <p class="g0 u0">A tiny runnable version of this whole thing (Hono + OpenAPI + a ~200-line MCP handler, tools generated from the spec, deny list, walkthrough demo client) lives at <a class="o9 ga ia ic" href="https://github.com/pulkitxm/systems/tree/main/ai-agents/mcp-server">pulkitxm/systems → <code class="i5 d6 t6 a7 hb">ai-agents/mcp-server/</code></a>. Clone it, <code class="i5 d6 t6 a7 hb">bun install</code>, <code class="i5 d6 t6 a7 hb">bun run server</code>, <code class="i5 d6 t6 a7 hb">bun run demo</code>, and you can watch an MCP session happen end to end.</p>
+            <p class="g0 u0">If you want to trade notes on large APIs, weird schemas, or prompts for long-running jobs, you can use my <a class="p9 ha ja oc" href="https://pulkit.page/contact/">contact form</a>.</p>
+            <p class="g0 u0">A tiny runnable version of this whole thing (Hono + OpenAPI + a ~200-line MCP handler, tools generated from the spec, deny list, walkthrough demo client) lives at <a class="p9 ha ja oc" href="https://github.com/pulkitxm/systems/tree/main/ai-agents/mcp-server">pulkitxm/systems → <code class="i5 e6 u6 b7 lb">ai-agents/mcp-server/</code></a>. Clone it, <code class="i5 e6 u6 b7 lb">bun install</code>, <code class="i5 e6 u6 b7 lb">bun run server</code>, <code class="i5 e6 u6 b7 lb">bun run demo</code>, and you can watch an MCP session happen end to end.</p>
             <p class="g0 u0">Happy shipping!</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/git-worktrees/">Git Worktrees</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/branded-types-in-typescript/">Branded Types in TypeScript</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/contact-form-with-resend/">Build a Contact Form with Resend in Next.js</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/git-worktrees/">Git Worktrees</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/branded-types-in-typescript/">Branded Types in TypeScript</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/contact-form-with-resend/">Build a Contact Form with Resend in Next.js</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/mcp-server-that-writes-itself.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/mcp-server-that-writes-itself.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

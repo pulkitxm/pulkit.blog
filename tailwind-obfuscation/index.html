@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -165,15 +165,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -212,168 +241,168 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">Tailwind Obfuscation</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Tailwind Obfuscation</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-09-20">September 20, 2026</time> · 2 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Tailwind Obfuscation</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-09-20">September 20, 2026</time> · 2 min read</p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">I was working on this site the other day, writing Tailwind classes like I always do, when I opened the page source and saw this:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-html block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">class</span><span class="z9">=</span><span class="x9">&quot;mx-auto max-w-190 px-7 max-sm:px-5.5&quot;</span><span class="z9">&gt;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-html block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">class</span><span class="aa">=</span><span class="y9">&quot;mx-auto max-w-190 px-7 max-sm:px-5.5&quot;</span><span class="aa">&gt;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Anyone who knows Tailwind can read that like a sentence: centered, max width, padding, less padding on small screens. My whole design was sitting there in plain English on every element of every page.</p>
             <p class="g0 u0">So I had an idea. JavaScript minifiers rename variables to single letters, so why not do the same to class names at build time? Rename everything to short, meaningless names, and nobody can read my CSS anymore.</p>
             <p class="g0 u0">I built it. Now the same element ships like this:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-html block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">class</span><span class="z9">=</span><span class="x9">&quot;x r2 v6 md&quot;</span><span class="z9">&gt;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-html block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">class</span><span class="aa">=</span><span class="y9">&quot;x r2 v6 md&quot;</span><span class="aa">&gt;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">After shipping it, I noticed a few things. It doesn&#39;t actually hide anything. The browser needs the full stylesheet to draw the page, so anyone can open DevTools and still read every computed value. Renaming <code class="i5 d6 t6 a7 hb">gap-4</code> to <code class="i5 d6 t6 a7 hb">x7</code> removes the Tailwind vocabulary, not the design.</p>
+            <p class="g0 u0">After shipping it, I noticed a few things. It doesn&#39;t actually hide anything. The browser needs the full stylesheet to draw the page, so anyone can open DevTools and still read every computed value. Renaming <code class="i5 e6 u6 b7 lb">gap-4</code> to <code class="i5 e6 u6 b7 lb">x7</code> removes the Tailwind vocabulary, not the design.</p>
             <p class="g0 u0">What it did do was make every page smaller. The stylesheet dropped 16% and the HTML about 7 to 11% after gzip, which is roughly 2 KB less on every page load.</p>
-            <p class="g0 u0">It also broke something I only noticed after it shipped. My YouTube, PDF and CodeSandbox embeds load their iframe only when you click, and the script gives that iframe its classes from a <code class="i5 d6 t6 a7 hb">data-frame-class</code> attribute. I only renamed <code class="i5 d6 t6 a7 hb">class</code> attributes, so those iframes shipped with names that no longer existed, and every one of them collapsed to the browser&#39;s default 300×150. Every page looked identical on load, which is exactly what my check compared, so it passed.</p>
-            <p class="g0 u0">There are two catches. The names aren&#39;t stable: adding a single class can shift most of them, so they should never be used in tests or scripts. And a class name can reach the page through more than <code class="i5 d6 t6 a7 hb">class=&quot;...&quot;</code>: data attributes, inline scripts, inline styles. The renamer has to find all of them, not just the obvious one.</p>
+            <p class="g0 u0">It also broke something I only noticed after it shipped. My YouTube, PDF and CodeSandbox embeds load their iframe only when you click, and the script gives that iframe its classes from a <code class="i5 e6 u6 b7 lb">data-frame-class</code> attribute. I only renamed <code class="i5 e6 u6 b7 lb">class</code> attributes, so those iframes shipped with names that no longer existed, and every one of them collapsed to the browser&#39;s default 300×150. Every page looked identical on load, which is exactly what my check compared, so it passed.</p>
+            <p class="g0 u0">There are two catches. The names aren&#39;t stable: adding a single class can shift most of them, so they should never be used in tests or scripts. And a class name can reach the page through more than <code class="i5 e6 u6 b7 lb">class=&quot;...&quot;</code>: data attributes, inline scripts, inline styles. The renamer has to find all of them, not just the obvious one.</p>
             <p class="g0 u0">So my original goal was a dead end, but the size win was real, and I kept it. If you want to try it on your own site, here&#39;s the prompt I&#39;d hand to a coding agent.</p>
-            <details class="g0 u0 g5 k5 v5 q6 xf">
-              <summary class="l3 u8">Prompt: obfuscate Tailwind classes at build time</summary>
+            <details class="g0 u0 g5 k5 w5 r6 fg">
+              <summary class="l3 v8">Prompt: obfuscate Tailwind classes at build time</summary>
               <div class="e g0 u0" data-code-block>
-                <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                  <code class="language-text block q2 a3 i5 hb h9">
-                    <span class="block m8 g9">Add a production-only build step that renames every class in my compiled</span>
-                    <span class="block m8 g9">Tailwind stylesheet to a short generated name, and rewrites the built HTML</span>
-                    <span class="block m8 g9">to match. Development builds must keep the original class names.</span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">Find the edge cases first</span>
-                    <span class="block m8 g9">- Before writing the renamer, build the site without it and inventory every</span>
-                    <span class="block m8 g9">  place a stylesheet class name appears in the output other than a class=&quot;...&quot;</span>
-                    <span class="block m8 g9">  attribute: other attributes (data-*, aria-*, JSON in attributes), inline</span>
-                    <span class="block m8 g9">  &lt;script&gt; blocks, inline &lt;style&gt; blocks, JSON payloads, shipped JS files,</span>
-                    <span class="block m8 g9">  other stylesheets, and anything rendered inside a shadow root.</span>
-                    <span class="block m8 g9">- For each place, trace what reads it at runtime. Does a script copy it onto</span>
-                    <span class="block m8 g9">  an element (className, classList, setAttribute, innerHTML)? Is it rendered</span>
-                    <span class="block m8 g9">  into the page or into a shadow root with its own styles? Decide per place</span>
-                    <span class="block m8 g9">  whether it must be renamed, kept, or left alone, and report the inventory</span>
-                    <span class="block m8 g9">  with your decision before implementing.</span>
-                    <span class="block m8 g9">- Treat anything you did not find in this inventory as unsupported, and say</span>
-                    <span class="block m8 g9">  so rather than guessing.</span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">Where it runs</span>
-                    <span class="block m8 g9">- After Tailwind has compiled the final CSS and all HTML pages are written,</span>
-                    <span class="block m8 g9">  and before any step that fingerprints or hashes the CSS file.</span>
-                    <span class="block m8 g9">- Operate on the build output directory only. Never touch source files.</span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">Renaming the CSS</span>
-                    <span class="block m8 g9">- Parse the compiled stylesheet with Lightning CSS and use its Selector</span>
-                    <span class="block m8 g9">  visitor to find class names. Recurse into nested selectors inside :is(),</span>
-                    <span class="block m8 g9">  :where(), :not(), :has() and :nth-child(... of ...), because Tailwind</span>
-                    <span class="block m8 g9">  puts classes for variants like **: and [&amp;_a]: there.</span>
-                    <span class="block m8 g9">- Assign names in a deterministic order: a..z, then a0, b0, and so on.</span>
-                    <span class="block m8 g9">  Every name must start with a letter.</span>
-                    <span class="block m8 g9">- Skip any generated name that already appears as a class token anywhere in</span>
-                    <span class="block m8 g9">  the output, including attributes that scripts later turn into classes, so</span>
-                    <span class="block m8 g9">  a renamed class never collides with one that was kept.</span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">Classes that must keep their names</span>
-                    <span class="block m8 g9">- Any class that appears as a whole word in JavaScript that touches the</span>
-                    <span class="block m8 g9">  page: shipped JS files and inline executable &lt;script&gt; blocks (no type,</span>
-                    <span class="block m8 g9">  module, or text/javascript). Not JSON or ld+json blocks.</span>
-                    <span class="block m8 g9">- Any class used by another stylesheet that styles the page, such as KaTeX</span>
-                    <span class="block m8 g9">  or a lightbox library, and any class used by an inline &lt;style&gt; block.</span>
-                    <span class="block m8 g9">- Ignore scripts and styles that only render inside a shadow root; they</span>
-                    <span class="block m8 g9">  cannot see the page&#39;s classes.</span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">Rewriting the HTML</span>
-                    <span class="block m8 g9">- Rewrite class=&quot;...&quot; attributes and every attribute your inventory found</span>
-                    <span class="block m8 g9">  that a script copies onto an element as classes (for example</span>
-                    <span class="block m8 g9">  data-frame-class). Name the rule by pattern, such as data-*-class, not by</span>
-                    <span class="block m8 g9">  a single attribute, so a new embed that follows the convention is covered.</span>
-                    <span class="block m8 g9">- Leave the contents of &lt;script&gt;, &lt;style&gt; and HTML comments untouched,</span>
-                    <span class="block m8 g9">  including JSON payloads that contain HTML strings, unless your inventory</span>
-                    <span class="block m8 g9">  shows that the page itself (not a shadow root) injects that HTML.</span>
-                    <span class="block m8 g9">- Match only the attribute quoting the build actually emits. Do not widen</span>
-                    <span class="block m8 g9">  the match to single quotes unless attribute and text escaping guarantee</span>
-                    <span class="block m8 g9">  that &#39; can never appear raw inside another value.</span>
-                    <span class="block m8 g9">- Decode HTML entities in each class token before looking it up, because</span>
-                    <span class="block m8 g9">  arbitrary variants like [&amp;&gt;p]:mb-2 are written as [&amp;amp;&gt;p]:mb-2.</span>
-                    <span class="block m8 g9">- Leave any class that is not in the rename map exactly as it was.</span>
-                    <span class="block m8 g9"><br /></span>
-                    <span class="block m8 g9">Verification</span>
-                    <span class="block m8 g9">- Unit tests for: name generation (unique, valid identifiers), HTML</span>
-                    <span class="block m8 g9">  rewriting (scripts, styles, comments and escaped code are untouched,</span>
-                    <span class="block m8 g9">  entities are decoded, data-*-class attributes are renamed), classes kept</span>
-                    <span class="block m8 g9">  because of inline scripts and inline styles, collision avoidance with</span>
-                    <span class="block m8 g9">  tokens in data-*-class attributes, and an end-to-end run on a small</span>
-                    <span class="block m8 g9">  fixture directory. Show that each new test fails without the fix.</span>
-                    <span class="block m8 g9">- Build the site with and without the step, then load every route in a</span>
-                    <span class="block m8 g9">  headless browser at desktop and mobile widths in light and dark mode.</span>
-                    <span class="block m8 g9">  Compare getComputedStyle for every element and its ::before and</span>
-                    <span class="block m8 g9">  ::after. There must be zero differences.</span>
-                    <span class="block m8 g9">- Do the same comparison after interaction: click every element that</span>
-                    <span class="block m8 g9">  creates or reveals content (lazy iframes and video players, tabs,</span>
-                    <span class="block m8 g9">  lightboxes, menus, copy buttons, toggles), then compare the newly created</span>
-                    <span class="block m8 g9">  elements too. Page-load parity alone misses anything built on click.</span>
-                    <span class="block m8 g9">- Add a static check to CI: every token in a data-*-class attribute of the</span>
-                    <span class="block m8 g9">  built HTML must be a class defined in a shipped stylesheet.</span>
-                    <span class="block m8 g9">- Report raw and gzipped sizes of the stylesheet and HTML before and after.</span>
-                    <span class="block m8 g9">- Log how many classes were renamed and how many were kept.</span>
+                <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                  <code class="language-text block q2 a3 i5 lb i9">
+                    <span class="block n8 h9">Add a production-only build step that renames every class in my compiled</span>
+                    <span class="block n8 h9">Tailwind stylesheet to a short generated name, and rewrites the built HTML</span>
+                    <span class="block n8 h9">to match. Development builds must keep the original class names.</span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">Find the edge cases first</span>
+                    <span class="block n8 h9">- Before writing the renamer, build the site without it and inventory every</span>
+                    <span class="block n8 h9">  place a stylesheet class name appears in the output other than a class=&quot;...&quot;</span>
+                    <span class="block n8 h9">  attribute: other attributes (data-*, aria-*, JSON in attributes), inline</span>
+                    <span class="block n8 h9">  &lt;script&gt; blocks, inline &lt;style&gt; blocks, JSON payloads, shipped JS files,</span>
+                    <span class="block n8 h9">  other stylesheets, and anything rendered inside a shadow root.</span>
+                    <span class="block n8 h9">- For each place, trace what reads it at runtime. Does a script copy it onto</span>
+                    <span class="block n8 h9">  an element (className, classList, setAttribute, innerHTML)? Is it rendered</span>
+                    <span class="block n8 h9">  into the page or into a shadow root with its own styles? Decide per place</span>
+                    <span class="block n8 h9">  whether it must be renamed, kept, or left alone, and report the inventory</span>
+                    <span class="block n8 h9">  with your decision before implementing.</span>
+                    <span class="block n8 h9">- Treat anything you did not find in this inventory as unsupported, and say</span>
+                    <span class="block n8 h9">  so rather than guessing.</span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">Where it runs</span>
+                    <span class="block n8 h9">- After Tailwind has compiled the final CSS and all HTML pages are written,</span>
+                    <span class="block n8 h9">  and before any step that fingerprints or hashes the CSS file.</span>
+                    <span class="block n8 h9">- Operate on the build output directory only. Never touch source files.</span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">Renaming the CSS</span>
+                    <span class="block n8 h9">- Parse the compiled stylesheet with Lightning CSS and use its Selector</span>
+                    <span class="block n8 h9">  visitor to find class names. Recurse into nested selectors inside :is(),</span>
+                    <span class="block n8 h9">  :where(), :not(), :has() and :nth-child(... of ...), because Tailwind</span>
+                    <span class="block n8 h9">  puts classes for variants like **: and [&amp;_a]: there.</span>
+                    <span class="block n8 h9">- Assign names in a deterministic order: a..z, then a0, b0, and so on.</span>
+                    <span class="block n8 h9">  Every name must start with a letter.</span>
+                    <span class="block n8 h9">- Skip any generated name that already appears as a class token anywhere in</span>
+                    <span class="block n8 h9">  the output, including attributes that scripts later turn into classes, so</span>
+                    <span class="block n8 h9">  a renamed class never collides with one that was kept.</span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">Classes that must keep their names</span>
+                    <span class="block n8 h9">- Any class that appears as a whole word in JavaScript that touches the</span>
+                    <span class="block n8 h9">  page: shipped JS files and inline executable &lt;script&gt; blocks (no type,</span>
+                    <span class="block n8 h9">  module, or text/javascript). Not JSON or ld+json blocks.</span>
+                    <span class="block n8 h9">- Any class used by another stylesheet that styles the page, such as KaTeX</span>
+                    <span class="block n8 h9">  or a lightbox library, and any class used by an inline &lt;style&gt; block.</span>
+                    <span class="block n8 h9">- Ignore scripts and styles that only render inside a shadow root; they</span>
+                    <span class="block n8 h9">  cannot see the page&#39;s classes.</span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">Rewriting the HTML</span>
+                    <span class="block n8 h9">- Rewrite class=&quot;...&quot; attributes and every attribute your inventory found</span>
+                    <span class="block n8 h9">  that a script copies onto an element as classes (for example</span>
+                    <span class="block n8 h9">  data-frame-class). Name the rule by pattern, such as data-*-class, not by</span>
+                    <span class="block n8 h9">  a single attribute, so a new embed that follows the convention is covered.</span>
+                    <span class="block n8 h9">- Leave the contents of &lt;script&gt;, &lt;style&gt; and HTML comments untouched,</span>
+                    <span class="block n8 h9">  including JSON payloads that contain HTML strings, unless your inventory</span>
+                    <span class="block n8 h9">  shows that the page itself (not a shadow root) injects that HTML.</span>
+                    <span class="block n8 h9">- Match only the attribute quoting the build actually emits. Do not widen</span>
+                    <span class="block n8 h9">  the match to single quotes unless attribute and text escaping guarantee</span>
+                    <span class="block n8 h9">  that &#39; can never appear raw inside another value.</span>
+                    <span class="block n8 h9">- Decode HTML entities in each class token before looking it up, because</span>
+                    <span class="block n8 h9">  arbitrary variants like [&amp;&gt;p]:mb-2 are written as [&amp;amp;&gt;p]:mb-2.</span>
+                    <span class="block n8 h9">- Leave any class that is not in the rename map exactly as it was.</span>
+                    <span class="block n8 h9"><br /></span>
+                    <span class="block n8 h9">Verification</span>
+                    <span class="block n8 h9">- Unit tests for: name generation (unique, valid identifiers), HTML</span>
+                    <span class="block n8 h9">  rewriting (scripts, styles, comments and escaped code are untouched,</span>
+                    <span class="block n8 h9">  entities are decoded, data-*-class attributes are renamed), classes kept</span>
+                    <span class="block n8 h9">  because of inline scripts and inline styles, collision avoidance with</span>
+                    <span class="block n8 h9">  tokens in data-*-class attributes, and an end-to-end run on a small</span>
+                    <span class="block n8 h9">  fixture directory. Show that each new test fails without the fix.</span>
+                    <span class="block n8 h9">- Build the site with and without the step, then load every route in a</span>
+                    <span class="block n8 h9">  headless browser at desktop and mobile widths in light and dark mode.</span>
+                    <span class="block n8 h9">  Compare getComputedStyle for every element and its ::before and</span>
+                    <span class="block n8 h9">  ::after. There must be zero differences.</span>
+                    <span class="block n8 h9">- Do the same comparison after interaction: click every element that</span>
+                    <span class="block n8 h9">  creates or reveals content (lazy iframes and video players, tabs,</span>
+                    <span class="block n8 h9">  lightboxes, menus, copy buttons, toggles), then compare the newly created</span>
+                    <span class="block n8 h9">  elements too. Page-load parity alone misses anything built on click.</span>
+                    <span class="block n8 h9">- Add a static check to CI: every token in a data-*-class attribute of the</span>
+                    <span class="block n8 h9">  built HTML must be a class defined in a shipped stylesheet.</span>
+                    <span class="block n8 h9">- Report raw and gzipped sizes of the stylesheet and HTML before and after.</span>
+                    <span class="block n8 h9">- Log how many classes were renamed and how many were kept.</span>
                   </code>
                 </pre>
-                <div class="b d f e1 b4 e4 p6">
-                  <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                <div class="b d f e1 b4 e4 q6">
+                  <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
                 </div>
               </div>
             </details>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/offloading-motion-to-the-gpu/">Offloading Motion to the GPU</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/cookie-sync-pattern/">The Cookie Sync Pattern</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/clip-path-reveals/">Invisible Scissors</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/offloading-motion-to-the-gpu/">Offloading Motion to the GPU</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/cookie-sync-pattern/">The Cookie Sync Pattern</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/clip-path-reveals/">Invisible Scissors</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/tailwind-obfuscation.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/tailwind-obfuscation.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>
