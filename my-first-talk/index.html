@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -171,15 +171,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -218,768 +247,768 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">My First Talk: Claude Directory</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>My First Talk: Claude Directory</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-06-13">June 13, 2026</time> · 5 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>My First Talk: Claude Directory</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-06-13">June 13, 2026</time> · 5 min read</p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">Today was, without exaggeration, one of the craziest days I&#39;ve had.</p>
-            <p class="g0 u0">I launched a project, watched it do numbers I&#39;ve never seen on anything I&#39;ve made, and then, completely on impulse, got up in front of a room full of people and demoed it for the first time in my life. I work as a software engineer at <a class="o9 ga ia ic" href="https://noveum.ai">Noveum.ai</a> and I&#39;ve shipped plenty of things, but I had never once stood up and talked about my own work to a crowd. Today I did.</p>
-            <h2 id="claude-directory" class="n0 k8 w8 t8 z8">Claude Directory</h2>
-            <p class="g0 u0">Last night I put a project live on my GitHub called <a class="o9 ga ia ic" href="https://github.com/pulkitxm/claude-directory">Claude Directory</a>: a directory of landing pages, hero sections, and interactive prototypes, more than 55 of them, every single one built end to end with <a class="o9 ga ia ic" href="https://x.com/claudeai/status/2064394146916229443">Fable 5</a>.</p>
-            <p class="g0 u0">The loop was simple. I took prompts from public references, mostly <a class="o9 ga ia ic" href="https://motionsites.ai/">motionsites.ai</a> and <a class="o9 ga ia ic" href="https://gist.github.com/cnemri/c917e11b3a6936823b509dcff53392aa">this gist from cnemri</a>, and handed them to Fable 5 to build the demos. Then I had Fable 5 write the recording script, captured a clean video of each one, and pulled it all into the <a class="o9 ga ia ic" href="https://www.pulkit.page/claude-directory">Claude Directory page</a> on my portfolio. The page itself, the recording scripts, even the <a class="o9 ga ia ic" href="https://youtu.be/mc3AYQplnM8">launch video</a>: all Fable 5, start to finish. Each entry ships with the exact prompt I used, the open code in a single download click, and a demo video, so you can see what you&#39;re getting and just grab it.</p>
+            <p class="g0 u0">I launched a project, watched it do numbers I&#39;ve never seen on anything I&#39;ve made, and then, completely on impulse, got up in front of a room full of people and demoed it for the first time in my life. I work as a software engineer at <a class="p9 ha ja oc" href="https://noveum.ai">Noveum.ai</a> and I&#39;ve shipped plenty of things, but I had never once stood up and talked about my own work to a crowd. Today I did.</p>
+            <h2 id="claude-directory" class="n0 l8 x8 u8 a9">Claude Directory</h2>
+            <p class="g0 u0">Last night I put a project live on my GitHub called <a class="p9 ha ja oc" href="https://github.com/pulkitxm/claude-directory">Claude Directory</a>: a directory of landing pages, hero sections, and interactive prototypes, more than 55 of them, every single one built end to end with <a class="p9 ha ja oc" href="https://x.com/claudeai/status/2064394146916229443">Fable 5</a>.</p>
+            <p class="g0 u0">The loop was simple. I took prompts from public references, mostly <a class="p9 ha ja oc" href="https://motionsites.ai/">motionsites.ai</a> and <a class="p9 ha ja oc" href="https://gist.github.com/cnemri/c917e11b3a6936823b509dcff53392aa">this gist from cnemri</a>, and handed them to Fable 5 to build the demos. Then I had Fable 5 write the recording script, captured a clean video of each one, and pulled it all into the <a class="p9 ha ja oc" href="https://www.pulkit.page/claude-directory">Claude Directory page</a> on my portfolio. The page itself, the recording scripts, even the <a class="p9 ha ja oc" href="https://youtu.be/mc3AYQplnM8">launch video</a>: all Fable 5, start to finish. Each entry ships with the exact prompt I used, the open code in a single download click, and a demo video, so you can see what you&#39;re getting and just grab it.</p>
             <p class="g0 u0">I didn&#39;t do a big launch. I messaged people I know and told them to repost it only if they actually liked it. A lot of them did, and it snowballed: <strong>75k+ views on X</strong>, <strong>160+ stars</strong>, and <strong>100 to 200 new follows</strong> in twenty-four hours.</p>
             <div class="d0 e1 a4 d4">
-              <article class="group e r y p2 t2 l3 d5 m5 v5 b6 q6 k9 n8 oa ta cc jc se" data-tweet>
-                <a href="https://x.com/_pulkitxm/status/2065401748202860896" target="_blank" rel="noopener noreferrer" class="d f s b5 oc pc qc"><span class="c">Open tweet on X</span></a>
-                <header class="r0 e1 b4 c4 i4 oe">
-                  <div class="e1 y2 b3 b4 j4 ne">
-                    <a href="https://x.com/_pulkitxm" target="_blank" rel="noopener noreferrer" class="e t c3 f5 oc pc qc" aria-label="View Pulkit&#39;s profile">
-                      <img src="/assets/content/pulkit-portrait.webp" alt="Pulkit" width="40" height="40" loading="lazy" decoding="async" class="block q1 f5 l6 n6 ge" />
+              <article class="group e r y p2 t2 l3 d5 m5 w5 c6 r6 l9 o8 pa wa ic pc af" data-tweet>
+                <a href="https://x.com/_pulkitxm/status/2065401748202860896" target="_blank" rel="noopener noreferrer" class="d f s b5 uc vc wc"><span class="c">Open tweet on X</span></a>
+                <header class="r0 e1 b4 c4 i4 we">
+                  <div class="e1 y2 b3 b4 j4 ve">
+                    <a href="https://x.com/_pulkitxm" target="_blank" rel="noopener noreferrer" class="e t c3 f5 uc vc wc" aria-label="View Pulkit&#39;s profile">
+                      <img src="/assets/content/pulkit-portrait.webp" alt="Pulkit" width="40" height="40" loading="lazy" decoding="async" class="block q1 f5 m6 o6 oe" />
                     </a>
                     <div class="e1 y2 b3 x3">
-                      <div class="e1 y2 a4 h4 me">
-                        <h3 class="w v4 w8 g8 n8 df ze cf">Pulkit</h3>
-                        <svg class="l1 c3 i9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z" /></svg>
+                      <div class="e1 y2 a4 h4 ue">
+                        <h3 class="w v4 x8 h8 o8 lf hf kf">Pulkit</h3>
+                        <svg class="l1 c3 j9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z" /></svg>
                       </div>
-                      <a href="https://x.com/_pulkitxm" target="_blank" rel="noopener noreferrer" class="e t g1 x2 v4 a7 e8 p9 da p8 ya gc nc oc">@_pulkitxm</a>
+                      <a href="https://x.com/_pulkitxm" target="_blank" rel="noopener noreferrer" class="e t g1 x2 v4 b7 f8 q9 ea q8 cb mc tc uc">@_pulkitxm</a>
                     </div>
                   </div>
-                  <button type="button" class="e t h1 o1 c3 l3 a4 d4 z4 l5 f6 o6 p9 ya ac gc oc pc qc fe" aria-label="More options"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="l1 c3" aria-hidden="true"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg></button>
+                  <button type="button" class="e t h1 o1 c3 l3 a4 d4 z4 l5 g6 p6 q9 cb gc mc uc vc wc ne" aria-label="More options"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="l1 c3" aria-hidden="true"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg></button>
                 </header>
-                <div class="r0 b9 g8 r8 ce ze">I spent thousands of dollars building this repo… so you don&#39;t have to<br /><br />50+ landing pages, hero sections &amp; interactive prototypes: every single one generated with &quot;Claude Fable 5&quot;, with the exact prompt preserved in its folder.<br /><br />Steal it. Ship it. Contribute. 👇</div>
-                <div class="s0 e1 y3 a4 g4 l8 q8 p9 de ye bf">
+                <div class="r0 c9 h8 s8 ke hf">I spent thousands of dollars building this repo… so you don&#39;t have to<br /><br />50+ landing pages, hero sections &amp; interactive prototypes: every single one generated with &quot;Claude Fable 5&quot;, with the exact prompt preserved in its folder.<br /><br />Steal it. Ship it. Contribute. 👇</div>
+                <div class="s0 e1 y3 a4 g4 m8 r8 q9 le gf jf">
                   <time>June 12, 2026</time>
                   <span aria-hidden="true">·</span>
-                  <span class="w8 ca k9">75k+</span>
+                  <span class="x8 da l9">75k+</span>
                   <span>Views</span>
                 </div>
               </article>
             </div>
-            <p class="g0 u0">Then came the bittersweet twist: this morning the <a class="o9 ga ia ic" href="https://x.com/AnthropicAI/status/2065597531644743999">US government blocked Fable 5 everywhere except the US</a>, so a chunk of the people who got excited couldn&#39;t even try the tool I&#39;d built the whole thing with. The work is open though, and <a class="o9 ga ia ic" href="https://x.com/_pulkitxm/status/2065646268672852448">at least we have the memories</a>.</p>
-            <h2 id="my-first-talk" class="n0 k8 w8 t8 z8">My first talk</h2>
+            <p class="g0 u0">Then came the bittersweet twist: this morning the <a class="p9 ha ja oc" href="https://x.com/AnthropicAI/status/2065597531644743999">US government blocked Fable 5 everywhere except the US</a>, so a chunk of the people who got excited couldn&#39;t even try the tool I&#39;d built the whole thing with. The work is open though, and <a class="p9 ha ja oc" href="https://x.com/_pulkitxm/status/2065646268672852448">at least we have the memories</a>.</p>
+            <h2 id="my-first-talk" class="n0 l8 x8 u8 a9">My first talk</h2>
             <p class="g0 u0">All of this was happening online while I was sitting at an event: <strong>Localhost Build, at Microsoft</strong>. At some point it hit me that if the project was getting this much attention on the internet right now, I should just show it to the people in the room. I asked a couple of friends, they said go for it, so I threw together a quick, slightly broken slide and presented.</p>
             <div class="e i1 p2 w4 c5 m5 t5 d0" data-testid="youtube-embed" data-youtube-embed data-video-id="fYsE_CJn_rY" data-title="Demoing Claude Directory at Localhost Build, Microsoft" data-frame-class="d f s1 l5">
-              <button type="button" class="e block s1 l3 w4 l5 f6 o6" aria-label="Play Demoing Claude Directory at Localhost Build, Microsoft" data-youtube-play>
-                <img src="/assets/content/public/blogs/my-first-talk/video-thumbnail.webp" alt="Thumbnail for Demoing Claude Directory at Localhost Build, Microsoft" width="1280" height="720" decoding="async" class="block z1 p2 x2 l6 za db" />
-                <span class="d f g6 h6 i6"></span><span class="d f e1 x3 a4 d4 k4"><span class="e1 a4 d4 f5 z5 p6 j9 pa za db zb re"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="n1 fe" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span></span>
+              <button type="button" class="e block s1 l3 w4 l5 g6 p6" aria-label="Play Demoing Claude Directory at Localhost Build, Microsoft" data-youtube-play>
+                <img src="/assets/content/public/blogs/my-first-talk/video-thumbnail.webp" alt="Thumbnail for Demoing Claude Directory at Localhost Build, Microsoft" width="1280" height="720" decoding="async" class="block z1 p2 x2 m6 db hb" />
+                <span class="d f h6 i6 j6"></span><span class="d f e1 x3 a4 d4 k4"><span class="e1 a4 d4 f5 a6 q6 k9 qa db hb fc ze"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="n1 ne" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span></span>
               </button>
-              <div class="group d k m p e1 a4 c4 a5 k5 s5 y5 w6 d7 sa yd zd ae ue ve" data-youtube-bar>
-                <a href="https://youtu.be/fYsE_CJn_rY" target="_blank" rel="noopener noreferrer" aria-label="Open Demoing Claude Directory at Localhost Build, Microsoft on YouTube" class="b1 u7 v8 j9 l8 da o8 mb ye bf if jf">Demoing Claude Directory at Localhost Build, Microsoft</a>
-                <a href="https://youtu.be/fYsE_CJn_rY" target="_blank" rel="noopener noreferrer" class="z0 e1 n1 c3 a4 d4 f5 y5 j9 ya db yb fe">
+              <div class="group d k m p e1 a4 c4 a5 k5 s5 z5 x6 e7 va ge he ie cf df" data-youtube-bar>
+                <a href="https://youtu.be/fYsE_CJn_rY" target="_blank" rel="noopener noreferrer" aria-label="Open Demoing Claude Directory at Localhost Build, Microsoft on YouTube" class="b1 v7 w8 k9 m8 ea p8 sb gf jf qf rf">Demoing Claude Directory at Localhost Build, Microsoft</a>
+                <a href="https://youtu.be/fYsE_CJn_rY" target="_blank" rel="noopener noreferrer" class="z0 e1 n1 c3 a4 d4 f5 z5 k9 cb hb ec ne">
                   <span class="c">Open Demoing Claude Directory at Localhost Build, Microsoft on YouTube</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="j1 j9 mb ee" aria-hidden="true"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="j1 k9 sb me" aria-hidden="true"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
                 </a>
               </div>
             </div>
-            <p class="g0 u0">I walked through what it was, how I built it, and the part I cared about most: the intuition behind building this way. It isn&#39;t magic, it&#39;s a way of working. At <a class="o9 ga ia ic" href="https://noveum.ai">Noveum.ai</a> we lean on AI heavily, for planning, for structured workflows, and a huge amount of my day runs through <a class="o9 ga ia ic" href="https://code.claude.com">Claude Code</a>. To give you a sense of it, here&#39;s my usage over the last few weeks:</p>
+            <p class="g0 u0">I walked through what it was, how I built it, and the part I cared about most: the intuition behind building this way. It isn&#39;t magic, it&#39;s a way of working. At <a class="p9 ha ja oc" href="https://noveum.ai">Noveum.ai</a> we lean on AI heavily, for planning, for structured workflows, and a huge amount of my day runs through <a class="p9 ha ja oc" href="https://code.claude.com">Claude Code</a>. To give you a sense of it, here&#39;s my usage over the last few weeks:</p>
             <figure class="x b0 e1 x3 a4 i4">
               <a href="/assets/content/public/blogs/my-first-talk/claude-code-usage.webp" class="block p2" data-media-zoom data-width="1920" data-height="690">
-                <img src="/assets/content/public/blogs/my-first-talk/claude-code-usage.webp" alt="My Claude Code activity calendar from May 26 to June 13: 5.76 billion tokens across 19 active days out of 19, with opus-4-8 as the top model and almost all usage coming from Code." width="1920" height="690" class="block m3 g5 k5 v5 z1 p2" loading="lazy" decoding="async" />
+                <img src="/assets/content/public/blogs/my-first-talk/claude-code-usage.webp" alt="My Claude Code activity calendar from May 26 to June 13: 5.76 billion tokens across 19 active days out of 19, with opus-4-8 as the top model and almost all usage coming from Code." width="1920" height="690" class="block m3 g5 k5 w5 z1 p2" loading="lazy" decoding="async" />
               </a>
-              <figcaption class="t7 p9 j8">~5.76B tokens in about three weeks. opus-4-8 doing most of the heavy lifting, and almost all of it from coding work, automations, etc...</figcaption>
+              <figcaption class="u7 q9 k8">~5.76B tokens in about three weeks. opus-4-8 doing most of the heavy lifting, and almost all of it from coding work, automations, etc...</figcaption>
             </figure>
             <p class="g0 u0">Roughly 5.76 billion tokens in three weeks, nineteen active days out of nineteen. That is the honest answer to how I shipped 55+ demos, recorded them, and built a directory page in a couple of days.</p>
             <p class="g0 u0">And then the part I will remember longest: people liked it. They asked questions, I answered, and there was this back-and-forth I genuinely did not expect. A few of them said they were proud of me. I was nervous out of my mind, it was my first time speaking and my first time demoing anything live, but I got through it, and I think I would do it again.</p>
             <p class="g0 u0">And the kindness was not only in the room. The replies on X kept coming, and a few of them really stuck with me:</p>
-            <div class="group e d0 w4 gb j6 hd kd id" data-replies-carousel>
-              <ul class="w e1 q2 r3 l4 o6" data-replies-track>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/divikkk1/status/2065730484718690645" target="_blank" rel="noopener noreferrer" aria-label="Reply from Divikkk, @divikkk1, on X: good work, most of those were gatekeeped or paid/locked behind. i really wanted these, good work making them free for use" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+            <div class="group e d0 w4 kb k6 pd sd qd" data-replies-carousel>
+              <ul class="w e1 q2 r3 l4 p6" data-replies-track>
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/divikkk1/status/2065730484718690645" target="_blank" rel="noopener noreferrer" aria-label="Reply from Divikkk, @divikkk1, on X: good work, most of those were gatekeeped or paid/locked behind. i really wanted these, good work making them free for use" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">D</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">D</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Divikkk</span>
-                        <span class="v4 e8 p8 p9">@divikkk1</span>
+                        <span class="v4 x8 h8 o8 l9">Divikkk</span>
+                        <span class="v4 f8 q8 q9">@divikkk1</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">good work, most of those were gatekeeped or paid/locked behind. i really wanted these, good work making them free for use</p>
+                    <p class="w c1 c9 f8 s8 o9">good work, most of those were gatekeeped or paid/locked behind. i really wanted these, good work making them free for use</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/tarat_211/status/2065631990674805026" target="_blank" rel="noopener noreferrer" aria-label="Reply from TaraT, @tarat_211, on X: you did some god&#39;s work. thank you sir" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/tarat_211/status/2065631990674805026" target="_blank" rel="noopener noreferrer" aria-label="Reply from TaraT, @tarat_211, on X: you did some god&#39;s work. thank you sir" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">T</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">T</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">TaraT</span>
-                        <span class="v4 e8 p8 p9">@tarat_211</span>
+                        <span class="v4 x8 h8 o8 l9">TaraT</span>
+                        <span class="v4 f8 q8 q9">@tarat_211</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">you did some god&#39;s work. thank you sir</p>
+                    <p class="w c1 c9 f8 s8 o9">you did some god&#39;s work. thank you sir</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/yigitokar/status/2065481860575043849" target="_blank" rel="noopener noreferrer" aria-label="Reply from Yigit Okar, @yigitokar, on X: thanks for your service sir" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/yigitokar/status/2065481860575043849" target="_blank" rel="noopener noreferrer" aria-label="Reply from Yigit Okar, @yigitokar, on X: thanks for your service sir" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">Y</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">Y</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Yigit Okar</span>
-                        <span class="v4 e8 p8 p9">@yigitokar</span>
+                        <span class="v4 x8 h8 o8 l9">Yigit Okar</span>
+                        <span class="v4 f8 q8 q9">@yigitokar</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">thanks for your service sir</p>
+                    <p class="w c1 c9 f8 s8 o9">thanks for your service sir</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/LatentKush/status/2065493769265226170" target="_blank" rel="noopener noreferrer" aria-label="Reply from Kushal Patil, @LatentKush, on X: This is looking so good. Would love to use it for my website. But I am a grandpa when it comes to design 😢" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/LatentKush/status/2065493769265226170" target="_blank" rel="noopener noreferrer" aria-label="Reply from Kushal Patil, @LatentKush, on X: This is looking so good. Would love to use it for my website. But I am a grandpa when it comes to design 😢" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">K</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">K</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Kushal Patil</span>
-                        <span class="v4 e8 p8 p9">@LatentKush</span>
+                        <span class="v4 x8 h8 o8 l9">Kushal Patil</span>
+                        <span class="v4 f8 q8 q9">@LatentKush</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">This is looking so good. Would love to use it for my website. But I am a grandpa when it comes to design 😢</p>
+                    <p class="w c1 c9 f8 s8 o9">This is looking so good. Would love to use it for my website. But I am a grandpa when it comes to design 😢</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/FranzmeierRandy/status/2065627117606367415" target="_blank" rel="noopener noreferrer" aria-label="Reply from Randy Franzmeier, @FranzmeierRandy, on X: This looks amazing, can&#39;t wait to check it out. I build websites for real clients and I&#39;ll have to test this and let you know how well it works!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/FranzmeierRandy/status/2065627117606367415" target="_blank" rel="noopener noreferrer" aria-label="Reply from Randy Franzmeier, @FranzmeierRandy, on X: This looks amazing, can&#39;t wait to check it out. I build websites for real clients and I&#39;ll have to test this and let you know how well it works!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">R</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">R</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Randy Franzmeier</span>
-                        <span class="v4 e8 p8 p9">@FranzmeierRandy</span>
+                        <span class="v4 x8 h8 o8 l9">Randy Franzmeier</span>
+                        <span class="v4 f8 q8 q9">@FranzmeierRandy</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">This looks amazing, can&#39;t wait to check it out. I build websites for real clients and I&#39;ll have to test this and let you know how well it works!</p>
+                    <p class="w c1 c9 f8 s8 o9">This looks amazing, can&#39;t wait to check it out. I build websites for real clients and I&#39;ll have to test this and let you know how well it works!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/LibertyAndAI/status/2065633854791266720" target="_blank" rel="noopener noreferrer" aria-label="Reply from Adnan Abbasi, @LibertyAndAI, on X: these look pretty, thanks." class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/LibertyAndAI/status/2065633854791266720" target="_blank" rel="noopener noreferrer" aria-label="Reply from Adnan Abbasi, @LibertyAndAI, on X: these look pretty, thanks." class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Adnan Abbasi</span>
-                        <span class="v4 e8 p8 p9">@LibertyAndAI</span>
+                        <span class="v4 x8 h8 o8 l9">Adnan Abbasi</span>
+                        <span class="v4 f8 q8 q9">@LibertyAndAI</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">these look pretty, thanks.</p>
+                    <p class="w c1 c9 f8 s8 o9">these look pretty, thanks.</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/warrioraashuu/status/2065487533484454372" target="_blank" rel="noopener noreferrer" aria-label="Reply from aashuu ✦, @warrioraashuu, on X: Thanks for your service, man!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/warrioraashuu/status/2065487533484454372" target="_blank" rel="noopener noreferrer" aria-label="Reply from aashuu ✦, @warrioraashuu, on X: Thanks for your service, man!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">aashuu ✦</span>
-                        <span class="v4 e8 p8 p9">@warrioraashuu</span>
+                        <span class="v4 x8 h8 o8 l9">aashuu ✦</span>
+                        <span class="v4 f8 q8 q9">@warrioraashuu</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Thanks for your service, man!</p>
+                    <p class="w c1 c9 f8 s8 o9">Thanks for your service, man!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/GoodEnoughAi/status/2065473545832894623" target="_blank" rel="noopener noreferrer" aria-label="Reply from Good Enough, @GoodEnoughAi, on X: ooooo looking good!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/GoodEnoughAi/status/2065473545832894623" target="_blank" rel="noopener noreferrer" aria-label="Reply from Good Enough, @GoodEnoughAi, on X: ooooo looking good!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">G</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">G</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Good Enough</span>
-                        <span class="v4 e8 p8 p9">@GoodEnoughAi</span>
+                        <span class="v4 x8 h8 o8 l9">Good Enough</span>
+                        <span class="v4 f8 q8 q9">@GoodEnoughAi</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">ooooo looking good!</p>
+                    <p class="w c1 c9 f8 s8 o9">ooooo looking good!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/jasonemkay/status/2065531792233308609" target="_blank" rel="noopener noreferrer" aria-label="Reply from Jason Kay, @jasonemkay, on X: Very cool 😎" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/jasonemkay/status/2065531792233308609" target="_blank" rel="noopener noreferrer" aria-label="Reply from Jason Kay, @jasonemkay, on X: Very cool 😎" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">J</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">J</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Jason Kay</span>
-                        <span class="v4 e8 p8 p9">@jasonemkay</span>
+                        <span class="v4 x8 h8 o8 l9">Jason Kay</span>
+                        <span class="v4 f8 q8 q9">@jasonemkay</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Very cool 😎</p>
+                    <p class="w c1 c9 f8 s8 o9">Very cool 😎</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/buildwithumair/status/2065658702682865927" target="_blank" rel="noopener noreferrer" aria-label="Reply from Umair Ali, @buildwithumair, on X: Thanks buddy" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/buildwithumair/status/2065658702682865927" target="_blank" rel="noopener noreferrer" aria-label="Reply from Umair Ali, @buildwithumair, on X: Thanks buddy" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">U</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">U</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Umair Ali</span>
-                        <span class="v4 e8 p8 p9">@buildwithumair</span>
+                        <span class="v4 x8 h8 o8 l9">Umair Ali</span>
+                        <span class="v4 f8 q8 q9">@buildwithumair</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Thanks buddy</p>
+                    <p class="w c1 c9 f8 s8 o9">Thanks buddy</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/akshitbhandarix/status/2065777558172598738" target="_blank" rel="noopener noreferrer" aria-label="Reply from Akshit Singh Bhandari, @akshitbhandarix, on X: This was much needed, found it useful" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/akshitbhandarix/status/2065777558172598738" target="_blank" rel="noopener noreferrer" aria-label="Reply from Akshit Singh Bhandari, @akshitbhandarix, on X: This was much needed, found it useful" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Akshit Singh Bhandari</span>
-                        <span class="v4 e8 p8 p9">@akshitbhandarix</span>
+                        <span class="v4 x8 h8 o8 l9">Akshit Singh Bhandari</span>
+                        <span class="v4 f8 q8 q9">@akshitbhandarix</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">This was much needed, found it useful</p>
+                    <p class="w c1 c9 f8 s8 o9">This was much needed, found it useful</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/Simo_Musyimi/status/2065695698759110984" target="_blank" rel="noopener noreferrer" aria-label="Reply from Simo Musyi, @Simo_Musyimi, on X: cool asf" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/Simo_Musyimi/status/2065695698759110984" target="_blank" rel="noopener noreferrer" aria-label="Reply from Simo Musyi, @Simo_Musyimi, on X: cool asf" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">S</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">S</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Simo Musyi</span>
-                        <span class="v4 e8 p8 p9">@Simo_Musyimi</span>
+                        <span class="v4 x8 h8 o8 l9">Simo Musyi</span>
+                        <span class="v4 f8 q8 q9">@Simo_Musyimi</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">cool asf</p>
+                    <p class="w c1 c9 f8 s8 o9">cool asf</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/mobass/status/2065559415500267623" target="_blank" rel="noopener noreferrer" aria-label="Reply from Sina Mobasser, @mobass, on X: 🔥" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/mobass/status/2065559415500267623" target="_blank" rel="noopener noreferrer" aria-label="Reply from Sina Mobasser, @mobass, on X: 🔥" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">S</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">S</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Sina Mobasser</span>
-                        <span class="v4 e8 p8 p9">@mobass</span>
+                        <span class="v4 x8 h8 o8 l9">Sina Mobasser</span>
+                        <span class="v4 f8 q8 q9">@mobass</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">🔥</p>
+                    <p class="w c1 c9 f8 s8 o9">🔥</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/AbuKhadeejah/status/2065432128939266293" target="_blank" rel="noopener noreferrer" aria-label="Reply from Arsalan Shaikh أرسلان, @AbuKhadeejah, on X: Super thanks Pulkit" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/AbuKhadeejah/status/2065432128939266293" target="_blank" rel="noopener noreferrer" aria-label="Reply from Arsalan Shaikh أرسلان, @AbuKhadeejah, on X: Super thanks Pulkit" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Arsalan Shaikh أرسلان</span>
-                        <span class="v4 e8 p8 p9">@AbuKhadeejah</span>
+                        <span class="v4 x8 h8 o8 l9">Arsalan Shaikh أرسلان</span>
+                        <span class="v4 f8 q8 q9">@AbuKhadeejah</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Super thanks Pulkit</p>
+                    <p class="w c1 c9 f8 s8 o9">Super thanks Pulkit</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/Krocodile01/status/2065773716450030047" target="_blank" rel="noopener noreferrer" aria-label="Reply from LucasOl1337, @Krocodile01, on X: Hey pullkit i love your website and its been really helpful on my projects! Thank you so much for making this free, you are an awesome developer and person!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/Krocodile01/status/2065773716450030047" target="_blank" rel="noopener noreferrer" aria-label="Reply from LucasOl1337, @Krocodile01, on X: Hey pullkit i love your website and its been really helpful on my projects! Thank you so much for making this free, you are an awesome developer and person!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">L</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">L</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">LucasOl1337</span>
-                        <span class="v4 e8 p8 p9">@Krocodile01</span>
+                        <span class="v4 x8 h8 o8 l9">LucasOl1337</span>
+                        <span class="v4 f8 q8 q9">@Krocodile01</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Hey pullkit i love your website and its been really helpful on my projects! Thank you so much for making this free, you are an awesome developer and person!</p>
+                    <p class="w c1 c9 f8 s8 o9">Hey pullkit i love your website and its been really helpful on my projects! Thank you so much for making this free, you are an awesome developer and person!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/0x1m2m3/status/2065586529289052209" target="_blank" rel="noopener noreferrer" aria-label="Reply from mitch morales | xp/acc, @0x1m2m3, on X: the prompt-preserved-in-the-folder move is the underrated part. anyone can ship a landing page from fable 5. shipping 50 with the exact prompts saved is a textbook for the next ten people who want to learn what good prompts look like in 2026" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/0x1m2m3/status/2065586529289052209" target="_blank" rel="noopener noreferrer" aria-label="Reply from mitch morales | xp/acc, @0x1m2m3, on X: the prompt-preserved-in-the-folder move is the underrated part. anyone can ship a landing page from fable 5. shipping 50 with the exact prompts saved is a textbook for the next ten people who want to learn what good prompts look like in 2026" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">M</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">M</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">mitch morales | xp/acc</span>
-                        <span class="v4 e8 p8 p9">@0x1m2m3</span>
+                        <span class="v4 x8 h8 o8 l9">mitch morales | xp/acc</span>
+                        <span class="v4 f8 q8 q9">@0x1m2m3</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">the prompt-preserved-in-the-folder move is the underrated part. anyone can ship a landing page from fable 5. shipping 50 with the exact prompts saved is a textbook for the next ten people who want to learn what good prompts look like in 2026</p>
+                    <p class="w c1 c9 f8 s8 o9">the prompt-preserved-in-the-folder move is the underrated part. anyone can ship a landing page from fable 5. shipping 50 with the exact prompts saved is a textbook for the next ten people who want to learn what good prompts look like in 2026</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/AdamLeapN/status/2065534083266990521" target="_blank" rel="noopener noreferrer" aria-label="Reply from Adam Wright, @AdamLeapN, on X: you won&#39;t get the credit you deserve for this act of generosity. from me to you - THANK YOU SO MUCH!!!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/AdamLeapN/status/2065534083266990521" target="_blank" rel="noopener noreferrer" aria-label="Reply from Adam Wright, @AdamLeapN, on X: you won&#39;t get the credit you deserve for this act of generosity. from me to you - THANK YOU SO MUCH!!!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Adam Wright</span>
-                        <span class="v4 e8 p8 p9">@AdamLeapN</span>
+                        <span class="v4 x8 h8 o8 l9">Adam Wright</span>
+                        <span class="v4 f8 q8 q9">@AdamLeapN</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">you won&#39;t get the credit you deserve for this act of generosity. from me to you - THANK YOU SO MUCH!!!</p>
+                    <p class="w c1 c9 f8 s8 o9">you won&#39;t get the credit you deserve for this act of generosity. from me to you - THANK YOU SO MUCH!!!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/savar_gupta/status/2065672028481536507" target="_blank" rel="noopener noreferrer" aria-label="Reply from Savar Gupta, @savar_gupta, on X: this is super useful, thanks!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/savar_gupta/status/2065672028481536507" target="_blank" rel="noopener noreferrer" aria-label="Reply from Savar Gupta, @savar_gupta, on X: this is super useful, thanks!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">S</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">S</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Savar Gupta</span>
-                        <span class="v4 e8 p8 p9">@savar_gupta</span>
+                        <span class="v4 x8 h8 o8 l9">Savar Gupta</span>
+                        <span class="v4 f8 q8 q9">@savar_gupta</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">this is super useful, thanks!</p>
+                    <p class="w c1 c9 f8 s8 o9">this is super useful, thanks!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/billyvision/status/2065470642237899176" target="_blank" rel="noopener noreferrer" aria-label="Reply from IMRAN - Zebracross, @billyvision, on X: Thanks will check it out this weekend" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/billyvision/status/2065470642237899176" target="_blank" rel="noopener noreferrer" aria-label="Reply from IMRAN - Zebracross, @billyvision, on X: Thanks will check it out this weekend" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">I</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">I</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">IMRAN - Zebracross</span>
-                        <span class="v4 e8 p8 p9">@billyvision</span>
+                        <span class="v4 x8 h8 o8 l9">IMRAN - Zebracross</span>
+                        <span class="v4 f8 q8 q9">@billyvision</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Thanks will check it out this weekend</p>
+                    <p class="w c1 c9 f8 s8 o9">Thanks will check it out this weekend</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/BruceLLP/status/2065539411153199464" target="_blank" rel="noopener noreferrer" aria-label="Reply from Bruce, @BruceLLP, on X: 🤜🏼🤛🏼" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/BruceLLP/status/2065539411153199464" target="_blank" rel="noopener noreferrer" aria-label="Reply from Bruce, @BruceLLP, on X: 🤜🏼🤛🏼" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">B</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">B</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Bruce</span>
-                        <span class="v4 e8 p8 p9">@BruceLLP</span>
+                        <span class="v4 x8 h8 o8 l9">Bruce</span>
+                        <span class="v4 f8 q8 q9">@BruceLLP</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">🤜🏼🤛🏼</p>
+                    <p class="w c1 c9 f8 s8 o9">🤜🏼🤛🏼</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie">
-                  <a href="https://x.com/imkaikhalid/status/2065731869828624616" target="_blank" rel="noopener noreferrer" aria-label="Reply from Kai Khalid 🇰🇪, @imkaikhalid, on X: Absolute legend. Thanks man" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe">
+                  <a href="https://x.com/imkaikhalid/status/2065731869828624616" target="_blank" rel="noopener noreferrer" aria-label="Reply from Kai Khalid 🇰🇪, @imkaikhalid, on X: Absolute legend. Thanks man" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">K</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">K</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Kai Khalid 🇰🇪</span>
-                        <span class="v4 e8 p8 p9">@imkaikhalid</span>
+                        <span class="v4 x8 h8 o8 l9">Kai Khalid 🇰🇪</span>
+                        <span class="v4 f8 q8 q9">@imkaikhalid</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Absolute legend. Thanks man</p>
+                    <p class="w c1 c9 f8 s8 o9">Absolute legend. Thanks man</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/divikkk1/status/2065730484718690645" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Divikkk, @divikkk1, on X: good work, most of those were gatekeeped or paid/locked behind. i really wanted these, good work making them free for use" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/divikkk1/status/2065730484718690645" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Divikkk, @divikkk1, on X: good work, most of those were gatekeeped or paid/locked behind. i really wanted these, good work making them free for use" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">D</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">D</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Divikkk</span>
-                        <span class="v4 e8 p8 p9">@divikkk1</span>
+                        <span class="v4 x8 h8 o8 l9">Divikkk</span>
+                        <span class="v4 f8 q8 q9">@divikkk1</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">good work, most of those were gatekeeped or paid/locked behind. i really wanted these, good work making them free for use</p>
+                    <p class="w c1 c9 f8 s8 o9">good work, most of those were gatekeeped or paid/locked behind. i really wanted these, good work making them free for use</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/tarat_211/status/2065631990674805026" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from TaraT, @tarat_211, on X: you did some god&#39;s work. thank you sir" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/tarat_211/status/2065631990674805026" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from TaraT, @tarat_211, on X: you did some god&#39;s work. thank you sir" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">T</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">T</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">TaraT</span>
-                        <span class="v4 e8 p8 p9">@tarat_211</span>
+                        <span class="v4 x8 h8 o8 l9">TaraT</span>
+                        <span class="v4 f8 q8 q9">@tarat_211</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">you did some god&#39;s work. thank you sir</p>
+                    <p class="w c1 c9 f8 s8 o9">you did some god&#39;s work. thank you sir</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/yigitokar/status/2065481860575043849" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Yigit Okar, @yigitokar, on X: thanks for your service sir" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/yigitokar/status/2065481860575043849" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Yigit Okar, @yigitokar, on X: thanks for your service sir" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">Y</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">Y</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Yigit Okar</span>
-                        <span class="v4 e8 p8 p9">@yigitokar</span>
+                        <span class="v4 x8 h8 o8 l9">Yigit Okar</span>
+                        <span class="v4 f8 q8 q9">@yigitokar</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">thanks for your service sir</p>
+                    <p class="w c1 c9 f8 s8 o9">thanks for your service sir</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/LatentKush/status/2065493769265226170" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Kushal Patil, @LatentKush, on X: This is looking so good. Would love to use it for my website. But I am a grandpa when it comes to design 😢" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/LatentKush/status/2065493769265226170" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Kushal Patil, @LatentKush, on X: This is looking so good. Would love to use it for my website. But I am a grandpa when it comes to design 😢" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">K</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">K</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Kushal Patil</span>
-                        <span class="v4 e8 p8 p9">@LatentKush</span>
+                        <span class="v4 x8 h8 o8 l9">Kushal Patil</span>
+                        <span class="v4 f8 q8 q9">@LatentKush</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">This is looking so good. Would love to use it for my website. But I am a grandpa when it comes to design 😢</p>
+                    <p class="w c1 c9 f8 s8 o9">This is looking so good. Would love to use it for my website. But I am a grandpa when it comes to design 😢</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/FranzmeierRandy/status/2065627117606367415" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Randy Franzmeier, @FranzmeierRandy, on X: This looks amazing, can&#39;t wait to check it out. I build websites for real clients and I&#39;ll have to test this and let you know how well it works!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/FranzmeierRandy/status/2065627117606367415" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Randy Franzmeier, @FranzmeierRandy, on X: This looks amazing, can&#39;t wait to check it out. I build websites for real clients and I&#39;ll have to test this and let you know how well it works!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">R</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">R</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Randy Franzmeier</span>
-                        <span class="v4 e8 p8 p9">@FranzmeierRandy</span>
+                        <span class="v4 x8 h8 o8 l9">Randy Franzmeier</span>
+                        <span class="v4 f8 q8 q9">@FranzmeierRandy</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">This looks amazing, can&#39;t wait to check it out. I build websites for real clients and I&#39;ll have to test this and let you know how well it works!</p>
+                    <p class="w c1 c9 f8 s8 o9">This looks amazing, can&#39;t wait to check it out. I build websites for real clients and I&#39;ll have to test this and let you know how well it works!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/LibertyAndAI/status/2065633854791266720" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Adnan Abbasi, @LibertyAndAI, on X: these look pretty, thanks." class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/LibertyAndAI/status/2065633854791266720" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Adnan Abbasi, @LibertyAndAI, on X: these look pretty, thanks." class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Adnan Abbasi</span>
-                        <span class="v4 e8 p8 p9">@LibertyAndAI</span>
+                        <span class="v4 x8 h8 o8 l9">Adnan Abbasi</span>
+                        <span class="v4 f8 q8 q9">@LibertyAndAI</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">these look pretty, thanks.</p>
+                    <p class="w c1 c9 f8 s8 o9">these look pretty, thanks.</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/warrioraashuu/status/2065487533484454372" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from aashuu ✦, @warrioraashuu, on X: Thanks for your service, man!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/warrioraashuu/status/2065487533484454372" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from aashuu ✦, @warrioraashuu, on X: Thanks for your service, man!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">aashuu ✦</span>
-                        <span class="v4 e8 p8 p9">@warrioraashuu</span>
+                        <span class="v4 x8 h8 o8 l9">aashuu ✦</span>
+                        <span class="v4 f8 q8 q9">@warrioraashuu</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Thanks for your service, man!</p>
+                    <p class="w c1 c9 f8 s8 o9">Thanks for your service, man!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/GoodEnoughAi/status/2065473545832894623" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Good Enough, @GoodEnoughAi, on X: ooooo looking good!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/GoodEnoughAi/status/2065473545832894623" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Good Enough, @GoodEnoughAi, on X: ooooo looking good!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">G</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">G</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Good Enough</span>
-                        <span class="v4 e8 p8 p9">@GoodEnoughAi</span>
+                        <span class="v4 x8 h8 o8 l9">Good Enough</span>
+                        <span class="v4 f8 q8 q9">@GoodEnoughAi</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">ooooo looking good!</p>
+                    <p class="w c1 c9 f8 s8 o9">ooooo looking good!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/jasonemkay/status/2065531792233308609" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Jason Kay, @jasonemkay, on X: Very cool 😎" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/jasonemkay/status/2065531792233308609" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Jason Kay, @jasonemkay, on X: Very cool 😎" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">J</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">J</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Jason Kay</span>
-                        <span class="v4 e8 p8 p9">@jasonemkay</span>
+                        <span class="v4 x8 h8 o8 l9">Jason Kay</span>
+                        <span class="v4 f8 q8 q9">@jasonemkay</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Very cool 😎</p>
+                    <p class="w c1 c9 f8 s8 o9">Very cool 😎</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/buildwithumair/status/2065658702682865927" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Umair Ali, @buildwithumair, on X: Thanks buddy" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/buildwithumair/status/2065658702682865927" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Umair Ali, @buildwithumair, on X: Thanks buddy" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">U</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">U</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Umair Ali</span>
-                        <span class="v4 e8 p8 p9">@buildwithumair</span>
+                        <span class="v4 x8 h8 o8 l9">Umair Ali</span>
+                        <span class="v4 f8 q8 q9">@buildwithumair</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Thanks buddy</p>
+                    <p class="w c1 c9 f8 s8 o9">Thanks buddy</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/akshitbhandarix/status/2065777558172598738" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Akshit Singh Bhandari, @akshitbhandarix, on X: This was much needed, found it useful" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/akshitbhandarix/status/2065777558172598738" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Akshit Singh Bhandari, @akshitbhandarix, on X: This was much needed, found it useful" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Akshit Singh Bhandari</span>
-                        <span class="v4 e8 p8 p9">@akshitbhandarix</span>
+                        <span class="v4 x8 h8 o8 l9">Akshit Singh Bhandari</span>
+                        <span class="v4 f8 q8 q9">@akshitbhandarix</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">This was much needed, found it useful</p>
+                    <p class="w c1 c9 f8 s8 o9">This was much needed, found it useful</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/Simo_Musyimi/status/2065695698759110984" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Simo Musyi, @Simo_Musyimi, on X: cool asf" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/Simo_Musyimi/status/2065695698759110984" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Simo Musyi, @Simo_Musyimi, on X: cool asf" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">S</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">S</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Simo Musyi</span>
-                        <span class="v4 e8 p8 p9">@Simo_Musyimi</span>
+                        <span class="v4 x8 h8 o8 l9">Simo Musyi</span>
+                        <span class="v4 f8 q8 q9">@Simo_Musyimi</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">cool asf</p>
+                    <p class="w c1 c9 f8 s8 o9">cool asf</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/mobass/status/2065559415500267623" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Sina Mobasser, @mobass, on X: 🔥" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/mobass/status/2065559415500267623" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Sina Mobasser, @mobass, on X: 🔥" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">S</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">S</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Sina Mobasser</span>
-                        <span class="v4 e8 p8 p9">@mobass</span>
+                        <span class="v4 x8 h8 o8 l9">Sina Mobasser</span>
+                        <span class="v4 f8 q8 q9">@mobass</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">🔥</p>
+                    <p class="w c1 c9 f8 s8 o9">🔥</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/AbuKhadeejah/status/2065432128939266293" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Arsalan Shaikh أرسلان, @AbuKhadeejah, on X: Super thanks Pulkit" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/AbuKhadeejah/status/2065432128939266293" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Arsalan Shaikh أرسلان, @AbuKhadeejah, on X: Super thanks Pulkit" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Arsalan Shaikh أرسلان</span>
-                        <span class="v4 e8 p8 p9">@AbuKhadeejah</span>
+                        <span class="v4 x8 h8 o8 l9">Arsalan Shaikh أرسلان</span>
+                        <span class="v4 f8 q8 q9">@AbuKhadeejah</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Super thanks Pulkit</p>
+                    <p class="w c1 c9 f8 s8 o9">Super thanks Pulkit</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/Krocodile01/status/2065773716450030047" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from LucasOl1337, @Krocodile01, on X: Hey pullkit i love your website and its been really helpful on my projects! Thank you so much for making this free, you are an awesome developer and person!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/Krocodile01/status/2065773716450030047" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from LucasOl1337, @Krocodile01, on X: Hey pullkit i love your website and its been really helpful on my projects! Thank you so much for making this free, you are an awesome developer and person!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">L</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">L</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">LucasOl1337</span>
-                        <span class="v4 e8 p8 p9">@Krocodile01</span>
+                        <span class="v4 x8 h8 o8 l9">LucasOl1337</span>
+                        <span class="v4 f8 q8 q9">@Krocodile01</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Hey pullkit i love your website and its been really helpful on my projects! Thank you so much for making this free, you are an awesome developer and person!</p>
+                    <p class="w c1 c9 f8 s8 o9">Hey pullkit i love your website and its been really helpful on my projects! Thank you so much for making this free, you are an awesome developer and person!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/0x1m2m3/status/2065586529289052209" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from mitch morales | xp/acc, @0x1m2m3, on X: the prompt-preserved-in-the-folder move is the underrated part. anyone can ship a landing page from fable 5. shipping 50 with the exact prompts saved is a textbook for the next ten people who want to learn what good prompts look like in 2026" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/0x1m2m3/status/2065586529289052209" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from mitch morales | xp/acc, @0x1m2m3, on X: the prompt-preserved-in-the-folder move is the underrated part. anyone can ship a landing page from fable 5. shipping 50 with the exact prompts saved is a textbook for the next ten people who want to learn what good prompts look like in 2026" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">M</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">M</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">mitch morales | xp/acc</span>
-                        <span class="v4 e8 p8 p9">@0x1m2m3</span>
+                        <span class="v4 x8 h8 o8 l9">mitch morales | xp/acc</span>
+                        <span class="v4 f8 q8 q9">@0x1m2m3</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">the prompt-preserved-in-the-folder move is the underrated part. anyone can ship a landing page from fable 5. shipping 50 with the exact prompts saved is a textbook for the next ten people who want to learn what good prompts look like in 2026</p>
+                    <p class="w c1 c9 f8 s8 o9">the prompt-preserved-in-the-folder move is the underrated part. anyone can ship a landing page from fable 5. shipping 50 with the exact prompts saved is a textbook for the next ten people who want to learn what good prompts look like in 2026</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/AdamLeapN/status/2065534083266990521" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Adam Wright, @AdamLeapN, on X: you won&#39;t get the credit you deserve for this act of generosity. from me to you - THANK YOU SO MUCH!!!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/AdamLeapN/status/2065534083266990521" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Adam Wright, @AdamLeapN, on X: you won&#39;t get the credit you deserve for this act of generosity. from me to you - THANK YOU SO MUCH!!!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">A</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">A</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Adam Wright</span>
-                        <span class="v4 e8 p8 p9">@AdamLeapN</span>
+                        <span class="v4 x8 h8 o8 l9">Adam Wright</span>
+                        <span class="v4 f8 q8 q9">@AdamLeapN</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">you won&#39;t get the credit you deserve for this act of generosity. from me to you - THANK YOU SO MUCH!!!</p>
+                    <p class="w c1 c9 f8 s8 o9">you won&#39;t get the credit you deserve for this act of generosity. from me to you - THANK YOU SO MUCH!!!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/savar_gupta/status/2065672028481536507" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Savar Gupta, @savar_gupta, on X: this is super useful, thanks!" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/savar_gupta/status/2065672028481536507" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Savar Gupta, @savar_gupta, on X: this is super useful, thanks!" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">S</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">S</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Savar Gupta</span>
-                        <span class="v4 e8 p8 p9">@savar_gupta</span>
+                        <span class="v4 x8 h8 o8 l9">Savar Gupta</span>
+                        <span class="v4 f8 q8 q9">@savar_gupta</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">this is super useful, thanks!</p>
+                    <p class="w c1 c9 f8 s8 o9">this is super useful, thanks!</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/billyvision/status/2065470642237899176" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from IMRAN - Zebracross, @billyvision, on X: Thanks will check it out this weekend" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/billyvision/status/2065470642237899176" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from IMRAN - Zebracross, @billyvision, on X: Thanks will check it out this weekend" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">I</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">I</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">IMRAN - Zebracross</span>
-                        <span class="v4 e8 p8 p9">@billyvision</span>
+                        <span class="v4 x8 h8 o8 l9">IMRAN - Zebracross</span>
+                        <span class="v4 f8 q8 q9">@billyvision</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Thanks will check it out this weekend</p>
+                    <p class="w c1 c9 f8 s8 o9">Thanks will check it out this weekend</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/BruceLLP/status/2065539411153199464" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Bruce, @BruceLLP, on X: 🤜🏼🤛🏼" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/BruceLLP/status/2065539411153199464" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Bruce, @BruceLLP, on X: 🤜🏼🤛🏼" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">B</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">B</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Bruce</span>
-                        <span class="v4 e8 p8 p9">@BruceLLP</span>
+                        <span class="v4 x8 h8 o8 l9">Bruce</span>
+                        <span class="v4 f8 q8 q9">@BruceLLP</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">🤜🏼🤛🏼</p>
+                    <p class="w c1 c9 f8 s8 o9">🤜🏼🤛🏼</p>
                   </a>
                 </li>
-                <li class="j2 c3 ie" aria-hidden="true">
-                  <a href="https://x.com/imkaikhalid/status/2065731869828624616" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Kai Khalid 🇰🇪, @imkaikhalid, on X: Absolute legend. Thanks man" class="e1 a2 x3 k4 w4 c5 k5 v5 b6 q6 k9 da ya cc uc pc rc">
+                <li class="j2 c3 qe" aria-hidden="true">
+                  <a href="https://x.com/imkaikhalid/status/2065731869828624616" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-label="Reply from Kai Khalid 🇰🇪, @imkaikhalid, on X: Absolute legend. Thanks man" class="e1 a2 x3 k4 w4 c5 k5 w5 c6 r6 l9 ea cb ic ad vc xc">
                     <div class="e1 a4 k4">
-                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 c6 w8 m9">K</span>
+                      <span aria-hidden="true" class="e1 q1 c3 a4 d4 f5 d6 x8 n9">K</span>
                       <span class="e1 y2 x3">
-                        <span class="v4 w8 g8 n8 k9">Kai Khalid 🇰🇪</span>
-                        <span class="v4 e8 p8 p9">@imkaikhalid</span>
+                        <span class="v4 x8 h8 o8 l9">Kai Khalid 🇰🇪</span>
+                        <span class="v4 f8 q8 q9">@imkaikhalid</span>
                       </span>
-                      <svg class="a1 l1 c3 l9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
+                      <svg class="a1 l1 c3 m9" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" /></svg>
                     </div>
-                    <p class="w c1 b9 e8 r8 n9">Absolute legend. Thanks man</p>
+                    <p class="w c1 c9 f8 s8 o9">Absolute legend. Thanks man</p>
                   </a>
                 </li>
               </ul>
             </div>
             <p class="g0 u0">The best part was not the views or the stars. It was the people I got to meet. What a day.</p>
-            <h2 id="a-few-moments-from-the-day" class="n0 k8 w8 t8 z8">A few moments from the day</h2>
+            <h2 id="a-few-moments-from-the-day" class="n0 l8 x8 u8 a9">A few moments from the day</h2>
             <div class="d0 e1 a4 d4">
               <div class="e y p2 u2">
                 <section class="e p2" aria-roledescription="carousel" aria-label="Image gallery" data-carousel>
                   <div class="w4" data-carousel-viewport>
-                    <div class="x0 e1">
-                      <section aria-roledescription="slide" aria-label="1 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/01.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 eb l6 qa ra" loading="eager" fetchpriority="high" decoding="async" />
+                    <div class="y0 e1">
+                      <section aria-roledescription="slide" aria-label="1 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/01.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 ib m6 ta ua" loading="eager" fetchpriority="high" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/01.webp" class="block a2 p2 m3" data-media-zoom data-width="1920" data-height="1080">
-                              <img src="/assets/content/public/blogs/my-first-talk/01.webp" alt="The opening slide of my talk, &#39;Pulkit, Software Engineer @ Noveum.ai&#39;, on the big screen as the session begins." width="1920" height="1080" class="block a2 p2 eb k6" loading="eager" fetchpriority="high" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/01.webp" alt="The opening slide of my talk, &#39;Pulkit, Software Engineer @ Noveum.ai&#39;, on the big screen as the session begins." width="1920" height="1080" class="block a2 p2 ib l6" loading="eager" fetchpriority="high" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
-                      <section aria-roledescription="slide" aria-label="2 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/02.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 eb l6 qa ra" loading="lazy" decoding="async" />
+                      <section aria-roledescription="slide" aria-label="2 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/02.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 ib m6 ta ua" loading="lazy" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/02.webp" class="block a2 p2 m3" data-media-zoom data-width="1920" data-height="1080">
-                              <img src="/assets/content/public/blogs/my-first-talk/02.webp" alt="My X post about Claude Directory up on the screen while I present to the room." width="1920" height="1080" class="block a2 p2 eb k6" loading="lazy" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/02.webp" alt="My X post about Claude Directory up on the screen while I present to the room." width="1920" height="1080" class="block a2 p2 ib l6" loading="lazy" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
-                      <section aria-roledescription="slide" aria-label="3 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/03.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 eb l6 qa ra" loading="lazy" decoding="async" />
+                      <section aria-roledescription="slide" aria-label="3 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/03.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 ib m6 ta ua" loading="lazy" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/03.webp" class="block a2 p2 m3" data-media-zoom data-width="1920" data-height="1080">
-                              <img src="/assets/content/public/blogs/my-first-talk/03.webp" alt="One of the Claude Directory demo landing pages shown live during the talk." width="1920" height="1080" class="block a2 p2 eb k6" loading="lazy" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/03.webp" alt="One of the Claude Directory demo landing pages shown live during the talk." width="1920" height="1080" class="block a2 p2 ib l6" loading="lazy" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
-                      <section aria-roledescription="slide" aria-label="4 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/04.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 eb l6 qa ra" loading="lazy" decoding="async" />
+                      <section aria-roledescription="slide" aria-label="4 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/04.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 ib m6 ta ua" loading="lazy" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/04.webp" class="block a2 p2 m3" data-media-zoom data-width="1920" data-height="1080">
-                              <img src="/assets/content/public/blogs/my-first-talk/04.webp" alt="A QR code on screen linking to the Claude Directory GitHub repo, with &#39;Give it a star&#39;." width="1920" height="1080" class="block a2 p2 eb k6" loading="lazy" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/04.webp" alt="A QR code on screen linking to the Claude Directory GitHub repo, with &#39;Give it a star&#39;." width="1920" height="1080" class="block a2 p2 ib l6" loading="lazy" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
-                      <section aria-roledescription="slide" aria-label="5 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/05.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 eb l6 qa ra" loading="lazy" decoding="async" />
+                      <section aria-roledescription="slide" aria-label="5 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/05.webp" alt="" aria-hidden="true" width="1920" height="1080" class="d f a2 p2 j3 ib m6 ta ua" loading="lazy" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/05.webp" class="block a2 p2 m3" data-media-zoom data-width="1920" data-height="1080">
-                              <img src="/assets/content/public/blogs/my-first-talk/05.webp" alt="A QR code linking to pulkitxm.com/claude-directory, captioned &#39;Check it out with live demos here&#39;." width="1920" height="1080" class="block a2 p2 eb k6" loading="lazy" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/05.webp" alt="A QR code linking to pulkitxm.com/claude-directory, captioned &#39;Check it out with live demos here&#39;." width="1920" height="1080" class="block a2 p2 ib l6" loading="lazy" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
-                      <section aria-roledescription="slide" aria-label="6 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/06.webp" alt="" aria-hidden="true" width="1440" height="1920" class="d f a2 p2 j3 eb l6 qa ra" loading="lazy" decoding="async" />
+                      <section aria-roledescription="slide" aria-label="6 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/06.webp" alt="" aria-hidden="true" width="1440" height="1920" class="d f a2 p2 j3 ib m6 ta ua" loading="lazy" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/06.webp" class="block a2 p2 m3" data-media-zoom data-width="1440" data-height="1920">
-                              <img src="/assets/content/public/blogs/my-first-talk/06.webp" alt="The meeting chat panel projected on screen as people joined the hybrid session." width="1440" height="1920" class="block a2 p2 eb k6" loading="lazy" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/06.webp" alt="The meeting chat panel projected on screen as people joined the hybrid session." width="1440" height="1920" class="block a2 p2 ib l6" loading="lazy" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
-                      <section aria-roledescription="slide" aria-label="7 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/07.webp" alt="" aria-hidden="true" width="1440" height="1920" class="d f a2 p2 j3 eb l6 qa ra" loading="lazy" decoding="async" />
+                      <section aria-roledescription="slide" aria-label="7 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/07.webp" alt="" aria-hidden="true" width="1440" height="1920" class="d f a2 p2 j3 ib m6 ta ua" loading="lazy" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/07.webp" class="block a2 p2 m3" data-media-zoom data-width="1440" data-height="1920">
-                              <img src="/assets/content/public/blogs/my-first-talk/07.webp" alt="Pizza and Thums Up on the table after the talk." width="1440" height="1920" class="block a2 p2 eb k6" loading="lazy" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/07.webp" alt="Pizza and Thums Up on the table after the talk." width="1440" height="1920" class="block a2 p2 ib l6" loading="lazy" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
-                      <section aria-roledescription="slide" aria-label="8 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/08.webp" alt="" aria-hidden="true" width="1440" height="1920" class="d f a2 p2 j3 eb l6 qa ra" loading="lazy" decoding="async" />
+                      <section aria-roledescription="slide" aria-label="8 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/08.webp" alt="" aria-hidden="true" width="1440" height="1920" class="d f a2 p2 j3 ib m6 ta ua" loading="lazy" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/08.webp" class="block a2 p2 m3" data-media-zoom data-width="1440" data-height="1920">
-                              <img src="/assets/content/public/blogs/my-first-talk/08.webp" alt="The DLF Downtown office complex in Gurugram where the event was held." width="1440" height="1920" class="block a2 p2 eb k6" loading="lazy" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/08.webp" alt="The DLF Downtown office complex in Gurugram where the event was held." width="1440" height="1920" class="block a2 p2 ib l6" loading="lazy" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
-                      <section aria-roledescription="slide" aria-label="9 of 9" class="y2 c3 d3 e3 r7" data-carousel-slide>
-                        <div class="e i1 p2 w4 g5 k5 v5">
-                          <img src="/assets/content/public/blogs/my-first-talk/09.webp" alt="" aria-hidden="true" width="1440" height="1920" class="d f a2 p2 j3 eb l6 qa ra" loading="lazy" decoding="async" />
+                      <section aria-roledescription="slide" aria-label="9 of 9" class="y2 c3 d3 e3 s7" data-carousel-slide>
+                        <div class="e i1 p2 w4 g5 k5 w5">
+                          <img src="/assets/content/public/blogs/my-first-talk/09.webp" alt="" aria-hidden="true" width="1440" height="1920" class="d f a2 p2 j3 ib m6 ta ua" loading="lazy" decoding="async" />
                           <div class="d f e1 a4 d4">
                             <a href="/assets/content/public/blogs/my-first-talk/09.webp" class="block a2 p2 m3" data-media-zoom data-width="1440" data-height="1920">
-                              <img src="/assets/content/public/blogs/my-first-talk/09.webp" alt="A walkway between the glass office towers at DLF Downtown, Gurugram." width="1440" height="1920" class="block a2 p2 eb k6" loading="lazy" decoding="async" />
+                              <img src="/assets/content/public/blogs/my-first-talk/09.webp" alt="A walkway between the glass office towers at DLF Downtown, Gurugram." width="1440" height="1920" class="block a2 p2 ib l6" loading="lazy" decoding="async" />
                             </a>
                           </div>
                         </div>
                       </section>
                     </div>
                   </div>
-                  <button type="button" class="d h h1 size-8 o6 g3 l3 a4 d4 f5 k5 v5 x5 j9 na ua bb xb sc tc q ff" data-carousel-previous><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="b l1 c3"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></svg><span class="c">Previous slide</span></button><button type="button" class="d h h1 size-8 o6 g3 l3 a4 d4 f5 k5 v5 x5 j9 na ua bb xb sc tc l ef" data-carousel-next><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="b l1 c3"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg><span class="c">Next slide</span></button>
+                  <button type="button" class="d h h1 size-8 p6 g3 l3 a4 d4 f5 k5 w5 y5 k9 oa xa fb dc yc zc q nf" data-carousel-previous><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="b l1 c3"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></svg><span class="c">Previous slide</span></button><button type="button" class="d h h1 size-8 p6 g3 l3 a4 d4 f5 k5 w5 y5 k9 oa xa fb dc yc zc l mf" data-carousel-next><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="b l1 c3"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg><span class="c">Next slide</span></button>
                   <div class="d j m n e1 d4">
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 1" aria-current="true" data-carousel-dot="0">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 1" aria-current="true" data-carousel-dot="0">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 2" aria-current="false" data-carousel-dot="1">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 2" aria-current="false" data-carousel-dot="1">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 3" aria-current="false" data-carousel-dot="2">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 3" aria-current="false" data-carousel-dot="2">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 4" aria-current="false" data-carousel-dot="3">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 4" aria-current="false" data-carousel-dot="3">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 5" aria-current="false" data-carousel-dot="4">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 5" aria-current="false" data-carousel-dot="4">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 6" aria-current="false" data-carousel-dot="5">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 6" aria-current="false" data-carousel-dot="5">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 7" aria-current="false" data-carousel-dot="6">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 7" aria-current="false" data-carousel-dot="6">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 8" aria-current="false" data-carousel-dot="7">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 8" aria-current="false" data-carousel-dot="7">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
-                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 f6 o6" aria-label="Go to slide 9" aria-current="false" data-carousel-dot="8">
-                      <span class="block t1 g2 f5 a6 xa bb pb qb"></span>
+                    <button type="button" class="group e1 u1 z2 l3 a4 d4 l5 g6 p6" aria-label="Go to slide 9" aria-current="false" data-carousel-dot="8">
+                      <span class="block t1 g2 f5 b6 bb fb vb wb"></span>
                     </button>
                   </div>
                 </section>
@@ -987,22 +1016,22 @@ globalThis.addEventListener("pagereveal", (event) => {
             </div>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/git-worktrees/">Git Worktrees</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/kaksha/">Kaksha: The App I Built for My Mother</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/git-worktrees/">Git Worktrees</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/kaksha/">Kaksha: The App I Built for My Mother</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/how-i-use-cursor/">How I Use Cursor to Build at 1000x Speed</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/my-first-talk.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/my-first-talk.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

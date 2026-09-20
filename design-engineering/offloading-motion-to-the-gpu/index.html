@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -222,21 +251,21 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li><a href="/design-engineering/">Design Engineering</a></li>
             <li aria-current="page">Offloading Motion to the GPU</li>
@@ -244,14 +273,14 @@ globalThis.addEventListener("pagereveal", (event) => {
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Offloading Motion to the GPU</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-02-03">February 3, 2026</time> · 9 min read · <a class="o9 ga ia ic" href="/design-engineering/">Design Engineering</a></p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Offloading Motion to the GPU</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-02-03">February 3, 2026</time> · 9 min read · <a class="p9 ha ja oc" href="/design-engineering/">Design Engineering</a></p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">There&#39;s something special about CSS animations. No dependencies, no JavaScript, just HTML and CSS. It feels like you are writing code how it was meant to be written.</p>
             <p class="g0 u0">But getting CSS animations right means understanding what happens under the hood. Why some properties animate smoothly while others stutter. When the GPU gets involved. And most importantly, when to reach for CSS versus when to reach for JavaScript.</p>
-            <h2 id="tl-dr" class="n0 k8 w8 t8 z8">TL;DR</h2>
+            <h2 id="tl-dr" class="n0 l8 x8 u8 a9">TL;DR</h2>
             <ul class="g0 u0">
               <li><strong>60fps is the goal.</strong> Your frame budget is 16.67ms. Miss it and users feel the jank</li>
               <li><strong>The rendering pipeline matters.</strong> Style → Layout → Paint → Composite. Skip steps for performance</li>
@@ -260,7 +289,7 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li><strong>JavaScript animations have their place.</strong> Interruptibility, spring physics, and complex sequences</li>
               <li><strong>Use CSS for simple stuff.</strong> Hover effects, enter animations, infinite loops, bundle-sensitive projects</li>
             </ul>
-            <h2 id="choosing-between-css-and-javascript" class="n0 k8 w8 t8 z8">Choosing Between CSS and JavaScript</h2>
+            <h2 id="choosing-between-css-and-javascript" class="n0 l8 x8 u8 a9">Choosing Between CSS and JavaScript</h2>
             <p class="g0 u0">CSS animations are perfect for simple interactions. A button that scales on hover, a card that fades in on load, a loading spinner that rotates forever. For these cases, CSS is the obvious choice.</p>
             <p class="g0 u0">But here&#39;s where it gets interesting. The best interfaces don&#39;t just move things around. They respond to user input in ways that feel physical. Think about pulling down to refresh on your phone. The content stretches, bounces back, and settles. That&#39;s not a fixed duration animation. That&#39;s physics responding to your gesture.</p>
             <p class="g0 u0">CSS can&#39;t do that. It can&#39;t track velocity when you interrupt an animation. It can&#39;t create true spring physics where the settling time depends on how hard you pulled. It can&#39;t coordinate complex sequences that respond to changing state.</p>
@@ -280,61 +309,61 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Gesture-driven interactions</li>
             </ul>
             <p class="g0 u0">The goal isn&#39;t to pick a side. It&#39;s to know when each approach makes sense. Let&#39;s focus on CSS and explore what it does well and how to squeeze every bit of performance out of it.</p>
-            <h2 id="let-s-fix-a-broken-animation" class="n0 k8 w8 t8 z8">Let&#39;s Fix a Broken Animation</h2>
+            <h2 id="let-s-fix-a-broken-animation" class="n0 l8 x8 u8 a9">Let&#39;s Fix a Broken Animation</h2>
             <p class="g0 u0">Nothing teaches better than fixing something broken. Here&#39;s a demo with two grids animating identically, but using different CSS properties. Click &quot;Block Main Thread&quot; to simulate JavaScript doing heavy work.</p>
             <demo-showcase data-component="janky-vs-smooth" data-props="{}" data-frame="{&quot;focusCode&quot;:true,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
-            <p class="g0 u0">Both grids animate a pulsing effect. The left grid animates <code class="i5 d6 t6 a7 hb">width</code> and <code class="i5 d6 t6 a7 hb">height</code>. The right grid animates only <code class="i5 d6 t6 a7 hb">transform: scale()</code>. Same visual result, completely different performance.</p>
+            <p class="g0 u0">Both grids animate a pulsing effect. The left grid animates <code class="i5 e6 u6 b7 lb">width</code> and <code class="i5 e6 u6 b7 lb">height</code>. The right grid animates only <code class="i5 e6 u6 b7 lb">transform: scale()</code>. Same visual result, completely different performance.</p>
             <p class="g0 u0">When you block the main thread, the left grid freezes completely. The right grid keeps pulsing smoothly. That&#39;s GPU acceleration in action, the transform animation runs on a separate thread and doesn&#39;t care what JavaScript is doing.</p>
             <p class="g0 u0">Let&#39;s look at the broken code:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> janky-pulse <span class="z9">{</span></span>
-                  <span class="block m8 g9">  0%,</span>
-                  <span class="block m8 g9">  100% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">width</span><span class="z9">:</span> <span class="u9">100%</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">height</span><span class="z9">:</span> <span class="u9">100%</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  50% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">width</span><span class="z9">:</span> <span class="u9">40%</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">height</span><span class="z9">:</span> <span class="u9">40%</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.janky-box</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> janky-pulse <span class="u9">800ms</span> <span class="t9">ease-in-out</span> <span class="t9">infinite</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> janky-pulse <span class="aa">{</span></span>
+                  <span class="block n8 h9">  0%,</span>
+                  <span class="block n8 h9">  100% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">width</span><span class="aa">:</span> <span class="v9">100%</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">height</span><span class="aa">:</span> <span class="v9">100%</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  50% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">width</span><span class="aa">:</span> <span class="v9">40%</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">height</span><span class="aa">:</span> <span class="v9">40%</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.janky-box</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> janky-pulse <span class="v9">800ms</span> <span class="u9">ease-in-out</span> <span class="u9">infinite</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">And the fixed version:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> smooth-pulse <span class="z9">{</span></span>
-                  <span class="block m8 g9">  0%,</span>
-                  <span class="block m8 g9">  100% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">scale</span><span class="z9">(</span><span class="u9">1</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  50% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">scale</span><span class="z9">(</span><span class="u9">0.4</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.smooth-box</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> smooth-pulse <span class="u9">800ms</span> <span class="t9">ease-in-out</span> <span class="t9">infinite</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> smooth-pulse <span class="aa">{</span></span>
+                  <span class="block n8 h9">  0%,</span>
+                  <span class="block n8 h9">  100% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">scale</span><span class="aa">(</span><span class="v9">1</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  50% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">scale</span><span class="aa">(</span><span class="v9">0.4</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.smooth-box</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> smooth-pulse <span class="v9">800ms</span> <span class="u9">ease-in-out</span> <span class="u9">infinite</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">The difference? The first version changes <code class="i5 d6 t6 a7 hb">width</code> and <code class="i5 d6 t6 a7 hb">height</code>, which trigger layout calculations on the main thread. When the main thread is blocked, the animation freezes. The second version uses <code class="i5 d6 t6 a7 hb">transform: scale()</code>, which the GPU handles on a separate compositor thread, completely independent of JavaScript.</p>
-            <h2 id="the-rendering-pipeline" class="n0 k8 w8 t8 z8">The Rendering Pipeline</h2>
+            <p class="g0 u0">The difference? The first version changes <code class="i5 e6 u6 b7 lb">width</code> and <code class="i5 e6 u6 b7 lb">height</code>, which trigger layout calculations on the main thread. When the main thread is blocked, the animation freezes. The second version uses <code class="i5 e6 u6 b7 lb">transform: scale()</code>, which the GPU handles on a separate compositor thread, completely independent of JavaScript.</p>
+            <h2 id="the-rendering-pipeline" class="n0 l8 x8 u8 a9">The Rendering Pipeline</h2>
             <p class="g0 u0">Understanding why some animations are smooth and others aren&#39;t requires understanding how browsers render pages. Every frame goes through up to four steps.</p>
             <p class="g0 u0">
               <a href="/assets/content/blogs/offloading-motion-to-the-gpu/rendering-pipeline.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
@@ -342,87 +371,87 @@ globalThis.addEventListener("pagereveal", (event) => {
               </a>
             </p>
             <ul class="g0 u0">
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Style</strong> calculates which CSS rules apply to which elements. This happens on every frame where styles might change.</p>
               </li>
-              <li class="bg">
-                <p class="g0 u0"><strong>Layout</strong> (also called &quot;reflow&quot;) calculates the position and size of every element. Change <code class="i5 d6 t6 a7 hb">width</code>, <code class="i5 d6 t6 a7 hb">height</code>, <code class="i5 d6 t6 a7 hb">margin</code>, <code class="i5 d6 t6 a7 hb">padding</code>, <code class="i5 d6 t6 a7 hb">top</code>, <code class="i5 d6 t6 a7 hb">left</code>, <code class="i5 d6 t6 a7 hb">right</code>, <code class="i5 d6 t6 a7 hb">bottom</code>, or <code class="i5 d6 t6 a7 hb">font-size</code>? Layout runs.</p>
+              <li class="jg">
+                <p class="g0 u0"><strong>Layout</strong> (also called &quot;reflow&quot;) calculates the position and size of every element. Change <code class="i5 e6 u6 b7 lb">width</code>, <code class="i5 e6 u6 b7 lb">height</code>, <code class="i5 e6 u6 b7 lb">margin</code>, <code class="i5 e6 u6 b7 lb">padding</code>, <code class="i5 e6 u6 b7 lb">top</code>, <code class="i5 e6 u6 b7 lb">left</code>, <code class="i5 e6 u6 b7 lb">right</code>, <code class="i5 e6 u6 b7 lb">bottom</code>, or <code class="i5 e6 u6 b7 lb">font-size</code>? Layout runs.</p>
               </li>
-              <li class="bg">
-                <p class="g0 u0"><strong>Paint</strong> fills in pixels. Text, colors, images, borders, shadows. Change <code class="i5 d6 t6 a7 hb">background</code>, <code class="i5 d6 t6 a7 hb">color</code>, <code class="i5 d6 t6 a7 hb">border-radius</code>, or <code class="i5 d6 t6 a7 hb">box-shadow</code>? Paint runs.</p>
+              <li class="jg">
+                <p class="g0 u0"><strong>Paint</strong> fills in pixels. Text, colors, images, borders, shadows. Change <code class="i5 e6 u6 b7 lb">background</code>, <code class="i5 e6 u6 b7 lb">color</code>, <code class="i5 e6 u6 b7 lb">border-radius</code>, or <code class="i5 e6 u6 b7 lb">box-shadow</code>? Paint runs.</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Composite</strong> takes all the painted layers and combines them into the final image. This is where the GPU shines.</p>
               </li>
             </ul>
             <p class="g0 u0">The key insight is that these steps cascade. If you trigger Layout, you also trigger Paint and Composite. If you trigger Paint, you also trigger Composite. But if you only trigger Composite, you skip Layout and Paint entirely.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">width change:      Style → Layout → Paint → Composite  (slowest)</span>
-                  <span class="block m8 g9">background change: Style → Paint → Composite           (slow)</span>
-                  <span class="block m8 g9">transform change:  Style → Composite                   (fastest)</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">width change:      Style → Layout → Paint → Composite  (slowest)</span>
+                  <span class="block n8 h9">background change: Style → Paint → Composite           (slow)</span>
+                  <span class="block n8 h9">transform change:  Style → Composite                   (fastest)</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h2 id="gpu-acceleration" class="n0 k8 w8 t8 z8">GPU Acceleration</h2>
+            <h2 id="gpu-acceleration" class="n0 l8 x8 u8 a9">GPU Acceleration</h2>
             <p class="g0 u0">Modern browsers have a superpower. They can offload certain animations to the GPU, freeing up the main thread to do other work.</p>
-            <p class="g0 u0">Two properties get this special treatment: <code class="i5 d6 t6 a7 hb">transform</code> and <code class="i5 d6 t6 a7 hb">opacity</code>.</p>
+            <p class="g0 u0">Two properties get this special treatment: <code class="i5 e6 u6 b7 lb">transform</code> and <code class="i5 e6 u6 b7 lb">opacity</code>.</p>
             <p class="g0 u0">When you animate these properties, the browser creates a separate layer for the element and hands it to the GPU. The GPU can move, rotate, scale, and fade that layer without touching the main thread. Your JavaScript can be running expensive calculations, and the animation stays smooth.</p>
             <demo-showcase data-component="gpu-acceleration" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="g0 u0">Add some load to the page using the button above. Notice how the transform animation keeps running smoothly while the width animation stutters. That&#39;s GPU acceleration in action.</p>
             <p class="g0 u0">This is why you hear &quot;only animate transform and opacity&quot; repeated everywhere. It&#39;s not a style preference. It&#39;s a performance reality.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="w9">.element</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">transform</span><span class="z9">:</span> <span class="r9">translateX</span><span class="z9">(</span><span class="u9">0</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="w9">opacity</span><span class="z9">:</span> <span class="u9">1</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="w9">transition</span><span class="z9">:</span></span>
-                  <span class="block m8 g9">    transform <span class="u9">300ms</span> <span class="t9">ease-out</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    opacity <span class="u9">300ms</span> <span class="t9">ease-out</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.element:hover</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">transform</span><span class="z9">:</span> <span class="r9">translateX</span><span class="z9">(</span><span class="u9">20px</span><span class="z9">)</span> <span class="r9">scale</span><span class="z9">(</span><span class="u9">1.05</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="w9">opacity</span><span class="z9">:</span> <span class="u9">0.9</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="x9">.element</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">transform</span><span class="aa">:</span> <span class="s9">translateX</span><span class="aa">(</span><span class="v9">0</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="x9">opacity</span><span class="aa">:</span> <span class="v9">1</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="x9">transition</span><span class="aa">:</span></span>
+                  <span class="block n8 h9">    transform <span class="v9">300ms</span> <span class="u9">ease-out</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    opacity <span class="v9">300ms</span> <span class="u9">ease-out</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.element:hover</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">transform</span><span class="aa">:</span> <span class="s9">translateX</span><span class="aa">(</span><span class="v9">20px</span><span class="aa">)</span> <span class="s9">scale</span><span class="aa">(</span><span class="v9">1.05</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="x9">opacity</span><span class="aa">:</span> <span class="v9">0.9</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="what-about-will-change" class="l0 h8 t8 z8">What About will-change?</h3>
-            <p class="g0 u0">The <code class="i5 d6 t6 a7 hb">will-change</code> property tells the browser to prepare a layer in advance.</p>
+            <h3 id="what-about-will-change" class="l0 i8 u8 a9">What About will-change?</h3>
+            <p class="g0 u0">The <code class="i5 e6 u6 b7 lb">will-change</code> property tells the browser to prepare a layer in advance.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="w9">.element</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">will-change</span><span class="z9">:</span> transform<span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="x9">.element</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">will-change</span><span class="aa">:</span> transform<span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">This can help with complex animations, but use it sparingly. Every <code class="i5 d6 t6 a7 hb">will-change</code> element consumes GPU memory. Applying it everywhere defeats the purpose.</p>
-            <p class="g0 u0">The rule I follow: don&#39;t add <code class="i5 d6 t6 a7 hb">will-change</code> until you&#39;ve measured a problem. If an animation stutters and DevTools shows paint or layout issues, then consider <code class="i5 d6 t6 a7 hb">will-change</code>. Otherwise, leave it out.</p>
-            <h2 id="the-60fps-goal" class="n0 k8 w8 t8 z8">The 60fps Goal</h2>
+            <p class="g0 u0">This can help with complex animations, but use it sparingly. Every <code class="i5 e6 u6 b7 lb">will-change</code> element consumes GPU memory. Applying it everywhere defeats the purpose.</p>
+            <p class="g0 u0">The rule I follow: don&#39;t add <code class="i5 e6 u6 b7 lb">will-change</code> until you&#39;ve measured a problem. If an animation stutters and DevTools shows paint or layout issues, then consider <code class="i5 e6 u6 b7 lb">will-change</code>. Otherwise, leave it out.</p>
+            <h2 id="the-60fps-goal" class="n0 l8 x8 u8 a9">The 60fps Goal</h2>
             <p class="g0 u0">Your monitor refreshes 60 times per second (or more, but let&#39;s use 60 as the baseline). To achieve smooth animation, your browser needs to produce a new frame every 16.67 milliseconds.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">1 second = 1000ms</span>
-                  <span class="block m8 g9">60 frames per second = 1000ms / 60 = 16.67ms per frame</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">1 second = 1000ms</span>
+                  <span class="block n8 h9">60 frames per second = 1000ms / 60 = 16.67ms per frame</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Miss that budget and you drop a frame. Drop enough frames and users notice. Drop a lot and they feel it as jank.</p>
@@ -439,287 +468,287 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li><strong>Paint.</strong> Changes to appearance properties</li>
               <li><strong>Composite.</strong> Merging layers</li>
             </ul>
-            <p class="g0 u0">CSS animations that only touch <code class="i5 d6 t6 a7 hb">transform</code> and <code class="i5 d6 t6 a7 hb">opacity</code> use almost none of this budget. The GPU handles them in parallel. You get smooth 60fps even while JavaScript does heavy lifting.</p>
-            <p class="g0 u0">JavaScript animations using <code class="i5 d6 t6 a7 hb">requestAnimationFrame</code> compete with other main thread work. They&#39;re still smooth when the thread is idle, but they stutter when it&#39;s busy.</p>
-            <h2 id="when-css-beats-javascript" class="n0 k8 w8 t8 z8">When CSS Beats JavaScript</h2>
+            <p class="g0 u0">CSS animations that only touch <code class="i5 e6 u6 b7 lb">transform</code> and <code class="i5 e6 u6 b7 lb">opacity</code> use almost none of this budget. The GPU handles them in parallel. You get smooth 60fps even while JavaScript does heavy lifting.</p>
+            <p class="g0 u0">JavaScript animations using <code class="i5 e6 u6 b7 lb">requestAnimationFrame</code> compete with other main thread work. They&#39;re still smooth when the thread is idle, but they stutter when it&#39;s busy.</p>
+            <h2 id="when-css-beats-javascript" class="n0 l8 x8 u8 a9">When CSS Beats JavaScript</h2>
             <p class="g0 u0">CSS animations win in specific scenarios.</p>
-            <h3 id="hover-effects" class="l0 h8 t8 z8">Hover Effects</h3>
+            <h3 id="hover-effects" class="l0 i8 u8 a9">Hover Effects</h3>
             <p class="g0 u0">A button that scales on hover doesn&#39;t need JavaScript.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="w9">.button</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">transition</span><span class="z9">:</span> transform <span class="u9">150ms</span> <span class="t9">ease-out</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.button:hover</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">transform</span><span class="z9">:</span> <span class="r9">scale</span><span class="z9">(</span><span class="u9">1.05</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.button:active</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">transform</span><span class="z9">:</span> <span class="r9">scale</span><span class="z9">(</span><span class="u9">0.98</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="x9">.button</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">transition</span><span class="aa">:</span> transform <span class="v9">150ms</span> <span class="u9">ease-out</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.button:hover</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">transform</span><span class="aa">:</span> <span class="s9">scale</span><span class="aa">(</span><span class="v9">1.05</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.button:active</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">transform</span><span class="aa">:</span> <span class="s9">scale</span><span class="aa">(</span><span class="v9">0.98</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <demo-showcase data-component="hover-button" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="g0 u0">This runs at 60fps regardless of what else is happening on your page. No React re-renders. No state management. Just CSS doing what CSS does well.</p>
-            <h3 id="enter-animations" class="l0 h8 t8 z8">Enter Animations</h3>
+            <h3 id="enter-animations" class="l0 i8 u8 a9">Enter Animations</h3>
             <p class="g0 u0">When an element appears, CSS can handle the entrance.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> fadeSlideIn <span class="z9">{</span></span>
-                  <span class="block m8 g9">  from <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">opacity</span><span class="z9">:</span> <span class="u9">0</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">translateY</span><span class="z9">(</span><span class="u9">10px</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  to <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">opacity</span><span class="z9">:</span> <span class="u9">1</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">translateY</span><span class="z9">(</span><span class="u9">0</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.card</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> fadeSlideIn <span class="u9">300ms</span> <span class="t9">ease-out</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> fadeSlideIn <span class="aa">{</span></span>
+                  <span class="block n8 h9">  from <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">opacity</span><span class="aa">:</span> <span class="v9">0</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">translateY</span><span class="aa">(</span><span class="v9">10px</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  to <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">opacity</span><span class="aa">:</span> <span class="v9">1</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">translateY</span><span class="aa">(</span><span class="v9">0</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.card</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> fadeSlideIn <span class="v9">300ms</span> <span class="u9">ease-out</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">For simple fades and slides, this is all you need. No JavaScript, no animation library, no bundle size.</p>
-            <h3 id="infinite-animations" class="l0 h8 t8 z8">Infinite Animations</h3>
+            <h3 id="infinite-animations" class="l0 i8 u8 a9">Infinite Animations</h3>
             <p class="g0 u0">Loading spinners, pulsing indicators, scrolling marquees. These should always be CSS.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> spin <span class="z9">{</span></span>
-                  <span class="block m8 g9">  from <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">rotate</span><span class="z9">(</span><span class="u9">0deg</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  to <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">rotate</span><span class="z9">(</span><span class="u9">360deg</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="w9">.spinner</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> spin <span class="u9">1s</span> <span class="t9">linear</span> <span class="t9">infinite</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> spin <span class="aa">{</span></span>
+                  <span class="block n8 h9">  from <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">rotate</span><span class="aa">(</span><span class="v9">0deg</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  to <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">rotate</span><span class="aa">(</span><span class="v9">360deg</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="x9">.spinner</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> spin <span class="v9">1s</span> <span class="u9">linear</span> <span class="u9">infinite</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <demo-showcase data-component="infinite-animation" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="g0 u0">A JavaScript spinner would need to run code 60 times per second forever. A CSS spinner tells the GPU &quot;rotate this layer continuously&quot; and never touches the main thread again.</p>
-            <h3 id="bundle-sensitive-projects" class="l0 h8 t8 z8">Bundle-Sensitive Projects</h3>
+            <h3 id="bundle-sensitive-projects" class="l0 i8 u8 a9">Bundle-Sensitive Projects</h3>
             <p class="g0 u0">If you&#39;re optimizing for initial load time, every kilobyte counts. Framer Motion adds ~30KB to your bundle. React Spring is similar. For landing pages or static sites where animation needs are simple, CSS keeps things light.</p>
-            <h2 id="when-javascript-beats-css" class="n0 k8 w8 t8 z8">When JavaScript Beats CSS</h2>
+            <h2 id="when-javascript-beats-css" class="n0 l8 x8 u8 a9">When JavaScript Beats CSS</h2>
             <p class="g0 u0">JavaScript animations have capabilities CSS can&#39;t match.</p>
-            <h3 id="interruptibility" class="l0 h8 t8 z8">Interruptibility</h3>
+            <h3 id="interruptibility" class="l0 i8 u8 a9">Interruptibility</h3>
             <p class="g0 u0">When you click rapidly between states, CSS transitions restart from the beginning. JavaScript animations can preserve velocity and curve smoothly to new targets.</p>
             <demo-showcase data-component="interruptibility-comparison" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="g0 u0">Click the targets rapidly. The CSS version jumps. The JavaScript version (using spring physics) flows. For interactive UI where users move faster than animations complete, JavaScript handles it better.</p>
-            <h3 id="spring-physics" class="l0 h8 t8 z8">Spring Physics</h3>
-            <p class="g0 u0">CSS can approximate springs with <code class="i5 d6 t6 a7 hb">linear()</code> or cubic-bezier overshoot, but it can&#39;t do true physics simulation. The duration is fixed. Real springs settle based on their physical properties.</p>
+            <h3 id="spring-physics" class="l0 i8 u8 a9">Spring Physics</h3>
+            <p class="g0 u0">CSS can approximate springs with <code class="i5 e6 u6 b7 lb">linear()</code> or cubic-bezier overshoot, but it can&#39;t do true physics simulation. The duration is fixed. Real springs settle based on their physical properties.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-tsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="z9">&lt;</span><span class="s9">motion.div</span></span>
-                  <span class="block m8 g9">  <span class="w9">animate</span><span class="v9">=</span><span class="z9">{{</span> <span class="w9">x:</span> <span class="u9">100</span> <span class="z9">}}</span></span>
-                  <span class="block m8 g9">  <span class="w9">transition</span><span class="v9">=</span><span class="z9">{{</span></span>
-                  <span class="block m8 g9">    <span class="w9">type:</span> <span class="x9">&quot;spring&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">stiffness:</span> <span class="u9">300</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">damping:</span> <span class="u9">20</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">}}</span></span>
-                  <span class="block m8 g9"><span class="z9">/&gt;;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-tsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="aa">&lt;</span><span class="t9">motion.div</span></span>
+                  <span class="block n8 h9">  <span class="x9">animate</span><span class="w9">=</span><span class="aa">{{</span> <span class="x9">x:</span> <span class="v9">100</span> <span class="aa">}}</span></span>
+                  <span class="block n8 h9">  <span class="x9">transition</span><span class="w9">=</span><span class="aa">{{</span></span>
+                  <span class="block n8 h9">    <span class="x9">type:</span> <span class="y9">&quot;spring&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">stiffness:</span> <span class="v9">300</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">damping:</span> <span class="v9">20</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">}}</span></span>
+                  <span class="block n8 h9"><span class="aa">/&gt;;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">The motion feels different. Springs respond to velocity. They overshoot and settle naturally. CSS can fake this for simple cases, but complex interactions need the real thing.</p>
-            <h3 id="complex-sequences" class="l0 h8 t8 z8">Complex Sequences</h3>
+            <h3 id="complex-sequences" class="l0 i8 u8 a9">Complex Sequences</h3>
             <p class="g0 u0">Coordinating multiple elements with precise timing, orchestrating staggered reveals, chaining animations based on state. CSS can do some of this with delays, but JavaScript gives you programmatic control.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> variants <span class="v9">=</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">hidden:</span> <span class="z9">{</span> <span class="w9">opacity:</span> <span class="u9">0</span><span class="z9">,</span> <span class="w9">y:</span> <span class="u9">20</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="w9">visible:</span> <span class="z9">(</span>i<span class="v9">:</span> <span class="y9">number</span><span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">opacity:</span> <span class="u9">1</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">y:</span> <span class="u9">0</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">transition:</span> <span class="z9">{</span> <span class="w9">delay:</span> i <span class="v9">*</span> <span class="u9">0.1</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">}),</span></span>
-                  <span class="block m8 g9"><span class="z9">};</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> variants <span class="w9">=</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">hidden:</span> <span class="aa">{</span> <span class="x9">opacity:</span> <span class="v9">0</span><span class="aa">,</span> <span class="x9">y:</span> <span class="v9">20</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="x9">visible:</span> <span class="aa">(</span>i<span class="w9">:</span> <span class="z9">number</span><span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">opacity:</span> <span class="v9">1</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">y:</span> <span class="v9">0</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">transition:</span> <span class="aa">{</span> <span class="x9">delay:</span> i <span class="w9">*</span> <span class="v9">0.1</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">}),</span></span>
+                  <span class="block n8 h9"><span class="aa">};</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="state-driven-animation" class="l0 h8 t8 z8">State-Driven Animation</h3>
+            <h3 id="state-driven-animation" class="l0 i8 u8 a9">State-Driven Animation</h3>
             <p class="g0 u0">When animation needs to respond to React state, data, or user input beyond simple hover/focus, JavaScript integrates more naturally with your application architecture.</p>
-            <h2 id="performance-under-pressure" class="n0 k8 w8 t8 z8">Performance Under Pressure</h2>
+            <h2 id="performance-under-pressure" class="n0 l8 x8 u8 a9">Performance Under Pressure</h2>
             <p class="g0 u0">Here&#39;s where CSS and JavaScript diverge most clearly.</p>
-            <p class="g0 u0">CSS animations using <code class="i5 d6 t6 a7 hb">transform</code> and <code class="i5 d6 t6 a7 hb">opacity</code> get promoted to their own compositor layer. The GPU handles them independently from everything else happening on the page. Your JavaScript could be parsing a massive JSON response, and the CSS animation won&#39;t skip a beat.</p>
-            <p class="g0 u0">JavaScript animations work differently. Framer Motion, React Spring, and similar libraries use <code class="i5 d6 t6 a7 hb">requestAnimationFrame</code> to update element positions. Each frame, your code runs on the main thread. If the main thread is busy doing other work, your animation waits its turn. Frames get dropped.</p>
+            <p class="g0 u0">CSS animations using <code class="i5 e6 u6 b7 lb">transform</code> and <code class="i5 e6 u6 b7 lb">opacity</code> get promoted to their own compositor layer. The GPU handles them independently from everything else happening on the page. Your JavaScript could be parsing a massive JSON response, and the CSS animation won&#39;t skip a beat.</p>
+            <p class="g0 u0">JavaScript animations work differently. Framer Motion, React Spring, and similar libraries use <code class="i5 e6 u6 b7 lb">requestAnimationFrame</code> to update element positions. Each frame, your code runs on the main thread. If the main thread is busy doing other work, your animation waits its turn. Frames get dropped.</p>
             <demo-showcase data-component="performance-stress-test" data-props="{}" data-frame="{&quot;focusCode&quot;:false,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="g0 u0">Increase the item count and add some artificial load. The CSS side keeps moving at 60fps. The JavaScript side starts stuttering. This isn&#39;t a criticism of Framer Motion. It&#39;s just physics. You can&#39;t run JavaScript off the main thread.</p>
             <p class="g0 u0">The bundle size difference matters too. CSS animations ship with the browser. Framer Motion adds around 30KB to your bundle. That&#39;s not huge, but it&#39;s not nothing either, especially if you&#39;re only using it for a few hover effects.</p>
-            <h2 id="building-a-notification-dot" class="n0 k8 w8 t8 z8">Building a Notification Dot</h2>
+            <h2 id="building-a-notification-dot" class="n0 l8 x8 u8 a9">Building a Notification Dot</h2>
             <p class="g0 u0">Let&#39;s put this into practice. We&#39;ll build a pulsing notification dot that runs forever without draining batteries.</p>
             <demo-showcase data-component="notification-dot" data-props="{}" data-frame="{&quot;focusCode&quot;:true,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default"></demo-showcase>
             <p class="g0 u0">The bad version:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> pulse-bad <span class="z9">{</span></span>
-                  <span class="block m8 g9">  0% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">width</span><span class="z9">:</span> <span class="u9">8px</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">height</span><span class="z9">:</span> <span class="u9">8px</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">box-shadow</span><span class="z9">:</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="r9">rgba</span><span class="z9">(</span><span class="u9">239</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">0.7</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  70% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">width</span><span class="z9">:</span> <span class="u9">12px</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">height</span><span class="z9">:</span> <span class="u9">12px</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">box-shadow</span><span class="z9">:</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">10px</span> <span class="r9">rgba</span><span class="z9">(</span><span class="u9">239</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">0</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  100% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">width</span><span class="z9">:</span> <span class="u9">8px</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">height</span><span class="z9">:</span> <span class="u9">8px</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">box-shadow</span><span class="z9">:</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="r9">rgba</span><span class="z9">(</span><span class="u9">239</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">0</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> pulse-bad <span class="aa">{</span></span>
+                  <span class="block n8 h9">  0% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">width</span><span class="aa">:</span> <span class="v9">8px</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">height</span><span class="aa">:</span> <span class="v9">8px</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">box-shadow</span><span class="aa">:</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="s9">rgba</span><span class="aa">(</span><span class="v9">239</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">0.7</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  70% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">width</span><span class="aa">:</span> <span class="v9">12px</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">height</span><span class="aa">:</span> <span class="v9">12px</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">box-shadow</span><span class="aa">:</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">10px</span> <span class="s9">rgba</span><span class="aa">(</span><span class="v9">239</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">0</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  100% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">width</span><span class="aa">:</span> <span class="v9">8px</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">height</span><span class="aa">:</span> <span class="v9">8px</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">box-shadow</span><span class="aa">:</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="s9">rgba</span><span class="aa">(</span><span class="v9">239</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">0</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Animating <code class="i5 d6 t6 a7 hb">width</code> and <code class="i5 d6 t6 a7 hb">height</code> triggers layout on every frame. The browser recalculates the position of everything around the dot 60 times per second. Forever.</p>
+            <p class="g0 u0">Animating <code class="i5 e6 u6 b7 lb">width</code> and <code class="i5 e6 u6 b7 lb">height</code> triggers layout on every frame. The browser recalculates the position of everything around the dot 60 times per second. Forever.</p>
             <p class="g0 u0">The good version:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@keyframes</span> pulse-good <span class="z9">{</span></span>
-                  <span class="block m8 g9">  0% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">scale</span><span class="z9">(</span><span class="u9">1</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="w9">box-shadow</span><span class="z9">:</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="r9">rgba</span><span class="z9">(</span><span class="u9">239</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">0.7</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  70% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">scale</span><span class="z9">(</span><span class="u9">1.5</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="w9">box-shadow</span><span class="z9">:</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">10px</span> <span class="r9">rgba</span><span class="z9">(</span><span class="u9">239</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">0</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  100% <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">transform</span><span class="z9">:</span> <span class="r9">scale</span><span class="z9">(</span><span class="u9">1</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="w9">box-shadow</span><span class="z9">:</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="u9">0</span> <span class="r9">rgba</span><span class="z9">(</span><span class="u9">239</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">68</span><span class="z9">,</span> <span class="u9">0</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@keyframes</span> pulse-good <span class="aa">{</span></span>
+                  <span class="block n8 h9">  0% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">scale</span><span class="aa">(</span><span class="v9">1</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="x9">box-shadow</span><span class="aa">:</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="s9">rgba</span><span class="aa">(</span><span class="v9">239</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">0.7</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  70% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">scale</span><span class="aa">(</span><span class="v9">1.5</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="x9">box-shadow</span><span class="aa">:</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">10px</span> <span class="s9">rgba</span><span class="aa">(</span><span class="v9">239</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">0</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  100% <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">transform</span><span class="aa">:</span> <span class="s9">scale</span><span class="aa">(</span><span class="v9">1</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="x9">box-shadow</span><span class="aa">:</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="v9">0</span> <span class="s9">rgba</span><span class="aa">(</span><span class="v9">239</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">68</span><span class="aa">,</span> <span class="v9">0</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Same visual effect. <code class="i5 d6 t6 a7 hb">transform: scale()</code> instead of <code class="i5 d6 t6 a7 hb">width</code> and <code class="i5 d6 t6 a7 hb">height</code>. The GPU handles it. Battery life preserved.</p>
+            <p class="g0 u0">Same visual effect. <code class="i5 e6 u6 b7 lb">transform: scale()</code> instead of <code class="i5 e6 u6 b7 lb">width</code> and <code class="i5 e6 u6 b7 lb">height</code>. The GPU handles it. Battery life preserved.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="w9">.notification-dot</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">width</span><span class="z9">:</span> <span class="u9">8px</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="w9">height</span><span class="z9">:</span> <span class="u9">8px</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="w9">background-color</span><span class="z9">:</span> <span class="z9">#</span>ef4444<span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="w9">border-radius</span><span class="z9">:</span> <span class="u9">50%</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="w9">animation</span><span class="z9">:</span> pulse-good <span class="u9">2s</span> <span class="r9">cubic-bezier</span><span class="z9">(</span><span class="u9">0.4</span><span class="z9">,</span> <span class="u9">0</span><span class="z9">,</span> <span class="u9">0.6</span><span class="z9">,</span> <span class="u9">1</span><span class="z9">)</span> <span class="t9">infinite</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="x9">.notification-dot</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">width</span><span class="aa">:</span> <span class="v9">8px</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="x9">height</span><span class="aa">:</span> <span class="v9">8px</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="x9">background-color</span><span class="aa">:</span> <span class="aa">#</span>ef4444<span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="x9">border-radius</span><span class="aa">:</span> <span class="v9">50%</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="x9">animation</span><span class="aa">:</span> pulse-good <span class="v9">2s</span> <span class="s9">cubic-bezier</span><span class="aa">(</span><span class="v9">0.4</span><span class="aa">,</span> <span class="v9">0</span><span class="aa">,</span> <span class="v9">0.6</span><span class="aa">,</span> <span class="v9">1</span><span class="aa">)</span> <span class="u9">infinite</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Run this in Chrome DevTools Performance panel. The good version shows almost no main thread activity. The bad version shows layout calculations on every frame.</p>
-            <h2 id="what-to-animate-in-css" class="n0 k8 w8 t8 z8">What to Animate in CSS</h2>
+            <h2 id="what-to-animate-in-css" class="n0 l8 x8 u8 a9">What to Animate in CSS</h2>
             <p class="g0 u0">A quick reference for choosing the right property.</p>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Want to...</th>
-                  <th class="p5 v5 x6 e7 u7">Use</th>
-                  <th class="p5 v5 x6 e7 u7">Avoid</th>
+                  <th class="p5 w5 y6 f7 v7">Want to...</th>
+                  <th class="p5 w5 y6 f7 v7">Use</th>
+                  <th class="p5 w5 y6 f7 v7">Avoid</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Move something</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">transform: translate()</code></td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">top</code>, <code class="i5 d6 t6 a7 hb">left</code>, <code class="i5 d6 t6 a7 hb">right</code>, <code class="i5 d6 t6 a7 hb">bottom</code>, <code class="i5 d6 t6 a7 hb">margin</code></td>
+                  <td class="p5 w5 y6 f7 v7">Move something</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">transform: translate()</code></td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">top</code>, <code class="i5 e6 u6 b7 lb">left</code>, <code class="i5 e6 u6 b7 lb">right</code>, <code class="i5 e6 u6 b7 lb">bottom</code>, <code class="i5 e6 u6 b7 lb">margin</code></td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Resize something</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">transform: scale()</code></td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">width</code>, <code class="i5 d6 t6 a7 hb">height</code></td>
+                  <td class="p5 w5 y6 f7 v7">Resize something</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">transform: scale()</code></td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">width</code>, <code class="i5 e6 u6 b7 lb">height</code></td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Rotate something</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">transform: rotate()</code></td>
-                  <td class="p5 v5 x6 e7 u7">Nothing to avoid here</td>
+                  <td class="p5 w5 y6 f7 v7">Rotate something</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">transform: rotate()</code></td>
+                  <td class="p5 w5 y6 f7 v7">Nothing to avoid here</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Fade something</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">opacity</code></td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">visibility</code> (can&#39;t transition)</td>
+                  <td class="p5 w5 y6 f7 v7">Fade something</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">opacity</code></td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">visibility</code> (can&#39;t transition)</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Change colors</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">background-color</code>, <code class="i5 d6 t6 a7 hb">color</code></td>
-                  <td class="p5 v5 x6 e7 u7">These are fine but do trigger paint</td>
+                  <td class="p5 w5 y6 f7 v7">Change colors</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">background-color</code>, <code class="i5 e6 u6 b7 lb">color</code></td>
+                  <td class="p5 w5 y6 f7 v7">These are fine but do trigger paint</td>
                 </tr>
               </tbody>
             </table>
-            <p class="g0 u0">The pattern is clear. For spatial changes, always reach for <code class="i5 d6 t6 a7 hb">transform</code>. For visibility, always reach for <code class="i5 d6 t6 a7 hb">opacity</code>.</p>
-            <h2 id="respecting-user-preferences" class="n0 k8 w8 t8 z8">Respecting User Preferences</h2>
+            <p class="g0 u0">The pattern is clear. For spatial changes, always reach for <code class="i5 e6 u6 b7 lb">transform</code>. For visibility, always reach for <code class="i5 e6 u6 b7 lb">opacity</code>.</p>
+            <h2 id="respecting-user-preferences" class="n0 l8 x8 u8 a9">Respecting User Preferences</h2>
             <p class="g0 u0">Not everyone wants animations. Some users experience motion sickness. Others simply prefer reduced motion for focus.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@media</span> <span class="z9">(</span>prefers-reduced-motion<span class="z9">:</span> reduce<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">.notification-dot</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">animation</span><span class="z9">:</span> <span class="t9">none</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@media</span> <span class="aa">(</span>prefers-reduced-motion<span class="aa">:</span> reduce<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">.notification-dot</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">animation</span><span class="aa">:</span> <span class="u9">none</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">For our notification dot, removing the pulse entirely is appropriate. The dot still shows there&#39;s a notification. The animation is decorative, not functional.</p>
             <p class="g0 u0">For animations that communicate state changes, replace movement with instant transitions:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@media</span> <span class="z9">(</span>prefers-reduced-motion<span class="z9">:</span> reduce<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">.modal</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">animation</span><span class="z9">:</span> <span class="t9">none</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">opacity</span><span class="z9">:</span> <span class="u9">1</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@media</span> <span class="aa">(</span>prefers-reduced-motion<span class="aa">:</span> reduce<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">.modal</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">animation</span><span class="aa">:</span> <span class="u9">none</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">opacity</span><span class="aa">:</span> <span class="v9">1</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h2 id="making-the-choice" class="n0 k8 w8 t8 z8">Making the Choice</h2>
+            <h2 id="making-the-choice" class="n0 l8 x8 u8 a9">Making the Choice</h2>
             <p class="g0 u0">After everything we&#39;ve covered, here&#39;s how I think about it.</p>
             <p class="g0 u0"><strong>Reach for CSS when:</strong></p>
             <ul class="g0 u0">
@@ -737,29 +766,29 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ul>
             <p class="g0 u0">Most projects need both. A marketing site might use CSS for scroll-triggered reveals and JavaScript for an interactive product demo. A dashboard might use CSS for loading indicators and JavaScript for drag-and-drop reordering.</p>
             <p class="g0 u0">The worst choice is using the wrong tool because you only know one approach. Learn both. Then pick based on what the interaction actually needs.</p>
-            <h2 id="conclusion" class="n0 k8 w8 t8 z8">Conclusion</h2>
+            <h2 id="conclusion" class="n0 l8 x8 u8 a9">Conclusion</h2>
             <p class="g0 u0">CSS animations are a powerful tool when used correctly. They run on the GPU, stay smooth under load, and add zero bytes to your JavaScript bundle.</p>
-            <p class="g0 u0">The key is knowing what to animate. Stick to <code class="i5 d6 t6 a7 hb">transform</code> and <code class="i5 d6 t6 a7 hb">opacity</code>. Avoid properties that trigger layout. Test with DevTools. Respect reduced motion preferences.</p>
+            <p class="g0 u0">The key is knowing what to animate. Stick to <code class="i5 e6 u6 b7 lb">transform</code> and <code class="i5 e6 u6 b7 lb">opacity</code>. Avoid properties that trigger layout. Test with DevTools. Respect reduced motion preferences.</p>
             <p class="g0 u0">For hover effects, enter animations, and infinite loops, CSS is the right choice. For interruptible state changes, spring physics, and complex sequences, reach for JavaScript.</p>
             <p class="g0 u0">The goal isn&#39;t to animate everything with CSS. It&#39;s to understand when CSS is the right tool and use it well.</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/keyframe-animations/">Choreographing Multi-Step Motion</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/clip-path-reveals/">Invisible Scissors</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/css-transitions/">Smooth Operators</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/keyframe-animations/">Choreographing Multi-Step Motion</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/clip-path-reveals/">Invisible Scissors</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/css-transitions/">Smooth Operators</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/design-engineering/offloading-motion-to-the-gpu.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/design-engineering/offloading-motion-to-the-gpu.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

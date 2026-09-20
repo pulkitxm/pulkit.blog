@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -171,15 +171,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -218,34 +247,34 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">FastAPI SSE: Server-Sent Events in Python</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>FastAPI SSE: Server-Sent Events in Python</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2024-07-26">July 26, 2024</time> · 2 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>FastAPI SSE: Server-Sent Events in Python</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2024-07-26">July 26, 2024</time> · 2 min read</p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">During my recent internship, I faced a task where the server needed to run a long-running process. This couldn&#39;t be done with just a POST request because the task could take up to 15 minutes to complete. So, we needed an alternative for this use case. And yes, you guessed it right, the solution is server-sent events.</p>
-            <h2 id="what-exactly-is-the-server-sent-event" class="n0 k8 w8 t8 z8">What exactly is the server-sent event?</h2>
+            <h2 id="what-exactly-is-the-server-sent-event" class="n0 l8 x8 u8 a9">What exactly is the server-sent event?</h2>
             <p class="g0 u0">It is a standard allowing servers to push updates to the client over a single HTTP connection. This is useful for tasks that take a long time to complete, as it keeps the client informed about the progress without needing to constantly poll the server.</p>
             <p class="g0 u0">SSEs (Server-Sent Events) are essentially a subset of a WebSocket connection. While WebSockets provide a two-way communication channel, SSEs offer a one-way connection from the server to the client. This allows the server to send updates to the client without the client needing to request them repeatedly.</p>
             <p class="g0 u0">Since the client of our app doesn&#39;t need to push any updates to the server for this task, it fits well with the use case.</p>
@@ -254,24 +283,24 @@ globalThis.addEventListener("pagereveal", (event) => {
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/server-sent-events-with-fastapi/987f4d84-ef91-44d1-89e0-e35ad93742ec.webp" alt="Server-Sent Events diagram showing client-server communication" width="1400" height="788" loading="lazy" />
               </a>
             </p>
-            <h2 id="use-cases-for-a-server-sent-events-sse-server" class="n0 k8 w8 t8 z8">Use Cases for a Server-Sent Events (SSE) Server</h2>
+            <h2 id="use-cases-for-a-server-sent-events-sse-server" class="n0 l8 x8 u8 a9">Use Cases for a Server-Sent Events (SSE) Server</h2>
             <p class="g0 u0">Server-Sent Events (SSE) provide a way for servers to push real-time updates to clients over a single HTTP connection. This is particularly useful for applications that require live data updates without the need for constant polling.</p>
             <ol class="g0 u0">
               <li><strong>Real-Time Notifications</strong>: SSE is perfect for sending instant notifications to users, such as updates on social media platforms, email alerts, or system notifications in web applications.</li>
               <li><strong>Live Sports Scores</strong>: Applications that provide live sports updates can use SSE to push real-time scores and game updates to users, ensuring they receive the latest information without delay.</li>
               <li><strong>Stock Market Updates</strong>: Financial applications can leverage SSE to deliver real-time stock market data, keeping users informed about the latest market trends and changes as they happen.</li>
             </ol>
-            <h2 id="basic-fastapi-server-initialization" class="n0 k8 w8 t8 z8">Basic FastAPI Server Initialization</h2>
+            <h2 id="basic-fastapi-server-initialization" class="n0 l8 x8 u8 a9">Basic FastAPI Server Initialization</h2>
             <p class="g0 u0">Follow these steps to create an SSE endpoint, and watch your server push updates to the client with lightning speed and efficiency!</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">python3</span> <span class="x9">-m</span> <span class="x9">venv</span> <span class="x9">venv</span></span>
-                  <span class="block m8 g9"><span class="r9">source</span> <span class="x9">venv/bin/activate</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">python3</span> <span class="y9">-m</span> <span class="y9">venv</span> <span class="y9">venv</span></span>
+                  <span class="block n8 h9"><span class="s9">source</span> <span class="y9">venv/bin/activate</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -280,13 +309,13 @@ globalThis.addEventListener("pagereveal", (event) => {
               </a>
             </p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">pip</span> <span class="x9">install</span> <span class="x9">fastapi</span> <span class="x9">sse-starlette</span> <span class="x9">uvicorn</span> <span class="x9">asyncio</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">pip</span> <span class="y9">install</span> <span class="y9">fastapi</span> <span class="y9">sse-starlette</span> <span class="y9">uvicorn</span> <span class="y9">asyncio</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -296,19 +325,19 @@ globalThis.addEventListener("pagereveal", (event) => {
             </p>
             <p class="g0 u0">Let&#39;s set up a basic FastAPI server.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-python block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">from</span> fastapi <span class="t9">import</span> FastAPI<span class="z9">,</span> Response</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">app<span class="v9">=</span> FastAPI<span class="z9">()</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">@app.get</span><span class="z9">(</span><span class="x9">&quot;/&quot;</span><span class="z9">)</span></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">def</span> <span class="r9">root</span><span class="z9">():</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> <span class="z9">{</span><span class="x9">&quot;message&quot;</span><span class="z9">:</span> <span class="x9">&quot;Hello World&quot;</span><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-python block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">from</span> fastapi <span class="u9">import</span> FastAPI<span class="aa">,</span> Response</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">app<span class="w9">=</span> FastAPI<span class="aa">()</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">@app.get</span><span class="aa">(</span><span class="y9">&quot;/&quot;</span><span class="aa">)</span></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">def</span> <span class="s9">root</span><span class="aa">():</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> <span class="aa">{</span><span class="y9">&quot;message&quot;</span><span class="aa">:</span> <span class="y9">&quot;Hello World&quot;</span><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -317,80 +346,80 @@ globalThis.addEventListener("pagereveal", (event) => {
               </a>
             </p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">uvicorn</span> <span class="x9">main:app</span> <span class="x9">--reload</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">uvicorn</span> <span class="y9">main:app</span> <span class="y9">--reload</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">And the server runs as expected.</p>
-            <h2 id="adding-the-sse-server-sent-events" class="n0 k8 w8 t8 z8">Adding the SSE (Server-Sent Events)</h2>
+            <h2 id="adding-the-sse-server-sent-events" class="n0 l8 x8 u8 a9">Adding the SSE (Server-Sent Events)</h2>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-python block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">from</span> sse_starlette<span class="z9">.</span>sse <span class="t9">import</span> EventSourceResponse</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-python block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">from</span> sse_starlette<span class="aa">.</span>sse <span class="u9">import</span> EventSourceResponse</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Import the <code class="i5 d6 t6 a7 hb">EventSourceResponse</code> from <code class="i5 d6 t6 a7 hb">sse_starlette</code>. The <code class="i5 d6 t6 a7 hb">EventSourceResponse</code> is used to create a Server-Sent Events (SSE) endpoint that can push updates to the client in real-time.</p>
-            <p class="g0 u0"><strong>Note:</strong> For now, I am adding a test <code class="i5 d6 t6 a7 hb">event_generator</code> function that works as a long-running task.</p>
+            <p class="g0 u0">Import the <code class="i5 e6 u6 b7 lb">EventSourceResponse</code> from <code class="i5 e6 u6 b7 lb">sse_starlette</code>. The <code class="i5 e6 u6 b7 lb">EventSourceResponse</code> is used to create a Server-Sent Events (SSE) endpoint that can push updates to the client in real-time.</p>
+            <p class="g0 u0"><strong>Note:</strong> For now, I am adding a test <code class="i5 e6 u6 b7 lb">event_generator</code> function that works as a long-running task.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-python block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">def</span> <span class="r9">event_generator</span><span class="z9">():</span></span>
-                  <span class="block m8 g9">    i<span class="v9">=</span> <span class="u9">1</span></span>
-                  <span class="block m8 g9">    <span class="t9">while</span> i<span class="v9">&lt;=</span><span class="u9">5</span><span class="z9">:</span></span>
-                  <span class="block m8 g9">        <span class="t9">await</span> asyncio<span class="z9">.</span>sleep<span class="z9">(</span><span class="u9">1</span><span class="z9">)</span></span>
-                  <span class="block m8 g9">        i<span class="v9">+=</span><span class="u9">1</span></span>
-                  <span class="block m8 g9">        <span class="t9">yield</span> <span class="z9">{</span><span class="x9">&quot;data&quot;</span><span class="z9">:</span> <span class="x9">&quot;New update&quot;</span><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-python block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">def</span> <span class="s9">event_generator</span><span class="aa">():</span></span>
+                  <span class="block n8 h9">    i<span class="w9">=</span> <span class="v9">1</span></span>
+                  <span class="block n8 h9">    <span class="u9">while</span> i<span class="w9">&lt;=</span><span class="v9">5</span><span class="aa">:</span></span>
+                  <span class="block n8 h9">        <span class="u9">await</span> asyncio<span class="aa">.</span>sleep<span class="aa">(</span><span class="v9">1</span><span class="aa">)</span></span>
+                  <span class="block n8 h9">        i<span class="w9">+=</span><span class="v9">1</span></span>
+                  <span class="block n8 h9">        <span class="u9">yield</span> <span class="aa">{</span><span class="y9">&quot;data&quot;</span><span class="aa">:</span> <span class="y9">&quot;New update&quot;</span><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Just like we return a response with <code class="i5 d6 t6 a7 hb">return {&quot;message&quot;: &quot;Hello World&quot;}</code>, we will now yield updates from our event generator function. This allows the server to push new data to the client continuously.yield is simply a way to send data back to the client without closing the connection.</p>
+            <p class="g0 u0">Just like we return a response with <code class="i5 e6 u6 b7 lb">return {&quot;message&quot;: &quot;Hello World&quot;}</code>, we will now yield updates from our event generator function. This allows the server to push new data to the client continuously.yield is simply a way to send data back to the client without closing the connection.</p>
             <p class="g0 u0">So the final code looks like</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-python block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">from</span> fastapi <span class="t9">import</span> FastAPI<span class="z9">,</span> Response</span>
-                  <span class="block m8 g9"><span class="t9">from</span> sse_starlette<span class="z9">.</span>sse <span class="t9">import</span> EventSourceResponse</span>
-                  <span class="block m8 g9"><span class="t9">import</span> asyncio</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">app <span class="v9">=</span> FastAPI<span class="z9">()</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">@app.get</span><span class="z9">(</span><span class="x9">&quot;/&quot;</span><span class="z9">)</span></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">def</span> <span class="r9">root</span><span class="z9">():</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> <span class="z9">{</span><span class="x9">&quot;message&quot;</span><span class="z9">:</span> <span class="x9">&quot;Hello World&quot;</span><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">@app.get</span><span class="z9">(</span><span class="x9">&quot;/sse&quot;</span><span class="z9">)</span></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">def</span> <span class="r9">sse_endpoint</span><span class="z9">():</span></span>
-                  <span class="block m8 g9">    <span class="t9">async</span> <span class="t9">def</span> <span class="r9">event_generator</span><span class="z9">():</span></span>
-                  <span class="block m8 g9">        i<span class="v9">=</span> <span class="u9">1</span></span>
-                  <span class="block m8 g9">        <span class="t9">while</span> i<span class="v9">&lt;=</span><span class="u9">5</span><span class="z9">:</span></span>
-                  <span class="block m8 g9">            <span class="t9">await</span> asyncio<span class="z9">.</span>sleep<span class="z9">(</span><span class="u9">1</span><span class="z9">)</span></span>
-                  <span class="block m8 g9">            i<span class="v9">+=</span><span class="u9">1</span></span>
-                  <span class="block m8 g9">            <span class="t9">yield</span> <span class="z9">{</span><span class="x9">&quot;data&quot;</span><span class="z9">:</span> <span class="x9">&quot;New update&quot;</span><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> EventSourceResponse<span class="z9">(</span>event_generator<span class="z9">())</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">if</span> __name__ <span class="v9">==</span> <span class="x9">&quot;__main__&quot;</span><span class="z9">:</span></span>
-                  <span class="block m8 g9">    <span class="t9">import</span> uvicorn</span>
-                  <span class="block m8 g9">    uvicorn<span class="z9">.</span>run<span class="z9">(</span>app<span class="z9">,</span> host<span class="v9">=</span><span class="x9">&quot;0.0.0.0&quot;</span><span class="z9">,</span> port<span class="v9">=</span><span class="u9">8000</span><span class="z9">,</span> reload<span class="v9">=</span><span class="t9">True</span><span class="z9">)</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-python block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">from</span> fastapi <span class="u9">import</span> FastAPI<span class="aa">,</span> Response</span>
+                  <span class="block n8 h9"><span class="u9">from</span> sse_starlette<span class="aa">.</span>sse <span class="u9">import</span> EventSourceResponse</span>
+                  <span class="block n8 h9"><span class="u9">import</span> asyncio</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">app <span class="w9">=</span> FastAPI<span class="aa">()</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">@app.get</span><span class="aa">(</span><span class="y9">&quot;/&quot;</span><span class="aa">)</span></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">def</span> <span class="s9">root</span><span class="aa">():</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> <span class="aa">{</span><span class="y9">&quot;message&quot;</span><span class="aa">:</span> <span class="y9">&quot;Hello World&quot;</span><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">@app.get</span><span class="aa">(</span><span class="y9">&quot;/sse&quot;</span><span class="aa">)</span></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">def</span> <span class="s9">sse_endpoint</span><span class="aa">():</span></span>
+                  <span class="block n8 h9">    <span class="u9">async</span> <span class="u9">def</span> <span class="s9">event_generator</span><span class="aa">():</span></span>
+                  <span class="block n8 h9">        i<span class="w9">=</span> <span class="v9">1</span></span>
+                  <span class="block n8 h9">        <span class="u9">while</span> i<span class="w9">&lt;=</span><span class="v9">5</span><span class="aa">:</span></span>
+                  <span class="block n8 h9">            <span class="u9">await</span> asyncio<span class="aa">.</span>sleep<span class="aa">(</span><span class="v9">1</span><span class="aa">)</span></span>
+                  <span class="block n8 h9">            i<span class="w9">+=</span><span class="v9">1</span></span>
+                  <span class="block n8 h9">            <span class="u9">yield</span> <span class="aa">{</span><span class="y9">&quot;data&quot;</span><span class="aa">:</span> <span class="y9">&quot;New update&quot;</span><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> EventSourceResponse<span class="aa">(</span>event_generator<span class="aa">())</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">if</span> __name__ <span class="w9">==</span> <span class="y9">&quot;__main__&quot;</span><span class="aa">:</span></span>
+                  <span class="block n8 h9">    <span class="u9">import</span> uvicorn</span>
+                  <span class="block n8 h9">    uvicorn<span class="aa">.</span>run<span class="aa">(</span>app<span class="aa">,</span> host<span class="w9">=</span><span class="y9">&quot;0.0.0.0&quot;</span><span class="aa">,</span> port<span class="w9">=</span><span class="v9">8000</span><span class="aa">,</span> reload<span class="w9">=</span><span class="u9">True</span><span class="aa">)</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Now if we send a GET request to <code class="i5 d6 t6 a7 hb">http://127.0.0.1:8000/sse</code></p>
+            <p class="g0 u0">Now if we send a GET request to <code class="i5 e6 u6 b7 lb">http://127.0.0.1:8000/sse</code></p>
             <p class="g0 u0">
               <a href="/assets/content/blogs/server-sent-events-with-fastapi/99b548a0-2158-4379-9306-8f6175079f12.webp" class="block" data-media-zoom data-width="1377" data-height="757">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/server-sent-events-with-fastapi/99b548a0-2158-4379-9306-8f6175079f12.webp" alt="Browser showing SSE stream response" width="1377" height="757" loading="lazy" />
@@ -402,26 +431,26 @@ globalThis.addEventListener("pagereveal", (event) => {
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/server-sent-events-with-fastapi/215331ad-97a2-4797-b0cb-647eea17584f.webp" alt="Browser developer tools showing SSE events" width="1079" height="878" loading="lazy" />
               </a>
             </p>
-            <p class="g0 u0">Now if we send a GET request to <a class="o9 ga ia ic" href="http://127.0.0.1:8000/sse">http://127.0.0.1:8000/sse</a>, you will see a stream of updates being sent from the server to the client in real-time, which you can also observe in the developer tools, providing a seamless and efficient way to handle real-time data updates in your application.</p>
+            <p class="g0 u0">Now if we send a GET request to <a class="p9 ha ja oc" href="http://127.0.0.1:8000/sse">http://127.0.0.1:8000/sse</a>, you will see a stream of updates being sent from the server to the client in real-time, which you can also observe in the developer tools, providing a seamless and efficient way to handle real-time data updates in your application.</p>
             <p class="g0 u0">I hope this guide helps you implement Server-Sent Events with FastAPI smoothly. Happy coding! 🚀</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/python-poetry-guide/">Python Dependency Management with Poetry</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/aws-s3-with-nodejs/">AWS S3 with Node.js: Upload Files with SDK v3</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/creating-npx-command/">Creating Your Own npx Command</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/python-poetry-guide/">Python Dependency Management with Poetry</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/aws-s3-with-nodejs/">AWS S3 with Node.js: Upload Files with SDK v3</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/creating-npx-command/">Creating Your Own npx Command</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/sse-with-fastapi.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/sse-with-fastapi.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

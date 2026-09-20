@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -167,15 +167,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -214,49 +243,49 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">Python Dependency Management with Poetry</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Python Dependency Management with Poetry</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2024-07-13">July 13, 2024</time> · 1 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Python Dependency Management with Poetry</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2024-07-13">July 13, 2024</time> · 1 min read</p>
           </header>
-          <div class="c9">
-            <p class="g0 u0">Managing Python dependencies can be hard, especially as projects get bigger. It&#39;s important to have the right packages and versions installed without conflicts. <a class="o9 ga ia ic" href="https://python-poetry.org">Poetry</a> helps with this. It&#39;s a tool that makes managing project dependencies, packaging, and publishing easier. In this article, we&#39;ll show you how to use Poetry to manage Python dependencies, make your workflow smoother, and keep your project setup clean and efficient.</p>
+          <div class="d9">
+            <p class="g0 u0">Managing Python dependencies can be hard, especially as projects get bigger. It&#39;s important to have the right packages and versions installed without conflicts. <a class="p9 ha ja oc" href="https://python-poetry.org">Poetry</a> helps with this. It&#39;s a tool that makes managing project dependencies, packaging, and publishing easier. In this article, we&#39;ll show you how to use Poetry to manage Python dependencies, make your workflow smoother, and keep your project setup clean and efficient.</p>
             <p class="g0 u0">In this blog, you will learn how to:</p>
             <ul class="g0 u0">
               <li>Install Poetry on your system</li>
               <li>Create a new Poetry project</li>
               <li>How to run fastapi server with poetry</li>
             </ul>
-            <h2 id="installing-poetry" class="n0 k8 w8 t8 z8">Installing Poetry</h2>
-            <p class="g0 u0">Reference: <a class="o9 ga ia ic" href="http://python-poetry.org/docs/#installation">python-poetry.org/docs/#installation</a></p>
+            <h2 id="installing-poetry" class="n0 l8 x8 u8 a9">Installing Poetry</h2>
+            <p class="g0 u0">Reference: <a class="p9 ha ja oc" href="http://python-poetry.org/docs/#installation">python-poetry.org/docs/#installation</a></p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-plaintext block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">curl -ssl https://install.python-poetry.org | python3 -</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-plaintext block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">curl -ssl https://install.python-poetry.org | python3 -</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -264,15 +293,15 @@ globalThis.addEventListener("pagereveal", (event) => {
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/c573a7c1-fe3f-4d92-996d-d00a14ca3002.webp" alt="Terminal showing Poetry installation" width="889" height="653" loading="lazy" />
               </a>
             </p>
-            <h2 id="create-a-new-poetry-project" class="n0 k8 w8 t8 z8">Create a new Poetry Project</h2>
+            <h2 id="create-a-new-poetry-project" class="n0 l8 x8 u8 a9">Create a new Poetry Project</h2>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-plaintext block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">poetry new awesome-project</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-plaintext block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">poetry new awesome-project</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">This will create a fresh poetry project with a directory structure like this</p>
@@ -281,41 +310,41 @@ globalThis.addEventListener("pagereveal", (event) => {
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/a24a1098-6c0e-436a-b6d3-baf7e2f21a61.webp" alt="Poetry project directory structure" width="516" height="231" loading="lazy" />
               </a>
             </p>
-            <h3 id="pyproject-toml" class="l0 h8 t8 z8">Pyproject.toml</h3>
-            <p class="g0 u0">Poetry manages all the dependencies with the help of the <code class="i5 d6 t6 a7 hb">pyproject.toml</code>, It is similar to the <code class="i5 d6 t6 a7 hb">package.json</code> in a node project</p>
+            <h3 id="pyproject-toml" class="l0 i8 u8 a9">Pyproject.toml</h3>
+            <p class="g0 u0">Poetry manages all the dependencies with the help of the <code class="i5 e6 u6 b7 lb">pyproject.toml</code>, It is similar to the <code class="i5 e6 u6 b7 lb">package.json</code> in a node project</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-plaintext block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">[tool.poetry]</span>
-                  <span class="block m8 g9">name = &quot;awesome-project&quot;</span>
-                  <span class="block m8 g9">version = &quot;0.1.0&quot;</span>
-                  <span class="block m8 g9">description = &quot;&quot;</span>
-                  <span class="block m8 g9">authors = [&quot;Your Name &lt;you@example.com&gt;&quot;]</span>
-                  <span class="block m8 g9">readme = &quot;README.md&quot;</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">[tool.poetry.dependencies]</span>
-                  <span class="block m8 g9">python = &quot;^3.12&quot;</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">[build-system]</span>
-                  <span class="block m8 g9">requires = [&quot;poetry-core&quot;]</span>
-                  <span class="block m8 g9">build-backend = &quot;poetry.core.masonry.api&quot;</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-plaintext block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">[tool.poetry]</span>
+                  <span class="block n8 h9">name = &quot;awesome-project&quot;</span>
+                  <span class="block n8 h9">version = &quot;0.1.0&quot;</span>
+                  <span class="block n8 h9">description = &quot;&quot;</span>
+                  <span class="block n8 h9">authors = [&quot;Your Name &lt;you@example.com&gt;&quot;]</span>
+                  <span class="block n8 h9">readme = &quot;README.md&quot;</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">[tool.poetry.dependencies]</span>
+                  <span class="block n8 h9">python = &quot;^3.12&quot;</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">[build-system]</span>
+                  <span class="block n8 h9">requires = [&quot;poetry-core&quot;]</span>
+                  <span class="block n8 h9">build-backend = &quot;poetry.core.masonry.api&quot;</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="activate-a-virtual-environment" class="l0 h8 t8 z8">Activate a virtual environment</h3>
-            <p class="g0 u0">You can list all the <a class="o9 ga ia ic" href="https://docs.python.org/3/tutorial/venv.html">virtual environments</a> available in poetry</p>
+            <h3 id="activate-a-virtual-environment" class="l0 i8 u8 a9">Activate a virtual environment</h3>
+            <p class="g0 u0">You can list all the <a class="p9 ha ja oc" href="https://docs.python.org/3/tutorial/venv.html">virtual environments</a> available in poetry</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-plaintext block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">poetry shell</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-plaintext block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">poetry shell</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -323,16 +352,16 @@ globalThis.addEventListener("pagereveal", (event) => {
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/simplifying-python-dependency-management-with-poetry/e4b5b000-b3fb-40ce-8a69-f448b49400c8.webp" alt="Terminal showing Poetry shell activation" width="1335" height="322" loading="lazy" />
               </a>
             </p>
-            <h2 id="let-s-make-a-simple-hello-world-fastapi-server" class="n0 k8 w8 t8 z8">Let&#39;s make a simple hello world FastAPI Server</h2>
-            <h3 id="adding-fastapi-and-uvicorn-as-dependencies" class="l0 h8 t8 z8">Adding fastapi and uvicorn as dependencies</h3>
+            <h2 id="let-s-make-a-simple-hello-world-fastapi-server" class="n0 l8 x8 u8 a9">Let&#39;s make a simple hello world FastAPI Server</h2>
+            <h3 id="adding-fastapi-and-uvicorn-as-dependencies" class="l0 i8 u8 a9">Adding fastapi and uvicorn as dependencies</h3>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-plaintext block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">poetry add fastapi uvicorn</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-plaintext block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">poetry add fastapi uvicorn</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -348,19 +377,19 @@ globalThis.addEventListener("pagereveal", (event) => {
             </p>
             <p class="g0 u0">Write a basic fastapi server</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-python block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">from</span> fastapi <span class="t9">import</span> FastAPI</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">app <span class="v9">=</span> FastAPI<span class="z9">()</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">@app.get</span><span class="z9">(</span><span class="x9">&quot;/&quot;</span><span class="z9">)</span></span>
-                  <span class="block m8 g9"><span class="t9">def</span> <span class="r9">read_root</span><span class="z9">():</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> <span class="z9">{</span><span class="x9">&quot;message&quot;</span><span class="z9">:</span> <span class="x9">&quot;Hello, World!&quot;</span><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-python block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">from</span> fastapi <span class="u9">import</span> FastAPI</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">app <span class="w9">=</span> FastAPI<span class="aa">()</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">@app.get</span><span class="aa">(</span><span class="y9">&quot;/&quot;</span><span class="aa">)</span></span>
+                  <span class="block n8 h9"><span class="u9">def</span> <span class="s9">read_root</span><span class="aa">():</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> <span class="aa">{</span><span class="y9">&quot;message&quot;</span><span class="aa">:</span> <span class="y9">&quot;Hello, World!&quot;</span><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -370,13 +399,13 @@ globalThis.addEventListener("pagereveal", (event) => {
             </p>
             <p class="g0 u0">To run the server lets start by using the following command</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-plaintext block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">poetry run uvicorn main:app --reload</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-plaintext block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">poetry run uvicorn main:app --reload</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">
@@ -393,22 +422,22 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0">By following the steps outlined in this article, you can effectively manage your Python dependencies using Poetry. This powerful tool not only simplifies dependency management but also enhances your workflow, ensuring that your projects remain clean, efficient, and free from conflicts. Whether you&#39;re starting a new project or maintaining an existing one, Poetry provides the structure and reliability needed to keep your development process smooth and hassle-free. Happy coding!</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/sse-with-fastapi/">FastAPI SSE: Server-Sent Events in Python</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/aws-s3-with-nodejs/">AWS S3 with Node.js: Upload Files with SDK v3</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/creating-npx-command/">Creating Your Own npx Command</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/sse-with-fastapi/">FastAPI SSE: Server-Sent Events in Python</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/aws-s3-with-nodejs/">AWS S3 with Node.js: Upload Files with SDK v3</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/creating-npx-command/">Creating Your Own npx Command</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/python-poetry-guide.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/python-poetry-guide.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

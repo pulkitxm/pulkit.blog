@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -170,15 +170,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -217,42 +246,42 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">Scroll Indicator with Framer Motion useScroll</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Scroll Indicator with Framer Motion useScroll</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2024-07-24">July 24, 2024</time> · 2 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Scroll Indicator with Framer Motion useScroll</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2024-07-24">July 24, 2024</time> · 2 min read</p>
           </header>
-          <div class="c9">
-            <h2 id="the-idea" class="n0 k8 w8 t8 z8">The Idea</h2>
-            <p class="g0 u0">Creating a visually appealing and functional portfolio website is essential for showcasing your skills and projects. I recently explored website designs from popular examples for my portfolio (<a class="o9 ga ia ic" href="https://pulkitxm.com">pulkitxm.com</a>) and found one animation that really excites me: the horizontal scroll percentage indicator. It is useful for tracking how much of the webpage you have scrolled.</p>
-            <h2 id="the-concept" class="n0 k8 w8 t8 z8">The concept</h2>
+          <div class="d9">
+            <h2 id="the-idea" class="n0 l8 x8 u8 a9">The Idea</h2>
+            <p class="g0 u0">Creating a visually appealing and functional portfolio website is essential for showcasing your skills and projects. I recently explored website designs from popular examples for my portfolio (<a class="p9 ha ja oc" href="https://pulkitxm.com">pulkitxm.com</a>) and found one animation that really excites me: the horizontal scroll percentage indicator. It is useful for tracking how much of the webpage you have scrolled.</p>
+            <h2 id="the-concept" class="n0 l8 x8 u8 a9">The concept</h2>
             <p class="g0 u0">
               <a href="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp" class="block" data-media-zoom data-width="1600" data-height="817">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/creating-a-dynamic-horizontal-scroll-percentage-indicator-with-react-and-framer-motion/a1036438-6dac-4c32-bcf3-78d877cd2de8.webp" alt="Horizontal scroll indicator at top of webpage" width="1600" height="817" loading="lazy" />
               </a>
             </p>
             <p class="g0 u0">As you can see here, it basically sits at the top of the webpage, and yes, it is as minimalist as it looks.</p>
-            <h2 id="the-implementation" class="n0 k8 w8 t8 z8">The Implementation</h2>
+            <h2 id="the-implementation" class="n0 l8 x8 u8 a9">The Implementation</h2>
             <p class="g0 u0">In this article, we&#39;ll implement this using React and Framer Motion.</p>
             <p class="g0 u0">I have my react project bootstrapped, starting by installing</p>
             <p class="g0 u0">
@@ -261,168 +290,168 @@ globalThis.addEventListener("pagereveal", (event) => {
               </a>
             </p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">pnpm</span> <span class="x9">add</span> <span class="x9">framer-motion</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">pnpm</span> <span class="y9">add</span> <span class="y9">framer-motion</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">To get a good viewport to observe the scroll effect, I am adding a test height.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-jsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">default</span> <span class="t9">function</span> <span class="r9">App</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;</span><span class="s9">main</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">div</span></span>
-                  <span class="block m8 g9">        <span class="w9">style</span><span class="v9">=</span><span class="z9">{{</span></span>
-                  <span class="block m8 g9">          <span class="w9">height:</span> <span class="x9">&quot;300vh&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="z9">}}</span></span>
-                  <span class="block m8 g9">      <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;/</span><span class="s9">main</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">  <span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-jsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">default</span> <span class="u9">function</span> <span class="s9">App</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;</span><span class="t9">main</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">div</span></span>
+                  <span class="block n8 h9">        <span class="x9">style</span><span class="w9">=</span><span class="aa">{{</span></span>
+                  <span class="block n8 h9">          <span class="x9">height:</span> <span class="y9">&quot;300vh&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="aa">}}</span></span>
+                  <span class="block n8 h9">      <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;/</span><span class="t9">main</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">  <span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Now let&#39;s add the main div that&#39;s gonna act like the scroll indicator</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-jsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> motion <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;framer-motion&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">default</span> <span class="t9">function</span> <span class="r9">App</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;</span><span class="s9">main</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">motion.div</span></span>
-                  <span class="block m8 g9">        <span class="w9">style</span><span class="v9">=</span><span class="z9">{{</span></span>
-                  <span class="block m8 g9">          <span class="w9">position:</span> <span class="x9">&quot;fixed&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">top:</span> <span class="u9">0</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">left:</span> <span class="u9">0</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">width:</span> <span class="x9">&quot;20vw&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">height:</span> <span class="x9">&quot;10px&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">backgroundColor:</span> <span class="x9">&quot;black&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">borderRadius:</span> <span class="x9">&quot;0 10px 10px 0&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="z9">}}</span></span>
-                  <span class="block m8 g9">      <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">div</span></span>
-                  <span class="block m8 g9">        <span class="w9">style</span><span class="v9">=</span><span class="z9">{{</span></span>
-                  <span class="block m8 g9">          <span class="w9">height:</span> <span class="x9">&quot;300vh&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="z9">}}</span></span>
-                  <span class="block m8 g9">      <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;/</span><span class="s9">main</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">  <span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-jsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> motion <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;framer-motion&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">default</span> <span class="u9">function</span> <span class="s9">App</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;</span><span class="t9">main</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">motion.div</span></span>
+                  <span class="block n8 h9">        <span class="x9">style</span><span class="w9">=</span><span class="aa">{{</span></span>
+                  <span class="block n8 h9">          <span class="x9">position:</span> <span class="y9">&quot;fixed&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">top:</span> <span class="v9">0</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">left:</span> <span class="v9">0</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">width:</span> <span class="y9">&quot;20vw&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">height:</span> <span class="y9">&quot;10px&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">backgroundColor:</span> <span class="y9">&quot;black&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">borderRadius:</span> <span class="y9">&quot;0 10px 10px 0&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="aa">}}</span></span>
+                  <span class="block n8 h9">      <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">div</span></span>
+                  <span class="block n8 h9">        <span class="x9">style</span><span class="w9">=</span><span class="aa">{{</span></span>
+                  <span class="block n8 h9">          <span class="x9">height:</span> <span class="y9">&quot;300vh&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="aa">}}</span></span>
+                  <span class="block n8 h9">      <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;/</span><span class="t9">main</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">  <span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">You can read more about <a class="o9 ga ia ic" href="https://www.framer.com/motion/introduction/#:~:text=%23-,The%20%3Cmotion%20/%3E%20component,-The%20core%20of"><strong>The &lt;motion /&gt; component</strong></a>, but in a nutshell, it is a component from Framer Motion that allows you to animate elements in a simple and declarative way.</p>
+            <p class="g0 u0">You can read more about <a class="p9 ha ja oc" href="https://www.framer.com/motion/introduction/#:~:text=%23-,The%20%3Cmotion%20/%3E%20component,-The%20core%20of"><strong>The &lt;motion /&gt; component</strong></a>, but in a nutshell, it is a component from Framer Motion that allows you to animate elements in a simple and declarative way.</p>
             <p class="g0 u0">And the styles are simple. The element is fixed at the top left of the screen, with a width of 0 (the main property that will act like a slider) and a height of 10 pixels. It has a black background and rounded corners on the right side.</p>
-            <p class="g0 u0">Now let&#39;s animate it to move when we scroll. We&#39;ll use the <code class="i5 d6 t6 a7 hb">useScroll()</code> hook from framer-motion.</p>
+            <p class="g0 u0">Now let&#39;s animate it to move when we scroll. We&#39;ll use the <code class="i5 e6 u6 b7 lb">useScroll()</code> hook from framer-motion.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-jsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> useScroll <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;framer-motion&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="z9">{</span> scrollYProgress <span class="z9">}</span> <span class="v9">=</span> <span class="r9">useScroll</span><span class="z9">();</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-jsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> useScroll <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;framer-motion&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="aa">{</span> scrollYProgress <span class="aa">}</span> <span class="w9">=</span> <span class="s9">useScroll</span><span class="aa">();</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Now, to animate the changing values received from <code class="i5 d6 t6 a7 hb">scrollYProgress</code>, we will use the <code class="i5 d6 t6 a7 hb">useTransform</code> hook from framer-motion.</p>
+            <p class="g0 u0">Now, to animate the changing values received from <code class="i5 e6 u6 b7 lb">scrollYProgress</code>, we will use the <code class="i5 e6 u6 b7 lb">useTransform</code> hook from framer-motion.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-jsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> width <span class="v9">=</span> <span class="r9">useTransform</span><span class="z9">(</span>scrollYProgress<span class="z9">,</span> <span class="z9">[</span><span class="u9">0</span><span class="z9">,</span> <span class="u9">1</span><span class="z9">],</span> <span class="z9">[</span><span class="x9">&quot;0%&quot;</span><span class="z9">,</span> <span class="x9">&quot;100%&quot;</span><span class="z9">]);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-jsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> width <span class="w9">=</span> <span class="s9">useTransform</span><span class="aa">(</span>scrollYProgress<span class="aa">,</span> <span class="aa">[</span><span class="v9">0</span><span class="aa">,</span> <span class="v9">1</span><span class="aa">],</span> <span class="aa">[</span><span class="y9">&quot;0%&quot;</span><span class="aa">,</span> <span class="y9">&quot;100%&quot;</span><span class="aa">]);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Here, the width will provide an animated value based on <code class="i5 d6 t6 a7 hb">scrollYProgress</code>. As you scroll from the top to the bottom of the page, the width changes from &quot;0%&quot; to &quot;100%&quot;. This is done by mapping the <code class="i5 d6 t6 a7 hb">scrollYProgress</code> values (which range from 0 to 1) to the corresponding width values.</p>
+            <p class="g0 u0">Here, the width will provide an animated value based on <code class="i5 e6 u6 b7 lb">scrollYProgress</code>. As you scroll from the top to the bottom of the page, the width changes from &quot;0%&quot; to &quot;100%&quot;. This is done by mapping the <code class="i5 e6 u6 b7 lb">scrollYProgress</code> values (which range from 0 to 1) to the corresponding width values.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-jsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> motion<span class="z9">,</span> useScroll<span class="z9">,</span> useTransform <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;framer-motion&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">default</span> <span class="t9">function</span> <span class="r9">App</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">{</span> scrollYProgress <span class="z9">}</span> <span class="v9">=</span> <span class="r9">useScroll</span><span class="z9">();</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> width <span class="v9">=</span> <span class="r9">useTransform</span><span class="z9">(</span>scrollYProgress<span class="z9">,</span> <span class="z9">[</span><span class="u9">0</span><span class="z9">,</span> <span class="u9">1</span><span class="z9">],</span> <span class="z9">[</span><span class="x9">&quot;0%&quot;</span><span class="z9">,</span> <span class="x9">&quot;102%&quot;</span><span class="z9">]);</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;</span><span class="s9">main</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">motion.div</span></span>
-                  <span class="block m8 g9">        <span class="w9">style</span><span class="v9">=</span><span class="z9">{{</span></span>
-                  <span class="block m8 g9">          <span class="w9">position:</span> <span class="x9">&quot;fixed&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">top:</span> <span class="u9">0</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">left:</span> <span class="u9">0</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">height:</span> <span class="x9">&quot;10px&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">backgroundColor:</span> <span class="x9">&quot;black&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">borderRadius:</span> <span class="x9">&quot;0 10px 10px 0&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          width<span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="z9">}}</span></span>
-                  <span class="block m8 g9">      <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">div</span></span>
-                  <span class="block m8 g9">        <span class="w9">style</span><span class="v9">=</span><span class="z9">{{</span></span>
-                  <span class="block m8 g9">          <span class="w9">height:</span> <span class="x9">&quot;300vh&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="z9">}}</span></span>
-                  <span class="block m8 g9">      <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;/</span><span class="s9">main</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">  <span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-jsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> motion<span class="aa">,</span> useScroll<span class="aa">,</span> useTransform <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;framer-motion&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">default</span> <span class="u9">function</span> <span class="s9">App</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">{</span> scrollYProgress <span class="aa">}</span> <span class="w9">=</span> <span class="s9">useScroll</span><span class="aa">();</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> width <span class="w9">=</span> <span class="s9">useTransform</span><span class="aa">(</span>scrollYProgress<span class="aa">,</span> <span class="aa">[</span><span class="v9">0</span><span class="aa">,</span> <span class="v9">1</span><span class="aa">],</span> <span class="aa">[</span><span class="y9">&quot;0%&quot;</span><span class="aa">,</span> <span class="y9">&quot;102%&quot;</span><span class="aa">]);</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;</span><span class="t9">main</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">motion.div</span></span>
+                  <span class="block n8 h9">        <span class="x9">style</span><span class="w9">=</span><span class="aa">{{</span></span>
+                  <span class="block n8 h9">          <span class="x9">position:</span> <span class="y9">&quot;fixed&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">top:</span> <span class="v9">0</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">left:</span> <span class="v9">0</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">height:</span> <span class="y9">&quot;10px&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">backgroundColor:</span> <span class="y9">&quot;black&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">borderRadius:</span> <span class="y9">&quot;0 10px 10px 0&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          width<span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="aa">}}</span></span>
+                  <span class="block n8 h9">      <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">div</span></span>
+                  <span class="block n8 h9">        <span class="x9">style</span><span class="w9">=</span><span class="aa">{{</span></span>
+                  <span class="block n8 h9">          <span class="x9">height:</span> <span class="y9">&quot;300vh&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="aa">}}</span></span>
+                  <span class="block n8 h9">      <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;/</span><span class="t9">main</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">  <span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">So, we use the width as a style prop for the <code class="i5 d6 t6 a7 hb">motion.div</code>. And that&#39;s pretty much it for animating the scroll indicator.</p>
-            <h2 id="the-output" class="n0 k8 w8 t8 z8">The Output</h2>
-            <div class="e g0 u0 block y1 p2 w4 rounded k5 v5 d6" data-frame-facade data-frame-src="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" data-frame-title="Scroll indicator demo with Framer Motion" data-frame-class="d f s1 l5" data-frame-sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts">
-              <div class="d f e1 x3 a4 d4 k4 d6 s6 t7 cg" data-frame-panel="offer">
-                <button type="button" class="h1 l3 a4 d4 h5 k5 v5 b6 y6 d7 v8 k9 i8 cc sc tc" data-frame-run aria-describedby="frame-note-2">Run this sandbox</button>
-                <p id="frame-note-2" class="w s2 a9 p9 j8">Runs codesandbox.io in an embedded frame, which loads third-party code and cookies.</p>
-                <a class="p9 l8 ia gc" href="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" target="_blank" rel="noopener noreferrer">Open on codesandbox.io</a>
+            <p class="g0 u0">So, we use the width as a style prop for the <code class="i5 e6 u6 b7 lb">motion.div</code>. And that&#39;s pretty much it for animating the scroll indicator.</p>
+            <h2 id="the-output" class="n0 l8 x8 u8 a9">The Output</h2>
+            <div class="e g0 u0 block y1 p2 w4 rounded k5 w5 e6" data-frame-facade data-frame-src="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" data-frame-title="Scroll indicator demo with Framer Motion" data-frame-class="d f s1 l5" data-frame-sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts">
+              <div class="d f e1 x3 a4 d4 k4 e6 t6 u7 kg" data-frame-panel="offer">
+                <button type="button" class="h1 l3 a4 d4 h5 k5 w5 c6 z6 e7 w8 l9 j8 ic yc zc" data-frame-run aria-describedby="frame-note-2">Run this sandbox</button>
+                <p id="frame-note-2" class="w s2 b9 q9 k8">Runs codesandbox.io in an embedded frame, which loads third-party code and cookies.</p>
+                <a class="q9 m8 ja mc" href="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" target="_blank" rel="noopener noreferrer">Open on codesandbox.io</a>
               </div>
-              <div class="d f e1 x3 a4 d4 k4 d6 s6 t7 cg" data-frame-panel="loading" hidden>
-                <p class="w s2 a9 p9 j8" role="status">Loading the sandbox...</p>
+              <div class="d f e1 x3 a4 d4 k4 e6 t6 u7 kg" data-frame-panel="loading" hidden>
+                <p class="w s2 b9 q9 k8" role="status">Loading the sandbox...</p>
               </div>
-              <div class="d f e1 x3 a4 d4 k4 d6 s6 t7 cg" data-frame-panel="error" hidden>
-                <p class="w s2 a9 p9 j8" role="alert">This sandbox could not be loaded.</p>
-                <button type="button" class="h1 l3 a4 d4 h5 k5 v5 b6 y6 d7 v8 k9 i8 cc sc tc" data-frame-run>Try again</button>
-                <a class="p9 l8 ia gc" href="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" target="_blank" rel="noopener noreferrer">Open on codesandbox.io</a>
+              <div class="d f e1 x3 a4 d4 k4 e6 t6 u7 kg" data-frame-panel="error" hidden>
+                <p class="w s2 b9 q9 k8" role="alert">This sandbox could not be loaded.</p>
+                <button type="button" class="h1 l3 a4 d4 h5 k5 w5 c6 z6 e7 w8 l9 j8 ic yc zc" data-frame-run>Try again</button>
+                <a class="q9 m8 ja mc" href="https://codesandbox.io/embed/6vzzk4?view=preview&amp;module=%2Fsrc%2FApp.tsx" target="_blank" rel="noopener noreferrer">Open on codesandbox.io</a>
               </div>
             </div>
             <p class="g0 u0">And there you have it! You&#39;ve just created a sleek horizontal scroll percentage indicator with React and Framer Motion. Now your portfolio site is not only functional but also has that extra touch of interactivity. Happy coding, and may your scrolls always be smooth! 🚀✨</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/context-menu-in-react/">React Context Menu with react-contexify</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/image-gallery-with-photoswipe/">React Image Gallery with PhotoSwipe</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/typewriter-effect-in-react/">Typewriter Effect in React</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/context-menu-in-react/">React Context Menu with react-contexify</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/image-gallery-with-photoswipe/">React Image Gallery with PhotoSwipe</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/typewriter-effect-in-react/">Typewriter Effect in React</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/scroll-indicator-with-framer.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/scroll-indicator-with-framer.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

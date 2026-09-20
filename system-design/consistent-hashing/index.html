@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -173,15 +173,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -220,21 +249,21 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li><a href="/system-design/">System Design</a></li>
             <li aria-current="page">Consistent Hashing</li>
@@ -242,14 +271,14 @@ globalThis.addEventListener("pagereveal", (event) => {
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Consistent Hashing</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-01-24">January 24, 2026</time> · 10 min read · <a class="o9 ga ia ic" href="/system-design/">System Design</a></p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Consistent Hashing</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-01-24">January 24, 2026</time> · 10 min read · <a class="p9 ha ja oc" href="/system-design/">System Design</a></p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">Consistent hashing is one of the most popular algorithms in distributed systems. It helps you answer one question: <strong>Who owns this data?</strong></p>
             <p class="g0 u0">That&#39;s it. Data ownership. Nothing else.</p>
-            <h2 id="tl-dr" class="n0 k8 w8 t8 z8">TL;DR</h2>
+            <h2 id="tl-dr" class="n0 l8 x8 u8 a9">TL;DR</h2>
             <ul class="g0 u0">
               <li><strong>Consistent hashing</strong> solves the data ownership problem: which node owns which key?</li>
               <li><strong>Hash-based routing</strong> works fine for stateless backends (load balancer + API servers)</li>
@@ -262,7 +291,7 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li><strong>Simple implementation</strong>: A sorted array and binary search</li>
               <li><strong>Real-world use</strong>: DynamoDB, Cassandra, BitTorrent, Akamai, distributed caches</li>
             </ul>
-            <h2 id="hash-based-routing" class="n0 k8 w8 t8 z8">Hash-Based Routing</h2>
+            <h2 id="hash-based-routing" class="n0 l8 x8 u8 a9">Hash-Based Routing</h2>
             <p class="g0 u0">Before we understand consistent hashing, let&#39;s see why we need it.</p>
             <p class="g0 u0">Say we have a load balancer with three backend servers. When a user request comes in, how does the load balancer decide which server to forward it to?</p>
             <p class="g0 u0">One popular approach: <strong>hash-based routing</strong>.</p>
@@ -272,151 +301,151 @@ globalThis.addEventListener("pagereveal", (event) => {
               </a>
             </p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">routeRequest</span><span class="z9">(</span>userId<span class="v9">:</span> <span class="y9">string</span><span class="z9">,</span> serverCount<span class="v9">:</span> <span class="y9">number</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">number</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> hash <span class="v9">=</span> <span class="r9">sha256</span><span class="z9">(</span>userId<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> serverIndex <span class="v9">=</span> hash <span class="v9">%</span> serverCount<span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> serverIndex<span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> server <span class="v9">=</span> <span class="r9">routeRequest</span><span class="z9">(</span><span class="x9">&quot;user_123&quot;</span><span class="z9">,</span> <span class="u9">3</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">routeRequest</span><span class="aa">(</span>userId<span class="w9">:</span> <span class="z9">string</span><span class="aa">,</span> serverCount<span class="w9">:</span> <span class="z9">number</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">number</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> hash <span class="w9">=</span> <span class="s9">sha256</span><span class="aa">(</span>userId<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> serverIndex <span class="w9">=</span> hash <span class="w9">%</span> serverCount<span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> serverIndex<span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> server <span class="w9">=</span> <span class="s9">routeRequest</span><span class="aa">(</span><span class="y9">&quot;user_123&quot;</span><span class="aa">,</span> <span class="v9">3</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">You take the user ID (or request ID, or IP address), pass it through a hash function like SHA-256 or SHA-128, take the modulo by the number of servers, and you get a server index: 0, 1, or 2.</p>
             <p class="g0 u0">When a request comes in, the load balancer extracts the user information, passes it through the hash function, gets the value, does the mod, and forwards the request.</p>
-            <h3 id="server-failure" class="l0 h8 t8 z8">Server Failure</h3>
+            <h3 id="server-failure" class="l0 i8 u8 a9">Server Failure</h3>
             <p class="g0 u0">Let&#39;s say you&#39;re overprovisioned. Traffic dropped, so you want to remove one server. What happens?</p>
-            <p class="g0 u0">The hash function changes from <code class="i5 d6 t6 a7 hb">mod 3</code> to <code class="i5 d6 t6 a7 hb">mod 2</code>.</p>
+            <p class="g0 u0">The hash function changes from <code class="i5 e6 u6 b7 lb">mod 3</code> to <code class="i5 e6 u6 b7 lb">mod 2</code>.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> server <span class="v9">=</span> <span class="r9">routeRequest</span><span class="z9">(</span><span class="x9">&quot;user_123&quot;</span><span class="z9">,</span> <span class="u9">2</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> server <span class="w9">=</span> <span class="s9">routeRequest</span><span class="aa">(</span><span class="y9">&quot;user_123&quot;</span><span class="aa">,</span> <span class="v9">2</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">The next request that comes in gets routed correctly. No problem.</p>
             <p class="g0 u0">Why? Because the <strong>backend servers are stateless</strong>. Every server is equally capable of handling any request. It doesn&#39;t matter which server the request goes to, they all can handle it.</p>
             <p class="g0 u0">This is why hash-based routing is one of the most common ways of routing for stateless backends. Load balancer + API servers. Round robin works too, but hash-based is more common.</p>
-            <h2 id="stateful-backends" class="n0 k8 w8 t8 z8">Stateful Backends</h2>
+            <h2 id="stateful-backends" class="n0 l8 x8 u8 a9">Stateful Backends</h2>
             <p class="g0 u0">Now, what happens when we have something stateful? Like distributed storage?</p>
             <p class="g0 u0">Instead of stateless API servers, let&#39;s say you have storage nodes. A distributed key-value store. Given a key, store the value. Given a key, get the value.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">getStorageNode</span><span class="z9">(</span>key<span class="v9">:</span> <span class="y9">string</span><span class="z9">,</span> nodeCount<span class="v9">:</span> <span class="y9">number</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">number</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> hash <span class="v9">=</span> <span class="r9">sha256</span><span class="z9">(</span>key<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> hash <span class="v9">%</span> nodeCount<span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">await</span> <span class="r9">storeKey</span><span class="z9">(</span><span class="x9">&quot;k1&quot;</span><span class="z9">,</span> <span class="x9">&quot;value1&quot;</span><span class="z9">,</span> <span class="r9">getStorageNode</span><span class="z9">(</span><span class="x9">&quot;k1&quot;</span><span class="z9">,</span> <span class="u9">3</span><span class="z9">));</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">getStorageNode</span><span class="aa">(</span>key<span class="w9">:</span> <span class="z9">string</span><span class="aa">,</span> nodeCount<span class="w9">:</span> <span class="z9">number</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">number</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> hash <span class="w9">=</span> <span class="s9">sha256</span><span class="aa">(</span>key<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> hash <span class="w9">%</span> nodeCount<span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">await</span> <span class="s9">storeKey</span><span class="aa">(</span><span class="y9">&quot;k1&quot;</span><span class="aa">,</span> <span class="y9">&quot;value1&quot;</span><span class="aa">,</span> <span class="s9">getStorageNode</span><span class="aa">(</span><span class="y9">&quot;k1&quot;</span><span class="aa">,</span> <span class="v9">3</span><span class="aa">));</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">The proxy uses hash-based routing to route requests to the corresponding storage node.</p>
             <p class="g0 u0">Let&#39;s say we have 6 keys distributed across 3 nodes:</p>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Key</th>
-                  <th class="p5 v5 x6 e7 u7">Hash % 3</th>
-                  <th class="p5 v5 x6 e7 u7">Node</th>
+                  <th class="p5 w5 y6 f7 v7">Key</th>
+                  <th class="p5 w5 y6 f7 v7">Hash % 3</th>
+                  <th class="p5 w5 y6 f7 v7">Node</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k1</td>
-                  <td class="p5 v5 x6 e7 u7">2</td>
-                  <td class="p5 v5 x6 e7 u7">node 2</td>
+                  <td class="p5 w5 y6 f7 v7">k1</td>
+                  <td class="p5 w5 y6 f7 v7">2</td>
+                  <td class="p5 w5 y6 f7 v7">node 2</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k2</td>
-                  <td class="p5 v5 x6 e7 u7">0</td>
-                  <td class="p5 v5 x6 e7 u7">node 0</td>
+                  <td class="p5 w5 y6 f7 v7">k2</td>
+                  <td class="p5 w5 y6 f7 v7">0</td>
+                  <td class="p5 w5 y6 f7 v7">node 0</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k3</td>
-                  <td class="p5 v5 x6 e7 u7">1</td>
-                  <td class="p5 v5 x6 e7 u7">node 1</td>
+                  <td class="p5 w5 y6 f7 v7">k3</td>
+                  <td class="p5 w5 y6 f7 v7">1</td>
+                  <td class="p5 w5 y6 f7 v7">node 1</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k4</td>
-                  <td class="p5 v5 x6 e7 u7">2</td>
-                  <td class="p5 v5 x6 e7 u7">node 2</td>
+                  <td class="p5 w5 y6 f7 v7">k4</td>
+                  <td class="p5 w5 y6 f7 v7">2</td>
+                  <td class="p5 w5 y6 f7 v7">node 2</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k5</td>
-                  <td class="p5 v5 x6 e7 u7">1</td>
-                  <td class="p5 v5 x6 e7 u7">node 1</td>
+                  <td class="p5 w5 y6 f7 v7">k5</td>
+                  <td class="p5 w5 y6 f7 v7">1</td>
+                  <td class="p5 w5 y6 f7 v7">node 1</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k6</td>
-                  <td class="p5 v5 x6 e7 u7">0</td>
-                  <td class="p5 v5 x6 e7 u7">node 0</td>
+                  <td class="p5 w5 y6 f7 v7">k6</td>
+                  <td class="p5 w5 y6 f7 v7">0</td>
+                  <td class="p5 w5 y6 f7 v7">node 0</td>
                 </tr>
               </tbody>
             </table>
             <p class="g0 u0">Now node 0 owns k2 and k6. Node 1 owns k3 and k5. Node 2 owns k1 and k4.</p>
             <p class="g0 u0">The proxy knows: all requests for k3 and k5 always go to node 1. All requests for k1 and k4 always go to node 2. <strong>Statefulness maintained.</strong></p>
             <p class="g0 u0">But what if you need to remove node 2?</p>
-            <h3 id="rehashing-problem" class="l0 h8 t8 z8">Rehashing Problem</h3>
-            <p class="g0 u0">When you remove a node, your hash function changes from <code class="i5 d6 t6 a7 hb">mod 3</code> to <code class="i5 d6 t6 a7 hb">mod 2</code>. Suddenly, the mapping changes dramatically.</p>
+            <h3 id="rehashing-problem" class="l0 i8 u8 a9">Rehashing Problem</h3>
+            <p class="g0 u0">When you remove a node, your hash function changes from <code class="i5 e6 u6 b7 lb">mod 3</code> to <code class="i5 e6 u6 b7 lb">mod 2</code>. Suddenly, the mapping changes dramatically.</p>
             <p class="g0 u0">Let&#39;s recalculate:</p>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Key</th>
-                  <th class="p5 v5 x6 e7 u7">Old (% 3)</th>
-                  <th class="p5 v5 x6 e7 u7">New (% 2)</th>
-                  <th class="p5 v5 x6 e7 u7">Moved?</th>
+                  <th class="p5 w5 y6 f7 v7">Key</th>
+                  <th class="p5 w5 y6 f7 v7">Old (% 3)</th>
+                  <th class="p5 w5 y6 f7 v7">New (% 2)</th>
+                  <th class="p5 w5 y6 f7 v7">Moved?</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k1</td>
-                  <td class="p5 v5 x6 e7 u7">2</td>
-                  <td class="p5 v5 x6 e7 u7">0</td>
-                  <td class="p5 v5 x6 e7 u7">Yes</td>
+                  <td class="p5 w5 y6 f7 v7">k1</td>
+                  <td class="p5 w5 y6 f7 v7">2</td>
+                  <td class="p5 w5 y6 f7 v7">0</td>
+                  <td class="p5 w5 y6 f7 v7">Yes</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k2</td>
-                  <td class="p5 v5 x6 e7 u7">0</td>
-                  <td class="p5 v5 x6 e7 u7">1</td>
-                  <td class="p5 v5 x6 e7 u7">Yes</td>
+                  <td class="p5 w5 y6 f7 v7">k2</td>
+                  <td class="p5 w5 y6 f7 v7">0</td>
+                  <td class="p5 w5 y6 f7 v7">1</td>
+                  <td class="p5 w5 y6 f7 v7">Yes</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k3</td>
-                  <td class="p5 v5 x6 e7 u7">1</td>
-                  <td class="p5 v5 x6 e7 u7">1</td>
-                  <td class="p5 v5 x6 e7 u7">No</td>
+                  <td class="p5 w5 y6 f7 v7">k3</td>
+                  <td class="p5 w5 y6 f7 v7">1</td>
+                  <td class="p5 w5 y6 f7 v7">1</td>
+                  <td class="p5 w5 y6 f7 v7">No</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k4</td>
-                  <td class="p5 v5 x6 e7 u7">2</td>
-                  <td class="p5 v5 x6 e7 u7">0</td>
-                  <td class="p5 v5 x6 e7 u7">Yes</td>
+                  <td class="p5 w5 y6 f7 v7">k4</td>
+                  <td class="p5 w5 y6 f7 v7">2</td>
+                  <td class="p5 w5 y6 f7 v7">0</td>
+                  <td class="p5 w5 y6 f7 v7">Yes</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k5</td>
-                  <td class="p5 v5 x6 e7 u7">1</td>
-                  <td class="p5 v5 x6 e7 u7">0</td>
-                  <td class="p5 v5 x6 e7 u7">Yes</td>
+                  <td class="p5 w5 y6 f7 v7">k5</td>
+                  <td class="p5 w5 y6 f7 v7">1</td>
+                  <td class="p5 w5 y6 f7 v7">0</td>
+                  <td class="p5 w5 y6 f7 v7">Yes</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">k6</td>
-                  <td class="p5 v5 x6 e7 u7">0</td>
-                  <td class="p5 v5 x6 e7 u7">0</td>
-                  <td class="p5 v5 x6 e7 u7">No</td>
+                  <td class="p5 w5 y6 f7 v7">k6</td>
+                  <td class="p5 w5 y6 f7 v7">0</td>
+                  <td class="p5 w5 y6 f7 v7">0</td>
+                  <td class="p5 w5 y6 f7 v7">No</td>
                 </tr>
               </tbody>
             </table>
@@ -435,10 +464,10 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0">This is the fundamental limitation of hash-based routing. You&#39;ve given your power to a hash function. When the hash function changes (because node count changes), your entire mapping changes.</p>
             <p class="g0 u0"><strong>Can we minimize data movement?</strong></p>
             <p class="g0 u0">This is where consistent hashing comes in.</p>
-            <h2 id="consistent-hashing" class="n0 k8 w8 t8 z8">Consistent Hashing</h2>
+            <h2 id="consistent-hashing" class="n0 l8 x8 u8 a9">Consistent Hashing</h2>
             <p class="g0 u0">Just like hash-based routing helps determine ownership (which node owns which key), consistent hashing also answers the same question. But it does so in a way that <strong>minimizes data movement</strong> when nodes are added or removed.</p>
-            <p class="g0 u0">The core concept was introduced in a 1997 MIT paper <a class="o9 ga ia ic" href="https://www.cs.princeton.edu/courses/archive/fall09/cos518/papers/chash.pdf">Consistent Hashing and Random Trees</a>, but it gained mainstream popularity after Amazon&#39;s famous <a class="o9 ga ia ic" href="https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">DynamoDB paper</a> in 2007. Since then, consistent hashing has become foundational in distributed systems. <a class="o9 ga ia ic" href="https://www.bittorrent.com"><strong>BitTorrent</strong></a> uses it for peer-to-peer networks, <a class="o9 ga ia ic" href="https://www.akamai.com"><strong>Akamai</strong></a> uses it for web caches, and countless databases use it for data partitioning.</p>
-            <h3 id="ring-abstraction" class="l0 h8 t8 z8">Ring Abstraction</h3>
+            <p class="g0 u0">The core concept was introduced in a 1997 MIT paper <a class="p9 ha ja oc" href="https://www.cs.princeton.edu/courses/archive/fall09/cos518/papers/chash.pdf">Consistent Hashing and Random Trees</a>, but it gained mainstream popularity after Amazon&#39;s famous <a class="p9 ha ja oc" href="https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">DynamoDB paper</a> in 2007. Since then, consistent hashing has become foundational in distributed systems. <a class="p9 ha ja oc" href="https://www.bittorrent.com"><strong>BitTorrent</strong></a> uses it for peer-to-peer networks, <a class="p9 ha ja oc" href="https://www.akamai.com"><strong>Akamai</strong></a> uses it for web caches, and countless databases use it for data partitioning.</p>
+            <h3 id="ring-abstraction" class="l0 i8 u8 a9">Ring Abstraction</h3>
             <p class="g0 u0">A popular way to visualize consistent hashing is as a ring. Let&#39;s use SHA-128 as our hash function. It generates a 128-bit number, so our range is 0 to <span><!-- [html-validate-disable-block no-inline-style] --><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">128</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span>.</p>
             <p class="g0 u0">For simplicity, let&#39;s use a smaller range: 0 to 15 (0 to <span><!-- [html-validate-disable-block no-inline-style] --><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span>).</p>
             <p class="g0 u0">
@@ -449,15 +478,15 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0"><strong>Step 1: Place nodes on the ring</strong></p>
             <p class="g0 u0">Each storage node occupies a slot in the ring. How? Pass the node&#39;s identifier (IP address, hostname, etc.) through the hash function.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> node0Slot <span class="v9">=</span> <span class="r9">sha128</span><span class="z9">(</span><span class="x9">&quot;node0_ip&quot;</span><span class="z9">)</span> <span class="v9">%</span> <span class="u9">16</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">const</span> node1Slot <span class="v9">=</span> <span class="r9">sha128</span><span class="z9">(</span><span class="x9">&quot;node1_ip&quot;</span><span class="z9">)</span> <span class="v9">%</span> <span class="u9">16</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">const</span> node2Slot <span class="v9">=</span> <span class="r9">sha128</span><span class="z9">(</span><span class="x9">&quot;node2_ip&quot;</span><span class="z9">)</span> <span class="v9">%</span> <span class="u9">16</span><span class="z9">;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> node0Slot <span class="w9">=</span> <span class="s9">sha128</span><span class="aa">(</span><span class="y9">&quot;node0_ip&quot;</span><span class="aa">)</span> <span class="w9">%</span> <span class="v9">16</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">const</span> node1Slot <span class="w9">=</span> <span class="s9">sha128</span><span class="aa">(</span><span class="y9">&quot;node1_ip&quot;</span><span class="aa">)</span> <span class="w9">%</span> <span class="v9">16</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">const</span> node2Slot <span class="w9">=</span> <span class="s9">sha128</span><span class="aa">(</span><span class="y9">&quot;node2_ip&quot;</span><span class="aa">)</span> <span class="w9">%</span> <span class="v9">16</span><span class="aa">;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Let&#39;s say:</p>
@@ -467,16 +496,16 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>node 2 hashes to slot 8</li>
             </ul>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
-                  <span class="block m8 g9">Ring:  [ ] [ ] [ ] [0] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
-                  <span class="block m8 g9">                    ↑                   ↑               ↑</span>
-                  <span class="block m8 g9">                  node0               node2           node1</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
+                  <span class="block n8 h9">Ring:  [ ] [ ] [ ] [0] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
+                  <span class="block n8 h9">                    ↑                   ↑               ↑</span>
+                  <span class="block n8 h9">                  node0               node2           node1</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0"><strong>Step 2: Determine key ownership</strong></p>
@@ -486,62 +515,62 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Find the first node clockwise from that position</li>
             </ol>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">getOwner</span><span class="z9">(</span>key<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Node</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> slot <span class="v9">=</span> <span class="r9">sha128</span><span class="z9">(</span>key<span class="z9">)</span> <span class="v9">%</span> <span class="u9">16</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="r9">findNextNodeClockwise</span><span class="z9">(</span>slot<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">getOwner</span><span class="aa">(</span>key<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Node</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> slot <span class="w9">=</span> <span class="s9">sha128</span><span class="aa">(</span>key<span class="aa">)</span> <span class="w9">%</span> <span class="v9">16</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="s9">findNextNodeClockwise</span><span class="aa">(</span>slot<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Let&#39;s say key k1 hashes to slot 0. The first node clockwise is node 0 at slot 3. So <strong>node 0 owns k1</strong>.</p>
             <p class="g0 u0">Let&#39;s say key k2 hashes to slot 10. The first node clockwise is node 1 at slot 12. So <strong>node 1 owns k2</strong>.</p>
             <p class="g0 u0">This beautifully answers the question: who owns a particular key?</p>
-            <p class="g0 u0">The key insight: <strong>the hash space is huge and constant</strong> (typically <span><!-- [html-validate-disable-block no-inline-style] --><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">128</span></span></span></span></span></span></span></span></span></span></span></span></span> or <span><!-- [html-validate-disable-block no-inline-style] --><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">256</span></span></span></span></span></span></span></span></span></span></span></span></span>). Both nodes and keys map to this same space. The hash function no longer depends on the number of nodes, it&#39;s always <code class="i5 d6 t6 a7 hb">hash(key) % HUGE_CONSTANT</code>. Only the association logic (find next clockwise node) changes when nodes are added or removed.</p>
-            <blockquote class="x g0 u0 q5 v5 s7 p9">
+            <p class="g0 u0">The key insight: <strong>the hash space is huge and constant</strong> (typically <span><!-- [html-validate-disable-block no-inline-style] --><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">128</span></span></span></span></span></span></span></span></span></span></span></span></span> or <span><!-- [html-validate-disable-block no-inline-style] --><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">256</span></span></span></span></span></span></span></span></span></span></span></span></span>). Both nodes and keys map to this same space. The hash function no longer depends on the number of nodes, it&#39;s always <code class="i5 e6 u6 b7 lb">hash(key) % HUGE_CONSTANT</code>. Only the association logic (find next clockwise node) changes when nodes are added or removed.</p>
+            <blockquote class="x g0 u0 q5 w5 t7 q9">
               <p class="g0 u0"><strong>The k/n Rule</strong>: On average, consistent hashing requires only <strong>k/n</strong> keys to be migrated during scale-up or scale-down, where k is the total number of keys and n is the number of nodes. Compare this to traditional hashing where nearly all keys might need to move.</p>
             </blockquote>
-            <h3 id="array-implementation" class="l0 h8 t8 z8">Array Implementation</h3>
+            <h3 id="array-implementation" class="l0 i8 u8 a9">Array Implementation</h3>
             <p class="g0 u0">The ring looks like a ring, but you don&#39;t implement a circular linked list. That would be inefficient.</p>
             <p class="g0 u0">In reality, it&#39;s a <strong>sorted array</strong> with <strong>binary search</strong>.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">interface</span> <span class="y9">Node</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  id<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  slot<span class="v9">:</span> <span class="y9">number</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> ring<span class="v9">:</span> <span class="y9">Node</span><span class="z9">[]</span> <span class="v9">=</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span> <span class="w9">id:</span> <span class="x9">&quot;node0&quot;</span><span class="z9">,</span> <span class="w9">slot:</span> <span class="u9">3</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span> <span class="w9">id:</span> <span class="x9">&quot;node2&quot;</span><span class="z9">,</span> <span class="w9">slot:</span> <span class="u9">8</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span> <span class="w9">id:</span> <span class="x9">&quot;node1&quot;</span><span class="z9">,</span> <span class="w9">slot:</span> <span class="u9">12</span> <span class="z9">},</span></span>
-                  <span class="block m8 g9"><span class="z9">];</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">getOwner</span><span class="z9">(</span>key<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Node</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> slot <span class="v9">=</span> <span class="r9">sha128</span><span class="z9">(</span>key<span class="z9">)</span> <span class="v9">%</span> <span class="u9">16</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">for</span> <span class="z9">(</span><span class="t9">let</span> i <span class="v9">=</span> <span class="u9">0</span><span class="z9">;</span> i <span class="v9">&lt;</span> ring<span class="z9">.</span>length<span class="z9">;</span> i<span class="v9">++</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">if</span> <span class="z9">(</span>ring<span class="z9">[</span>i<span class="z9">].</span><span class="w9">slot</span> <span class="v9">&gt;=</span> slot<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="t9">return</span> ring<span class="z9">[</span>i<span class="z9">];</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> ring<span class="z9">[</span><span class="u9">0</span><span class="z9">];</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">interface</span> <span class="z9">Node</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  id<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  slot<span class="w9">:</span> <span class="z9">number</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> ring<span class="w9">:</span> <span class="z9">Node</span><span class="aa">[]</span> <span class="w9">=</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span> <span class="x9">id:</span> <span class="y9">&quot;node0&quot;</span><span class="aa">,</span> <span class="x9">slot:</span> <span class="v9">3</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span> <span class="x9">id:</span> <span class="y9">&quot;node2&quot;</span><span class="aa">,</span> <span class="x9">slot:</span> <span class="v9">8</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span> <span class="x9">id:</span> <span class="y9">&quot;node1&quot;</span><span class="aa">,</span> <span class="x9">slot:</span> <span class="v9">12</span> <span class="aa">},</span></span>
+                  <span class="block n8 h9"><span class="aa">];</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">getOwner</span><span class="aa">(</span>key<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Node</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> slot <span class="w9">=</span> <span class="s9">sha128</span><span class="aa">(</span>key<span class="aa">)</span> <span class="w9">%</span> <span class="v9">16</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">for</span> <span class="aa">(</span><span class="u9">let</span> i <span class="w9">=</span> <span class="v9">0</span><span class="aa">;</span> i <span class="w9">&lt;</span> ring<span class="aa">.</span>length<span class="aa">;</span> i<span class="w9">++</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">if</span> <span class="aa">(</span>ring<span class="aa">[</span>i<span class="aa">].</span><span class="x9">slot</span> <span class="w9">&gt;=</span> slot<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="u9">return</span> ring<span class="aa">[</span>i<span class="aa">];</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> ring<span class="aa">[</span><span class="v9">0</span><span class="aa">];</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">With binary search, finding the owner is O(log n) where n is the number of nodes. For 1000 nodes, that&#39;s about 10 comparisons.</p>
             <p class="g0 u0">The array stays sorted by slot position. One array. Binary search.</p>
-            <h2 id="scaling-up" class="n0 k8 w8 t8 z8">Scaling Up</h2>
+            <h2 id="scaling-up" class="n0 l8 x8 u8 a9">Scaling Up</h2>
             <p class="g0 u0">Now let&#39;s see how consistent hashing minimizes data movement.</p>
             <p class="g0 u0">
               <a href="/assets/content/blogs/consistent-hashing/scale-up.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
@@ -550,32 +579,32 @@ globalThis.addEventListener("pagereveal", (event) => {
             </p>
             <p class="g0 u0">We have three nodes at slots 3, 8, and 12. Let&#39;s add a fourth node.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> node3Slot <span class="v9">=</span> <span class="r9">sha128</span><span class="z9">(</span><span class="x9">&quot;node3_ip&quot;</span><span class="z9">)</span> <span class="v9">%</span> <span class="u9">16</span><span class="z9">;</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> node3Slot <span class="w9">=</span> <span class="s9">sha128</span><span class="aa">(</span><span class="y9">&quot;node3_ip&quot;</span><span class="aa">)</span> <span class="w9">%</span> <span class="v9">16</span><span class="aa">;</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Let&#39;s say node 3 hashes to slot 1.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">Before:</span>
-                  <span class="block m8 g9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
-                  <span class="block m8 g9">Ring:  [ ] [ ] [ ] [0] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">After:</span>
-                  <span class="block m8 g9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
-                  <span class="block m8 g9">Ring:  [ ] [3] [ ] [0] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
-                  <span class="block m8 g9">            ↑</span>
-                  <span class="block m8 g9">         new node</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">Before:</span>
+                  <span class="block n8 h9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
+                  <span class="block n8 h9">Ring:  [ ] [ ] [ ] [0] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">After:</span>
+                  <span class="block n8 h9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
+                  <span class="block n8 h9">Ring:  [ ] [3] [ ] [0] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
+                  <span class="block n8 h9">            ↑</span>
+                  <span class="block n8 h9">         new node</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0"><strong>Which keys are affected?</strong></p>
@@ -583,7 +612,7 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0">Before node 3: These keys were owned by node 0 (the next clockwise node from their position).</p>
             <p class="g0 u0">After node 3: These keys are now owned by node 3.</p>
             <p class="g0 u0"><strong>Everything else stays the same.</strong> Keys owned by node 1 and node 2 don&#39;t move at all.</p>
-            <h3 id="operations" class="l0 h8 t8 z8">Operations</h3>
+            <h3 id="operations" class="l0 i8 u8 a9">Operations</h3>
             <p class="g0 u0">How do you actually do this operationally?</p>
             <ol class="g0 u0">
               <li>You know node 3 is slotted at position 1</li>
@@ -595,25 +624,25 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Delete the keys from node 0 that now belong to node 3</li>
             </ol>
             <p class="g0 u0">You&#39;re not touching keys in other nodes. Just the node immediately to the right.</p>
-            <h2 id="scaling-down" class="n0 k8 w8 t8 z8">Scaling Down</h2>
+            <h2 id="scaling-down" class="n0 l8 x8 u8 a9">Scaling Down</h2>
             <p class="g0 u0">Similar process for removing a node.</p>
             <p class="g0 u0">Let&#39;s remove node 0 (at slot 3).</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">Before:</span>
-                  <span class="block m8 g9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
-                  <span class="block m8 g9">Ring:  [ ] [3] [ ] [0] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">After:</span>
-                  <span class="block m8 g9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
-                  <span class="block m8 g9">Ring:  [ ] [3] [ ] [ ] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
-                  <span class="block m8 g9">                    ↑</span>
-                  <span class="block m8 g9">               removed</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">Before:</span>
+                  <span class="block n8 h9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
+                  <span class="block n8 h9">Ring:  [ ] [3] [ ] [0] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">After:</span>
+                  <span class="block n8 h9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
+                  <span class="block n8 h9">Ring:  [ ] [3] [ ] [ ] [ ] [ ] [ ] [ ] [2] [ ] [ ] [ ] [1] [ ] [ ] [ ]</span>
+                  <span class="block n8 h9">                    ↑</span>
+                  <span class="block n8 h9">               removed</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0"><strong>Which keys are affected?</strong></p>
@@ -626,7 +655,7 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ol>
             <p class="g0 u0">You&#39;re literally copy-pasting everything from node 0 to node 2. No complex routing decisions. No partial key movement. Just dump and load.</p>
             <p class="g0 u0">This is why consistent hashing is so popular. It&#39;s <strong>operationally simple</strong>.</p>
-            <h2 id="hash-function" class="n0 k8 w8 t8 z8">Hash Function</h2>
+            <h2 id="hash-function" class="n0 l8 x8 u8 a9">Hash Function</h2>
             <p class="g0 u0">A good hash function for consistent hashing has two properties:</p>
             <ol class="g0 u0">
               <li><strong>Computationally efficient</strong>: Fast to compute, as it&#39;s called on every read and write</li>
@@ -634,36 +663,36 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ol>
             <p class="g0 u0">SHA-256 is commonly used:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> createHash <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;crypto&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">hash</span><span class="z9">(</span>key<span class="v9">:</span> <span class="y9">string</span><span class="z9">,</span> totalSlots<span class="v9">:</span> <span class="y9">number</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">number</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> hsh <span class="v9">=</span> <span class="r9">createHash</span><span class="z9">(</span><span class="x9">&quot;sha256&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  hsh<span class="z9">.</span><span class="r9">update</span><span class="z9">(</span>key<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> hexDigest <span class="v9">=</span> hsh<span class="z9">.</span><span class="r9">digest</span><span class="z9">(</span><span class="x9">&quot;hex&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="r9">parseInt</span><span class="z9">(</span>hexDigest<span class="z9">,</span> <span class="u9">16</span><span class="z9">)</span> <span class="v9">%</span> totalSlots<span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> createHash <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;crypto&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">hash</span><span class="aa">(</span>key<span class="w9">:</span> <span class="z9">string</span><span class="aa">,</span> totalSlots<span class="w9">:</span> <span class="z9">number</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">number</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> hsh <span class="w9">=</span> <span class="s9">createHash</span><span class="aa">(</span><span class="y9">&quot;sha256&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  hsh<span class="aa">.</span><span class="s9">update</span><span class="aa">(</span>key<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> hexDigest <span class="w9">=</span> hsh<span class="aa">.</span><span class="s9">digest</span><span class="aa">(</span><span class="y9">&quot;hex&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="s9">parseInt</span><span class="aa">(</span>hexDigest<span class="aa">,</span> <span class="v9">16</span><span class="aa">)</span> <span class="w9">%</span> totalSlots<span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">The hash function converts any string to a position in the hash space. Since <code class="i5 d6 t6 a7 hb">totalSlots</code> is huge and constant (like <span><!-- [html-validate-disable-block no-inline-style] --><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">128</span></span></span></span></span></span></span></span></span></span></span></span></span>), this function is completely independent of the number of nodes in your system.</p>
-            <h2 id="virtual-nodes" class="n0 k8 w8 t8 z8">Virtual Nodes</h2>
+            <p class="g0 u0">The hash function converts any string to a position in the hash space. Since <code class="i5 e6 u6 b7 lb">totalSlots</code> is huge and constant (like <span><!-- [html-validate-disable-block no-inline-style] --><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">128</span></span></span></span></span></span></span></span></span></span></span></span></span>), this function is completely independent of the number of nodes in your system.</p>
+            <h2 id="virtual-nodes" class="n0 l8 x8 u8 a9">Virtual Nodes</h2>
             <p class="g0 u0">There&#39;s one problem with basic consistent hashing: uneven distribution.</p>
             <p class="g0 u0">If nodes hash to unevenly spaced slots, some nodes own much larger key ranges than others.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
-                  <span class="block m8 g9">Ring:  [ ] [ ] [ ] [0] [ ] [1] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [2]</span>
-                  <span class="block m8 g9">                    ↑   ↑                                           ↑</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">        0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15</span>
+                  <span class="block n8 h9">Ring:  [ ] [ ] [ ] [0] [ ] [1] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [2]</span>
+                  <span class="block n8 h9">                    ↑   ↑                                           ↑</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Node 0 owns slots 16, 0, 1, 2, 3 (5 slots). Node 1 owns slots 4, 5 (2 slots). Node 2 owns slots 6-15 (10 slots).</p>
@@ -671,100 +700,100 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0">The solution: <strong>virtual nodes</strong>.</p>
             <p class="g0 u0">Instead of placing each physical node once on the ring, place it multiple times.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">addNodeToRing</span><span class="z9">(</span>nodeId<span class="v9">:</span> <span class="y9">string</span><span class="z9">,</span> virtualNodes<span class="v9">:</span> <span class="y9">number</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">void</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">for</span> <span class="z9">(</span><span class="t9">let</span> i <span class="v9">=</span> <span class="u9">0</span><span class="z9">;</span> i <span class="v9">&lt;</span> virtualNodes<span class="z9">;</span> i<span class="v9">++</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> virtualId <span class="v9">=</span> <span class="x9">`${nodeId}_${i}`</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> slot <span class="v9">=</span> <span class="r9">sha128</span><span class="z9">(</span>virtualId<span class="z9">)</span> <span class="v9">%</span> RING_SIZE<span class="z9">;</span></span>
-                  <span class="block m8 g9">    ring<span class="z9">.</span><span class="r9">push</span><span class="z9">({</span> <span class="w9">id:</span> nodeId<span class="z9">,</span> slot <span class="z9">});</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  ring<span class="z9">.</span><span class="r9">sort</span><span class="z9">((</span>a<span class="z9">,</span> b<span class="z9">)</span> <span class="t9">=&gt;</span> a<span class="z9">.</span><span class="w9">slot</span> <span class="v9">-</span> b<span class="z9">.</span><span class="w9">slot</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">addNodeToRing</span><span class="z9">(</span><span class="x9">&quot;node0&quot;</span><span class="z9">,</span> <span class="u9">100</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="r9">addNodeToRing</span><span class="z9">(</span><span class="x9">&quot;node1&quot;</span><span class="z9">,</span> <span class="u9">100</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="r9">addNodeToRing</span><span class="z9">(</span><span class="x9">&quot;node2&quot;</span><span class="z9">,</span> <span class="u9">100</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">addNodeToRing</span><span class="aa">(</span>nodeId<span class="w9">:</span> <span class="z9">string</span><span class="aa">,</span> virtualNodes<span class="w9">:</span> <span class="z9">number</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">void</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">for</span> <span class="aa">(</span><span class="u9">let</span> i <span class="w9">=</span> <span class="v9">0</span><span class="aa">;</span> i <span class="w9">&lt;</span> virtualNodes<span class="aa">;</span> i<span class="w9">++</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> virtualId <span class="w9">=</span> <span class="y9">`${nodeId}_${i}`</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> slot <span class="w9">=</span> <span class="s9">sha128</span><span class="aa">(</span>virtualId<span class="aa">)</span> <span class="w9">%</span> RING_SIZE<span class="aa">;</span></span>
+                  <span class="block n8 h9">    ring<span class="aa">.</span><span class="s9">push</span><span class="aa">({</span> <span class="x9">id:</span> nodeId<span class="aa">,</span> slot <span class="aa">});</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  ring<span class="aa">.</span><span class="s9">sort</span><span class="aa">((</span>a<span class="aa">,</span> b<span class="aa">)</span> <span class="u9">=&gt;</span> a<span class="aa">.</span><span class="x9">slot</span> <span class="w9">-</span> b<span class="aa">.</span><span class="x9">slot</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">addNodeToRing</span><span class="aa">(</span><span class="y9">&quot;node0&quot;</span><span class="aa">,</span> <span class="v9">100</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="s9">addNodeToRing</span><span class="aa">(</span><span class="y9">&quot;node1&quot;</span><span class="aa">,</span> <span class="v9">100</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="s9">addNodeToRing</span><span class="aa">(</span><span class="y9">&quot;node2&quot;</span><span class="aa">,</span> <span class="v9">100</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">With 100 virtual nodes per physical node, the distribution becomes much more even. Each physical node owns roughly 1/3 of the key space.</p>
-            <h2 id="implementation" class="n0 k8 w8 t8 z8">Implementation</h2>
+            <h2 id="implementation" class="n0 l8 x8 u8 a9">Implementation</h2>
             <p class="g0 u0">Here&#39;s a complete, minimal implementation:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">interface</span> <span class="y9">ConsistentHash</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  ring<span class="v9">:</span> <span class="z9">{</span> slot<span class="v9">:</span> <span class="y9">number</span><span class="z9">;</span> nodeId<span class="v9">:</span> <span class="y9">string</span> <span class="z9">}[];</span></span>
-                  <span class="block m8 g9">  ringSize<span class="v9">:</span> <span class="y9">number</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">createRing</span><span class="z9">(</span>ringSize<span class="v9">:</span> <span class="y9">number</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">ConsistentHash</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">{</span> <span class="w9">ring:</span> <span class="z9">[],</span> ringSize <span class="z9">};</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">addNode</span><span class="z9">(</span>ch<span class="v9">:</span> <span class="y9">ConsistentHash</span><span class="z9">,</span> nodeId<span class="v9">:</span> <span class="y9">string</span><span class="z9">,</span> virtualNodes<span class="v9">:</span> <span class="y9">number</span> <span class="v9">=</span> <span class="u9">100</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">void</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">for</span> <span class="z9">(</span><span class="t9">let</span> i <span class="v9">=</span> <span class="u9">0</span><span class="z9">;</span> i <span class="v9">&lt;</span> virtualNodes<span class="z9">;</span> i<span class="v9">++</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> slot <span class="v9">=</span> <span class="r9">hash</span><span class="z9">(</span><span class="x9">`${nodeId}_${i}`</span><span class="z9">)</span> <span class="v9">%</span> ch<span class="z9">.</span><span class="w9">ringSize</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    ch<span class="z9">.</span>ring<span class="z9">.</span><span class="r9">push</span><span class="z9">({</span> slot<span class="z9">,</span> nodeId <span class="z9">});</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9">  ch<span class="z9">.</span>ring<span class="z9">.</span><span class="r9">sort</span><span class="z9">((</span>a<span class="z9">,</span> b<span class="z9">)</span> <span class="t9">=&gt;</span> a<span class="z9">.</span><span class="w9">slot</span> <span class="v9">-</span> b<span class="z9">.</span><span class="w9">slot</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">removeNode</span><span class="z9">(</span>ch<span class="v9">:</span> <span class="y9">ConsistentHash</span><span class="z9">,</span> nodeId<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">void</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  ch<span class="z9">.</span><span class="w9">ring</span> <span class="v9">=</span> ch<span class="z9">.</span>ring<span class="z9">.</span><span class="r9">filter</span><span class="z9">((</span>n<span class="z9">)</span> <span class="t9">=&gt;</span> n<span class="z9">.</span><span class="w9">nodeId</span> <span class="v9">!==</span> nodeId<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">getNode</span><span class="z9">(</span>ch<span class="v9">:</span> <span class="y9">ConsistentHash</span><span class="z9">,</span> key<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">string</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> slot <span class="v9">=</span> <span class="r9">hash</span><span class="z9">(</span>key<span class="z9">)</span> <span class="v9">%</span> ch<span class="z9">.</span><span class="w9">ringSize</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">let</span> left <span class="v9">=</span> <span class="u9">0</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">let</span> right <span class="v9">=</span> ch<span class="z9">.</span>ring<span class="z9">.</span>length <span class="v9">-</span> <span class="u9">1</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">while</span> <span class="z9">(</span>left <span class="v9">&lt;</span> right<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> mid <span class="v9">=</span> Math<span class="z9">.</span><span class="r9">floor</span><span class="z9">((</span>left <span class="v9">+</span> right<span class="z9">)</span> <span class="v9">/</span> <span class="u9">2</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="t9">if</span> <span class="z9">(</span>ch<span class="z9">.</span><span class="w9">ring</span><span class="z9">[</span>mid<span class="z9">].</span><span class="w9">slot</span> <span class="v9">&lt;</span> slot<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      left <span class="v9">=</span> mid <span class="v9">+</span> <span class="u9">1</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span> <span class="t9">else</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      right <span class="v9">=</span> mid<span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">(</span>ch<span class="z9">.</span><span class="w9">ring</span><span class="z9">[</span>left<span class="z9">].</span><span class="w9">slot</span> <span class="v9">&gt;=</span> slot<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> ch<span class="z9">.</span><span class="w9">ring</span><span class="z9">[</span>left<span class="z9">].</span><span class="w9">nodeId</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> ch<span class="z9">.</span><span class="w9">ring</span><span class="z9">[</span><span class="u9">0</span><span class="z9">].</span><span class="w9">nodeId</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">interface</span> <span class="z9">ConsistentHash</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  ring<span class="w9">:</span> <span class="aa">{</span> slot<span class="w9">:</span> <span class="z9">number</span><span class="aa">;</span> nodeId<span class="w9">:</span> <span class="z9">string</span> <span class="aa">}[];</span></span>
+                  <span class="block n8 h9">  ringSize<span class="w9">:</span> <span class="z9">number</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">createRing</span><span class="aa">(</span>ringSize<span class="w9">:</span> <span class="z9">number</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">ConsistentHash</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">{</span> <span class="x9">ring:</span> <span class="aa">[],</span> ringSize <span class="aa">};</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">addNode</span><span class="aa">(</span>ch<span class="w9">:</span> <span class="z9">ConsistentHash</span><span class="aa">,</span> nodeId<span class="w9">:</span> <span class="z9">string</span><span class="aa">,</span> virtualNodes<span class="w9">:</span> <span class="z9">number</span> <span class="w9">=</span> <span class="v9">100</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">void</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">for</span> <span class="aa">(</span><span class="u9">let</span> i <span class="w9">=</span> <span class="v9">0</span><span class="aa">;</span> i <span class="w9">&lt;</span> virtualNodes<span class="aa">;</span> i<span class="w9">++</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> slot <span class="w9">=</span> <span class="s9">hash</span><span class="aa">(</span><span class="y9">`${nodeId}_${i}`</span><span class="aa">)</span> <span class="w9">%</span> ch<span class="aa">.</span><span class="x9">ringSize</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    ch<span class="aa">.</span>ring<span class="aa">.</span><span class="s9">push</span><span class="aa">({</span> slot<span class="aa">,</span> nodeId <span class="aa">});</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9">  ch<span class="aa">.</span>ring<span class="aa">.</span><span class="s9">sort</span><span class="aa">((</span>a<span class="aa">,</span> b<span class="aa">)</span> <span class="u9">=&gt;</span> a<span class="aa">.</span><span class="x9">slot</span> <span class="w9">-</span> b<span class="aa">.</span><span class="x9">slot</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">removeNode</span><span class="aa">(</span>ch<span class="w9">:</span> <span class="z9">ConsistentHash</span><span class="aa">,</span> nodeId<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">void</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  ch<span class="aa">.</span><span class="x9">ring</span> <span class="w9">=</span> ch<span class="aa">.</span>ring<span class="aa">.</span><span class="s9">filter</span><span class="aa">((</span>n<span class="aa">)</span> <span class="u9">=&gt;</span> n<span class="aa">.</span><span class="x9">nodeId</span> <span class="w9">!==</span> nodeId<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">getNode</span><span class="aa">(</span>ch<span class="w9">:</span> <span class="z9">ConsistentHash</span><span class="aa">,</span> key<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">string</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> slot <span class="w9">=</span> <span class="s9">hash</span><span class="aa">(</span>key<span class="aa">)</span> <span class="w9">%</span> ch<span class="aa">.</span><span class="x9">ringSize</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">let</span> left <span class="w9">=</span> <span class="v9">0</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">let</span> right <span class="w9">=</span> ch<span class="aa">.</span>ring<span class="aa">.</span>length <span class="w9">-</span> <span class="v9">1</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">while</span> <span class="aa">(</span>left <span class="w9">&lt;</span> right<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> mid <span class="w9">=</span> Math<span class="aa">.</span><span class="s9">floor</span><span class="aa">((</span>left <span class="w9">+</span> right<span class="aa">)</span> <span class="w9">/</span> <span class="v9">2</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="u9">if</span> <span class="aa">(</span>ch<span class="aa">.</span><span class="x9">ring</span><span class="aa">[</span>mid<span class="aa">].</span><span class="x9">slot</span> <span class="w9">&lt;</span> slot<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      left <span class="w9">=</span> mid <span class="w9">+</span> <span class="v9">1</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span> <span class="u9">else</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      right <span class="w9">=</span> mid<span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">(</span>ch<span class="aa">.</span><span class="x9">ring</span><span class="aa">[</span>left<span class="aa">].</span><span class="x9">slot</span> <span class="w9">&gt;=</span> slot<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> ch<span class="aa">.</span><span class="x9">ring</span><span class="aa">[</span>left<span class="aa">].</span><span class="x9">nodeId</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> ch<span class="aa">.</span><span class="x9">ring</span><span class="aa">[</span><span class="v9">0</span><span class="aa">].</span><span class="x9">nodeId</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Usage:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> ch <span class="v9">=</span> <span class="r9">createRing</span><span class="z9">(</span><span class="u9">1_000_000</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="r9">addNode</span><span class="z9">(</span>ch<span class="z9">,</span> <span class="x9">&quot;192.168.1.1&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="r9">addNode</span><span class="z9">(</span>ch<span class="z9">,</span> <span class="x9">&quot;192.168.1.2&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="r9">addNode</span><span class="z9">(</span>ch<span class="z9">,</span> <span class="x9">&quot;192.168.1.3&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> owner <span class="v9">=</span> <span class="r9">getNode</span><span class="z9">(</span>ch<span class="z9">,</span> <span class="x9">&quot;user_123&quot;</span><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> ch <span class="w9">=</span> <span class="s9">createRing</span><span class="aa">(</span><span class="v9">1_000_000</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="s9">addNode</span><span class="aa">(</span>ch<span class="aa">,</span> <span class="y9">&quot;192.168.1.1&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="s9">addNode</span><span class="aa">(</span>ch<span class="aa">,</span> <span class="y9">&quot;192.168.1.2&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="s9">addNode</span><span class="aa">(</span>ch<span class="aa">,</span> <span class="y9">&quot;192.168.1.3&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> owner <span class="w9">=</span> <span class="s9">getNode</span><span class="aa">(</span>ch<span class="aa">,</span> <span class="y9">&quot;user_123&quot;</span><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">One array. Binary search. That&#39;s it.</p>
-            <h2 id="use-cases" class="n0 k8 w8 t8 z8">Use Cases</h2>
-            <h3 id="distributed-databases" class="l0 h8 t8 z8">Distributed Databases</h3>
+            <h2 id="use-cases" class="n0 l8 x8 u8 a9">Use Cases</h2>
+            <h3 id="distributed-databases" class="l0 i8 u8 a9">Distributed Databases</h3>
             <p class="g0 u0"><strong>DynamoDB</strong>, <strong>Cassandra</strong>, and <strong>Riak</strong> all use consistent hashing to determine which node stores which data.</p>
             <p class="g0 u0">When you write a key to DynamoDB, it:</p>
             <ol class="g0 u0">
@@ -772,140 +801,140 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Uses consistent hashing to find the owning node</li>
               <li>Writes to that node (and replicas)</li>
             </ol>
-            <h3 id="distributed-caches" class="l0 h8 t8 z8">Distributed Caches</h3>
+            <h3 id="distributed-caches" class="l0 i8 u8 a9">Distributed Caches</h3>
             <p class="g0 u0"><strong>Memcached</strong> clients use consistent hashing to distribute keys across cache servers.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> cacheNodes <span class="v9">=</span> <span class="z9">[</span><span class="x9">&quot;cache1:11211&quot;</span><span class="z9">,</span> <span class="x9">&quot;cache2:11211&quot;</span><span class="z9">,</span> <span class="x9">&quot;cache3:11211&quot;</span><span class="z9">];</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">getFromCache</span><span class="z9">(</span>key<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">string</span> <span class="v9">|</span> <span class="y9">null</span><span class="z9">&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> node <span class="v9">=</span> <span class="r9">getNode</span><span class="z9">(</span>consistentHash<span class="z9">,</span> key<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> client <span class="v9">=</span> <span class="r9">getMemcachedClient</span><span class="z9">(</span>node<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="t9">await</span> client<span class="z9">.</span><span class="r9">get</span><span class="z9">(</span>key<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> cacheNodes <span class="w9">=</span> <span class="aa">[</span><span class="y9">&quot;cache1:11211&quot;</span><span class="aa">,</span> <span class="y9">&quot;cache2:11211&quot;</span><span class="aa">,</span> <span class="y9">&quot;cache3:11211&quot;</span><span class="aa">];</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">getFromCache</span><span class="aa">(</span>key<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">string</span> <span class="w9">|</span> <span class="z9">null</span><span class="aa">&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> node <span class="w9">=</span> <span class="s9">getNode</span><span class="aa">(</span>consistentHash<span class="aa">,</span> key<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> client <span class="w9">=</span> <span class="s9">getMemcachedClient</span><span class="aa">(</span>node<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="u9">await</span> client<span class="aa">.</span><span class="s9">get</span><span class="aa">(</span>key<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">When a cache node fails, only keys owned by that node become cache misses. Other nodes continue serving their keys.</p>
-            <h3 id="load-balancers" class="l0 h8 t8 z8">Load Balancers</h3>
+            <h3 id="load-balancers" class="l0 i8 u8 a9">Load Balancers</h3>
             <p class="g0 u0">Consistent hashing enables <strong>sticky sessions</strong> with minimal disruption during scaling.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">function</span> <span class="r9">routeRequest</span><span class="z9">(</span>sessionId<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Server</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="r9">getNode</span><span class="z9">(</span>consistentHash<span class="z9">,</span> sessionId<span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">function</span> <span class="s9">routeRequest</span><span class="aa">(</span>sessionId<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Server</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="s9">getNode</span><span class="aa">(</span>consistentHash<span class="aa">,</span> sessionId<span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">All requests for a session go to the same server. When you add or remove servers, most sessions stay on their original server.</p>
-            <h3 id="content-delivery-networks" class="l0 h8 t8 z8">Content Delivery Networks</h3>
+            <h3 id="content-delivery-networks" class="l0 i8 u8 a9">Content Delivery Networks</h3>
             <p class="g0 u0"><strong>Akamai</strong> and other CDNs use consistent hashing to route requests to edge servers. This ensures content is cached efficiently across the network.</p>
-            <h2 id="when-to-use" class="n0 k8 w8 t8 z8">When to Use</h2>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <h2 id="when-to-use" class="n0 l8 x8 u8 a9">When to Use</h2>
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Use Case</th>
-                  <th class="p5 v5 x6 e7 u7">Consistent Hashing?</th>
-                  <th class="p5 v5 x6 e7 u7">Why</th>
+                  <th class="p5 w5 y6 f7 v7">Use Case</th>
+                  <th class="p5 w5 y6 f7 v7">Consistent Hashing?</th>
+                  <th class="p5 w5 y6 f7 v7">Why</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Distributed storage</td>
-                  <td class="p5 v5 x6 e7 u7">✅</td>
-                  <td class="p5 v5 x6 e7 u7">Minimize data movement during scaling</td>
+                  <td class="p5 w5 y6 f7 v7">Distributed storage</td>
+                  <td class="p5 w5 y6 f7 v7">✅</td>
+                  <td class="p5 w5 y6 f7 v7">Minimize data movement during scaling</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Distributed cache</td>
-                  <td class="p5 v5 x6 e7 u7">✅</td>
-                  <td class="p5 v5 x6 e7 u7">Minimize cache invalidation during node churn</td>
+                  <td class="p5 w5 y6 f7 v7">Distributed cache</td>
+                  <td class="p5 w5 y6 f7 v7">✅</td>
+                  <td class="p5 w5 y6 f7 v7">Minimize cache invalidation during node churn</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Sticky sessions</td>
-                  <td class="p5 v5 x6 e7 u7">✅</td>
-                  <td class="p5 v5 x6 e7 u7">Maintain session affinity with graceful change</td>
+                  <td class="p5 w5 y6 f7 v7">Sticky sessions</td>
+                  <td class="p5 w5 y6 f7 v7">✅</td>
+                  <td class="p5 w5 y6 f7 v7">Maintain session affinity with graceful change</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Stateless API load balancing</td>
-                  <td class="p5 v5 x6 e7 u7">❌</td>
-                  <td class="p5 v5 x6 e7 u7">Simple mod works fine</td>
+                  <td class="p5 w5 y6 f7 v7">Stateless API load balancing</td>
+                  <td class="p5 w5 y6 f7 v7">❌</td>
+                  <td class="p5 w5 y6 f7 v7">Simple mod works fine</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Small, fixed cluster</td>
-                  <td class="p5 v5 x6 e7 u7">❌</td>
-                  <td class="p5 v5 x6 e7 u7">Overhead not worth it</td>
+                  <td class="p5 w5 y6 f7 v7">Small, fixed cluster</td>
+                  <td class="p5 w5 y6 f7 v7">❌</td>
+                  <td class="p5 w5 y6 f7 v7">Overhead not worth it</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Needs exact even distribution</td>
-                  <td class="p5 v5 x6 e7 u7">❌</td>
-                  <td class="p5 v5 x6 e7 u7">Use explicit partitioning instead</td>
+                  <td class="p5 w5 y6 f7 v7">Needs exact even distribution</td>
+                  <td class="p5 w5 y6 f7 v7">❌</td>
+                  <td class="p5 w5 y6 f7 v7">Use explicit partitioning instead</td>
                 </tr>
               </tbody>
             </table>
-            <h2 id="key-takeaways" class="n0 k8 w8 t8 z8">Key Takeaways</h2>
+            <h2 id="key-takeaways" class="n0 l8 x8 u8 a9">Key Takeaways</h2>
             <ol class="g0 u0">
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Consistent hashing solves one problem</strong>: Who owns this data?</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Minimal data movement</strong>: When nodes change, only a fraction of keys move.</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Operationally simple</strong>: Adding a node? Snapshot the right neighbor. Removing a node? Copy to the right neighbor.</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Virtual nodes</strong>: Solve the uneven distribution problem by placing each physical node multiple times on the ring.</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Use it for stateful systems</strong>: Distributed databases, caches, anything where data movement is expensive.</p>
               </li>
             </ol>
-            <h2 id="practice" class="n0 k8 w8 t8 z8">Practice</h2>
-            <p class="g0 u0">I&#39;ve created hands-on demos you can run locally: <a class="o9 ga ia ic" href="https://github.com/pulkitxm/systems/tree/main/data-structures/consistent-hashing">consistent-hashing</a>. TypeScript implementation with demos for basic usage, scaling comparison (simple hash vs consistent hash), and virtual nodes.</p>
-            <h2 id="conclusion" class="n0 k8 w8 t8 z8">Conclusion</h2>
+            <h2 id="practice" class="n0 l8 x8 u8 a9">Practice</h2>
+            <p class="g0 u0">I&#39;ve created hands-on demos you can run locally: <a class="p9 ha ja oc" href="https://github.com/pulkitxm/systems/tree/main/data-structures/consistent-hashing">consistent-hashing</a>. TypeScript implementation with demos for basic usage, scaling comparison (simple hash vs consistent hash), and virtual nodes.</p>
+            <h2 id="conclusion" class="n0 l8 x8 u8 a9">Conclusion</h2>
             <p class="g0 u0">Consistent hashing answers one question: <strong>Who owns this key?</strong></p>
             <p class="g0 u0">It answers it in a way that minimizes disruption when your cluster changes.</p>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Aspect</th>
-                  <th class="p5 v5 x6 e7 u7">Hash-Based Routing</th>
-                  <th class="p5 v5 x6 e7 u7">Consistent Hashing</th>
+                  <th class="p5 w5 y6 f7 v7">Aspect</th>
+                  <th class="p5 w5 y6 f7 v7">Hash-Based Routing</th>
+                  <th class="p5 w5 y6 f7 v7">Consistent Hashing</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Data movement</td>
-                  <td class="p5 v5 x6 e7 u7">O(n) keys move</td>
-                  <td class="p5 v5 x6 e7 u7">O(n/m) keys move</td>
+                  <td class="p5 w5 y6 f7 v7">Data movement</td>
+                  <td class="p5 w5 y6 f7 v7">O(n) keys move</td>
+                  <td class="p5 w5 y6 f7 v7">O(n/m) keys move</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Implementation</td>
-                  <td class="p5 v5 x6 e7 u7">Simple mod</td>
-                  <td class="p5 v5 x6 e7 u7">Sorted array + bsearch</td>
+                  <td class="p5 w5 y6 f7 v7">Implementation</td>
+                  <td class="p5 w5 y6 f7 v7">Simple mod</td>
+                  <td class="p5 w5 y6 f7 v7">Sorted array + bsearch</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Node addition</td>
-                  <td class="p5 v5 x6 e7 u7">Rehash everything</td>
-                  <td class="p5 v5 x6 e7 u7">Only affected range</td>
+                  <td class="p5 w5 y6 f7 v7">Node addition</td>
+                  <td class="p5 w5 y6 f7 v7">Rehash everything</td>
+                  <td class="p5 w5 y6 f7 v7">Only affected range</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Node removal</td>
-                  <td class="p5 v5 x6 e7 u7">Rehash everything</td>
-                  <td class="p5 v5 x6 e7 u7">Only affected range</td>
+                  <td class="p5 w5 y6 f7 v7">Node removal</td>
+                  <td class="p5 w5 y6 f7 v7">Rehash everything</td>
+                  <td class="p5 w5 y6 f7 v7">Only affected range</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Best for</td>
-                  <td class="p5 v5 x6 e7 u7">Stateless backends</td>
-                  <td class="p5 v5 x6 e7 u7">Stateful backends</td>
+                  <td class="p5 w5 y6 f7 v7">Best for</td>
+                  <td class="p5 w5 y6 f7 v7">Stateless backends</td>
+                  <td class="p5 w5 y6 f7 v7">Stateful backends</td>
                 </tr>
               </tbody>
             </table>
@@ -913,22 +942,22 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0">Implement it yourself. You&#39;ll have fun.</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/system-design/big-data-tools/">Introduction to Big Data Tools</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/system-design/circuit-breakers/">Circuit Breakers</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/system-design/high-availability/">High Availability</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/system-design/big-data-tools/">Introduction to Big Data Tools</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/system-design/circuit-breakers/">Circuit Breakers</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/system-design/high-availability/">High Availability</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/system-design/consistent-hashing.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/system-design/consistent-hashing.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

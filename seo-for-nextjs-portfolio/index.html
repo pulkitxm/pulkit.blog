@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -168,15 +168,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -215,54 +244,54 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">SEO for Next.js Portfolio</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>SEO for Next.js Portfolio</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2025-12-21">December 21, 2025</time> · 6 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>SEO for Next.js Portfolio</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2025-12-21">December 21, 2025</time> · 6 min read</p>
           </header>
-          <div class="c9">
-            <h2 id="introduction" class="n0 k8 w8 t8 z8">Introduction</h2>
+          <div class="d9">
+            <h2 id="introduction" class="n0 l8 x8 u8 a9">Introduction</h2>
             <p class="g0 u0">Recently, I randomly searched for &quot;Deploying portfolio on Coolify&quot; and was pleasantly surprised to see my website appear at the top of Google search results. This wasn&#39;t luck - it was the result of implementing a systematic SEO strategy for my Next.js website.</p>
             <p class="g0 u0">I even tweeted about it:</p>
-            <article class="group e r y p2 t2 l3 d5 m5 v5 b6 q6 k9 n8 oa ta cc jc se" data-tweet>
-              <a href="https://x.com/_pulkitxm/status/1992553456054436067" target="_blank" rel="noopener noreferrer" class="d f s b5 oc pc qc"><span class="c">Open tweet on X</span></a>
-              <header class="r0 e1 b4 c4 i4 oe">
-                <div class="e1 y2 b3 b4 j4 ne">
-                  <a href="https://x.com/_pulkitxm" target="_blank" rel="noopener noreferrer" class="e t c3 f5 oc pc qc" aria-label="View Pulkit&#39;s profile">
-                    <img src="/assets/content/pulkit-portrait.webp" alt="Pulkit" width="40" height="40" loading="lazy" decoding="async" class="block q1 f5 l6 n6 ge" />
+            <article class="group e r y p2 t2 l3 d5 m5 w5 c6 r6 l9 o8 pa wa ic pc af" data-tweet>
+              <a href="https://x.com/_pulkitxm/status/1992553456054436067" target="_blank" rel="noopener noreferrer" class="d f s b5 uc vc wc"><span class="c">Open tweet on X</span></a>
+              <header class="r0 e1 b4 c4 i4 we">
+                <div class="e1 y2 b3 b4 j4 ve">
+                  <a href="https://x.com/_pulkitxm" target="_blank" rel="noopener noreferrer" class="e t c3 f5 uc vc wc" aria-label="View Pulkit&#39;s profile">
+                    <img src="/assets/content/pulkit-portrait.webp" alt="Pulkit" width="40" height="40" loading="lazy" decoding="async" class="block q1 f5 m6 o6 oe" />
                   </a>
                   <div class="e1 y2 b3 x3">
-                    <div class="e1 y2 a4 h4 me">
-                      <h3 class="w v4 w8 g8 n8 df ze cf">Pulkit</h3>
-                      <svg class="l1 c3 i9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z" /></svg>
+                    <div class="e1 y2 a4 h4 ue">
+                      <h3 class="w v4 x8 h8 o8 lf hf kf">Pulkit</h3>
+                      <svg class="l1 c3 j9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z" /></svg>
                     </div>
-                    <a href="https://x.com/_pulkitxm" target="_blank" rel="noopener noreferrer" class="e t g1 x2 v4 a7 e8 p9 da p8 ya gc nc oc">@_pulkitxm</a>
+                    <a href="https://x.com/_pulkitxm" target="_blank" rel="noopener noreferrer" class="e t g1 x2 v4 b7 f8 q9 ea q8 cb mc tc uc">@_pulkitxm</a>
                   </div>
                 </div>
-                <button type="button" class="e t h1 o1 c3 l3 a4 d4 z4 l5 f6 o6 p9 ya ac gc oc pc qc fe" aria-label="More options"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="l1 c3" aria-hidden="true"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg></button>
+                <button type="button" class="e t h1 o1 c3 l3 a4 d4 z4 l5 g6 p6 q9 cb gc mc uc vc wc ne" aria-label="More options"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="l1 c3" aria-hidden="true"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg></button>
               </header>
-              <div class="r0 b9 g8 r8 ce ze">Randomly searched for &#39;Deploying portfolio on Coolify&#39; and my blog appeared on top on google<br /><br />http://pulkitxm.com/blogs/deploying...<br /><br />let&#39;s discuss how I did this?🧵</div>
-              <div class="s0 e1 y3 a4 g4 l8 q8 p9 de ye bf">
+              <div class="r0 c9 h8 s8 ke hf">Randomly searched for &#39;Deploying portfolio on Coolify&#39; and my blog appeared on top on google<br /><br />http://pulkitxm.com/blogs/deploying...<br /><br />let&#39;s discuss how I did this?🧵</div>
+              <div class="s0 e1 y3 a4 g4 m8 r8 q9 le gf jf">
                 <time>4:48 PM · Nov 23, 2025</time>
               </div>
             </article>
@@ -273,10 +302,10 @@ globalThis.addEventListener("pagereveal", (event) => {
               <a href="/assets/content/blogs/how-this-website-ranks-on-google/lighthouse-score.webp" class="block" data-media-zoom data-width="1600" data-height="969">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/how-this-website-ranks-on-google/lighthouse-score.webp" alt="Lighthouse performance report showing perfect 100 SEO score" width="1600" height="969" loading="lazy" />
               </a>
-              (<a class="o9 ga ia ic" href="https://x.com/_pulkitxm/status/1991758828464111734">I think nextjs won&#39;t let me have 4-100&#39;s🥲</a>)
+              (<a class="p9 ha ja oc" href="https://x.com/_pulkitxm/status/1991758828464111734">I think nextjs won&#39;t let me have 4-100&#39;s🥲</a>)
             </p>
-            <h2 id="the-foundation-static-site-generation-ssg-with-mdx" class="n0 k8 w8 t8 z8">The Foundation: Static Site Generation (SSG) with MDX</h2>
-            <h3 id="why-ssg-matters-for-seo" class="l0 h8 t8 z8">Why SSG Matters for SEO</h3>
+            <h2 id="the-foundation-static-site-generation-ssg-with-mdx" class="n0 l8 x8 u8 a9">The Foundation: Static Site Generation (SSG) with MDX</h2>
+            <h3 id="why-ssg-matters-for-seo" class="l0 i8 u8 a9">Why SSG Matters for SEO</h3>
             <p class="g0 u0">Static Site Generation is one of the most powerful features of Next.js for SEO. Instead of generating pages on each request, SSG pre-renders pages at build time, resulting in:</p>
             <ul class="g0 u0">
               <li>Lightning-fast page load speeds (~100-200ms)</li>
@@ -284,45 +313,45 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Improved crawlability for search engines</li>
               <li>Excellent performance on Vercel&#39;s CDN</li>
             </ul>
-            <h3 id="setting-up-mdx-for-content-management" class="l0 h8 t8 z8">Setting Up MDX for Content Management</h3>
+            <h3 id="setting-up-mdx-for-content-management" class="l0 i8 u8 a9">Setting Up MDX for Content Management</h3>
             <p class="g0 u0">I use MDX (Markdown + JSX) for writing content. MDX gives you the flexibility of Markdown with the power of React components. Here&#39;s my content structure:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">/content/blogs/</span>
-                  <span class="block m8 g9">  ├── content-1.mdx</span>
-                  <span class="block m8 g9">  ├── content-2.mdx</span>
-                  <span class="block m8 g9">  └── content-3.mdx</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">/content/blogs/</span>
+                  <span class="block n8 h9">  ├── content-1.mdx</span>
+                  <span class="block n8 h9">  ├── content-2.mdx</span>
+                  <span class="block n8 h9">  └── content-3.mdx</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Each <code class="i5 d6 t6 a7 hb">.mdx</code> file contains frontmatter metadata and the actual content:</p>
+            <p class="g0 u0">Each <code class="i5 e6 u6 b7 lb">.mdx</code> file contains frontmatter metadata and the actual content:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-markdown block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="z9">---</span></span>
-                  <span class="block m8 g9"><span class="x9">title</span><span class="z9">:</span> <span class="x9">&quot;Your Content Title&quot;</span></span>
-                  <span class="block m8 g9"><span class="x9">description</span><span class="z9">:</span> <span class="x9">&quot;SEO-optimized description&quot;</span></span>
-                  <span class="block m8 g9"><span class="x9">date</span><span class="z9">:</span> <span class="x9">&quot;2025-12-11&quot;</span></span>
-                  <span class="block m8 g9"><span class="x9">tags</span><span class="z9">:</span> <span class="z9">[</span><span class="x9">&quot;Next.js&quot;</span><span class="z9">,</span> <span class="x9">&quot;SEO&quot;</span><span class="z9">]</span></span>
-                  <span class="block m8 g9"><span class="x9">readTime</span><span class="z9">:</span> <span class="u9">10</span></span>
-                  <span class="block m8 g9"><span class="x9">slug</span><span class="z9">:</span> <span class="x9">&quot;your-content-slug&quot;</span></span>
-                  <span class="block m8 g9"><span class="z9">---</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">Your content here...</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-markdown block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="aa">---</span></span>
+                  <span class="block n8 h9"><span class="y9">title</span><span class="aa">:</span> <span class="y9">&quot;Your Content Title&quot;</span></span>
+                  <span class="block n8 h9"><span class="y9">description</span><span class="aa">:</span> <span class="y9">&quot;SEO-optimized description&quot;</span></span>
+                  <span class="block n8 h9"><span class="y9">date</span><span class="aa">:</span> <span class="y9">&quot;2025-12-11&quot;</span></span>
+                  <span class="block n8 h9"><span class="y9">tags</span><span class="aa">:</span> <span class="aa">[</span><span class="y9">&quot;Next.js&quot;</span><span class="aa">,</span> <span class="y9">&quot;SEO&quot;</span><span class="aa">]</span></span>
+                  <span class="block n8 h9"><span class="y9">readTime</span><span class="aa">:</span> <span class="v9">10</span></span>
+                  <span class="block n8 h9"><span class="y9">slug</span><span class="aa">:</span> <span class="y9">&quot;your-content-slug&quot;</span></span>
+                  <span class="block n8 h9"><span class="aa">---</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">Your content here...</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="essential-mdx-libraries" class="l0 h8 t8 z8">Essential MDX Libraries</h3>
+            <h3 id="essential-mdx-libraries" class="l0 i8 u8 a9">Essential MDX Libraries</h3>
             <p class="g0 u0">To parse and render MDX content effectively, I use these libraries:</p>
             <ol class="g0 u0">
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>next-mdx-remote</strong> (RSC-ready)</p>
                 <ul class="g0 u0">
                   <li>Enables React Server Components support</li>
@@ -330,7 +359,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                   <li>Allows custom component mapping</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>gray-matter</strong></p>
                 <ul class="g0 u0">
                   <li>Parses frontmatter metadata from MDX files</li>
@@ -338,7 +367,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                   <li>Essential for generating dynamic metadata</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>remark-gfm</strong></p>
                 <ul class="g0 u0">
                   <li>Adds GitHub Flavored Markdown features</li>
@@ -346,7 +375,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                   <li>Enhances content formatting options</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>rehype-highlight</strong></p>
                 <ul class="g0 u0">
                   <li>Provides syntax highlighting for code blocks</li>
@@ -354,7 +383,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                   <li>Essential for developer-focused blogs</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>rehype-slug + autolink-headings</strong></p>
                 <ul class="g0 u0">
                   <li>Automatically generates heading IDs</li>
@@ -363,49 +392,49 @@ globalThis.addEventListener("pagereveal", (event) => {
                 </ul>
               </li>
             </ol>
-            <h3 id="implementing-ssg-for-dynamic-pages" class="l0 h8 t8 z8">Implementing SSG for Dynamic Pages</h3>
+            <h3 id="implementing-ssg-for-dynamic-pages" class="l0 i8 u8 a9">Implementing SSG for Dynamic Pages</h3>
             <p class="g0 u0">Here&#39;s how I generate static pages for all my content:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> fs <span class="t9">from</span> <span class="x9">&#39;fs&#39;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> path <span class="t9">from</span> <span class="x9">&#39;path&#39;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> matter <span class="t9">from</span> <span class="x9">&#39;gray-matter&#39;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> CONTENT_DIR <span class="v9">=</span> path<span class="z9">.</span><span class="r9">join</span><span class="z9">(</span>process<span class="z9">.</span><span class="r9">cwd</span><span class="z9">(),</span> <span class="x9">&#39;content/blogs&#39;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">generateStaticParams</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> files <span class="v9">=</span> fs<span class="z9">.</span><span class="r9">readdirSync</span><span class="z9">(</span>CONTENT_DIR<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> files</span>
-                  <span class="block m8 g9">    <span class="z9">.</span><span class="r9">filter</span><span class="z9">(</span>file <span class="t9">=&gt;</span> file<span class="z9">.</span><span class="r9">endsWith</span><span class="z9">(</span><span class="x9">&#39;.mdx&#39;</span><span class="z9">))</span></span>
-                  <span class="block m8 g9">    <span class="z9">.</span><span class="r9">map</span><span class="z9">(</span>file <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">      <span class="w9">slug:</span> file<span class="z9">.</span><span class="r9">replace</span><span class="z9">(</span><span class="x9">&#39;.mdx&#39;</span><span class="z9">,</span> <span class="x9">&#39;&#39;</span><span class="z9">),</span></span>
-                  <span class="block m8 g9">    <span class="z9">}));</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">default</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">Page</span><span class="z9">({</span> params <span class="z9">}</span><span class="v9">:</span> <span class="z9">{</span> params<span class="v9">:</span> <span class="z9">{</span> slug<span class="v9">:</span> <span class="y9">string</span> <span class="z9">}</span> <span class="z9">})</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> filePath <span class="v9">=</span> path<span class="z9">.</span><span class="r9">join</span><span class="z9">(</span>CONTENT_DIR<span class="z9">,</span> <span class="x9">`${params.</span><span class="w9">slug</span><span class="x9">}.mdx`</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> fileContent <span class="v9">=</span> fs<span class="z9">.</span><span class="r9">readFileSync</span><span class="z9">(</span>filePath<span class="z9">,</span> <span class="x9">&#39;utf8&#39;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">{</span> data<span class="z9">,</span> content <span class="z9">}</span> <span class="v9">=</span> <span class="r9">matter</span><span class="z9">(</span>fileContent<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;</span><span class="y9">article</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="y9">h1</span><span class="z9">&gt;{</span>data.title<span class="z9">}</span><span class="v9">&lt;/</span>h1<span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">{</span><span class="q9 ba">/* Render MDX content */</span><span class="z9">}</span></span>
-                  <span class="block m8 g9">    <span class="v9">&lt;/</span>article<span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">  <span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> fs <span class="u9">from</span> <span class="y9">&#39;fs&#39;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> path <span class="u9">from</span> <span class="y9">&#39;path&#39;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> matter <span class="u9">from</span> <span class="y9">&#39;gray-matter&#39;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> CONTENT_DIR <span class="w9">=</span> path<span class="aa">.</span><span class="s9">join</span><span class="aa">(</span>process<span class="aa">.</span><span class="s9">cwd</span><span class="aa">(),</span> <span class="y9">&#39;content/blogs&#39;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">generateStaticParams</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> files <span class="w9">=</span> fs<span class="aa">.</span><span class="s9">readdirSync</span><span class="aa">(</span>CONTENT_DIR<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> files</span>
+                  <span class="block n8 h9">    <span class="aa">.</span><span class="s9">filter</span><span class="aa">(</span>file <span class="u9">=&gt;</span> file<span class="aa">.</span><span class="s9">endsWith</span><span class="aa">(</span><span class="y9">&#39;.mdx&#39;</span><span class="aa">))</span></span>
+                  <span class="block n8 h9">    <span class="aa">.</span><span class="s9">map</span><span class="aa">(</span>file <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">      <span class="x9">slug:</span> file<span class="aa">.</span><span class="s9">replace</span><span class="aa">(</span><span class="y9">&#39;.mdx&#39;</span><span class="aa">,</span> <span class="y9">&#39;&#39;</span><span class="aa">),</span></span>
+                  <span class="block n8 h9">    <span class="aa">}));</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">default</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">Page</span><span class="aa">({</span> params <span class="aa">}</span><span class="w9">:</span> <span class="aa">{</span> params<span class="w9">:</span> <span class="aa">{</span> slug<span class="w9">:</span> <span class="z9">string</span> <span class="aa">}</span> <span class="aa">})</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> filePath <span class="w9">=</span> path<span class="aa">.</span><span class="s9">join</span><span class="aa">(</span>CONTENT_DIR<span class="aa">,</span> <span class="y9">`${params.</span><span class="x9">slug</span><span class="y9">}.mdx`</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> fileContent <span class="w9">=</span> fs<span class="aa">.</span><span class="s9">readFileSync</span><span class="aa">(</span>filePath<span class="aa">,</span> <span class="y9">&#39;utf8&#39;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">{</span> data<span class="aa">,</span> content <span class="aa">}</span> <span class="w9">=</span> <span class="s9">matter</span><span class="aa">(</span>fileContent<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;</span><span class="z9">article</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="z9">h1</span><span class="aa">&gt;{</span>data.title<span class="aa">}</span><span class="w9">&lt;/</span>h1<span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">{</span><span class="r9 ca">/* Render MDX content */</span><span class="aa">}</span></span>
+                  <span class="block n8 h9">    <span class="w9">&lt;/</span>article<span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">  <span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">This approach ensures that all pages are pre-rendered at build time, giving you the performance benefits that search engines love. When deployed on Vercel, these static pages are served instantly from their global CDN.</p>
-            <h2 id="dynamic-metadata-generation" class="n0 k8 w8 t8 z8">Dynamic Metadata Generation</h2>
-            <h3 id="the-power-of-generatemetadata" class="l0 h8 t8 z8">The Power of generateMetadata()</h3>
-            <p class="g0 u0">Next.js provides the <code class="i5 d6 t6 a7 hb">generateMetadata()</code> function for dynamic pages, which is crucial for SEO. For each page, I dynamically generate:</p>
+            <h2 id="dynamic-metadata-generation" class="n0 l8 x8 u8 a9">Dynamic Metadata Generation</h2>
+            <h3 id="the-power-of-generatemetadata" class="l0 i8 u8 a9">The Power of generateMetadata()</h3>
+            <p class="g0 u0">Next.js provides the <code class="i5 e6 u6 b7 lb">generateMetadata()</code> function for dynamic pages, which is crucial for SEO. For each page, I dynamically generate:</p>
             <ul class="g0 u0">
               <li>Page title</li>
               <li>Meta description</li>
@@ -415,65 +444,65 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ul>
             <p class="g0 u0">Here&#39;s the implementation:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> Metadata <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;next&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> fs <span class="t9">from</span> <span class="x9">&quot;fs&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> path <span class="t9">from</span> <span class="x9">&quot;path&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> matter <span class="t9">from</span> <span class="x9">&quot;gray-matter&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">generateMetadata</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">  params<span class="z9">,</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span><span class="v9">:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  params<span class="v9">:</span> <span class="z9">{</span> slug<span class="v9">:</span> <span class="y9">string</span> <span class="z9">};</span></span>
-                  <span class="block m8 g9"><span class="z9">})</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">Metadata</span><span class="z9">&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> filePath <span class="v9">=</span> path<span class="z9">.</span><span class="r9">join</span><span class="z9">(</span>process<span class="z9">.</span><span class="r9">cwd</span><span class="z9">(),</span> <span class="x9">&quot;content/blogs&quot;</span><span class="z9">,</span> <span class="x9">`${params.</span><span class="w9">slug</span><span class="x9">}.mdx`</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> fileContent <span class="v9">=</span> fs<span class="z9">.</span><span class="r9">readFileSync</span><span class="z9">(</span>filePath<span class="z9">,</span> <span class="x9">&quot;utf8&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">{</span> data <span class="z9">}</span> <span class="v9">=</span> <span class="r9">matter</span><span class="z9">(</span>fileContent<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> title <span class="v9">=</span> <span class="x9">`${data.</span><span class="w9">title</span><span class="x9">} | Pulkit`</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> description <span class="v9">=</span> data<span class="z9">.</span><span class="w9">description</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> coverImage <span class="v9">=</span> <span class="x9">`https://pulkitxm.com/images/${data.</span><span class="w9">coverImage</span><span class="x9">}.png`</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> url <span class="v9">=</span> <span class="x9">`https://pulkitxm.com/blogs/${params.</span><span class="w9">slug</span><span class="x9">}`</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    title<span class="z9">,</span></span>
-                  <span class="block m8 g9">    description<span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">openGraph:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      title<span class="z9">,</span></span>
-                  <span class="block m8 g9">      description<span class="z9">,</span></span>
-                  <span class="block m8 g9">      url<span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">type:</span> <span class="x9">&quot;article&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">publishedTime:</span> data<span class="z9">.</span><span class="w9">date</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">authors:</span> <span class="z9">[</span>data<span class="z9">.</span><span class="w9">author</span><span class="z9">],</span></span>
-                  <span class="block m8 g9">      <span class="w9">images:</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">        <span class="z9">{</span></span>
-                  <span class="block m8 g9">          <span class="w9">url:</span> coverImage<span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">width:</span> <span class="u9">1200</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">height:</span> <span class="u9">630</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">          <span class="w9">alt:</span> title<span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="z9">},</span></span>
-                  <span class="block m8 g9">      <span class="z9">],</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="w9">twitter:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">card:</span> <span class="x9">&quot;summary_large_image&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      title<span class="z9">,</span></span>
-                  <span class="block m8 g9">      description<span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">images:</span> <span class="z9">[</span>coverImage<span class="z9">],</span></span>
-                  <span class="block m8 g9">      <span class="w9">creator:</span> <span class="x9">&quot;@_pulkitxm&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="w9">alternates:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">canonical:</span> url<span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">};</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> Metadata <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;next&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> fs <span class="u9">from</span> <span class="y9">&quot;fs&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> path <span class="u9">from</span> <span class="y9">&quot;path&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> matter <span class="u9">from</span> <span class="y9">&quot;gray-matter&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">generateMetadata</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">  params<span class="aa">,</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span><span class="w9">:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  params<span class="w9">:</span> <span class="aa">{</span> slug<span class="w9">:</span> <span class="z9">string</span> <span class="aa">};</span></span>
+                  <span class="block n8 h9"><span class="aa">})</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">Metadata</span><span class="aa">&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> filePath <span class="w9">=</span> path<span class="aa">.</span><span class="s9">join</span><span class="aa">(</span>process<span class="aa">.</span><span class="s9">cwd</span><span class="aa">(),</span> <span class="y9">&quot;content/blogs&quot;</span><span class="aa">,</span> <span class="y9">`${params.</span><span class="x9">slug</span><span class="y9">}.mdx`</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> fileContent <span class="w9">=</span> fs<span class="aa">.</span><span class="s9">readFileSync</span><span class="aa">(</span>filePath<span class="aa">,</span> <span class="y9">&quot;utf8&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">{</span> data <span class="aa">}</span> <span class="w9">=</span> <span class="s9">matter</span><span class="aa">(</span>fileContent<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> title <span class="w9">=</span> <span class="y9">`${data.</span><span class="x9">title</span><span class="y9">} | Pulkit`</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> description <span class="w9">=</span> data<span class="aa">.</span><span class="x9">description</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> coverImage <span class="w9">=</span> <span class="y9">`https://pulkitxm.com/images/${data.</span><span class="x9">coverImage</span><span class="y9">}.png`</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> url <span class="w9">=</span> <span class="y9">`https://pulkitxm.com/blogs/${params.</span><span class="x9">slug</span><span class="y9">}`</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    title<span class="aa">,</span></span>
+                  <span class="block n8 h9">    description<span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">openGraph:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      title<span class="aa">,</span></span>
+                  <span class="block n8 h9">      description<span class="aa">,</span></span>
+                  <span class="block n8 h9">      url<span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">type:</span> <span class="y9">&quot;article&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">publishedTime:</span> data<span class="aa">.</span><span class="x9">date</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">authors:</span> <span class="aa">[</span>data<span class="aa">.</span><span class="x9">author</span><span class="aa">],</span></span>
+                  <span class="block n8 h9">      <span class="x9">images:</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">        <span class="aa">{</span></span>
+                  <span class="block n8 h9">          <span class="x9">url:</span> coverImage<span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">width:</span> <span class="v9">1200</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">height:</span> <span class="v9">630</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">          <span class="x9">alt:</span> title<span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="aa">},</span></span>
+                  <span class="block n8 h9">      <span class="aa">],</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="x9">twitter:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">card:</span> <span class="y9">&quot;summary_large_image&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      title<span class="aa">,</span></span>
+                  <span class="block n8 h9">      description<span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">images:</span> <span class="aa">[</span>coverImage<span class="aa">],</span></span>
+                  <span class="block n8 h9">      <span class="x9">creator:</span> <span class="y9">&quot;@_pulkitxm&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="x9">alternates:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">canonical:</span> url<span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">};</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="custom-cover-images-for-each-page" class="l0 h8 t8 z8">Custom Cover Images for Each Page</h3>
+            <h3 id="custom-cover-images-for-each-page" class="l0 i8 u8 a9">Custom Cover Images for Each Page</h3>
             <p class="g0 u0">Each page has its own cover image, which is crucial for:</p>
             <ul class="g0 u0">
               <li>Social media sharing</li>
@@ -482,78 +511,78 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Professional appearance</li>
             </ul>
             <p class="g0 u0">I store cover images in my public folder and reference them in the frontmatter. When someone shares my content on social media, they see a custom, branded image instead of a generic placeholder.</p>
-            <h2 id="dynamic-sitemap-generation" class="n0 k8 w8 t8 z8">Dynamic Sitemap Generation</h2>
-            <h3 id="why-sitemaps-matter" class="l0 h8 t8 z8">Why Sitemaps Matter</h3>
-            <p class="g0 u0">A <a class="o9 ga ia ic" href="https://www.pulkit.page/sitemap.xml">sitemap</a> helps search engines discover and crawl your content more efficiently. I use this specifically for Google Search index improvement via <a class="o9 ga ia ic" href="https://search.google.com/search-console">Google Search Console</a>. Your sitemap helps:</p>
+            <h2 id="dynamic-sitemap-generation" class="n0 l8 x8 u8 a9">Dynamic Sitemap Generation</h2>
+            <h3 id="why-sitemaps-matter" class="l0 i8 u8 a9">Why Sitemaps Matter</h3>
+            <p class="g0 u0">A <a class="p9 ha ja oc" href="https://www.pulkit.page/sitemap.xml">sitemap</a> helps search engines discover and crawl your content more efficiently. I use this specifically for Google Search index improvement via <a class="p9 ha ja oc" href="https://search.google.com/search-console">Google Search Console</a>. Your sitemap helps:</p>
             <ul class="g0 u0">
               <li>Find new pages quickly</li>
               <li>Understand your site structure</li>
               <li>Prioritize crawling important pages</li>
               <li>Track indexing status</li>
             </ul>
-            <h3 id="implementing-dynamic-sitemap-in-next-js" class="l0 h8 t8 z8">Implementing Dynamic Sitemap in Next.js</h3>
-            <p class="g0 u0">Next.js 13+ has built-in support for dynamic sitemaps. Using the files from <code class="i5 d6 t6 a7 hb">/content/blogs/</code>, I dynamically map them to generate sitemap entries:</p>
+            <h3 id="implementing-dynamic-sitemap-in-next-js" class="l0 i8 u8 a9">Implementing Dynamic Sitemap in Next.js</h3>
+            <p class="g0 u0">Next.js 13+ has built-in support for dynamic sitemaps. Using the files from <code class="i5 e6 u6 b7 lb">/content/blogs/</code>, I dynamically map them to generate sitemap entries:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> MetadataRoute <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;next&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> fs <span class="t9">from</span> <span class="x9">&quot;fs&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> path <span class="t9">from</span> <span class="x9">&quot;path&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> matter <span class="t9">from</span> <span class="x9">&quot;gray-matter&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">default</span> <span class="t9">function</span> <span class="r9">sitemap</span><span class="z9">()</span><span class="v9">:</span> <span class="y9">MetadataRoute</span><span class="z9">.</span><span class="y9">Sitemap</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> blogsDir <span class="v9">=</span> path<span class="z9">.</span><span class="r9">join</span><span class="z9">(</span>process<span class="z9">.</span><span class="r9">cwd</span><span class="z9">(),</span> <span class="x9">&quot;content/blogs&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> files <span class="v9">=</span> fs<span class="z9">.</span><span class="r9">readdirSync</span><span class="z9">(</span>blogsDir<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> blogs <span class="v9">=</span> files</span>
-                  <span class="block m8 g9">    <span class="z9">.</span><span class="r9">filter</span><span class="z9">((</span>file<span class="z9">)</span> <span class="t9">=&gt;</span> file<span class="z9">.</span><span class="r9">endsWith</span><span class="z9">(</span><span class="x9">&quot;.mdx&quot;</span><span class="z9">))</span></span>
-                  <span class="block m8 g9">    <span class="z9">.</span><span class="r9">map</span><span class="z9">((</span>file<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="t9">const</span> filePath <span class="v9">=</span> path<span class="z9">.</span><span class="r9">join</span><span class="z9">(</span>blogsDir<span class="z9">,</span> file<span class="z9">);</span></span>
-                  <span class="block m8 g9">      <span class="t9">const</span> fileContent <span class="v9">=</span> fs<span class="z9">.</span><span class="r9">readFileSync</span><span class="z9">(</span>filePath<span class="z9">,</span> <span class="x9">&quot;utf8&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">      <span class="t9">const</span> <span class="z9">{</span> data <span class="z9">}</span> <span class="v9">=</span> <span class="r9">matter</span><span class="z9">(</span>fileContent<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">      <span class="t9">return</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="w9">url:</span> <span class="x9">`https://pulkitxm.com/blogs/${data.</span><span class="w9">slug</span><span class="x9">}`</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">lastModified:</span> <span class="v9">new</span> <span class="r9">Date</span><span class="z9">(</span>data<span class="z9">.</span><span class="w9">date</span><span class="z9">),</span></span>
-                  <span class="block m8 g9">        <span class="w9">changeFrequency:</span> <span class="x9">&quot;monthly&quot;</span> <span class="t9">as</span> <span class="t9">const</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">priority:</span> <span class="u9">0.8</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="z9">};</span></span>
-                  <span class="block m8 g9">    <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">    <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">url:</span> <span class="x9">&quot;https://pulkitxm.com&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">lastModified:</span> <span class="v9">new</span> <span class="r9">Date</span><span class="z9">(),</span></span>
-                  <span class="block m8 g9">      <span class="w9">changeFrequency:</span> <span class="x9">&quot;yearly&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">priority:</span> <span class="u9">1</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">url:</span> <span class="x9">&quot;https://pulkitxm.com/blogs&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">lastModified:</span> <span class="v9">new</span> <span class="r9">Date</span><span class="z9">(),</span></span>
-                  <span class="block m8 g9">      <span class="w9">changeFrequency:</span> <span class="x9">&quot;weekly&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">priority:</span> <span class="u9">0.9</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="v9">...</span>blogs<span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">];</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> MetadataRoute <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;next&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> fs <span class="u9">from</span> <span class="y9">&quot;fs&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> path <span class="u9">from</span> <span class="y9">&quot;path&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> matter <span class="u9">from</span> <span class="y9">&quot;gray-matter&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">default</span> <span class="u9">function</span> <span class="s9">sitemap</span><span class="aa">()</span><span class="w9">:</span> <span class="z9">MetadataRoute</span><span class="aa">.</span><span class="z9">Sitemap</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> blogsDir <span class="w9">=</span> path<span class="aa">.</span><span class="s9">join</span><span class="aa">(</span>process<span class="aa">.</span><span class="s9">cwd</span><span class="aa">(),</span> <span class="y9">&quot;content/blogs&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> files <span class="w9">=</span> fs<span class="aa">.</span><span class="s9">readdirSync</span><span class="aa">(</span>blogsDir<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> blogs <span class="w9">=</span> files</span>
+                  <span class="block n8 h9">    <span class="aa">.</span><span class="s9">filter</span><span class="aa">((</span>file<span class="aa">)</span> <span class="u9">=&gt;</span> file<span class="aa">.</span><span class="s9">endsWith</span><span class="aa">(</span><span class="y9">&quot;.mdx&quot;</span><span class="aa">))</span></span>
+                  <span class="block n8 h9">    <span class="aa">.</span><span class="s9">map</span><span class="aa">((</span>file<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="u9">const</span> filePath <span class="w9">=</span> path<span class="aa">.</span><span class="s9">join</span><span class="aa">(</span>blogsDir<span class="aa">,</span> file<span class="aa">);</span></span>
+                  <span class="block n8 h9">      <span class="u9">const</span> fileContent <span class="w9">=</span> fs<span class="aa">.</span><span class="s9">readFileSync</span><span class="aa">(</span>filePath<span class="aa">,</span> <span class="y9">&quot;utf8&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">      <span class="u9">const</span> <span class="aa">{</span> data <span class="aa">}</span> <span class="w9">=</span> <span class="s9">matter</span><span class="aa">(</span>fileContent<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">      <span class="u9">return</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="x9">url:</span> <span class="y9">`https://pulkitxm.com/blogs/${data.</span><span class="x9">slug</span><span class="y9">}`</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">lastModified:</span> <span class="w9">new</span> <span class="s9">Date</span><span class="aa">(</span>data<span class="aa">.</span><span class="x9">date</span><span class="aa">),</span></span>
+                  <span class="block n8 h9">        <span class="x9">changeFrequency:</span> <span class="y9">&quot;monthly&quot;</span> <span class="u9">as</span> <span class="u9">const</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">priority:</span> <span class="v9">0.8</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="aa">};</span></span>
+                  <span class="block n8 h9">    <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">    <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">url:</span> <span class="y9">&quot;https://pulkitxm.com&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">lastModified:</span> <span class="w9">new</span> <span class="s9">Date</span><span class="aa">(),</span></span>
+                  <span class="block n8 h9">      <span class="x9">changeFrequency:</span> <span class="y9">&quot;yearly&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">priority:</span> <span class="v9">1</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">url:</span> <span class="y9">&quot;https://pulkitxm.com/blogs&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">lastModified:</span> <span class="w9">new</span> <span class="s9">Date</span><span class="aa">(),</span></span>
+                  <span class="block n8 h9">      <span class="x9">changeFrequency:</span> <span class="y9">&quot;weekly&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">priority:</span> <span class="v9">0.9</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="w9">...</span>blogs<span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">];</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="submitting-to-google-search-console" class="l0 h8 t8 z8">Submitting to Google Search Console</h3>
+            <h3 id="submitting-to-google-search-console" class="l0 i8 u8 a9">Submitting to Google Search Console</h3>
             <p class="g0 u0">After generating your sitemap:</p>
             <ol class="g0 u0">
-              <li>Visit <a class="o9 ga ia ic" href="https://search.google.com/search-console">Google Search Console</a></li>
+              <li>Visit <a class="p9 ha ja oc" href="https://search.google.com/search-console">Google Search Console</a></li>
               <li>Add your property (your website)</li>
               <li>Go to Sitemaps section</li>
-              <li>Submit your sitemap URL: <code class="i5 d6 t6 a7 hb">https://yoursite.com/sitemap.xml</code></li>
+              <li>Submit your sitemap URL: <code class="i5 e6 u6 b7 lb">https://yoursite.com/sitemap.xml</code></li>
               <li>Monitor indexing status</li>
             </ol>
             <p class="g0 u0">This significantly improves how quickly Google discovers and indexes your new content. I&#39;ve added my sitemap to Google Console for better indexing.</p>
-            <h2 id="rich-social-media-cards" class="n0 k8 w8 t8 z8">Rich Social Media Cards</h2>
-            <h3 id="the-complete-metadata-package" class="l0 h8 t8 z8">The Complete Metadata Package</h3>
+            <h2 id="rich-social-media-cards" class="n0 l8 x8 u8 a9">Rich Social Media Cards</h2>
+            <h3 id="the-complete-metadata-package" class="l0 i8 u8 a9">The Complete Metadata Package</h3>
             <p class="g0 u0">Every page on my site gets the full SEO treatment:</p>
             <p class="g0 u0"><strong>Canonical URL</strong></p>
             <ul class="g0 u0">
@@ -585,54 +614,54 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Sets expectations for readers</li>
               <li>Can increase engagement</li>
             </ul>
-            <h3 id="example-implementation" class="l0 h8 t8 z8">Example Implementation</h3>
+            <h3 id="example-implementation" class="l0 i8 u8 a9">Example Implementation</h3>
             <p class="g0 u0">Here&#39;s what a complete metadata setup looks like:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">const</span> metadata<span class="v9">:</span> <span class="y9">Metadata</span> <span class="v9">=</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">title:</span> <span class="x9">&quot;Blog Title | Pulkit&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">description:</span> <span class="x9">&quot;SEO-optimized description under 160 characters&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="w9">openGraph:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">title:</span> <span class="x9">&quot;Blog Title&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">description:</span> <span class="x9">&quot;Engaging description for social sharing&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">url:</span> <span class="x9">&quot;https://pulkitxm.com/blogs/blog-slug&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">type:</span> <span class="x9">&quot;article&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">publishedTime:</span> <span class="x9">&quot;2025-12-11&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">authors:</span> <span class="z9">[</span><span class="x9">&quot;Pulkit&quot;</span><span class="z9">],</span></span>
-                  <span class="block m8 g9">    <span class="w9">images:</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">      <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="w9">url:</span> <span class="x9">&quot;https://pulkitxm.com/images/cover.png&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">width:</span> <span class="u9">1200</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">height:</span> <span class="u9">630</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">alt:</span> <span class="x9">&quot;Blog Title&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="z9">],</span></span>
-                  <span class="block m8 g9">    <span class="w9">siteName:</span> <span class="x9">&quot;Pulkit - Developer&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="w9">twitter:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">card:</span> <span class="x9">&quot;summary_large_image&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">title:</span> <span class="x9">&quot;Blog Title&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">description:</span> <span class="x9">&quot;Engaging description for Twitter&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">creator:</span> <span class="x9">&quot;@_pulkitxm&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">images:</span> <span class="z9">[</span><span class="x9">&quot;https://pulkitxm.com/images/cover.png&quot;</span><span class="z9">],</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="w9">alternates:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">canonical:</span> <span class="x9">&quot;https://pulkitxm.com/blogs/blog-slug&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="w9">authors:</span> <span class="z9">[{</span> <span class="w9">name:</span> <span class="x9">&quot;Pulkit&quot;</span> <span class="z9">}],</span></span>
-                  <span class="block m8 g9"><span class="z9">};</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">const</span> metadata<span class="w9">:</span> <span class="z9">Metadata</span> <span class="w9">=</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">title:</span> <span class="y9">&quot;Blog Title | Pulkit&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">description:</span> <span class="y9">&quot;SEO-optimized description under 160 characters&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="x9">openGraph:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">title:</span> <span class="y9">&quot;Blog Title&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">description:</span> <span class="y9">&quot;Engaging description for social sharing&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">url:</span> <span class="y9">&quot;https://pulkitxm.com/blogs/blog-slug&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">type:</span> <span class="y9">&quot;article&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">publishedTime:</span> <span class="y9">&quot;2025-12-11&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">authors:</span> <span class="aa">[</span><span class="y9">&quot;Pulkit&quot;</span><span class="aa">],</span></span>
+                  <span class="block n8 h9">    <span class="x9">images:</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">      <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="x9">url:</span> <span class="y9">&quot;https://pulkitxm.com/images/cover.png&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">width:</span> <span class="v9">1200</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">height:</span> <span class="v9">630</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">alt:</span> <span class="y9">&quot;Blog Title&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="aa">],</span></span>
+                  <span class="block n8 h9">    <span class="x9">siteName:</span> <span class="y9">&quot;Pulkit - Developer&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="x9">twitter:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">card:</span> <span class="y9">&quot;summary_large_image&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">title:</span> <span class="y9">&quot;Blog Title&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">description:</span> <span class="y9">&quot;Engaging description for Twitter&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">creator:</span> <span class="y9">&quot;@_pulkitxm&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">images:</span> <span class="aa">[</span><span class="y9">&quot;https://pulkitxm.com/images/cover.png&quot;</span><span class="aa">],</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="x9">alternates:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">canonical:</span> <span class="y9">&quot;https://pulkitxm.com/blogs/blog-slug&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="x9">authors:</span> <span class="aa">[{</span> <span class="x9">name:</span> <span class="y9">&quot;Pulkit&quot;</span> <span class="aa">}],</span></span>
+                  <span class="block n8 h9"><span class="aa">};</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="why-social-cards-matter" class="l0 h8 t8 z8">Why Social Cards Matter</h3>
+            <h3 id="why-social-cards-matter" class="l0 i8 u8 a9">Why Social Cards Matter</h3>
             <p class="g0 u0">When your content has rich social media cards:</p>
             <ul class="g0 u0">
               <li>Shares look professional and trustworthy</li>
@@ -642,138 +671,138 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Content spreads more organically</li>
             </ul>
             <p class="g0 u0">Social shares look professional and drive traffic!</p>
-            <h2 id="additional-seo-best-practices" class="n0 k8 w8 t8 z8">Additional SEO Best Practices</h2>
-            <h3 id="security-cache-headers" class="l0 h8 t8 z8">Security &amp; Cache Headers</h3>
-            <p class="g0 u0">Implement proper security and caching headers in your <code class="i5 d6 t6 a7 hb">next.config.js</code>:</p>
+            <h2 id="additional-seo-best-practices" class="n0 l8 x8 u8 a9">Additional SEO Best Practices</h2>
+            <h3 id="security-cache-headers" class="l0 i8 u8 a9">Security &amp; Cache Headers</h3>
+            <p class="g0 u0">Implement proper security and caching headers in your <code class="i5 e6 u6 b7 lb">next.config.js</code>:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> securityHeaders <span class="v9">=</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">key:</span> <span class="x9">&quot;X-DNS-Prefetch-Control&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">value:</span> <span class="x9">&quot;on&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">key:</span> <span class="x9">&quot;X-Frame-Options&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">value:</span> <span class="x9">&quot;SAMEORIGIN&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">key:</span> <span class="x9">&quot;X-Content-Type-Options&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">value:</span> <span class="x9">&quot;nosniff&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">key:</span> <span class="x9">&quot;Referrer-Policy&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">value:</span> <span class="x9">&quot;origin-when-cross-origin&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><span class="z9">];</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="y9">module</span><span class="z9">.</span><span class="y9">exports</span> <span class="v9">=</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">async</span> <span class="r9">headers</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> <span class="z9">[</span></span>
-                  <span class="block m8 g9">      <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="w9">source:</span> <span class="x9">&quot;/:path*&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">headers:</span> securityHeaders<span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="z9">];</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><span class="z9">};</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> securityHeaders <span class="w9">=</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">key:</span> <span class="y9">&quot;X-DNS-Prefetch-Control&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">value:</span> <span class="y9">&quot;on&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">key:</span> <span class="y9">&quot;X-Frame-Options&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">value:</span> <span class="y9">&quot;SAMEORIGIN&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">key:</span> <span class="y9">&quot;X-Content-Type-Options&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">value:</span> <span class="y9">&quot;nosniff&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">key:</span> <span class="y9">&quot;Referrer-Policy&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">value:</span> <span class="y9">&quot;origin-when-cross-origin&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><span class="aa">];</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="z9">module</span><span class="aa">.</span><span class="z9">exports</span> <span class="w9">=</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">async</span> <span class="s9">headers</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> <span class="aa">[</span></span>
+                  <span class="block n8 h9">      <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="x9">source:</span> <span class="y9">&quot;/:path*&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">headers:</span> securityHeaders<span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="aa">];</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><span class="aa">};</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="semantic-html" class="l0 h8 t8 z8">Semantic HTML</h3>
+            <h3 id="semantic-html" class="l0 i8 u8 a9">Semantic HTML</h3>
             <p class="g0 u0">Use proper HTML5 semantic elements:</p>
             <ul class="g0 u0">
-              <li><code class="i5 d6 t6 a7 hb">&lt;article&gt;</code> for blog posts</li>
-              <li><code class="i5 d6 t6 a7 hb">&lt;header&gt;</code> for page headers</li>
-              <li><code class="i5 d6 t6 a7 hb">&lt;nav&gt;</code> for navigation</li>
-              <li><code class="i5 d6 t6 a7 hb">&lt;main&gt;</code> for main content</li>
-              <li><code class="i5 d6 t6 a7 hb">&lt;aside&gt;</code> for sidebars</li>
-              <li><code class="i5 d6 t6 a7 hb">&lt;footer&gt;</code> for footers</li>
+              <li><code class="i5 e6 u6 b7 lb">&lt;article&gt;</code> for blog posts</li>
+              <li><code class="i5 e6 u6 b7 lb">&lt;header&gt;</code> for page headers</li>
+              <li><code class="i5 e6 u6 b7 lb">&lt;nav&gt;</code> for navigation</li>
+              <li><code class="i5 e6 u6 b7 lb">&lt;main&gt;</code> for main content</li>
+              <li><code class="i5 e6 u6 b7 lb">&lt;aside&gt;</code> for sidebars</li>
+              <li><code class="i5 e6 u6 b7 lb">&lt;footer&gt;</code> for footers</li>
             </ul>
             <p class="g0 u0">Search engines use semantic HTML to better understand your content structure.</p>
-            <h3 id="rss-feed-generation" class="l0 h8 t8 z8">RSS Feed Generation</h3>
-            <p class="g0 u0">Create an <a class="o9 ga ia ic" href="https://support.microsoft.com/en-us/office/what-are-rss-feeds-e8aaebc3-a0a7-40cd-9e10-88f9c1e74b97">RSS feed</a> for your content:</p>
+            <h3 id="rss-feed-generation" class="l0 i8 u8 a9">RSS Feed Generation</h3>
+            <p class="g0 u0">Create an <a class="p9 ha ja oc" href="https://support.microsoft.com/en-us/office/what-are-rss-feeds-e8aaebc3-a0a7-40cd-9e10-88f9c1e74b97">RSS feed</a> for your content:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> RSS <span class="t9">from</span> <span class="x9">&quot;rss&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> fs <span class="t9">from</span> <span class="x9">&quot;fs&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> path <span class="t9">from</span> <span class="x9">&quot;path&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> matter <span class="t9">from</span> <span class="x9">&quot;gray-matter&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">GET</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> feed <span class="v9">=</span> <span class="v9">new</span> <span class="r9">RSS</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">title:</span> <span class="x9">&quot;Pulkit&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">description:</span> <span class="x9">&quot;Technical content about web development&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">feed_url:</span> <span class="x9">&quot;https://pulkitxm.com/rss.xml&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">site_url:</span> <span class="x9">&quot;https://pulkitxm.com&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">language:</span> <span class="x9">&quot;en&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> contentDir <span class="v9">=</span> path<span class="z9">.</span><span class="r9">join</span><span class="z9">(</span>process<span class="z9">.</span><span class="r9">cwd</span><span class="z9">(),</span> <span class="x9">&quot;content/blogs&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> files <span class="v9">=</span> fs<span class="z9">.</span><span class="r9">readdirSync</span><span class="z9">(</span>contentDir<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  files<span class="z9">.</span><span class="r9">forEach</span><span class="z9">((</span>file<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> filePath <span class="v9">=</span> path<span class="z9">.</span><span class="r9">join</span><span class="z9">(</span>contentDir<span class="z9">,</span> file<span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> fileContent <span class="v9">=</span> fs<span class="z9">.</span><span class="r9">readFileSync</span><span class="z9">(</span>filePath<span class="z9">,</span> <span class="x9">&quot;utf8&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> <span class="z9">{</span> data<span class="z9">,</span> content <span class="z9">}</span> <span class="v9">=</span> <span class="r9">matter</span><span class="z9">(</span>fileContent<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">    feed<span class="z9">.</span><span class="r9">item</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">      <span class="w9">title:</span> data<span class="z9">.</span><span class="w9">title</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">description:</span> data<span class="z9">.</span><span class="w9">description</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">url:</span> <span class="x9">`https://pulkitxm.com/blogs/${data.</span><span class="w9">slug</span><span class="x9">}`</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">date:</span> data<span class="z9">.</span><span class="w9">date</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">author:</span> data<span class="z9">.</span><span class="w9">author</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">});</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="v9">new</span> <span class="r9">Response</span><span class="z9">(</span>feed<span class="z9">.</span><span class="r9">xml</span><span class="z9">(),</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">headers:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="w9">&quot;Content-Type&quot;:</span> <span class="x9">&quot;application/xml&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> RSS <span class="u9">from</span> <span class="y9">&quot;rss&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> fs <span class="u9">from</span> <span class="y9">&quot;fs&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> path <span class="u9">from</span> <span class="y9">&quot;path&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> matter <span class="u9">from</span> <span class="y9">&quot;gray-matter&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">GET</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> feed <span class="w9">=</span> <span class="w9">new</span> <span class="s9">RSS</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">title:</span> <span class="y9">&quot;Pulkit&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">description:</span> <span class="y9">&quot;Technical content about web development&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">feed_url:</span> <span class="y9">&quot;https://pulkitxm.com/rss.xml&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">site_url:</span> <span class="y9">&quot;https://pulkitxm.com&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">language:</span> <span class="y9">&quot;en&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> contentDir <span class="w9">=</span> path<span class="aa">.</span><span class="s9">join</span><span class="aa">(</span>process<span class="aa">.</span><span class="s9">cwd</span><span class="aa">(),</span> <span class="y9">&quot;content/blogs&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> files <span class="w9">=</span> fs<span class="aa">.</span><span class="s9">readdirSync</span><span class="aa">(</span>contentDir<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  files<span class="aa">.</span><span class="s9">forEach</span><span class="aa">((</span>file<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> filePath <span class="w9">=</span> path<span class="aa">.</span><span class="s9">join</span><span class="aa">(</span>contentDir<span class="aa">,</span> file<span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> fileContent <span class="w9">=</span> fs<span class="aa">.</span><span class="s9">readFileSync</span><span class="aa">(</span>filePath<span class="aa">,</span> <span class="y9">&quot;utf8&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> <span class="aa">{</span> data<span class="aa">,</span> content <span class="aa">}</span> <span class="w9">=</span> <span class="s9">matter</span><span class="aa">(</span>fileContent<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">    feed<span class="aa">.</span><span class="s9">item</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">      <span class="x9">title:</span> data<span class="aa">.</span><span class="x9">title</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">description:</span> data<span class="aa">.</span><span class="x9">description</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">url:</span> <span class="y9">`https://pulkitxm.com/blogs/${data.</span><span class="x9">slug</span><span class="y9">}`</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">date:</span> data<span class="aa">.</span><span class="x9">date</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">author:</span> data<span class="aa">.</span><span class="x9">author</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">});</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="w9">new</span> <span class="s9">Response</span><span class="aa">(</span>feed<span class="aa">.</span><span class="s9">xml</span><span class="aa">(),</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">headers:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="x9">&quot;Content-Type&quot;:</span> <span class="y9">&quot;application/xml&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="internal-linking-via-tags" class="l0 h8 t8 z8">Internal Linking via Tags</h3>
+            <h3 id="internal-linking-via-tags" class="l0 i8 u8 a9">Internal Linking via Tags</h3>
             <p class="g0 u0">Implement a tagging system that creates internal links between related posts:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">function</span> <span class="r9">RelatedPosts</span><span class="z9">({</span> currentSlug<span class="z9">,</span> tags <span class="z9">}</span><span class="v9">:</span> <span class="z9">{</span> currentSlug<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span> tags<span class="v9">:</span> <span class="y9">string</span><span class="z9">[]</span> <span class="z9">})</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> relatedPosts <span class="v9">=</span> <span class="r9">getAllPosts</span><span class="z9">()</span></span>
-                  <span class="block m8 g9">    <span class="z9">.</span><span class="r9">filter</span><span class="z9">(</span>post <span class="t9">=&gt;</span></span>
-                  <span class="block m8 g9">      post<span class="z9">.</span><span class="w9">slug</span> <span class="v9">!==</span> currentSlug <span class="v9">&amp;&amp;</span></span>
-                  <span class="block m8 g9">      post<span class="z9">.</span>tags<span class="z9">.</span><span class="r9">some</span><span class="z9">(</span>tag <span class="t9">=&gt;</span> tags<span class="z9">.</span><span class="r9">includes</span><span class="z9">(</span>tag<span class="z9">))</span></span>
-                  <span class="block m8 g9">    <span class="z9">)</span></span>
-                  <span class="block m8 g9">    <span class="z9">.</span><span class="r9">slice</span><span class="z9">(</span><span class="u9">0</span><span class="z9">,</span> <span class="u9">3</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;</span><span class="y9">aside</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="y9">h3</span><span class="z9">&gt;</span>Related Posts<span class="v9">&lt;/</span>h3<span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="y9">ul</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">{</span>relatedPosts.map(post <span class="v9">=&gt;</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">          <span class="v9">&lt;</span>li key<span class="v9">=</span><span class="z9">{</span>post.slug<span class="z9">}</span><span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">            <span class="v9">&lt;</span>Link href<span class="v9">=</span><span class="z9">{</span><span class="w9">`/blogs/${post.slug}`</span><span class="z9">}</span><span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">              <span class="z9">{</span>post.title<span class="z9">}</span></span>
-                  <span class="block m8 g9">            <span class="v9">&lt;/</span>Link<span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">          <span class="v9">&lt;/</span>li<span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">)</span>)<span class="z9">}</span></span>
-                  <span class="block m8 g9">      <span class="v9">&lt;/</span>ul<span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">    <span class="v9">&lt;/</span>aside<span class="v9">&gt;</span></span>
-                  <span class="block m8 g9">  <span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">function</span> <span class="s9">RelatedPosts</span><span class="aa">({</span> currentSlug<span class="aa">,</span> tags <span class="aa">}</span><span class="w9">:</span> <span class="aa">{</span> currentSlug<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span> tags<span class="w9">:</span> <span class="z9">string</span><span class="aa">[]</span> <span class="aa">})</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> relatedPosts <span class="w9">=</span> <span class="s9">getAllPosts</span><span class="aa">()</span></span>
+                  <span class="block n8 h9">    <span class="aa">.</span><span class="s9">filter</span><span class="aa">(</span>post <span class="u9">=&gt;</span></span>
+                  <span class="block n8 h9">      post<span class="aa">.</span><span class="x9">slug</span> <span class="w9">!==</span> currentSlug <span class="w9">&amp;&amp;</span></span>
+                  <span class="block n8 h9">      post<span class="aa">.</span>tags<span class="aa">.</span><span class="s9">some</span><span class="aa">(</span>tag <span class="u9">=&gt;</span> tags<span class="aa">.</span><span class="s9">includes</span><span class="aa">(</span>tag<span class="aa">))</span></span>
+                  <span class="block n8 h9">    <span class="aa">)</span></span>
+                  <span class="block n8 h9">    <span class="aa">.</span><span class="s9">slice</span><span class="aa">(</span><span class="v9">0</span><span class="aa">,</span> <span class="v9">3</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;</span><span class="z9">aside</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="z9">h3</span><span class="aa">&gt;</span>Related Posts<span class="w9">&lt;/</span>h3<span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="z9">ul</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">{</span>relatedPosts.map(post <span class="w9">=&gt;</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">          <span class="w9">&lt;</span>li key<span class="w9">=</span><span class="aa">{</span>post.slug<span class="aa">}</span><span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">            <span class="w9">&lt;</span>Link href<span class="w9">=</span><span class="aa">{</span><span class="x9">`/blogs/${post.slug}`</span><span class="aa">}</span><span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">              <span class="aa">{</span>post.title<span class="aa">}</span></span>
+                  <span class="block n8 h9">            <span class="w9">&lt;/</span>Link<span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">          <span class="w9">&lt;/</span>li<span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">)</span>)<span class="aa">}</span></span>
+                  <span class="block n8 h9">      <span class="w9">&lt;/</span>ul<span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">    <span class="w9">&lt;/</span>aside<span class="w9">&gt;</span></span>
+                  <span class="block n8 h9">  <span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Internal linking:</p>
@@ -783,7 +812,7 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Improves user engagement</li>
               <li>Reduces bounce rates</li>
             </ul>
-            <h3 id="mobile-first-responsive-design" class="l0 h8 t8 z8">Mobile-First Responsive Design</h3>
+            <h3 id="mobile-first-responsive-design" class="l0 i8 u8 a9">Mobile-First Responsive Design</h3>
             <p class="g0 u0">Ensure your website is mobile-friendly:</p>
             <ul class="g0 u0">
               <li>Use Tailwind CSS responsive utilities</li>
@@ -793,35 +822,35 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Ensure touch targets are large enough</li>
             </ul>
             <p class="g0 u0">Google uses mobile-first indexing, meaning it primarily uses the mobile version of your content for indexing and ranking.</p>
-            <h2 id="the-complete-seo-checklist" class="n0 k8 w8 t8 z8">The Complete SEO Checklist</h2>
+            <h2 id="the-complete-seo-checklist" class="n0 l8 x8 u8 a9">The Complete SEO Checklist</h2>
             <p class="g0 u0">To hit 💯 on Lighthouse SEO, implement these strategies:</p>
             <ol class="g0 u0">
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Static Site Generation (SSG)</strong></p>
                 <ul class="g0 u0">
-                  <li>Use <code class="i5 d6 t6 a7 hb">next-mdx-remote</code> for MDX parsing (RSC-ready)</li>
+                  <li>Use <code class="i5 e6 u6 b7 lb">next-mdx-remote</code> for MDX parsing (RSC-ready)</li>
                   <li>Pre-render all pages at build time</li>
                   <li>Achieve fast page load speeds (~100-200ms)</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Dynamic Metadata per Page</strong></p>
                 <ul class="g0 u0">
-                  <li>Implement <code class="i5 d6 t6 a7 hb">generateMetadata()</code> for each page</li>
+                  <li>Implement <code class="i5 e6 u6 b7 lb">generateMetadata()</code> for each page</li>
                   <li>Include Open Graph and Twitter Card tags</li>
                   <li>Set canonical URLs</li>
                   <li>Use custom cover images</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Security &amp; Cache Headers</strong></p>
                 <ul class="g0 u0">
-                  <li>Add security headers in <code class="i5 d6 t6 a7 hb">next.config.js</code></li>
+                  <li>Add security headers in <code class="i5 e6 u6 b7 lb">next.config.js</code></li>
                   <li>Implement proper caching strategies</li>
                   <li>Optimize images and assets</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Semantic HTML</strong></p>
                 <ul class="g0 u0">
                   <li>Use proper HTML5 elements</li>
@@ -829,7 +858,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                   <li>Improve accessibility</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Sitemap + RSS Feed</strong></p>
                 <ul class="g0 u0">
                   <li>Generate dynamic sitemap from content files</li>
@@ -837,7 +866,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                   <li>Provide RSS feed for readers</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Internal Linking via Tags</strong></p>
                 <ul class="g0 u0">
                   <li>Implement tag-based related content</li>
@@ -845,7 +874,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                   <li>Build topic clusters</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Rich OG/Twitter Cards</strong></p>
                 <ul class="g0 u0">
                   <li>Custom cover images per page</li>
@@ -854,7 +883,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                   <li>Author attribution</li>
                 </ul>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Mobile-First Responsive Design</strong></p>
                 <ul class="g0 u0">
                   <li>Use Tailwind CSS for responsive layouts</li>
@@ -863,7 +892,7 @@ globalThis.addEventListener("pagereveal", (event) => {
                 </ul>
               </li>
             </ol>
-            <h2 id="results-and-benefits" class="n0 k8 w8 t8 z8">Results and Benefits</h2>
+            <h2 id="results-and-benefits" class="n0 l8 x8 u8 a9">Results and Benefits</h2>
             <p class="g0 u0">By implementing these strategies, I achieved:</p>
             <ul class="g0 u0">
               <li><strong>100/100 Lighthouse SEO score</strong></li>
@@ -873,7 +902,7 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li><strong>Complete control</strong> over content and SEO</li>
               <li><strong>No dependency</strong> on third-party content platforms</li>
             </ul>
-            <h2 id="conclusion" class="n0 k8 w8 t8 z8">Conclusion</h2>
+            <h2 id="conclusion" class="n0 l8 x8 u8 a9">Conclusion</h2>
             <p class="g0 u0">Having your content directly on your Next.js portfolio (instead of platforms like Hashnode or Medium) gives you unprecedented control over SEO optimization. While it requires more setup, the benefits are substantial:</p>
             <ul class="g0 u0">
               <li>Full control over technical SEO</li>
@@ -895,22 +924,22 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0">With patience and consistency, your Next.js website can compete with - and even outperform - content on major platforms. Happy building and ranking! 🚀</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/og-images-in-nextjs/">Open Graph Images in Next.js</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/contact-form-with-resend/">Build a Contact Form with Resend in Next.js</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/smooth-scroll/">Smooth Scrolling in Next.js</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/og-images-in-nextjs/">Open Graph Images in Next.js</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/contact-form-with-resend/">Build a Contact Form with Resend in Next.js</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/smooth-scroll/">Smooth Scrolling in Next.js</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/seo-for-nextjs-portfolio.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/seo-for-nextjs-portfolio.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -169,15 +169,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -216,113 +245,113 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">Build a Contact Form with Resend in Next.js</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Build a Contact Form with Resend in Next.js</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2024-12-13">December 13, 2024</time> · 4 min read</p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Build a Contact Form with Resend in Next.js</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2024-12-13">December 13, 2024</time> · 4 min read</p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">Sending emails is a common feature in web applications, whether for user signups, notifications, or transactional purposes. In this guide, we’ll explore how to integrate Resend, a developer-friendly email API, into a Next.js application for seamless email delivery.</p>
-            <h2 id="what-is-resend" class="n0 k8 w8 t8 z8"><strong>What is Resend?</strong></h2>
-            <blockquote class="x g0 u0 q5 v5 s7 p9">
+            <h2 id="what-is-resend" class="n0 l8 x8 u8 a9"><strong>What is Resend?</strong></h2>
+            <blockquote class="x g0 u0 q5 w5 t7 q9">
               <p class="g0 u0">Resend is <strong>a software development company that specializes in providing developer-focused email solutions</strong>. The company offers an email API for developers, enabling them to build, test, and send transactional emails at scale.</p>
             </blockquote>
-            <p class="g0 u0">I&#39;m quite particular about my portfolio, and while browsing through some developer portfolios online, I noticed that most of them had a contact section with a form in addition to contact links. This led me to research some good email solutions. Initially, I tried <a class="o9 ga ia ic" href="https://www.emailjs.com">emailjs</a>, but its free tier was pretty basic. That&#39;s how I eventually discovered Resend.</p>
+            <p class="g0 u0">I&#39;m quite particular about my portfolio, and while browsing through some developer portfolios online, I noticed that most of them had a contact section with a form in addition to contact links. This led me to research some good email solutions. Initially, I tried <a class="p9 ha ja oc" href="https://www.emailjs.com">emailjs</a>, but its free tier was pretty basic. That&#39;s how I eventually discovered Resend.</p>
             <p class="g0 u0">
-              <a class="o9 ga ia ic" href="https://pulkitxm.com/contact">
+              <a class="p9 ha ja oc" href="https://pulkitxm.com/contact">
                 <img class="y c0 block z1 x2 h5" src="/assets/content/blogs/emails-with-resend/fb91fd24-5e0d-463d-90c9-223671d3db5c.webp" alt="Contact form on portfolio website" width="723" height="670" loading="lazy" />
               </a>
             </p>
             <p class="g0 u0">So let me show you how you can easily integrate an awesome contact form into your Next.js project!</p>
-            <h2 id="setting-up-the-environment" class="n0 k8 w8 t8 z8">Setting Up the Environment</h2>
-            <h3 id="create-a-new-next-js-app" class="l0 h8 t8 z8">Create a New Next.js App</h3>
+            <h2 id="setting-up-the-environment" class="n0 l8 x8 u8 a9">Setting Up the Environment</h2>
+            <h3 id="create-a-new-next-js-app" class="l0 i8 u8 a9">Create a New Next.js App</h3>
             <p class="g0 u0">Let&#39;s first set up a new Next.js project. You can follow along if you already have one too!</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">pnpx</span> <span class="x9">create-next-app</span> <span class="x9">resend-demo</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">pnpx</span> <span class="y9">create-next-app</span> <span class="y9">resend-demo</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">pulkit@pulkit-tuf:~/Desktop/resend-demo</span> <span class="x9">pnpx</span> <span class="x9">create-next-app</span> <span class="x9">resend-demo</span></span>
-                  <span class="block m8 g9"><span class="r9">&#10004;</span> <span class="x9">Would</span> <span class="x9">you</span> <span class="x9">like</span> <span class="x9">to</span> <span class="x9">use</span> <span class="x9">TypeScript?</span> <span class="x9">…</span> <span class="x9">No</span> <span class="x9">/</span> <span class="x9">Yes</span></span>
-                  <span class="block m8 g9"><span class="r9">&#10004;</span> <span class="x9">Would</span> <span class="x9">you</span> <span class="x9">like</span> <span class="x9">to</span> <span class="x9">use</span> <span class="x9">ESLint?</span> <span class="x9">…</span> <span class="x9">No</span> <span class="x9">/</span> <span class="x9">Yes</span></span>
-                  <span class="block m8 g9"><span class="r9">&#10004;</span> <span class="x9">Would</span> <span class="x9">you</span> <span class="x9">like</span> <span class="x9">to</span> <span class="x9">use</span> <span class="x9">Tailwind</span> <span class="x9">CSS?</span> <span class="x9">…</span> <span class="x9">No</span> <span class="x9">/</span> <span class="x9">Yes</span></span>
-                  <span class="block m8 g9"><span class="r9">&#10004;</span> <span class="x9">Would</span> <span class="x9">you</span> <span class="x9">like</span> <span class="x9">your</span> <span class="x9">code</span> <span class="x9">inside</span> <span class="x9">a</span> <span class="x9">`src/`</span> <span class="r9">directory?</span> <span class="x9">…</span> <span class="x9">No</span> <span class="x9">/</span> <span class="x9">Yes</span></span>
-                  <span class="block m8 g9"><span class="r9">&#10004;</span> <span class="x9">Would</span> <span class="x9">you</span> <span class="x9">like</span> <span class="x9">to</span> <span class="x9">use</span> <span class="x9">App</span> <span class="x9">Router?</span> (recommended) … No / Yes</span>
-                  <span class="block m8 g9"><span class="r9">&#10004;</span> <span class="x9">Would</span> <span class="x9">you</span> <span class="x9">like</span> <span class="x9">to</span> <span class="x9">use</span> <span class="x9">Turbopack</span> <span class="x9">for</span> <span class="x9">`next dev`</span><span class="v9">?</span> … No / Yes</span>
-                  <span class="block m8 g9"><span class="r9">&#10004;</span> <span class="x9">Would</span> <span class="x9">you</span> <span class="x9">like</span> <span class="x9">to</span> <span class="x9">customize</span> <span class="x9">the</span> <span class="x9">import</span> <span class="x9">alias</span> (<span class="x9">`@/*`</span> <span class="r9">by</span> <span class="x9">default</span>)<span class="v9">?</span> … No / Yes</span>
-                  <span class="block m8 g9"><span class="r9">Creating</span> <span class="x9">a</span> <span class="x9">new</span> <span class="x9">Next.js</span> <span class="x9">app</span> <span class="x9">in</span> <span class="x9">~/Desktop/resend-demo.</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">pulkit@pulkit-tuf:~/Desktop/resend-demo</span> <span class="y9">pnpx</span> <span class="y9">create-next-app</span> <span class="y9">resend-demo</span></span>
+                  <span class="block n8 h9"><span class="s9">&#10004;</span> <span class="y9">Would</span> <span class="y9">you</span> <span class="y9">like</span> <span class="y9">to</span> <span class="y9">use</span> <span class="y9">TypeScript?</span> <span class="y9">…</span> <span class="y9">No</span> <span class="y9">/</span> <span class="y9">Yes</span></span>
+                  <span class="block n8 h9"><span class="s9">&#10004;</span> <span class="y9">Would</span> <span class="y9">you</span> <span class="y9">like</span> <span class="y9">to</span> <span class="y9">use</span> <span class="y9">ESLint?</span> <span class="y9">…</span> <span class="y9">No</span> <span class="y9">/</span> <span class="y9">Yes</span></span>
+                  <span class="block n8 h9"><span class="s9">&#10004;</span> <span class="y9">Would</span> <span class="y9">you</span> <span class="y9">like</span> <span class="y9">to</span> <span class="y9">use</span> <span class="y9">Tailwind</span> <span class="y9">CSS?</span> <span class="y9">…</span> <span class="y9">No</span> <span class="y9">/</span> <span class="y9">Yes</span></span>
+                  <span class="block n8 h9"><span class="s9">&#10004;</span> <span class="y9">Would</span> <span class="y9">you</span> <span class="y9">like</span> <span class="y9">your</span> <span class="y9">code</span> <span class="y9">inside</span> <span class="y9">a</span> <span class="y9">`src/`</span> <span class="s9">directory?</span> <span class="y9">…</span> <span class="y9">No</span> <span class="y9">/</span> <span class="y9">Yes</span></span>
+                  <span class="block n8 h9"><span class="s9">&#10004;</span> <span class="y9">Would</span> <span class="y9">you</span> <span class="y9">like</span> <span class="y9">to</span> <span class="y9">use</span> <span class="y9">App</span> <span class="y9">Router?</span> (recommended) … No / Yes</span>
+                  <span class="block n8 h9"><span class="s9">&#10004;</span> <span class="y9">Would</span> <span class="y9">you</span> <span class="y9">like</span> <span class="y9">to</span> <span class="y9">use</span> <span class="y9">Turbopack</span> <span class="y9">for</span> <span class="y9">`next dev`</span><span class="w9">?</span> … No / Yes</span>
+                  <span class="block n8 h9"><span class="s9">&#10004;</span> <span class="y9">Would</span> <span class="y9">you</span> <span class="y9">like</span> <span class="y9">to</span> <span class="y9">customize</span> <span class="y9">the</span> <span class="y9">import</span> <span class="y9">alias</span> (<span class="y9">`@/*`</span> <span class="s9">by</span> <span class="y9">default</span>)<span class="w9">?</span> … No / Yes</span>
+                  <span class="block n8 h9"><span class="s9">Creating</span> <span class="y9">a</span> <span class="y9">new</span> <span class="y9">Next.js</span> <span class="y9">app</span> <span class="y9">in</span> <span class="y9">~/Desktop/resend-demo.</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Once the setup is complete, navigate to the project directory:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">cd</span> <span class="x9">resend-demo</span></span>
-                  <span class="block m8 g9"><span class="r9">pnpm</span> <span class="x9">dev</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">cd</span> <span class="y9">resend-demo</span></span>
+                  <span class="block n8 h9"><span class="s9">pnpm</span> <span class="y9">dev</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">Open <a class="o9 ga ia ic" href="http://localhost:3000">http://localhost:3000</a> in your browser. You should see the default Next.js welcome page.</p>
-            <h3 id="install-required-dependencies" class="l0 h8 t8 z8">Install Required Dependencies</h3>
+            <p class="g0 u0">Open <a class="p9 ha ja oc" href="http://localhost:3000">http://localhost:3000</a> in your browser. You should see the default Next.js welcome page.</p>
+            <h3 id="install-required-dependencies" class="l0 i8 u8 a9">Install Required Dependencies</h3>
             <p class="g0 u0">Next, install the Resend SDK to integrate email functionality:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">pnpm</span> <span class="x9">add</span> <span class="x9">resend</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">pnpm</span> <span class="y9">add</span> <span class="y9">resend</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">This package will allow us to interact with Resend&#39;s API effortlessly.</p>
-            <h3 id="set-up-environment-variables" class="l0 h8 t8 z8">Set Up Environment Variables</h3>
+            <h3 id="set-up-environment-variables" class="l0 i8 u8 a9">Set Up Environment Variables</h3>
             <p class="g0 u0">To securely use the Resend API, you&#39;ll need an API key. Follow these steps:</p>
             <ol class="g0 u0">
-              <li class="bg">
-                <p class="g0 u0">Visit <a class="o9 ga ia ic" href="https://resend.com"><strong>resend.com</strong></a> and create an account if you haven&#39;t already.</p>
+              <li class="jg">
+                <p class="g0 u0">Visit <a class="p9 ha ja oc" href="https://resend.com"><strong>resend.com</strong></a> and create an account if you haven&#39;t already.</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Generate an API Key</strong>:</p>
                 <ul class="g0 u0">
-                  <li>Navigate to the API keys section in your dashboard or go directly to <a class="o9 ga ia ic" href="https://resend.com/api-keys">resend.com/api-keys</a>.</li>
+                  <li>Navigate to the API keys section in your dashboard or go directly to <a class="p9 ha ja oc" href="https://resend.com/api-keys">resend.com/api-keys</a>.</li>
                   <li>
-                    Click on <code class="i5 d6 t6 a7 hb">Create API key</code> to generate a new key.
+                    Click on <code class="i5 e6 u6 b7 lb">Create API key</code> to generate a new key.
                     <a href="/assets/content/blogs/emails-with-resend/957f2ab3-d003-4467-900a-03c6abbd3d7b.webp" class="block" data-media-zoom data-width="574" data-height="457">
                       <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/emails-with-resend/957f2ab3-d003-4467-900a-03c6abbd3d7b.webp" alt="Resend API keys page with create button" width="574" height="457" loading="lazy" />
                     </a>
@@ -334,15 +363,15 @@ globalThis.addEventListener("pagereveal", (event) => {
                         </a>
                       </li>
                       <li>
-                        Add the key to a <code class="i5 d6 t6 a7 hb">.env</code> file in your project root
+                        Add the key to a <code class="i5 e6 u6 b7 lb">.env</code> file in your project root
                         <div class="e g0 u0" data-code-block>
-                          <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                            <code class="language-bash block q2 a3 i5 hb h9">
-                              <span class="block m8 g9">RESEND_API_KEY<span class="v9">=</span><span class="x9">your-resend-api-key</span></span>
+                          <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                            <code class="language-bash block q2 a3 i5 lb i9">
+                              <span class="block n8 h9">RESEND_API_KEY<span class="w9">=</span><span class="y9">your-resend-api-key</span></span>
                             </code>
                           </pre>
-                          <div class="b d f e1 b4 e4 p6">
-                            <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+                          <div class="b d f e1 b4 e4 q6">
+                            <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
                           </div>
                         </div>
                       </li>
@@ -351,284 +380,284 @@ globalThis.addEventListener("pagereveal", (event) => {
                 </ul>
               </li>
             </ol>
-            <h2 id="implementing-email-sending-in-next-js" class="n0 k8 w8 t8 z8">Implementing Email Sending in Next.js</h2>
+            <h2 id="implementing-email-sending-in-next-js" class="n0 l8 x8 u8 a9">Implementing Email Sending in Next.js</h2>
             <p class="g0 u0">Now, let&#39;s focus on implementing email sending functionality in our Next.js application. This process involves integrating the Resend SDK, which we installed earlier, to seamlessly interact with Resend&#39;s API. By doing so, we can send emails directly from our application, enhancing its communication capabilities.</p>
-            <h3 id="building-a-basic-contact-form" class="l0 h8 t8 z8">Building a Basic Contact Form</h3>
+            <h3 id="building-a-basic-contact-form" class="l0 i8 u8 a9">Building a Basic Contact Form</h3>
             <p class="g0 u0">Before diving into sending emails, let’s create a basic contact form as our frontend interface. This form will allow users to enter their name, email, and message. Once submitted, we’ll handle the backend functionality to send emails via Resend.</p>
-            <blockquote class="x g0 u0 q5 v5 s7 p9">
-              <p class="g0 u0">The below snippet defines a <code class="i5 d6 t6 a7 hb">ContactForm</code> component, managing form inputs for name, email, and message with state hooks. It includes a submit handler that simulates sending a message with a loading animation, using <a class="o9 ga ia ic" href="https://ui.shadcn.com">shadcn</a> components and icons for a polished user interface. The form provides feedback on submission status with conditional rendering and animations.</p>
+            <blockquote class="x g0 u0 q5 w5 t7 q9">
+              <p class="g0 u0">The below snippet defines a <code class="i5 e6 u6 b7 lb">ContactForm</code> component, managing form inputs for name, email, and message with state hooks. It includes a submit handler that simulates sending a message with a loading animation, using <a class="p9 ha ja oc" href="https://ui.shadcn.com">shadcn</a> components and icons for a polished user interface. The form provides feedback on submission status with conditional rendering and animations.</p>
             </blockquote>
             <p class="g0 u0">Before copying and pasting, please install the dependencies.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-bash block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="r9">pnpx</span> <span class="x9">shadcn</span> <span class="x9">add</span> <span class="x9">input</span> <span class="x9">textarea</span> <span class="x9">button</span> <span class="x9">label</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">#lucid-icons are installed along these</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-bash block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="s9">pnpx</span> <span class="y9">shadcn</span> <span class="y9">add</span> <span class="y9">input</span> <span class="y9">textarea</span> <span class="y9">button</span> <span class="y9">label</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">#lucid-icons are installed along these</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-tsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// src/components/ContactForm.tsx</span></span>
-                  <span class="block m8 g9"><span class="x9">&quot;use client&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> useCallback<span class="z9">,</span> useState <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;react&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> Input <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;@/components/ui/input&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> Textarea <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;@/components/ui/textarea&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> Button <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;@/components/ui/button&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> Label <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;@/components/ui/label&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> Mail<span class="z9">,</span> MessageSquare<span class="z9">,</span> Send<span class="z9">,</span> User <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;lucide-react&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">default</span> <span class="t9">function</span> <span class="r9">ContactForm</span><span class="z9">()</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">[</span>formInputs<span class="z9">,</span> setFormInputs<span class="z9">]</span> <span class="v9">=</span> <span class="r9">useState</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">    <span class="w9">name:</span> <span class="x9">&quot;&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">email:</span> <span class="x9">&quot;&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">message:</span> <span class="x9">&quot;&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">});</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">[</span>isSubmitting<span class="z9">,</span> setIsSubmitting<span class="z9">]</span> <span class="v9">=</span> <span class="r9">useState</span><span class="z9">(</span><span class="t9">false</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> <span class="z9">[</span>isSubmitted<span class="z9">,</span> setIsSubmitted<span class="z9">]</span> <span class="v9">=</span> <span class="r9">useState</span><span class="z9">(</span><span class="t9">false</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> handleSendMessage <span class="v9">=</span> <span class="r9">useCallback</span><span class="z9">(</span></span>
-                  <span class="block m8 g9">    <span class="t9">async</span> <span class="z9">(</span>e<span class="v9">:</span> <span class="y9">React</span><span class="z9">.</span><span class="y9">FormEvent</span><span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      e<span class="z9">.</span><span class="r9">preventDefault</span><span class="z9">();</span></span>
-                  <span class="block m8 g9">      <span class="t9">if</span> <span class="z9">(</span><span class="v9">!</span>formInputs<span class="z9">.</span><span class="w9">name</span> <span class="v9">||</span> <span class="v9">!</span>formInputs<span class="z9">.</span><span class="w9">email</span> <span class="v9">||</span> <span class="v9">!</span>formInputs<span class="z9">.</span><span class="w9">message</span><span class="z9">)</span> <span class="t9">return</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">      <span class="r9">setIsSubmitting</span><span class="z9">(</span><span class="t9">true</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">      <span class="t9">try</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="t9">await</span> <span class="v9">new</span> <span class="y9">Promise</span><span class="z9">((</span>resolve<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="r9">setTimeout</span><span class="z9">(</span>resolve<span class="z9">,</span> <span class="u9">2000</span><span class="z9">));</span></span>
-                  <span class="block m8 g9">        <span class="r9">setIsSubmitted</span><span class="z9">(</span><span class="t9">true</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">      <span class="z9">}</span> <span class="t9">catch</span> <span class="z9">(</span>error<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">        console<span class="z9">.</span><span class="r9">error</span><span class="z9">(</span><span class="x9">&quot;Failed to send email:&quot;</span><span class="z9">,</span> error<span class="z9">);</span></span>
-                  <span class="block m8 g9">      <span class="z9">}</span> <span class="t9">finally</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">        <span class="r9">setIsSubmitting</span><span class="z9">(</span><span class="t9">false</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">      <span class="z9">}</span></span>
-                  <span class="block m8 g9">    <span class="z9">},</span></span>
-                  <span class="block m8 g9">    <span class="z9">[</span>formInputs<span class="z9">],</span></span>
-                  <span class="block m8 g9">  <span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;</span><span class="s9">form</span></span>
-                  <span class="block m8 g9">      <span class="w9">onSubmit</span><span class="v9">=</span><span class="z9">{</span>handleSendMessage<span class="z9">}</span></span>
-                  <span class="block m8 g9">      <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;mx-auto max-w-4xl space-y-4 px-4 sm:px-6 lg:px-8 min-w-[600px]&quot;</span></span>
-                  <span class="block m8 g9">    <span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;space-y-2&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;</span><span class="s9">Label</span> <span class="w9">htmlFor</span><span class="v9">=</span><span class="x9">&quot;name&quot;</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;text-gray-300&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          Name</span>
-                  <span class="block m8 g9">        <span class="z9">&lt;/</span><span class="s9">Label</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;relative&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">User</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400&quot;</span> <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">Input</span></span>
-                  <span class="block m8 g9">            <span class="w9">type</span><span class="v9">=</span><span class="x9">&quot;text&quot;</span></span>
-                  <span class="block m8 g9">            <span class="w9">value</span><span class="v9">=</span><span class="z9">{</span>formInputs<span class="z9">.</span><span class="w9">name</span><span class="z9">}</span></span>
-                  <span class="block m8 g9">            <span class="w9">onChange</span><span class="v9">=</span><span class="z9">{(</span>e<span class="z9">)</span> <span class="t9">=&gt;</span></span>
-                  <span class="block m8 g9">              <span class="r9">setFormInputs</span><span class="z9">((</span>prev<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">                <span class="v9">...</span>prev<span class="z9">,</span></span>
-                  <span class="block m8 g9">                <span class="w9">name:</span> e<span class="z9">.</span>target<span class="z9">.</span><span class="w9">value</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">              <span class="z9">}))</span></span>
-                  <span class="block m8 g9">            <span class="z9">}</span></span>
-                  <span class="block m8 g9">            <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span></span>
-                  <span class="block m8 g9">            <span class="w9">placeholder</span><span class="v9">=</span><span class="x9">&quot;John Doe&quot;</span></span>
-                  <span class="block m8 g9">            <span class="w9">required</span></span>
-                  <span class="block m8 g9">          <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;/</span><span class="s9">div</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;/</span><span class="s9">div</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;space-y-2&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;</span><span class="s9">Label</span> <span class="w9">htmlFor</span><span class="v9">=</span><span class="x9">&quot;email&quot;</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;text-gray-300&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          Email</span>
-                  <span class="block m8 g9">        <span class="z9">&lt;/</span><span class="s9">Label</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;relative&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">Mail</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400&quot;</span> <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">Input</span></span>
-                  <span class="block m8 g9">            <span class="w9">type</span><span class="v9">=</span><span class="x9">&quot;email&quot;</span></span>
-                  <span class="block m8 g9">            <span class="w9">value</span><span class="v9">=</span><span class="z9">{</span>formInputs<span class="z9">.</span><span class="w9">email</span><span class="z9">}</span></span>
-                  <span class="block m8 g9">            <span class="w9">onChange</span><span class="v9">=</span><span class="z9">{(</span>e<span class="z9">)</span> <span class="t9">=&gt;</span></span>
-                  <span class="block m8 g9">              <span class="r9">setFormInputs</span><span class="z9">((</span>prev<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">                <span class="v9">...</span>prev<span class="z9">,</span></span>
-                  <span class="block m8 g9">                <span class="w9">email:</span> e<span class="z9">.</span>target<span class="z9">.</span><span class="w9">value</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">              <span class="z9">}))</span></span>
-                  <span class="block m8 g9">            <span class="z9">}</span></span>
-                  <span class="block m8 g9">            <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span></span>
-                  <span class="block m8 g9">            <span class="w9">placeholder</span><span class="v9">=</span><span class="x9">&quot;john@example.com&quot;</span></span>
-                  <span class="block m8 g9">            <span class="w9">required</span></span>
-                  <span class="block m8 g9">          <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;/</span><span class="s9">div</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;/</span><span class="s9">div</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;space-y-2&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;</span><span class="s9">Label</span> <span class="w9">htmlFor</span><span class="v9">=</span><span class="x9">&quot;message&quot;</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;text-gray-300&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          Message</span>
-                  <span class="block m8 g9">        <span class="z9">&lt;/</span><span class="s9">Label</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;relative&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">MessageSquare</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;absolute left-3 top-3 h-4 w-4 text-gray-400&quot;</span> <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">Textarea</span></span>
-                  <span class="block m8 g9">            <span class="w9">value</span><span class="v9">=</span><span class="z9">{</span>formInputs<span class="z9">.</span><span class="w9">message</span><span class="z9">}</span></span>
-                  <span class="block m8 g9">            <span class="w9">onChange</span><span class="v9">=</span><span class="z9">{(</span>e<span class="z9">)</span> <span class="t9">=&gt;</span></span>
-                  <span class="block m8 g9">              <span class="r9">setFormInputs</span><span class="z9">((</span>prev<span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">({</span></span>
-                  <span class="block m8 g9">                <span class="v9">...</span>prev<span class="z9">,</span></span>
-                  <span class="block m8 g9">                <span class="w9">message:</span> e<span class="z9">.</span>target<span class="z9">.</span><span class="w9">value</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">              <span class="z9">}))</span></span>
-                  <span class="block m8 g9">            <span class="z9">}</span></span>
-                  <span class="block m8 g9">            <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;min-h-[120px] border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span></span>
-                  <span class="block m8 g9">            <span class="w9">placeholder</span><span class="v9">=</span><span class="x9">&quot;Your message here...&quot;</span></span>
-                  <span class="block m8 g9">            <span class="w9">required</span></span>
-                  <span class="block m8 g9">          <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;/</span><span class="s9">div</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;/</span><span class="s9">div</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">Button</span></span>
-                  <span class="block m8 g9">        <span class="w9">type</span><span class="v9">=</span><span class="x9">&quot;submit&quot;</span></span>
-                  <span class="block m8 g9">        <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;w-full bg-white text-black hover:bg-white/90&quot;</span></span>
-                  <span class="block m8 g9">        <span class="w9">disabled</span><span class="v9">=</span><span class="z9">{</span>isSubmitting <span class="v9">||</span> isSubmitted<span class="z9">}</span></span>
-                  <span class="block m8 g9">      <span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">{</span>isSubmitting <span class="v9">?</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">span</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;flex items-center gap-2&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">            Sending...</span>
-                  <span class="block m8 g9">            <span class="z9">&lt;</span><span class="s9">span</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;animate-spin&quot;</span><span class="z9">&gt;</span>⏳<span class="z9">&lt;/</span><span class="s9">span</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;/</span><span class="s9">span</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">)</span> <span class="v9">:</span> isSubmitted <span class="v9">?</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">span</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;flex items-center gap-2&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">            Thanks</span>
-                  <span class="block m8 g9">            <span class="z9">&lt;</span><span class="s9">span</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;animate-pulse&quot;</span><span class="z9">&gt;</span>✨<span class="z9">&lt;/</span><span class="s9">span</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;/</span><span class="s9">span</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">)</span> <span class="v9">:</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;</span><span class="s9">span</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;flex items-center gap-2&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">            Send Message</span>
-                  <span class="block m8 g9">            <span class="z9">&lt;</span><span class="s9">Send</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;h-4 w-4&quot;</span> <span class="z9">/&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">&lt;/</span><span class="s9">span</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        <span class="z9">)}</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;/</span><span class="s9">Button</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;/</span><span class="s9">form</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">  <span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-tsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// src/components/ContactForm.tsx</span></span>
+                  <span class="block n8 h9"><span class="y9">&quot;use client&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> useCallback<span class="aa">,</span> useState <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;react&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> Input <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;@/components/ui/input&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> Textarea <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;@/components/ui/textarea&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> Button <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;@/components/ui/button&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> Label <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;@/components/ui/label&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> Mail<span class="aa">,</span> MessageSquare<span class="aa">,</span> Send<span class="aa">,</span> User <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;lucide-react&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">default</span> <span class="u9">function</span> <span class="s9">ContactForm</span><span class="aa">()</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">[</span>formInputs<span class="aa">,</span> setFormInputs<span class="aa">]</span> <span class="w9">=</span> <span class="s9">useState</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">    <span class="x9">name:</span> <span class="y9">&quot;&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">email:</span> <span class="y9">&quot;&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">message:</span> <span class="y9">&quot;&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">});</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">[</span>isSubmitting<span class="aa">,</span> setIsSubmitting<span class="aa">]</span> <span class="w9">=</span> <span class="s9">useState</span><span class="aa">(</span><span class="u9">false</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> <span class="aa">[</span>isSubmitted<span class="aa">,</span> setIsSubmitted<span class="aa">]</span> <span class="w9">=</span> <span class="s9">useState</span><span class="aa">(</span><span class="u9">false</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> handleSendMessage <span class="w9">=</span> <span class="s9">useCallback</span><span class="aa">(</span></span>
+                  <span class="block n8 h9">    <span class="u9">async</span> <span class="aa">(</span>e<span class="w9">:</span> <span class="z9">React</span><span class="aa">.</span><span class="z9">FormEvent</span><span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      e<span class="aa">.</span><span class="s9">preventDefault</span><span class="aa">();</span></span>
+                  <span class="block n8 h9">      <span class="u9">if</span> <span class="aa">(</span><span class="w9">!</span>formInputs<span class="aa">.</span><span class="x9">name</span> <span class="w9">||</span> <span class="w9">!</span>formInputs<span class="aa">.</span><span class="x9">email</span> <span class="w9">||</span> <span class="w9">!</span>formInputs<span class="aa">.</span><span class="x9">message</span><span class="aa">)</span> <span class="u9">return</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">      <span class="s9">setIsSubmitting</span><span class="aa">(</span><span class="u9">true</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">      <span class="u9">try</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="u9">await</span> <span class="w9">new</span> <span class="z9">Promise</span><span class="aa">((</span>resolve<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="s9">setTimeout</span><span class="aa">(</span>resolve<span class="aa">,</span> <span class="v9">2000</span><span class="aa">));</span></span>
+                  <span class="block n8 h9">        <span class="s9">setIsSubmitted</span><span class="aa">(</span><span class="u9">true</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">      <span class="aa">}</span> <span class="u9">catch</span> <span class="aa">(</span>error<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">        console<span class="aa">.</span><span class="s9">error</span><span class="aa">(</span><span class="y9">&quot;Failed to send email:&quot;</span><span class="aa">,</span> error<span class="aa">);</span></span>
+                  <span class="block n8 h9">      <span class="aa">}</span> <span class="u9">finally</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">        <span class="s9">setIsSubmitting</span><span class="aa">(</span><span class="u9">false</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">      <span class="aa">}</span></span>
+                  <span class="block n8 h9">    <span class="aa">},</span></span>
+                  <span class="block n8 h9">    <span class="aa">[</span>formInputs<span class="aa">],</span></span>
+                  <span class="block n8 h9">  <span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;</span><span class="t9">form</span></span>
+                  <span class="block n8 h9">      <span class="x9">onSubmit</span><span class="w9">=</span><span class="aa">{</span>handleSendMessage<span class="aa">}</span></span>
+                  <span class="block n8 h9">      <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;mx-auto max-w-4xl space-y-4 px-4 sm:px-6 lg:px-8 min-w-[600px]&quot;</span></span>
+                  <span class="block n8 h9">    <span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;space-y-2&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;</span><span class="t9">Label</span> <span class="x9">htmlFor</span><span class="w9">=</span><span class="y9">&quot;name&quot;</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;text-gray-300&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          Name</span>
+                  <span class="block n8 h9">        <span class="aa">&lt;/</span><span class="t9">Label</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;relative&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">User</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400&quot;</span> <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">Input</span></span>
+                  <span class="block n8 h9">            <span class="x9">type</span><span class="w9">=</span><span class="y9">&quot;text&quot;</span></span>
+                  <span class="block n8 h9">            <span class="x9">value</span><span class="w9">=</span><span class="aa">{</span>formInputs<span class="aa">.</span><span class="x9">name</span><span class="aa">}</span></span>
+                  <span class="block n8 h9">            <span class="x9">onChange</span><span class="w9">=</span><span class="aa">{(</span>e<span class="aa">)</span> <span class="u9">=&gt;</span></span>
+                  <span class="block n8 h9">              <span class="s9">setFormInputs</span><span class="aa">((</span>prev<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">                <span class="w9">...</span>prev<span class="aa">,</span></span>
+                  <span class="block n8 h9">                <span class="x9">name:</span> e<span class="aa">.</span>target<span class="aa">.</span><span class="x9">value</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">              <span class="aa">}))</span></span>
+                  <span class="block n8 h9">            <span class="aa">}</span></span>
+                  <span class="block n8 h9">            <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span></span>
+                  <span class="block n8 h9">            <span class="x9">placeholder</span><span class="w9">=</span><span class="y9">&quot;John Doe&quot;</span></span>
+                  <span class="block n8 h9">            <span class="x9">required</span></span>
+                  <span class="block n8 h9">          <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;/</span><span class="t9">div</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;/</span><span class="t9">div</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;space-y-2&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;</span><span class="t9">Label</span> <span class="x9">htmlFor</span><span class="w9">=</span><span class="y9">&quot;email&quot;</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;text-gray-300&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          Email</span>
+                  <span class="block n8 h9">        <span class="aa">&lt;/</span><span class="t9">Label</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;relative&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">Mail</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400&quot;</span> <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">Input</span></span>
+                  <span class="block n8 h9">            <span class="x9">type</span><span class="w9">=</span><span class="y9">&quot;email&quot;</span></span>
+                  <span class="block n8 h9">            <span class="x9">value</span><span class="w9">=</span><span class="aa">{</span>formInputs<span class="aa">.</span><span class="x9">email</span><span class="aa">}</span></span>
+                  <span class="block n8 h9">            <span class="x9">onChange</span><span class="w9">=</span><span class="aa">{(</span>e<span class="aa">)</span> <span class="u9">=&gt;</span></span>
+                  <span class="block n8 h9">              <span class="s9">setFormInputs</span><span class="aa">((</span>prev<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">                <span class="w9">...</span>prev<span class="aa">,</span></span>
+                  <span class="block n8 h9">                <span class="x9">email:</span> e<span class="aa">.</span>target<span class="aa">.</span><span class="x9">value</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">              <span class="aa">}))</span></span>
+                  <span class="block n8 h9">            <span class="aa">}</span></span>
+                  <span class="block n8 h9">            <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span></span>
+                  <span class="block n8 h9">            <span class="x9">placeholder</span><span class="w9">=</span><span class="y9">&quot;john@example.com&quot;</span></span>
+                  <span class="block n8 h9">            <span class="x9">required</span></span>
+                  <span class="block n8 h9">          <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;/</span><span class="t9">div</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;/</span><span class="t9">div</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;space-y-2&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;</span><span class="t9">Label</span> <span class="x9">htmlFor</span><span class="w9">=</span><span class="y9">&quot;message&quot;</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;text-gray-300&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          Message</span>
+                  <span class="block n8 h9">        <span class="aa">&lt;/</span><span class="t9">Label</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;relative&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">MessageSquare</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;absolute left-3 top-3 h-4 w-4 text-gray-400&quot;</span> <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">Textarea</span></span>
+                  <span class="block n8 h9">            <span class="x9">value</span><span class="w9">=</span><span class="aa">{</span>formInputs<span class="aa">.</span><span class="x9">message</span><span class="aa">}</span></span>
+                  <span class="block n8 h9">            <span class="x9">onChange</span><span class="w9">=</span><span class="aa">{(</span>e<span class="aa">)</span> <span class="u9">=&gt;</span></span>
+                  <span class="block n8 h9">              <span class="s9">setFormInputs</span><span class="aa">((</span>prev<span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">({</span></span>
+                  <span class="block n8 h9">                <span class="w9">...</span>prev<span class="aa">,</span></span>
+                  <span class="block n8 h9">                <span class="x9">message:</span> e<span class="aa">.</span>target<span class="aa">.</span><span class="x9">value</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">              <span class="aa">}))</span></span>
+                  <span class="block n8 h9">            <span class="aa">}</span></span>
+                  <span class="block n8 h9">            <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;min-h-[120px] border-white/10 bg-white/5 pl-10 text-white placeholder:text-gray-400&quot;</span></span>
+                  <span class="block n8 h9">            <span class="x9">placeholder</span><span class="w9">=</span><span class="y9">&quot;Your message here...&quot;</span></span>
+                  <span class="block n8 h9">            <span class="x9">required</span></span>
+                  <span class="block n8 h9">          <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;/</span><span class="t9">div</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;/</span><span class="t9">div</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">Button</span></span>
+                  <span class="block n8 h9">        <span class="x9">type</span><span class="w9">=</span><span class="y9">&quot;submit&quot;</span></span>
+                  <span class="block n8 h9">        <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;w-full bg-white text-black hover:bg-white/90&quot;</span></span>
+                  <span class="block n8 h9">        <span class="x9">disabled</span><span class="w9">=</span><span class="aa">{</span>isSubmitting <span class="w9">||</span> isSubmitted<span class="aa">}</span></span>
+                  <span class="block n8 h9">      <span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">{</span>isSubmitting <span class="w9">?</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">span</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;flex items-center gap-2&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">            Sending...</span>
+                  <span class="block n8 h9">            <span class="aa">&lt;</span><span class="t9">span</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;animate-spin&quot;</span><span class="aa">&gt;</span>⏳<span class="aa">&lt;/</span><span class="t9">span</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;/</span><span class="t9">span</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">)</span> <span class="w9">:</span> isSubmitted <span class="w9">?</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">span</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;flex items-center gap-2&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">            Thanks</span>
+                  <span class="block n8 h9">            <span class="aa">&lt;</span><span class="t9">span</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;animate-pulse&quot;</span><span class="aa">&gt;</span>✨<span class="aa">&lt;/</span><span class="t9">span</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;/</span><span class="t9">span</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">)</span> <span class="w9">:</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;</span><span class="t9">span</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;flex items-center gap-2&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">            Send Message</span>
+                  <span class="block n8 h9">            <span class="aa">&lt;</span><span class="t9">Send</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;h-4 w-4&quot;</span> <span class="aa">/&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">&lt;/</span><span class="t9">span</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        <span class="aa">)}</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;/</span><span class="t9">Button</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;/</span><span class="t9">form</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">  <span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="sending-emails-with-resend" class="l0 h8 t8 z8">Sending Emails with Resend</h3>
+            <h3 id="sending-emails-with-resend" class="l0 i8 u8 a9">Sending Emails with Resend</h3>
             <p class="g0 u0">For handling form submissions and sending emails in Next.js, I personally prefer <strong>Server Actions</strong>, as they allow for cleaner and most important <strong>type safety</strong>. However, if you prefer, we can also create an API endpoint for the same functionality.</p>
             <p class="g0 u0">Now, let&#39;s dive into the code implementation:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-tsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="x9">&quot;use server&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">import</span> EmailTemplate <span class="t9">from</span> <span class="x9">&quot;@/components/EmailTemplate&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> Resend <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;resend&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> <span class="z9">{</span> RESEND_API_KEY <span class="z9">}</span> <span class="v9">=</span> process<span class="z9">.</span><span class="w9">env</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">async</span> <span class="t9">function</span> <span class="r9">sendEmail</span><span class="z9">(</span>data<span class="v9">:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  from_name<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  message<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  sender_email<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">})</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">(</span><span class="v9">!</span>RESEND_API_KEY<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> <span class="z9">{</span> <span class="w9">error:</span> <span class="x9">&quot;Failed to send email&quot;</span><span class="z9">,</span> <span class="w9">status:</span> <span class="u9">500</span> <span class="z9">};</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> resend <span class="v9">=</span> <span class="v9">new</span> <span class="r9">Resend</span><span class="z9">(</span>RESEND_API_KEY<span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">try</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> resp <span class="v9">=</span> <span class="t9">await</span> resend<span class="z9">.</span>emails<span class="z9">.</span><span class="r9">send</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">      <span class="w9">from:</span> <span class="x9">&quot;Acme &lt;onboarding@resend.dev&gt;&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">to:</span> <span class="z9">[</span><span class="x9">&quot;delivered@resend.dev&quot;</span><span class="z9">],</span></span>
-                  <span class="block m8 g9">      <span class="w9">subject:</span> <span class="x9">&quot;🎉New submission to your contact form!&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="w9">react:</span> <span class="r9">EmailTemplate</span><span class="z9">(</span>data<span class="z9">),</span></span>
-                  <span class="block m8 g9">    <span class="z9">});</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">    <span class="t9">if</span> <span class="z9">(</span>resp<span class="z9">.</span><span class="w9">error</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span>resp<span class="z9">.</span><span class="w9">error</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">      <span class="t9">return</span> <span class="z9">{</span> <span class="w9">error:</span> <span class="x9">&quot;Failed to send email&quot;</span><span class="z9">,</span> <span class="w9">status:</span> <span class="u9">500</span> <span class="z9">};</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> <span class="z9">{</span> <span class="w9">message:</span> <span class="x9">&quot;Email sent successfully&quot;</span> <span class="z9">};</span></span>
-                  <span class="block m8 g9"><span class="q9 ba">    // eslint-disable-next-line @typescript-eslint/no-explicit-any</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span> <span class="t9">catch</span> <span class="z9">(</span>error<span class="v9">:</span> <span class="y9">any</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    console<span class="z9">.</span><span class="r9">log</span><span class="z9">(</span>error<span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> <span class="z9">{</span> <span class="w9">error:</span> <span class="x9">&quot;Failed to send email&quot;</span><span class="z9">,</span> <span class="w9">status:</span> <span class="u9">500</span> <span class="z9">};</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-tsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="y9">&quot;use server&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">import</span> EmailTemplate <span class="u9">from</span> <span class="y9">&quot;@/components/EmailTemplate&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> Resend <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;resend&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> <span class="aa">{</span> RESEND_API_KEY <span class="aa">}</span> <span class="w9">=</span> process<span class="aa">.</span><span class="x9">env</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">async</span> <span class="u9">function</span> <span class="s9">sendEmail</span><span class="aa">(</span>data<span class="w9">:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  from_name<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  message<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  sender_email<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">})</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">(</span><span class="w9">!</span>RESEND_API_KEY<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> <span class="aa">{</span> <span class="x9">error:</span> <span class="y9">&quot;Failed to send email&quot;</span><span class="aa">,</span> <span class="x9">status:</span> <span class="v9">500</span> <span class="aa">};</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> resend <span class="w9">=</span> <span class="w9">new</span> <span class="s9">Resend</span><span class="aa">(</span>RESEND_API_KEY<span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">try</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> resp <span class="w9">=</span> <span class="u9">await</span> resend<span class="aa">.</span>emails<span class="aa">.</span><span class="s9">send</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">      <span class="x9">from:</span> <span class="y9">&quot;Acme &lt;onboarding@resend.dev&gt;&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">to:</span> <span class="aa">[</span><span class="y9">&quot;delivered@resend.dev&quot;</span><span class="aa">],</span></span>
+                  <span class="block n8 h9">      <span class="x9">subject:</span> <span class="y9">&quot;🎉New submission to your contact form!&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="x9">react:</span> <span class="s9">EmailTemplate</span><span class="aa">(</span>data<span class="aa">),</span></span>
+                  <span class="block n8 h9">    <span class="aa">});</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">    <span class="u9">if</span> <span class="aa">(</span>resp<span class="aa">.</span><span class="x9">error</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span>resp<span class="aa">.</span><span class="x9">error</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">      <span class="u9">return</span> <span class="aa">{</span> <span class="x9">error:</span> <span class="y9">&quot;Failed to send email&quot;</span><span class="aa">,</span> <span class="x9">status:</span> <span class="v9">500</span> <span class="aa">};</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> <span class="aa">{</span> <span class="x9">message:</span> <span class="y9">&quot;Email sent successfully&quot;</span> <span class="aa">};</span></span>
+                  <span class="block n8 h9"><span class="r9 ca">    // eslint-disable-next-line @typescript-eslint/no-explicit-any</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span> <span class="u9">catch</span> <span class="aa">(</span>error<span class="w9">:</span> <span class="z9">any</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    console<span class="aa">.</span><span class="s9">log</span><span class="aa">(</span>error<span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> <span class="aa">{</span> <span class="x9">error:</span> <span class="y9">&quot;Failed to send email&quot;</span><span class="aa">,</span> <span class="x9">status:</span> <span class="v9">500</span> <span class="aa">};</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">You must have noticed the email template in the code above. Yes, <strong>Resend</strong> allows us to use <strong>React components</strong> as the email content, making it super convenient to create dynamic and personalized email layouts.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-tsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// src/components/EmailTemplate.tsx</span></span>
-                  <span class="block m8 g9"><span class="t9">import</span> Link <span class="t9">from</span> <span class="x9">&quot;next/link&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">export</span> <span class="t9">default</span> <span class="t9">function</span> <span class="r9">EmailTemplate</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">  from_name<span class="z9">,</span></span>
-                  <span class="block m8 g9">  message<span class="z9">,</span></span>
-                  <span class="block m8 g9">  sender_email<span class="z9">,</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span><span class="v9">:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  message<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  from_name<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  sender_email<span class="v9">:</span> <span class="y9">string</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">})</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="z9">(</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;</span><span class="s9">div</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;mx-auto max-w-md rounded-lg bg-white p-6 shadow-md&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">h1</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;mb-4 text-2xl font-bold text-gray-800&quot;</span><span class="z9">&gt;</span>New message from <span class="z9">{</span>from_name<span class="z9">}&lt;/</span><span class="s9">h1</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">p</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;mb-2 text-gray-600&quot;</span><span class="z9">&gt;{</span>message<span class="z9">}&lt;/</span><span class="s9">p</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;</span><span class="s9">p</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;text-gray-500&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">        Sender email:<span class="z9">{</span><span class="x9">&quot; &quot;</span><span class="z9">}</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;</span><span class="s9">Link</span> <span class="w9">href</span><span class="v9">=</span><span class="z9">{</span><span class="x9">`mailto:${sender_email}`</span><span class="z9">}</span> <span class="w9">className</span><span class="v9">=</span><span class="x9">&quot;text-blue-500 hover:underline&quot;</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">          <span class="z9">{</span>sender_email<span class="z9">}</span></span>
-                  <span class="block m8 g9">        <span class="z9">&lt;/</span><span class="s9">Link</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">      <span class="z9">&lt;/</span><span class="s9">p</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">    <span class="z9">&lt;/</span><span class="s9">div</span><span class="z9">&gt;</span></span>
-                  <span class="block m8 g9">  <span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-tsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// src/components/EmailTemplate.tsx</span></span>
+                  <span class="block n8 h9"><span class="u9">import</span> Link <span class="u9">from</span> <span class="y9">&quot;next/link&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">export</span> <span class="u9">default</span> <span class="u9">function</span> <span class="s9">EmailTemplate</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">  from_name<span class="aa">,</span></span>
+                  <span class="block n8 h9">  message<span class="aa">,</span></span>
+                  <span class="block n8 h9">  sender_email<span class="aa">,</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span><span class="w9">:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  message<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  from_name<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  sender_email<span class="w9">:</span> <span class="z9">string</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">})</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="aa">(</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;</span><span class="t9">div</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;mx-auto max-w-md rounded-lg bg-white p-6 shadow-md&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">h1</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;mb-4 text-2xl font-bold text-gray-800&quot;</span><span class="aa">&gt;</span>New message from <span class="aa">{</span>from_name<span class="aa">}&lt;/</span><span class="t9">h1</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">p</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;mb-2 text-gray-600&quot;</span><span class="aa">&gt;{</span>message<span class="aa">}&lt;/</span><span class="t9">p</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;</span><span class="t9">p</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;text-gray-500&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">        Sender email:<span class="aa">{</span><span class="y9">&quot; &quot;</span><span class="aa">}</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;</span><span class="t9">Link</span> <span class="x9">href</span><span class="w9">=</span><span class="aa">{</span><span class="y9">`mailto:${sender_email}`</span><span class="aa">}</span> <span class="x9">className</span><span class="w9">=</span><span class="y9">&quot;text-blue-500 hover:underline&quot;</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">          <span class="aa">{</span>sender_email<span class="aa">}</span></span>
+                  <span class="block n8 h9">        <span class="aa">&lt;/</span><span class="t9">Link</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">      <span class="aa">&lt;/</span><span class="t9">p</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">    <span class="aa">&lt;/</span><span class="t9">div</span><span class="aa">&gt;</span></span>
+                  <span class="block n8 h9">  <span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Now you can update the</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-tsx block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">import</span> <span class="z9">{</span> sendEmail <span class="z9">}</span> <span class="t9">from</span> <span class="x9">&quot;@/actions/email&quot;</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> handleSendMessage <span class="v9">=</span> <span class="r9">useCallback</span><span class="z9">(</span></span>
-                  <span class="block m8 g9">  <span class="t9">async</span> <span class="z9">(</span>e<span class="v9">:</span> <span class="y9">React</span><span class="z9">.</span><span class="y9">FormEvent</span><span class="z9">)</span> <span class="t9">=&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    e<span class="z9">.</span><span class="r9">preventDefault</span><span class="z9">();</span></span>
-                  <span class="block m8 g9">    <span class="t9">if</span> <span class="z9">(</span><span class="v9">!</span>formInputs<span class="z9">.</span><span class="w9">name</span> <span class="v9">||</span> <span class="v9">!</span>formInputs<span class="z9">.</span><span class="w9">email</span> <span class="v9">||</span> <span class="v9">!</span>formInputs<span class="z9">.</span><span class="w9">message</span><span class="z9">)</span> <span class="t9">return</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">    <span class="r9">setIsSubmitting</span><span class="z9">(</span><span class="t9">true</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">    <span class="t9">try</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="t9">await</span> <span class="r9">sendEmail</span><span class="z9">({</span></span>
-                  <span class="block m8 g9">        <span class="w9">from_name:</span> formInputs<span class="z9">.</span><span class="w9">name</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">message:</span> formInputs<span class="z9">.</span><span class="w9">message</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">        <span class="w9">sender_email:</span> formInputs<span class="z9">.</span><span class="w9">email</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">      <span class="z9">});</span></span>
-                  <span class="block m8 g9">      <span class="r9">setIsSubmitted</span><span class="z9">(</span><span class="t9">true</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span> <span class="t9">catch</span> <span class="z9">(</span>error<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      console<span class="z9">.</span><span class="r9">error</span><span class="z9">(</span><span class="x9">&quot;Failed to send email:&quot;</span><span class="z9">,</span> error<span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span> <span class="t9">finally</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">      <span class="r9">setIsSubmitting</span><span class="z9">(</span><span class="t9">false</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="z9">}</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="z9">[</span>formInputs<span class="z9">],</span></span>
-                  <span class="block m8 g9"><span class="z9">);</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-tsx block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">import</span> <span class="aa">{</span> sendEmail <span class="aa">}</span> <span class="u9">from</span> <span class="y9">&quot;@/actions/email&quot;</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> handleSendMessage <span class="w9">=</span> <span class="s9">useCallback</span><span class="aa">(</span></span>
+                  <span class="block n8 h9">  <span class="u9">async</span> <span class="aa">(</span>e<span class="w9">:</span> <span class="z9">React</span><span class="aa">.</span><span class="z9">FormEvent</span><span class="aa">)</span> <span class="u9">=&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    e<span class="aa">.</span><span class="s9">preventDefault</span><span class="aa">();</span></span>
+                  <span class="block n8 h9">    <span class="u9">if</span> <span class="aa">(</span><span class="w9">!</span>formInputs<span class="aa">.</span><span class="x9">name</span> <span class="w9">||</span> <span class="w9">!</span>formInputs<span class="aa">.</span><span class="x9">email</span> <span class="w9">||</span> <span class="w9">!</span>formInputs<span class="aa">.</span><span class="x9">message</span><span class="aa">)</span> <span class="u9">return</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">    <span class="s9">setIsSubmitting</span><span class="aa">(</span><span class="u9">true</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">    <span class="u9">try</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="u9">await</span> <span class="s9">sendEmail</span><span class="aa">({</span></span>
+                  <span class="block n8 h9">        <span class="x9">from_name:</span> formInputs<span class="aa">.</span><span class="x9">name</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">message:</span> formInputs<span class="aa">.</span><span class="x9">message</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">        <span class="x9">sender_email:</span> formInputs<span class="aa">.</span><span class="x9">email</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">      <span class="aa">});</span></span>
+                  <span class="block n8 h9">      <span class="s9">setIsSubmitted</span><span class="aa">(</span><span class="u9">true</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span> <span class="u9">catch</span> <span class="aa">(</span>error<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      console<span class="aa">.</span><span class="s9">error</span><span class="aa">(</span><span class="y9">&quot;Failed to send email:&quot;</span><span class="aa">,</span> error<span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span> <span class="u9">finally</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">      <span class="s9">setIsSubmitting</span><span class="aa">(</span><span class="u9">false</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="aa">}</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="aa">[</span>formInputs<span class="aa">],</span></span>
+                  <span class="block n8 h9"><span class="aa">);</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Now we can test the contact form and find all the emails in the resend dashboard.</p>
@@ -637,39 +666,39 @@ globalThis.addEventListener("pagereveal", (event) => {
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/emails-with-resend/c42f0db8-a864-4d0a-8c43-018b179f3742.webp" alt="Resend dashboard showing sent emails" width="1011" height="279" loading="lazy" />
               </a>
             </p>
-            <h2 id="adding-a-verified-domain" class="n0 k8 w8 t8 z8">Adding a Verified Domain</h2>
+            <h2 id="adding-a-verified-domain" class="n0 l8 x8 u8 a9">Adding a Verified Domain</h2>
             <p class="g0 u0">In the previous section, we&#39;ve demonstrated how to send emails using <strong>Resend</strong> in a Next.js application. However, to ensure your emails land in the recipient&#39;s inbox and avoid being marked as spam, it’s crucial to add and verify a <strong>custom domain</strong>. Here&#39;s why:</p>
-            <h3 id="why-add-a-custom-domain" class="l0 h8 t8 z8">Why Add a Custom Domain?</h3>
-            <p class="g0 u0">When you send an email without a verified domain, it’s likely to be flagged by email providers due to the absence of proper email authentication. By default, emails sent through Resend come from generic email addresses (e.g., <a class="o9 ga ia ic" href="mailto:onboarding@resend.dev"><code class="i5 d6 t6 a7 hb">onboarding@resend.dev</code></a>). While this can work for testing purposes, production emails require more trustworthiness.</p>
-            <h3 id="adding-a-custom-domain" class="l0 h8 t8 z8">Adding a custom domain</h3>
-            <p class="g0 u0">I had added a custom domain from my portfolio domain: <a class="o9 ga ia ic" href="https://pulkitxm.com"><strong>pulkitxm.com</strong></a>. Here’s a step-by-step guide on how I did it:</p>
+            <h3 id="why-add-a-custom-domain" class="l0 i8 u8 a9">Why Add a Custom Domain?</h3>
+            <p class="g0 u0">When you send an email without a verified domain, it’s likely to be flagged by email providers due to the absence of proper email authentication. By default, emails sent through Resend come from generic email addresses (e.g., <a class="p9 ha ja oc" href="mailto:onboarding@resend.dev"><code class="i5 e6 u6 b7 lb">onboarding@resend.dev</code></a>). While this can work for testing purposes, production emails require more trustworthiness.</p>
+            <h3 id="adding-a-custom-domain" class="l0 i8 u8 a9">Adding a custom domain</h3>
+            <p class="g0 u0">I had added a custom domain from my portfolio domain: <a class="p9 ha ja oc" href="https://pulkitxm.com"><strong>pulkitxm.com</strong></a>. Here’s a step-by-step guide on how I did it:</p>
             <ol class="g0 u0">
               <li><strong>Add Domain</strong>: First, I logged into my Resend dashboard and added my portfolio domain <strong>pulkitxm.com</strong>. This is the domain from which I wanted to send emails.</li>
               <li><strong>DNS Settings</strong>: After adding the domain, Resend prompted me to configure the <strong>DNS settings</strong>. It provided specific records, such as <strong>SPF</strong>, <strong>DKIM</strong>, and <strong>DMARC</strong>, which I needed to add to the DNS settings for my domain.</li>
               <li><strong>Update DNS Records</strong>: I accessed my domain registrar (where I purchased <strong>pulkitxm.com</strong>) and updated the DNS settings by adding the records provided by Resend. This process usually takes some time to propagate.</li>
               <li><strong>Domain Verification</strong>: Once the DNS settings were updated, Resend verified the domain and completed the setup. It might take a few minutes to a couple of hours for the verification process to complete.</li>
-              <li><strong>Email Setup</strong>: After successfully adding and verifying my domain, I was able to start sending emails from a custom email address: <strong><a class="o9 ga ia ic" href="mailto:mails-from-portfolio@pulkitxm.com">mails-from-portfolio@pulkitxm.com</a></strong>.</li>
+              <li><strong>Email Setup</strong>: After successfully adding and verifying my domain, I was able to start sending emails from a custom email address: <strong><a class="p9 ha ja oc" href="mailto:mails-from-portfolio@pulkitxm.com">mails-from-portfolio@pulkitxm.com</a></strong>.</li>
             </ol>
-            <h2 id="wrapping-up" class="n0 k8 w8 t8 z8">Wrapping Up</h2>
+            <h2 id="wrapping-up" class="n0 l8 x8 u8 a9">Wrapping Up</h2>
             <p class="g0 u0">And there you have it! You&#39;ve enhanced your Next.js app with a contact form and Resend email integration. Now, users can easily contact you, and you&#39;ll be ready to reply. Whether it&#39;s for a portfolio, business site, or just for fun, this setup will impress. Try it out and enjoy the incoming emails. Happy coding!</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/og-images-in-nextjs/">Open Graph Images in Next.js</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/seo-for-nextjs-portfolio/">SEO for Next.js Portfolio</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/smooth-scroll/">Smooth Scrolling in Next.js</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/og-images-in-nextjs/">Open Graph Images in Next.js</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/seo-for-nextjs-portfolio/">SEO for Next.js Portfolio</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/smooth-scroll/">Smooth Scrolling in Next.js</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/contact-form-with-resend.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/contact-form-with-resend.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

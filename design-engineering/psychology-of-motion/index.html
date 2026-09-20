@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -171,15 +171,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -218,21 +247,21 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li><a href="/design-engineering/">Design Engineering</a></li>
             <li aria-current="page">The Psychology of Motion in UI</li>
@@ -240,14 +269,14 @@ globalThis.addEventListener("pagereveal", (event) => {
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>The Psychology of Motion in UI</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-01-25">January 25, 2026</time> · 7 min read · <a class="o9 ga ia ic" href="/design-engineering/">Design Engineering</a></p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>The Psychology of Motion in UI</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-01-25">January 25, 2026</time> · 7 min read · <a class="p9 ha ja oc" href="/design-engineering/">Design Engineering</a></p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">You&#39;ve seen it before. A modal slides in and something feels wrong. Not broken, just... off. Maybe it&#39;s too slow. Maybe it&#39;s too fast. Maybe it moves in a way that doesn&#39;t match the action. You can&#39;t pinpoint it, but your brain notices.</p>
             <p class="g0 u0">This is the uncanny valley of UI animation. And understanding why some animations feel right while others feel wrong is the foundation of everything else in motion design.</p>
-            <h2 id="tl-dr" class="n0 k8 w8 t8 z8">TL;DR</h2>
+            <h2 id="tl-dr" class="n0 l8 x8 u8 a9">TL;DR</h2>
             <ul class="g0 u0">
               <li><strong>Our brains are wired to notice movement</strong> - it&#39;s an evolutionary survival mechanism</li>
               <li><strong>Animation is communication</strong> - it tells users what&#39;s happening, where things are, and what they can do</li>
@@ -256,12 +285,12 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li><strong>Context determines appropriateness</strong> - what works for a game doesn&#39;t work for a banking app</li>
               <li><strong>When in doubt, don&#39;t animate</strong> - bad animation is worse than no animation</li>
             </ul>
-            <h2 id="why-we-notice-movement" class="n0 k8 w8 t8 z8">Why We Notice Movement</h2>
+            <h2 id="why-we-notice-movement" class="n0 l8 x8 u8 a9">Why We Notice Movement</h2>
             <p class="g0 u0">Humans are motion-detection machines. It&#39;s not a choice. Your brain is constantly scanning for movement in your peripheral vision. This is evolution. In the wild, movement meant predator or prey. Noticing it fast meant survival.</p>
             <p class="g0 u0">This wiring doesn&#39;t turn off when you&#39;re using a computer. Every animation, every transition, every moving element triggers this ancient pattern-matching system. Your brain is asking: what moved? why? should I pay attention?</p>
             <p class="g0 u0">This is why animation is so powerful. It hijacks a system that&#39;s been optimized over millions of years.</p>
             <p class="g0 u0">But it&#39;s also why bad animation is so jarring. When something moves in an unexpected way, your brain flags it as wrong. Not consciously. You just feel uncomfortable.</p>
-            <h2 id="animation-as-communication" class="n0 k8 w8 t8 z8">Animation as Communication</h2>
+            <h2 id="animation-as-communication" class="n0 l8 x8 u8 a9">Animation as Communication</h2>
             <p class="g0 u0">Animation isn&#39;t decoration. It&#39;s a language. Every movement communicates something:</p>
             <p class="g0 u0"><strong>Spatial relationships</strong>: When a modal slides in from the right, your brain understands it came from &quot;somewhere&quot; to the right. When you dismiss it, it should go back there. This creates a mental model of space in your interface.</p>
             <demo-showcase data-component="spatial-relationship" data-props="{}" data-frame="{&quot;focusCode&quot;:true,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default" data-files>
@@ -277,10 +306,10 @@ globalThis.addEventListener("pagereveal", (event) => {
                 [{"filename":"list-expansion.tsx","code":"import \"./list-expansion.css\";\nimport { useState, useRef } from \"react\";\n\nfunction ListWithAnimation() {\n  const [selected, setSelected] = useState\u003cItem | null>(null);\n  const containerRef = useRef\u003cHTMLDivElement>(null);\n\n  return (\n    \u003cdiv ref={containerRef} className=\"list-container\">\n      \u003cdiv className={`view ${selected ? \"view--hidden\" : \"view--visible\"}`}>\n        {items.map((item) => (\n          \u003cListItem key={item.id} item={item} onSelect={setSelected} />\n        ))}\n      \u003c/div>\n\n      \u003cdiv className={`view ${selected ? \"view--visible\" : \"view--hidden\"}`}>\n        {selected && \u003cDetailView item={selected} onBack={() => setSelected(null)} />}\n      \u003c/div>\n    \u003c/div>\n  );\n}","html":"\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-k\">import\u003c/span> \u003cspan class=\"text-syn-s\">&quot;./list-expansion.css&quot;\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-k\">import\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span> useState\u003cspan class=\"text-syn-u\">,\u003c/span> useRef \u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-k\">from\u003c/span> \u003cspan class=\"text-syn-s\">&quot;react&quot;\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\n\u003cspan class=\"text-syn-k\">function\u003c/span> \u003cspan class=\"text-syn-f\">ListWithAnimation\u003c/span>\u003cspan class=\"text-syn-u\">()\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-k\">const\u003c/span> \u003cspan class=\"text-syn-u\">[\u003c/span>selected\u003cspan class=\"text-syn-u\">,\u003c/span> setSelected\u003cspan class=\"text-syn-u\">]\u003c/span> \u003cspan class=\"text-syn-o\">=\u003c/span> \u003cspan class=\"text-syn-f\">useState\u003c/span>\u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-t\">Item\u003c/span> \u003cspan class=\"text-syn-o\">|\u003c/span> \u003cspan class=\"text-syn-t\">null\u003c/span>\u003cspan class=\"text-syn-u\">&gt;(\u003c/span>\u003cspan class=\"text-syn-k\">null\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n  \u003cspan class=\"text-syn-k\">const\u003c/span> containerRef \u003cspan class=\"text-syn-o\">=\u003c/span> \u003cspan class=\"text-syn-f\">useRef\u003c/span>\u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-t\">HTMLDivElement\u003c/span>\u003cspan class=\"text-syn-u\">&gt;(\u003c/span>\u003cspan class=\"text-syn-k\">null\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\n  \u003cspan class=\"text-syn-k\">return\u003c/span> \u003cspan class=\"text-syn-u\">(\u003c/span>\n    \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">ref\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>containerRef\u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;list-container&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-s\">`view ${selected ? &quot;view--hidden&quot; : &quot;view--visible&quot;}`\u003c/span>\u003cspan class=\"text-syn-u\">}&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">{\u003c/span>items\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-f\">map\u003c/span>\u003cspan class=\"text-syn-u\">((\u003c/span>item\u003cspan class=\"text-syn-u\">)\u003c/span> \u003cspan class=\"text-syn-k\">=&gt;\u003c/span> \u003cspan class=\"text-syn-u\">(\u003c/span>\n          \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">ListItem\u003c/span> \u003cspan class=\"text-syn-p\">key\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>item\u003cspan class=\"text-syn-u\">.\u003c/span>\u003cspan class=\"text-syn-p\">id\u003c/span>\u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-p\">item\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>item\u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-p\">onSelect\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>setSelected\u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-u\">/&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">))}\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-s\">`view ${selected ? &quot;view--visible&quot; : &quot;view--hidden&quot;}`\u003c/span>\u003cspan class=\"text-syn-u\">}&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">{\u003c/span>selected \u003cspan class=\"text-syn-o\">&amp;&amp;\u003c/span> \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">DetailView\u003c/span> \u003cspan class=\"text-syn-p\">item\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>selected\u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-p\">onBack\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{()\u003c/span> \u003cspan class=\"text-syn-k\">=&gt;\u003c/span> \u003cspan class=\"text-syn-f\">setSelected\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-k\">null\u003c/span>\u003cspan class=\"text-syn-u\">)}\u003c/span> \u003cspan class=\"text-syn-u\">/&gt;}\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n    \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n  \u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"},{"filename":"list-expansion.css","code":".list-container {\n  position: relative;\n}\n\n.view {\n  transition: opacity 100ms ease-out;\n}\n\n.view--visible {\n  opacity: 1;\n}\n\n.view--hidden {\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  inset: 0;\n}","html":"\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-p\">.list-container\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">position\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-k\">relative\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.view\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transition\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> opacity \u003cspan class=\"text-syn-n\">100ms\u003c/span> \u003cspan class=\"text-syn-k\">ease-out\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.view--visible\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">opacity\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">1\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.view--hidden\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">opacity\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">0\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">pointer-events\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-k\">none\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">position\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-k\">absolute\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">inset\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">0\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"}]
               </script>
             </demo-showcase>
-            <h2 id="the-uncanny-valley" class="n0 k8 w8 t8 z8">The Uncanny Valley</h2>
-            <p class="g0 u0">The <a class="o9 ga ia ic" href="https://en.wikipedia.org/wiki/Uncanny_valley">uncanny valley</a> was originally about robots and CGI humans. When something is clearly artificial, we accept it (think cartoon characters or stylized robots). When it&#39;s perfectly realistic, we accept it. But when it&#39;s <em>almost</em> realistic, when it mimics reality but gets the details slightly wrong, we&#39;re disturbed. It feels off in a way that triggers discomfort.</p>
+            <h2 id="the-uncanny-valley" class="n0 l8 x8 u8 a9">The Uncanny Valley</h2>
+            <p class="g0 u0">The <a class="p9 ha ja oc" href="https://en.wikipedia.org/wiki/Uncanny_valley">uncanny valley</a> was originally about robots and CGI humans. When something is clearly artificial, we accept it (think cartoon characters or stylized robots). When it&#39;s perfectly realistic, we accept it. But when it&#39;s <em>almost</em> realistic, when it mimics reality but gets the details slightly wrong, we&#39;re disturbed. It feels off in a way that triggers discomfort.</p>
             <p class="g0 u0">UI animation has its own uncanny valley. And it&#39;s one of the most important concepts to understand about motion design.</p>
-            <h3 id="why-it-happens" class="l0 h8 t8 z8">Why It Happens</h3>
+            <h3 id="why-it-happens" class="l0 i8 u8 a9">Why It Happens</h3>
             <p class="g0 u0">Your brain is constantly trying to predict the physical world. When you see something move, your ancient pattern-matching system expects it to follow certain laws:</p>
             <ul class="g0 u0">
               <li><strong>Objects accelerate and decelerate</strong> - nothing jumps from 0 to full speed</li>
@@ -289,35 +318,35 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li><strong>Distance takes time</strong> - moving 500 pixels should feel different from moving 10 pixels</li>
             </ul>
             <p class="g0 u0">When an animation violates these expectations just enough to be noticeable, but not so much that you accept it as &quot;computer behavior,&quot; your brain flags it as wrong. This is the uncanny valley.</p>
-            <h3 id="the-three-zones" class="l0 h8 t8 z8">The Three Zones</h3>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <h3 id="the-three-zones" class="l0 i8 u8 a9">The Three Zones</h3>
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7"><strong>Too Little (Accepted)</strong></th>
-                  <th class="p5 v5 x6 e7 u7"><strong>Uncanny Valley (Disturbing)</strong></th>
-                  <th class="p5 v5 x6 e7 u7"><strong>Just Right (Accepted)</strong></th>
+                  <th class="p5 w5 y6 f7 v7"><strong>Too Little (Accepted)</strong></th>
+                  <th class="p5 w5 y6 f7 v7"><strong>Uncanny Valley (Disturbing)</strong></th>
+                  <th class="p5 w5 y6 f7 v7"><strong>Just Right (Accepted)</strong></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Instant state change</td>
-                  <td class="p5 v5 x6 e7 u7">Almost-natural movement</td>
-                  <td class="p5 v5 x6 e7 u7">Natural, physics-based motion</td>
+                  <td class="p5 w5 y6 f7 v7">Instant state change</td>
+                  <td class="p5 w5 y6 f7 v7">Almost-natural movement</td>
+                  <td class="p5 w5 y6 f7 v7">Natural, physics-based motion</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">No animation at all</td>
-                  <td class="p5 v5 x6 e7 u7">Feels like &quot;something&quot; tried to move naturally but failed</td>
-                  <td class="p5 v5 x6 e7 u7">Clearly follows physics laws</td>
+                  <td class="p5 w5 y6 f7 v7">No animation at all</td>
+                  <td class="p5 w5 y6 f7 v7">Feels like &quot;something&quot; tried to move naturally but failed</td>
+                  <td class="p5 w5 y6 f7 v7">Clearly follows physics laws</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Brain thinks: &quot;Computer behavior&quot;</td>
-                  <td class="p5 v5 x6 e7 u7">Brain thinks: &quot;Wait, that&#39;s weird...&quot;</td>
-                  <td class="p5 v5 x6 e7 u7">Brain thinks: &quot;That feels right&quot;</td>
+                  <td class="p5 w5 y6 f7 v7">Brain thinks: &quot;Computer behavior&quot;</td>
+                  <td class="p5 w5 y6 f7 v7">Brain thinks: &quot;Wait, that&#39;s weird...&quot;</td>
+                  <td class="p5 w5 y6 f7 v7">Brain thinks: &quot;That feels right&quot;</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Feels quick and responsive</td>
-                  <td class="p5 v5 x6 e7 u7">Feels sluggish or robotic</td>
-                  <td class="p5 v5 x6 e7 u7">Feels alive and responsive</td>
+                  <td class="p5 w5 y6 f7 v7">Feels quick and responsive</td>
+                  <td class="p5 w5 y6 f7 v7">Feels sluggish or robotic</td>
+                  <td class="p5 w5 y6 f7 v7">Feels alive and responsive</td>
                 </tr>
               </tbody>
             </table>
@@ -333,34 +362,34 @@ globalThis.addEventListener("pagereveal", (event) => {
                 [{"filename":"uncanny-valley-demo.tsx","code":"import \"./uncanny-valley.css\";\n\nexport function UncannyValleyDemo() {\n  return (\n    \u003cdiv className=\"demo-container\">\n      {/* Zone 1: No Animation */}\n      \u003cdiv className=\"zone\">\n        \u003cp className=\"zone__label\">Zone 1: No Animation (Accepted) ✓\u003c/p>\n        \u003cbutton className=\"btn btn--instant\">Instant Change\u003c/button>\n        \u003cp className=\"zone__description\">\n          Your brain says: \"It's a computer, things change instantly.\"\n        \u003c/p>\n      \u003c/div>\n\n      {/* Zone 2: Uncanny Valley */}\n      \u003cdiv className=\"zone\">\n        \u003cp className=\"zone__label\">Zone 2: Linear Animation (Uncanny) ⚠️\u003c/p>\n        \u003cbutton className=\"btn btn--linear\">Linear Motion\u003c/button>\n        \u003cp className=\"zone__description\">\n          Your brain says: \"Something feels mechanical and wrong.\"\n        \u003c/p>\n      \u003c/div>\n\n      {/* Zone 3: Just Right */}\n      \u003cdiv className=\"zone\">\n        \u003cp className=\"zone__label\">Zone 3: Spring Animation (Natural) ✓\u003c/p>\n        \u003cbutton className=\"btn btn--spring\">Spring Motion\u003c/button>\n        \u003cp className=\"zone__description\">Your brain says: \"That feels right. Natural.\"\u003c/p>\n      \u003c/div>\n    \u003c/div>\n  );\n}","html":"\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-k\">import\u003c/span> \u003cspan class=\"text-syn-s\">&quot;./uncanny-valley.css&quot;\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\n\u003cspan class=\"text-syn-k\">export\u003c/span> \u003cspan class=\"text-syn-k\">function\u003c/span> \u003cspan class=\"text-syn-f\">UncannyValleyDemo\u003c/span>\u003cspan class=\"text-syn-u\">()\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-k\">return\u003c/span> \u003cspan class=\"text-syn-u\">(\u003c/span>\n    \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;demo-container&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-c italic\">/* Zone 1: No Animation */\u003c/span>\u003cspan class=\"text-syn-u\">}\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone__label&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Zone 1: No Animation (Accepted) ✓\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">button\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;btn btn--instant&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Instant Change\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">button\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone__description&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n          Your brain says: &quot;It&#39;s a computer, things change instantly.&quot;\n        \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\n      \u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-c italic\">/* Zone 2: Uncanny Valley */\u003c/span>\u003cspan class=\"text-syn-u\">}\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone__label&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Zone 2: Linear Animation (Uncanny) ⚠️\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">button\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;btn btn--linear&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Linear Motion\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">button\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone__description&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n          Your brain says: &quot;Something feels mechanical and wrong.&quot;\n        \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\n      \u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-c italic\">/* Zone 3: Just Right */\u003c/span>\u003cspan class=\"text-syn-u\">}\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone__label&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Zone 3: Spring Animation (Natural) ✓\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">button\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;btn btn--spring&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Spring Motion\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">button\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;zone__description&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Your brain says: &quot;That feels right. Natural.&quot;\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">p\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n    \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n  \u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"},{"filename":"uncanny-valley.css","code":"/_ Zone 1: No transition - instant change _/\n.btn--instant {\n  /* No transition property */\n}\n.btn--instant:hover {\n  background: #d4d4d4;\n}\n\n/_ Zone 2: Linear - feels robotic _/\n.btn--linear {\n  transition: transform 300ms linear;\n}\n.btn--linear:hover {\n  transform: scale(1.05);\n}\n\n/_ Zone 3: Spring-like curve - feels natural _/\n.btn--spring {\n  transition: transform 300ms\n    cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.btn--spring:hover {\n  transform: scale(1.05);\n}","html":"\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">/_ Zone 1: No transition - instant change _/\n\u003cspan class=\"text-syn-p\">.btn--instant\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-c italic\">/* No transition property */\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\u003cspan class=\"text-syn-p\">.btn--instant:hover\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">background\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-u\">#\u003c/span>d4d4d4\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n/_ Zone 2: Linear - feels robotic _/\n\u003cspan class=\"text-syn-p\">.btn--linear\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transition\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> transform \u003cspan class=\"text-syn-n\">300ms\u003c/span> \u003cspan class=\"text-syn-k\">linear\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\u003cspan class=\"text-syn-p\">.btn--linear:hover\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">scale\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">1.05\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n/_ Zone 3: Spring-like curve - feels natural _/\n\u003cspan class=\"text-syn-p\">.btn--spring\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transition\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> transform \u003cspan class=\"text-syn-n\">300ms\u003c/span>\n    \u003cspan class=\"text-syn-f\">cubic-bezier\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">0.34\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">1.56\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">0.64\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">1\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\u003cspan class=\"text-syn-p\">.btn--spring:hover\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">scale\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">1.05\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"}]
               </script>
             </demo-showcase>
-            <h3 id="why-linear-animation-feels-wrong" class="l0 h8 t8 z8">Why Linear Animation Feels Wrong</h3>
+            <h3 id="why-linear-animation-feels-wrong" class="l0 i8 u8 a9">Why Linear Animation Feels Wrong</h3>
             <p class="g0 u0">This is the classic example. A linear animation moves at a constant speed from start to end:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">Linear motion:  [============================] Constant speed</span>
-                  <span class="block m8 g9">Speed:           ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">Linear motion:  [============================] Constant speed</span>
+                  <span class="block n8 h9">Speed:           ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">This <em>never</em> happens in the real world. When you lift something, you don&#39;t accelerate instantly to full speed. When you put it down, you don&#39;t stop instantly. Real motion looks like this:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">Ease-out motion: [════════════════════     ] Accelerates, then decelerates</span>
-                  <span class="block m8 g9">Speed:            ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▘▘▘▘▘</span>
-                  <span class="block m8 g9">                 Fast at start, slowing down</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">Ease-out motion: [════════════════════     ] Accelerates, then decelerates</span>
+                  <span class="block n8 h9">Speed:            ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▘▘▘▘▘</span>
+                  <span class="block n8 h9">                 Fast at start, slowing down</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Your brain evolved to understand the second pattern. When it sees the first pattern, it doesn&#39;t consciously think &quot;that&#39;s linear.&quot; It just feels robotic and off.</p>
-            <h3 id="the-core-problem" class="l0 h8 t8 z8">The Core Problem</h3>
+            <h3 id="the-core-problem" class="l0 i8 u8 a9">The Core Problem</h3>
             <p class="g0 u0">The uncanny valley is worse than either extreme because:</p>
             <ol class="g0 u0">
               <li><strong>No animation</strong> = Your brain has never expected natural motion, so there&#39;s no violation</li>
@@ -369,45 +398,45 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ol>
             <p class="g0 u0"><strong>This means: if you&#39;re going to animate, you must get it right. A bad animation is worse than no animation.</strong></p>
             <p class="g0 u0">A perfectly instant button click? Users don&#39;t mind. A perfectly smooth, physics-based animation? Users love it. A button that tries to animate but moves linearly with the wrong timing? Users feel uncomfortable, even if they can&#39;t articulate why.</p>
-            <h2 id="physics-make-things-feel-real" class="n0 k8 w8 t8 z8">Physics Make Things Feel Real</h2>
+            <h2 id="physics-make-things-feel-real" class="n0 l8 x8 u8 a9">Physics Make Things Feel Real</h2>
             <p class="g0 u0">Real objects don&#39;t move linearly. They accelerate and decelerate. They have momentum. They overshoot and settle.</p>
             <p class="g0 u0">When you throw a ball, it doesn&#39;t move at constant speed. It accelerates as it leaves your hand, decelerates as gravity and air resistance act on it, and bounces when it lands.</p>
             <p class="g0 u0">Digital objects should behave the same way:</p>
             <ul class="g0 u0">
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Acceleration</strong>: Objects should ease out of rest. A panel opening should start slow and speed up.</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Deceleration</strong>: Objects should ease into their final position. A panel closing should slow down as it reaches its destination.</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Momentum</strong>: If you flick a list, it should continue moving and gradually slow down, not stop instantly.</p>
               </li>
-              <li class="bg">
+              <li class="jg">
                 <p class="g0 u0"><strong>Overshoot</strong>: When something snaps into place, a slight overshoot and settle makes it feel physical.</p>
               </li>
             </ul>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">/* Bad: Linear motion feels robotic */</span></span>
-                  <span class="block m8 g9"><span class="w9">.modal</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">transition</span><span class="z9">:</span> transform <span class="u9">300ms</span> <span class="t9">linear</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">/* Good: Ease-out feels like natural deceleration */</span></span>
-                  <span class="block m8 g9"><span class="w9">.modal</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">transition</span><span class="z9">:</span> transform <span class="u9">300ms</span> <span class="t9">ease-out</span><span class="z9">;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">/* Better: Custom curve for personality */</span></span>
-                  <span class="block m8 g9"><span class="w9">.modal</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">transition</span><span class="z9">:</span> transform <span class="u9">300ms</span> <span class="r9">cubic-bezier</span><span class="z9">(</span><span class="u9">0.16</span><span class="z9">,</span> <span class="u9">1</span><span class="z9">,</span> <span class="u9">0.3</span><span class="z9">,</span> <span class="u9">1</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">/* Bad: Linear motion feels robotic */</span></span>
+                  <span class="block n8 h9"><span class="x9">.modal</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">transition</span><span class="aa">:</span> transform <span class="v9">300ms</span> <span class="u9">linear</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">/* Good: Ease-out feels like natural deceleration */</span></span>
+                  <span class="block n8 h9"><span class="x9">.modal</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">transition</span><span class="aa">:</span> transform <span class="v9">300ms</span> <span class="u9">ease-out</span><span class="aa">;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">/* Better: Custom curve for personality */</span></span>
+                  <span class="block n8 h9"><span class="x9">.modal</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">transition</span><span class="aa">:</span> transform <span class="v9">300ms</span> <span class="s9">cubic-bezier</span><span class="aa">(</span><span class="v9">0.16</span><span class="aa">,</span> <span class="v9">1</span><span class="aa">,</span> <span class="v9">0.3</span><span class="aa">,</span> <span class="v9">1</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <demo-showcase data-component="physics-comparison" data-props="{}" data-frame="{&quot;focusCode&quot;:true,&quot;replayButton&quot;:false,&quot;bitBigger&quot;:false,&quot;fullHeight&quot;:false}" data-height="default" data-files>
@@ -415,42 +444,42 @@ globalThis.addEventListener("pagereveal", (event) => {
                 [{"filename":"physics-comparison-demo.tsx","code":"import \"./physics-comparison.css\";\nimport { useState } from \"react\";\n\nexport function PhysicsComparisonDemo() {\n  const [animate, setAnimate] = useState(false);\n\n  return (\n    \u003cdiv className=\"demo\">\n      \u003cbutton onClick={() => setAnimate(!animate)}>{animate ? \"Reset\" : \"Animate\"}\u003c/button>\n\n      \u003cdiv className=\"row\">\n        \u003cspan className=\"label\">Linear\u003c/span>\n        \u003cdiv className={`box box--linear ${animate ? \"box--moved\" : \"\"}`} />\n      \u003c/div>\n\n      \u003cdiv className=\"row\">\n        \u003cspan className=\"label\">Ease-out\u003c/span>\n        \u003cdiv className={`box box--ease-out ${animate ? \"box--moved\" : \"\"}`} />\n      \u003c/div>\n\n      \u003cdiv className=\"row\">\n        \u003cspan className=\"label\">Spring\u003c/span>\n        \u003cdiv className={`box box--spring ${animate ? \"box--moved\" : \"\"}`} />\n      \u003c/div>\n    \u003c/div>\n  );\n}","html":"\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-k\">import\u003c/span> \u003cspan class=\"text-syn-s\">&quot;./physics-comparison.css&quot;\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-k\">import\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span> useState \u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-k\">from\u003c/span> \u003cspan class=\"text-syn-s\">&quot;react&quot;\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\n\u003cspan class=\"text-syn-k\">export\u003c/span> \u003cspan class=\"text-syn-k\">function\u003c/span> \u003cspan class=\"text-syn-f\">PhysicsComparisonDemo\u003c/span>\u003cspan class=\"text-syn-u\">()\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-k\">const\u003c/span> \u003cspan class=\"text-syn-u\">[\u003c/span>animate\u003cspan class=\"text-syn-u\">,\u003c/span> setAnimate\u003cspan class=\"text-syn-u\">]\u003c/span> \u003cspan class=\"text-syn-o\">=\u003c/span> \u003cspan class=\"text-syn-f\">useState\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-k\">false\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\n  \u003cspan class=\"text-syn-k\">return\u003c/span> \u003cspan class=\"text-syn-u\">(\u003c/span>\n    \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;demo&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">button\u003c/span> \u003cspan class=\"text-syn-p\">onClick\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{()\u003c/span> \u003cspan class=\"text-syn-k\">=&gt;\u003c/span> \u003cspan class=\"text-syn-f\">setAnimate\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-o\">!\u003c/span>animate\u003cspan class=\"text-syn-u\">)}&gt;{\u003c/span>animate \u003cspan class=\"text-syn-o\">?\u003c/span> \u003cspan class=\"text-syn-s\">&quot;Reset&quot;\u003c/span> \u003cspan class=\"text-syn-o\">:\u003c/span> \u003cspan class=\"text-syn-s\">&quot;Animate&quot;\u003c/span>\u003cspan class=\"text-syn-u\">}&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">button\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;row&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">span\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;label&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Linear\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">span\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-s\">`box box--linear ${animate ? &quot;box--moved&quot; : &quot;&quot;}`\u003c/span>\u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-u\">/&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;row&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">span\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;label&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Ease-out\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">span\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-s\">`box box--ease-out ${animate ? &quot;box--moved&quot; : &quot;&quot;}`\u003c/span>\u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-u\">/&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n\n      \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;row&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">span\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-s\">&quot;label&quot;\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>Spring\u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">span\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n        \u003cspan class=\"text-syn-u\">&lt;\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span> \u003cspan class=\"text-syn-p\">className\u003c/span>\u003cspan class=\"text-syn-o\">=\u003c/span>\u003cspan class=\"text-syn-u\">{\u003c/span>\u003cspan class=\"text-syn-s\">`box box--spring ${animate ? &quot;box--moved&quot; : &quot;&quot;}`\u003c/span>\u003cspan class=\"text-syn-u\">}\u003c/span> \u003cspan class=\"text-syn-u\">/&gt;\u003c/span>\n      \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n    \u003cspan class=\"text-syn-u\">&lt;/\u003c/span>\u003cspan class=\"text-syn-g\">div\u003c/span>\u003cspan class=\"text-syn-u\">&gt;\u003c/span>\n  \u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"},{"filename":"physics-comparison.css","code":".box {\n  width: 48px;\n  height: 48px;\n  border-radius: 4px;\n}\n\n/_ Linear: constant speed, abrupt stop _/\n.box--linear {\n  background: #a3a3a3;\n  transition: transform 500ms linear;\n}\n\n/_ Ease-out: decelerates into position _/\n.box--ease-out {\n  background: #737373;\n  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);\n}\n\n/_ Spring-like: overshoot with settle _/\n.box--spring {\n  background: #525252;\n  transition: transform 500ms\n    cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n\n.box--moved {\n  transform: translateX(200px);\n}","html":"\u003cpre>\u003ccode class=\"[tab-size:2] [font:0.84em/1.65_var(--site-font-mono)]\">\u003cspan class=\"text-syn-p\">.box\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">width\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">48px\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">height\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">48px\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">border-radius\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-n\">4px\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n/_ Linear: constant speed\u003cspan class=\"text-syn-u\">,\u003c/span> abrupt \u003cspan class=\"text-syn-g\">stop\u003c/span> _/\n\u003cspan class=\"text-syn-p\">.box--linear\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">background\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-u\">#\u003c/span>a3a3a3\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">transition\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> transform \u003cspan class=\"text-syn-n\">500ms\u003c/span> \u003cspan class=\"text-syn-k\">linear\u003c/span>\u003cspan class=\"text-syn-u\">;\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n/_ Ease-out: decelerates into position _/\n\u003cspan class=\"text-syn-p\">.box--ease-out\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">background\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-u\">#\u003c/span>737373\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">transition\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> transform \u003cspan class=\"text-syn-n\">500ms\u003c/span> \u003cspan class=\"text-syn-f\">cubic-bezier\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">0.16\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">1\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">0.3\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">1\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n/_ Spring-like: overshoot with settle _/\n\u003cspan class=\"text-syn-p\">.box--spring\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">background\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-u\">#\u003c/span>525252\u003cspan class=\"text-syn-u\">;\u003c/span>\n  \u003cspan class=\"text-syn-p\">transition\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> transform \u003cspan class=\"text-syn-n\">500ms\u003c/span>\n    \u003cspan class=\"text-syn-f\">cubic-bezier\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">0.34\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">1.56\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">0.64\u003c/span>\u003cspan class=\"text-syn-u\">,\u003c/span> \u003cspan class=\"text-syn-n\">1\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\n\n\u003cspan class=\"text-syn-p\">.box--moved\u003c/span> \u003cspan class=\"text-syn-u\">{\u003c/span>\n  \u003cspan class=\"text-syn-p\">transform\u003c/span>\u003cspan class=\"text-syn-u\">:\u003c/span> \u003cspan class=\"text-syn-f\">translateX\u003c/span>\u003cspan class=\"text-syn-u\">(\u003c/span>\u003cspan class=\"text-syn-n\">200px\u003c/span>\u003cspan class=\"text-syn-u\">);\u003c/span>\n\u003cspan class=\"text-syn-u\">}\u003c/span>\u003c/code>\u003c/pre>"}]
               </script>
             </demo-showcase>
-            <h2 id="context-matters" class="n0 k8 w8 t8 z8">Context Matters</h2>
+            <h2 id="context-matters" class="n0 l8 x8 u8 a9">Context Matters</h2>
             <p class="g0 u0">The &quot;right&quot; animation depends entirely on context:</p>
             <p class="g0 u0"><strong>Banking app</strong>: Users want to feel secure and in control. Animations should be subtle, quick, professional. A playful bounce on a &quot;Transfer $10,000&quot; button would feel wrong.</p>
             <p class="g0 u0"><strong>Gaming app</strong>: Users expect energy and personality. Playful bounces, particles, and elaborate transitions fit the context.</p>
             <p class="g0 u0"><strong>Productivity tool</strong>: Users want efficiency. Animations should be fast and purposeful. Anything that slows them down will frustrate.</p>
             <p class="g0 u0"><strong>Marketing site</strong>: First impressions matter. More elaborate animations can create wow moments. Users aren&#39;t trying to accomplish tasks, they&#39;re exploring.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">const</span> ANIMATION_TIMING <span class="v9">=</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">banking:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">duration:</span> <span class="u9">150</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">easing:</span> <span class="x9">&quot;ease-out&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="w9">gaming:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">duration:</span> <span class="u9">400</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">easing:</span> <span class="x9">&quot;spring&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">bounce:</span> <span class="u9">0.3</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="w9">productivity:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">duration:</span> <span class="u9">100</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">easing:</span> <span class="x9">&quot;ease-out&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="w9">marketing:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">duration:</span> <span class="u9">600</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">easing:</span> <span class="x9">&quot;cubic-bezier(0.16, 1, 0.3, 1)&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><span class="z9">};</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">const</span> ANIMATION_TIMING <span class="w9">=</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">banking:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">duration:</span> <span class="v9">150</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">easing:</span> <span class="y9">&quot;ease-out&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="x9">gaming:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">duration:</span> <span class="v9">400</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">easing:</span> <span class="y9">&quot;spring&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">bounce:</span> <span class="v9">0.3</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="x9">productivity:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">duration:</span> <span class="v9">100</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">easing:</span> <span class="y9">&quot;ease-out&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="x9">marketing:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">duration:</span> <span class="v9">600</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">easing:</span> <span class="y9">&quot;cubic-bezier(0.16, 1, 0.3, 1)&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><span class="aa">};</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">There&#39;s no universal &quot;correct&quot; animation. There&#39;s only what&#39;s correct for your users and your context.</p>
-            <h2 id="when-not-to-animate" class="n0 k8 w8 t8 z8">When NOT to Animate</h2>
+            <h2 id="when-not-to-animate" class="n0 l8 x8 u8 a9">When NOT to Animate</h2>
             <p class="g0 u0">Animation has costs:</p>
             <ol class="g0 u0">
               <li><strong>Time</strong>: Every animation adds duration to an interaction</li>
@@ -465,49 +494,49 @@ globalThis.addEventListener("pagereveal", (event) => {
             <p class="g0 u0"><strong>Will users see this repeatedly?</strong> An elaborate animation is delightful the first time. By the hundredth time, it&#39;s annoying.</p>
             <p class="g0 u0"><strong>Does this animation respect the user&#39;s preferences?</strong> Users who&#39;ve enabled &quot;reduce motion&quot; are telling you something.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-css block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">@media</span> <span class="z9">(</span>prefers-reduced-motion<span class="z9">:</span> reduce<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="s9">*</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">animation-duration</span><span class="z9">:</span> <span class="u9">0.01ms</span> <span class="t9">!important</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">    <span class="w9">transition-duration</span><span class="z9">:</span> <span class="u9">0.01ms</span> <span class="t9">!important</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-css block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">@media</span> <span class="aa">(</span>prefers-reduced-motion<span class="aa">:</span> reduce<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="t9">*</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">animation-duration</span><span class="aa">:</span> <span class="v9">0.01ms</span> <span class="u9">!important</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">    <span class="x9">transition-duration</span><span class="aa">:</span> <span class="v9">0.01ms</span> <span class="u9">!important</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0"><strong>Is this animation covering up a performance problem?</strong> Loading spinners and skeleton screens are sometimes necessary. But if you&#39;re adding animation to distract from slow performance, fix the performance instead.</p>
-            <h2 id="training-your-eye" class="n0 k8 w8 t8 z8">Training Your Eye</h2>
+            <h2 id="training-your-eye" class="n0 l8 x8 u8 a9">Training Your Eye</h2>
             <p class="g0 u0">Noticing good animation is a skill. Here&#39;s how to develop it:</p>
             <p class="g0 u0"><strong>Slow things down</strong>: Record your screen and play back at 0.25x speed. You&#39;ll see details you missed at normal speed.</p>
             <p class="g0 u0"><strong>Study the masters</strong>: Linear, Stripe, Vercel, Arc Browser, Raycast. These companies invest heavily in motion design. Notice what they do.</p>
             <p class="g0 u0"><strong>Question everything</strong>: When something feels good, ask why. When something feels off, ask why. Break it down.</p>
             <p class="g0 u0"><strong>Build and compare</strong>: Implement the same interaction with different timing, easing, and properties. Feel the difference.</p>
-            <h2 id="conclusion" class="n0 k8 w8 t8 z8">Conclusion</h2>
+            <h2 id="conclusion" class="n0 l8 x8 u8 a9">Conclusion</h2>
             <p class="g0 u0">Animation that feels right isn&#39;t magic. It&#39;s physics, psychology, and context working together. Your brain evolved to notice movement and interpret it. Good animation works with this system. Bad animation fights against it.</p>
             <p class="g0 u0">Before you add any animation, ask: what is this communicating? Is it making the experience better or just different? Does it respect the user&#39;s time and preferences?</p>
             <p class="g0 u0">Start with no animation. Add it only when it serves a purpose. And when you do add it, make sure it follows the physics your brain expects. That&#39;s how animation goes from decorative to essential.</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/training-your-eye-for-motion/">Training Your Eye for Motion</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/when-to-animate-and-when-to-skip/">When to Animate and When to Skip</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/design-engineering/moving-things-without-moving-them/">Moving Things Without Moving Them</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/training-your-eye-for-motion/">Training Your Eye for Motion</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/when-to-animate-and-when-to-skip/">When to Animate and When to Skip</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/design-engineering/moving-things-without-moving-them/">Moving Things Without Moving Them</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/design-engineering/psychology-of-motion.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/design-engineering/psychology-of-motion.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

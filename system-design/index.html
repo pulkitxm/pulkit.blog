@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -212,15 +212,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -259,57 +288,57 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li aria-current="page">System Design</li>
           </ol>
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>System Design</h1>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>System Design</h1>
           </header>
-          <div class="c9">
-            <p class="g0 u0">The <strong><a class="o9 ga ia ic" href="https://github.com/pulkitxm/systems">pulkitxm/systems</a></strong> repository on GitHub has supplementary sketches, runnable implementations, and small code-heavy examples keyed to themes in this series. Pair it with these posts when you want reference code alongside the write-ups.</p>
-            <h2 class="m0 q0 e1 a4 l4 i8 v8 t8 y8 p9 rb sb tb">2026</h2>
-            <ul class="g0 u0 r3 o6">
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/rate-limiting/"><span class="ob" data-title>Rate Limiting</span><span class="c3 l8 p9 xd"><time datetime="2026-04-11">Apr 11</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/bloom-filters/"><span class="ob" data-title>Bloom Filters</span><span class="c3 l8 p9 xd"><time datetime="2026-01-24">Jan 24</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/consistent-hashing/"><span class="ob" data-title>Consistent Hashing</span><span class="c3 l8 p9 xd"><time datetime="2026-01-24">Jan 24</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/big-data-tools/"><span class="ob" data-title>Introduction to Big Data Tools</span><span class="c3 l8 p9 xd"><time datetime="2026-01-24">Jan 24</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/communication-protocols/"><span class="ob" data-title>Communication Protocols</span><span class="c3 l8 p9 xd"><time datetime="2026-01-23">Jan 23</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/high-availability/"><span class="ob" data-title>High Availability</span><span class="c3 l8 p9 xd"><time datetime="2026-01-23">Jan 23</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/circuit-breakers/"><span class="ob" data-title>Circuit Breakers</span><span class="c3 l8 p9 xd"><time datetime="2026-01-13">Jan 13</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/load-balancers/"><span class="ob" data-title>Load Balancers</span><span class="c3 l8 p9 xd"><time datetime="2026-01-11">Jan 11</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/async-processing/"><span class="ob" data-title>Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub</span><span class="c3 l8 p9 xd"><time datetime="2026-01-10">Jan 10</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/caching/"><span class="ob" data-title>Caching</span><span class="c3 l8 p9 xd"><time datetime="2026-01-08">Jan 8</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/non-relational-databases/"><span class="ob" data-title>Non-Relational Databases</span><span class="c3 l8 p9 xd"><time datetime="2026-01-08">Jan 8</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/understanding-database-scaling-sharding/"><span class="ob" data-title>Understanding Database Scaling and Sharding Patterns</span><span class="c3 l8 p9 xd"><time datetime="2026-01-07">Jan 7</time></span></a></li>
-              <li class="p5 v5"><a class="group e1 z3 c4 m4 f7 s8 o9 da ia rd" href="/system-design/db-transaction-internals/"><span class="ob" data-title>Database Transaction Internals: ACID, WAL, MVCC &amp; Locking</span><span class="c3 l8 p9 xd"><time datetime="2026-01-03">Jan 3</time></span></a></li>
+          <div class="d9">
+            <p class="g0 u0">The <strong><a class="p9 ha ja oc" href="https://github.com/pulkitxm/systems">pulkitxm/systems</a></strong> repository on GitHub has supplementary sketches, runnable implementations, and small code-heavy examples keyed to themes in this series. Pair it with these posts when you want reference code alongside the write-ups.</p>
+            <h2 class="m0 q0 e1 a4 l4 j8 w8 u8 z8 q9 xb yb zb">2026</h2>
+            <ul class="g0 u0 r3 p6">
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/rate-limiting/"><span class="ub" data-title>Rate Limiting</span><span class="c3 m8 q9 fe"><time datetime="2026-04-11">Apr 11</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/bloom-filters/"><span class="ub" data-title>Bloom Filters</span><span class="c3 m8 q9 fe"><time datetime="2026-01-24">Jan 24</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/consistent-hashing/"><span class="ub" data-title>Consistent Hashing</span><span class="c3 m8 q9 fe"><time datetime="2026-01-24">Jan 24</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/big-data-tools/"><span class="ub" data-title>Introduction to Big Data Tools</span><span class="c3 m8 q9 fe"><time datetime="2026-01-24">Jan 24</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/communication-protocols/"><span class="ub" data-title>Communication Protocols</span><span class="c3 m8 q9 fe"><time datetime="2026-01-23">Jan 23</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/high-availability/"><span class="ub" data-title>High Availability</span><span class="c3 m8 q9 fe"><time datetime="2026-01-23">Jan 23</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/circuit-breakers/"><span class="ub" data-title>Circuit Breakers</span><span class="c3 m8 q9 fe"><time datetime="2026-01-13">Jan 13</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/load-balancers/"><span class="ub" data-title>Load Balancers</span><span class="c3 m8 q9 fe"><time datetime="2026-01-11">Jan 11</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/async-processing/"><span class="ub" data-title>Message Queues vs Streams: SQS, RabbitMQ, Kafka, Pub/Sub</span><span class="c3 m8 q9 fe"><time datetime="2026-01-10">Jan 10</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/caching/"><span class="ub" data-title>Caching</span><span class="c3 m8 q9 fe"><time datetime="2026-01-08">Jan 8</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/non-relational-databases/"><span class="ub" data-title>Non-Relational Databases</span><span class="c3 m8 q9 fe"><time datetime="2026-01-08">Jan 8</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/understanding-database-scaling-sharding/"><span class="ub" data-title>Understanding Database Scaling and Sharding Patterns</span><span class="c3 m8 q9 fe"><time datetime="2026-01-07">Jan 7</time></span></a></li>
+              <li class="p5 w5"><a class="group e1 z3 c4 m4 g7 t8 p9 ea ja zd" href="/system-design/db-transaction-internals/"><span class="ub" data-title>Database Transaction Internals: ACID, WAL, MVCC &amp; Locking</span><span class="c3 m8 q9 fe"><time datetime="2026-01-03">Jan 3</time></span></a></li>
             </ul>
           </div>
         </article>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/system-design.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/system-design.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>

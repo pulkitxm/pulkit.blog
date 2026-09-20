@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ka fd gd">
+<html lang="en" class="la nd od">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -173,15 +173,44 @@ try {
     document.documentElement.dataset.entry = "cross-site";
   }
 } catch {}
+let chosenTheme = null;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch {}
+}
+function nextTheme(root) {
+  const current = chosenTheme ?? root.dataset.theme ?? (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  return current === "dark" ? "light" : "dark";
+}
+function wipeOrigin(button, event) {
+  if (event instanceof MouseEvent && event.detail > 0) {
+    return { x: event.clientX, y: event.clientY };
+  }
+  const box = button.getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("[data-theme-toggle]");
-  button?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(themeKey, theme);
-    } catch {}
+  button?.addEventListener("click", (event) => {
+    const root = document.documentElement;
+    const theme = nextTheme(root);
+    chosenTheme = theme;
+    if (!document.startViewTransition || globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    const { x, y } = wipeOrigin(button, event);
+    root.style.setProperty("--theme-x", `${x}px`);
+    root.style.setProperty("--theme-y", `${y}px`);
+    root.style.setProperty("--theme-radius", `${Math.hypot(Math.max(x, globalThis.innerWidth - x), Math.max(y, globalThis.innerHeight - y))}px`);
+    root.dataset.themeChange = "";
+    const transition = document.startViewTransition(() => applyTheme(theme));
+    const clear = () => {
+      delete root.dataset.themeChange;
+    };
+    transition.finished.then(clear, clear);
   });
 });
 function entryTransition(event, otherUrl) {
@@ -220,21 +249,21 @@ globalThis.addEventListener("pagereveal", (event) => {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" sizes="any" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.6af8daa299ec.css" />
+    <link rel="stylesheet" href="/styles.83fd6ffa5d45.css" />
     <link rel="preload" href="/assets/fonts/comic-relief-regular-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/comic-relief-bold-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="w b6 x7 y7 k9 ja jb vc wc xc">
-    <div class="y r2 z6 ud">
-      <header class="e1 a4 c4 n4 j7 pd qd sd vd">
-        <a class="u8 o9 da" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
-        <nav class="e1 y3 m4 j8 p9 td" aria-label="Main navigation">
-          <a class="o9 da ed" href="https://pulkit.page/">About</a>
+  <body class="w c6 y7 z7 l9 ka nb bd cd dd">
+    <div class="y r2 a7 ce">
+      <header class="e1 a4 c4 n4 k7 xd yd ae de">
+        <a class="v8 p9 ea" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 46" fill="currentColor" role="img" aria-label="Pulkit" data-wordmark> <mask id="wordmark-fold" maskUnits="userSpaceOnUse" x="-5" y="-5" width="174" height="56"> <rect x="-5" y="-5" width="174" height="56" fill="#fff" /> <path d="M21 -4H40V14H25Q21 14 21 10Z" fill="#000" data-fold /> </mask> <path d="M5 0H35V26C35 33 30 38 23 38H13V31H17C23 31 26 27 26 22C26 17 22 14 17 14C12 14 9 18 9 23V46H0V5Q0 0 5 0Z" mask="url(#wordmark-fold)" /> <path d="M24 0L35 11H26Q24 11 24 9Z" data-fold /> <path d="M40 16H49V31A6 6 0 0 0 61 31V16H70V46H55A15 15 0 0 1 40 31Z" /> <path d="M80 0H84V46H75V5Q75 0 80 0Z" /> <path d="M94 0H98V46H89V5Q89 0 94 0Z" /> <path d="M108.27 16H121L98 39V26.27Z" /> <path d="M99.65 37.35L106 31L121 46H108.27Z" /> <rect x="126" width="9" height="9" rx="1.5" /> <rect x="126" y="16" width="9" height="30" /> <path d="M151 4H155V46H146V9Q146 4 151 4Z" /> <rect x="140" y="16" width="24" height="9" /> </svg></a>
+        <nav class="e1 y3 m4 k8 q9 be" aria-label="Main navigation">
+          <a class="p9 ea md" href="https://pulkit.page/">About</a>
         </nav>
       </header>
-      <main id="main" class="f2 n7 q7 wd">
-        <nav class="w0 a8" aria-label="Breadcrumb">
-          <ol class="g0 u0 e1 r3 y3 i4 o6 yf zf ag pf qf rf sf">
+      <main id="main" class="f2 o7 r7 ee">
+        <nav class="w0 b8" aria-label="Breadcrumb">
+          <ol class="g0 u0 e1 r3 y3 i4 p6 gg hg ig xf yf zf ag">
             <li><a href="/">Home</a></li>
             <li><a href="/system-design/">System Design</a></li>
             <li aria-current="page">Non-Relational Databases</li>
@@ -242,18 +271,18 @@ globalThis.addEventListener("pagereveal", (event) => {
         </nav>
         <article>
           <header class="v0">
-            <h1 class="g0 t0 o2 f8 w8 t8 z8" data-title>Non-Relational Databases</h1>
-            <a class="r0 e1 o2 a4 j4 j8 o9 da ia hc" href="https://pulkit.page/"><img class="w o1 f5 l6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
-            <p class="g0 u0 j8 p9"><time datetime="2026-01-08">January 8, 2026</time> · 6 min read · <a class="o9 ga ia ic" href="/system-design/">System Design</a></p>
+            <h1 class="g0 t0 o2 g8 x8 u8 a9" data-title>Non-Relational Databases</h1>
+            <a class="r0 e1 o2 a4 j4 k8 p9 ea ja nc" href="https://pulkit.page/"><img class="w o1 f5 m6" src="/assets/content/pulkit-portrait-56.webp" alt="" width="28" height="28" />Pulkit</a>
+            <p class="g0 u0 k8 q9"><time datetime="2026-01-08">January 8, 2026</time> · 6 min read · <a class="p9 ha ja oc" href="/system-design/">System Design</a></p>
           </header>
-          <div class="c9">
+          <div class="d9">
             <p class="g0 u0">
               <a href="/assets/content/blogs/non-relational-databases/types.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/non-relational-databases/types.webp" alt="Non-Relational Databases" width="1536" height="1024" loading="lazy" />
               </a>
             </p>
             <p class="g0 u0">Non-relational databases, often called NoSQL databases, represent a broad category of databases that differ from traditional relational databases like MySQL, PostgreSQL, or Oracle. But here&#39;s the catch: while all relational databases share similar characteristics (SQL queries, rows and columns, ACID transactions), non-relational databases are not all alike. Each type has its own query language, storage mechanism, and set of guarantees.</p>
-            <h2 id="tl-dr" class="n0 k8 w8 t8 z8">TL;DR</h2>
+            <h2 id="tl-dr" class="n0 l8 x8 u8 a9">TL;DR</h2>
             <ul class="g0 u0">
               <li><strong>Non-relational databases</strong> is a broad term for databases that aren&#39;t SQL-based. They don&#39;t all work the same way</li>
               <li><strong>Key advantage</strong>: Most NoSQL databases shard out of the box, enabling horizontal scaling without complex setup</li>
@@ -263,12 +292,12 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li><strong>Trade-off</strong>: NoSQL gives up features like foreign keys and ACID transactions for horizontal scalability</li>
               <li>You can use relational databases as key-value stores by limiting your access patterns</li>
             </ul>
-            <h2 id="the-horizontal-scaling-advantage" class="n0 k8 w8 t8 z8">The Horizontal Scaling Advantage</h2>
+            <h2 id="the-horizontal-scaling-advantage" class="n0 l8 x8 u8 a9">The Horizontal Scaling Advantage</h2>
             <p class="g0 u0">A common misconception is that non-relational databases scale while relational databases don&#39;t. This isn&#39;t entirely accurate. The real difference is that non-relational databases shard out of the box.</p>
             <p class="g0 u0">Relational databases assume all data lives in one node. That&#39;s how they provide foreign key checks, cascading deletes, triggers, and full ACID transactions. Non-relational databases don&#39;t make this assumption, which means they can distribute data across multiple nodes without special configuration.</p>
             <p class="g0 u0">If you don&#39;t use foreign key checks, don&#39;t heavily leverage transactions, and limit your access patterns, you can split relational databases horizontally too. NoSQL just makes this easier by not providing those features in the first place.</p>
             <p class="g0 u0">Think of it as a trade-off: relational databases give you strong guarantees and features. Non-relational databases drop some of those features to make horizontal scaling simpler.</p>
-            <h2 id="document-databases" class="n0 k8 w8 t8 z8">Document Databases</h2>
+            <h2 id="document-databases" class="n0 l8 x8 u8 a9">Document Databases</h2>
             <p class="g0 u0">
               <a href="/assets/content/blogs/non-relational-databases/document-db.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/non-relational-databases/document-db.webp" alt="Document DB" width="1536" height="1024" loading="lazy" />
@@ -276,7 +305,7 @@ globalThis.addEventListener("pagereveal", (event) => {
             </p>
             <p class="g0 u0">Document databases are the closest to relational databases in the NoSQL world. They&#39;re mostly JSON-based and support complex queries including aggregations, filters, and sorting.</p>
             <p class="g0 u0"><strong>Popular examples:</strong> MongoDB, Elasticsearch</p>
-            <h3 id="why-document-dbs-feel-familiar" class="l0 h8 t8 z8">Why Document DBs Feel Familiar</h3>
+            <h3 id="why-document-dbs-feel-familiar" class="l0 i8 u8 a9">Why Document DBs Feel Familiar</h3>
             <p class="g0 u0">Unlike relational databases where SQL is standardized, non-relational databases have no standard query language or storage format. But document DBs come close to what you&#39;d expect from a traditional database:</p>
             <ul class="g0 u0">
               <li>Complex queries with filters, aggregations, and sorting</li>
@@ -284,38 +313,38 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Indexes for fast lookups</li>
               <li>Rich data modeling with nested structures</li>
             </ul>
-            <h3 id="partial-updates" class="l0 h8 t8 z8">Partial Updates</h3>
+            <h3 id="partial-updates" class="l0 i8 u8 a9">Partial Updates</h3>
             <p class="g0 u0">Consider this document:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-json block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;user_id&quot;</span><span class="z9">:</span> <span class="x9">&quot;u_12345&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;name&quot;</span><span class="z9">:</span> <span class="x9">&quot;Emma&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;city&quot;</span><span class="z9">:</span> <span class="x9">&quot;Los Angeles&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;profile&quot;</span><span class="z9">:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;bio&quot;</span><span class="z9">:</span> <span class="x9">&quot;Love traveling and photography&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;interests&quot;</span><span class="z9">:</span> <span class="z9">[</span><span class="x9">&quot;travel&quot;</span><span class="z9">,</span> <span class="x9">&quot;photography&quot;</span><span class="z9">,</span> <span class="x9">&quot;hiking&quot;</span><span class="z9">]</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-json block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;user_id&quot;</span><span class="aa">:</span> <span class="y9">&quot;u_12345&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;name&quot;</span><span class="aa">:</span> <span class="y9">&quot;Emma&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;city&quot;</span><span class="aa">:</span> <span class="y9">&quot;Los Angeles&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;profile&quot;</span><span class="aa">:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;bio&quot;</span><span class="aa">:</span> <span class="y9">&quot;Love traveling and photography&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;interests&quot;</span><span class="aa">:</span> <span class="aa">[</span><span class="y9">&quot;travel&quot;</span><span class="aa">,</span> <span class="y9">&quot;photography&quot;</span><span class="aa">,</span> <span class="y9">&quot;hiking&quot;</span><span class="aa">]</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">When you want to add a new interest, you can issue a simple update:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-javascript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">db<span class="z9">.</span>users<span class="z9">.</span><span class="r9">updateOne</span><span class="z9">({</span> <span class="w9">user_id:</span> <span class="x9">&quot;u_12345&quot;</span> <span class="z9">},</span> <span class="z9">{</span> <span class="w9">$push:</span> <span class="z9">{</span> <span class="w9">&quot;profile.interests&quot;:</span> <span class="x9">&quot;cooking&quot;</span> <span class="z9">}</span> <span class="z9">});</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-javascript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">db<span class="aa">.</span>users<span class="aa">.</span><span class="s9">updateOne</span><span class="aa">({</span> <span class="x9">user_id:</span> <span class="y9">&quot;u_12345&quot;</span> <span class="aa">},</span> <span class="aa">{</span> <span class="x9">$push:</span> <span class="aa">{</span> <span class="x9">&quot;profile.interests&quot;:</span> <span class="y9">&quot;cooking&quot;</span> <span class="aa">}</span> <span class="aa">});</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <p class="g0 u0">This updates only the <code class="i5 d6 t6 a7 hb">total_posts</code> field. The database applies this change in place without reading or rewriting the entire document.</p>
+            <p class="g0 u0">This updates only the <code class="i5 e6 u6 b7 lb">total_posts</code> field. The database applies this change in place without reading or rewriting the entire document.</p>
             <p class="g0 u0">Why does this matter? Imagine the document is 1KB. Without partial updates, you&#39;d need to:</p>
             <ol class="g0 u0">
               <li>Read the entire 1KB document</li>
@@ -324,54 +353,54 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ol>
             <p class="g0 u0">That&#39;s 2KB of data transfer just to increment one number. With partial updates, you send a tiny command and the database handles it efficiently. This makes a huge difference at scale.</p>
             <p class="g0 u0"><strong>Warning:</strong> Not all databases support partial updates. Many key-value stores require you to read the entire value, modify it, and write it back. Document databases giving you this feature is a big deal.</p>
-            <h3 id="when-to-use-document-dbs" class="l0 h8 t8 z8">When to Use Document DBs</h3>
+            <h3 id="when-to-use-document-dbs" class="l0 i8 u8 a9">When to Use Document DBs</h3>
             <p class="g0 u0"><strong>In-App Notifications:</strong></p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-json block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;notification_id&quot;</span><span class="z9">:</span> <span class="x9">&quot;n_789&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;user_id&quot;</span><span class="z9">:</span> <span class="x9">&quot;u_12345&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;type&quot;</span><span class="z9">:</span> <span class="x9">&quot;like&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;message&quot;</span><span class="z9">:</span> <span class="x9">&quot;John liked your post&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;read&quot;</span><span class="z9">:</span> <span class="t9">false</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;metadata&quot;</span><span class="z9">:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;post_id&quot;</span><span class="z9">:</span> <span class="x9">&quot;p_456&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;liker_avatar&quot;</span><span class="z9">:</span> <span class="x9">&quot;https://...&quot;</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;created_at&quot;</span><span class="z9">:</span> <span class="x9">&quot;2026-01-07T10:30:00Z&quot;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-json block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;notification_id&quot;</span><span class="aa">:</span> <span class="y9">&quot;n_789&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;user_id&quot;</span><span class="aa">:</span> <span class="y9">&quot;u_12345&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;type&quot;</span><span class="aa">:</span> <span class="y9">&quot;like&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;message&quot;</span><span class="aa">:</span> <span class="y9">&quot;John liked your post&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;read&quot;</span><span class="aa">:</span> <span class="u9">false</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;metadata&quot;</span><span class="aa">:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;post_id&quot;</span><span class="aa">:</span> <span class="y9">&quot;p_456&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;liker_avatar&quot;</span><span class="aa">:</span> <span class="y9">&quot;https://...&quot;</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;created_at&quot;</span><span class="aa">:</span> <span class="y9">&quot;2026-01-07T10:30:00Z&quot;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Notifications are inherently unstructured. Different notification types have different metadata. Document DBs handle this naturally without requiring schema migrations for every new notification type.</p>
             <p class="g0 u0"><strong>Product Catalogs:</strong></p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-json block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;product_id&quot;</span><span class="z9">:</span> <span class="x9">&quot;p_001&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;title&quot;</span><span class="z9">:</span> <span class="x9">&quot;Wireless Headphones&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;price&quot;</span><span class="z9">:</span> <span class="u9">149.99</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;category&quot;</span><span class="z9">:</span> <span class="x9">&quot;Electronics&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;specifications&quot;</span><span class="z9">:</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;battery_life&quot;</span><span class="z9">:</span> <span class="x9">&quot;30 hours&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;driver_size&quot;</span><span class="z9">:</span> <span class="x9">&quot;40mm&quot;</span><span class="z9">,</span></span>
-                  <span class="block m8 g9">    <span class="w9">&quot;noise_cancellation&quot;</span><span class="z9">:</span> <span class="t9">true</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9">  <span class="w9">&quot;seller_notes&quot;</span><span class="z9">:</span> <span class="x9">&quot;Limited edition color available&quot;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-json block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;product_id&quot;</span><span class="aa">:</span> <span class="y9">&quot;p_001&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;title&quot;</span><span class="aa">:</span> <span class="y9">&quot;Wireless Headphones&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;price&quot;</span><span class="aa">:</span> <span class="v9">149.99</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;category&quot;</span><span class="aa">:</span> <span class="y9">&quot;Electronics&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;specifications&quot;</span><span class="aa">:</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;battery_life&quot;</span><span class="aa">:</span> <span class="y9">&quot;30 hours&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;driver_size&quot;</span><span class="aa">:</span> <span class="y9">&quot;40mm&quot;</span><span class="aa">,</span></span>
+                  <span class="block n8 h9">    <span class="x9">&quot;noise_cancellation&quot;</span><span class="aa">:</span> <span class="u9">true</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9">  <span class="x9">&quot;seller_notes&quot;</span><span class="aa">:</span> <span class="y9">&quot;Limited edition color available&quot;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Different products have different attributes. A laptop has RAM and storage specs. A shirt has size and color. Document DBs let sellers add custom fields without breaking the schema.</p>
-            <h2 id="key-value-stores" class="n0 k8 w8 t8 z8">Key-Value Stores</h2>
+            <h2 id="key-value-stores" class="n0 l8 x8 u8 a9">Key-Value Stores</h2>
             <p class="g0 u0">
               <a href="/assets/content/blogs/non-relational-databases/key-value-db.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/non-relational-databases/key-value-db.webp" alt="Key-Value DB" width="1536" height="1024" loading="lazy" />
@@ -379,42 +408,42 @@ globalThis.addEventListener("pagereveal", (event) => {
             </p>
             <p class="g0 u0">Key-value stores are the simplest databases. They restrict access to basic operations: GET a key, PUT a key, DELETE a key. That&#39;s it.</p>
             <p class="g0 u0"><strong>Popular examples:</strong> Redis, DynamoDB, Aerospike</p>
-            <h3 id="the-power-of-simplicity" class="l0 h8 t8 z8">The Power of Simplicity</h3>
+            <h3 id="the-power-of-simplicity" class="l0 i8 u8 a9">The Power of Simplicity</h3>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">GET(key) → value</span>
-                  <span class="block m8 g9">PUT(key, value) → success</span>
-                  <span class="block m8 g9">DEL(key) → success</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">GET(key) → value</span>
+                  <span class="block n8 h9">PUT(key, value) → success</span>
+                  <span class="block n8 h9">DEL(key) → success</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">No complex queries. No aggregations. No joins. Just key-based access.</p>
             <p class="g0 u0">This extreme simplicity gives key-value stores their superpower: they can shard and scale to hundreds of nodes without any hiccups. When your access pattern is &quot;given this key, give me the data,&quot; distributing that across machines is trivial.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">getUserProfile</span><span class="z9">(</span>userId<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">Profile</span> <span class="v9">|</span> <span class="y9">null</span><span class="z9">&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">return</span> <span class="t9">await</span> redis<span class="z9">.</span><span class="r9">get</span><span class="z9">(</span><span class="x9">`profile:${userId}`</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">setUserProfile</span><span class="z9">(</span>userId<span class="v9">:</span> <span class="y9">string</span><span class="z9">,</span> profile<span class="v9">:</span> <span class="y9">Profile</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">void</span><span class="z9">&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">await</span> redis<span class="z9">.</span><span class="r9">set</span><span class="z9">(</span><span class="x9">`profile:${userId}`</span><span class="z9">,</span> JSON<span class="z9">.</span><span class="r9">stringify</span><span class="z9">(</span>profile<span class="z9">));</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">async</span> <span class="t9">function</span> <span class="r9">deleteUserProfile</span><span class="z9">(</span>userId<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">void</span><span class="z9">&gt;</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">await</span> redis<span class="z9">.</span><span class="r9">del</span><span class="z9">(</span><span class="x9">`profile:${userId}`</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">getUserProfile</span><span class="aa">(</span>userId<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">Profile</span> <span class="w9">|</span> <span class="z9">null</span><span class="aa">&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">return</span> <span class="u9">await</span> redis<span class="aa">.</span><span class="s9">get</span><span class="aa">(</span><span class="y9">`profile:${userId}`</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">setUserProfile</span><span class="aa">(</span>userId<span class="w9">:</span> <span class="z9">string</span><span class="aa">,</span> profile<span class="w9">:</span> <span class="z9">Profile</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">void</span><span class="aa">&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">await</span> redis<span class="aa">.</span><span class="s9">set</span><span class="aa">(</span><span class="y9">`profile:${userId}`</span><span class="aa">,</span> JSON<span class="aa">.</span><span class="s9">stringify</span><span class="aa">(</span>profile<span class="aa">));</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">async</span> <span class="u9">function</span> <span class="s9">deleteUserProfile</span><span class="aa">(</span>userId<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">void</span><span class="aa">&gt;</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">await</span> redis<span class="aa">.</span><span class="s9">del</span><span class="aa">(</span><span class="y9">`profile:${userId}`</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="when-key-value-is-enough" class="l0 h8 t8 z8">When Key-Value Is Enough</h3>
+            <h3 id="when-key-value-is-enough" class="l0 i8 u8 a9">When Key-Value Is Enough</h3>
             <p class="g0 u0">Amazon&#39;s DynamoDB paper reveals something interesting. When Amazon analyzed their workloads (which were primarily relational database driven), they found most access patterns were key-based:</p>
             <ul class="g0 u0">
               <li>Primary key lookups</li>
@@ -423,123 +452,123 @@ globalThis.addEventListener("pagereveal", (event) => {
             </ul>
             <p class="g0 u0">They weren&#39;t using foreign keys, complex joins, or heavy transactions. The relational features were overkill.</p>
             <p class="g0 u0">This is more common than you think. Consider these use cases:</p>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Use Case</th>
-                  <th class="p5 v5 x6 e7 u7">Key</th>
-                  <th class="p5 v5 x6 e7 u7">Value</th>
+                  <th class="p5 w5 y6 f7 v7">Use Case</th>
+                  <th class="p5 w5 y6 f7 v7">Key</th>
+                  <th class="p5 w5 y6 f7 v7">Value</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">User Profile</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">profile:{user_id}</code></td>
-                  <td class="p5 v5 x6 e7 u7">Profile JSON</td>
+                  <td class="p5 w5 y6 f7 v7">User Profile</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">profile:{user_id}</code></td>
+                  <td class="p5 w5 y6 f7 v7">Profile JSON</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Order Details</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">order:{order_id}</code></td>
-                  <td class="p5 v5 x6 e7 u7">Order JSON</td>
+                  <td class="p5 w5 y6 f7 v7">Order Details</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">order:{order_id}</code></td>
+                  <td class="p5 w5 y6 f7 v7">Order JSON</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Auth Token</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">token:{token_string}</code></td>
-                  <td class="p5 v5 x6 e7 u7">Auth object</td>
+                  <td class="p5 w5 y6 f7 v7">Auth Token</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">token:{token_string}</code></td>
+                  <td class="p5 w5 y6 f7 v7">Auth object</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Message</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">message:{message_id}</code></td>
-                  <td class="p5 v5 x6 e7 u7">Message content</td>
+                  <td class="p5 w5 y6 f7 v7">Message</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">message:{message_id}</code></td>
+                  <td class="p5 w5 y6 f7 v7">Message content</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Session</td>
-                  <td class="p5 v5 x6 e7 u7"><code class="i5 d6 t6 a7 hb">session:{session_id}</code></td>
-                  <td class="p5 v5 x6 e7 u7">Session data</td>
+                  <td class="p5 w5 y6 f7 v7">Session</td>
+                  <td class="p5 w5 y6 f7 v7"><code class="i5 e6 u6 b7 lb">session:{session_id}</code></td>
+                  <td class="p5 w5 y6 f7 v7">Session data</td>
                 </tr>
               </tbody>
             </table>
             <p class="g0 u0">All of these are: &quot;Given an ID, give me the data.&quot; No complex queries needed.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">interface</span> <span class="y9">OrderStore</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="r9">getOrder</span><span class="z9">(</span>orderId<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">Order</span> <span class="v9">|</span> <span class="y9">null</span><span class="z9">&gt;;</span></span>
-                  <span class="block m8 g9">  <span class="r9">saveOrder</span><span class="z9">(</span>order<span class="v9">:</span> <span class="y9">Order</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">void</span><span class="z9">&gt;;</span></span>
-                  <span class="block m8 g9">  <span class="r9">deleteOrder</span><span class="z9">(</span>orderId<span class="v9">:</span> <span class="y9">string</span><span class="z9">)</span><span class="v9">:</span> <span class="y9">Promise</span><span class="z9">&lt;</span><span class="y9">void</span><span class="z9">&gt;;</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="t9">const</span> orderStore<span class="v9">:</span> <span class="y9">OrderStore</span> <span class="v9">=</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">async</span> <span class="r9">getOrder</span><span class="z9">(</span>orderId<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">const</span> data <span class="v9">=</span> <span class="t9">await</span> redis<span class="z9">.</span><span class="r9">get</span><span class="z9">(</span><span class="x9">`order:${orderId}`</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">    <span class="t9">return</span> data <span class="v9">?</span> JSON<span class="z9">.</span><span class="r9">parse</span><span class="z9">(</span>data<span class="z9">)</span> <span class="v9">:</span> <span class="t9">null</span><span class="z9">;</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">async</span> <span class="r9">saveOrder</span><span class="z9">(</span>order<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">await</span> redis<span class="z9">.</span><span class="r9">set</span><span class="z9">(</span><span class="x9">`order:${order.</span><span class="w9">id</span><span class="x9">}`</span><span class="z9">,</span> JSON<span class="z9">.</span><span class="r9">stringify</span><span class="z9">(</span>order<span class="z9">));</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9">  <span class="t9">async</span> <span class="r9">deleteOrder</span><span class="z9">(</span>orderId<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    <span class="t9">await</span> redis<span class="z9">.</span><span class="r9">del</span><span class="z9">(</span><span class="x9">`order:${orderId}`</span><span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">},</span></span>
-                  <span class="block m8 g9"><span class="z9">};</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">interface</span> <span class="z9">OrderStore</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="s9">getOrder</span><span class="aa">(</span>orderId<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">Order</span> <span class="w9">|</span> <span class="z9">null</span><span class="aa">&gt;;</span></span>
+                  <span class="block n8 h9">  <span class="s9">saveOrder</span><span class="aa">(</span>order<span class="w9">:</span> <span class="z9">Order</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">void</span><span class="aa">&gt;;</span></span>
+                  <span class="block n8 h9">  <span class="s9">deleteOrder</span><span class="aa">(</span>orderId<span class="w9">:</span> <span class="z9">string</span><span class="aa">)</span><span class="w9">:</span> <span class="z9">Promise</span><span class="aa">&lt;</span><span class="z9">void</span><span class="aa">&gt;;</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="u9">const</span> orderStore<span class="w9">:</span> <span class="z9">OrderStore</span> <span class="w9">=</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">async</span> <span class="s9">getOrder</span><span class="aa">(</span>orderId<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">const</span> data <span class="w9">=</span> <span class="u9">await</span> redis<span class="aa">.</span><span class="s9">get</span><span class="aa">(</span><span class="y9">`order:${orderId}`</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">    <span class="u9">return</span> data <span class="w9">?</span> JSON<span class="aa">.</span><span class="s9">parse</span><span class="aa">(</span>data<span class="aa">)</span> <span class="w9">:</span> <span class="u9">null</span><span class="aa">;</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">async</span> <span class="s9">saveOrder</span><span class="aa">(</span>order<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">await</span> redis<span class="aa">.</span><span class="s9">set</span><span class="aa">(</span><span class="y9">`order:${order.</span><span class="x9">id</span><span class="y9">}`</span><span class="aa">,</span> JSON<span class="aa">.</span><span class="s9">stringify</span><span class="aa">(</span>order<span class="aa">));</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9">  <span class="u9">async</span> <span class="s9">deleteOrder</span><span class="aa">(</span>orderId<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    <span class="u9">await</span> redis<span class="aa">.</span><span class="s9">del</span><span class="aa">(</span><span class="y9">`order:${orderId}`</span><span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">},</span></span>
+                  <span class="block n8 h9"><span class="aa">};</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="what-key-value-stores-can-t-do" class="l0 h8 t8 z8">What Key-Value Stores Can&#39;t Do</h3>
+            <h3 id="what-key-value-stores-can-t-do" class="l0 i8 u8 a9">What Key-Value Stores Can&#39;t Do</h3>
             <p class="g0 u0">The limitation is clear: no operations on values. You can&#39;t query &quot;all users with balance &gt; 1000&quot; because that would require scanning every key and inspecting every value.</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-typescript block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// This is NOT how key-value stores work</span></span>
-                  <span class="block m8 g9"><span class="t9">const</span> highBalanceUsers <span class="v9">=</span> <span class="t9">await</span> redis<span class="z9">.</span><span class="r9">query</span><span class="z9">(</span><span class="x9">&quot;SELECT * FROM users WHERE balance &gt; 1000&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">// You&#39;d have to do this instead (terrible for large datasets)</span></span>
-                  <span class="block m8 g9"><span class="t9">const</span> allKeys <span class="v9">=</span> <span class="t9">await</span> redis<span class="z9">.</span><span class="r9">keys</span><span class="z9">(</span><span class="x9">&quot;user:*&quot;</span><span class="z9">);</span></span>
-                  <span class="block m8 g9"><span class="t9">const</span> highBalanceUsers <span class="v9">=</span> <span class="z9">[];</span></span>
-                  <span class="block m8 g9"><span class="t9">for</span> <span class="z9">(</span><span class="t9">const</span> key <span class="v9">of</span> allKeys<span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">  <span class="t9">const</span> user <span class="v9">=</span> JSON<span class="z9">.</span><span class="r9">parse</span><span class="z9">(</span><span class="t9">await</span> redis<span class="z9">.</span><span class="r9">get</span><span class="z9">(</span>key<span class="z9">));</span></span>
-                  <span class="block m8 g9">  <span class="t9">if</span> <span class="z9">(</span>user<span class="z9">.</span><span class="w9">balance</span> <span class="v9">&gt;</span> <span class="u9">1000</span><span class="z9">)</span> <span class="z9">{</span></span>
-                  <span class="block m8 g9">    highBalanceUsers<span class="z9">.</span><span class="r9">push</span><span class="z9">(</span>user<span class="z9">);</span></span>
-                  <span class="block m8 g9">  <span class="z9">}</span></span>
-                  <span class="block m8 g9"><span class="z9">}</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-typescript block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// This is NOT how key-value stores work</span></span>
+                  <span class="block n8 h9"><span class="u9">const</span> highBalanceUsers <span class="w9">=</span> <span class="u9">await</span> redis<span class="aa">.</span><span class="s9">query</span><span class="aa">(</span><span class="y9">&quot;SELECT * FROM users WHERE balance &gt; 1000&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">// You&#39;d have to do this instead (terrible for large datasets)</span></span>
+                  <span class="block n8 h9"><span class="u9">const</span> allKeys <span class="w9">=</span> <span class="u9">await</span> redis<span class="aa">.</span><span class="s9">keys</span><span class="aa">(</span><span class="y9">&quot;user:*&quot;</span><span class="aa">);</span></span>
+                  <span class="block n8 h9"><span class="u9">const</span> highBalanceUsers <span class="w9">=</span> <span class="aa">[];</span></span>
+                  <span class="block n8 h9"><span class="u9">for</span> <span class="aa">(</span><span class="u9">const</span> key <span class="w9">of</span> allKeys<span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">  <span class="u9">const</span> user <span class="w9">=</span> JSON<span class="aa">.</span><span class="s9">parse</span><span class="aa">(</span><span class="u9">await</span> redis<span class="aa">.</span><span class="s9">get</span><span class="aa">(</span>key<span class="aa">));</span></span>
+                  <span class="block n8 h9">  <span class="u9">if</span> <span class="aa">(</span>user<span class="aa">.</span><span class="x9">balance</span> <span class="w9">&gt;</span> <span class="v9">1000</span><span class="aa">)</span> <span class="aa">{</span></span>
+                  <span class="block n8 h9">    highBalanceUsers<span class="aa">.</span><span class="s9">push</span><span class="aa">(</span>user<span class="aa">);</span></span>
+                  <span class="block n8 h9">  <span class="aa">}</span></span>
+                  <span class="block n8 h9"><span class="aa">}</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">If you need to filter, aggregate, or query based on attributes inside the value, you need a document database or relational database.</p>
-            <h3 id="key-value-on-top-of-relational-dbs" class="l0 h8 t8 z8">Key-Value on Top of Relational DBs</h3>
+            <h3 id="key-value-on-top-of-relational-dbs" class="l0 i8 u8 a9">Key-Value on Top of Relational DBs</h3>
             <p class="g0 u0">Here&#39;s an interesting insight: key-value is just an access pattern. You can build key-value semantics on top of any database:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-sql block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="t9">CREATE</span> <span class="t9">TABLE</span> <span class="r9">kv_store</span> (</span>
-                  <span class="block m8 g9">  <span class="t9">key</span> <span class="t9">VARCHAR</span>(<span class="u9">255</span>) <span class="t9">PRIMARY KEY</span>,</span>
-                  <span class="block m8 g9">  <span class="t9">value</span> <span class="t9">TEXT</span></span>
-                  <span class="block m8 g9">);</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">-- GET</span></span>
-                  <span class="block m8 g9"><span class="t9">SELECT</span> <span class="t9">value</span> <span class="t9">FROM</span> kv_store <span class="t9">WHERE</span> <span class="t9">key</span> <span class="v9">=</span> <span class="x9">&#39;user:emma&#39;</span>;</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">-- PUT</span></span>
-                  <span class="block m8 g9"><span class="t9">INSERT INTO</span> kv_store (<span class="t9">key</span>, <span class="t9">value</span>) <span class="t9">VALUES</span> (<span class="x9">&#39;user:emma&#39;</span>, <span class="x9">&#39;{&quot;name&quot;: &quot;Emma&quot;, &quot;city&quot;: &quot;Los Angeles&quot;}&#39;</span>)</span>
-                  <span class="block m8 g9"><span class="t9">ON</span> CONFLICT (<span class="t9">key</span>) DO <span class="t9">UPDATE</span> <span class="t9">SET</span> <span class="t9">value</span> <span class="v9">=</span> EXCLUDED.value;</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">-- DEL</span></span>
-                  <span class="block m8 g9"><span class="t9">DELETE</span> <span class="t9">FROM</span> kv_store <span class="t9">WHERE</span> <span class="t9">key</span> <span class="v9">=</span> <span class="x9">&#39;user:emma&#39;</span>;</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-sql block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="u9">CREATE</span> <span class="u9">TABLE</span> <span class="s9">kv_store</span> (</span>
+                  <span class="block n8 h9">  <span class="u9">key</span> <span class="u9">VARCHAR</span>(<span class="v9">255</span>) <span class="u9">PRIMARY KEY</span>,</span>
+                  <span class="block n8 h9">  <span class="u9">value</span> <span class="u9">TEXT</span></span>
+                  <span class="block n8 h9">);</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">-- GET</span></span>
+                  <span class="block n8 h9"><span class="u9">SELECT</span> <span class="u9">value</span> <span class="u9">FROM</span> kv_store <span class="u9">WHERE</span> <span class="u9">key</span> <span class="w9">=</span> <span class="y9">&#39;user:emma&#39;</span>;</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">-- PUT</span></span>
+                  <span class="block n8 h9"><span class="u9">INSERT INTO</span> kv_store (<span class="u9">key</span>, <span class="u9">value</span>) <span class="u9">VALUES</span> (<span class="y9">&#39;user:emma&#39;</span>, <span class="y9">&#39;{&quot;name&quot;: &quot;Emma&quot;, &quot;city&quot;: &quot;Los Angeles&quot;}&#39;</span>)</span>
+                  <span class="block n8 h9"><span class="u9">ON</span> CONFLICT (<span class="u9">key</span>) DO <span class="u9">UPDATE</span> <span class="u9">SET</span> <span class="u9">value</span> <span class="w9">=</span> EXCLUDED.value;</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">-- DEL</span></span>
+                  <span class="block n8 h9"><span class="u9">DELETE</span> <span class="u9">FROM</span> kv_store <span class="u9">WHERE</span> <span class="u9">key</span> <span class="w9">=</span> <span class="y9">&#39;user:emma&#39;</span>;</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">If you limit your access patterns, you can use any database as a key-value store. The specialized key-value databases just optimize heavily for this pattern.</p>
-            <h2 id="graph-databases" class="n0 k8 w8 t8 z8">Graph Databases</h2>
+            <h2 id="graph-databases" class="n0 l8 x8 u8 a9">Graph Databases</h2>
             <p class="g0 u0">
               <a href="/assets/content/blogs/non-relational-databases/graph-db.webp" class="block" data-media-zoom data-width="1536" data-height="1024">
                 <img class="m3 y c0 block z1 x2 h5" src="/assets/content/blogs/non-relational-databases/graph-db.webp" alt="Graph DB" width="1536" height="1024" loading="lazy" />
@@ -547,129 +576,129 @@ globalThis.addEventListener("pagereveal", (event) => {
             </p>
             <p class="g0 u0">Graph databases are for when you actually need graph algorithms. They store data as nodes, edges, and relationships, just like the graph data structures you studied in algorithms class.</p>
             <p class="g0 u0"><strong>Popular examples:</strong> Neo4j, Amazon Neptune, DGraph</p>
-            <h3 id="what-makes-graphs-special" class="l0 h8 t8 z8">What Makes Graphs Special</h3>
+            <h3 id="what-makes-graphs-special" class="l0 i8 u8 a9">What Makes Graphs Special</h3>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">Emma ──FRIENDS──&gt; Alex</span>
-                  <span class="block m8 g9">│                 │</span>
-                  <span class="block m8 g9">LIVES_IN       FRIENDS</span>
-                  <span class="block m8 g9">│                 │</span>
-                  <span class="block m8 g9">v                 v</span>
-                  <span class="block m8 g9">Los Angeles    Olivia</span>
-                  <span class="block m8 g9">               │   │</span>
-                  <span class="block m8 g9">            LIKES  LIKES</span>
-                  <span class="block m8 g9">               │   │</span>
-                  <span class="block m8 g9">               v   v</span>
-                  <span class="block m8 g9">          Shopping Movies</span>
-                  <span class="block m8 g9">               ^</span>
-                  <span class="block m8 g9">               │</span>
-                  <span class="block m8 g9">            LIKES</span>
-                  <span class="block m8 g9">               │</span>
-                  <span class="block m8 g9">             Alex</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">Emma ──FRIENDS──&gt; Alex</span>
+                  <span class="block n8 h9">│                 │</span>
+                  <span class="block n8 h9">LIVES_IN       FRIENDS</span>
+                  <span class="block n8 h9">│                 │</span>
+                  <span class="block n8 h9">v                 v</span>
+                  <span class="block n8 h9">Los Angeles    Olivia</span>
+                  <span class="block n8 h9">               │   │</span>
+                  <span class="block n8 h9">            LIKES  LIKES</span>
+                  <span class="block n8 h9">               │   │</span>
+                  <span class="block n8 h9">               v   v</span>
+                  <span class="block n8 h9">          Shopping Movies</span>
+                  <span class="block n8 h9">               ^</span>
+                  <span class="block n8 h9">               │</span>
+                  <span class="block n8 h9">            LIKES</span>
+                  <span class="block n8 h9">               │</span>
+                  <span class="block n8 h9">             Alex</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">Graph databases excel at traversing relationships. Finding &quot;friends of friends,&quot; &quot;people who like what my friends like,&quot; or &quot;shortest path between two entities&quot; are natural operations.</p>
-            <h3 id="graph-queries-with-cypher-neo4j" class="l0 h8 t8 z8">Graph Queries with Cypher (Neo4j)</h3>
+            <h3 id="graph-queries-with-cypher-neo4j" class="l0 i8 u8 a9">Graph Queries with Cypher (Neo4j)</h3>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-cypher block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// Find all friends of Emma</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (emma:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Emma&quot;</span><span class="t9">}</span>)<span class="r9">-</span><span class="v9">[</span><span class="y9">:FRIENDS</span><span class="v9">]</span><span class="r9">-&gt;</span>(friend)</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> friend.name</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">// Find friends of friends (2 hops)</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (emma:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Emma&quot;</span><span class="t9">}</span>)<span class="r9">-</span><span class="v9">[</span><span class="y9">:FRIENDS</span><span class="r9">*2</span><span class="v9">]</span><span class="r9">-&gt;</span>(fof)</span>
-                  <span class="block m8 g9"><span class="t9">WHERE</span> <span class="t9">NOT</span> (emma)<span class="r9">-</span><span class="v9">[</span><span class="y9">:FRIENDS</span><span class="v9">]</span><span class="r9">-&gt;</span>(fof) <span class="v9">AND</span> emma <span class="v9">&lt;&gt;</span> fof</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> <span class="t9">DISTINCT</span> fof.name</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">// Find what Alex&#39;s friends like</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (alex:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Alex&quot;</span><span class="t9">}</span>)<span class="r9">-</span><span class="v9">[</span><span class="y9">:FRIENDS</span><span class="v9">]</span><span class="r9">-&gt;</span>(friend)</span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (friend)<span class="r9">-</span><span class="v9">[</span><span class="y9">:LIKES</span><span class="v9">]</span><span class="r9">-&gt;</span>(interest)</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> friend.name, interest.name</span>
-                  <span class="block m8 g9"><span class="t9">ORDER BY</span> friend.name</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">// Recommendations: What do my friends like that I don&#39;t?</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (me:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Alex&quot;</span><span class="t9">}</span>)<span class="r9">-</span><span class="v9">[</span><span class="y9">:FRIENDS</span><span class="v9">]</span><span class="r9">-&gt;</span>(friend)<span class="r9">-</span><span class="v9">[</span><span class="y9">:LIKES</span><span class="v9">]</span><span class="r9">-&gt;</span>(interest)</span>
-                  <span class="block m8 g9"><span class="t9">WHERE</span> <span class="t9">NOT</span> (me)<span class="r9">-</span><span class="v9">[</span><span class="y9">:LIKES</span><span class="v9">]</span><span class="r9">-&gt;</span>(interest)</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> interest.name, <span class="r9">COUNT</span>(<span class="v9">*</span>) <span class="t9">as</span> popularity</span>
-                  <span class="block m8 g9"><span class="t9">ORDER BY</span> popularity <span class="t9">DESC</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-cypher block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// Find all friends of Emma</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (emma:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Emma&quot;</span><span class="u9">}</span>)<span class="s9">-</span><span class="w9">[</span><span class="z9">:FRIENDS</span><span class="w9">]</span><span class="s9">-&gt;</span>(friend)</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> friend.name</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">// Find friends of friends (2 hops)</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (emma:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Emma&quot;</span><span class="u9">}</span>)<span class="s9">-</span><span class="w9">[</span><span class="z9">:FRIENDS</span><span class="s9">*2</span><span class="w9">]</span><span class="s9">-&gt;</span>(fof)</span>
+                  <span class="block n8 h9"><span class="u9">WHERE</span> <span class="u9">NOT</span> (emma)<span class="s9">-</span><span class="w9">[</span><span class="z9">:FRIENDS</span><span class="w9">]</span><span class="s9">-&gt;</span>(fof) <span class="w9">AND</span> emma <span class="w9">&lt;&gt;</span> fof</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> <span class="u9">DISTINCT</span> fof.name</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">// Find what Alex&#39;s friends like</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (alex:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Alex&quot;</span><span class="u9">}</span>)<span class="s9">-</span><span class="w9">[</span><span class="z9">:FRIENDS</span><span class="w9">]</span><span class="s9">-&gt;</span>(friend)</span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (friend)<span class="s9">-</span><span class="w9">[</span><span class="z9">:LIKES</span><span class="w9">]</span><span class="s9">-&gt;</span>(interest)</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> friend.name, interest.name</span>
+                  <span class="block n8 h9"><span class="u9">ORDER BY</span> friend.name</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">// Recommendations: What do my friends like that I don&#39;t?</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (me:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Alex&quot;</span><span class="u9">}</span>)<span class="s9">-</span><span class="w9">[</span><span class="z9">:FRIENDS</span><span class="w9">]</span><span class="s9">-&gt;</span>(friend)<span class="s9">-</span><span class="w9">[</span><span class="z9">:LIKES</span><span class="w9">]</span><span class="s9">-&gt;</span>(interest)</span>
+                  <span class="block n8 h9"><span class="u9">WHERE</span> <span class="u9">NOT</span> (me)<span class="s9">-</span><span class="w9">[</span><span class="z9">:LIKES</span><span class="w9">]</span><span class="s9">-&gt;</span>(interest)</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> interest.name, <span class="s9">COUNT</span>(<span class="w9">*</span>) <span class="u9">as</span> popularity</span>
+                  <span class="block n8 h9"><span class="u9">ORDER BY</span> popularity <span class="u9">DESC</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="when-to-use-graph-databases" class="l0 h8 t8 z8">When to Use Graph Databases</h3>
+            <h3 id="when-to-use-graph-databases" class="l0 i8 u8 a9">When to Use Graph Databases</h3>
             <p class="g0 u0"><strong>Social Networks:</strong></p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-cypher block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// Mutual friends between Emma and Alex</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (emma:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Emma&quot;</span><span class="t9">}</span>)<span class="r9">-</span><span class="v9">[</span><span class="y9">:FRIENDS</span><span class="v9">]</span><span class="r9">-&gt;</span>(mutual)<span class="r9">&lt;-</span><span class="v9">[</span><span class="y9">:FRIENDS</span><span class="v9">]</span><span class="r9">-</span>(alex:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Alex&quot;</span><span class="t9">}</span>)</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> mutual.name</span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">// Find people who live in the same city as Emma</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (emma:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Emma&quot;</span><span class="t9">}</span>)<span class="r9">-</span><span class="v9">[</span><span class="y9">:LIVES_IN</span><span class="v9">]</span><span class="r9">-&gt;</span>(city)<span class="r9">&lt;-</span><span class="v9">[</span><span class="y9">:LIVES_IN</span><span class="v9">]</span><span class="r9">-</span>(neighbor)</span>
-                  <span class="block m8 g9"><span class="t9">WHERE</span> neighbor <span class="v9">&lt;&gt;</span> emma</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> neighbor.name, city.name</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-cypher block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// Mutual friends between Emma and Alex</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (emma:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Emma&quot;</span><span class="u9">}</span>)<span class="s9">-</span><span class="w9">[</span><span class="z9">:FRIENDS</span><span class="w9">]</span><span class="s9">-&gt;</span>(mutual)<span class="s9">&lt;-</span><span class="w9">[</span><span class="z9">:FRIENDS</span><span class="w9">]</span><span class="s9">-</span>(alex:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Alex&quot;</span><span class="u9">}</span>)</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> mutual.name</span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">// Find people who live in the same city as Emma</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (emma:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Emma&quot;</span><span class="u9">}</span>)<span class="s9">-</span><span class="w9">[</span><span class="z9">:LIVES_IN</span><span class="w9">]</span><span class="s9">-&gt;</span>(city)<span class="s9">&lt;-</span><span class="w9">[</span><span class="z9">:LIVES_IN</span><span class="w9">]</span><span class="s9">-</span>(neighbor)</span>
+                  <span class="block n8 h9"><span class="u9">WHERE</span> neighbor <span class="w9">&lt;&gt;</span> emma</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> neighbor.name, city.name</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0"><strong>Recommendation Engines:</strong></p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-cypher block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// &quot;People like you also like&quot; - find interests based on friends</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (me:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Olivia&quot;</span><span class="t9">}</span>)<span class="r9">-</span><span class="v9">[</span><span class="y9">:FRIENDS</span><span class="v9">]</span><span class="r9">-&gt;</span>(friend)<span class="r9">-</span><span class="v9">[</span><span class="y9">:LIKES</span><span class="v9">]</span><span class="r9">-&gt;</span>(interest)</span>
-                  <span class="block m8 g9"><span class="t9">WHERE</span> <span class="t9">NOT</span> (me)<span class="r9">-</span><span class="v9">[</span><span class="y9">:LIKES</span><span class="v9">]</span><span class="r9">-&gt;</span>(interest)</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> interest.name, <span class="r9">COUNT</span>(<span class="v9">*</span>) <span class="t9">as</span> score</span>
-                  <span class="block m8 g9"><span class="t9">ORDER BY</span> score <span class="t9">DESC</span></span>
-                  <span class="block m8 g9"><span class="t9">LIMIT</span> <span class="u9">5</span></span>
-                  <span class="block m8 g9"><br /></span>
-                  <span class="block m8 g9"><span class="q9 ba">// Find people with similar interests</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> (me:Person <span class="t9">{</span>name<span class="t9">:</span> <span class="x9">&quot;Alex&quot;</span><span class="t9">}</span>)<span class="r9">-</span><span class="v9">[</span><span class="y9">:LIKES</span><span class="v9">]</span><span class="r9">-&gt;</span>(interest)<span class="r9">&lt;-</span><span class="v9">[</span><span class="y9">:LIKES</span><span class="v9">]</span><span class="r9">-</span>(similar)</span>
-                  <span class="block m8 g9"><span class="t9">WHERE</span> similar <span class="v9">&lt;&gt;</span> me</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> similar.name, <span class="r9">COUNT</span>(interest) <span class="t9">as</span> common_interests</span>
-                  <span class="block m8 g9"><span class="t9">ORDER BY</span> common_interests <span class="t9">DESC</span></span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-cypher block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// &quot;People like you also like&quot; - find interests based on friends</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (me:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Olivia&quot;</span><span class="u9">}</span>)<span class="s9">-</span><span class="w9">[</span><span class="z9">:FRIENDS</span><span class="w9">]</span><span class="s9">-&gt;</span>(friend)<span class="s9">-</span><span class="w9">[</span><span class="z9">:LIKES</span><span class="w9">]</span><span class="s9">-&gt;</span>(interest)</span>
+                  <span class="block n8 h9"><span class="u9">WHERE</span> <span class="u9">NOT</span> (me)<span class="s9">-</span><span class="w9">[</span><span class="z9">:LIKES</span><span class="w9">]</span><span class="s9">-&gt;</span>(interest)</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> interest.name, <span class="s9">COUNT</span>(<span class="w9">*</span>) <span class="u9">as</span> score</span>
+                  <span class="block n8 h9"><span class="u9">ORDER BY</span> score <span class="u9">DESC</span></span>
+                  <span class="block n8 h9"><span class="u9">LIMIT</span> <span class="v9">5</span></span>
+                  <span class="block n8 h9"><br /></span>
+                  <span class="block n8 h9"><span class="r9 ca">// Find people with similar interests</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> (me:Person <span class="u9">{</span>name<span class="u9">:</span> <span class="y9">&quot;Alex&quot;</span><span class="u9">}</span>)<span class="s9">-</span><span class="w9">[</span><span class="z9">:LIKES</span><span class="w9">]</span><span class="s9">-&gt;</span>(interest)<span class="s9">&lt;-</span><span class="w9">[</span><span class="z9">:LIKES</span><span class="w9">]</span><span class="s9">-</span>(similar)</span>
+                  <span class="block n8 h9"><span class="u9">WHERE</span> similar <span class="w9">&lt;&gt;</span> me</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> similar.name, <span class="s9">COUNT</span>(interest) <span class="u9">as</span> common_interests</span>
+                  <span class="block n8 h9"><span class="u9">ORDER BY</span> common_interests <span class="u9">DESC</span></span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0"><strong>Fraud Detection:</strong></p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-cypher block q2 a3 i5 hb h9">
-                  <span class="block m8 g9"><span class="q9 ba">// Find circular money transfers (potential money laundering)</span></span>
-                  <span class="block m8 g9"><span class="t9">MATCH</span> path <span class="v9">=</span> (a:Account)<span class="r9">-</span><span class="v9">[</span><span class="y9">:TRANSFERRED</span><span class="r9">*3..6</span><span class="v9">]</span><span class="r9">-&gt;</span>(a)</span>
-                  <span class="block m8 g9"><span class="t9">WHERE</span> <span class="r9">ALL</span>(r <span class="v9">IN</span> <span class="r9">relationships</span>(path) <span class="t9">WHERE</span> r.amount <span class="v9">&gt;</span> <span class="u9">10000</span>)</span>
-                  <span class="block m8 g9"><span class="t9">RETURN</span> path</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-cypher block q2 a3 i5 lb i9">
+                  <span class="block n8 h9"><span class="r9 ca">// Find circular money transfers (potential money laundering)</span></span>
+                  <span class="block n8 h9"><span class="u9">MATCH</span> path <span class="w9">=</span> (a:Account)<span class="s9">-</span><span class="w9">[</span><span class="z9">:TRANSFERRED</span><span class="s9">*3..6</span><span class="w9">]</span><span class="s9">-&gt;</span>(a)</span>
+                  <span class="block n8 h9"><span class="u9">WHERE</span> <span class="s9">ALL</span>(r <span class="w9">IN</span> <span class="s9">relationships</span>(path) <span class="u9">WHERE</span> r.amount <span class="w9">&gt;</span> <span class="v9">10000</span>)</span>
+                  <span class="block n8 h9"><span class="u9">RETURN</span> path</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
-            <h3 id="the-graph-database-warning" class="l0 h8 t8 z8">The Graph Database Warning</h3>
+            <h3 id="the-graph-database-warning" class="l0 i8 u8 a9">The Graph Database Warning</h3>
             <p class="g0 u0">Just because you can model something as a graph doesn&#39;t mean you should use a graph database.</p>
             <p class="g0 u0">You could model users and orders as:</p>
             <div class="e g0 u0" data-code-block>
-              <pre tabindex="0" class="w x4 g5 k5 v5 d6 r6 e9 fb">
-                <code class="language-text block q2 a3 i5 hb h9">
-                  <span class="block m8 g9">User ──placed──&gt; Order ──contains──&gt; Product</span>
+              <pre tabindex="0" class="w x4 g5 k5 w5 e6 s6 f9 jb">
+                <code class="language-text block q2 a3 i5 lb i9">
+                  <span class="block n8 h9">User ──placed──&gt; Order ──contains──&gt; Product</span>
                 </code>
               </pre>
-              <div class="b d f e1 b4 e4 p6">
-                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 d6 o6 p9 ya bb bc gc" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
+              <div class="b d f e1 b4 e4 q6">
+                <button type="button" class="a sticky i h1 o1 l3 a4 d4 h5 l5 e6 p6 q9 ya fb ease-out hc mc ed" aria-label="Copy to clipboard" data-code-copy><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="k1" data-copy-idle><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden k1" data-copy-done><path d="M20 6 9 17l-5-5" /></svg></button>
               </div>
             </div>
             <p class="g0 u0">But if all you do is &quot;given user ID, get their orders&quot; or &quot;given order ID, get order details,&quot; a key-value store or document DB is far better. Graph databases are optimized for traversing relationships and running graph algorithms, not for simple lookups.</p>
@@ -681,60 +710,60 @@ globalThis.addEventListener("pagereveal", (event) => {
               <li>Excellent for relationship-heavy queries</li>
             </ul>
             <p class="g0 u0"><strong>Use a graph database because you need graph algorithms, not because your data can be represented as a graph.</strong></p>
-            <h2 id="choosing-the-right-database" class="n0 k8 w8 t8 z8">Choosing the Right Database</h2>
-            <table tabindex="0" class="g0 u0 block x4 f3 i8 d9">
+            <h2 id="choosing-the-right-database" class="n0 l8 x8 u8 a9">Choosing the Right Database</h2>
+            <table tabindex="0" class="g0 u0 block x4 f3 j8 e9">
               <thead>
                 <tr>
-                  <th class="p5 v5 x6 e7 u7">Need</th>
-                  <th class="p5 v5 x6 e7 u7">Choose</th>
-                  <th class="p5 v5 x6 e7 u7">Example</th>
+                  <th class="p5 w5 y6 f7 v7">Need</th>
+                  <th class="p5 w5 y6 f7 v7">Choose</th>
+                  <th class="p5 w5 y6 f7 v7">Example</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Complex queries, flexible schema</td>
-                  <td class="p5 v5 x6 e7 u7">Document DB</td>
-                  <td class="p5 v5 x6 e7 u7">MongoDB, Elasticsearch</td>
+                  <td class="p5 w5 y6 f7 v7">Complex queries, flexible schema</td>
+                  <td class="p5 w5 y6 f7 v7">Document DB</td>
+                  <td class="p5 w5 y6 f7 v7">MongoDB, Elasticsearch</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Simple key-based access, high throughput</td>
-                  <td class="p5 v5 x6 e7 u7">Key-Value Store</td>
-                  <td class="p5 v5 x6 e7 u7">Redis, DynamoDB</td>
+                  <td class="p5 w5 y6 f7 v7">Simple key-based access, high throughput</td>
+                  <td class="p5 w5 y6 f7 v7">Key-Value Store</td>
+                  <td class="p5 w5 y6 f7 v7">Redis, DynamoDB</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">Graph algorithms, relationship traversal</td>
-                  <td class="p5 v5 x6 e7 u7">Graph DB</td>
-                  <td class="p5 v5 x6 e7 u7">Neo4j, Neptune</td>
+                  <td class="p5 w5 y6 f7 v7">Graph algorithms, relationship traversal</td>
+                  <td class="p5 w5 y6 f7 v7">Graph DB</td>
+                  <td class="p5 w5 y6 f7 v7">Neo4j, Neptune</td>
                 </tr>
                 <tr>
-                  <td class="p5 v5 x6 e7 u7">ACID transactions, complex joins</td>
-                  <td class="p5 v5 x6 e7 u7">Relational DB</td>
-                  <td class="p5 v5 x6 e7 u7">PostgreSQL, MySQL</td>
+                  <td class="p5 w5 y6 f7 v7">ACID transactions, complex joins</td>
+                  <td class="p5 w5 y6 f7 v7">Relational DB</td>
+                  <td class="p5 w5 y6 f7 v7">PostgreSQL, MySQL</td>
                 </tr>
               </tbody>
             </table>
-            <h2 id="conclusion" class="n0 k8 w8 t8 z8">Conclusion</h2>
+            <h2 id="conclusion" class="n0 l8 x8 u8 a9">Conclusion</h2>
             <p class="g0 u0">Non-relational databases aren&#39;t a single category; they&#39;re a diverse ecosystem of specialized tools. Document DBs give you flexibility with complex queries. Key-value stores give you simplicity and scale. Graph DBs give you relationship superpowers.</p>
             <p class="g0 u0">The key insight is that NoSQL databases trade features (foreign keys, transactions, constraints) for horizontal scalability. If you don&#39;t need those features, you get easier scaling. If you do need them, stick with relational databases.</p>
             <p class="g0 u0">Most importantly: don&#39;t choose a database based on what&#39;s trendy. Choose based on your access patterns. If 90% of your queries are &quot;given this ID, get the data,&quot; a key-value store might be all you need, even if your data could theoretically be modeled as a graph.</p>
           </div>
         </article>
-        <nav class="n0 b8" aria-label="Related writing">
-          <h2 class="n0 c8 w8 t8 z8">Related writing</h2>
+        <nav class="n0 c8" aria-label="Related writing">
+          <h2 class="n0 d8 x8 u8 a9">Related writing</h2>
           <ul class="g0 u0">
-            <li class="z"><a class="o9 ga ia ic" href="/system-design/db-transaction-internals/">Database Transaction Internals: ACID, WAL, MVCC &amp; Locking</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/system-design/bloom-filters/">Bloom Filters</a></li>
-            <li class="z"><a class="o9 ga ia ic" href="/system-design/caching/">Caching</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/system-design/db-transaction-internals/">Database Transaction Internals: ACID, WAL, MVCC &amp; Locking</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/system-design/bloom-filters/">Bloom Filters</a></li>
+            <li class="z"><a class="p9 ha ja oc" href="/system-design/caching/">Caching</a></li>
           </ul>
         </nav>
       </main>
-      <footer class="o5 v5 m7 p7 l8 p9">
-        <div><a class="o9 da" href="https://github.com/Pulkitxm">GitHub</a> · <a class="o9 da" href="https://x.com/_pulkitxm">X</a> · <a class="o9 da" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="o9 da" href="/feed.xml">RSS</a></div>
+      <footer class="o5 w5 n7 q7 m8 q9">
+        <div><a class="p9 ea" href="https://github.com/Pulkitxm">GitHub</a> · <a class="p9 ea" href="https://x.com/_pulkitxm">X</a> · <a class="p9 ea" href="https://www.linkedin.com/in/pulkitxm">LinkedIn</a> · <a class="p9 ea" href="/feed.xml">RSS</a></div>
         <div class="j0 e1 a4 c4 l4">
           <small>© 2026 Pulkit</small>
           <div class="e1 a4 l4">
-            <a class="o9 ga ia ic" href="/system-design/non-relational-databases.md" type="text/markdown">View as Markdown</a>
-            <button class="l3 h5 k5 v5 f6 v6 c7 o9 ib" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
+            <a class="p9 ha ja oc" href="/system-design/non-relational-databases.md" type="text/markdown">View as Markdown</a>
+            <button class="l3 h5 k5 w5 g6 w6 d7 p9 db fb ease-out fd mb" type="button" data-theme-toggle aria-label="Switch color theme">Theme</button>
           </div>
         </div>
       </footer>
