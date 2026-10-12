@@ -1,4 +1,4 @@
-import{iA,EA}from"./index-5egd6btd.js";import{A,e,t,I}from"./index.js";import{Q,o}from"./index-9xe00pb0.js";var p=(a)=>{let n=!1;a.innerHTML=Q("gap-6 p-6",I`
+import{iA,EA}from"./index-5egd6btd.js";import{A,e,t,I}from"./index.js";import{Q,o}from"./index-dxck2www.js";var p=(a)=>{let n=!1;a.innerHTML=Q("gap-6 p-6",I`
     <p class="text-center text-neutral-600 text-sm dark:text-neutral-300">Pause and resume the animation. The element picks up exactly where it left off.</p>
     <div class="relative h-16 w-72 overflow-hidden rounded-lg border-2 border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900">
       <div

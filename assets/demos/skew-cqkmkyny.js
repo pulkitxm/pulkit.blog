@@ -1,4 +1,4 @@
-import{U}from"./index-tg3a6emz.js";import{A,g,I}from"./index.js";var f=(e)=>{let t=0,a=0;e.innerHTML=I`<div class="flex size-full flex-col items-center justify-center gap-6 p-6">
+import{U}from"./index-matyf6vs.js";import{A,g,I}from"./index.js";var f=(e)=>{let t=0,a=0;e.innerHTML=I`<div class="flex size-full flex-col items-center justify-center gap-6 p-6">
     <div class="relative flex h-32 w-48 items-center justify-center">
       <div class="absolute inset-0 rounded-lg border-2 border-neutral-300 border-dashed dark:border-neutral-700"></div>
       <div data-ref="box" class="flex h-16 w-32 items-center justify-center rounded-lg bg-linear-to-r from-amber-500 to-orange-500 font-medium text-sm text-white shadow-lg transition-transform duration-200">Skewed</div>

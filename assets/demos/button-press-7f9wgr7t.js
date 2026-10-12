@@ -1,4 +1,4 @@
-import{g,I}from"./index.js";import{Q}from"./index-9xe00pb0.js";var r=(e)=>{e.innerHTML=Q("gap-8 p-4",I`
+import{g,I}from"./index.js";import{Q}from"./index-dxck2www.js";var r=(e)=>{e.innerHTML=Q("gap-8 p-4",I`
     <div class="flex gap-8">
       <div class="flex flex-col items-center gap-3">
         ${g({className:"bg-neutral-800 text-white hover:bg-neutral-700 active:scale-100 dark:bg-neutral-200 dark:text-neutral-900 dark:hover:bg-neutral-300",label:"No feedback"})}

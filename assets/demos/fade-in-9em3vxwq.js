@@ -1,4 +1,4 @@
-import{I}from"./index.js";import{Q}from"./index-9xe00pb0.js";var i=(e)=>{e.innerHTML=Q("gap-8 p-6",I`
+import{I}from"./index.js";import{Q}from"./index-dxck2www.js";var i=(e)=>{e.innerHTML=Q("gap-8 p-6",I`
     <div
       class="flex size-24 items-center justify-center rounded-xl bg-blue-500 font-semibold text-white"
       style="animation: demo-fade-in 1s ease"

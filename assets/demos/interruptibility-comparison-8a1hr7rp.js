@@ -1,4 +1,4 @@
-import{A,g,I}from"./index.js";import{B}from"./index-apf7fdxr.js";import{Q,o}from"./index-9xe00pb0.js";var e=32,x={damping:20,stiffness:200,type:"spring"};function c(t,n){let r=t.getBoundingClientRect();return{x:n.clientX-r.left-e/2,y:n.clientY-r.top-e/2}}var y=(t)=>{t.innerHTML=Q("gap-4 p-4",I`
+import{A,g,I}from"./index.js";import{B}from"./index-apf7fdxr.js";import{Q,o}from"./index-dxck2www.js";var e=32,x={damping:20,stiffness:200,type:"spring"};function c(t,n){let r=t.getBoundingClientRect();return{x:n.clientX-r.left-e/2,y:n.clientY-r.top-e/2}}var y=(t)=>{t.innerHTML=Q("gap-4 p-4",I`
     <p class="text-center text-neutral-600 text-sm dark:text-neutral-400">Click rapidly in each box and compare how they handle interruptions</p>
     <div class="flex flex-wrap items-center justify-center gap-6">
       <div class="flex flex-col items-center gap-2">

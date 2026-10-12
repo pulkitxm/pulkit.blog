@@ -1,4 +1,4 @@
-import{A,P,g,I,C}from"./index.js";import{Q,o,X}from"./index-9xe00pb0.js";var d=(e)=>{let a=C(),l=a.slot();e.innerHTML=Q("gap-6 p-6",I`
+import{A,P,g,I,C}from"./index.js";import{Q,o,X}from"./index-dxck2www.js";var d=(e)=>{let a=C(),l=a.slot();e.innerHTML=Q("gap-6 p-6",I`
     <p class="text-center text-neutral-600 text-sm dark:text-neutral-300">Both boxes scale from 1 to 2. Watch what happens when the animation ends.</p>
     <div class="flex flex-wrap items-center justify-center gap-12">
       <div class="flex flex-col items-center gap-3">

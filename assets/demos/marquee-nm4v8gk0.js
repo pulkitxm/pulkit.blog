@@ -1,4 +1,4 @@
-import{I}from"./index.js";import{Q}from"./index-9xe00pb0.js";var t="1rem",s="8s",l=4,o="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, in! ";function r(e,a){let n=`<span class="whitespace-nowrap font-medium">${o}</span>`;return I`<style>
+import{I}from"./index.js";import{Q}from"./index-dxck2www.js";var t="1rem",s="8s",l=4,o="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, in! ";function r(e,a){let n=`<span class="whitespace-nowrap font-medium">${o}</span>`;return I`<style>
       @keyframes marquee-${e} {
         from { transform: translateX(0); }
         to { transform: translateX(calc(-100% - ${t})); }

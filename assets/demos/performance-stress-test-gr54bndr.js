@@ -1,4 +1,4 @@
-import{tA}from"./index-hypnjh2z.js";import{A,e,g,t,I,C}from"./index.js";import{B}from"./index-apf7fdxr.js";import{Q,o}from"./index-9xe00pb0.js";var b=[["path",{d:"M5 12h14"}]];var M=[["path",{d:"M5 12h14"}],["path",{d:"M12 5v14"}]];var y="Add items and load to see how CSS GPU acceleration outperforms JS under stress.",H="Under load: CSS animations stay smooth, JS animations may stutter.",W=(s)=>{let n=10,u=C(),c=u.slot(),l=[],p=[];s.innerHTML=Q("gap-4 p-4",I`
+import{tA}from"./index-hypnjh2z.js";import{A,e,g,t,I,C}from"./index.js";import{B}from"./index-apf7fdxr.js";import{Q,o}from"./index-dxck2www.js";var b=[["path",{d:"M5 12h14"}]];var M=[["path",{d:"M5 12h14"}],["path",{d:"M12 5v14"}]];var y="Add items and load to see how CSS GPU acceleration outperforms JS under stress.",H="Under load: CSS animations stay smooth, JS animations may stutter.",W=(s)=>{let n=10,u=C(),c=u.slot(),l=[],p=[];s.innerHTML=Q("gap-4 p-4",I`
     <div class="flex flex-wrap items-center justify-center gap-4">
       <div class="flex items-center gap-2">
         ${g({variant:"outline",size:"icon",label:t(b,"size-4"),attrs:'data-ref="minus"'})}
