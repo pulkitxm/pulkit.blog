@@ -1,0 +1,2 @@
+import{s}from"./youtube-embed-cdn8x95f.js";var c=1500;function n(e,l){let o=e.getAttribute("aria-label")??"",r=s(e,"[data-copy-idle]",SVGElement),d=s(e,"[data-copy-done]",SVGElement),i,a=(t)=>{e.setAttribute("aria-label",t?"Copied":o),r.classList.toggle("hidden",t),d.classList.toggle("hidden",!t)};e.addEventListener("click",async()=>{await navigator.clipboard.writeText(l()),a(!0),clearTimeout(i),i=setTimeout(()=>a(!1),c)})}
+export{n};
