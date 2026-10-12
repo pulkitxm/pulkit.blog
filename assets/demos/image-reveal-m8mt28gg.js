@@ -1,4 +1,4 @@
-import{A,I,C}from"./index.js";import{Q}from"./index-9xe00pb0.js";var n=850,a="rounded bg-neutral-200 px-1 dark:bg-neutral-800",m=(r)=>{let o=C(),e=o.slot();r.innerHTML=Q("gap-4 p-6",I`
+import{A,I,C}from"./index.js";import{Q}from"./index-dxck2www.js";var n=850,a="rounded bg-neutral-200 px-1 dark:bg-neutral-800",m=(r)=>{let o=C(),e=o.slot();r.innerHTML=Q("gap-4 p-6",I`
     <div
       data-ref="panel"
       class="aspect-video w-full max-w-md overflow-hidden rounded-xl border border-neutral-200 shadow-md dark:border-neutral-700"

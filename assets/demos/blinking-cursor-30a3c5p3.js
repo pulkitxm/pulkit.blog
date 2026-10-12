@@ -1,4 +1,4 @@
-import{I}from"./index.js";import{Q}from"./index-9xe00pb0.js";var n=(t)=>{t.innerHTML=Q("gap-8 p-6",I`
+import{I}from"./index.js";import{Q}from"./index-dxck2www.js";var n=(t)=>{t.innerHTML=Q("gap-8 p-6",I`
     <div class="flex items-center gap-0.5 rounded-lg bg-neutral-900 px-5 py-3 font-mono text-lg dark:bg-neutral-800">
       <span class="text-green-400">$</span>
       <span class="ml-2 text-neutral-200">npm start</span>

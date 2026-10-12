@@ -1,4 +1,4 @@
-import{tA}from"./index-hypnjh2z.js";import{A,e,g,I,C}from"./index.js";import{Q,o}from"./index-9xe00pb0.js";var i="Click the button to simulate heavy JavaScript work on the main thread.",d="Main thread is busy. Notice the transform animation stays smooth while the layout animation stutters.",x=(a)=>{let s=C(),t=s.slot();a.innerHTML=Q("gap-6 p-6",I`
+import{tA}from"./index-hypnjh2z.js";import{A,e,g,I,C}from"./index.js";import{Q,o}from"./index-dxck2www.js";var i="Click the button to simulate heavy JavaScript work on the main thread.",d="Main thread is busy. Notice the transform animation stays smooth while the layout animation stutters.",x=(a)=>{let s=C(),t=s.slot();a.innerHTML=Q("gap-6 p-6",I`
     ${g({className:"mb-2",label:"Add Main Thread Load",attrs:'data-ref="toggle"'})}
     <div class="flex flex-wrap items-center justify-center gap-8">
       <div class="flex flex-col items-center gap-3">

@@ -1,4 +1,4 @@
-import{NA}from"./index-hypnjh2z.js";import{A,s,g,I}from"./index.js";import{Q,o}from"./index-9xe00pb0.js";var d=16,m="rounded-md bg-amber-500 px-4 py-2 font-medium text-white text-xs transition-colors hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-50",c=`
+import{NA}from"./index-hypnjh2z.js";import{A,s,g,I}from"./index.js";import{Q,o}from"./index-dxck2www.js";var d=16,m="rounded-md bg-amber-500 px-4 py-2 font-medium text-white text-xs transition-colors hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-50",c=`
   @keyframes janky-pulse {
     0%, 100% {
       width: 100%;

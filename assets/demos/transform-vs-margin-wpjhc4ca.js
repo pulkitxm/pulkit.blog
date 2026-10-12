@@ -1,4 +1,4 @@
-import{m}from"./index-td2556c3.js";import{A,I}from"./index.js";var o=(e)=>{e.innerHTML=I`<div class="flex size-full flex-col items-center justify-center gap-8 p-6">
+import{m}from"./index-eqtyt55h.js";import{A,I}from"./index.js";var o=(e)=>{e.innerHTML=I`<div class="flex size-full flex-col items-center justify-center gap-8 p-6">
     <div class="flex flex-col gap-8 sm:flex-row sm:gap-16">
       <div data-ref="marginColumn" class="flex flex-col items-center gap-4">
         <p class="font-medium text-neutral-700 text-sm dark:text-neutral-300">Using margin-left</p>

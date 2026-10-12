@@ -1,4 +1,4 @@
-import{I}from"./index.js";import{Q,o}from"./index-9xe00pb0.js";var s=`
+import{I}from"./index.js";import{Q,o}from"./index-dxck2www.js";var s=`
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }

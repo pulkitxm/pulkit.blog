@@ -1,4 +1,4 @@
-import{A,P,g,I,C}from"./index.js";import{Q,o,X}from"./index-9xe00pb0.js";function l(e,t){e.style.animation="demo-delayed-fade 0.5s ease",e.style.animationDelay="1s",e.style.animationFillMode=t}var c=(e)=>{let t=C(),s=t.slot();e.innerHTML=Q("gap-6 p-6",I`
+import{A,P,g,I,C}from"./index.js";import{Q,o,X}from"./index-dxck2www.js";function l(e,t){e.style.animation="demo-delayed-fade 0.5s ease",e.style.animationDelay="1s",e.style.animationFillMode=t}var c=(e)=>{let t=C(),s=t.slot();e.innerHTML=Q("gap-6 p-6",I`
     <p class="text-center text-neutral-600 text-sm dark:text-neutral-300">Both boxes have a 1s delay before fading in. Watch what happens during the delay.</p>
     <div class="flex flex-wrap items-center justify-center gap-12">
       <div class="flex flex-col items-center gap-3">

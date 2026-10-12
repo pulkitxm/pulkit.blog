@@ -1,4 +1,4 @@
-import{A,I}from"./index.js";import{Q}from"./index-9xe00pb0.js";var b=(n)=>{let r=50,a=!1;n.innerHTML=Q("gap-4 p-6",I`
+import{A,I}from"./index.js";import{Q}from"./index-dxck2www.js";var b=(n)=>{let r=50,a=!1;n.innerHTML=Q("gap-4 p-6",I`
     <div
       data-ref="container"
       class="relative aspect-video w-full max-w-md cursor-ew-resize touch-none select-none overflow-hidden rounded-xl border border-neutral-200 shadow-md dark:border-neutral-700"
