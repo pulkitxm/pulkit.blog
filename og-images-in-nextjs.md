@@ -114,7 +114,7 @@ Here are some platform-specific docs reference:
 
 To demonstrate the process, let's look at how I added an Open Graph image to my portfolio website. For the image, I used **Canva** (which is super easy and fun, by the way) to create a banner that best represents my portfolio. Once I designed the image, I uploaded it to my Next.js project and placed it in the `public` folder.
 
-[![Portfolio website preview with Open Graph image](https://pulkit.blog/assets/content/blogs/open-graph-images-in-nextjs/bc65d989-c82d-4ae3-a834-1fb6aa9b642e.webp)](https://x.com/devpulkitt/status/1856714029466608116)
+[![Portfolio website preview with Open Graph image](https://pulkit.blog/assets/content/blogs/open-graph-images-in-nextjs/bc65d989-c82d-4ae3-a834-1fb6aa9b642e.webp)](https://x.com/pu_lkit/status/1856714029466608116)
 
 ### **Why the** `public` folder?
 
@@ -162,7 +162,7 @@ export default function RootLayout({
           content="Pulkit - Developer. Portfolio and projects showcasing my skills and work in web development."
         />
         <meta name="twitter:image" content="https://pulkitxm.com/banner.png" />
-        <meta name="twitter:site" content="@devpulkitt" />
+        <meta name="twitter:site" content="@pu_lkit" />
 
         {/* Canonical Tag */}
         <link rel="canonical" href="https://pulkitxm.com" />
