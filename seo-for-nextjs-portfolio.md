@@ -25,7 +25,7 @@ I don't use any third-party platforms for my content (I used to write on Hashnod
 In this post, I'll walk you through the exact strategies I used to achieve perfect Lighthouse SEO scores and rank high on Google, using Next.js deployed on Vercel.
 
 ![Lighthouse performance report showing perfect 100 SEO score](https://pulkit.blog/assets/content/blogs/how-this-website-ranks-on-google/lighthouse-score.webp)
-([I think nextjs won't let me have 4-100's🥲](https://x.com/pu_lkit/status/1991758828464111734))
+([I think nextjs won't let me have 4-100's🥲](https://x.com/puulkit/status/1991758828464111734))
 
 ## The Foundation: Static Site Generation (SSG) with MDX
 
@@ -196,7 +196,7 @@ export async function generateMetadata({
       title,
       description,
       images: [coverImage],
-      creator: "@pu_lkit",
+      creator: "@puulkit",
     },
     alternates: {
       canonical: url,
@@ -353,7 +353,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blog Title",
     description: "Engaging description for Twitter",
-    creator: "@pu_lkit",
+    creator: "@puulkit",
     images: ["https://pulkitxm.com/images/cover.png"],
   },
 
