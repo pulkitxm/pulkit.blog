@@ -24,9 +24,9 @@ I didn't do a big launch. I messaged people I know and told them to repost it on
 >
 > Steal it. Ship it. Contribute. 👇
 >
-> [View the post on X](https://x.com/pu_lkit/status/2065401748202860896)
+> [View the post on X](https://x.com/puulkit/status/2065401748202860896)
 
-Then came the bittersweet twist: this morning the [US government blocked Fable 5 everywhere except the US](https://x.com/AnthropicAI/status/2065597531644743999), so a chunk of the people who got excited couldn't even try the tool I'd built the whole thing with. The work is open though, and [at least we have the memories](https://x.com/pu_lkit/status/2065646268672852448).
+Then came the bittersweet twist: this morning the [US government blocked Fable 5 everywhere except the US](https://x.com/AnthropicAI/status/2065597531644743999), so a chunk of the people who got excited couldn't even try the tool I'd built the whole thing with. The work is open though, and [at least we have the memories](https://x.com/puulkit/status/2065646268672852448).
 
 ## My first talk
 
