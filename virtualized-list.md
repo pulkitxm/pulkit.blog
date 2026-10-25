@@ -60,7 +60,7 @@ The key inputs we need are:
 - Height of the scroll container
 - Current scroll position
 
-![Virtualized list example](https://pulkit.blog/assets/content/blogs/virtualized-list/example.gif)
+![Virtualized list example](https://pulkit.blog/assets/content/blogs/virtualized-list/example.webp)
 
 ## The Math That Powers Virtualization
 
