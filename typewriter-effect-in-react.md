@@ -96,7 +96,7 @@ But we're not utilizing the currentIndex in the Component. We could simply slice
 text.substring(0, currentIndex);
 ```
 
-![Typewriter effect animation showing text appearing character by character](https://pulkit.blog/assets/content/blogs/step-by-step-guide-to-implementing-typewriter-effect-in-react/746c7b25-e1fe-4899-9efe-fad41d734ac2.gif)
+![Typewriter effect animation showing text appearing character by character](https://pulkit.blog/assets/content/blogs/step-by-step-guide-to-implementing-typewriter-effect-in-react/746c7b25-e1fe-4899-9efe-fad41d734ac2.webp)
 
 *Yay, it's complete!*
 

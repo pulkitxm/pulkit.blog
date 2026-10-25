@@ -215,7 +215,7 @@ For tooltip animations, setting the origin to the side closest to the trigger ma
 
 ## Thinking in 3D
 
-CSS can do 3D transforms too. `rotateX()` rotates around the horizontal axis (think of a [garage door opening](https://pulkit.blog/assets/content/blogs/moving-things-without-moving-them/garage-door.gif)). `rotateY()` rotates around the vertical axis (think of a [revolving door](https://pulkit.blog/assets/content/blogs/moving-things-without-moving-them/revolving-door.gif)). `rotateZ()` is the same as regular `rotate()`.
+CSS can do 3D transforms too. `rotateX()` rotates around the horizontal axis (think of a [garage door opening](https://pulkit.blog/assets/content/blogs/moving-things-without-moving-them/garage-door.webp)). `rotateY()` rotates around the vertical axis (think of a [revolving door](https://pulkit.blog/assets/content/blogs/moving-things-without-moving-them/revolving-door.webp)). `rotateZ()` is the same as regular `rotate()`.
 
 But there's a catch. Without perspective, 3D rotations look flat.
 
