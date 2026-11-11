@@ -14,8 +14,6 @@ I launched a project, watched it do numbers I've never seen on anything I've mad
 
 The project began as a collection of interface experiments. Browse the [Claude directory](https://pulkit.page/claude-directory/) for project previews and source links.
 
-The collection is being reviewed so that future examples use independent designs and original or properly licensed assets.
-
 ## My first talk
 
 All of this was happening online while I was sitting at an event: **Localhost Build, at Microsoft**. At some point it hit me that if the project was getting this much attention on the internet right now, I should just show it to the people in the room. I asked a couple of friends, they said go for it, so I threw together a quick, slightly broken slide and presented.
