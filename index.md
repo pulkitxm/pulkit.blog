@@ -8,6 +8,7 @@ Series: [System design](https://pulkit.blog/system-design.md) · [Design enginee
 
 ## 2026
 
+- [Graftify Your CLI](https://pulkit.blog/graftify-your-cli.md): November 17, 2026
 - [Tailwind Obfuscation](https://pulkit.blog/tailwind-obfuscation.md): September 20, 2026
 - [Kaksha: The App I Built for My Mother](https://pulkit.blog/kaksha.md): August 9, 2026
 - [Partial Clones, Shallow Clones, and Sparse Checkout](https://pulkit.blog/git-partial-clones.md): August 3, 2026

@@ -459,5 +459,5 @@ Happy shipping!
 ## Related writing
 
 - [Git Worktrees](https://pulkit.blog/git-worktrees.md): May 29, 2026
+- [Graftify Your CLI](https://pulkit.blog/graftify-your-cli.md): November 17, 2026
 - [Branded Types in TypeScript](https://pulkit.blog/branded-types-in-typescript.md): December 26, 2025
-- [Build a Contact Form with Resend in Next.js](https://pulkit.blog/contact-form-with-resend.md): December 13, 2024
